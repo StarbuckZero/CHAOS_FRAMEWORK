@@ -120,8 +120,6 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
     public function new(paneWidth : Int = 200, paneHeight : Int = 300, itemData : DataProvider = null)
     {
 		
-        
-		
         _itemNormalState = new DisplayImage();
         _itemOverState = new DisplayImage();
         _itemSelectedState = new DisplayImage();
@@ -583,10 +581,11 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
     {
         var selectedList : Array<Dynamic> = new Array<Dynamic>();
         
-        for (i in 0..._list.length - 1 + 1){
-            var itemPaneData : com.chaos.ui.classInterface.IBaseSelectData = try cast(_list.getItemAt(i), com.chaos.ui.classInterface.IBaseSelectData) catch(e:Dynamic) null;
+        for (i in 0..._list.length - 1 + 1)
+		{
+            var itemPaneData : IBaseSelectData = cast(_list.getItemAt(i), IBaseSelectData);
             
-            if (itemPaneData.selected) 
+            if (itemPaneData.selected)
                 selectedList.push(itemPaneData);
         }
         
@@ -689,8 +688,8 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
             
             var itemLabel : Label = new Label();
             var itemButton : ToggleButtonLite = new ToggleButtonLite();
-            var itemData : com.chaos.ui.classInterface.IItemPaneObjectData = try cast(_list.getItemAt(i), com.chaos.ui.classInterface.IItemPaneObjectData) catch(e:Dynamic) null;
-            var oldData : com.chaos.ui.classInterface.IItemPaneObjectData = ((i == 0)) ? null : try cast(_list.getItemAt(i - 1), com.chaos.ui.classInterface.IItemPaneObjectData) catch(e:Dynamic) null;
+            var itemData : IItemPaneObjectData = cast(_list.getItemAt(i), IItemPaneObjectData);
+            var oldData : IItemPaneObjectData = ((i == 0)) ? null : cast(_list.getItemAt(i - 1), IItemPaneObjectData);
             var textFormat : TextFormat = new TextFormat();
             
             // Attach a tool-tip
