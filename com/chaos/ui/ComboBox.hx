@@ -153,9 +153,6 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 		
 		_textFormat = new TextFormat();
 		
-		// Setup stage events for when combo is on and off stage
-		//addEventListener(Event.ADDED_TO_STAGE,setupStageEvent, false, 0, true);
-		
 		// Draw outline
 		_border = new Sprite();
 		_background = new Sprite(); 
@@ -1334,9 +1331,24 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 	
 	private function textUpEvent(event : MouseEvent) : Void
 	{ 
-		// Set text and selected index 
-		_selectLabel.text = event.currentTarget.text;
-		_selectIndex = Std.parseInt(event.currentTarget.name);
+		
+		var listDataObject:ComboBoxObjectData = null;
+		
+		for (i in 0..._list.length)
+		{
+			if (event.currentTarget == _list.getItemAt(i).label)
+			{
+				listDataObject = _list.getItemAt(i);
+				
+				// Set text and selected index 
+				_selectLabel.text = listDataObject.text;
+				_selectIndex = i;
+				
+				break;
+			}
+			
+			
+		}
 		
 		dispatchEvent(new ComboBoxEvent(ComboBoxEvent.CHANGE));
 		
@@ -1348,7 +1360,7 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 		clearSelected();
 		
 		// Get the selected item
-		_list.getItemAt(_selectIndex).selected = true;
+		listDataObject.selected = true;
 		
 		draw();
     }
@@ -1429,6 +1441,7 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 			
 			comboLabel.textField.setTextFormat(_textFormat);
 			comboDataObj.id = i;
+			
 			if (null != _textFormat.align)
 			comboLabel.align = _textFormat.align;
 			
@@ -1512,7 +1525,8 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 	
 	private function backgroundImageComplete(event : Event) : Void
 	{
-		_displayImage = true;draw();
+		_displayImage = true;
+		draw();
     }
 	
 	private function backgroundDropDownImageComplete(event : Event) : Void 

@@ -85,10 +85,10 @@ class RadioButton extends ToggleButtonLite implements IRadioButton implements IB
 	
 	private function new(labelText : String = "")
     {
-        super();
-		
+        
 		// Init toggle class first
 		super();
+		
 		
 		addEventListener(Event.ADDED_TO_STAGE, onStageAdd, false, 0, true);
 		addEventListener(Event.REMOVED_FROM_STAGE, onStageRemove, false, 0, true);
@@ -96,11 +96,19 @@ class RadioButton extends ToggleButtonLite implements IRadioButton implements IB
 		_labelText = labelText;
 		
 		init();
+		
+		
     }
 	
-	override function onStageAdd(event : Event) : Void { UIBitmapManager.watchElement(TYPE, this); }
+	override function onStageAdd(event : Event) : Void 
+	{ 
+		UIBitmapManager.watchElement(TYPE, this);
+	}
 	
-	override function onStageRemove(event : Event) : Void { UIBitmapManager.stopWatchElement(TYPE, this); }
+	override function onStageRemove(event : Event) : Void 
+	{
+		UIBitmapManager.stopWatchElement(TYPE, this); 
+	}
 	
 	private function init() : Void
 	{
@@ -118,6 +126,7 @@ class RadioButton extends ToggleButtonLite implements IRadioButton implements IB
 		setOverState(_baseOver);
 		setDownState(_baseDown);
 		setDisableState(_baseDisable);
+		
 		_normalDisplayImage = new DisplayImage();
 		_overDisplayImage = new DisplayImage();
 		_downDisplayImage = new DisplayImage();
@@ -131,11 +140,18 @@ class RadioButton extends ToggleButtonLite implements IRadioButton implements IB
 		addChildAt(_labelTextField, 0);
 		initSkin();
 		initStyle();
+		
 		draw();
+		
 		
 		// Check to see if group has been created if not then create one  
 		if (!RadioButtonManager.groupCheck(_radioBtnGroup))  
-		RadioButtonManager.addGroup(_radioBtnGroup);
+		{
+			RadioButtonManager.addGroup(_radioBtnGroup);
+		}
+		
+		
+		
 		
 		// Add item to the manager  
 		RadioButtonManager.addItem(_radioBtnGroup, this);

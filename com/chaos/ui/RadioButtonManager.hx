@@ -7,11 +7,11 @@ import openfl.utils.Object;
 
 class RadioButtonManager
 {
-	private static var _groupArray : Dictionary<String,DataProvider>;
+	private static var _groupArray : Dictionary<String,DataProvider> = new Dictionary<String,DataProvider>(true);
 	
 	public function new()
     {
-		_groupArray = new Dictionary<String,DataProvider>(true);
+		
     }
 	
 	/**
@@ -21,8 +21,11 @@ class RadioButtonManager
 	 */  
 	public static function groupCheck(value : String) : Bool 
 	{
+		
 		if (null != _groupArray.get(value))
+		{
 			return true;
+		}
 		else 
 			return false;
     }

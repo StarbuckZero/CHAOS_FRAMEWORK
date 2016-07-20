@@ -130,12 +130,13 @@ import com.chaos.ui.UIBitmapManager;
 		_backgroundImage.onImageComplete = onBackgroundComplete;
 		_loadedBarImage.onImageComplete = onBackgroundLoadedComplete;
 		
-		// Setup percent text  _label = new Label();
+		// Setup percent text
+		_label = new Label();
 		_label.width = _width;
 		_label.height = _height;
 		_label.textColor = _textColor;
-		_loadedLabel = new Label();
 		
+		_loadedLabel = new Label();
 		_loadedLabel.width = _width;
 		_loadedLabel.height = _height;
 		_loadedLabel.textColor = _textLoadedColor;
@@ -569,7 +570,8 @@ import com.chaos.ui.UIBitmapManager;
 		{
 			try
 			{
-				_urlFile.removeEventListener(ProgressEvent.PROGRESS, progressCheck);_urlFile.removeEventListener(Event.COMPLETE, progressComplete);
+				_urlFile.removeEventListener(ProgressEvent.PROGRESS, progressCheck);
+				_urlFile.removeEventListener(Event.COMPLETE, progressComplete);
 			}                
 			catch (error : Error)
 			{
@@ -724,11 +726,14 @@ import com.chaos.ui.UIBitmapManager;
 			// First set draw normal size 
 			_backgroundNormal.graphics.drawRect(0, 0, _width, _height);
 			_backgroundNormal.graphics.endFill();
+			
 			_loadedBar.graphics.drawRect(0, 0, _width, _height);
 			_loadedBar.graphics.endFill();
+			
 			_mask.graphics.beginFill(_loadColor, _backgroundAlpha);
 			_mask.graphics.drawRect(0, 0, _width, _height);
 			_mask.graphics.endFill();
+			
 			_fontMask.graphics.beginFill(_loadColor, _backgroundAlpha);
 			_fontMask.graphics.drawRect(0, 0, _width, _height);
 			_fontMask.graphics.endFill(); 
@@ -752,7 +757,8 @@ import com.chaos.ui.UIBitmapManager;
 			_loadedLabel.mask = _fontMask; 
 			
 			// Take the percent and scale back the loader bar
-			_mask.scaleX = _fontMask.scaleX = Std.int(_percent * .01);
+			_mask.scaleX = _fontMask.scaleX = (_percent * .01);
+			
 			
 			// Setup for border if need be 
 			if (_border) 
@@ -764,12 +770,14 @@ import com.chaos.ui.UIBitmapManager;
 	
 	private function onBackgroundComplete(event : Event) : Void 
 	{
-		_bgDisplayNormalImage = true; draw();
+		_bgDisplayNormalImage = true; 
+		draw();
 	}
 	
 	private function onBackgroundLoadedComplete(event : Event) : Void 
 	{ 
-		_bgDisplayLoadedImage = true; draw(); 
+		_bgDisplayLoadedImage = true; 
+		draw(); 
 	}
 	
 	private function progressCheck(event : Event) : Void 

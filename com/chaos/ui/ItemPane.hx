@@ -10,7 +10,6 @@ import openfl.errors.Error;
 import openfl.text.TextFieldAutoSize;
 
 
-//import com.chaos.ui.interface.IBaseSelectData;
 import openfl.display.Bitmap;
 
 import openfl.events.Event;
@@ -23,12 +22,6 @@ import openfl.display.Shape;
 
 import openfl.text.Font;
 
-//import com.chaos.ui.interface.IToggleButton;
-//import com.chaos.ui.interface.IItemPane;
-//import com.chaos.ui.interface.IItemPaneObjectData;
-//import com.chaos.ui.interface.IList;
-//import com.chaos.ui.interface.IBaseUI;
-//import com.chaos.ui.interface.IScrollPane;
 
 import com.chaos.data.DataProvider;
 
@@ -54,7 +47,7 @@ import com.chaos.media.DisplayImage;
  * @author Erick Feiling
  */
 
-class ItemPane extends ScrollPane implements com.chaos.ui.classInterface.IItemPane implements com.chaos.ui.classInterface.IScrollPane implements com.chaos.ui.classInterface.IBaseUI
+class ItemPane extends ScrollPane implements IItemPane implements IScrollPane implements IBaseUI
 {
     public var itemWidth(get, set) : Int;
     public var itemHeight(get, set) : Int;
@@ -116,18 +109,19 @@ class ItemPane extends ScrollPane implements com.chaos.ui.classInterface.IItemPa
     private var _size : Int = -1;
     
     /**
-		 * A list of display objects
-		 *
-		 * @param	paneWidth The width of the pane
-		 * @param	paneHeight The height of the pane
-		 * @param	itemData A list of data
-		 *
-		 * @eventType openfl.events.Event.CHANGE
-		 */
+	 * A list of display objects
+	 *
+	 * @param	paneWidth The width of the pane
+	 * @param	paneHeight The height of the pane
+	 * @param	itemData A list of data
+	 *
+	 * @eventType openfl.events.Event.CHANGE
+	 */
     public function new(paneWidth : Int = 200, paneHeight : Int = 300, itemData : DataProvider = null)
     {
-        super();
+		
         
+		
         _itemNormalState = new DisplayImage();
         _itemOverState = new DisplayImage();
         _itemSelectedState = new DisplayImage();

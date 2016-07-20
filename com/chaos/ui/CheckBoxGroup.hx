@@ -63,7 +63,7 @@ class CheckBoxGroup extends HorizontalContainer implements ICheckBoxGroup implem
         
         for (i in 0..._list.length)
 		{
-            var item : com.chaos.ui.classInterface.IBaseSelectData = try cast(_list.getItemAt(i), IBaseSelectData) catch(e:Dynamic) null;
+            var item : IBaseSelectData = cast(_list.getItemAt(i), IBaseSelectData);
             
             if (item.name != "" && item.text != "") 
             {

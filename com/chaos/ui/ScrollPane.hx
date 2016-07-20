@@ -90,7 +90,9 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 		super(paneWidth, paneHeight);
 		
 		addEventListener(Event.ADDED_TO_STAGE, onStageAdd, false, 0, true);
-		addEventListener(Event.REMOVED_FROM_STAGE, onStageRemove, false, 0, true);init();
+		addEventListener(Event.REMOVED_FROM_STAGE, onStageRemove, false, 0, true);
+		
+		init();
     }
 	
 	private function onStageAdd(event : Event) : Void 
@@ -106,10 +108,12 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 	
 	public function init() : Void
 	{
+		
 		_urlRequest = new URLRequest();
 		_scrollBarH = new ScrollBar();
 		_scrollBarV = new ScrollBar();
-		_scrollBarH.direction = ScrollBarDirection.HORIZONTAL; _scrollBarV.direction = ScrollBarDirection.VERTICAL;
+		_scrollBarH.direction = ScrollBarDirection.HORIZONTAL; 
+		_scrollBarV.direction = ScrollBarDirection.VERTICAL;
 		_scrollBarH.visible = false;
 		_scrollBarV.visible = false;
 		

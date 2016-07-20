@@ -114,7 +114,9 @@ class UIDemo extends Sprite
         alertButton.x = iconTextButton.x;
         alertButton.y = iconTextButton.y + iconTextButton.height + OFFSET;
         alertButton.addEventListener(MouseEvent.CLICK, onAlertButton, false, 0, true);
+		
         
+		
         // List
         list = new ListBox();
         list.addItem(new ListObjectData("Erick", "E"));
@@ -180,6 +182,8 @@ class UIDemo extends Sprite
         radioButtonGroup.x = checkBoxGroup.x;
         radioButtonGroup.y = checkBoxGroup.y + checkBoxGroup.height + 20;
         
+		
+		
         // Label and Tool-Tip
         label = new Label("Label");
         label.height = 40;
@@ -198,10 +202,9 @@ class UIDemo extends Sprite
         inputBox = new InputField();
         inputBox.defaultString("Type Here");
         inputBox.x = label.x + label.width + OFFSET;
-        inputBox.y = label.y;  // Show button for Windows
-        
-        
-        
+        inputBox.y = label.y;  
+		
+		// Show button for Windows
         showWindowButton = new Button("Show Window", 100, 20);
         showWindowButton.x = inputBox.x + inputBox.width + OFFSET;
         showWindowButton.y = inputBox.y;
@@ -249,8 +252,8 @@ class UIDemo extends Sprite
         scrollPane.y = tabPane.y;
         
         // This time creating bitmap shapes
-        var bitmap1 : DisplayObject = try cast(Draw.Square(600, 300, 0xFF0000, 1, true), Bitmap) catch(e:Dynamic) null;
-        var bitmap2 : DisplayObject = try cast(Draw.Square(600, 300, 0x00FF00, 1, true), Bitmap) catch(e:Dynamic) null;
+        var bitmap1 : DisplayObject = cast(Draw.Square(600, 300, 0xFF0000, 1, true), Bitmap);
+        var bitmap2 : DisplayObject = cast(Draw.Square(600, 300, 0x00FF00, 1, true), Bitmap);
         var bitmapHolder : MovieClip = new MovieClip();
         
         // Add them to a bitmap holder and moving the second bitmap down
@@ -258,10 +261,12 @@ class UIDemo extends Sprite
         bitmapHolder.addChild(bitmap2);
         bitmap2.y = bitmap1.y + bitmap1.height;
         
+		
         // This is how you add an item to the scrollPane
         scrollPane.source = bitmapHolder;
         
         itemPane = new ItemPane(300, 200);
+		
         itemPane.addItem(new ItemPaneObjectData("Item 1", "1"));
         itemPane.addItem(new ItemPaneObjectData("Item 2", "2"));
         itemPane.addItem(new ItemPaneObjectData("Item 3", "3"));

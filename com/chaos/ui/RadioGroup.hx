@@ -46,6 +46,8 @@ class RadioGroup extends HorizontalContainer implements IRadioGroup implements I
         background = false;
         width = defaultWidth;
         height = defaultHeight;
+		
+		
     }
     
     /**
@@ -64,7 +66,7 @@ class RadioGroup extends HorizontalContainer implements IRadioGroup implements I
         
         for (i in 0..._list.length)
 		{
-            var item : IBaseSelectData = try cast(_list.getItemAt(i), IBaseSelectData) catch(e:Dynamic) null;
+            var item : IBaseSelectData = cast(_list.getItemAt(i), IBaseSelectData);
             
             if (item.name != "" && item.text != "") 
             {
@@ -92,13 +94,15 @@ class RadioGroup extends HorizontalContainer implements IRadioGroup implements I
 	 * @return The newly created radio button.
 	 */
     
-    public function createRadioButton(radioName : String, labelText : String, selected : Bool = false) : com.chaos.ui.classInterface.IRadioButton
+    public function createRadioButton(radioName : String, labelText : String, selected : Bool = false) : IRadioButton
     {
         var radio : IRadioButton = new RadioButton(labelText);
+		
         radio.name = radioName;
         radio.groupName = group;
         radio.selected = selected;
         radio.addEventListener(MouseEvent.CLICK, onChange, false, 0, true);
+		
         Reflect.setField(nameList, radioName, radio);
 		
         addElement(radio);
@@ -112,7 +116,7 @@ class RadioGroup extends HorizontalContainer implements IRadioGroup implements I
 	 * @param	radio The radio button you want to remove out of the container
 	 */
     
-    public function removeRadioButton(radio : com.chaos.ui.classInterface.IRadioButton) : Void
+    public function removeRadioButton(radio : IRadioButton) : Void
     {
         contentObject.removeChild(radio.displayObject);
     }
@@ -123,7 +127,7 @@ class RadioGroup extends HorizontalContainer implements IRadioGroup implements I
 	 * @return A radio button object. If nothing is selected it will return null.
 	 */
     
-    public function getSelected() : com.chaos.ui.classInterface.IRadioButton
+    public function getSelected() : IRadioButton
     {
         for (index in Reflect.fields(nameList))
         {
@@ -166,11 +170,12 @@ class RadioGroup extends HorizontalContainer implements IRadioGroup implements I
         group = groupName;
         
         // Check for radio buttons
-        for (i in 0...contentObject.numChildren){
+        for (i in 0...contentObject.numChildren)
+		{
             // Make sure it's a radio button type
             if (Std.is(contentObject.getChildAt(i), RadioButton)) 
             {
-                var radio : IRadioButton = try cast(contentObject.getChildAt(i), IRadioButton) catch(e:Dynamic) null;
+                var radio : IRadioButton = cast(contentObject.getChildAt(i), IRadioButton);
                 radio.groupName = groupName;
             }
         }

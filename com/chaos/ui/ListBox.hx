@@ -558,6 +558,7 @@ import com.chaos.ui.UIBitmapManager;
 			
 			if (listObj.label == event.currentTarget)
 			{
+				
 				if (listObj.selected)
 				{
 					listObj.label.textColor = _textSelectedColor;
@@ -605,7 +606,6 @@ import com.chaos.ui.UIBitmapManager;
 			if (listObj.label == event.currentTarget)
 			{
 				
-				trace("textOverEvent");
 				listObj.label.backgroundColor = _textOverBackground;
 				listObj.label.textColor = _textOverColor;
 				listObj.label.background = true;
@@ -660,9 +660,11 @@ import com.chaos.ui.UIBitmapManager;
 			
 			if (listObj.label == event.currentTarget)
 			{
+				
 				_selectText = listObj.text;
 				_selectIndex = i;
-				_list.getItemAt(_selectIndex).selected = ((_list.getItemAt(_selectIndex).selected)) ? false : true;
+				
+				listObj.selected = !listObj.selected;
 				
 				break;
 			}
