@@ -406,7 +406,7 @@ class ToolTip
         for (i in 0..._list.length)
 		{
             
-            var dataObj : ToolTipData = try cast(_list.getItemAt(i), ToolTipData) catch(e:Dynamic) null;
+            var dataObj : ToolTipData = cast(_list.getItemAt(i), ToolTipData);
             
             // Once found remove out of list
             if (dataObj.displayObject == displayObj) 
@@ -418,7 +418,7 @@ class ToolTip
     
     private static function onRollOver(event : MouseEvent) : Void
     {
-        var displayObj : DisplayObject = try cast(event.currentTarget, DisplayObject) catch(e:Dynamic) null;
+        var displayObj : DisplayObject = cast(event.currentTarget, DisplayObject);
         
         prepToolTip(displayObj);
         

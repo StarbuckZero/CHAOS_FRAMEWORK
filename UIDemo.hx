@@ -184,21 +184,12 @@ class UIDemo extends Sprite
         radioButtonGroup.x = checkBoxGroup.x;
         radioButtonGroup.y = checkBoxGroup.y + checkBoxGroup.height + 20;
         
-		
-		
         // Label and Tool-Tip
         label = new Label("Label");
         label.height = 40;
         label.x = radioButtonGroup.x;
         label.y = radioButtonGroup.y + radioButtonGroup.height + OFFSET;
         
-        // Setting the stage because isn't on stage already
-        ToolTip.displayArea = stage;
-        var toolTipBox : MovieClip = new MovieClip();
-        var toolBox : Shape = try cast(Draw.Square(100, 20, 0), Shape) catch(e:Dynamic) null;
-        
-        ToolTip.followMouse = true;
-        ToolTip.attach(toolTipBox, "Look a Tool-tip", 100, 100, 0, 0x666666);
         
         // Input Box
         inputBox = new InputField();
@@ -232,6 +223,17 @@ class UIDemo extends Sprite
         tabPane.addItem("Three", new Label("Three"));
         
         // Box for Tool-tip
+		
+        // Setting the stage because isn't on stage already
+        ToolTip.displayArea = this;
+		UIStyleManager.TOOLTIP_BUBBLE_LOC_Y = -10;
+		
+        var toolTipBox : MovieClip = new MovieClip();
+        var toolBox : Shape = cast(Draw.Square(100, 20, 0), Shape);
+        
+        ToolTip.followMouse = true;
+        ToolTip.attach(toolTipBox, "Look a Tool-tip", 100, 100, 0, 0x666666);		
+		
         toolTipBox.x = showWindowButton.x + showWindowButton.width + OFFSET;
         toolTipBox.y = showWindowButton.y;
         toolTipBox.addChild(toolBox);
