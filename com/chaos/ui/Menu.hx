@@ -166,8 +166,11 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
     public function new(menuWidth : Int = 100, menuHeight : Int = 100, menuList : DataProvider = null, direction : String = "horizontal")
     {
         super();
+		
+		
         if (null != menuList) 
             _list = menuList;
+			
         
         buttonArea.direction = direction;
         
@@ -1318,22 +1321,24 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
     {
         _showSubMenuIcon = value;
         draw();
+		
         return value;
     }
     
     /**
-		 * If true sub menu icon is being displayed and false if not.
-		 */
+	 * If true sub menu icon is being displayed and false if not.
+	 */
+	
     private function get_showSubMenuIcon() : Bool
     {
         return _showSubMenuIcon;
     }
     
     /**
-		 * For buttons with sub menus. The file location of the image that will be used.
-		 * 
-		 * @param	fileURL The file location
-		 */
+	 * For buttons with sub menus. The file location of the image that will be used.
+	 * 
+	 * @param	fileURL The file location
+	 */
     
     public function setSubMenuDropDownIconURL(fileURL : String) : Void
     {
@@ -1348,9 +1353,9 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
     }
     
     /**
-		 * For buttons with sub menus. The bitmap that be used for an icon.
-		 * @param	bitmap The bitmap that will be used.
-		 */
+	 * For buttons with sub menus. The bitmap that be used for an icon.
+	 * @param	bitmap The bitmap that will be used.
+	 */
     
     public function setSubMenuDropDownIconBitmap(bitmap : Bitmap) : Void
     {
@@ -1365,15 +1370,16 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
     }
     
     /**
-		 * Unload all menu items
-		 */
+	 * Unload all menu items
+	 */
     public function unload() : Void
     {
         // Remove and UnRef all sub menu items first
         removeSubMenu();
         
-        for (i in 0..._list.length){
-            var menuObj : MenuItemObjectData = try cast(_list.getItemAt(i), MenuItemObjectData) catch(e:Dynamic) null;
+        for (i in 0..._list.length)
+		{
+            var menuObj : MenuItemObjectData = cast(_list.getItemAt(i), MenuItemObjectData);
             
             if (null != menuObj.menuItem) 
                 menuObj.menuItem = null;
@@ -1385,13 +1391,15 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
     
     public function removeSubMenu() : Void
     {
+		
         while (subButtonArea.numChildren > 0)
         {
+			
             if (null != subButtonArea.getChildAt(0)) 
             {
-                var oldHolder : Sprite = try cast(subButtonArea.removeChildAt(0), Sprite) catch(e:Dynamic) null;
+                var oldHolder : Sprite = cast(subButtonArea.removeChildAt(0), Sprite);
+				
                 removeMenuItemRef(oldHolder);
-                
                 dispatchEvent(new MenuEvent(MenuEvent.MENU_CLOSE, null, oldHolder));
             }
         }
@@ -1401,11 +1409,12 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
     
     private function build() : Void
     {
-        for (i in 0..._list.length){
+        for (i in 0..._list.length)
+		{
             if (Std.is(_list.getItemAt(i), MenuItemObjectData)) 
             {
-                var dataObj : MenuItemObjectData = (try cast(_list.getItemAt(i), MenuItemObjectData) catch(e:Dynamic) null);
-                var menu : com.chaos.ui.classInterface.IMenuItem = new MenuItem(dataObj.text, _buttonWidth, _buttonHeight, dataObj.icon, dataObj.subMenuIcon);
+                var dataObj : MenuItemObjectData = cast(_list.getItemAt(i), MenuItemObjectData);
+                var menu : IMenuItem = new MenuItem(dataObj.text, _buttonWidth, _buttonHeight, dataObj.icon, dataObj.subMenuIcon);
                 menu.name = "menu" + i;
                 menu.hasChildren = dataObj.hasSubMenu;
                 
@@ -1423,11 +1432,13 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
                     menu.addEventListener(MouseEvent.MOUSE_OVER, onMenuItemRollOver, false, 0, true);
                 
                 
-                  // Remove sub menu
+                // Remove sub menu
                 menu.addEventListener(MouseEvent.ROLL_OVER, onMenuItemRollOut, false, 0, true);
                 
                 menu.addEventListener(MouseEvent.CLICK, onClick, false, 5, true);
+				
                 styleMenuButton(menu);
+				
                 buttonArea.addElement(menu);
             }
         }
@@ -1475,10 +1486,14 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
                     else 
                     {
                         
-                        subCount = Std.parseInt(menuButton.name.substring(menuButton.name.indexOf("_") + 1));  // Get the menu item number  
-                        parentHolder = subButtonArea.getChildByName("subHolder" + (menuLevel - 1));  // Get the parent holder  
-                        
-                        menuHolder.x = parentHolder.x + parentHolder.width;  // Moves holder right over beside button  
+                        subCount = Std.parseInt(menuButton.name.substring(menuButton.name.indexOf("_") + 1));  
+						
+						// Get the menu item number  
+                        parentHolder = subButtonArea.getChildByName("subHolder" + (menuLevel - 1));  
+						
+						// Get the parent holder  
+                        menuHolder.x = parentHolder.x + parentHolder.width;  
+						// Moves holder right over beside button  
                         menuHolder.y = ((_reverse)) ? parentHolder.y - (menu.height * (subCount)) : parentHolder.y + (menu.height * (subCount));
                     }
                     
@@ -1495,10 +1510,12 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
                     else 
                     {
                         
-                        subCount = Std.parseInt(menuButton.name.substring(menuButton.name.indexOf("_") + 1));  // Get the menu item number  
-                        parentHolder = subButtonArea.getChildByName("subHolder" + (menuLevel - 1));  // Get the parent holder  
-                        
-                        
+                        subCount = Std.parseInt(menuButton.name.substring(menuButton.name.indexOf("_") + 1)); 
+						
+						// Get the menu item number  
+                        parentHolder = subButtonArea.getChildByName("subHolder" + (menuLevel - 1)); 
+						
+						// Get the parent holder  
                         menuHolder.x = ((_reverse)) ? parentHolder.x - parentHolder.width : parentHolder.x + parentHolder.width;  // Moves holder right over beside button  
                         menuHolder.y = parentHolder.y + (menu.height * (subCount));
                     }
@@ -1526,8 +1543,9 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
     private function updateButtons(dataObj : DataProvider) : Void
     {
         
-        for (i in 0...dataObj.length){
-            var menuObj : MenuItemObjectData = try cast(dataObj.getItemAt(i), MenuItemObjectData) catch(e:Dynamic) null;
+        for (i in 0...dataObj.length)
+		{
+            var menuObj : MenuItemObjectData = cast(dataObj.getItemAt(i), MenuItemObjectData);
             
             if (null != menuObj.menuItem) 
             {
@@ -1541,10 +1559,10 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
                 {
                     styleSubMenuButton(menuObj.menuItem);
                 }
-            }  // Update sub menu button  
+            } 
             
             
-            
+            // Update sub menu button  
             if (menuObj.hasSubMenu) 
                 updateButtons(menuObj.subMenuList);
         }
@@ -1572,10 +1590,11 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
             
             if (dataObj != null) 
             {
-                for (item in Reflect.fields(dataObj.dataArray))
+				var dataArray:Array<Dynamic> = dataObj.dataArray;
+				
+                for (a in 0...dataArray.length)
                 {
-					
-                    var menuObj : MenuItemObjectData = cast( dataObj.getItemAt(dataObj.getItemIndex(item)), MenuItemObjectData);
+                    var menuObj : MenuItemObjectData = cast( dataObj.getItemAt( dataObj.getItemIndex( dataArray[a]) ) , MenuItemObjectData);
                     menuObj.menuItem = null;
                 }
             }
@@ -1586,11 +1605,10 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
     
     private function onMenuItemRollOver(event : MouseEvent) : Void
     {
-        
-        var menu : com.chaos.ui.classInterface.IMenuItem = try cast(event.currentTarget, com.chaos.ui.classInterface.IMenuItem) catch(e:Dynamic) null;
-        var dataObj : DataProvider = getMenuDataObject(menu, _list);
-        
-        
+        var menu : IMenuItem = getMenuItem(event.currentTarget);
+		var dataObj : DataProvider = getMenuDataObject(menu, _list);
+		
+		
         if (null != menu) 
         {
             // If have sub menu and is not open it then open
@@ -1606,8 +1624,7 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
                 buildSubMenu(menu, dataObj);
                 menu.open = true;
             }
-            // If is a menu button with sub menu open
-            else if (menu.hasChildren && menu.open) 
+            else if (menu.hasChildren && menu.open) // If is a menu button with sub menu open
             {
                 removeOldParentMenu();
                 menu.open = false;
@@ -1619,10 +1636,9 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
                 {
                     removeOldParentMenu();
                     oldMenuButton.open = false;
-                }  // If have children open the menu  
+                }
                 
-                
-                
+                // If have children open the menu  
                 if (menu.hasChildren) 
                 {
                     buildSubMenu(menu, dataObj);
@@ -1639,17 +1655,20 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
     private function onMenuItemRollOut(event : MouseEvent) : Void
     {
         
-        var menu : IMenuItem = cast(event.currentTarget, IMenuItem);
-        
+		
+        var menu : IMenuItem = getMenuItem(event.currentTarget);
+		
+		
         // First check to see top level menu and remove sub menu
         if (!menu.hasParent) 
         {
             removeSubMenu();
             menu.open = false;
         }
+		
     }
     
-    private function getMenuDataObject(menu : com.chaos.ui.classInterface.IMenuItem, menuList : DataProvider) : DataProvider
+    private function getMenuDataObject(menu : IMenuItem, menuList : DataProvider) : DataProvider
     {
         for (i in 0...menuList.length)
 		{
@@ -1668,9 +1687,38 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
         return null;
     }
     
+	
+	private function getMenuItem( displayObj:DisplayObject,  menuList : DataProvider = null):IMenuItem
+	{
+		
+		// If nothing passed then set root list
+		if (menuList == null)
+		menuList = _list;
+		
+		// Look through list
+		for (i in 0...menuList.length)
+		{
+			// Get Menu Object
+			var menuDataObj:MenuItemObjectData = cast(menuList.getItemAt(i), MenuItemObjectData);
+			
+			
+			if (cast(displayObj,IMenuItem) == cast(menuList.getItemAt(i), MenuItemObjectData).menuItem)
+				return cast(displayObj, IMenuItem);
+			
+			if ( menuDataObj.hasSubMenu )
+			{
+				var subMenuItem:IMenuItem = getMenuItem(displayObj, cast(menuList.getItemAt(i), MenuItemObjectData).subMenuList);
+				
+				if (subMenuItem != null)
+				return subMenuItem;
+			}
+		}
+		
+		return null;
+	}
     
     
-    private function styleMenuButton(menu : com.chaos.ui.classInterface.IMenuItem) : Void
+    private function styleMenuButton(menu : IMenuItem) : Void
     {
         
         menu.textColor = _textColor;
@@ -1777,6 +1825,7 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
     {
         stage.addEventListener(MouseEvent.MOUSE_DOWN, onStageClick, false, 2, true);
         stage.addEventListener(MouseEvent.MOUSE_MOVE, onMenuLeave, false, 2, true);
+		
         UIBitmapManager.watchElement(TYPE, this);
     }
     
@@ -1788,6 +1837,7 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
     
     private function onMenuLeave(event : MouseEvent) : Void
     {
+		
         if (event.target == stage) 
             removeSubMenu();
     }

@@ -738,9 +738,9 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
             itemButton.addEventListener(ToggleEvent.DOWN_STATE, onItemDownPress);
             
             // Center the Item label at the bottom
-            itemLabel.x = (itemLabel.width - _itemWidth / 2) + UIStyleManager.ITEMPANE_LABEL_OFFSET_X;
-            itemLabel.y = (_itemHeight - itemLabel.height) + UIStyleManager.ITEMPANE_LABEL_OFFSET_Y;
-            
+			itemLabel.x = UIStyleManager.ITEMPANE_LABEL_OFFSET_X;
+			itemLabel.y = (_itemHeight - itemLabel.height) + UIStyleManager.ITEMPANE_LABEL_OFFSET_Y;
+
             // Add in the item if it's there
             if (null != itemData.item) 
             {
@@ -800,13 +800,14 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
         // NOTE: Turn this into a class file later
         var i : Int = _itemHolder.numChildren;
         
-        while (i < 0)
+        while (i > 0)
         {
             
             try
             {
                 
-                var tempObj : Sprite = cast(_itemHolder.removeChildAt(i), Sprite);
+                var tempObj : Sprite = cast(_itemHolder.removeChildAt(i - 1), Sprite);
+				
                 ToolTip.remove(tempObj);
 				
                 tempObj.removeEventListener(ToggleEvent.DOWN_STATE, onItemDownPress);

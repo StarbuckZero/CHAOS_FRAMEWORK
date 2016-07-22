@@ -65,7 +65,6 @@ class TabPane extends ScrollPane implements ITabPane implements IScrollPane impl
 		
 		border = true;
 		
-		//init();
 		draw();
     }
 	
@@ -232,6 +231,7 @@ class TabPane extends ScrollPane implements ITabPane implements IScrollPane impl
 		// Create new button & scroll pane  
 		var tabButton : Button = new Button();
 		var tempObject : Object = new Object();
+		
 		tabButton.label = value;
 		tabButton.addEventListener(MouseEvent.CLICK, tabPress);
 		
@@ -245,6 +245,7 @@ class TabPane extends ScrollPane implements ITabPane implements IScrollPane impl
 			tempObject.content_width = content.width;
 			tempObject.content_height = content.height;
         }
+		
 		
 		addChild(tabButton);
 		
@@ -268,9 +269,7 @@ class TabPane extends ScrollPane implements ITabPane implements IScrollPane impl
 		for (i in 0..._contentList.length - 1 + 1)
 		{
 			if (_contentList.getItemAt(i).label.toLowerCase() == value.toLowerCase()) 
-			{
 				return removeItemAt(i);
-            }
         }
 		
 		return null;
@@ -304,7 +303,8 @@ class TabPane extends ScrollPane implements ITabPane implements IScrollPane impl
 	{
 		if (_selectedIndex != value) 
 		{
-			_selectedIndex = value;contentLoad(_contentList.getItemAt(value).content);
+			_selectedIndex = value;
+			contentLoad(_contentList.getItemAt(value).content);
         }
 		
         return value;
@@ -331,7 +331,9 @@ class TabPane extends ScrollPane implements ITabPane implements IScrollPane impl
 	 * Returns the color
 	 */
 	
-	private function get_tabButtonColor() : Int{return _tabButtonNormalColor;
+	private function get_tabButtonColor() : Int
+	{
+		return _tabButtonNormalColor;
     } 
 	
 	/**
@@ -493,13 +495,9 @@ class TabPane extends ScrollPane implements ITabPane implements IScrollPane impl
 	{  
 		// Return value passed if not found or incorrect return the current selected index
 		if (value <= _contentList.length - 1 && value >= 0) 
-		{
 			return _contentList.getItemAt(value).button;
-        }
         else 
-		{
 			return _contentList.getItemAt(_selectedIndex).button;
-        }
 		
     } 
 	
@@ -518,16 +516,19 @@ class TabPane extends ScrollPane implements ITabPane implements IScrollPane impl
 		// Create and resize buttons 
 		for (i in 0..._contentList.length - 1 + 1)
 		{ 
+			
 			// Setting up buttons
-			_contentList.getItemAt(i).button.name = i;
-			_contentList.getItemAt(i).button.width = Std.int(width / _contentList.length);
-			_contentList.getItemAt(i).button.height = _tabButtonHeight;
-			_contentList.getItemAt(i).button.x = _contentList.getItemAt(i).button.width * i;
-			_contentList.getItemAt(i).button.textColor = _tabButtonTextColor;
-			_contentList.getItemAt(i).button.buttonColor = _tabButtonNormalColor;
-			_contentList.getItemAt(i).button.buttonOverColor = _tabButtonOverColor;
-			_contentList.getItemAt(i).button.buttonDownColor = _tabButtonSelectedColor;
-			_contentList.getItemAt(i).button.buttonDisableColor = _tabButtonDisableColor;
+			cast(_contentList.getItemAt(i).button, Button).name = Std.string(i);
+			cast(_contentList.getItemAt(i).button, Button).width = width / _contentList.length;
+			cast(_contentList.getItemAt(i).button, Button).height = _tabButtonHeight;
+			cast(_contentList.getItemAt(i).button, Button).x = cast(_contentList.getItemAt(i).button, Button).width * i;
+			cast(_contentList.getItemAt(i).button, Button).y = 0;
+			cast(_contentList.getItemAt(i).button, Button).textColor = _tabButtonTextColor;
+			cast(_contentList.getItemAt(i).button, Button).buttonColor = _tabButtonNormalColor;
+			cast(_contentList.getItemAt(i).button, Button).buttonOverColor = _tabButtonOverColor;
+			cast(_contentList.getItemAt(i).button, Button).buttonDownColor = _tabButtonSelectedColor;
+			cast(_contentList.getItemAt(i).button, Button).buttonDisableColor = _tabButtonDisableColor;
+			
 			
 			if (null != _tabButtonNormalImage.image)          
 			_contentList.getItemAt(i).button.setBackgroundBitmap(_tabButtonNormalImage);

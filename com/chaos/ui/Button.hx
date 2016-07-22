@@ -48,7 +48,7 @@ class Button extends Overlay implements IButton implements IOverlay implements I
     public var imageOffSetY(get, set) : Int;
     public var label(get, set) : String;
     public var showLabel(get, set) : Bool;
-    public var textLabel(get, never) : com.chaos.ui.classInterface.ILabel;
+    public var textLabel(get, never) : ILabel;
     public var textFont(get, set) : String;
     public var textItalic(get, set) : Bool;
     public var textBold(get, set) : Bool;

@@ -10,6 +10,8 @@ package com.chaos.utils;
 import com.chaos.data.DataProvider;
 import com.chaos.utils.classInterface.ITask;
 import com.chaos.utils.TaskManager;
+import com.chaos.utils.data.TaskCallBack;
+import haxe.Constraints.Function;
 
 import openfl.display.DisplayObject;
 import openfl.display.Stage;
@@ -72,7 +74,7 @@ import com.chaos.utils.Debug;
 	 * @param	func The function you want to add event list
 	 */
     
-    public static function addEventTimer(func : haxe.Constraints.Function) : Void
+    public static function addEventTimer(func : TaskCallBack) : Void
     {
         // If value passed in wasn't null then setup event
         if (null == _stage) 
@@ -93,7 +95,7 @@ import com.chaos.utils.Debug;
 	 * @param	func The function you want to remove.
 	 */
     
-    public static function removeEventTimer(func : haxe.Constraints.Function) : Void
+    public static function removeEventTimer(func : TaskCallBack) : Void
     {
         
         // If value passed in wasn't null then setup event
@@ -147,13 +149,9 @@ import com.chaos.utils.Debug;
         var taskManager : TaskManager = Reflect.field(taskCollection, id);
         
         if (flush) 
-        {
             taskManager.flush();
-        }
         else 
-        {
             taskManager.dump();
-        }
     }
     
     /**
@@ -256,8 +254,12 @@ import com.chaos.utils.Debug;
     {
         for (i in 0...eventCollection.length)
 		{
-            eventCollection.getItemAt(i)();
+			
+			var taskCallBack:TaskCallBack = cast(eventCollection.getItemAt(i), TaskCallBack);
+			Reflect.callMethod(taskCallBack.mainClass, Reflect.field(taskCallBack.mainClass, taskCallBack.functionName),[]);
+			
         }
     }
 }
+
 

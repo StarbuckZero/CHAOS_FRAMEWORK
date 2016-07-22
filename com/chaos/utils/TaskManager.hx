@@ -306,7 +306,7 @@ class TaskManager
         if (_processMode == PROCESS_QUEUE_MODE && _threadArray.length > 0) 
         {
             // Removes the first item in the list
-            currentTask = try cast(_threadArray.getItemAt(0), ITask) catch(e:Dynamic) null;
+            currentTask = cast(_threadArray.getItemAt(0), ITask);
             
             // Check to see to make this a sub task
             if (currentTask.end != currentTask.start) 
@@ -325,7 +325,7 @@ class TaskManager
         {
    
             // Removes the item at the end
-            currentTask = try cast(_threadArray.getItemAt(_threadArray.length - 1), ITask) catch(e:Dynamic) null;
+            currentTask = cast(_threadArray.getItemAt(_threadArray.length - 1), ITask);
             
             // Check to see to make this a sub task
             if (currentTask.end != currentTask.start) 

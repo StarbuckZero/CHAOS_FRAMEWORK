@@ -4,6 +4,7 @@ import com.chaos.ui.classInterface.IBaseUI;
 import com.chaos.ui.classInterface.ISlider;
 import com.chaos.utils.ThreadManager;
 import com.chaos.utils.Utils;
+import com.chaos.utils.data.TaskCallBack;
 import openfl.display.Sprite;
 import openfl.events.MouseEvent;
 import openfl.geom.Matrix;
@@ -71,7 +72,6 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
   private var _showImage : Bool = true;
   private var _mode : String = ScrollBarDirection.VERTICAL;
   private var _qualityMode : String = UIDetailLevel.HIGH;
-  //private var _enabled : Bool = true;
   private var _dragging : Bool = false;
   
   public var trackWidthNum : Float = 15;
@@ -85,6 +85,8 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
   private var _displayTrackerImage : Bool = false;
   private var _trackerImage : DisplayImage;
   private var _rotateImage : Bool = false;
+  
+  private var _threadCallBack:TaskCallBack;
   
   // percentage  
   private var percentage : Float = 0; 
@@ -104,7 +106,9 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 		_sliderOffSet = SLIDER_OFFSET;
 		
 		addEventListener(Event.ADDED_TO_STAGE, onStageAdd, false, 0, true);
-		addEventListener(Event.REMOVED_FROM_STAGE, onStageRemove, false, 0, true);init();
+		addEventListener(Event.REMOVED_FROM_STAGE, onStageRemove, false, 0, true);
+		
+		init();
     }
 	
 	private function onStageAdd(event : Event) : Void { UIBitmapManager.watchElement(TYPE, this); }
@@ -138,6 +142,9 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 		marker.buttonDisableColor = _sliderDisableColor;
 		marker.addEventListener(MouseEvent.MOUSE_DOWN, markerPress, false, 0, true);
 		
+		_threadCallBack = new TaskCallBack(this, "updatePercent");
+		
+		
 		if (ScrollBarDirection.VERTICAL == _mode) 
 			marker.y = track.y + _sliderOffSet;
         else 
@@ -151,7 +158,12 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 	
 	override public function reskin() : Void
 	{
-		super.reskin();initSkin();initStyle();draw();
+		super.reskin();
+		
+		initSkin();
+		initStyle();
+		
+		draw();
     }
 	
 	private function initSkin() : Void
@@ -289,7 +301,9 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 	 */ 
 	private function set_rotateImage(value : Bool) : Bool 
 	{
-		_rotateImage = value;draw();
+		_rotateImage = value;
+		draw();
+		
         return value;
     }
 	
@@ -744,7 +758,7 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 			stage.removeEventListener(MouseEvent.MOUSE_MOVE, updatePercent);
 			stage.removeEventListener(MouseEvent.MOUSE_UP, stopSliding);
 			
-			ThreadManager.removeEventTimer(updatePercent);
+			ThreadManager.removeEventTimer(_threadCallBack);
         }
     }
 	
@@ -756,7 +770,9 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 		marker.stopDrag();
 		stage.removeEventListener(MouseEvent.MOUSE_MOVE, updatePercent);
 		stage.removeEventListener(MouseEvent.MOUSE_UP, stopSliding);
-		ThreadManager.removeEventTimer(updatePercent);
+		
+		
+		ThreadManager.removeEventTimer(_threadCallBack);
     } 
 	
 	// updates the data to reflect the visuals
@@ -785,12 +801,11 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 			marker.startDrag(false, new Rectangle(track.x, _sliderOffSet, (trackWidthNum - sliderWidthNum), 0));
 		
 		if (_eventMode == TIMER_MODE)
-			ThreadManager.addEventTimer(updatePercent)
+			ThreadManager.addEventTimer(_threadCallBack);
         else
-		{
 			stage.addEventListener(MouseEvent.MOUSE_MOVE, updatePercent, false, 0, true);
-			stage.addEventListener(MouseEvent.MOUSE_UP, stopSliding, false, 0, true);
-		}
+		
+		stage.addEventListener(MouseEvent.MOUSE_UP, stopSliding, false, 0, true);
     }
 	
 	/**
