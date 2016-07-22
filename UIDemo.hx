@@ -342,8 +342,7 @@ class UIDemo extends Sprite
 	{
 		if (null != alertBox.parent)
 		{
-			//alertBox.parent.removeChild(alertBox);
-			//alertBox = null;
+			trace(cast(event.currentTarget, Button).name);
 		}
 	}
 }
