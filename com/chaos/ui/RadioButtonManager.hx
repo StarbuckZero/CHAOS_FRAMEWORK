@@ -146,7 +146,7 @@ class RadioButtonManager
 			
 			for (i in 0...dataList.length - 1 + 1)
 			{
-				dataList.getItemAt(i).selected = value;
+				cast(dataList.getItemAt(i),IRadioButton).selected = value;
             }
         }
     }

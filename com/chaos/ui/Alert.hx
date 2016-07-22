@@ -7,12 +7,14 @@ package com.chaos.ui;
 	import com.chaos.ui.UIDetailLevel;
 	import com.chaos.ui.UIStyleManager;
 	import com.chaos.ui.Window;
+	import com.chaos.ui.data.AlertDataObject;
 	import com.chaos.ui.event.WindowEvent;
 	import com.chaos.ui.classInterface.IButton;
 	import com.chaos.ui.classInterface.IButton;
 	import com.chaos.ui.classInterface.IWindow;
 	import com.chaos.utils.Utils;
 	import haxe.Constraints.Function;
+	import haxe.ds.HashMap;
 	import openfl.display.Bitmap;
 	import openfl.display.DisplayObject;
 	import openfl.display.Shape;
@@ -21,6 +23,7 @@ package com.chaos.ui;
 	import openfl.events.Event;
 	import openfl.events.MouseEvent;
 	import openfl.text.TextFormatAlign;
+	import openfl.utils.Dictionary;
 	
 class Alert
 {
@@ -91,7 +94,7 @@ class Alert
 	/** Set if you want to user to be able to grab the text*/
 	public static var ALERT_LABEL_TEXT_SELECTABLE : Bool = false;
 	
-	private static var _windowList : DataProvider = new DataProvider();
+	private static var _alertList : DataProvider = new DataProvider();
 	private static var _windowCount : Int = 0;
 	private static var _cancelBtnLabel : String = "Cancel";
 	private static var _okBtnLabel : String = "OK";
@@ -172,6 +175,8 @@ class Alert
 	private static var _tintAlpha : Float = .5;
 	private static var _qualityMode : String = UIDetailLevel.HIGH;
 	
+	
+	
 	private function new()
     {
 		
@@ -183,7 +188,7 @@ class Alert
 		
 		static public function get_windowList() : DataProvider 
 		{
-			return _windowList; 
+			return _alertList; 
 		} 
 		 
 		/**
@@ -1298,12 +1303,14 @@ class Alert
 		
 		public static function create(strMessage : String = "No Message", strTitle : String = "Alert Box", buttonArray : Array<String> = null, alertBoxIcon : DisplayImage = null, alertWindowIcon : DisplayImage = null, callBackFunc : Dynamic = null, defaultLabelButton : String = "") : Sprite 
 		{
+			
 			// Setup AlertBox Holder  
 			if (null == alertHolder) 
 			{
 				alertHolder = new Sprite();
 				alertHolder.name = "chaos_alertHolder";
 			}
+		
 			
 			
 			// Setup background block 
@@ -1319,17 +1326,18 @@ class Alert
 		
 		// If it doesn't have a listen then add one  
 		if (!backgroundBlock.hasEventListener(Event.ADDED_TO_STAGE))
-		backgroundBlock.addEventListener(Event.ADDED_TO_STAGE, setupTintStageEvent, false, 0, false);
+			backgroundBlock.addEventListener(Event.ADDED_TO_STAGE, setupTintStageEvent, false, 0, false);
 		
 		updateAlertBox();
+		
 		var window : Window = new Window();
+		var buttonList:Array<IButton> = new Array<IButton>();
+		
 		
 		if (null != alertWindowIcon) 
 		window.setIconBitmap(alertWindowIcon.image);
 		
 		window.name = "window_" + _windowCount;
-		
-		_windowList.addItem(window);
 		_windowCount++;
 		
 		var label : Label = new Label();
@@ -1344,10 +1352,16 @@ class Alert
 		var useTextFormat : Bool = false;
 		
 		if ("" != UIStyleManager.WINDOW_TITLE_TEXT_FONT)
-			window.textLabel.font = UIStyleManager.WINDOW_TITLE_TEXT_FONT;useTextFormat = true;
+		{
+			window.textLabel.font = UIStyleManager.WINDOW_TITLE_TEXT_FONT;
+			useTextFormat = true;
+		}
 		
 		if ( -1 != UIStyleManager.WINDOW_TITLE_TEXT_SIZE)
-			window.textLabel.size = UIStyleManager.WINDOW_TITLE_TEXT_SIZE; useTextFormat = true;
+		{
+			window.textLabel.size = UIStyleManager.WINDOW_TITLE_TEXT_SIZE; 
+			useTextFormat = true;
+		}
 			
 		if (null != UIStyleManager.WINDOW_TITLE_TEXT_EMBED)
 		window.textLabel.setEmbedFont(UIStyleManager.WINDOW_TITLE_TEXT_EMBED);
@@ -1405,19 +1419,11 @@ class Alert
 		if ("" != _buttonLocation)
 		window.labelLocation = _buttonLocation;
 		
+		// To handle to close window
+		//window.addEventListener(WindowEvent.WINDOW_CLOSE_BTN, onButtonClickEvent, false, 0);
 		
-		
-		//var removeWin:Function = function( event:Event ):Void
-		//{
-		//	removeAlertWindow(window, null, removeWin, callBackFunc);
-		//}
-		//
-		//removeAlertWindow(window, null, removeWin, callBackFunc);
-		//
-		//window.addEventListener(WindowEvent.WINDOW_CLOSE_BTN, removeWin, false, 0);
-		//
-		if (null != callBackFunc)
-			window.addEventListener(WindowEvent.WINDOW_CLOSE_BTN, callBackFunc, false, 5, false);
+		//if (null != callBackFunc)
+		//window.addEventListener(WindowEvent.WINDOW_CLOSE_BTN, callBackFunc, false, 5, true);
 		
 		// Setup Label loc  
 		label.text = strMessage;
@@ -1461,37 +1467,43 @@ class Alert
 				iconImage.y = (DEFAULT_HEIGHT / 2) - window.windowTopMiddleSize - ICON_OFFSET_Y;
 				label.width = DEFAULT_WIDTH - ICON_SIZE_WIDTH - LABEL_OFFSET_X - BUTTON_OFFSET_X;
 				label.x = ICON_SIZE_WIDTH + LABEL_OFFSET_X;
+				
 				holderClip.addChild(iconImage);
+				
 			}
-        }
-        else
-		{
-			// Setup an event so soon as image is done loading  
-			alertBoxIcon.onImageComplete = function() : Void
+			else
 			{
-				var iconImage : Sprite = new Sprite();
-				iconImage.graphics.beginBitmapFill(alertBoxIcon.image.bitmapData, null, true);
-				iconImage.graphics.drawRect(0, 0, alertBoxIcon.image.bitmapData.width, alertBoxIcon.image.bitmapData.height);
-				iconImage.graphics.endFill();
-				iconImage.width = ICON_SIZE_WIDTH;
-				iconImage.height = ICON_SIZE_HEIGHT;
-				iconImage.x = ICON_OFFSET_X;
-				iconImage.y = (DEFAULT_HEIGHT / 2) - window.windowTopMiddleSize - ICON_OFFSET_Y;
-				label.width = DEFAULT_WIDTH - ICON_SIZE_WIDTH - LABEL_OFFSET_X - BUTTON_OFFSET_X;
-				label.x = ICON_SIZE_WIDTH + LABEL_OFFSET_X;
-				holderClip.addChild(iconImage);
-				alertBoxIcon.onImageComplete = null;
-            };
-			
+				// Setup an event so soon as image is done loading  
+				alertBoxIcon.onImageComplete = function() : Void
+				{
+					var iconImage : Sprite = new Sprite();
+					iconImage.graphics.beginBitmapFill(alertBoxIcon.image.bitmapData, null, true);
+					iconImage.graphics.drawRect(0, 0, alertBoxIcon.image.bitmapData.width, alertBoxIcon.image.bitmapData.height);
+					iconImage.graphics.endFill();
+					iconImage.width = ICON_SIZE_WIDTH;
+					iconImage.height = ICON_SIZE_HEIGHT;
+					iconImage.x = ICON_OFFSET_X;
+					iconImage.y = (DEFAULT_HEIGHT / 2) - window.windowTopMiddleSize - ICON_OFFSET_Y;
+					label.width = DEFAULT_WIDTH - ICON_SIZE_WIDTH - LABEL_OFFSET_X - BUTTON_OFFSET_X;
+					label.x = ICON_SIZE_WIDTH + LABEL_OFFSET_X;
+					holderClip.addChild(iconImage);
+					alertBoxIcon.onImageComplete = null;
+				};
+				
+			}
+		
         }
-          
+		
+		
+        
 		// Look into hiding modal block  
 		var hasModal : Bool = modalCheck(buttonArray);
 		backgroundBlock.visible = ((hasModal)) ? false : true; 
 		
 		// Check to see if buttons passed if not then create default button  
 		if (buttonArray != null) 
-		{  // Drop count by 1 if have Modal flag in list  
+		{  
+			// Drop count by 1 if have Modal flag in list  
 			var buttonCount : Int = ((hasModal)) ? buttonArray.length - 1 : buttonArray.length;
 			
 			for (i in 0...buttonArray.length - 1 + 1)
@@ -1502,23 +1514,16 @@ class Alert
 					// Grab button and place it in holder  
 					var tempButton : Button = createAlertButton(buttonArray[i]);
 					buttonHolderClip.addChild(tempButton);
+					buttonList.push(tempButton);
 					
-					//var buttonRemoveWin : Function = function(event : MouseEvent) : Void
-					//{
-					//	removeAlertWindow(window, tempButton, buttonRemoveWin, callBackFunc);
-					//	tempButton.removeEventListener(MouseEvent.CLICK, buttonRemoveWin);
-					//	
-					//	if (null != callBackFunc)
-					//	tempButton.removeEventListener(MouseEvent.CLICK, callBackFunc);
-					//	buttonRemoveWin = null;
-                    //}
-					//
-					//tempButton.addEventListener(MouseEvent.CLICK, buttonRemoveWin, false, 0);
+					// To remove alert box
+					tempButton.addEventListener(MouseEvent.CLICK, onButtonClickEvent, false, 0, true);
 					
 					if (null != callBackFunc)
-					tempButton.addEventListener(MouseEvent.CLICK, callBackFunc, false, 5, false); 
+					tempButton.addEventListener(MouseEvent.CLICK, callBackFunc, false, 5, true); 
 					
-					// Size done buttons if 3 buttons or more  ;
+					
+					// Size done buttons if 3 buttons or more
 					if (buttonCount >= SMALL_BUTTON_COUNT) 
 					{
 						tempButton.width = SMALL_BUTTON_WIDTH;
@@ -1539,15 +1544,71 @@ class Alert
 			buttonHolderClip.addChild(defaultButton);
         }
 		
+		
 		// Set button holder loc and add to holder  
 		buttonHolderClip.x = ((window.width - buttonHolderClip.width) / 2) - BUTTON_OFFSET_X;
-		buttonHolderClip.y = DEFAULT_HEIGHT - window.windowTopMiddleSize - window.windowBottomMiddleSize - BUTTON_OFFSET_Y; holderClip.addChild(buttonHolderClip);
+		buttonHolderClip.y = DEFAULT_HEIGHT - window.windowTopMiddleSize - window.windowBottomMiddleSize - BUTTON_OFFSET_Y;
+		holderClip.addChild(buttonHolderClip);
 		
 		// Place movieclip in window  
 		window.scrollPane.source = holderClip;
 		alertHolder.addChild(window);
+		
+		
+		var alertData:AlertDataObject = new AlertDataObject(window, buttonList, callBackFunc);
+		_alertList.addItem(alertData);
+		
 		return alertHolder;
     }
+	
+	private static function onButtonClickEvent( event:Event ): Void
+	{
+		// Figure out what button was clicked
+		var button:IButton = cast(event.currentTarget, IButton);
+		
+		// Start searching array objects
+		for (i in 0... _alertList.length)
+		{
+			
+			var alertObj:AlertDataObject = cast(_alertList.getItemAt(i), AlertDataObject);
+			var buttonList:Array<IButton> = alertObj.buttonList;
+			
+			// Look for button in button list
+			for (j in 0... buttonList.length)
+			{
+				
+				// Once button is found remove window
+				if (buttonList[j] == button)
+				{
+					
+					var oldWindow:IWindow = cast(_alertList.removeItem(alertObj),AlertDataObject).window;
+					
+					// Remove window out of display
+					if (null != oldWindow && null != oldWindow.parent) 
+						oldWindow.parent.removeChild(oldWindow.displayObject);
+						
+					// Remove all events
+					for (a in 0... buttonList.length)
+					{
+						if (null != alertObj.callBack)
+						buttonList[a].removeEventListener(MouseEvent.CLICK, alertObj.callBack);
+						
+						buttonList[a].removeEventListener(MouseEvent.CLICK, onButtonClickEvent);
+					}
+				}
+				
+			}
+			
+		}
+		
+		// Remove background if no more windows are left in the list
+		if (_alertList.length == 0) 
+		{
+			backgroundBlock.graphics.clear();
+			backgroundBlock.removeEventListener(Event.ADDED_TO_STAGE, setupTintStageEvent);
+        }		
+		
+	}
 	
 	private static function setCloseButtonTheme(window : Window) : Void
 	{
@@ -1699,47 +1760,41 @@ class Alert
 		window.setCloseDisableButtonBitmap(UIBitmapManager.getUIElement(Alert.TYPE, UIBitmapManager.ALERT_CLOSE_BUTTON_DISABLE));
 		
     }
-	
-	private static function removeAlertWindow(window : IWindow, button : IButton, removeWinFunc : Dynamic->Void, callBackFunc : Dynamic->Void = null) : Void
-	{
-		var oldWindow : IWindow = try cast(_windowList.removeItem(window), IWindow) catch (e:Dynamic) null;
-		
-		if (null != oldWindow && null != oldWindow.parent) 
-		oldWindow.parent.removeChild(window.displayObject);
-		
-		if (null != button && button.hasEventListener(MouseEvent.CLICK)) 
-		{
-			if (null != callBackFunc) 
-			button.removeEventListener(MouseEvent.CLICK, callBackFunc);
-			button.removeEventListener(MouseEvent.CLICK, removeWinFunc);
-			
-        }
-		
-		if (null != window && window.hasEventListener(WindowEvent.WINDOW_CLOSE_BTN)) 
-		{
-			if (null != callBackFunc)  
-			window.removeEventListener(MouseEvent.CLICK, callBackFunc);
-			
-			window.removeEventListener(MouseEvent.CLICK, removeWinFunc);
-			
-        } 
-		
-		// Remove background if no more windows are left in the list
-		if (_windowList.length == 0) 
-		{
-			backgroundBlock.graphics.clear();
-			backgroundBlock.removeEventListener(Event.ADDED_TO_STAGE, setupTintStageEvent);
-        }
-		
-    }
+
 	
 	private static function createAlertButton(buttonType : String) : Button
 	{
 		var tempButton : Button = new Button();
 
         switch (buttonType)
-        {case Alert.OK:tempButton.label = (("" == UIStyleManager.ALERT_OK_TEXT)) ? _okBtnLabel : UIStyleManager.ALERT_OK_TEXT;tempButton.name = OK;setButtonType("positive", tempButton);case Alert.CANCEL:tempButton.label = (("" == UIStyleManager.ALERT_CANCEL_TEXT)) ? _cancelBtnLabel : UIStyleManager.ALERT_CANCEL_TEXT;tempButton.name = CANCEL;setButtonType("negative", tempButton);case Alert.YES:tempButton.label = (("" == UIStyleManager.ALERT_YES_TEXT)) ? _yesBtnLabel : UIStyleManager.ALERT_YES_TEXT;tempButton.name = YES;setButtonType("positive", tempButton);case Alert.NO:tempButton.label = (("" == UIStyleManager.ALERT_NO_TEXT)) ? _noBtnLabel : UIStyleManager.ALERT_NO_TEXT;tempButton.name = NO;setButtonType("negative", tempButton);case Alert.MAYBE:tempButton.label = (("" == UIStyleManager.ALERT_MAYBE_TEXT)) ? _noBtnLabel : UIStyleManager.ALERT_MAYBE_TEXT;tempButton.name = MAYBE;setButtonType("neutral", tempButton);default:tempButton.label = (("" == UIStyleManager.ALERT_OK_TEXT)) ? _okBtnLabel : UIStyleManager.ALERT_OK_TEXT;tempButton.name = OK;setButtonType("positive", tempButton);
-        }return tempButton;
+        {
+			case Alert.OK:
+			tempButton.label = (("" == UIStyleManager.ALERT_OK_TEXT)) ? _okBtnLabel : UIStyleManager.ALERT_OK_TEXT;
+			tempButton.name = OK; 
+			setButtonType("positive", tempButton);
+			
+			case Alert.CANCEL:
+			tempButton.label = (("" == UIStyleManager.ALERT_CANCEL_TEXT)) ? _cancelBtnLabel : UIStyleManager.ALERT_CANCEL_TEXT;
+			tempButton.name = CANCEL; setButtonType("negative", tempButton);
+			
+			case Alert.YES:
+			tempButton.label = (("" == UIStyleManager.ALERT_YES_TEXT)) ? _yesBtnLabel : UIStyleManager.ALERT_YES_TEXT;
+			tempButton.name = YES; setButtonType("positive", tempButton);
+			
+			case Alert.NO:
+			tempButton.label = (("" == UIStyleManager.ALERT_NO_TEXT)) ? _noBtnLabel : UIStyleManager.ALERT_NO_TEXT;
+			tempButton.name = NO; setButtonType("negative", tempButton);
+			
+			case Alert.MAYBE:
+			tempButton.label = (("" == UIStyleManager.ALERT_MAYBE_TEXT)) ? _noBtnLabel : UIStyleManager.ALERT_MAYBE_TEXT;
+			tempButton.name = MAYBE; setButtonType("neutral", tempButton);
+			
+			default:
+			tempButton.label = (("" == UIStyleManager.ALERT_OK_TEXT)) ? _okBtnLabel : UIStyleManager.ALERT_OK_TEXT;
+			tempButton.name = OK;setButtonType("positive", tempButton);
+        }
+		
+		return tempButton;
     }
 	
 	private static function setButtonType(strType : String, button : Button) : Void
@@ -1875,9 +1930,9 @@ class Alert
 		
 		if (_centerWindow)
 		{
-			for (i in 0..._windowList.length)
+			for (i in 0..._alertList.length)
 			{
-				var window : Window = _windowList.getItemAt(i);
+				var window : Window = cast(cast(_alertList.getItemAt(i), AlertDataObject).window,Window);
 				window.x = (window.stage.stageWidth / 2) - (window.width / 2);
 				window.y = (window.stage.stageHeight / 2) - (window.height / 2);
             }
@@ -1886,15 +1941,17 @@ class Alert
 	
 	private static function setupWindowStageEvent(event : Event) : Void 
 	{
-		event.currentTarget.stage.align = StageAlign.TOP_LEFT;
-		event.currentTarget.x = (event.currentTarget.stage.stageWidth >> 1) - (event.currentTarget.width >> 1);
-		event.currentTarget.y = (event.currentTarget.stage.stageHeight >> 1) - (event.currentTarget.height >> 1);
+		var window:Window = cast(event.currentTarget, Window);
+		
+		window.stage.align = StageAlign.TOP_LEFT;
+		window.x = (window.stage.stageWidth / 2) - (window.width / 2);
+		window.y = (window.stage.stageHeight / 2) - (window.height / 2);
     }
 	
 	private static function setupTintStageEvent(event : Event) : Void
 	{ 
 		// Remove old event  
-		var backgroundBlock : Shape = (try cast(event.currentTarget, Shape) catch (e:Dynamic) null);
+		var backgroundBlock : Shape =cast(event.currentTarget, Shape);
 		
 		backgroundBlock.removeEventListener(Event.ADDED_TO_STAGE, setupTintStageEvent);
 		backgroundBlock.stage.align = StageAlign.TOP_LEFT;

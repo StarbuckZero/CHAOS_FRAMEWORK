@@ -518,45 +518,46 @@ class TabPane extends ScrollPane implements ITabPane implements IScrollPane impl
 		{ 
 			
 			// Setting up buttons
-			cast(_contentList.getItemAt(i).button, Button).name = Std.string(i);
-			cast(_contentList.getItemAt(i).button, Button).width = width / _contentList.length;
-			cast(_contentList.getItemAt(i).button, Button).height = _tabButtonHeight;
-			cast(_contentList.getItemAt(i).button, Button).x = cast(_contentList.getItemAt(i).button, Button).width * i;
-			cast(_contentList.getItemAt(i).button, Button).y = 0;
-			cast(_contentList.getItemAt(i).button, Button).textColor = _tabButtonTextColor;
-			cast(_contentList.getItemAt(i).button, Button).buttonColor = _tabButtonNormalColor;
-			cast(_contentList.getItemAt(i).button, Button).buttonOverColor = _tabButtonOverColor;
-			cast(_contentList.getItemAt(i).button, Button).buttonDownColor = _tabButtonSelectedColor;
-			cast(_contentList.getItemAt(i).button, Button).buttonDisableColor = _tabButtonDisableColor;
+			var button:Button = cast(_contentList.getItemAt(i).button, Button);
+			button.name = Std.string(i);
+			button.width = width / _contentList.length;
+			button.height = _tabButtonHeight;
+			button.x = cast(_contentList.getItemAt(i).button, Button).width * i;
+			button.y = 0;
+			button.textColor = _tabButtonTextColor;
+			button.buttonColor = _tabButtonNormalColor;
+			button.buttonOverColor = _tabButtonOverColor;
+			button.buttonDownColor = _tabButtonSelectedColor;
+			button.buttonDisableColor = _tabButtonDisableColor;
 			
 			
 			if (null != _tabButtonNormalImage.image)          
-			_contentList.getItemAt(i).button.setBackgroundBitmap(_tabButtonNormalImage);
+			button.setBackgroundBitmap(_tabButtonNormalImage.image);
 			
 			if (null != _tabButtonOverImage.image)  
-			_contentList.getItemAt(i).button.setOverBackgroundBitmap(_tabButtonOverImage);
+			button.setOverBackgroundBitmap(_tabButtonOverImage.image);
 			
 			if (null != _tabButtonDownImage.image) 
-			_contentList.getItemAt(i).button.setOverBackgroundBitmap(_tabButtonDownImage);
+			button.setOverBackgroundBitmap(_tabButtonDownImage.image);
 			
 			if (null != _tabButtonDisableImage.image)    
-			_contentList.getItemAt(i).button.setDisableBackgroundBitmap(_tabButtonDisableImage);
+			button.setDisableBackgroundBitmap(_tabButtonDisableImage.image);
 			
 			// Set TextFormat based on UIStyleManager  
-			_contentList.getItemAt(i).button.textBold = UIStyleManager.TABPANE_BUTTON_TEXT_BOLD;
-			_contentList.getItemAt(i).button.textItalic = UIStyleManager.TABPANE_BUTTON_TEXT_ITALIC;
+			button.textBold = UIStyleManager.TABPANE_BUTTON_TEXT_BOLD;
+			button.textItalic = UIStyleManager.TABPANE_BUTTON_TEXT_ITALIC;
 			
 			if ( -1 != UIStyleManager.TABPANE_BUTTON_TEXT_SIZE)   
-			_contentList.getItemAt(i).button.textSize = UIStyleManager.TABPANE_BUTTON_TEXT_SIZE;
+			button.textSize = UIStyleManager.TABPANE_BUTTON_TEXT_SIZE;
 			
 			if ("" != UIStyleManager.TABPANE_BUTTON_TEXT_FONT)  
-			_contentList.getItemAt(i).button.textFont = UIStyleManager.TABPANE_BUTTON_TEXT_FONT;
+			button.textFont = UIStyleManager.TABPANE_BUTTON_TEXT_FONT;
 			
 			if (null != UIStyleManager.TABPANE_BUTTON_TEXT_EMBED)   
-			_contentList.getItemAt(i).button.textLabel.setEmbedFont(UIStyleManager.TABPANE_BUTTON_TEXT_EMBED);
+			button.textLabel.setEmbedFont(UIStyleManager.TABPANE_BUTTON_TEXT_EMBED);
 			
 			if ( -1 != UIStyleManager.TABPANE_BUTTON_TINT_ALPHA) 
-			_contentList.getItemAt(i).button.textLabel.bitmapAlpha(UIStyleManager.TABPANE_BUTTON_TINT_ALPHA);
+			button.textLabel.borderAlpha = UIStyleManager.TABPANE_BUTTON_TINT_ALPHA;
 			
         }  
 		
@@ -607,19 +608,23 @@ class TabPane extends ScrollPane implements ITabPane implements IScrollPane impl
 	
 	private function tabPress(event : MouseEvent) : Void
 	{
-		if (_selectedIndex != Std.parseInt(event.currentTarget.name)) 
+		var button:Button =  cast(event.currentTarget, Button);
+		var oldButton:Button = cast(_contentList.getItemAt(_selectedIndex).button, Button);
+		
+		if (_selectedIndex != Std.parseInt(button.name)) 
 		{ 
 			// Current Button
-			_contentList.getItemAt(Std.parseInt(event.currentTarget.name)).button.enabled = false;
-			_contentList.getItemAt(Std.parseInt(event.currentTarget.name)).button.textColor = _tabButtonSelectedColor;
+			button.enabled = false;
+			button.textColor = _tabButtonSelectedColor;
 			
 			// Disable old one
-			_contentList.getItemAt(_selectedIndex).button.enabled = true;
-			_contentList.getItemAt(_selectedIndex).button.textColor = _tabButtonTextColor;
+			oldButton.enabled = true;
+			oldButton.textColor = _tabButtonTextColor;
 			
 			// Update selected index and grab new content 
-			_selectedIndex = Std.parseInt(event.currentTarget.name);
-			contentLoad(_contentList.getItemAt(Std.parseInt(event.currentTarget.name)).content);
+			_selectedIndex = Std.parseInt(button.name);
+			contentLoad(cast(_contentList.getItemAt(Std.parseInt(button.name)).content, DisplayObject));
+			
 			dispatchEvent(new Event(Event.CHANGE));
         }
     }

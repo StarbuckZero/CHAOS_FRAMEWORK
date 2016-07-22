@@ -146,12 +146,7 @@ class RadioButton extends ToggleButtonLite implements IRadioButton implements IB
 		
 		// Check to see if group has been created if not then create one  
 		if (!RadioButtonManager.groupCheck(_radioBtnGroup))  
-		{
 			RadioButtonManager.addGroup(_radioBtnGroup);
-		}
-		
-		
-		
 		
 		// Add item to the manager  
 		RadioButtonManager.addItem(_radioBtnGroup, this);
@@ -239,7 +234,8 @@ class RadioButton extends ToggleButtonLite implements IRadioButton implements IB
 	private function set_textFormat(textFormat : TextFormat) : TextFormat
 	{
 		_useTextFormat = true;
-		_labelTextFormat = textFormat; draw();
+		_labelTextFormat = textFormat;
+		draw();
 		
         return textFormat;
     }

@@ -75,6 +75,8 @@ class UIDemo extends Sprite
     public var scrollPane :ScrollPane;
     public var itemPane : ItemPane;
     public var menu : Menu;
+	
+	public var alertBox:Sprite;
     
     public function new()
     {
@@ -332,8 +334,17 @@ class UIDemo extends Sprite
     
     private function onAlertButton(event : MouseEvent) : Void
     {
-        
-        addChild(Alert.create("This is a Message Box", "Alert Box", [Alert.OK]));
+        alertBox = Alert.create("This is a Message Box", "Alert Box", [Alert.OK], null, null, onAlertButtonClick);
+        addChild(alertBox);
     }
+	
+	function onAlertButtonClick(event:Event) 
+	{
+		if (null != alertBox.parent)
+		{
+			//alertBox.parent.removeChild(alertBox);
+			//alertBox = null;
+		}
+	}
 }
 
