@@ -314,22 +314,14 @@ class ToolTip
         _label.text = text;
         
         if (-1 != tipWidth) 
-        {
             _label.width = tipWidth;
-        }
         else if (_label.textField.textWidth < _defaultWidth) 
-        {
             _label.width = _defaultWidth;
-        }
         
         if (-1 != tipHeight) 
-        {
             _label.height = tipHeight;
-        }
         else if (_label.textField.textHeight < _defaultHeight) 
-        {
             _label.height = _defaultHeight;
-        }
         
         if ("" != tailLocation) 
             _bubble.tailPlacement = tailLocation;
@@ -525,8 +517,9 @@ class ToolTip
     private static function setToolTipFromList(displayObj : DisplayObject) : ToolTipData
     {
         // Setup ToolTip
-        for (i in 0..._list.length){
-            var dataObj : ToolTipData = try cast(_list.getItemAt(i), ToolTipData) catch(e:Dynamic) null;
+        for (i in 0..._list.length)
+		{
+            var dataObj : ToolTipData = cast(_list.getItemAt(i), ToolTipData);
             
             if (dataObj.displayObject == displayObj) 
             {

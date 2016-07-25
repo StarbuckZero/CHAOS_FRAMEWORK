@@ -593,29 +593,30 @@ class Bubble extends Overlay implements IBubble implements IOverlay implements I
             _tail.graphics.beginFill(_backgroundColor, _backgroundAlpha);
         }
         
-        _tail.graphics.moveTo((0 / 2) - _tailSize, _tailSize);
-        _tail.graphics.lineTo((0 / 2) + _tailSize, _tailSize);
+		_tail.graphics.moveTo(_tailSize / 2, 0);
+		_tail.graphics.lineTo(_tailSize, _tailSize);
         
         if (_border) 
             _tail.graphics.lineStyle(_thinkness, _borderColor, _borderAlpha);
         
-        _tail.graphics.lineTo((0 / 2), _tailSize / 2);
-        _tail.graphics.lineTo((0 / 2) - _tailSize, _tailSize);
+		_tail.graphics.lineTo(0, _tailSize);
+		_tail.graphics.lineTo(_tailSize / 2, 0);
+
         _tail.graphics.endFill();
         
         // Placement
         if (_tailPlacement == "bottom") 
         {
-            _tail.rotation = 0;
+            _tail.rotation = 180;
             
-            _tail.x = ((_tailAutoCenter)) ? (width / 2) : _tailLocation;
-            _tail.y = height - _tail.height;
+            _tail.x = (_tailAutoCenter) ? (width / 2) : _tailLocation;
+            _tail.y = height + _tail.height;
         }
         else if (_tailPlacement == "top") 
         {
             _tail.rotation = 180;
             
-            _tail.x = ((_tailAutoCenter)) ? (width / 2) : _tailLocation;
+            _tail.x = (_tailAutoCenter) ? (width / 2) : _tailLocation;
             _tail.y = _tail.height;
         }
         else if (_tailPlacement == "left") 
@@ -623,14 +624,14 @@ class Bubble extends Overlay implements IBubble implements IOverlay implements I
             _tail.rotation = 90;
             
             _tail.x = _tail.width;
-            _tail.y = ((_tailAutoCenter)) ? (height / 2) : _tailLocation;
+            _tail.y = (_tailAutoCenter) ? (height / 2) : _tailLocation;
         }
         else if (_tailPlacement == "right") 
         {
             _tail.rotation = -90;
             
             _tail.x = width - _tail.width;
-            _tail.y = ((_tailAutoCenter)) ? (height / 2) : _tailLocation;
+            _tail.y = (_tailAutoCenter) ? (height / 2) : _tailLocation;
         }
     }
     
