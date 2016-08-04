@@ -68,53 +68,6 @@ class AlignmentBaseContainer extends BaseContainer implements IBaseUI implements
         return _clipping;
     }
     
-    /**
-	 * @inheritDoc
-	 */
-    
-    override private function set_width(value : Float) : Float
-    {
-        if (super.width == value) 
-            return 0;
-        
-        super.width = value;
-        
-        draw();
-        return value;
-    }
-    
-    /**
-	 * @inheritDoc
-	 */
-    
-    override private function get_width() : Float
-    {
-        return super.width;
-    }
-    
-    /**
-	 * @inheritDoc
-	 */
-    
-    override private function set_height(value : Float) : Float
-    {
-        if (super.height == value) 
-            return 0;
-        
-        super.height = value;
-        draw();
-		
-        return value;
-    }
-    
-    /**
-	 * @inheritDoc
-	 */
-    
-    override private function get_height() : Float
-    {
-        return super.height;
-    }
     
     /**
 	 * Return the total number of elements being stored

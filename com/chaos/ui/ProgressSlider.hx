@@ -183,6 +183,8 @@ class ProgressSlider extends ProgressBar implements IProgressSlider implements I
     /**
 	 * @inheritDoc
 	 */
+	
+	
     override private function set_width(value : Float) : Float
     {
         super.width = _slider.width = value;
@@ -192,6 +194,7 @@ class ProgressSlider extends ProgressBar implements IProgressSlider implements I
     /**
 	 * @inheritDoc
 	 */
+	
     override private function set_height(value : Float) : Float
     {
         super.height = _slider.height = value;

@@ -683,13 +683,14 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
         
         var _lastRowNum : Int = 0;
         
-        for (i in 0..._list.length)
+		//TODO: Turn into while loop
+        for (i in 0... _list.length)
 		{
-            
+           
             var itemLabel : Label = new Label();
             var itemButton : ToggleButtonLite = new ToggleButtonLite();
-            var itemData : IItemPaneObjectData = cast(_list.getItemAt(i), IItemPaneObjectData);
-            var oldData : IItemPaneObjectData = ((i == 0)) ? null : cast(_list.getItemAt(i - 1), IItemPaneObjectData);
+            var itemData : IItemPaneObjectData = cast(_list.getItemAt(i), ItemPaneObjectData);
+            var oldData : IItemPaneObjectData = ((i == 0)) ? null : cast(_list.getItemAt(i - 1), ItemPaneObjectData);
             var textFormat : TextFormat = new TextFormat();
             
             // Attach a tool-tip
@@ -715,7 +716,7 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
             
             if (-1 != _size) 
                 itemLabel.size = _size;
-            
+             
             itemLabel.textFormat.bold = _bold;
             itemLabel.textFormat.italic = _italic;
             
@@ -736,7 +737,7 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
             itemButton.setDisableState(createButtonState(_itemWidth, _itemHeight, _itemDisableColor, ((null != _itemDisableState.image)) ? _itemDisableState.image : null));
             
             itemButton.addEventListener(ToggleEvent.DOWN_STATE, onItemDownPress);
-            
+           
             // Center the Item label at the bottom
 			itemLabel.x = UIStyleManager.ITEMPANE_LABEL_OFFSET_X;
 			itemLabel.y = (_itemHeight - itemLabel.height) + UIStyleManager.ITEMPANE_LABEL_OFFSET_Y;
@@ -750,25 +751,25 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
                 itemButton.addChild(itemData.item);
             }  
             
-            // Add label to button  
+            // Add label to button
             itemButton.addChild(itemLabel);
             
             // Shift items to where they need to be on the screen
             itemButton.x = (i - _lastRowNum) * itemButton.width;
             
             // Update to new row on y-axis
-            if ((itemButton.x + itemButton.width) > width) 
+            if ((itemButton.x + itemButton.width) > width)
             {
                 _lastRowNum = i;
                 
                 itemButton.x = 0;
-                itemButton.y = oldData.itemButton.y + _itemHeight;
+                itemButton.y = (null == oldData) ? itemButton.y : oldData.itemButton.y + _itemHeight;
             }
             else 
             {
                 itemButton.y = ((null == oldData)) ? itemButton.y : oldData.itemButton.y;
             }  
-            
+             
             
             // Add icon if need be  
             if (null != itemData.icon) 
@@ -785,10 +786,12 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
 			//trace("new row: " + i);  
             
             
-            itemData.label = itemLabel;
-            itemData.itemButton = itemButton;
+            itemData.label = cast(itemLabel, Label);
+            itemData.itemButton = cast(itemButton, ToggleButtonLite);
+			
             
             _itemHolder.addChild(itemButton);
+			
         }
         
         refreshPane();

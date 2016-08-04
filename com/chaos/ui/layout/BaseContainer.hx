@@ -68,7 +68,7 @@ class BaseContainer extends BaseUI implements IBaseContainer implements IBaseUI
         draw();
     }
 	
-    #if flash @:getter(width) #else override #end
+    #if !flash override #end
     private function set_width(value : Float) : Float
     {
         _width = value;
@@ -76,13 +76,13 @@ class BaseContainer extends BaseUI implements IBaseContainer implements IBaseUI
         return value;
     }
 	
-    #if flash @:getter(width) #else override #end
+    #if !flash override #end
     private function get_width() : Float
     {
         return _width;
     }
     
-	#if flash @:getter(width) #else override #end
+	#if !flash override #end
     private function set_height(value : Float) : Float
     {
         _height = value;
@@ -90,7 +90,7 @@ class BaseContainer extends BaseUI implements IBaseContainer implements IBaseUI
         return value;
     }
 	
-    #if flash @:getter(width) #else override #end
+    #if !flash override #end
     private function get_height() : Float
     {
         return _height;

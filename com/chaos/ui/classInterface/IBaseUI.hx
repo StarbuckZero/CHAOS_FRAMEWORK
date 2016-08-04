@@ -23,6 +23,7 @@ interface IBaseUI
 	 * Return true or false based on if the object is enabled or not
 	 */
 	
+	 
 	var enabled(get, set) : Bool;
 		
 	/**

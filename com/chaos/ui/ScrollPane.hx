@@ -345,9 +345,11 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 	/**
 	* Set the ScrollPane width
 	*/  
+	
 	override private function set_width(value : Float) : Float 
 	{ 
 		super.width = value; 
+		
 		// Update scroll pane
 		update();
 		draw();
@@ -360,11 +362,17 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 	* Return the width of the ScrollPane
 	*/
 	
-	override private function get_width() : Float { return super.width; }
+	
+	override private function get_width() : Float 
+	{ 
+		return super.width;
+		
+	}
 	
 	/**
 	* Set the ScrollPane height
 	*/ 
+	
 	override private function set_height(value : Float) : Float 
 	{
 		super.height = value;  
@@ -382,12 +390,16 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 	*
 	* @return Return the height of the ScrollPane
 	*/ 
-	override private function get_height() : Float { return super.height; }
+	
+	override private function get_height() : Float 
+	{
+		return super.height;
+	}
 		
 	/**
 	* Set if the ScrollPane is enabled
 	*/
-	override private function set_enabled(value : Bool) : Bool
+	override private function set_enabled( value : Bool) : Bool
 	{
 		_scrollBarH.enabled = _scrollBarV.enabled = super.enabled = value;
         return value;

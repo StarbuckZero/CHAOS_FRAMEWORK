@@ -238,8 +238,8 @@ class Button extends Overlay implements IButton implements IOverlay implements I
     private var _useMask : Bool = false;
     
     //private var _buttonBevelFilter : BevelFilter = new BevelFilter(BEVEL_DISTANCE, BEVEL_ANGLE, BEVEL_HIGHLIGHT_COLOR, BEVEL_HIGHLIGHT_ALPHA, BEVEL_SHADOW_COLOR, BEVEL_SHADOW_ALPHA, BEVEL_SHADOW_BLUR_X, BEVEL_SHADOW_BLUR_Y, BEVEL_SHADOW_STRENGTH, BEVEL_SHADOW_QUALITY, BEVEL_TYPE, BEVEL_SHADOW_KNOCKOUT);
-    private var _buttonGlowFilter1 : GlowFilter = new GlowFilter(0xFFFFFF, 1, 36, 36, 2, 1, false, true);
-    private var _buttonGlowFilter2 : GlowFilter = new GlowFilter(0, 1, 14, 14, 2, 1, false, true);
+    private var _buttonGlowFilter1 : GlowFilter = new GlowFilter(0xFFFFFF, .8, 10, 10, 2, 1, true, false);
+    private var _buttonGlowFilter2 : GlowFilter = new GlowFilter(0, .5, 6, 6, 2, 1, true, false);
 	
     private var _shadowTextFilterDefault : DropShadowFilter = new DropShadowFilter(NORMAL_STATE_SHADOW_DISTANCE, NORMAL_STATE_SHADOW_ANGLE, NORMAL_STATE_SHADOW_COLOR, NORMAL_STATE_SHADOW_ALPHA, NORMAL_STATE_SHADOW_BLUR_X, NORMAL_STATE_SHADOW_BLUR_Y, NORMAL_STATE_SHADOW_STRENGTH, NORMAL_STATE_SHADOW_QUALITY);
     private var _shadowTextFilterOver : DropShadowFilter = new DropShadowFilter(HIGHLIGHT_STATE_SHADOW_DISTANCE, HIGHLIGHT_STATE_SHADOW_ANGLE, HIGHLIGHT_STATE_SHADOW_COLOR, HIGHLIGHT_STATE_SHADOW_ALPHA, HIGHLIGHT_STATE_SHADOW_BLUR_X, HIGHLIGHT_STATE_SHADOW_BLUR_Y, HIGHLIGHT_STATE_SHADOW_STRENGTH, HIGHLIGHT_STATE_SHADOW_QUALITY);
@@ -1204,14 +1204,11 @@ class Button extends Overlay implements IButton implements IOverlay implements I
 		buttonFilters.push(_buttonGlowFilter1);
 		buttonFilters.push(_buttonGlowFilter2);
         
+		
         if (_filterMode) 
-        {
             this.filters = buttonFilters;
-        }
         else 
-        {
             this.filters = new Array<BitmapFilter>();
-        }  
 		
 		// Remove old one if there  
         if (null != baseNormal && null != baseNormal.parent) 
@@ -1227,44 +1224,46 @@ class Button extends Overlay implements IButton implements IOverlay implements I
             baseDisable.parent.removeChild(baseDisable);
 			
 		// Figure to use bitmap or normal mode
-        if (_bgShowImage) 
-        {
-            // Create an image that will be scaled later on else draw a shape that will
-			
-			
-            // Normal
-            if (null != _backgroundImage.image) 
-                baseNormal = Draw.SquareRound(Std.int(_backgroundImage.image.width), Std.int(_backgroundImage.image.height), _buttonNormalColor,_roundEdge, _bgAlpha, true, _bgSmoothImage, _backgroundImage.image.bitmapData, tileMiddleImage)
-            else 
-				baseNormal = Draw.SquareRound(Std.int(_width), Std.int(_height), _buttonNormalColor, _roundEdge, _bgAlpha, true, _bgSmoothImage);
-            
-            // Over
-            if (null != _backgroundOverImage.image) 
-                baseOver = Draw.SquareRound(Std.int(_backgroundOverImage.image.width), Std.int(_backgroundOverImage.image.height), _buttonOverColor, _roundEdge, _bgAlpha, true, _bgSmoothImage, _backgroundOverImage.image.bitmapData, tileMiddleImage)
-            else 
-				baseOver = Draw.SquareRound(Std.int(_width), Std.int(_height), _buttonOverColor, _roundEdge, _bgAlpha, true, _bgSmoothImage);
-            
-            // Down
-            if (null != _backgroundDownImage.image) 
-                baseDown = Draw.SquareRound(Std.int(_backgroundDownImage.image.width), Std.int(_backgroundDownImage.image.height), _buttonDownColor, _roundEdge, _bgAlpha, true, _bgSmoothImage, _backgroundDownImage.image.bitmapData, tileMiddleImage)
-            else 
-				baseDown = Draw.SquareRound(Std.int(_width), Std.int(_height), _buttonDownColor, _roundEdge, _bgAlpha, true, _bgSmoothImage);
-            
-            // Disable
-            if (null != _backgroundDisableImage.image) 
-                baseDisable = Draw.SquareRound(Std.int(_backgroundDisableImage.image.width), Std.int(_backgroundDisableImage.image.height), _buttonDisableColor, _roundEdge, _bgAlpha, true, _bgSmoothImage, _backgroundDisableImage.image.bitmapData, tileMiddleImage)
-            else 
-				baseDisable = Draw.SquareRound(Std.int(_width), Std.int(_height), _buttonDisableColor, _roundEdge, _bgAlpha, true, _bgSmoothImage);
-        }
-        else 
-        {
-            baseNormal = Draw.SquareRound(Std.int(_width), Std.int(_height), _buttonNormalColor,_roundEdge, _bgAlpha, true, _bgSmoothImage);
-            baseOver = Draw.SquareRound(Std.int(_width), Std.int(_height), _buttonOverColor, _roundEdge, _bgAlpha, true, _bgSmoothImage);
-            baseDown = Draw.SquareRound(Std.int(_width), Std.int(_height), _buttonDownColor, _roundEdge, _bgAlpha, true, _bgSmoothImage);
-            baseDisable = Draw.SquareRound(Std.int(_width), Std.int(_height), _buttonDisableColor, _roundEdge, _bgAlpha, true, _bgSmoothImage);
-        }  
-        
-        
+	
+		
+			if (_bgShowImage) 
+			{
+				// Create an image that will be scaled later on else draw a shape that will
+				
+				
+				// Normal
+				if (null != _backgroundImage.image) 
+					baseNormal = Draw.SquareRound(Std.int(_backgroundImage.image.width), Std.int(_backgroundImage.image.height), _buttonNormalColor,_roundEdge, _bgAlpha, true , _bgSmoothImage, _backgroundImage.image.bitmapData, tileMiddleImage)
+				else 
+					baseNormal = Draw.SquareRound(Std.int(width), Std.int(height), _buttonNormalColor, _roundEdge, _bgAlpha, false, _bgSmoothImage);
+				
+				// Over
+				if (null != _backgroundOverImage.image) 
+					baseOver = Draw.SquareRound(Std.int(_backgroundOverImage.image.width), Std.int(_backgroundOverImage.image.height), _buttonOverColor, _roundEdge, _bgAlpha, false, _bgSmoothImage, _backgroundOverImage.image.bitmapData, tileMiddleImage)
+				else 
+					baseOver = Draw.SquareRound(Std.int(width), Std.int(height), _buttonOverColor, _roundEdge, _bgAlpha, false, _bgSmoothImage);
+				
+				// Down
+				if (null != _backgroundDownImage.image) 
+					baseDown = Draw.SquareRound(Std.int(_backgroundDownImage.image.width), Std.int(_backgroundDownImage.image.height), _buttonDownColor, _roundEdge, _bgAlpha, true, _bgSmoothImage, _backgroundDownImage.image.bitmapData, tileMiddleImage)
+				else 
+					baseDown = Draw.SquareRound(Std.int(width), Std.int(height), _buttonDownColor, _roundEdge, _bgAlpha, false, _bgSmoothImage);
+				
+				// Disable
+				if (null != _backgroundDisableImage.image) 
+					baseDisable = Draw.SquareRound(Std.int(_backgroundDisableImage.image.width), Std.int(_backgroundDisableImage.image.height), _buttonDisableColor, _roundEdge, _bgAlpha, true, _bgSmoothImage, _backgroundDisableImage.image.bitmapData, tileMiddleImage)
+				else 
+					baseDisable = Draw.SquareRound(Std.int(width), Std.int(height), _buttonDisableColor, _roundEdge, _bgAlpha, false, _bgSmoothImage);
+			}
+			else 
+			{
+				baseNormal = Draw.SquareRound(Std.int(width), Std.int(height), _buttonNormalColor,0, _bgAlpha, true, _bgSmoothImage);
+				baseOver = Draw.SquareRound(Std.int(width), Std.int(height), _buttonOverColor, 0, _bgAlpha, true, _bgSmoothImage);
+				baseDown = Draw.SquareRound(Std.int(width), Std.int(height), _buttonDownColor, 0, _bgAlpha, true, _bgSmoothImage);
+				baseDisable = Draw.SquareRound(Std.int(width), Std.int(height), _buttonDisableColor, 0, _bgAlpha, true, _bgSmoothImage);
+			} 		
+		
+       
         // Remove old one if there  
         if (null != _shapeMask && null != _shapeMask.parent) 
         {
@@ -1278,8 +1277,6 @@ class Button extends Overlay implements IButton implements IOverlay implements I
         // Apply mask only if edge is higher than 0  
         if (_roundEdge > 0) 
         {
-			
-			
             // Draw new shape
             _shapeMask = Draw.SquareRound(Std.int(width) , Std.int(height), 0, _roundEdge, 1, false);
 			
@@ -1287,14 +1284,13 @@ class Button extends Overlay implements IButton implements IOverlay implements I
             this.mask = _shapeMask;
             
             addChild(_shapeMask);
-			
         }  
-        
+       
         
         // Resize all items  
-        baseDisable.width = baseDown.width = baseOver.width = baseNormal.width = width;
+        baseDisable.width = baseDown.width = baseOver.width = baseNormal.width = _width;
         baseDisable.height = baseDown.height = baseOver.height = baseNormal.height = height;
-        
+		
         // Set label and style
         _buttonLabel.align = _buttonTextAlign;
         _buttonLabel.textFormat.italic = _buttonTextItalic;
@@ -1330,7 +1326,7 @@ class Button extends Overlay implements IButton implements IOverlay implements I
         {
             
             // Set location of text
-            _buttonLabel.width = width - _iconArea.width - UIStyleManager.BUTTON_TEXT_OFFSET_X;
+            _buttonLabel.width = _width - _iconArea.width - UIStyleManager.BUTTON_TEXT_OFFSET_X;
             _buttonLabel.x = _iconArea.width + UIStyleManager.BUTTON_TEXT_OFFSET_X;
             _buttonLabel.y = (height / 2) - (_buttonLabel.height / 2) + UIStyleManager.BUTTON_TEXT_OFFSET_Y;
             
@@ -1344,7 +1340,7 @@ class Button extends Overlay implements IButton implements IOverlay implements I
         {
             
             // Set location of icon
-            if (_iconArea.width < width) 
+            if (_iconArea.width < _width) 
                 _iconArea.x = (width / 2) - (_iconArea.width / 2);
             
             if (_iconArea.height < height) 
@@ -1359,7 +1355,7 @@ class Button extends Overlay implements IButton implements IOverlay implements I
             _buttonLabel.y = (height / 2) - (_buttonLabel.height / 2) + UIStyleManager.BUTTON_TEXT_OFFSET_Y;
         }
         
-        
+        trace(width);
         
         baseNormal.visible = true;
         baseOver.visible = baseDown.visible = baseDisable.visible = false;

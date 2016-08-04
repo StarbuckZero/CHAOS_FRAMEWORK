@@ -531,6 +531,7 @@ class TabPane extends ScrollPane implements ITabPane implements IScrollPane impl
 			button.buttonDisableColor = _tabButtonDisableColor;
 			
 			
+			
 			if (null != _tabButtonNormalImage.image)          
 			button.setBackgroundBitmap(_tabButtonNormalImage.image);
 			
@@ -568,7 +569,7 @@ class TabPane extends ScrollPane implements ITabPane implements IScrollPane impl
 		// Load in content
 		if (_contentList.length > 0 && _contentList.getItemAt(_selectedIndex).content != null)
 		{
-			_contentList.getItemAt(_selectedIndex).button.enabled = false;
+			cast(_contentList.getItemAt(_selectedIndex).button,Button).enabled = false;
 			contentLoad(_contentList.getItemAt(_selectedIndex).content);
         }
 		

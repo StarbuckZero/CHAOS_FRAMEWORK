@@ -113,7 +113,7 @@ class Overlay extends BaseUI implements IOverlay
 	 * @inheritDoc
 	 */
 	
-    #if flash @:getter(width) #else override #end
+    #if !flash override #end
     private function get_width() : Float
     {
         return _width;
@@ -122,7 +122,8 @@ class Overlay extends BaseUI implements IOverlay
     /**
 	 * @inheritDoc
 	 */
-    #if flash @:getter(width) #else override #end
+	
+    #if !flash override #end
     private function set_width(value : Float) : Float
     {
         _width = value;
@@ -133,7 +134,8 @@ class Overlay extends BaseUI implements IOverlay
     /**
 	 * @inheritDoc
 	 */
-    #if flash @:getter(width) #else override #end
+	
+    #if !flash override #end
     private function get_height() : Float
     {
         return _height;
@@ -142,7 +144,8 @@ class Overlay extends BaseUI implements IOverlay
     /**
 	 * @inheritDoc
 	 */
-    #if flash @:getter(width) #else override #end
+	
+    #if !flash override #end
     private function set_height(value : Float) : Float
     {
         _height = value;

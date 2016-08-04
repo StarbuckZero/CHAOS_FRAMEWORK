@@ -232,7 +232,15 @@ class ScrollBar extends Slider implements IScrollBar implements ISlider
 	 * @param value Set the scrollbar width
 	 *
 	 */
-	override private function set_width(value : Float) : Float { _width = value; draw(); return value; }
+	
+	
+	override private function set_width(value : Float) : Float 
+	{ 
+		_width = value;
+		draw();
+		
+		return value;
+	}
 	
 	
 	/**
@@ -240,14 +248,22 @@ class ScrollBar extends Slider implements IScrollBar implements ISlider
 	 * @return Return the width of the scrollbar
 	 */
 	
-	override private function get_width() : Float { return _width; }
-		 
+	
+	
+	override private function get_width() : Float 
+	{
+		return _width;
+	
+	}
+
 	/**
 	 * The height of the scrollbar
 	 *
 	 * @param value Set the scrollbar height
 	 *
 	 */ 
+	
+	
 	
 	override private function set_height(value : Float) : Float 
 	{
@@ -263,8 +279,13 @@ class ScrollBar extends Slider implements IScrollBar implements ISlider
 	 * @return Return the height of the scrollbar
 	 */
 	
-	override private function get_height() : Float { return _height; } 
-	 
+	
+	
+	override private function get_height() : Float 
+	{
+		return _height; 
+	} 
+	
 	
 	/**
 	 * Remove all roll over and roll out effects while setting the scrollbar to it's disable state

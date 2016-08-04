@@ -359,16 +359,19 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
         addEventListener(Event.REMOVED_FROM_STAGE, onStageRemove, false, 0, true);
     }
     
+	
     override private function set_width(value : Float) : Float
     {
         super.width = buttonArea.width = value;
         return value;
     }
     
+	
     override private function get_width() : Float
     {
         return super.width;
     }
+	
     
     override private function set_height(value : Float) : Float
     {
@@ -376,7 +379,8 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
         return value;
     }
     
-    override private function get_height() : Float
+	
+   override private function get_height() : Float
     {
         return super.height;
     }

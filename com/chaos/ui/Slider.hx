@@ -231,7 +231,8 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 	{
 		return _eventMode;
     }
-	#if flash @:getter(width) #else override #end
+	
+	#if !flash override #end
 	private function set_width(value : Float) : Float
 	{
 		trackWidthNum = value;
@@ -239,18 +240,20 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 		
         return value;
     }
-	#if flash @:getter(width) #else override #end
+	#if !flash override #end
 	private function get_width() : Float
 	{
 		return trackWidthNum;
     }
-	#if flash @:getter(width) #else override #end
+	
+	#if !flash override #end
 	private function set_height(value : Float) : Float 
 	{
 		trackHeightNum = value;draw();
         return value;
     }
-	#if flash @:getter(width) #else override #end
+	
+	#if !flash override #end
 	private function get_height() : Float
 	{
 		return trackHeightNum;

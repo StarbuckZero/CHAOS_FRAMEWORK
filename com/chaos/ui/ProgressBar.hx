@@ -245,7 +245,8 @@ import com.chaos.ui.UIBitmapManager;
 	 * @param value Set the width of the ProgressBar
 	 *
 	 */
-	#if flash @:getter(width) #else override #end
+	
+	#if !flash override #end
 	private function set_width(value : Float) : Float 
 	{ 
 		_width = value;
@@ -258,8 +259,12 @@ import com.chaos.ui.UIBitmapManager;
 	 *
 	 * @return Returns the width
 	 */
-	#if flash @:getter(width) #else override #end
-	private function get_width() : Float { return _width; }
+	
+	#if !flash override #end
+	private function get_width() : Float 
+	{
+		return _width;
+	}
 	
 	
 	/**
@@ -268,7 +273,8 @@ import com.chaos.ui.UIBitmapManager;
 	 * @param value Set the height of the list
 	 *
 	 */
-	#if flash @:getter(width) #else override #end
+	
+	#if !flash override #end
 	private function set_height(value : Float) : Float 
 	{
 		_height = value; 
@@ -282,7 +288,8 @@ import com.chaos.ui.UIBitmapManager;
 	 *
 	 * @return Returns the height
 	 */
-	#if flash @:getter(width) #else override #end
+	
+	#if !flash override #end
 	private function get_height() : Float { return _height; }
 		
 	
