@@ -109,50 +109,69 @@ class Overlay extends BaseUI implements IOverlay
         addChild(bottomRightPattern);
     }
     
+    
     /**
 	 * @inheritDoc
 	 */
 	
-    #if !flash override #end
+    #if flash @:setter(width) 
+    private function set_width(value : Float) : Void
+    {
+        _width = value;
+        draw();
+		
+    }
+	#else
+	override private function set_width(value : Float) : Float
+	{
+        _width = value;
+        draw();
+		
+		return value;
+	}
+	#end
+	
+    /**
+	 * @inheritDoc
+	 */
+	
+    #if flash @:getter(width) #else override #end
     private function get_width() : Float
     {
         return _width;
     }
+	
     
     /**
 	 * @inheritDoc
 	 */
 	
-    #if !flash override #end
-    private function set_width(value : Float) : Float
+    #if flash @:setter(height)
+    private function set_height(value : Float) : Void
     {
-        _width = value;
+        _height = value;
         draw();
-        return value;
     }
-    
-    /**
-	 * @inheritDoc
-	 */
-	
-    #if !flash override #end
-    private function get_height() : Float
-    {
-        return _height;
-    }
-    
-    /**
-	 * @inheritDoc
-	 */
-	
-    #if !flash override #end
-    private function set_height(value : Float) : Float
+	#else  
+    override private function set_height(value : Float) : Float
     {
         _height = value;
         draw();
 		
         return value;
+    }	
+	#end
+	
+    /**
+	 * @inheritDoc
+	 */
+	
+    #if flash @:getter(height) #else override #end
+    private function get_height() : Float
+    {
+        return _height;
     }
+	
     
     /**
 	 * If you want to scale or just title the top center image

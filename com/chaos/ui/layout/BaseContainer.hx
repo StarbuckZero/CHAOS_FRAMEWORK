@@ -20,6 +20,7 @@ import openfl.events.Event;
 
 class BaseContainer extends BaseUI implements IBaseContainer implements IBaseUI
 {
+	
     public var content(get, never) : DisplayObject;
     public var showImage(get, set) : Bool;
     public var imageSmoothing(get, set) : Bool;
@@ -52,6 +53,7 @@ class BaseContainer extends BaseUI implements IBaseContainer implements IBaseUI
     public function new(baseWidth : Int = 400, baseHeight : Int = 300)
     {
         super();
+		
         _width = baseWidth;
         _height = baseHeight;
         
@@ -66,36 +68,75 @@ class BaseContainer extends BaseUI implements IBaseContainer implements IBaseUI
         addChild(contentHolder);
         
         draw();
+		
     }
 	
-    #if !flash override #end
-    private function set_width(value : Float) : Float
+    /**
+	 * @inheritDoc
+	 */
+	
+    #if flash @:setter(width) 
+    private function set_width(value : Float) : Void
     {
         _width = value;
         draw();
-        return value;
     }
+	#else
+	override private function set_width(value : Float) : Float
+	{
+        _width = value;
+        draw();
+		
+		return value;
+	}
+	#end
 	
-    #if !flash override #end
-    private function get_width() : Float
-    {
-        return _width;
-    }
+	#if flash @:getter(width) 
+	private function get_width():Float 
+	{
+		return _width;
+	}
+	#else
+	override private function get_width():Float 
+	{
+		return _width;
+	}
+	#end
+	
     
-	#if !flash override #end
-    private function set_height(value : Float) : Float
+    /**
+	 * @inheritDoc
+	 */
+	
+    #if flash @:setter(height)
+    private function set_height(value : Float) : Void
     {
         _height = value;
         draw();
-        return value;
     }
+	#else  
+    override private function set_height(value : Float) : Float
+    {
+        _height = value;
+        draw();
+		
+        return value;
+    }	
+	#end
+    
 	
-    #if !flash override #end
-    private function get_height() : Float
+	#if flash @:getter(height)
+	private function get_height():Float 
+	{
+		return _height;
+	}
+	#else  
+    override private function get_height() : Float
     {
         return _height;
-    }
-    
+    }	
+	#end	
+	
     /**
 	 * The content layer
 	 */

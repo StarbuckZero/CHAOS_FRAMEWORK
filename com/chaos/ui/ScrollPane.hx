@@ -194,6 +194,7 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 	{
 		super.backgroundColor = value;
 		draw();
+		
 		return value;
 	} 
 		
@@ -339,43 +340,62 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 	* Returns the boarder alpha 
 	*/
 	
-	private function get_borderAlpha() : Float { return _borderAlpha; }
+	private function get_borderAlpha() : Float 
+	{
+		return _borderAlpha; 
+	}
 	
 	
 	/**
 	* Set the ScrollPane width
 	*/  
 	
-	override private function set_width(value : Float) : Float 
-	{ 
-		super.width = value; 
+	
+    /**
+	 * @inheritDoc
+	 */
+	
+    #if flash @:setter(width) 
+    override private function set_width(value : Float) : Void
+    {
+		
+        _width = value;
+        draw();
+		
+		update();
+    }
+	#else
+	override private function set_width(value : Float) : Float
+	{
+        _width = value;
+        draw();
 		
 		// Update scroll pane
 		update();
-		draw();
 		
 		return value;
 	}
+	#end
 	
-	
-	/**
-	* Return the width of the ScrollPane
-	*/
-	
-	
-	override private function get_width() : Float 
-	{ 
-		return super.width;
-		
-	}
 	
 	/**
 	* Set the ScrollPane height
 	*/ 
-	
+	#if flash @:setter(height) 
+	override private function set_height(value : Float) : Void 
+	{
+		
+		_height = value;  
+		
+		// Update scroll pane
+		update();
+		
+		draw();
+	}
+	#else
 	override private function set_height(value : Float) : Float 
 	{
-		super.height = value;  
+		_height = value;  
 		
 		// Update scroll pane
 		update();
@@ -384,18 +404,9 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 		
 		return value;
 		
-	}
-		
-	/**
-	*
-	* @return Return the height of the ScrollPane
-	*/ 
-	
-	override private function get_height() : Float 
-	{
-		return super.height;
-	}
-		
+	}	
+	#end
+
 	/**
 	* Set if the ScrollPane is enabled
 	*/
@@ -542,8 +553,8 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 	public function update() : Void 
 	{ 
 		// Scroll rect for width and height of the content area
-		_scrollRectH = new Rectangle(UIStyleManager.SCROLLPANE_CONTENT_OFFSET_X, UIStyleManager.SCROLLPANE_CONTENT_OFFSET_Y, width, height - shapeBlock.height);
-		_scrollRectV = new Rectangle(UIStyleManager.SCROLLPANE_CONTENT_OFFSET_X, UIStyleManager.SCROLLPANE_CONTENT_OFFSET_Y, width, height - shapeBlock.height);
+		_scrollRectH = new Rectangle(UIStyleManager.SCROLLPANE_CONTENT_OFFSET_X, UIStyleManager.SCROLLPANE_CONTENT_OFFSET_Y, _width, _height - shapeBlock.height);
+		_scrollRectV = new Rectangle(UIStyleManager.SCROLLPANE_CONTENT_OFFSET_X, UIStyleManager.SCROLLPANE_CONTENT_OFFSET_Y, _width, _height - shapeBlock.height);
 		
 		contentObject.scrollRect = null;
 		
@@ -572,7 +583,6 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 	{  
 		// Draw background image
 		super.draw();
-		
 		if (null == _outline || null == shapeBlock)
 		return;
 		
@@ -596,7 +606,7 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 		if (_border) 
 		{
 			_outline.graphics.lineStyle(_thinkness, _borderColor, _borderAlpha);
-			_outline.graphics.drawRect(0, 0, super.width, super.height);
+			_outline.graphics.drawRect(0, 0, _width, _height);
         }
 		
     }
@@ -1077,12 +1087,12 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 				shapeBlock.visible = true;
 				
 				// Set the size of the scrollbars
-				_scrollBarH.width =  (width - shapeBlock.width) - UIStyleManager.SCROLLPANE_CONTENT_WIDTH_OFFSET;
-				_scrollBarV.height = (height - shapeBlock.height) - UIStyleManager.SCROLLPANE_CONTENT_HEIGHT_OFFSET;
+				_scrollBarH.width =  (_width - shapeBlock.width) - UIStyleManager.SCROLLPANE_CONTENT_WIDTH_OFFSET;
+				_scrollBarV.height = (_height - shapeBlock.height) - UIStyleManager.SCROLLPANE_CONTENT_HEIGHT_OFFSET;
 				
 				
 				// Check to see width of the content loaded width greather 
-				if(_contentSizeBox.width > super.width)
+				if(_contentSizeBox.width > _width)
 				{
 					_scrollBarH.visible = true;
 				}
@@ -1093,7 +1103,7 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 				}
 				
 				// Check to see height of the content loaded width greather 
-				if(_contentSizeBox.height > super.height)
+				if(_contentSizeBox.height > _height)
 				{
 					_scrollBarV.visible = true;
 					
@@ -1118,14 +1128,9 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 				{
 					// If Hoz is the only one being displayed
 					if (_scrollBarH.visible && !_scrollBarV.visible)
-					{
-						_scrollBarH.width = width - UIStyleManager.SCROLLPANE_CONTENT_WIDTH_OFFSET;	
-					}
-					// If Vert is the only one being displayed
-					else if (!_scrollBarH.visible && _scrollBarV.visible)
-					{
-						_scrollBarV.height = height - UIStyleManager.SCROLLPANE_CONTENT_HEIGHT_OFFSET;
-					}
+						_scrollBarH.width = _width - UIStyleManager.SCROLLPANE_CONTENT_WIDTH_OFFSET;	
+					else if (!_scrollBarH.visible && _scrollBarV.visible) // If Vert is the only one being displayed
+						_scrollBarV.height = _height - UIStyleManager.SCROLLPANE_CONTENT_HEIGHT_OFFSET;
 					
 					// Move to a safe place
 					shapeBlock.x =  shapeBlock.y = 0;
@@ -1135,14 +1140,14 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 			else if(value == ScrollPolicy.ON)
 			{
 				
-				_scrollBarH.width =  (width - shapeBlock.width) - UIStyleManager.SCROLLPANE_CONTENT_WIDTH_OFFSET;
-				_scrollBarV.height = (height - shapeBlock.height) - UIStyleManager.SCROLLPANE_CONTENT_HEIGHT_OFFSET;
+				_scrollBarH.width =  (_width - shapeBlock.width) - UIStyleManager.SCROLLPANE_CONTENT_WIDTH_OFFSET;
+				_scrollBarV.height = (_height - shapeBlock.height) - UIStyleManager.SCROLLPANE_CONTENT_HEIGHT_OFFSET;
 				
 				_scrollBarH.visible = (contentObject.numChildren == 0) ? false : true;
 				_scrollBarV.visible = (contentObject.numChildren == 0) ? false : true;
 				
 				// Check to see width of the content loaded width greather 
-				if(_contentSizeBox.width > super.width)
+				if(_contentSizeBox.width > _width)
 				{
 					_scrollBarH.enabled = true;
 				}
@@ -1152,7 +1157,7 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 				}
 				
 				// Check to see height of the s loaded width greather 
-				if(_contentSizeBox.height > super.height)
+				if(_contentSizeBox.height > _height)
 				{
 					_scrollBarV.enabled = true;
 				}
@@ -1169,10 +1174,10 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 				_scrollBarV.visible = true;
 				shapeBlock.visible = false;
 				
-				_scrollBarV.height = height + UIStyleManager.SCROLLPANE_CONTENT_WIDTH_OFFSET;
+				_scrollBarV.height = _height + UIStyleManager.SCROLLPANE_CONTENT_WIDTH_OFFSET;
 				
 				// Check to see height of the s loaded width greather 
-				if(_contentSizeBox.height > height)
+				if(_contentSizeBox.height > _height)
 				{
 					_scrollBarV.enabled = true;
 				}
@@ -1187,10 +1192,10 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 				_scrollBarH.visible = true;
 				shapeBlock.visible = false;
 				
-				_scrollBarH.width = width + UIStyleManager.SCROLLPANE_CONTENT_WIDTH_OFFSET;
+				_scrollBarH.width = _width + UIStyleManager.SCROLLPANE_CONTENT_WIDTH_OFFSET;
 				
 				// Check to see width of the content loaded width greather 
-				if(_contentSizeBox.width > super.width)
+				if(_contentSizeBox.width > _width)
 				{
 					_scrollBarH.enabled = true;
 				}

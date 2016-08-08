@@ -359,31 +359,32 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
         addEventListener(Event.REMOVED_FROM_STAGE, onStageRemove, false, 0, true);
     }
     
-	
+	#if flash @:setter(width) 
+    override private function set_width(value : Float) : Void
+    {
+        super.width = buttonArea.width = value;
+    }
+    #else
     override private function set_width(value : Float) : Float
     {
         super.width = buttonArea.width = value;
         return value;
     }
-    
+	#end
 	
-    override private function get_width() : Float
+	#if flash @:setter(width) 
+    override private function set_height(value : Float) : Void
     {
-        return super.width;
+        super.height = buttonArea.height = value;
     }
-	
-    
+	#else
     override private function set_height(value : Float) : Float
     {
         super.height = buttonArea.height = value;
         return value;
-    }
-    
+    }	
+    #end
 	
-   override private function get_height() : Float
-    {
-        return super.height;
-    }
     
     /**
 	 * Return a container with the menu top level buttons

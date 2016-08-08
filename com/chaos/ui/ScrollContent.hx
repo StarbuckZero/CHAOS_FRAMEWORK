@@ -98,7 +98,8 @@ class ScrollContent
 	{
 		// Set location of scrollbar  
 		if (ScrollBarDirection.VERTICAL == _scrollbar.direction) 
-		{  // If text field then resize
+		{ 
+			// If text field then resize
 			if (_textMode)
 			_content.width = contentWidth - _scrollbar.width;
 			
@@ -116,14 +117,11 @@ class ScrollContent
 			if (_sliderResize) 
 			{
 				if (barSizeHeight >= _sliderSize) 
-				{
 					_scrollbar.sliderSize = barSizeHeight;
-                }
                 else 
-				{
 					_scrollbar.sliderSize = _sliderSize;
-                }
             }
+			
         }
 		
         else 
@@ -131,13 +129,9 @@ class ScrollContent
 			_scrollbar.x = _content.x;
 			
 			if (_content.scrollRect != null && !_textMode) 
-			{
 				_scrollbar.y = (_content.scrollRect.y + _content.scrollRect.height);
-            }
             else 
-			{
 				_scrollbar.y = (_content.y + _content.height);
-            }
 			
 			_scrollbar.width = ((_textMode)) ? _content.width : _content.scrollRect.width;
 			
@@ -152,13 +146,9 @@ class ScrollContent
 			if (_sliderResize) 
 			{
 				if (barSizeWidth >= _sliderSize) 
-				{
 					_scrollbar.sliderSize = barSizeWidth;
-                }
                 else 
-				{
 					_scrollbar.sliderSize = _sliderSize;
-                }
             }
         }
 		
@@ -166,55 +156,55 @@ class ScrollContent
     }
 	
 	/**
-		* Links a DisplayObject
-		* 
-		* @param clip The DisplayObject or MovieClip
-		* @param scroller The scrollbar that will be attached to the object being passed in
-		* @param scrollRect The size of the area that will be used. Don't pass anything if using in text field
-		* 
-		* @see openfl.display.DisplayObject
-		* @see com.chaos.ui.ScrollBar
-		* @see openfl.geom.Rectangle
-		*/
-		public function attachContent(clip : DisplayObject, scroller : IScrollBar, scrollRect : Rectangle = null) : Void
+	* Links a DisplayObject
+	* 
+	* @param clip The DisplayObject or MovieClip
+	* @param scroller The scrollbar that will be attached to the object being passed in
+	* @param scrollRect The size of the area that will be used. Don't pass anything if using in text field
+	* 
+	* @see openfl.display.DisplayObject
+	* @see com.chaos.ui.ScrollBar
+	* @see openfl.geom.Rectangle
+	*/
+	public function attachContent(clip : DisplayObject, scroller : IScrollBar, scrollRect : Rectangle = null) : Void
+	{
+		// Check to see if text field  
+		if (Std.is(clip, TextField)) 
 		{
-			// Check to see if text field  
-			if (Std.is(clip, TextField)) 
-			{
-				_textMode = true;
-			}
-			else if (Std.is(clip, DisplayObject)) // Setup ScrollBar
-			{
-				
-				// If no scrollRect was passed in then create one 
-				if (null == scrollRect) 
-				scrollRect = new Rectangle(0, 0, clip.width, clip.height);
-				
-				_textMode = false;
-			}
-			else 
-			{
-				trace("Pass in a TextField or some form of an DisplayObject");
-				return;
-			}
+			_textMode = true;
+		}
+		else if (Std.is(clip, DisplayObject)) // Setup ScrollBar
+		{
+			
+			// If no scrollRect was passed in then create one 
+			if (null == scrollRect) 
+			scrollRect = new Rectangle(0, 0, clip.width, clip.height);
+			
+			_textMode = false;
+		}
+		else 
+		{
+			trace("Pass in a TextField or some form of an DisplayObject");
+			return;
+		}
 		
 		_scrollbar = scroller;
 		_scrollbar.addEventListener(SliderEvent.CHANGE, updateContent, false, 0, false);
 		
 		// Setup Content Area 
-		_content = clip; contentHeight = _content.height; contentWidth = _content.width;
+		_content = clip;
+		
+		contentHeight = _content.height;
+		contentWidth = _content.width;
+		
 		_scrollRect = scrollRect;
 		
 		if (!_textMode && scrollRect != null) 
 		{
 			if (ScrollBarDirection.VERTICAL == scroller.direction) 
-			{
 				_content.scrollRect = new Rectangle(scrollRect.x, scrollRect.y, scrollRect.width, scrollRect.height + scroller.buttonHeight);
-            }
             else 
-			{
 				_content.scrollRect = new Rectangle(scrollRect.x, scrollRect.y, scrollRect.width + scroller.buttonWidth, scrollRect.height);
-            }
 			
         }
 		
@@ -261,6 +251,7 @@ class ScrollContent
 		
 		// Set flag back so content doesn't udpate
 		_active = false;
+		
 		contentWidth = 0;
 		contentHeight = 0;
 		
@@ -285,13 +276,9 @@ class ScrollContent
 		if (!_textMode) 
 		{
 			if (ScrollBarDirection.VERTICAL == _scrollbar.direction) 
-			{
 				_content.scrollRect = new Rectangle(_scrollRect.x, _scrollRect.y, _scrollRect.width, _scrollRect.height + _scrollbar.buttonHeight);
-            }
             else 
-			{
 				_content.scrollRect = new Rectangle(_scrollRect.x, _scrollRect.y, _scrollRect.width + _scrollbar.buttonWidth, _scrollRect.height);
-            }
         }
     }
 	
@@ -301,13 +288,9 @@ class ScrollContent
 		if (_textMode) 
 		{
 			if (ScrollBarDirection.VERTICAL == _scrollbar.direction) 
-			{
 				cast(_content, TextField).scrollV = Std.int(cast(_content, TextField).maxScrollV * Std.int(event.percent));
-            }
             else 
-			{
 				cast(_content, TextField).scrollH = Std.int(cast(_content, TextField).maxScrollH * Std.int(event.percent));
-            }
         }
         else 
 		{

@@ -65,8 +65,6 @@ class ScrollBar extends Slider implements IScrollBar implements ISlider
     {
 		super();
 		
-		//init();
-		
 		addEventListener(Event.ADDED_TO_STAGE, onStageAdd, false, 0, true);
 		addEventListener(Event.REMOVED_FROM_STAGE, onStageRemove, false, 0, true);
     }
@@ -216,14 +214,22 @@ class ScrollBar extends Slider implements IScrollBar implements ISlider
 	 * The amount in percent wise to when it comes to scroll amount
 	 */
 	
-	private function set_scrollAmount(value : Float) : Float { _scrollAmount = value; return value; }
+	private function set_scrollAmount(value : Float) : Float 
+	{ 
+		_scrollAmount = value;
+		
+		return value; 
+	}
 	
 	
 	/**
 	 * Return the scroll amount
 	 */
 	
-	private function get_scrollAmount() : Float { return _scrollAmount; } 
+	private function get_scrollAmount() : Float 
+	{ 
+		return _scrollAmount; 
+	} 
 	
 	
 	/**
@@ -233,14 +239,21 @@ class ScrollBar extends Slider implements IScrollBar implements ISlider
 	 *
 	 */
 	
-	
-	override private function set_width(value : Float) : Float 
+	#if flash @:setter(width)
+	override private function set_width(value : Float) : Void 
 	{ 
+		_width = value;
+		draw();
+	}
+	#else
+	override private function set_width(value : Float) : Float 
+	{
 		_width = value;
 		draw();
 		
 		return value;
 	}
+	#end
 	
 	
 	/**
@@ -248,14 +261,18 @@ class ScrollBar extends Slider implements IScrollBar implements ISlider
 	 * @return Return the width of the scrollbar
 	 */
 	
-	
-	
+	#if flash @:getter(width)
 	override private function get_width() : Float 
 	{
 		return _width;
-	
 	}
-
+	#else
+	override private function get_width() : Float 
+	{
+		return _width;
+	}
+	#end
+	
 	/**
 	 * The height of the scrollbar
 	 *
@@ -264,7 +281,13 @@ class ScrollBar extends Slider implements IScrollBar implements ISlider
 	 */ 
 	
 	
-	
+	#if flash @:setter(height) 
+	override private function set_height(value : Float) : Void 
+	{
+		_height = value;
+		draw(); 
+	}
+	#else
 	override private function set_height(value : Float) : Float 
 	{
 		_height = value;
@@ -272,7 +295,7 @@ class ScrollBar extends Slider implements IScrollBar implements ISlider
 		
 		return value; 
 	}
-	
+	#end
 	
 	/**
 	 *
@@ -280,11 +303,18 @@ class ScrollBar extends Slider implements IScrollBar implements ISlider
 	 */
 	
 	
-	
+	#if flash @:getter(height) 
 	override private function get_height() : Float 
 	{
 		return _height; 
 	} 
+	#else
+	override private function get_height() : Float 
+	{
+		return _height; 
+	} 
+	#end
+	
 	
 	
 	/**

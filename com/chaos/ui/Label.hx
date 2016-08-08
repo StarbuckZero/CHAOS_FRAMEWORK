@@ -291,14 +291,23 @@ class Label extends BaseUI implements ILabel implements IBaseUI
 		 * @param value The new width you want to set the label to
 		 */  
 		
-		#if flash @:getter(width) #else override #end
-		private  function set_width(value : Float) : Float 
+		#if flash @:setter(width)
+		private function set_width(value : Float) : Void 
+		{
+			trace("set_width");
+			textField.width = _width = value;
+			
+			draw();
+		}  
+		#else
+		override private function set_width(value : Float) : Float 
 		{
 			textField.width = _width = value;
 			draw();
 			
 			return value; 
-		}  
+		}
+  		#end
 		
 		/**
 		 *
@@ -312,21 +321,28 @@ class Label extends BaseUI implements ILabel implements IBaseUI
 		 *
 		 * @param value The new height you want to set the label to
 		 */
-		#if flash @:getter(width) #else override #end
-		private function set_height(value : Float) : Float 
+		#if flash @:setter(width)
+		private function set_height(value : Float) : Void 
+		 {
+			 textField.height = _height = value; 
+			 draw();
+		 }
+		 #else
+		 override private function set_height(value : Float) : Float
 		 {
 			 textField.height = _height = value; 
 			 draw();
 			 
 			 return value;
-		 }
+		 }		  
+		 #end
 		 
 	
 		/**
 		 *
 		 * @return Return the label height
 		 */
-		#if flash @:getter(width) #else override #end
+		#if flash @:getter(height) #else override #end
 		private function get_height() : Float { return textField.height; }
 	
 		/**

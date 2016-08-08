@@ -232,32 +232,65 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 		return _eventMode;
     }
 	
-	#if !flash override #end
-	private function set_width(value : Float) : Float
+	
+	#if flash @:setter(width) 
+	private function set_width(value : Float) : Void
+	{
+		trackWidthNum = value;
+		draw();
+    }
+	#else
+	override private function set_width(value : Float) : Float
 	{
 		trackWidthNum = value;
 		draw();
 		
         return value;
-    }
-	#if !flash override #end
+    }	
+	#end
+	
+	
+	#if flash @:getter(width) 
 	private function get_width() : Float
 	{
 		return trackWidthNum;
     }
-	
-	#if !flash override #end
-	private function set_height(value : Float) : Float 
+	#else
+	override private function get_width() : Float
 	{
-		trackHeightNum = value;draw();
+		return trackWidthNum;
+    }
+	#end
+	
+	
+	
+	#if flash @:setter(height) 
+	private function set_height(value : Float) : Void
+	{
+		trackHeightNum = value;
+		draw();
+    }
+	#else
+	override private function set_height(value : Float) : Float 
+	{
+		trackHeightNum = value;
+		draw();
+		
         return value;
     }
+	#end
 	
-	#if !flash override #end
+	#if flash @:getter(height) 
 	private function get_height() : Float
 	{
 		return trackHeightNum;
     }
+	#else
+	override private function get_height() : Float
+	{
+		return trackHeightNum;
+    }
+	#end
 	
 	/**
 	 * Hides or show the track for the slider bar

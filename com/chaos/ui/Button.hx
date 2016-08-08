@@ -1288,7 +1288,7 @@ class Button extends Overlay implements IButton implements IOverlay implements I
        
         
         // Resize all items  
-        baseDisable.width = baseDown.width = baseOver.width = baseNormal.width = _width;
+        baseDisable.width = baseDown.width = baseOver.width = baseNormal.width = width;
         baseDisable.height = baseDown.height = baseOver.height = baseNormal.height = height;
 		
         // Set label and style
@@ -1326,7 +1326,7 @@ class Button extends Overlay implements IButton implements IOverlay implements I
         {
             
             // Set location of text
-            _buttonLabel.width = _width - _iconArea.width - UIStyleManager.BUTTON_TEXT_OFFSET_X;
+            _buttonLabel.width = width - _iconArea.width - UIStyleManager.BUTTON_TEXT_OFFSET_X;
             _buttonLabel.x = _iconArea.width + UIStyleManager.BUTTON_TEXT_OFFSET_X;
             _buttonLabel.y = (height / 2) - (_buttonLabel.height / 2) + UIStyleManager.BUTTON_TEXT_OFFSET_Y;
             
@@ -1353,9 +1353,9 @@ class Button extends Overlay implements IButton implements IOverlay implements I
             _buttonLabel.width = width - UIStyleManager.BUTTON_TEXT_OFFSET_X;
             _buttonLabel.x = (width / 2) - (_buttonLabel.width / 2) + UIStyleManager.BUTTON_TEXT_OFFSET_X;
             _buttonLabel.y = (height / 2) - (_buttonLabel.height / 2) + UIStyleManager.BUTTON_TEXT_OFFSET_Y;
+			
         }
         
-        trace(width);
         
         baseNormal.visible = true;
         baseOver.visible = baseDown.visible = baseDisable.visible = false;
