@@ -1333,12 +1333,15 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 	{ 
 		
 		var listDataObject:ComboBoxObjectData = null;
+		var currentLabel:Label = cast(event.currentTarget, Label);
 		
 		for (i in 0..._list.length)
 		{
-			if (event.currentTarget == _list.getItemAt(i).label)
+			var listObj:ComboBoxObjectData = cast(_list.getItemAt(i), ComboBoxObjectData);
+			
+			if (currentLabel == listObj.label)
 			{
-				listDataObject = _list.getItemAt(i);
+				listDataObject = listObj;
 				
 				// Set text and selected index 
 				_selectLabel.text = listDataObject.text;
@@ -1396,7 +1399,7 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 	{
 		for (i in 0..._list.length)
 		{
-			_list.getItemAt(i).selected = false;
+			cast(_list.getItemAt(i), ComboBoxObjectData).selected = false;
         }
     }
 	
@@ -1431,7 +1434,7 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 		{
 			// Setup text field  
 			var comboLabel : Label = new Label();
-			var comboDataObj : ComboBoxObjectData = _list.getItemAt(i);
+			var comboDataObj : ComboBoxObjectData = cast(_list.getItemAt(i), ComboBoxObjectData);
 			comboLabel.text = comboDataObj.text;
 			comboLabel.textColor = _textColor;
 			comboLabel.width = _width + SCROLLBAR_OFFSET + _scrollbar.width - _buttonWidth;
@@ -1452,7 +1455,7 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 			comboLabel.y = (_height * i + 1) - SCROLLBAR_OFFSET;
 			
 			// Keep a ref object for later  
-			_list.getItemAt(i).label = comboLabel;
+			comboDataObj.label = comboLabel;
 			
 			// Events for text fields
 			comboLabel.addEventListener(MouseEvent.MOUSE_OVER, textOverEvent, false, 0, true);

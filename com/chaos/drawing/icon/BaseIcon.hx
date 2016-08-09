@@ -189,43 +189,71 @@ class BaseIcon extends BaseUI implements IBasicIcon implements IBaseUI
     /**
 	 * @inheritDoc
 	 */
-    #if flash @:getter(width) #else override #end
-    private function set_width(value : Float) : Float
+	
+    #if flash @:setter(width)
+    private function set_width(value : Float) : Void
+    {
+        _width = value;
+        draw();
+    }
+    #else
+    override private function set_width(value : Float) : Float
     {
         _width = value;
         draw();
         return value;
     }
-    
+	#end
+	
     /**
 	 * @inheritDoc
 	 */
-    #if flash @:getter(width) #else override #end
+	
+    #if flash @:getter(width)
     private function get_width() : Float
     {
         return _width;
     }
-    
+	#else
+    override private function get_width() : Float
+    {
+        return _width;
+    }
+    #end
+	
     /**
 	 * @inheritDoc
 	 */
-    #if flash @:getter(width) #else override #end
-    private function set_height(value : Float) : Float
+    #if flash @:setter(height)
+    private function set_height(value : Float) : Void
+    {
+        _height = value;
+        draw();
+    }
+    #else
+    override private function set_height(value : Float) : Float
     {
         _height = value;
         draw();
         return value;
     }
-    
+	#end
+	  
     /**
 	 * @inheritDoc
 	 */
-    #if flash @:getter(width) #else override #end
+    #if flash @:getter(height)
     private function get_height() : Float
     {
         return _height;
     }
-    
+    #else
+    override private function get_height() : Float
+    {
+        return _height;
+    }
+	#end
+	
     /**
 	 * Set if filter mode
 	 */

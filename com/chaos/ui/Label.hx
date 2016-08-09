@@ -294,7 +294,7 @@ class Label extends BaseUI implements ILabel implements IBaseUI
 		#if flash @:setter(width)
 		private function set_width(value : Float) : Void 
 		{
-			trace("set_width");
+			
 			textField.width = _width = value;
 			
 			draw();
@@ -321,7 +321,7 @@ class Label extends BaseUI implements ILabel implements IBaseUI
 		 *
 		 * @param value The new height you want to set the label to
 		 */
-		#if flash @:setter(width)
+		#if flash @:setter(height)
 		private function set_height(value : Float) : Void 
 		 {
 			 textField.height = _height = value; 

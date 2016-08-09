@@ -362,25 +362,26 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
 	#if flash @:setter(width) 
     override private function set_width(value : Float) : Void
     {
-        super.width = buttonArea.width = value;
+        _width = buttonArea.width = value;
     }
     #else
     override private function set_width(value : Float) : Float
     {
-        super.width = buttonArea.width = value;
+		
+        _width = buttonArea.width = value;
         return value;
     }
 	#end
 	
-	#if flash @:setter(width) 
+	#if flash @:setter(height) 
     override private function set_height(value : Float) : Void
     {
-        super.height = buttonArea.height = value;
+        _height = buttonArea.height = value;
     }
 	#else
     override private function set_height(value : Float) : Float
     {
-        super.height = buttonArea.height = value;
+        _height = buttonArea.height = value;
         return value;
     }	
     #end
