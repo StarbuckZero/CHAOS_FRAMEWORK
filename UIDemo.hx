@@ -117,8 +117,6 @@ class UIDemo extends Sprite
         alertButton.y = iconTextButton.y + iconTextButton.height + OFFSET;
         alertButton.addEventListener(MouseEvent.CLICK, onAlertButton, false, 0, true);
 		
-        
-		
         // List
         list = new ListBox();
         list.addItem(new ListObjectData("Erick", "E"));

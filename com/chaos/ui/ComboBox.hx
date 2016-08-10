@@ -549,32 +549,75 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 	* @param value Set the width of the combo box
 	* 
 	*/
-	#if flash @:getter(width) #else override #end
-	private function set_width(value : Float) : Float { _width = value; draw(); return value; }
-	
+	#if flash @:getter(width)
+	private function set_width(value : Float) : Void 
+	{
+		_width = value;
+		draw();
+	}
+	#else
+	override private function set_width(value : Float) : Float 
+	{
+		_width = value;
+		draw();
+		return value; 
+	}	
+	#end
+	 
 	/**
 	*
 	* @return Returns the width
 	*/
-	#if flash @:getter(width) #else override #end
-	private function get_width() : Float { return _width; }  
-	
+	#if flash @:getter(width)
+	private function get_width() : Float 
+	{ 
+		return _width; 
+	}  
+	#else 
+	override private function get_width() : Float 
+	{ 
+		return _width; 
+	}  
+	#end
+	 
 	/**
 	* Set the height of the combo box
 	* 
 	* @param value The font you want to use.
 	* 
 	*/ 
-	#if flash @:getter(width) #else override #end
-	private function set_height(value : Float) : Float { _height = value; draw(); return value; } 
-	
+	#if flash @:getter(height)
+	private function set_height(value : Float) : Void 
+	{ 
+		_height = value;
+		draw();
+	} 
+	#else
+	override private function set_height(value : Float) : Float 
+	{ 
+		_height = value;
+		draw();
+		
+		return value;
+	} 
+	#end
+	 
 	/**
 	*
 	* @return Returns the height
 	*/
-	#if flash @:getter(width) #else override #end
-	private function get_height() : Float { return _height; }  
-	
+	#if flash @:getter(height)
+	private function get_height() : Float 
+	{ 
+		return _height; 
+	}  
+	#else
+	override private function get_height() : Float 
+	{ 
+		return _height; 
+	}  
+	#end
+	 
 	/**
 	* Set the text for the main label on the combo box. This will be replace
 	*/

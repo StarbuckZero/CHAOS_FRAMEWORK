@@ -1436,7 +1436,6 @@ class Alert
 		label.x = LABEL_OFFSET_X;
 		label.y = (DEFAULT_HEIGHT / 2) - window.windowTopMiddleSize - LABEL_OFFSET_Y;
 		
-		
 		holderClip.addChild(label);
 		
 		

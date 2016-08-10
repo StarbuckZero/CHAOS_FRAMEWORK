@@ -707,24 +707,37 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 	 *
 	 */ 
 	
-	 #if flash @:getter(width) #else override #end
-	private function set_width(value : Float) : Float
+	#if flash @:setter(width)
+	private function set_width(value : Float) : Void
+	{
+		_windowWidth = value;
+		draw();
+    }
+	#else
+	override private function set_width(value : Float) : Float
 	{
 		_windowWidth = value;
 		draw();
         return value;
     }
+	#end
 	
 	/**
 	 *
 	 * @return Returns the width
 	 */
 	
-	#if flash @:getter(width) #else override #end
+	#if flash @:getter(width)
 	private function get_width() : Float
 	{
 		return _windowWidth;
     }
+	#else
+	override private function get_width() : Float
+	{
+		return _windowWidth;
+    }
+	#end
 	
 	/**
 	 * Set the height of the Window
@@ -733,26 +746,39 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 	 *
 	 */ 
 	
-	#if flash @:getter(width) #else override #end
-	private function set_height(value : Float) : Float
+	#if flash @:setter(height)
+	private function set_height(value : Float) : Void
+	{
+		_windowHeight = value;
+		draw();
+    } 
+	#else
+	override private function set_height(value : Float) : Float
 	{
 		_windowHeight = value;
 		draw();
 		
         return value;
     } 
+	#end
 	
 	/**
 	 *
 	 * @return Returns the height
 	 */ 
 	
-	#if flash @:getter(width) #else override #end
+	#if flash @:getter(height)
 	private function get_height() : Float
 	{
 		return _windowHeight;
     }
-	
+	#else
+	override private function get_height() : Float
+	{
+		return _windowHeight;
+    }
+	#end
+	 
 	/**
 	 * Set the minimize width of the of the Window over all size
 	 */

@@ -23,8 +23,6 @@ import com.chaos.media.DisplayImage;
 import com.chaos.ui.UIDetailLevel;
 import com.chaos.ui.UIStyleManager;
 import com.chaos.ui.UIBitmapManager;
-//import com.chaos.ui.interface.IProgressBar;
-//import com.chaos.ui.interface.IBaseUI;  
 
 	/**
 	 *
@@ -246,26 +244,39 @@ import com.chaos.ui.UIBitmapManager;
 	 *
 	 */
 	
-	#if !flash override #end
-	private function set_width(value : Float) : Float 
+	#if flash @:setter(width)
+	private function set_width(value : Float) : Void 
+	{ 
+		_width = value;
+		draw(); 
+	}  
+	#else
+	override private function set_width(value : Float) : Float 
 	{ 
 		_width = value;
 		draw(); 
 		
 		return value; 
 	}  
+	#end
+	
 	
 	/**
 	 *
 	 * @return Returns the width
 	 */
 	
-	#if !flash override #end
+	#if flash @:getter(width)
 	private function get_width() : Float 
 	{
 		return _width;
 	}
-	
+	#else
+	override private function get_width() : Float 
+	{
+		return _width;
+	}
+	#end
 	
 	/**
 	 * Set the height of the ProgressBar
@@ -274,24 +285,40 @@ import com.chaos.ui.UIBitmapManager;
 	 *
 	 */
 	
-	#if !flash override #end
-	private function set_height(value : Float) : Float 
+	#if flash @:setter(height)
+	private function set_height(value : Float) : Void 
+	{
+		_height = value; 
+		draw(); 
+		
+	} 
+	#else
+	override private function set_height(value : Float) : Float 
 	{
 		_height = value; 
 		draw(); 
 		
 		return value; 
 	} 
-	
+	#end
+
 	
 	/**
 	 *
 	 * @return Returns the height
 	 */
 	
-	#if !flash override #end
-	private function get_height() : Float { return _height; }
-		
+	#if flash @:getter(height)
+	private function get_height() : Float 
+	{ 
+		return _height;
+	}
+	#else
+	override private function get_height() : Float 
+	{ 
+		return _height;
+	}
+	#end
 	
 	/**
 	 * Toggle on and off border
