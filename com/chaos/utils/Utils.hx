@@ -52,8 +52,6 @@ class Utils
         if (Std.is(displayObj, Sprite)) 
             foundChild = (try cast(displayObj, Sprite) catch (e:Dynamic) null).getChildByName(childName);  // If not found then search children
         
-        
-        
         if (foundChild == null) 
         {
             
@@ -116,9 +114,9 @@ class Utils
             
             return null;
         }
-        // Return found clip
         else 
         {
+			// Return found clip
             return foundChild;
         }
     }

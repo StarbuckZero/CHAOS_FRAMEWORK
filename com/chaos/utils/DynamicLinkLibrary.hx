@@ -3,27 +3,27 @@ package com.chaos.utils;
 import com.chaos.utils.TempClass;
 
 
-import flash.display.Loader;
-import flash.display.LoaderInfo;
-import flash.errors.IOError;
-import flash.events.IOErrorEvent;
+import openfl.display.Loader;
+import openfl.display.LoaderInfo;
+import openfl.errors.IOError;
+import openfl.events.IOErrorEvent;
 
-import flash.net.URLRequest;
-import flash.events.Event;
-import flash.display.Sprite;
+import openfl.net.URLRequest;
+import openfl.events.Event;
+import openfl.display.Sprite;
 
-import flash.system.ApplicationDomain;
-import flash.system.SecurityDomain;
+import openfl.system.ApplicationDomain;
+import openfl.system.SecurityDomain;
 
-import flash.system.LoaderContext;
+import openfl.system.LoaderContext;
 
 /**
-	 * For loading instants of object or classes out of the loaded swf library.
-	 * This is the class file name that is set when setting an item in the library to "Export for ActionScript".
-	 *
-	 * @author Erick Feiling
-	 *
-	 */
+ * For loading instants of object or classes out of the loaded swf library.
+ * This is the class file name that is set when setting an item in the library to "Export for ActionScript".
+ *
+ * @author Erick Feiling
+ *
+ */
 
 class DynamicLinkLibrary extends Sprite
 {
@@ -50,8 +50,8 @@ class DynamicLinkLibrary extends Sprite
     }
     
     /**
-		 * The loader that is being used to load content.
-		 */
+	 * The loader that is being used to load content.
+	 */
     
     private function get_Loader() : Loader
     {
@@ -59,10 +59,10 @@ class DynamicLinkLibrary extends Sprite
     }
     
     /**
-		 *  The file you want to load
-		 *
-		 * @param	strPath The swf file you want to load
-		 */
+	 *  The file you want to load
+	 *
+	 * @param	strPath The swf file you want to load
+	 */
     
     public function load(strPath : String) : Void
     {
@@ -82,12 +82,12 @@ class DynamicLinkLibrary extends Sprite
     }
     
     /**
-		 * Gets the class file that is stored inside the swf file
-		 *
-		 * @param	value
-		 *
-		 * @return Return a class file, if nothing was fount then reutrn null
-		 */
+	 * Gets the class file that is stored inside the swf file
+	 *
+	 * @param	value
+	 *
+	 * @return Return a class file, if nothing was fount then reutrn null
+	 */
     
     public function getClass(value : String) : Class<Dynamic>
     {
@@ -98,10 +98,10 @@ class DynamicLinkLibrary extends Sprite
     }
     
     /**
-		 * Gets an instance of the object that is stored inside the swf library
-		 * @param	value
-		 * @return
-		 */
+	 * Gets an instance of the object that is stored inside the swf library
+	 * @param	value
+	 * @return
+	 */
     public function getLibraryInstance(value : String) : Dynamic
     {
         // Check to see if it's there
@@ -117,20 +117,20 @@ class DynamicLinkLibrary extends Sprite
     }
     
     /**
-		 * Check to see if class is in libray
-		 *
-		 * @param	value The name of class
-		 *
-		 * @return Return true if class is in library and false if not
-		 */
+	 * Check to see if class is in libray
+	 *
+	 * @param	value The name of class
+	 *
+	 * @return Return true if class is in library and false if not
+	 */
     public function hasClass(value : String) : Bool
     {
         return _loader.contentLoaderInfo.applicationDomain.hasDefinition(value);
     }
     
     /**
-		 * Unload the current swf file
-		 */
+	 * Unload the current swf file
+	 */
     
     public function unload() : Void
     {
