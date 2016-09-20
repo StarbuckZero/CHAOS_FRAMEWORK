@@ -468,29 +468,41 @@ class Label extends BaseUI implements ILabel implements IBaseUI
 		 *
 		 */
 		
-		public function setEmbedFont(value : Font) : Void { _font = value; _textFormat.font = _font.fontName; _embedFonts = true; draw(); }
+		public function setEmbedFont(value : Font) : Void 
+		{ 
+			_font = value;
+			_textFormat.font = _font.fontName;
+			_embedFonts = true;
+			draw(); 
+		}
 		 
 		/**
 		 * Unload the font that was set by using the setEmbedFont
 		 *
 		 */
 		
-		public function unloadEmbedFont() : Void { _font = new Font(); _textFormat.font = null; _embedFonts = false; draw(); } 
+		public function unloadEmbedFont() : Void 
+		{
+			_font = new Font();
+			_textFormat.font = null;
+			_embedFonts = false;
+			draw();
+		} 
 		
 	
 		/**
 		 * The color of the text in a label, in hexadecimal format
 		 */ 
 		
-		 private function set_textColor(value : Int) : Int 
-		 { 
-			 _textFormat.color = _textColor = value;
+		private function set_textColor(value : Int) : Int 
+		{ 
+			_textFormat.color = _textColor = value;
 			 
-			 draw();
+			draw();
 			 
-			 return value; 
+			return value; 
 		 }
-		 
+		
 		/**
 		 * Return the label color
 		 */

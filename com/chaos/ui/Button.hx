@@ -1224,44 +1224,42 @@ class Button extends Overlay implements IButton implements IOverlay implements I
             baseDisable.parent.removeChild(baseDisable);
 			
 		// Figure to use bitmap or normal mode
-	
-		
-			if (_bgShowImage) 
-			{
-				// Create an image that will be scaled later on else draw a shape that will
-				
-				
-				// Normal
-				if (null != _backgroundImage.image) 
-					baseNormal = Draw.SquareRound(Std.int(_backgroundImage.image.width), Std.int(_backgroundImage.image.height), _buttonNormalColor,_roundEdge, _bgAlpha, true , _bgSmoothImage, _backgroundImage.image.bitmapData, tileMiddleImage)
-				else 
-					baseNormal = Draw.SquareRound(Std.int(width), Std.int(height), _buttonNormalColor, _roundEdge, _bgAlpha, false, _bgSmoothImage);
-				
-				// Over
-				if (null != _backgroundOverImage.image) 
-					baseOver = Draw.SquareRound(Std.int(_backgroundOverImage.image.width), Std.int(_backgroundOverImage.image.height), _buttonOverColor, _roundEdge, _bgAlpha, false, _bgSmoothImage, _backgroundOverImage.image.bitmapData, tileMiddleImage)
-				else 
-					baseOver = Draw.SquareRound(Std.int(width), Std.int(height), _buttonOverColor, _roundEdge, _bgAlpha, false, _bgSmoothImage);
-				
-				// Down
-				if (null != _backgroundDownImage.image) 
-					baseDown = Draw.SquareRound(Std.int(_backgroundDownImage.image.width), Std.int(_backgroundDownImage.image.height), _buttonDownColor, _roundEdge, _bgAlpha, true, _bgSmoothImage, _backgroundDownImage.image.bitmapData, tileMiddleImage)
-				else 
-					baseDown = Draw.SquareRound(Std.int(width), Std.int(height), _buttonDownColor, _roundEdge, _bgAlpha, false, _bgSmoothImage);
-				
-				// Disable
-				if (null != _backgroundDisableImage.image) 
-					baseDisable = Draw.SquareRound(Std.int(_backgroundDisableImage.image.width), Std.int(_backgroundDisableImage.image.height), _buttonDisableColor, _roundEdge, _bgAlpha, true, _bgSmoothImage, _backgroundDisableImage.image.bitmapData, tileMiddleImage)
-				else 
-					baseDisable = Draw.SquareRound(Std.int(width), Std.int(height), _buttonDisableColor, _roundEdge, _bgAlpha, false, _bgSmoothImage);
-			}
+		if (_bgShowImage) 
+		{
+			// Create an image that will be scaled later on else draw a shape that will
+			
+			
+			// Normal
+			if (null != _backgroundImage.image) 
+				baseNormal = Draw.SquareRound(Std.int(_backgroundImage.image.width), Std.int(_backgroundImage.image.height), _buttonNormalColor, _roundEdge, _bgAlpha, true , _bgSmoothImage, _backgroundImage.image.bitmapData, tileMiddleImage);
 			else 
-			{
-				baseNormal = Draw.SquareRound(Std.int(width), Std.int(height), _buttonNormalColor,0, _bgAlpha, true, _bgSmoothImage);
-				baseOver = Draw.SquareRound(Std.int(width), Std.int(height), _buttonOverColor, 0, _bgAlpha, true, _bgSmoothImage);
-				baseDown = Draw.SquareRound(Std.int(width), Std.int(height), _buttonDownColor, 0, _bgAlpha, true, _bgSmoothImage);
-				baseDisable = Draw.SquareRound(Std.int(width), Std.int(height), _buttonDisableColor, 0, _bgAlpha, true, _bgSmoothImage);
-			} 		
+				baseNormal = Draw.SquareRound(Std.int(width), Std.int(height), _buttonNormalColor, _roundEdge, _bgAlpha, false, _bgSmoothImage);
+			
+			// Over
+			if (null != _backgroundOverImage.image) 
+				baseOver = Draw.SquareRound(Std.int(_backgroundOverImage.image.width), Std.int(_backgroundOverImage.image.height), _buttonOverColor, _roundEdge, _bgAlpha, false, _bgSmoothImage, _backgroundOverImage.image.bitmapData, tileMiddleImage);
+			else 
+				baseOver = Draw.SquareRound(Std.int(width), Std.int(height), _buttonOverColor, _roundEdge, _bgAlpha, false, _bgSmoothImage);
+			
+			// Down
+			if (null != _backgroundDownImage.image) 
+				baseDown = Draw.SquareRound(Std.int(_backgroundDownImage.image.width), Std.int(_backgroundDownImage.image.height), _buttonDownColor, _roundEdge, _bgAlpha, true, _bgSmoothImage, _backgroundDownImage.image.bitmapData, tileMiddleImage);
+			else 
+				baseDown = Draw.SquareRound(Std.int(width), Std.int(height), _buttonDownColor, _roundEdge, _bgAlpha, false, _bgSmoothImage);
+			
+			// Disable
+			if (null != _backgroundDisableImage.image) 
+				baseDisable = Draw.SquareRound(Std.int(_backgroundDisableImage.image.width), Std.int(_backgroundDisableImage.image.height), _buttonDisableColor, _roundEdge, _bgAlpha, true, _bgSmoothImage, _backgroundDisableImage.image.bitmapData, tileMiddleImage);
+			else 
+				baseDisable = Draw.SquareRound(Std.int(width), Std.int(height), _buttonDisableColor, _roundEdge, _bgAlpha, false, _bgSmoothImage);
+		}
+		else 
+		{
+			baseNormal = Draw.SquareRound(Std.int(width), Std.int(height), _buttonNormalColor,0, _bgAlpha, true, _bgSmoothImage);
+			baseOver = Draw.SquareRound(Std.int(width), Std.int(height), _buttonOverColor, 0, _bgAlpha, true, _bgSmoothImage);
+			baseDown = Draw.SquareRound(Std.int(width), Std.int(height), _buttonDownColor, 0, _bgAlpha, true, _bgSmoothImage);
+			baseDisable = Draw.SquareRound(Std.int(width), Std.int(height), _buttonDisableColor, 0, _bgAlpha, true, _bgSmoothImage);
+		} 		
 		
        
         // Remove old one if there  
