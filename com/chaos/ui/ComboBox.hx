@@ -549,7 +549,7 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 	* @param value Set the width of the combo box
 	* 
 	*/
-	#if flash @:getter(width)
+	#if flash @:setter(width)
 	private function set_width(value : Float) : Void 
 	{
 		_width = value;
@@ -586,7 +586,7 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 	* @param value The font you want to use.
 	* 
 	*/ 
-	#if flash @:getter(height)
+	#if flash @:setter(height)
 	private function set_height(value : Float) : Void 
 	{ 
 		_height = value;
