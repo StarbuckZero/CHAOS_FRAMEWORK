@@ -1,7 +1,7 @@
 package com.chaos.drawing.icon;
 
 
-import com.chaos.drawing.icon.interface.IBasicIcon;
+import com.chaos.drawing.icon.classInterface.IBasicIcon;
 
 /**
  * Stop icon used for media players
