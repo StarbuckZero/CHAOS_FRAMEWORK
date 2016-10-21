@@ -1,8 +1,6 @@
 package com.chaos.utils;
 
-import com.chaos.utils.TempClass;
-
-
+import openfl.display.BitmapData;
 import openfl.display.Loader;
 import openfl.display.LoaderInfo;
 import openfl.errors.IOError;
@@ -53,7 +51,7 @@ class DynamicLinkLibrary extends Sprite
 	 * The loader that is being used to load content.
 	 */
     
-    private function get_Loader() : Loader
+    private function get_loader() : Loader
     {
         return _loader;
     }
@@ -110,7 +108,10 @@ class DynamicLinkLibrary extends Sprite
             // Get and return instance of class
             var tempClass : Class<Dynamic> = Type.getClass(_loader.contentLoaderInfo.applicationDomain.getDefinition(value));
             
-            return Type.createInstance(tempClass, []);
+			if (Std.is(tempClass, BitmapData))
+				return Type.createInstance(tempClass, [0, 0]);
+			else
+				return Type.createInstance(tempClass, []);
         }
         
         return null;

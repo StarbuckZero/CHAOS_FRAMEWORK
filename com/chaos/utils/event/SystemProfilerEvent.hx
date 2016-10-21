@@ -27,7 +27,7 @@ class SystemProfilerEvent extends Event
         super(type, bubbles, cancelable);
     }
     
-    private function get_Level() : String
+    private function get_level() : String
     {
         return _level;
     }

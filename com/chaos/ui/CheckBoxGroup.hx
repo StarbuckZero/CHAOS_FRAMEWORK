@@ -94,7 +94,7 @@ class CheckBoxGroup extends HorizontalContainer implements ICheckBoxGroup implem
     
     public function createCheckBox(checkBoxName : String, labelText : String, selected : Bool = false) : com.chaos.ui.classInterface.ICheckBox
     {
-        var checkbox : com.chaos.ui.classInterface.ICheckBox = new CheckBox(labelText);
+        var checkbox : ICheckBox = new CheckBox(labelText);
         
         checkbox.name = checkBoxName;
         checkbox.selected = selected;

@@ -224,7 +224,8 @@ class AlignmentBaseContainer extends BaseContainer implements IBaseUI implements
         try
         {
             return try cast(contentObject.getChildByName(value), IBaseUI) catch(e:Dynamic) null;
-        }        catch (error : Error)
+        }
+        catch (error : Error)
         {
             Debug.print("[AlignmentBaseContainer::getElementByName] Can't find item" + value + " returning null.");
         }

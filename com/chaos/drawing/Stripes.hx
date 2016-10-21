@@ -9,17 +9,17 @@ import openfl.display.Sprite;
 
 class Stripes extends Sprite
 {
-    public var sHeight(never, set) : Float;
-    public var sWidth(never, set) : Float;
+    public var sHeight(never, set) : Int;
+    public var sWidth(never, set) : Int;
 
     private var stripeMatrix : Matrix;
     private var stripeShape : Shape;
     private var stripeBMD : BitmapData;
     private var stripeBM : Bitmap;
-    private var _sWidth : Float;
-    private var _sHeight : Float;
+    private var _sWidth : Int;
+    private var _sHeight : Int;
     
-    public function new(f_width : Float, f_height : Float)
+    public function new(f_width : Int, f_height : Int)
     {
         super();
         _sWidth = f_width;
@@ -31,7 +31,7 @@ class Stripes extends Sprite
         addChild(stripeBM);
     }
     
-    public function drawStripes(f_direction : String, f_separation : Float, f_width : Float = 1, f_color : Float = 0xffffff, f_alpha : Float = 1) : Void
+    public function drawStripes(f_direction : String, f_separation : Int, f_width : Int = 1, f_color : Int = 0xffffff, f_alpha : Float = 1) : Void
     {
         stripeShape.graphics.clear();
         var f_height : Float = stripeBM.height;
@@ -63,8 +63,10 @@ class Stripes extends Sprite
                 stripeShape.graphics.endFill();
         }
         stripeBMD.lock();
-        var i : Int = -stripeBMD.height;
-        while (i < stripeBMD.width + stripeBMD.height){
+		
+		var i : Int = -stripeBMD.height;
+        while (i < stripeBMD.width + stripeBMD.height)
+		{
             if (f_direction == "horizontal") 
             {
                 stripeMatrix.ty = i;
@@ -86,14 +88,14 @@ class Stripes extends Sprite
         stripeBM.bitmapData = stripeBMD;
     }
     
-    private function set_SHeight(value : Float) : Float
+    private function set_sHeight(value : Int) : Int
     {
         _sHeight = value;
         clear();
         return value;
     }
     
-    private function set_SWidth(value : Float) : Float
+    private function set_sWidth(value : Int) : Int
     {
         _sWidth = value;
         clear();

@@ -14,7 +14,7 @@ interface ILabel extends IBaseUI
 		 /**
 		 * Set the text format
 		 */
-		 var textFormat(never, set) : TextFormat;   
+		 var textFormat(get, set) : TextFormat;   
 		 /**
 		 * Set the label text
 		 */

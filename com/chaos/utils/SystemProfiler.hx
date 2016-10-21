@@ -65,7 +65,7 @@ class SystemProfiler extends Sprite
 	 * By setting this an event will dispatch an event when frame hit this
 	 */
     
-    private function set_HighLevelFPS(value : Int) : Int
+    private function set_highLevelFPS(value : Int) : Int
     {
         _highLevelFPS = value;
         return value;
@@ -75,7 +75,7 @@ class SystemProfiler extends Sprite
 	 * Return the frame rate count being used
 	 */
     
-    private function get_HighLevelFPS() : Int
+    private function get_highLevelFPS() : Int
     {
         return _highLevelFPS;
     }
@@ -84,7 +84,7 @@ class SystemProfiler extends Sprite
 	 * By setting this an event will dispatch an event when frame hit this
 	 */
     
-    private function set_MidLevelFPS(value : Int) : Int
+    private function set_midLevelFPS(value : Int) : Int
     {
         _midLevelFPS = value;
         return value;
@@ -94,7 +94,7 @@ class SystemProfiler extends Sprite
 	 * Return the frame rate count being used
 	 */
     
-    private function get_MidLevelFPS() : Int
+    private function get_midLevelFPS() : Int
     {
         return _midLevelFPS;
     }
@@ -103,7 +103,7 @@ class SystemProfiler extends Sprite
 	 * By setting this an event will dispatch an event when frame hit this
 	 */
     
-    private function set_LowLevelFPS(value : Int) : Int
+    private function set_lowLevelFPS(value : Int) : Int
     {
         _lowLevelFPS = value;
         return value;
@@ -113,7 +113,7 @@ class SystemProfiler extends Sprite
 	 * Return the frame rate count being used
 	 */
     
-    private function get_LowLevelFPS() : Int
+    private function get_lowLevelFPS() : Int
     {
         return _lowLevelFPS;
     }
@@ -122,7 +122,7 @@ class SystemProfiler extends Sprite
 	 * A label of with the fps and memory
 	 */
     
-    private function get_FpsAndMemLabel() : Label
+    private function get_fpsAndMemLabel() : Label
     {
         return _fpsAndMemLabel;
     }
@@ -131,7 +131,7 @@ class SystemProfiler extends Sprite
 	 * The average frame rate
 	 */
     
-    private function get_Average() : Float
+    private function get_average() : Float
     {
         return _average;
     }
@@ -140,7 +140,7 @@ class SystemProfiler extends Sprite
 	 * The fps of the current movie
 	 */
     
-    private function get_Fps() : Float
+    private function get_fps() : Float
     {
         
         return _fps;
@@ -150,7 +150,7 @@ class SystemProfiler extends Sprite
 	 * The memory being used by the program
 	 */
     
-    private function get_Memory() : Float
+    private function get_memory() : Float
     {
         return _memory;
     }
@@ -159,7 +159,7 @@ class SystemProfiler extends Sprite
 	 * The current frame rate level setting
 	 */
     
-    private function get_Level() : String
+    private function get_level() : String
     {
         return _level;
     }
@@ -170,7 +170,8 @@ class SystemProfiler extends Sprite
     
     public function resetAverage() : Void
     {
-        for (i in 0...averageMax - 1){
+        for (i in 0...averageMax - 1)
+		{
             if (null != stage) 
                 averageFrameRateArray[i] = stage.frameRate;
         }
@@ -196,26 +197,26 @@ class SystemProfiler extends Sprite
                 coolDownCounter--;
         }
         
-        _memory = Std.parseFloat(System.totalMemory / 1024 / 1024);
+        _memory = (System.totalMemory / 1024 / 1024);
         
         // Check to see if item is in slot
         if (null != stage) 
-            averageFrameRateArray[averageCounter] = ((null == averageFrameRateArray[averageCounter])) ? stage.frameRate : as3hx.Compat.parseInt(_fps)  // Update conter  ;
+            averageFrameRateArray[averageCounter] = ((null == averageFrameRateArray[averageCounter])) ? stage.frameRate : Std.int(_fps);
         
-        
-        
+        // Update conter  
         averageCounter++;
         
         // Add up everything
-        averageFrameRateArray.every(addValues);
+        //averageFrameRateArray.every(addValues);
+		addValues();
+		
         
         // If reach max index
-        if (averageCounter > averageMax - 1) 
-            averageCounter = 0  // Update Memory  ;
+        if (averageCounter > averageMax - 1)
+            averageCounter = 0;
         
-        
-        
-        _fpsAndMemLabel.text = "FPS: " + as3hx.Compat.parseInt(_fps) + " AV: " + _average + " Memory: " + as3hx.Compat.parseInt(System.totalMemory / 1024 / 1024);
+        // Update Memory  
+        _fpsAndMemLabel.text = "FPS: " + _fps + " AV: " + _average + " Memory: " + (System.totalMemory / 1024 / 1024);
     }
     
     private function addValues() : Void
@@ -223,11 +224,13 @@ class SystemProfiler extends Sprite
         var total : Int = 0;
         
         // Adding everything up
-        for (i in 0...averageFrameRateArray.length){total += averageFrameRateArray[i];
+        for (i in 0...averageFrameRateArray.length)
+		{
+			total += averageFrameRateArray[i];
         }
         
         // Get the average frame rate
-        _average = as3hx.Compat.parseInt(total / averageMax);
+        _average = (total / averageMax);
         
         // Display event if average change
         if (_level != SystemProfilerEvent.HIGH && coolDownCounter == 0 && _highLevelFPS != -1 && _average >= _highLevelFPS) 
