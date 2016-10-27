@@ -48,6 +48,7 @@ class SystemProfiler extends Sprite
     public function new()
     {
         super();
+		
         // Get the average frame rate
         averageFrameRateArray = new Array<Dynamic>();
         
@@ -58,6 +59,7 @@ class SystemProfiler extends Sprite
         _fpsAndMemLabel.width = 200;
         _fpsAndMemLabel.x = 0;
         
+		
         addChild(_fpsAndMemLabel);
     }
     
@@ -173,7 +175,7 @@ class SystemProfiler extends Sprite
         for (i in 0...averageMax - 1)
 		{
             if (null != stage) 
-                averageFrameRateArray[i] = stage.frameRate;
+                averageFrameRateArray[i] = Std.int(stage.frameRate);
         }
     }
     
@@ -201,14 +203,21 @@ class SystemProfiler extends Sprite
         
         // Check to see if item is in slot
         if (null != stage) 
-            averageFrameRateArray[averageCounter] = ((null == averageFrameRateArray[averageCounter])) ? stage.frameRate : Std.int(_fps);
+            averageFrameRateArray[averageCounter] = ((null == averageFrameRateArray[averageCounter])) ? Std.int(stage.frameRate) : Std.int(_fps);
         
+		
+		//trace(averageFrameRateArray.length);
+		
         // Update conter  
         averageCounter++;
         
         // Add up everything
         //averageFrameRateArray.every(addValues);
-		addValues();
+		for (i in 0...averageFrameRateArray.length)
+		{
+			addValues();
+		}
+		
 		
         
         // If reach max index
@@ -216,7 +225,7 @@ class SystemProfiler extends Sprite
             averageCounter = 0;
         
         // Update Memory  
-        _fpsAndMemLabel.text = "FPS: " + _fps + " AV: " + _average + " Memory: " + (System.totalMemory / 1024 / 1024);
+        _fpsAndMemLabel.text = "FPS: " + Std.int(_fps) + " AV: " + Std.int(_average) + " Memory: " + Std.int(System.totalMemory / 1024 / 1024);
     }
     
     private function addValues() : Void
@@ -226,7 +235,9 @@ class SystemProfiler extends Sprite
         // Adding everything up
         for (i in 0...averageFrameRateArray.length)
 		{
-			total += averageFrameRateArray[i];
+			if (null != averageFrameRateArray[i])
+				total += averageFrameRateArray[i];
+			
         }
         
         // Get the average frame rate
