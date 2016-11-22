@@ -571,7 +571,8 @@ import com.chaos.ui.UIBitmapManager;
 		}
 		else 
 		{
-			_urlFile.addEventListener(ProgressEvent.PROGRESS, progressCheck);_urlFile.addEventListener(Event.COMPLETE, progressComplete);
+			_urlFile.addEventListener(ProgressEvent.PROGRESS, progressCheck);
+			_urlFile.addEventListener(Event.COMPLETE, progressComplete);
 		}
 		
 		_watchingFile = true;
@@ -816,7 +817,13 @@ import com.chaos.ui.UIBitmapManager;
 	
 	private function progressCheck(event : Event) : Void 
 	{ 
-		_percent = Std.int((event.currentTarget.bytesLoaded / event.currentTarget.bytesTotal) * 100);
+		if (Std.is(event.currentTarget, Sound))
+			_percent = Std.int(( cast(event.currentTarget, Sound).bytesLoaded /  cast(event.currentTarget, Sound).bytesTotal) * 100);
+		else if (Std.is(event.currentTarget, URLLoader))
+			_percent = Std.int(( cast(event.currentTarget, URLLoader).bytesLoaded /  cast(event.currentTarget, URLLoader).bytesTotal) * 100);
+		else if (Std.is(event.currentTarget, Loader))
+			_percent = Std.int(( cast(event.currentTarget, Loader).contentLoaderInfo.bytesLoaded /  cast(event.currentTarget, Loader).contentLoaderInfo.bytesTotal) * 100);
+		
 		draw();
 	}
 	

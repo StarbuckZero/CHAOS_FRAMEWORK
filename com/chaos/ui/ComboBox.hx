@@ -1349,9 +1349,9 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 	
 	private function textOutEvent(event : MouseEvent) : Void
 	{
-		event.target.textColor = _textColor;
-		event.target.backgroundColor = _backgroundColor;
-		event.target.background = false;
+		cast(event.target,Label).textColor = _textColor;
+		cast(event.target,Label).backgroundColor = _backgroundColor;
+		cast(event.target,Label).background = false;
     }
 	
 	private function textOverEvent(event : MouseEvent) : Void
@@ -1359,17 +1359,17 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 		// Stop Slider
 		_scrollbar.stop();
 		
-		event.target.textColor = _textOverColor;
-		event.target.backgroundColor = _textOverBackground;
-		event.target.background = true;
+		cast(event.target,Label).textColor = _textOverColor;
+		cast(event.target,Label).backgroundColor = _textOverBackground;
+		cast(event.target,Label).background = true;
     }
 	
 	private function textDownEvent(event : MouseEvent) : Void
 	{
 		// Set background and text color  
-		event.target.textColor = _textDownColor;
-		event.target.backgroundColor = _textDownBackground;
-		event.target.background = true;
+		cast(event.target,Label).textColor = _textDownColor;
+		cast(event.target,Label).backgroundColor = _textDownBackground;
+		cast(event.target,Label).background = true;
     }
 	
 	private function textUpEvent(event : MouseEvent) : Void

@@ -1311,7 +1311,7 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
 		{
             var button : IButton = cast(column.getItemAt(i).button, IButton);
             
-            if (event.currentTarget == button) 
+            if (cast(event.currentTarget,IButton) == button) 
             {
                 var arrow : IBasicIcon = cast(column.getItemAt(i).arrow, IBasicIcon);
                 

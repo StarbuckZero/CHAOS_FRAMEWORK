@@ -2899,7 +2899,7 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 	private function windowMouseDown(event : Event) : Void
 	{
 		_mouseDown = true;
-		_resizeName = Std.string(event.target.name);
+		_resizeName = Std.string(cast(event.target, DisplayObject).name);
     }
 	
 	private function windowMouseUp(event : Event) : Void

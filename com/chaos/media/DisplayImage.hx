@@ -265,7 +265,9 @@ class DisplayImage extends BaseUI implements IBaseUI
 		if (!_swfMode) 
 		{	try
 			{
-				_imageData = cast((event.target.loader.content), Bitmap);
+				var loaderFile:Loader = cast(event.target, Loader);
+				
+				_imageData = cast( (loaderFile.content), Bitmap);
 				_imageData.smoothing = _smoothImage;
 				_imageData.pixelSnapping = _snapImage;
             }

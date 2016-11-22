@@ -9,6 +9,7 @@ import com.chaos.ui.classInterface.IButton;
 import com.chaos.ui.classInterface.ILabel;
 import com.chaos.ui.classInterface.IOverlay;
 import openfl.display.DisplayObject;
+import openfl.display.Loader;
 import openfl.display.MovieClip;
 import openfl.display.Sprite;
 import openfl.display.Shape;
@@ -1369,12 +1370,13 @@ class Button extends Overlay implements IButton implements IOverlay implements I
     
     private function iconLoadComplete(event : Event) : Void
     {
+		
         // Resize Icon
         if (UIStyleManager.BUTTON_ICON_WIDTH > -1) 
-            event.target.content.width = UIStyleManager.BUTTON_ICON_WIDTH;
+            cast(event.target,Loader).content.width = UIStyleManager.BUTTON_ICON_WIDTH;
         
         if (UIStyleManager.BUTTON_ICON_HEIGHT > -1) 
-            event.target.content.height = UIStyleManager.BUTTON_ICON_HEIGHT;
+            cast(event.target,Loader).content.height = UIStyleManager.BUTTON_ICON_HEIGHT;
         
         _showIcon = true;
         
