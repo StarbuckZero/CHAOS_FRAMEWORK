@@ -18,17 +18,11 @@ class Debug
 {
     public static inline var LOCAL_CONNECTION : String = "chaos_local_connection";
     
-    private static var _init : Bool = false;
-    
     public function new()
     {
         
     }
     
-    public static function init() : Void
-    {
-        _init = true;
-    }
     
     /**
 	 *
@@ -40,15 +34,14 @@ class Debug
     
     public static function print(text : String, color : Int = 0xFFFFFF) : Void
     {
-        if (!_init) 
-            init();
-        
 		// For normal console
         trace(text);
         
+		#if flash
 		// For any outside source
         if (ExternalInterface.available) 
             ExternalInterface.call(LOCAL_CONNECTION, text);
+		#end
     }
     
     /**

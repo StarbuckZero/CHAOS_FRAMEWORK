@@ -101,8 +101,9 @@ import com.chaos.utils.Debug;
         // If value passed in wasn't null then setup event
         if (null == _stage) 
         {
+			Debug.print("[ThreadManager::removeEventTimer] Must set the stage property in order to use this. For example \"ThreadManager.stage = myDis.stage\"!");
             return;
-            Debug.print("[ThreadManager::removeEventTimer] Must set the stage property in order to use this. For example \"ThreadManager.stage = myDis.stage\"!");
+            
         }
         
 		// Stop timer

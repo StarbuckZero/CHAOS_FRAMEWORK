@@ -1,6 +1,5 @@
 package com.chaos.utils.data;
 
-import nme.errors.Error;
 
 
 /**
@@ -10,6 +9,8 @@ import nme.errors.Error;
 
 import com.chaos.utils.Debug;
 import com.chaos.utils.classInterface.ITask;
+import haxe.Constraints.Function;
+import openfl.errors.Error;
 
 class TaskDataObject implements ITask
 {
@@ -36,13 +37,13 @@ class TaskDataObject implements ITask
 	 * @param	id The task id
 	 * @param	start Starting point for sub task
 	 * @param	end End point for sub task
+	 * @param	func The function to call when running a task. This will also pass back a TaskDataObject and not a event.
 	 * @param	callBack Function to call once the task is done
-	 * @param	func A function to call when it comes to the task being complete. This will also pass back a TaskDataObject and not a event
-	 * @param	... args The paramers to pass with the function. If a start and end value was set then this task object will be passed first.
+	 * @param	args The paramers to pass with the function. If a start and end value was set then this task object will be passed first.
 	 *
 	 */
     
-    public function new(id : String = "default", start : Int = 0, end : Int = 0, callBack : Function = null, func : Function = null)
+    public function new(id : String = "default", start : Int = 0, end : Int = 0, func : Function = null, callBack : Function = null, args:Array<Dynamic> = null)
     {
         _id = id;
         _start = _index = start;
@@ -51,39 +52,41 @@ class TaskDataObject implements ITask
         _func = func;
         
         _args = args;
+		
         
+		
         if (_start != _end) 
             _args.unshift(this);
     }
     
-    private function set_Id(value : String) : String
+    private function set_id(value : String) : String
     {
         _id = value;
         return value;
     }
     
-    private function get_Id() : String
+    private function get_id() : String
     {
         return _id;
     }
     
-    private function get_Start() : Int
+    private function get_start() : Int
     {
         return _start;
     }
     
-    private function get_End() : Int
+    private function get_end() : Int
     {
         return _end;
     }
     
-    private function set_Index(value : Int) : Int
+    private function set_index(value : Int) : Int
     {
         _index = value;
         return value;
     }
     
-    private function get_Index() : Int
+    private function get_index() : Int
     {
         return _index;
     }
@@ -107,15 +110,17 @@ class TaskDataObject implements ITask
             {
                 try
                 {
-                    _func.apply(null, _args);
-                }                catch (error : Error)
+					
+					Reflect.callMethod(this, _func, _args);
+                }
+                catch (error : Error)
                 {
                     Debug.print("[TaskDataObject] " + error);
                 }
             }
             else 
             {
-                _func.apply(null, _args);
+                Reflect.callMethod(this, _func, _args);
             }
         }
         
@@ -126,7 +131,8 @@ class TaskDataObject implements ITask
                 try
                 {
                     _callBack(this);
-                }                catch (error : Error)
+                }
+                catch (error : Error)
                 {
                     Debug.print("[TaskDataObject]" + error);
                 }

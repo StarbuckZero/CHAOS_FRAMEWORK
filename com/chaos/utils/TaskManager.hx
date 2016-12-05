@@ -158,15 +158,13 @@ class TaskManager
             {
                 // If null then don't do anything
                 if (null == _displayObject) 
-                    return  // Make sure not to attach the event again if already running  ;
+                    return;
                 
-                
-                
+                // Make sure not to attach the event again if already running  
                 if (!_displayObject.hasEventListener(Event.ENTER_FRAME)) 
                     _displayObject.addEventListener(Event.ENTER_FRAME, runTask);
             }
-            // If timer base then just start timer
-            else 
+            else // If timer base then just start timer
             {
                 if (!_timer.hasEventListener(TimerEvent.TIMER)) 
                     _timer.addEventListener(TimerEvent.TIMER, runTask);
@@ -223,10 +221,9 @@ class TaskManager
         while (_threadArray.length > 0)
         {
             runTask();
-        }  // Flush sub threads if there are still some left  
-        
-        
-        
+        }
+		
+		// Flush sub threads if there are still some left  
         while (_subThreadArray.length > 0)
         {
             runBackgroundTask();
@@ -394,12 +391,16 @@ class TaskManager
         }
         
         i = first;
-        while (i != last){
+		
+        while (i != last)
+		{
             // Get the current task
             currentTask = try cast(_subThreadArray.getItemAt(i), ITask) catch(e:Dynamic) null;
             
             if (null == currentTask) 
-                {i += direction;continue;
+            {
+				i += direction;
+				continue;
             };
             
             updateBackgroundTask(currentTask);
