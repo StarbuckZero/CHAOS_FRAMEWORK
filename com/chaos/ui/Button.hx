@@ -259,7 +259,9 @@ class Button extends Overlay implements IButton implements IOverlay implements I
         
         super();
         
-		
+		#if !flash
+		_filterMode = false;
+		#end
 		
         // Set defaults
         _labelText = label;
