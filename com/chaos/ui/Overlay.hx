@@ -114,7 +114,7 @@ class Overlay extends BaseUI implements IOverlay
 	 * @inheritDoc
 	 */
 	
-    #if flash @:setter(width) 
+    #if flash @:setter(width)
     private function set_width(value : Float) : Void
     {
         _width = value;

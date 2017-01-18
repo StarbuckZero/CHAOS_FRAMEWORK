@@ -9,10 +9,12 @@ package com.chaos.media;
 
 import com.chaos.drawing.Draw;
 import com.chaos.media.event.DisplayVideoEvent;
+import com.chaos.utils.data.TaskCallBack;
+import haxe.Constraints.Function;
 import openfl.display.DisplayObject;
 import openfl.display.Sprite;
 import com.chaos.ui.BaseUI;
-import com.chaos.ui.interface.IBaseUI;
+import com.chaos.ui.classInterface.IBaseUI;
 import openfl.events.Event;
 import openfl.events.NetStatusEvent;
 import openfl.events.AsyncErrorEvent;
@@ -47,11 +49,14 @@ class DisplayVideo extends BaseUI implements com.chaos.ui.classInterface.IBaseUI
     private var _video : Video;
     private var _background : DisplayObject;
     
-    private var _metaData : Dynamic = new Dynamic();
+    private var _metaData : Dynamic;
     
     private var _callBack : Function = null;
+	
+	private var _taskCallBack:TaskCallBack;
     
     private var _autoStart : Bool = false;
+	
     
     private var protocolList : Array<Dynamic> = ["rtmp", "rtmpe", "rtmps", "rtmpt", "rtmpte"];
     private var bufferReached : Bool = false;
@@ -73,7 +78,7 @@ class DisplayVideo extends BaseUI implements com.chaos.ui.classInterface.IBaseUI
         _connection = new NetConnection();
         _connection.addEventListener(NetStatusEvent.NET_STATUS, netStatusHandler);
         _connection.addEventListener(SecurityErrorEvent.SECURITY_ERROR, securityErrorHandler);
-        
+		
         addEventListener(Event.ADDED_TO_STAGE, onStageAdd, false, 0, true);
         
         addChild(_background);
@@ -86,24 +91,46 @@ class DisplayVideo extends BaseUI implements com.chaos.ui.classInterface.IBaseUI
             ThreadManager.stage = stage;
     }
     
-    override private function set_Width(value : Float) : Float
+	
+    /**
+	 * @inheritDoc
+	 */
+	
+    #if flash @:setter(width) 
+    private function set_width(value : Float) : Void
     {
+       _video.width = _background.width = value;
+    }
+	#else
+	override private function set_width(value : Float) : Float
+	{
         _video.width = _background.width = value;
         return value;
-    }
-    
-    override private function get_Width() : Float
+	}
+	#end
+	
+	
+    #if flash @:getter(width) #else override #end
+    private function get_width() : Float
     {
         return _video.width;
     }
-    
-    override private function set_Height(value : Float) : Float
+	
+	#if flash @:setter(height) 
+    private function set_height(value : Float) : Void
+    {
+        _video.height = _background.height = value;
+    }	
+	#else
+    override private function set_height(value : Float) : Float
     {
         _video.height = _background.height = value;
         return value;
     }
-    
-    override private function get_Height() : Float
+    #end
+	
+	#if flash @:getter(width) #else override #end
+    private function get_height() : Float
     {
         return _video.height;
     }
@@ -112,7 +139,7 @@ class DisplayVideo extends BaseUI implements com.chaos.ui.classInterface.IBaseUI
 	 * The amount of the video loaded from 0 to 100 percent
 	 */
     
-    private function get_VideoLoaded() : Int
+    private function get_videoLoaded() : Int
     {
         return _videoLoaded;
     }
@@ -121,7 +148,7 @@ class DisplayVideo extends BaseUI implements com.chaos.ui.classInterface.IBaseUI
 	 * The amount of the video loaded before event is fired
 	 */
     
-    private function set_BufferAmount(value : Int) : Int
+    private function set_bufferAmount(value : Int) : Int
     {
         _bufferAmount = value;
         return value;
@@ -131,7 +158,7 @@ class DisplayVideo extends BaseUI implements com.chaos.ui.classInterface.IBaseUI
 	 * Return the buffer amount
 	 */
 	
-    private function get_BufferAmount() : Int
+    private function get_bufferAmount() : Int
     {
         return _bufferAmount;
     }
@@ -140,7 +167,7 @@ class DisplayVideo extends BaseUI implements com.chaos.ui.classInterface.IBaseUI
 	 * Return the video display object
 	 */
 	
-    private function get_Video() : Video
+    private function get_video() : Video
     {
         return _video;
     }
@@ -149,7 +176,7 @@ class DisplayVideo extends BaseUI implements com.chaos.ui.classInterface.IBaseUI
 	 * Is video playing return true if so and false if not
 	 */
 	
-    private function get_IsPlaying() : Bool
+    private function get_isPlaying() : Bool
     {
         return _isPlaying;
     }
@@ -159,7 +186,7 @@ class DisplayVideo extends BaseUI implements com.chaos.ui.classInterface.IBaseUI
 	 *  Things on the object duration, width, height and framerate
 	 */
     
-    override private function get_MetaData() : Dynamic
+    private function get_metaData() : Dynamic
     {
         return _metaData;
     }
@@ -168,7 +195,7 @@ class DisplayVideo extends BaseUI implements com.chaos.ui.classInterface.IBaseUI
 	 * Returns the connection object
 	 */
     
-    private function get_Connection() : NetConnection
+    private function get_connection() : NetConnection
     {
         return _connection;
     }
@@ -177,7 +204,7 @@ class DisplayVideo extends BaseUI implements com.chaos.ui.classInterface.IBaseUI
 	 * Returns the net stream so you can attach a microphone or camera
 	 */
     
-    private function get_NetStream() : NetStream
+    private function get_netStream() : NetStream
     {
         return _stream;
     }
@@ -197,7 +224,8 @@ class DisplayVideo extends BaseUI implements com.chaos.ui.classInterface.IBaseUI
         var isMediaServer : Bool = false;
         
         // Check to see if string is pointing to media server
-        for (i in 0...protocolList.length){
+        for (i in 0...protocolList.length)
+		{
             if (Std.string(_videoURL).indexOf(protocolList[i]) != -1) 
                 isMediaServer = true;
         }
@@ -251,25 +279,21 @@ class DisplayVideo extends BaseUI implements com.chaos.ui.classInterface.IBaseUI
                 connectStream();
             
             case "NetStream.Play.StreamNotFound":
-                
                 trace("Unable to locate video: " + _videoURL);
             
             case "NetStream.Play.Start":
-                
                 _isPlaying = true;
                 
                 // Call back
                 if (null != _callBack) 
-                    _callBack(event);
+					Reflect.callMethod(this, _callBack, [event]);
                 
                 _callBack = null;
             
             case "NetStream.Play.Stop":
-                
                 _isPlaying = false;
             
             case "NetStream.Pause.Notify":
-                
                 _isPlaying = false;
             
             case "NetStream.Unpause.Notify":
@@ -280,8 +304,8 @@ class DisplayVideo extends BaseUI implements com.chaos.ui.classInterface.IBaseUI
     private function connectStream(event : NetStatusEvent = null) : Void
     {
         
-        var customClient : Dynamic = new Dynamic();
-        customClient.onMetaData = metaDataHandler;
+        var customClient : Dynamic = {"onMetaData":metaDataHandler};
+        //customClient.onMetaData = metaDataHandler;
         
         _stream = new NetStream(_connection);
         
@@ -306,7 +330,8 @@ class DisplayVideo extends BaseUI implements com.chaos.ui.classInterface.IBaseUI
             _callBack = null;
         }
         
-        ThreadManager.addEventTimer(videoBuffer);
+		_taskCallBack = new TaskCallBack(this, "videoBuffer");
+        ThreadManager.addEventTimer(_taskCallBack);
         
         addChild(_video);
     }
@@ -335,7 +360,7 @@ class DisplayVideo extends BaseUI implements com.chaos.ui.classInterface.IBaseUI
         if (null == _stream) 
             return;
         
-        _videoLoaded = (_stream.bytesLoaded / _stream.bytesTotal) * 100;
+        _videoLoaded = Std.int( (_stream.bytesLoaded / _stream.bytesTotal) * 100);
         
         if (_videoLoaded > bufferAmount && !bufferReached) 
         {
@@ -345,7 +370,9 @@ class DisplayVideo extends BaseUI implements com.chaos.ui.classInterface.IBaseUI
         
         if (_stream.bytesLoaded == _stream.bytesTotal && _stream.bytesTotal > 0) 
         {
-            ThreadManager.removeEventTimer(videoBuffer);
+			if(_taskCallBack != null)
+				ThreadManager.removeEventTimer(_taskCallBack);
+			
             dispatchEvent(new DisplayVideoEvent(DisplayVideoEvent.VIDEO_COMPLETE));
         }
     }

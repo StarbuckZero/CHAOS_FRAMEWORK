@@ -108,6 +108,10 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 		addEventListener(Event.ADDED_TO_STAGE, onStageAdd, false, 0, true);
 		addEventListener(Event.REMOVED_FROM_STAGE, onStageRemove, false, 0, true);
 		
+		addEventListener(Event.ADDED_TO_STAGE, stageInit, false, 0, true);
+		addEventListener(Event.REMOVED_FROM_STAGE, removeStageListener, false, 0, true);
+		
+		
 		init();
     }
 	
@@ -388,6 +392,7 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 	 *
 	 * @see com.chaos.ui.ScrollBarDirection;
 	 */  
+	
 	private function set_direction(value : String) : String 
 	{
 		if (ScrollBarDirection.HORIZONTAL == value || ScrollBarDirection.VERTICAL == value) 
@@ -767,7 +772,8 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
         }
         else if (value.toLowerCase() == UIDetailLevel.LOW) 
 		{
-			_showImage = false;_qualityMode = value.toLowerCase();
+			_showImage = false;
+			_qualityMode = value.toLowerCase();
         }
 		
         else 
@@ -790,7 +796,9 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 		{ 
 			// Flag for dragging
 			_dragging = false;
+			
 			marker.stopDrag();
+			
 			stage.removeEventListener(MouseEvent.MOUSE_MOVE, updatePercent);
 			stage.removeEventListener(MouseEvent.MOUSE_UP, stopSliding);
 			
