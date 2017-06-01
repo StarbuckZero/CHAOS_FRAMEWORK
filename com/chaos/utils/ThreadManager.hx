@@ -257,7 +257,9 @@ import com.chaos.utils.Debug;
 		{
 			
 			var taskCallBack:TaskCallBack = cast(eventCollection.getItemAt(i), TaskCallBack);
-			Reflect.callMethod(taskCallBack.mainClass, Reflect.field(taskCallBack.mainClass, taskCallBack.functionName),[]);
+			
+			if (taskCallBack != null)
+				Reflect.callMethod(taskCallBack.mainClass, Reflect.field(taskCallBack.mainClass, taskCallBack.functionName),[]);
 			
         }
     }

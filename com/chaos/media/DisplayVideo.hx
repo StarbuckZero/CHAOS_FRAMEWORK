@@ -232,7 +232,7 @@ class DisplayVideo extends BaseUI implements com.chaos.ui.classInterface.IBaseUI
 		// Check to see if string is pointing to media server
 		for (i in 0...protocolList.length)
 		{
-			if (Std.string(_videoURL).indexOf(protocolList[i]) != -1) 
+			if (Std.string(_videoURL).indexOf(protocolList[i]) != -1)
 				isMediaServer = true;
 		}
 		
@@ -240,7 +240,6 @@ class DisplayVideo extends BaseUI implements com.chaos.ui.classInterface.IBaseUI
 		
 		// Force video connect after setting url
 		_connection.connect(((isMediaServer)) ? _videoURL : null);
-			
 		
     }
     
@@ -274,6 +273,8 @@ class DisplayVideo extends BaseUI implements com.chaos.ui.classInterface.IBaseUI
     {
         if (null != _stream) 
             _stream.play(_videoURL);
+		
+		
     }
     
     private function netStatusHandler(event : NetStatusEvent) : Void
@@ -392,7 +393,7 @@ class DisplayVideo extends BaseUI implements com.chaos.ui.classInterface.IBaseUI
             return;
         
         _videoLoaded = Std.int( (_stream.bytesLoaded / _stream.bytesTotal) * 100);
-        trace(_videoLoaded);
+        
         if (_videoLoaded > bufferAmount && !bufferReached) 
         {
             bufferReached = true;
