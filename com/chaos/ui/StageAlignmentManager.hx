@@ -29,14 +29,15 @@ class StageAlignmentManager
 	private static var _minW : Int;
 	private static var _minH : Int;
 	private static var _registeredObjects : Dictionary; 
+	
 	/**
-		 * Inital call, sets stage and minimum stage size
-		 *
-		 * @param stageObj The stage object
-		 * @param minW The smallest size the stage will resize to width wise. Default is 800
-		 * @param minH The smallest size the stage will resize to height wise. Default is 600
-		 *
-		 */
+	 * Inital call, sets stage and minimum stage size
+	 *
+	 * @param stageObj The stage object
+	 * @param minW The smallest size the stage will resize to width wise. Default is 800
+	 * @param minH The smallest size the stage will resize to height wise. Default is 600
+	 *
+	  */
 	public static function init(stageObj : Stage, minW : Int = 800, minH : Int = 600) : Void
 	{
 		_stage = stageObj;
@@ -54,53 +55,55 @@ class StageAlignmentManager
 	 *
 	 * If you need to stop positioning objects for some reason
 	 */
+	
 	public static function kill() : Void
 	{
 		_stage.removeEventListener(Event.RESIZE, onStageResize);
 	}
 		
-		/**
-		 *
-		 *	Used to add a display object to the list of objects that will be laid out. It use the current location and keep it in place.
-		 *
-		 *	@param disp The new display object you want to link to the stage
-		 *	@param loc Pass one of the Nine slices for pinning objects alignment
-		 *	@param stayRelative If true the object will retain it's original offset from the stage (when registered). If false the object will pin to whichever corner is set by loc.
-		 */
-		public static function registerLocation(displayObj : DisplayObject, loc : Int, stayRelative : Bool = false, percentWidth : Int = -1, percentHeight : Int = -1) : Void
+	/**
+	 *
+	 *	Used to add a display object to the list of objects that will be laid out. It use the current location and keep it in place.
+	 *
+	 *	@param disp The new display object you want to link to the stage
+	 *	@param loc Pass one of the Nine slices for pinning objects alignment
+	 *	@param stayRelative If true the object will retain it's original offset from the stage (when registered). If false the object will pin to whichever corner is set by loc.
+	 */
+	public static function registerLocation(displayObj : DisplayObject, loc : Int, stayRelative : Bool = false, percentWidth : Int = -1, percentHeight : Int = -1) : Void
+	{
+		if (_stage != null) 
 		{
-			if (_stage != null) 
-			{
-				Reflect.setField(_registeredObjects, Std.string(displayObj), { location : loc, stayRelative : stayRelative, ogX : displayObj.x, ogY : displayObj.y, } );
+			Reflect.setField(_registeredObjects, Std.string(displayObj), { location : loc, stayRelative : stayRelative, ogX : displayObj.x, ogY : displayObj.y, } );
+		
+			if (percentWidth >= 0)
+			Reflect.setField(_registeredObjects, Std.string(displayObj), percentWidth).percentWidth;
 			
-				if (percentWidth >= 0)
-				Reflect.setField(_registeredObjects, Std.string(displayObj), percentWidth).percentWidth;
-				
-				if (percentHeight >= 0)  
-				Reflect.setField(_registeredObjects, Std.string(displayObj), percentHeight).percentHeight;
-				
-				onStageResize(null);
-			}
-			else
-				Debug.print("[StageAlignmentManager::registerLocation] Stage has not been set! Set the stage with the init function first.");
-		
+			if (percentHeight >= 0)  
+			Reflect.setField(_registeredObjects, Std.string(displayObj), percentHeight).percentHeight;
+			
+			onStageResize(null);
 		}
+		else
+			Debug.print("[StageAlignmentManager::registerLocation] Stage has not been set! Set the stage with the init function first.");
 		
-		/**
-		 * Stop tracking a display object when it comes to resize event
-		 * @param	displayObj The name of the object you no longer want to track
-		 */ 
+	}
 		
-		public static function unregisterLocation(displayObj : DisplayObject) : Void
-		{
-			if (null != Reflect.field(_registeredObjects, Std.string(displayObj)))
-				Reflect.setField(_registeredObjects, Std.string(displayObj), null);
-		}
+	/**
+	 * Stop tracking a display object when it comes to resize event
+	 * @param	displayObj The name of the object you no longer want to track
+	 */ 
+	
+	public static function unregisterLocation(displayObj : DisplayObject) : Void
+	{
+		if (null != Reflect.field(_registeredObjects, Std.string(displayObj)))
+			Reflect.setField(_registeredObjects, Std.string(displayObj), null);
+	}
 	
 	private static function onStageResize(e : Event = null) : Void
 	{
 		var sw : Int = ((_stage.stageWidth >= _minW)) ? _stage.stageWidth : _minW;
 		var sh : Int = ((_stage.stageHeight >= _minH)) ? _stage.stageHeight : _minH;
+		
 		for (displayObj in Reflect.fields(_registeredObjects))
 		{
 			var _sw0_ = (Reflect.field(_registeredObjects, displayObj).location);            

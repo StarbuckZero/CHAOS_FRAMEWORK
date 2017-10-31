@@ -42,15 +42,9 @@ class ToggleButtonLite extends BaseUI implements com.chaos.ui.classInterface.ITo
 	private var _baseDisable : Shape;
 	private var _toggleDown : Bool = false;
   
-  public function new(toggleSelected : Bool = false, toggleWidth : Int = -1, toggleHeight : Int = -1)
+  public function new(toggleSelected : Bool = false)
     {
         super();
-		
-		if (toggleWidth > 0)
-		width = toggleWidth;
-		
-		if (toggleHeight > 0)
-		height = toggleHeight;
 		
 		_toggleDown = toggleSelected;
 		
@@ -187,7 +181,9 @@ class ToggleButtonLite extends BaseUI implements com.chaos.ui.classInterface.ITo
 	 */
 	private function set_selected(value : Bool) : Bool
 	{
-		_toggleDown = value;draw();
+		_toggleDown = value;
+		draw();
+		
         return value;
     } 
 	

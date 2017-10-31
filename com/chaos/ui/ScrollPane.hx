@@ -166,6 +166,8 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 		
     } 
 	
+	
+	
 	/**
 	 * Border thinkness
 	 */ 
@@ -583,11 +585,17 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 	{  
 		// Draw background image
 		super.draw();
+		
 		if (null == _outline || null == shapeBlock)
 		return;
 		
 		shapeBlock.graphics.clear();
+		shapeBlock.alpha = 0;
 		
+		shapeBlock.graphics.drawRect(0, 0, _buttonWidth, _buttonHeight);
+		shapeBlock.graphics.endFill();
+		
+		/*
 		if (showImage) 
 		{
 			(_bgDisplayImage) ? shapeBlock.graphics.beginBitmapFill(_backgroundImage.image.bitmapData, null, true, imageSmoothing) : shapeBlock.graphics.beginFill(_shapeBlockColor);
@@ -597,9 +605,7 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 			shapeBlock.graphics.beginFill(_shapeBlockColor);
         }
 		
-		shapeBlock.graphics.drawRect(0, 0, _buttonWidth, _buttonHeight);
-		shapeBlock.graphics.endFill();
-		
+		*/
 		_outline.graphics.clear();  
 		
 		// Setup for border if need be  
@@ -607,6 +613,7 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 		{
 			_outline.graphics.lineStyle(_thinkness, _borderColor, _borderAlpha);
 			_outline.graphics.drawRect(0, 0, _width, _height);
+			_outline.graphics.endFill();
         }
 		
     }

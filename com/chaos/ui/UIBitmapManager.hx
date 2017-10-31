@@ -285,9 +285,9 @@ class UIBitmapManager
     public static inline var WINDOW_BOTTOM_PATTERN_RIGHT_MASK : String = "window_bottom_pattern_right_mask";
     
     private static var initialize : Bool = false;
-    private static var skinTheme : Object;
+    private static var skinTheme : Dynamic;
     
-    private static var watchList : Object; 
+    private static var watchList : Dynamic; 
     
     public function new()
     {
@@ -296,49 +296,52 @@ class UIBitmapManager
     
     private static function init() : Void
     {
-        skinTheme = new Object();
-        skinTheme[Alert.TYPE] = new Object();
-        skinTheme[Bubble.TYPE] = new Object();
-        skinTheme[Button.TYPE] = new Object();
-        skinTheme[ToggleButtonLite.TYPE] = new Object();
-        skinTheme[CheckBox.TYPE] = new Object();
-        skinTheme[ComboBox.TYPE] = new Object();
-        skinTheme[Label.TYPE] = new Object();
-        skinTheme[ListBox.TYPE] = new Object();
-        skinTheme[ProgressBar.TYPE] = new Object();
-        skinTheme[RadioButton.TYPE] = new Object();
-        skinTheme[ScrollBar.TYPE] = new Object();
-        skinTheme[ScrollPane.TYPE] = new Object();
-        skinTheme[Slider.TYPE] = new Object();
-        skinTheme[TabPane.TYPE] = new Object();
-        skinTheme[TextInput.TYPE] = new Object();
-        skinTheme[Window.TYPE] = new Object();
-        skinTheme[ItemPane.TYPE] = new Object();
-        skinTheme[GridPane.TYPE] = new Object();
-        skinTheme[ProgressSlider.TYPE] = new Object();
-        skinTheme[Menu.TYPE] = new Object();
+        skinTheme = { };
+		Reflect.setField(skinTheme, Alert.TYPE, { } );
+        Reflect.setField(skinTheme, Bubble.TYPE, { } );
+        Reflect.setField(skinTheme, Button.TYPE, { } );
+        Reflect.setField(skinTheme, ToggleButtonLite.TYPE, { } );
+        Reflect.setField(skinTheme, CheckBox.TYPE, { } );
+        Reflect.setField(skinTheme, ComboBox.TYPE, { } );
+        Reflect.setField(skinTheme, Label.TYPE, { } );
+        Reflect.setField(skinTheme, ListBox.TYPE, { } );
+        Reflect.setField(skinTheme, ProgressBar.TYPE, { } );
+        Reflect.setField(skinTheme, RadioButton.TYPE, { } );
+        Reflect.setField(skinTheme, ScrollBar.TYPE, { } );
+        Reflect.setField(skinTheme, ScrollPane.TYPE, { } );
+        Reflect.setField(skinTheme, Slider.TYPE, { } );
+        Reflect.setField(skinTheme, TabPane.TYPE, { } );
+        Reflect.setField(skinTheme, TextInput.TYPE, { } );
+        Reflect.setField(skinTheme, Window.TYPE, { } );
+        Reflect.setField(skinTheme, ItemPane.TYPE, { } );
+        Reflect.setField(skinTheme, GridPane.TYPE, { } );
+        Reflect.setField(skinTheme, ProgressSlider.TYPE, { } );
+        Reflect.setField(skinTheme, Menu.TYPE, { } );
+		
+		
         
-		watchList = new Object();
-        watchList[Alert.TYPE] = new DataProvider();
-        watchList[Bubble.TYPE] = new DataProvider();
-        watchList[Button.TYPE] = new DataProvider();
-        watchList[ToggleButtonLite.TYPE] = new DataProvider();
-        watchList[CheckBox.TYPE] = new DataProvider();
-        watchList[ComboBox.TYPE] = new DataProvider();
-        watchList[Label.TYPE] = new DataProvider();
-        watchList[ListBox.TYPE] = new DataProvider();
-        watchList[ProgressBar.TYPE] = new DataProvider();
-        watchList[RadioButton.TYPE] = new DataProvider();
-        watchList[ScrollBar.TYPE] = new DataProvider();
-        watchList[ScrollPane.TYPE] = new DataProvider();
-        watchList[Slider.TYPE] = new DataProvider();
-        watchList[TabPane.TYPE] = new DataProvider();
-        watchList[TextInput.TYPE] = new DataProvider();
-        watchList[Window.TYPE] = new DataProvider();
-        watchList[ItemPane.TYPE] = new DataProvider();
-        watchList[GridPane.TYPE] = new DataProvider();
-        watchList[ProgressSlider.TYPE] = new DataProvider();
-        watchList[Menu.TYPE] = new DataProvider();
+		watchList = { };
+		Reflect.setField(watchList, Alert.TYPE, new DataProvider() );
+        Reflect.setField(watchList, Bubble.TYPE, new DataProvider() );
+        Reflect.setField(watchList, Button.TYPE, new DataProvider() );
+        Reflect.setField(watchList, ToggleButtonLite.TYPE, new DataProvider() );
+        Reflect.setField(watchList, CheckBox.TYPE, new DataProvider() );
+        Reflect.setField(watchList, ComboBox.TYPE, new DataProvider() );
+        Reflect.setField(watchList, Label.TYPE, new DataProvider() );
+        Reflect.setField(watchList, ListBox.TYPE, new DataProvider() );
+        Reflect.setField(watchList, ProgressBar.TYPE, new DataProvider() );
+        Reflect.setField(watchList, RadioButton.TYPE, new DataProvider() );
+        Reflect.setField(watchList, ScrollBar.TYPE, new DataProvider() );
+        Reflect.setField(watchList, ScrollPane.TYPE, new DataProvider() );
+        Reflect.setField(watchList, Slider.TYPE, new DataProvider() );
+        Reflect.setField(watchList, TabPane.TYPE, new DataProvider() );
+        Reflect.setField(watchList, TextInput.TYPE, new DataProvider() );
+        Reflect.setField(watchList, Window.TYPE, new DataProvider() );
+        Reflect.setField(watchList, ItemPane.TYPE, new DataProvider() );
+        Reflect.setField(watchList, GridPane.TYPE, new DataProvider() );
+        Reflect.setField(watchList, ProgressSlider.TYPE,new DataProvider() );
+        Reflect.setField(watchList, Menu.TYPE, new DataProvider() );		
+
         
         initialize = true;
     }

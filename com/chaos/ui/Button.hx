@@ -1411,6 +1411,7 @@ class Button extends Overlay implements IButton implements IOverlay implements I
     
     private function normalState(event : MouseEvent) : Void
     {
+		/*
         // Set Roll over shadow filter
         if (_filterMode) 
         {
@@ -1424,6 +1425,7 @@ class Button extends Overlay implements IButton implements IOverlay implements I
         baseOver.visible = false;
         baseDown.visible = false;
         baseDisable.visible = false;
+		*/
     }
     
     private function overState(event : MouseEvent) : Void

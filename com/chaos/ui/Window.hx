@@ -2435,7 +2435,7 @@ class Window extends BaseUI implements IWindow implements IBaseUI
         }
         else 
 		{
-			_windowTitle.x = Std.int(_windowTopMiddle.width / 2);
+			_windowTitle.x = Std.int(_windowTopMiddle.width / 2) - TEXT_OFFSET_X;
         }
 		
 		_windowTitle.y = Std.int((_windowTopMiddle.height / 2) - TEXT_OFFSET_Y); 
@@ -2642,11 +2642,33 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 		var rightMask : DisplayObject;
 		
 		// Top
-		if (null != _imageTopPattern) {textureShape(_windowTopPattern, _windowWidth, _imageTopPattern.bitmapData.height, _imageTopPattern.bitmapData);leftMask = _windowTopPatternMask.getChildByName("leftMask");centerMask = _windowTopPatternMask.getChildByName("centerMask");rightMask = _windowTopPatternMask.getChildByName("rightMask");leftMask.x = _windowTopLeft.x;leftMask.y = _windowTopLeft.y;centerMask.x = _windowTopLeft.x + _windowTopLeft.width;centerMask.y = _windowTopLeft.y;centerMask.width = _windowTopMiddle.width;rightMask.x = _windowTopRight.x;rightMask.y = _windowTopLeft.y;
+		if (null != _imageTopPattern)
+		{
+			textureShape(_windowTopPattern, _windowWidth, _imageTopPattern.bitmapData.height, _imageTopPattern.bitmapData);
+			leftMask = _windowTopPatternMask.getChildByName("leftMask");
+			centerMask = _windowTopPatternMask.getChildByName("centerMask");
+			rightMask = _windowTopPatternMask.getChildByName("rightMask");
+			leftMask.x = _windowTopLeft.x;
+			leftMask.y = _windowTopLeft.y;
+			centerMask.x = _windowTopLeft.x + _windowTopLeft.width;
+			centerMask.y = _windowTopLeft.y;
+			centerMask.width = _windowTopMiddle.width;
+			rightMask.x = _windowTopRight.x;
+			rightMask.y = _windowTopLeft.y;
         }
 		
 		// Mid 
-		if (null != _imageMiddlePattern) {textureShape(_windowMiddlePattern, _windowWidth, _windowMiddleLeft.height, _imageMiddlePattern.bitmapData);leftMask = _windowMiddlePatternMask.getChildByName("leftMask");rightMask = _windowMiddlePatternMask.getChildByName("rightMask");leftMask.x = _windowMiddleLeft.x;leftMask.y = _windowMiddleLeft.y;leftMask.height = _scrollPane.height;rightMask.x = _windowMiddleRight.x;rightMask.y = _windowMiddleRight.y;rightMask.height = _scrollPane.height;
+		if (null != _imageMiddlePattern) 
+		{
+			textureShape(_windowMiddlePattern, _windowWidth, _windowMiddleLeft.height, _imageMiddlePattern.bitmapData);
+			leftMask = _windowMiddlePatternMask.getChildByName("leftMask");
+			rightMask = _windowMiddlePatternMask.getChildByName("rightMask");
+			
+			leftMask.x = _windowMiddleLeft.x; leftMask.y = _windowMiddleLeft.y;
+			leftMask.height = _scrollPane.height;
+			rightMask.x = _windowMiddleRight.x;
+			rightMask.y = _windowMiddleRight.y;
+			rightMask.height = _scrollPane.height;
         } 
 		
 		// Bottom 
@@ -2666,8 +2688,10 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 			rightMask.x = _windowBottomRight.x;
 			rightMask.y = _windowBottomRight.y;
         }
+		
 		if (_windowFocus) 
-		{  // Top Area 
+		{ 
+			// Top Area 
 			if (_windowTopLeftImage.loaded && _windowTopLeftSize > 0)       
 			textureShape(_windowTopLeftTexture, _windowTopLeft.width, _windowTopLeft.height, _windowTopLeftImage.image.bitmapData);
 			

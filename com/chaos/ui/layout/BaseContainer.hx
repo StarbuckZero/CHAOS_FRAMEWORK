@@ -278,14 +278,17 @@ class BaseContainer extends BaseUI implements IBaseContainer implements IBaseUI
     {
         super.draw();
         
-        backgroundShape.visible = _background;
+		// Don't show background
+        backgroundShape.alpha = (_background) ? 1 : 0;
         
+		
         backgroundShape.graphics.clear();
         
-        (_showImage && null != _imageBackground) ? backgroundShape.graphics.beginBitmapFill(_imageBackground.bitmapData, null, true, _smoothImage) : backgroundShape.graphics.beginFill(_backgroundColor, _backgroundAlpha);
+		(_showImage && null != _imageBackground) ? backgroundShape.graphics.beginBitmapFill(_imageBackground.bitmapData, null, true, _smoothImage) : backgroundShape.graphics.beginFill(_backgroundColor, _backgroundAlpha);
 		
-        backgroundShape.graphics.drawRect(0, 0, _width, _height);
-        backgroundShape.graphics.endFill();
+		backgroundShape.graphics.drawRect(0, 0, _width, _height);
+		backgroundShape.graphics.endFill();
+		
     }
     
     private function onImageLoaded(event : Event) : Void
