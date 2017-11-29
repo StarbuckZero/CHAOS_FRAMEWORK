@@ -55,6 +55,7 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
     public var textOverBackground(get, set) : Int;
     public var borderColor(get, set) : Int;
     public var borderAlpha(get, set) : Float;
+	public var borderThinkness(get, set) : Float;
     public var length(get, never) : Int;
     public var rowCount(get, set) : Int;
     public var showArrowButton(get, set) : Bool;
@@ -77,7 +78,7 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
   private var _background : Sprite;
   private var _embedFont : Font;
   private var _dropDownBorder : Sprite;
-  private var _thinkness : Int = 1;
+  private var _thinkness : Float = 1;
   private var _rowCount : Int = 3;
   private var _buttonWidth : Int = 17;
   private var _list : DataProvider = new DataProvider();
@@ -217,10 +218,11 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 		_dropDownHotspot.addEventListener(MouseEvent.CLICK, toggleList, false, 0, true);
 		
 		var dropDownIcon : ArrowDownIcon = new ArrowDownIcon(5, 5);
-		dropDownIcon.filterMode = false; setDropIcon(dropDownIcon.displayObject);
+		dropDownIcon.filterMode = false;
+		setDropIcon(dropDownIcon.displayObject);
 		
 		if (null != UIBitmapManager.getUIElement(ComboBox.TYPE, UIBitmapManager.COMBO_BACKGROUND))   
-		setBackgroundBitmap(UIBitmapManager.getUIElement(Button.TYPE, UIBitmapManager.COMBO_BACKGROUND));
+		setBackgroundBitmap(UIBitmapManager.getUIElement(ComboBox.TYPE, UIBitmapManager.COMBO_BACKGROUND));
 		
 		if (null != UIBitmapManager.getUIElement(ComboBox.TYPE, UIBitmapManager.COMBO_DROPDOWN_BACKGROUND)) 
 		setDropDownBackgroundBitmap(UIBitmapManager.getUIElement(ComboBox.TYPE, UIBitmapManager.COMBO_DROPDOWN_BACKGROUND));
@@ -429,6 +431,18 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 		return value;
 	}
 	
+	
+	private function set_borderThinkness( value : Float) : Float
+	{
+		_thinkness = value;
+		
+		return value;
+	}
+	
+	private function get_borderThinkness(): Float
+	{
+		return _thinkness;
+	}
 	
 	/**
 	*

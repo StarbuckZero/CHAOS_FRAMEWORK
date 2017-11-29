@@ -100,6 +100,13 @@ interface IComboBox extends IBaseUI
 	var textOverBackground(get, set) : Int;      
 	
 	/**
+	 * The color of the combo box border thinkness
+	 */
+	
+	var borderThinkness(get, set) : Float;    
+	
+	
+	/**
 	 * The color of the combo box border
 	 */
 	var borderColor(get, set) : Int;      
