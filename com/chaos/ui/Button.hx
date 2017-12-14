@@ -1420,12 +1420,12 @@ class Button extends Overlay implements IButton implements IOverlay implements I
             
             _buttonLabel.filters = textShadowArray;
         }
-        
+        */
         baseNormal.visible = true;
         baseOver.visible = false;
         baseDown.visible = false;
         baseDisable.visible = false;
-		*/
+		
     }
     
     private function overState(event : MouseEvent) : Void
