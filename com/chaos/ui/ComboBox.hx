@@ -105,6 +105,7 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
   private var _width : Float = 70;
   private var _height : Float = 15;
   private var _dropDownHotspot : Sprite;
+  private var _dropDownIcon:ArrowDownIcon;
   
 	/**
 	 * Creates a drop down list
@@ -166,6 +167,10 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 		_dropButton = new Button();
 		_dropDownHotspot = new Sprite(); 
 		
+		_dropDownIcon = new ArrowDownIcon(5, 5);
+		_dropDownIcon.filterMode = false;
+		setDropIcon(_dropDownIcon.displayObject);
+		
 		// Setup ScrollBar and DropDown Button
 		reskin();
 		
@@ -217,9 +222,6 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 		_dropButton.addEventListener(MouseEvent.CLICK, toggleList, false, 0, true);
 		_dropDownHotspot.addEventListener(MouseEvent.CLICK, toggleList, false, 0, true);
 		
-		var dropDownIcon : ArrowDownIcon = new ArrowDownIcon(5, 5);
-		dropDownIcon.filterMode = false;
-		setDropIcon(dropDownIcon.displayObject);
 		
 		if (null != UIBitmapManager.getUIElement(ComboBox.TYPE, UIBitmapManager.COMBO_BACKGROUND))   
 		setBackgroundBitmap(UIBitmapManager.getUIElement(ComboBox.TYPE, UIBitmapManager.COMBO_BACKGROUND));
@@ -316,6 +318,26 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 		
 		if ( -1 != UIStyleManager.COMBO_TEXT_DOWN_BACKGROUND_COLOR)     
         _textDownBackground = UIStyleManager.COMBO_TEXT_DOWN_BACKGROUND_COLOR;
+		
+		
+		// Drop Down Button
+		if ( -1 != UIStyleManager.COMBO_BUTTON_NORMAL_COLOR)
+			_dropButton.buttonColor = UIStyleManager.COMBO_BUTTON_NORMAL_COLOR;
+			
+		if ( -1 != UIStyleManager.COMBO_BUTTON_OVER_COLOR)
+			_dropButton.buttonOverColor = UIStyleManager.COMBO_BUTTON_OVER_COLOR;
+		
+		if ( -1 != UIStyleManager.COMBO_BUTTON_DOWN_COLOR)
+			_dropButton.buttonDownColor = UIStyleManager.COMBO_BUTTON_DOWN_COLOR;
+		
+		if ( -1 != UIStyleManager.COMBO_BUTTON_DISABLE_COLOR)
+			_dropButton.buttonDisableColor = UIStyleManager.COMBO_BUTTON_DISABLE_COLOR;
+		
+		if ( -1 != UIStyleManager.COMBO_BUTTON_ICON_COLOR)
+			_dropDownIcon.baseColor = UIStyleManager.COMBO_BUTTON_ICON_COLOR;
+			
+		if ( -1 != UIStyleManager.COMBO_BUTTON_ICON_BORDER_COLOR)
+			_dropDownIcon.borderColor = UIStyleManager.COMBO_BUTTON_ICON_BORDER_COLOR;
     }  
 	
 	/**
@@ -336,6 +358,7 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 		initDropDownButton();
 		initLabel();
 		initScrollBar();
+		
 		draw();
 		
 	}
@@ -1365,7 +1388,7 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 	{
 		cast(event.currentTarget,Label).textColor = _textColor;
 		cast(event.currentTarget,Label).backgroundColor = _backgroundColor;
-		cast(event.currentTarget,Label).background = false;
+		cast(event.currentTarget, Label).background = false;
     }
 	
 	private function textOverEvent(event : MouseEvent) : Void
@@ -1501,6 +1524,9 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 			
 			comboLabel.textField.setTextFormat(_textFormat);
 			comboDataObj.id = i;
+			
+			if (null != _textFormat.size)
+			comboLabel.size = _textFormat.size;
 			
 			if (null != _textFormat.align)
 			comboLabel.align = _textFormat.align;

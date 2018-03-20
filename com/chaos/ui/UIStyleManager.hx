@@ -195,6 +195,9 @@ class UIStyleManager
     public static var COMBO_BUTTON_DOWN_COLOR : Int = -1;
     public static var COMBO_BUTTON_DISABLE_COLOR : Int = -1;
     
+	public static var COMBO_BUTTON_ICON_COLOR : Int = -1;
+	public static var COMBO_BUTTON_ICON_BORDER_COLOR : Int = -1;
+	
     public static var COMBO_BORDER_ALPHA : Float = -1;
     public static var COMBO_BORDER : Bool = true;
     public static var COMBO_BORDER_COLOR : Int = -1;
