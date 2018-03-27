@@ -203,6 +203,8 @@ class UIStyleManager
     public static var COMBO_BORDER_COLOR : Int = -1;
     public static var COMBO_BORDER_THINKNESS : Float = -1;
     
+	public static var COMBO_DROPDOWN_PADDING : Int = -1;
+	
     public static var COMBO_TEXT_EMBED : Font = null;
     public static var COMBO_TEXT_FONT : String = "";
     public static var COMBO_TEXT_COLOR : Int = -1;

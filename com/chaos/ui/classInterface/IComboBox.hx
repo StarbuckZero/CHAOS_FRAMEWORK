@@ -128,6 +128,13 @@ interface IComboBox extends IBaseUI
 	 * Set the color of the track
 	 */
 	var scrollBarTrackColor(get, set) : Int;
+	
+	/**
+	 * Set spacing for
+	 */
+	var dropDownPadding(get, set) : Int;
+	
+	
 	/**
 	 * This is for setting an image to the drop down button default state. It is best to set an image that can be tile.
 	 *

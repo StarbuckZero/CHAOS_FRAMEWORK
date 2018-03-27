@@ -60,12 +60,15 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
     public var rowCount(get, set) : Int;
     public var showArrowButton(get, set) : Bool;
     public var scrollBarTrackColor(get, set) : Int;
+	public var dropDownPadding(get, set) : Int;
 	
   /** The type of UI Element */
   public static inline var TYPE : String = "ComboBox";
   
   /** The scrollbar offset */
   public static var SCROLLBAR_OFFSET : Int = 2;
+  public static var DROPAREA_HEIGHT_PADDING : Int = 0;
+  
   private var _selectLabel : Label;
   private var _selectIndex : Int = -1;
   private var _trackSize : Int = 15;
@@ -106,6 +109,7 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
   private var _height : Float = 15;
   private var _dropDownHotspot : Sprite;
   private var _dropDownIcon:ArrowDownIcon;
+  private var _dropDownPadding:Int = 0;
   
 	/**
 	 * Creates a drop down list
@@ -338,6 +342,11 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 			
 		if ( -1 != UIStyleManager.COMBO_BUTTON_ICON_BORDER_COLOR)
 			_dropDownIcon.borderColor = UIStyleManager.COMBO_BUTTON_ICON_BORDER_COLOR;
+			
+		if ( -1 != UIStyleManager.COMBO_DROPDOWN_PADDING)
+			_dropDownPadding = UIStyleManager.COMBO_DROPDOWN_PADDING;
+			
+
     }  
 	
 	/**
@@ -466,6 +475,19 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 	{
 		return _thinkness;
 	}
+	
+	private function set_dropDownPadding( value:Int ):Int
+	{
+		_dropDownPadding = value;
+		
+		return value;
+	}
+	
+	private function get_dropDownPadding():Int
+	{
+		return _dropDownPadding;
+	}
+	
 	
 	/**
 	*
@@ -1555,11 +1577,11 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 		
 		if (_rowCount >= _list.length - 1) 
 		{
-			_dropDownScrollContent = new ScrollContent(_dropDownList, _scrollbar, new Rectangle(0, _height, _width + SCROLLBAR_OFFSET + (_scrollbar.width - _buttonWidth), _height * (_list.length - 1) + SCROLLBAR_OFFSET));
+			_dropDownScrollContent = new ScrollContent(_dropDownList, _scrollbar, new Rectangle(0, _height, _width + SCROLLBAR_OFFSET + (_scrollbar.width - _buttonWidth), (_height + _dropDownPadding) * (_list.length - 1) + SCROLLBAR_OFFSET));
         }
         else 
 		{
-			_dropDownScrollContent = new ScrollContent(_dropDownList, _scrollbar, new Rectangle(0, _height, _width + SCROLLBAR_OFFSET + (_scrollbar.width - _buttonWidth), _height * (_rowCount - 1) + SCROLLBAR_OFFSET));
+			_dropDownScrollContent = new ScrollContent(_dropDownList, _scrollbar, new Rectangle(0, _height, _width + SCROLLBAR_OFFSET + (_scrollbar.width - _buttonWidth), (_height + _dropDownPadding) * (_rowCount - 1) + SCROLLBAR_OFFSET));
         }
 		
 		if (_rowCount >= _list.length - 1)   
@@ -1592,11 +1614,11 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 		
 		if (_rowCount >= _list.length - 1) 
 		{
-			_dropDownList.graphics.drawRect(0, 0, _width + SCROLLBAR_OFFSET + _scrollbar.width - _buttonWidth, _height * _list.length);
+			_dropDownList.graphics.drawRect(0, 0, _width + SCROLLBAR_OFFSET + _scrollbar.width - _buttonWidth, (_height + _dropDownPadding) * _list.length);
         }
         else 
 		{
-			_dropDownList.graphics.drawRect(0, 0, _width + SCROLLBAR_OFFSET - _buttonWidth, _height * _list.length);
+			_dropDownList.graphics.drawRect(0, 0, _width + SCROLLBAR_OFFSET - _buttonWidth, (_height + _dropDownPadding) * _list.length);
         }
 		
 		_dropDownList.graphics.endFill();
