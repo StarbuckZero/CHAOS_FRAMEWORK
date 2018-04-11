@@ -19,7 +19,7 @@ interface ISlider extends com.chaos.ui.classInterface.IBaseUI
 	 * Slider offset
 	 */ 
 	
-	var sliderOffSet(get, set) : Int;      
+	var sliderOffSet(get, set) : Float;      
 	
 	/**
 	 * The percent is represented as a value between 0 and 1.

@@ -357,7 +357,7 @@ class UIStyleManager
     public static var PROGRESS_SLIDER_OFFSET : Int = -1;
     
     public static var SCROLLBAR_ROTATE_IMAGE : Bool = false;
-    public static var SCROLLBAR_SLIDER_OFFSET : Int = -1;
+    public static var SCROLLBAR_SLIDER_OFFSET : Float = -1;
     
     public static var SCROLLBAR_BUTTON_NORMAL_COLOR : Int = -1;
     public static var SCROLLBAR_BUTTON_OVER_COLOR : Int = -1;

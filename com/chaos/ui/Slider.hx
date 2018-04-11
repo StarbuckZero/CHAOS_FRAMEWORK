@@ -32,7 +32,7 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
     public static var sliderEventMode(get, set) : String;
 	
     public var showTrack(get, set) : Bool;
-    public var sliderOffSet(get, set) : Int;
+    public var sliderOffSet(get, set) : Float;
     public var rotateImage(get, set) : Bool;
     public var percent(get, set) : Float;
     public var direction(get, set) : String;
@@ -49,7 +49,7 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
   /** The type of UI Element */
   public static inline var TYPE : String = "Slider";
   
-  public static var SLIDER_OFFSET : Int = 0; 
+  public static var SLIDER_OFFSET : Float = 0; 
   
   /** Does percent update check when slider is moved */  
   public static inline var EVENT_MODE : String = "event";  
@@ -80,7 +80,7 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
   public var sliderWidthNum : Float = 15;
   public var sliderHeightNum : Float = 15;
   
-  private var _sliderOffSet : Int = 0;
+  private var _sliderOffSet : Float = 0;
   
   private var _displayTrackerImage : Bool = false;
   private var _trackerImage : DisplayImage;
@@ -321,9 +321,11 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 	 * Slider offset
 	 */
 	 
-	private function set_sliderOffSet(value : Int) : Int
+	private function set_sliderOffSet(value : Float) : Float
 	{
-		_sliderOffSet = value;draw();
+		_sliderOffSet = value;
+		draw();
+		
         return value;
     }
 	
@@ -331,7 +333,7 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 	 * Return the slider
 	 */
 	
-	private function get_sliderOffSet() : Int
+	private function get_sliderOffSet() : Float
 	{
 		return _sliderOffSet;
     }
