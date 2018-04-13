@@ -310,6 +310,9 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 		if (null != UIStyleManager.COMBO_TEXT_EMBED) 
 		_selectLabel.setEmbedFont(UIStyleManager.COMBO_TEXT_EMBED);
 		
+		if ("" != UIStyleManager.COMBO_DEFAULT_TEXT)
+		_selectLabel.text = UIStyleManager.COMBO_DEFAULT_TEXT;
+		
 		// Set the Style for Over and Down states 
 		if ( -1 != UIStyleManager.COMBO_TEXT_OVER_COLOR)  
 		_textOverColor = UIStyleManager.COMBO_TEXT_OVER_COLOR;

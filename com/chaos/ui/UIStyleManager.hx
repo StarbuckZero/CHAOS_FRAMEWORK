@@ -217,6 +217,8 @@ class UIStyleManager
     
     public static var COMBO_TEXT_OVER_COLOR : Int = -1;
     public static var COMBO_TEXT_DOWN_COLOR : Int = -1;
+	
+	public static var COMBO_DEFAULT_TEXT : String = "";
     
     public static var COMBO_TEXT_NORMAL_BACKGROUND_COLOR : Int = -1;
     public static var COMBO_TEXT_OVER_BACKGROUND_COLOR : Int = -1;
