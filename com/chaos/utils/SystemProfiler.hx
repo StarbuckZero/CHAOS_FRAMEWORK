@@ -199,7 +199,7 @@ class SystemProfiler extends Sprite
                 coolDownCounter--;
         }
         
-        _memory = (System.totalMemory / 1024 / 1024);
+        _memory = Math.round(System.totalMemory / 1024 / 1024 * 100) / 100;
         
         // Check to see if item is in slot
         if (null != stage) 
@@ -214,9 +214,7 @@ class SystemProfiler extends Sprite
         // Add up everything
         //averageFrameRateArray.every(addValues);
 		for (i in 0...averageFrameRateArray.length)
-		{
 			addValues();
-		}
 		
 		
         
