@@ -1580,7 +1580,7 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 		
 		if (_rowCount >= _list.length - 1) 
 		{
-			_dropDownScrollContent = new ScrollContent(_dropDownList, _scrollbar, new Rectangle(0, _height, _width + SCROLLBAR_OFFSET + (_scrollbar.width - _buttonWidth), (_height + _dropDownPadding) * (_list.length - 1) + SCROLLBAR_OFFSET));
+			_dropDownScrollContent = new ScrollContent(_dropDownList, _scrollbar, new Rectangle(0, _height, _width + SCROLLBAR_OFFSET + (_scrollbar.width - _buttonWidth), (_height + _dropDownPadding) * (_list.length) + SCROLLBAR_OFFSET));
         }
         else 
 		{
@@ -1599,8 +1599,8 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 		_dropDownBorder.y = _dropDownList.y;
 		_dropDownBorder.graphics.clear();
 		_dropDownBorder.graphics.lineStyle(_thinkness, _outlineColor, _outlineAlpha);
-		_dropDownBorder.graphics.lineTo(0, (_scrollbar.height - _thinkness));
-		_dropDownBorder.graphics.lineTo(_dropDownList.width, (_scrollbar.height - _thinkness));
+		_dropDownBorder.graphics.lineTo(0, (((_height + _dropDownPadding) * (_list.length)) - _thinkness));
+		_dropDownBorder.graphics.lineTo(_dropDownList.width, (((_height + _dropDownPadding) * (_list.length))  - _thinkness));
 		_dropDownBorder.graphics.lineTo(_dropDownList.width, 0);
 		_dropDownBorder.graphics.moveTo(0, 0);
 		_dropDownList.graphics.clear(); 
