@@ -614,10 +614,10 @@ class Bubble extends Overlay implements IBubble implements IOverlay implements I
         }
         else if (_tailPlacement == "top") 
         {
-            _tail.rotation = 180;
+            _tail.rotation = 0;
             
             _tail.x = (_tailAutoCenter) ? (width / 2) : _tailLocation;
-            _tail.y = _tail.height;
+            _tail.y = -_tail.height;
         }
         else if (_tailPlacement == "left") 
         {
