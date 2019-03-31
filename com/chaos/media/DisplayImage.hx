@@ -11,8 +11,6 @@ import openfl.errors.Error;
 import com.chaos.ui.BaseUI;
 import com.chaos.utils.Debug;
 import openfl.display.Loader;
-import openfl.display.LoaderInfo;
-import openfl.display.Sprite;
 import openfl.display.Bitmap;
 import openfl.events.IOErrorEvent;
 import openfl.net.URLLoader;
@@ -56,7 +54,7 @@ class DisplayImage extends BaseUI implements IBaseUI
 	 * @eventType openfl.events.Event.COMPLETE
 	 */ 
 	
-	private function new()
+	public function new()
     {
 		super();
 		init();

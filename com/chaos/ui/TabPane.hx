@@ -56,7 +56,7 @@ class TabPane extends ScrollPane implements ITabPane implements IScrollPane impl
   private var _scrollButtonDisableColor : Int = 0x999999;
   private var _selectedIndex : Int = 0;
   
-  private function new(paneWidth : Int = 400, paneHeight : Int = 300)
+  public function new(paneWidth : Int = 400, paneHeight : Int = 300)
     {
 		super(paneWidth, paneHeight);
 		

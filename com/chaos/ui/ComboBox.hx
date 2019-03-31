@@ -119,7 +119,7 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 	 * 
 	 */ 
 	
-	private function new(comboWidth : Int = 70, comboHeight : Int = 15, comboList : DataProvider = null)
+	public function new(comboWidth : Int = 70, comboHeight : Int = 15, comboList : DataProvider = null)
 	{
 		super();
 		

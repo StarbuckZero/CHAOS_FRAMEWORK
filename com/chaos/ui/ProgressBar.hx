@@ -88,7 +88,7 @@ import com.chaos.ui.UIBitmapManager;
 		private var _percent : Int = 0;
 		private var _filterMode : Bool = true;
 	
-	private function new(progressBarWidth : Int = 100, progressBarHeight : Int = 15)
+	public function new(progressBarWidth : Int = 100, progressBarHeight : Int = 15)
     {
         super();
 		

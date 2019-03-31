@@ -79,7 +79,7 @@ class CheckBox extends ToggleButtonLite implements ICheckBox implements IBaseUI
 	 * @param	labelText The label name
 	 */
 	
-	private function new(labelText : String = "")
+	public function new(labelText : String = "")
     {
         super();
 		

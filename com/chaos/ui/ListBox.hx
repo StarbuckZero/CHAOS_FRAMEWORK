@@ -67,7 +67,7 @@ import com.chaos.ui.UIBitmapManager;
 	 *
 	 * @eventType openfl.events.Event.CHANGE
 	 */ 
-	private function new(listWidth : Int = 100, listHeight : Int = 100, listData : DataProvider = null)
+	public function new(listWidth : Int = 100, listHeight : Int = 100, listData : DataProvider = null)
     {
 		super();
 		

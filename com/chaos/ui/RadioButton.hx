@@ -83,7 +83,7 @@ class RadioButton extends ToggleButtonLite implements IRadioButton implements IB
 	private var _showImage : Bool = true;
 	
 	
-	private function new(labelText : String = "")
+	public function new(labelText : String = "")
     {
         
 		// Init toggle class first

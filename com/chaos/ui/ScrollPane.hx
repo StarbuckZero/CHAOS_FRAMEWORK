@@ -85,7 +85,7 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 	private var _bgDisplayImage : Bool = false;
 	private var _backgroundImage : DisplayImage;
 	
-	private function new(paneWidth : Int = 400, paneHeight : Int = 300)
+	public function new(paneWidth : Int = 400, paneHeight : Int = 300)
     {
 		super(paneWidth, paneHeight);
 		
