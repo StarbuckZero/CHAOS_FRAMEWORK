@@ -71,7 +71,7 @@ class TextInput extends Label implements ITextInput implements ILabel implements
 	private var _defaultString : String = "";
 	private var _upperCaseFirst : Bool = false;
 	
-	private function new(labelText : String = "", labelWidth : Int = 100, labelHeight : Int = 20)
+	public function new(labelText : String = "", labelWidth : Int = 100, labelHeight : Int = 20)
     {
 		super(labelText, labelWidth, labelHeight);
 		
