@@ -33,9 +33,6 @@ class GridCell extends BaseUI implements IBaseUI implements IGridCell
     private var _layoutClass : Class<Dynamic> = GridCellLayout.FIT;
     private var _container : IAlignmentContainer;
     
-    private var _width : Float = 100;
-    private var _height : Float = 100;
-    
     private var _border : Bool = true;
     
     private var _thinkness : Float = 1;
@@ -86,53 +83,6 @@ class GridCell extends BaseUI implements IBaseUI implements IGridCell
         draw();
     }
     
-    /**
-	 * @inheritDoc
-	 */
-    #if flash @:getter(width) #else override #end
-     private function set_width(value : Float) : Float
-    {
-        _width = value;
-        
-        if (null != _container) 
-            _container.width = value;
-        
-        draw();
-        return value;
-    }
-    
-    /**
-	 * @inheritDoc
-	 */
-    #if flash @:getter(width) #else override #end
-     private function get_width() : Float
-    {
-        return ((null != _container)) ? _container.width : _width;
-    }
-    
-    /**
-	 * @inheritDoc
-	 */
-    #if flash @:getter(width) #else override #end
-     private function set_height(value : Float) : Float
-    {
-        _height = value;
-        
-        if (null != _container) 
-            _container.height = value;
-        
-        draw();
-        return value;
-    }
-    
-    /**
-	 * @inheritDoc
-	 */
-    #if flash @:getter(width) #else override #end
-    private function get_height() : Float
-    {
-        return ((null != _container)) ? _container.height : _height;
-    }
     
     /**
 	 * Toggle on and off border
@@ -285,6 +235,12 @@ class GridCell extends BaseUI implements IBaseUI implements IGridCell
         if (null == outline) 
             return;
         
+        if (null != _container) 
+		{
+            _container.width = _width;
+            _container.height = _height;
+		}
+			
         outline.graphics.clear();
         
         // Setup for border if need be

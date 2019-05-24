@@ -1,9 +1,9 @@
 package com.chaos.ui.classInterface;
 
-import haxe.Constraints.Function;
+
 import openfl.display.DisplayObject;
 import openfl.display.DisplayObjectContainer;
-import openfl.events.Event;
+
 
 interface IBaseUI 
 {
@@ -18,26 +18,9 @@ interface IBaseUI
 	/**
 	 * True if the object is enabled and false if not
 	 */
-	
-	/**
-	 * Return true or false based on if the object is enabled or not
-	 */
-	
 	 
 	var enabled(get, set) : Bool;
-		
-	/**
-	 * Set the level of detail on the text input. This degrade the text input with LOW, MEDIUM and HIGH settings.
-	 * Use the the UIDetailLevel class to change the settings.
-	 *
-	 * LOW - Remove all filters and bitmap images.
-	 * MEDIUM - Remove all filters but leaves bitmap images with image smoothing off.
-	 * HIGH - Enable and show all filters plus display bitmap images if set
-	 *
-	 * @param value Send the value "low","medium" or "high"
-	 */   
-	
-	 var detail(get, set) : String;  
+
 	 
 	#if flash
 	var width:Float;

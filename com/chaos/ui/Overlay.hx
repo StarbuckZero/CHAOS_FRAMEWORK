@@ -2,13 +2,11 @@ package com.chaos.ui;
 
 
 import com.chaos.ui.classInterface.IOverlay;
-import com.chaos.utils.Utils;
-import openfl.events.Event;
 
-import openfl.display.Sprite;
+import openfl.display.BitmapData;
 import openfl.display.Shape;
-import openfl.display.Bitmap;
-import openfl.display.DisplayObject;
+
+
 
 /**
  * This is a layer that goes applies an object
@@ -35,19 +33,16 @@ class Overlay extends BaseUI implements IOverlay
     public var middleLeftPattern : Shape;
     public var middleRightPattern : Shape;
     
-    private var _topLeftImage : Bitmap;
-    private var _topMiddleImage : Bitmap;
-    private var _topRightImage : Bitmap;
+    private var _topLeftImage : BitmapData;
+    private var _topMiddleImage : BitmapData;
+    private var _topRightImage : BitmapData;
     
-    private var _bottomLeftImage : Bitmap;
-    private var _bottomMiddleImage : Bitmap;
-    private var _bottomRightImage : Bitmap;
+    private var _bottomLeftImage : BitmapData;
+    private var _bottomMiddleImage : BitmapData;
+    private var _bottomRightImage : BitmapData;
     
-    private var _middleLeftImage : Bitmap;
-    private var _middleRightImage : Bitmap;
-    
-    private var _width : Float;
-    private var _height : Float;
+    private var _middleLeftImage : BitmapData;
+    private var _middleRightImage : BitmapData;
     
     private var _smoothImage : Bool = true;
     private var _showImage : Bool = true;
@@ -56,7 +51,7 @@ class Overlay extends BaseUI implements IOverlay
     private var _tileMiddleImage : Bool = false;
     private var _tileBottomCenterImage : Bool = false;
     
-    private var _qualityMode : String = UIDetailLevel.HIGH;
+    
     
     public function new(defaultWidth : Float = 100, defaultHeight : Float = 100)
     {
@@ -84,17 +79,6 @@ class Overlay extends BaseUI implements IOverlay
         middleLeftPattern = new Shape();
         middleRightPattern = new Shape();
         
-        _topLeftImage = new Bitmap();
-        _topMiddleImage = new Bitmap();
-        _topRightImage = new Bitmap();
-        
-        _bottomLeftImage = new Bitmap();
-        _bottomMiddleImage = new Bitmap();
-        _bottomRightImage = new Bitmap();
-        
-        _middleLeftImage = new Bitmap();
-        _middleRightImage = new Bitmap();
-        
         // Overlay corners first
         addChild(middleLeftPattern);
         addChild(middleRightPattern);
@@ -109,68 +93,6 @@ class Overlay extends BaseUI implements IOverlay
         addChild(bottomRightPattern);
     }
     
-    
-    /**
-	 * @inheritDoc
-	 */
-	
-    #if flash @:setter(width)
-    private function set_width(value : Float) : Void
-    {
-        _width = value;
-        draw();
-		
-    }
-	#else
-	override private function set_width(value : Float) : Float
-	{
-        _width = value;
-        draw();
-		
-		return value;
-	}
-	#end
-	
-    /**
-	 * @inheritDoc
-	 */
-	
-    #if flash @:getter(width) #else override #end
-    private function get_width() : Float
-    {
-        return _width;
-    }
-	
-    
-    /**
-	 * @inheritDoc
-	 */
-	
-    #if flash @:setter(height)
-    private function set_height(value : Float) : Void
-    {
-        _height = value;
-        draw();
-    }
-	#else  
-    override private function set_height(value : Float) : Float
-    {
-        _height = value;
-        draw();
-		
-        return value;
-    }	
-	#end
-	
-    /**
-	 * @inheritDoc
-	 */
-	
-    #if flash @:getter(height) #else override #end
-    private function get_height() : Float
-    {
-        return _height;
-    }
 	
     
     /**
@@ -238,7 +160,7 @@ class Overlay extends BaseUI implements IOverlay
 	 * @param	rightImage An right image that will be used
 	 */
     
-    public function setTopImage(leftImage : Bitmap = null, middleImage : Bitmap = null, rightImage : Bitmap = null) : Void
+    public function setTopImage(leftImage : BitmapData = null, middleImage : BitmapData = null, rightImage : BitmapData = null) : Void
     {
         if (null != leftImage) 
             _topLeftImage = leftImage;
@@ -258,7 +180,7 @@ class Overlay extends BaseUI implements IOverlay
 	 * @param	rightImage right hand side
 	 */
     
-    public function setMiddleCenterImage(leftImage : Bitmap = null, rightImage : Bitmap = null) : Void
+    public function setMiddleCenterImage(leftImage : BitmapData = null, rightImage : BitmapData = null) : Void
     {
         if (null != leftImage) 
             _middleLeftImage = leftImage;
@@ -276,7 +198,7 @@ class Overlay extends BaseUI implements IOverlay
 	 * @param	rightImage lower right image
 	 */
     
-    public function setBottomImage(leftImage : Bitmap = null, middleImage : Bitmap = null, rightImage : Bitmap = null) : Void
+    public function setBottomImage(leftImage : BitmapData = null, middleImage : BitmapData = null, rightImage : BitmapData = null) : Void
     {
         if (null != leftImage) 
             _bottomLeftImage = leftImage;
@@ -290,60 +212,7 @@ class Overlay extends BaseUI implements IOverlay
         drawBottomImage();
     }
     
-    /**
-	 * Set the level of detail on the Window. This degrade the combo box with LOW, MEDIUM and HIGH settings.
-	 * Use the the UIDetailLevel class to change the settings.
-	 *
-	 * LOW - Remove all filters and bitmap images.
-	 * MEDIUM - Remove all filters but leaves bitmap images with image smoothing off.
-	 * HIGH - Enable and show all filters plus display bitmap images if set
-	 *
-	 * @param value Send the value "low","medium" or "high"
-	 * @see com.chaos.ui.UIDetailLevel
-	 */
-    
-    override function set_detail(value : String) : String
-    {
-        
-        // Set detail settings
-        if (UIDetailLevel.HIGH == value) 
-        {
-            _showImage = true;
-            _smoothImage = true;
-        }
-        else if (UIDetailLevel.MEDIUM == value) 
-        {
-            _showImage = true;
-            _smoothImage = false;
-        }
-        else if (UIDetailLevel.LOW == value) 
-        {
-            _showImage = false;
-            _smoothImage = false;
-        }
-        else 
-        {
-            _showImage = false;
-            _smoothImage = false;
-            
-            _qualityMode = UIDetailLevel.LOW;
-        }
-        
-        draw();
-        return value;
-    }
-    
-    /**
-	 *
-	 * @return Return low, medium or high as string.
-	 *
-	 * @see com.chaos.ui.UIDetailLevel
-	 */
-    
-    override function get_detail() : String
-    {
-        return _qualityMode;
-    }
+
     
     /**
 	 * Draw the Overlay and all the UI classes it's using
@@ -366,7 +235,7 @@ class Overlay extends BaseUI implements IOverlay
         topMiddlePattern.y = 0;
         
         // Upper Right
-        topRightPattern.x = _width - topRightPattern.width;
+        topRightPattern.x = width - topRightPattern.width;
         topRightPattern.y = 0;
         
         // Middle Left
@@ -374,7 +243,7 @@ class Overlay extends BaseUI implements IOverlay
         middleLeftPattern.y = topLeftPattern.height;
         
         // Middle Right
-        middleRightPattern.x = _width - middleRightPattern.width;
+        middleRightPattern.x = width - middleRightPattern.width;
         middleRightPattern.y = topRightPattern.height;
         
         // Bottom Left
@@ -386,7 +255,7 @@ class Overlay extends BaseUI implements IOverlay
         bottomMiddlePattern.y = bottomLeftPattern.y;
         
         // Bottom Right
-        bottomRightPattern.x = _width - bottomRightPattern.width;
+        bottomRightPattern.x = width - bottomRightPattern.width;
         bottomRightPattern.y = bottomMiddlePattern.y;
     }
     
@@ -397,10 +266,10 @@ class Overlay extends BaseUI implements IOverlay
         
         topLeftPattern.graphics.clear();
         
-        if (null != _topLeftImage.bitmapData) 
+        if (null != _topLeftImage) 
         {
-            topLeftPattern.graphics.beginBitmapFill(_topLeftImage.bitmapData, null, false, _smoothImage);
-            topLeftPattern.graphics.drawRect(0, 0, _topLeftImage.bitmapData.width, _topLeftImage.bitmapData.height);
+            topLeftPattern.graphics.beginBitmapFill(_topLeftImage, null, false, _smoothImage);
+            topLeftPattern.graphics.drawRect(0, 0, _topLeftImage.width, _topLeftImage.height);
             topLeftPattern.graphics.endFill();
         }  // Top Right  
         
@@ -408,10 +277,10 @@ class Overlay extends BaseUI implements IOverlay
         
         topRightPattern.graphics.clear();
         
-        if (null != _topRightImage.bitmapData) 
+        if (null != _topRightImage) 
         {
-            topRightPattern.graphics.beginBitmapFill(_topRightImage.bitmapData, null, false, _smoothImage);
-            topRightPattern.graphics.drawRect(0, 0, _topRightImage.bitmapData.width, _topRightImage.bitmapData.height);
+            topRightPattern.graphics.beginBitmapFill(_topRightImage, null, false, _smoothImage);
+            topRightPattern.graphics.drawRect(0, 0, _topRightImage.width, _topRightImage.height);
             topRightPattern.graphics.endFill();
         }  // Top Middle  
         
@@ -419,10 +288,10 @@ class Overlay extends BaseUI implements IOverlay
         
         topMiddlePattern.graphics.clear();
         
-        if (null != _topMiddleImage.bitmapData) 
+        if (null != _topMiddleImage) 
         {
-            topMiddlePattern.graphics.beginBitmapFill(_topMiddleImage.bitmapData, null, _tileTopCenterImage, _smoothImage);
-            topMiddlePattern.graphics.drawRect(0, 0, _width - (topRightPattern.width + topLeftPattern.width), _topMiddleImage.height);
+            topMiddlePattern.graphics.beginBitmapFill(_topMiddleImage, null, _tileTopCenterImage, _smoothImage);
+            topMiddlePattern.graphics.drawRect(0, 0, width - (topRightPattern.width + topLeftPattern.width), _topMiddleImage.height);
             topMiddlePattern.graphics.endFill();
         }
     }
@@ -434,11 +303,11 @@ class Overlay extends BaseUI implements IOverlay
         // Middle Left
         middleLeftPattern.graphics.clear();
         
-        if (null != _middleLeftImage.bitmapData) 
+        if (null != _middleLeftImage) 
         {
             
-            middleLeftPattern.graphics.beginBitmapFill(_middleLeftImage.bitmapData, null, _tileMiddleImage, _smoothImage);
-            middleLeftPattern.graphics.drawRect(0, 0, _middleLeftImage.width, _height - (bottomLeftPattern.height + topLeftPattern.height));
+            middleLeftPattern.graphics.beginBitmapFill(_middleLeftImage, null, _tileMiddleImage, _smoothImage);
+            middleLeftPattern.graphics.drawRect(0, 0, _middleLeftImage.width, height - (bottomLeftPattern.height + topLeftPattern.height));
             middleLeftPattern.graphics.endFill();
         }  // Middle Right  
         
@@ -446,10 +315,10 @@ class Overlay extends BaseUI implements IOverlay
         
         middleRightPattern.graphics.clear();
         
-        if (null != _middleRightImage.bitmapData) 
+        if (null != _middleRightImage) 
         {
-            middleRightPattern.graphics.beginBitmapFill(_middleRightImage.bitmapData, null, _tileMiddleImage, _smoothImage);
-            middleRightPattern.graphics.drawRect(0, 0, _middleRightImage.width, _height - (bottomRightPattern.height + topRightPattern.height));
+            middleRightPattern.graphics.beginBitmapFill(_middleRightImage, null, _tileMiddleImage, _smoothImage);
+            middleRightPattern.graphics.drawRect(0, 0, _middleRightImage.width, height - (bottomRightPattern.height + topRightPattern.height));
             middleRightPattern.graphics.endFill();
         }
     }
@@ -459,9 +328,9 @@ class Overlay extends BaseUI implements IOverlay
         // Bottom Left
         bottomLeftPattern.graphics.clear();
         
-        if (null != _bottomLeftImage.bitmapData) 
+        if (null != _bottomLeftImage) 
         {
-            bottomLeftPattern.graphics.beginBitmapFill(_bottomLeftImage.bitmapData, null, false, _smoothImage);
+            bottomLeftPattern.graphics.beginBitmapFill(_bottomLeftImage, null, false, _smoothImage);
             bottomLeftPattern.graphics.drawRect(0, 0, _bottomLeftImage.width, _bottomLeftImage.height);
             bottomLeftPattern.graphics.endFill();
         }  // Bottom Right  
@@ -470,9 +339,9 @@ class Overlay extends BaseUI implements IOverlay
         
         bottomRightPattern.graphics.clear();
         
-        if (null != _bottomRightImage.bitmapData) 
+        if (null != _bottomRightImage) 
         {
-            bottomRightPattern.graphics.beginBitmapFill(_bottomRightImage.bitmapData, null, false, _smoothImage);
+            bottomRightPattern.graphics.beginBitmapFill(_bottomRightImage, null, false, _smoothImage);
             bottomRightPattern.graphics.drawRect(0, 0, _bottomRightImage.width, _bottomRightImage.height);
             bottomRightPattern.graphics.endFill();
         }  // Bottom Middle  
@@ -481,10 +350,10 @@ class Overlay extends BaseUI implements IOverlay
         
         bottomMiddlePattern.graphics.clear();
         
-        if (null != _bottomMiddleImage.bitmapData) 
+        if (null != _bottomMiddleImage) 
         {
-            bottomMiddlePattern.graphics.beginBitmapFill(_bottomMiddleImage.bitmapData, null, _tileBottomCenterImage, _smoothImage);
-            bottomMiddlePattern.graphics.drawRect(0, 0, _width - (bottomLeftPattern.width + bottomRightPattern.width), _bottomMiddleImage.height);
+            bottomMiddlePattern.graphics.beginBitmapFill(_bottomMiddleImage, null, _tileBottomCenterImage, _smoothImage);
+            bottomMiddlePattern.graphics.drawRect(0, 0, width - (bottomLeftPattern.width + bottomRightPattern.width), _bottomMiddleImage.height);
             bottomMiddlePattern.graphics.endFill();
         }
     }

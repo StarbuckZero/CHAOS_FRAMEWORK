@@ -33,17 +33,17 @@ class CloseIcon extends BaseIcon implements IBasicIcon
         super.draw();
         
         // Create Icon
-        iconArea.graphics.clear();
+        _iconArea.graphics.clear();
         
-        ((showImage && null != displayImg.image)) ? iconArea.graphics.beginBitmapFill(displayImg.image.bitmapData) : iconArea.graphics.beginFill(baseColor);
+        ((showImage && null != _image)) ? _iconArea.graphics.beginBitmapFill(_image) : _iconArea.graphics.beginFill(baseColor);
         
         if (border) 
-            iconArea.graphics.lineStyle(borderThinkness, borderColor, borderAlpha);
+            _iconArea.graphics.lineStyle(borderThinkness, borderColor, borderAlpha);
 			
 		// Draw an X
-        iconArea.graphics.lineTo(width, height);
-        iconArea.graphics.moveTo(0, height);
-        iconArea.graphics.lineTo(width, 0);
+        _iconArea.graphics.lineTo(width, height);
+        _iconArea.graphics.moveTo(0, height);
+        _iconArea.graphics.lineTo(width, 0);
     }
 }
 

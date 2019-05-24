@@ -35,8 +35,7 @@ class ProgressSlider extends ProgressBar implements IProgressSlider implements I
         addEventListener(Event.REMOVED_FROM_STAGE, onStageRemove, false, 0, true);
         
         addChild(_slider);
-        
-        //init();
+       
     }
     
     /**
@@ -184,13 +183,6 @@ class ProgressSlider extends ProgressBar implements IProgressSlider implements I
 	 * @inheritDoc
 	 */
 	
-	#if flash @:setter(width)
-    override private function set_width(value : Float) : Void
-    {
-        _slider.width = value;
-		super.set_width(_width);
-    }
-    #else
     override private function set_width(value : Float) : Float
     {
         _slider.width = value;
@@ -198,33 +190,17 @@ class ProgressSlider extends ProgressBar implements IProgressSlider implements I
 		
         return value;
     }
-	#end
 	
     /**
 	 * @inheritDoc
 	 */
-	#if flash @:setter(height)
-    override private function set_height(value : Float) : Void
-    {
-        _slider.height = value;
-		set_height(value);
-    }
-	#else
     override private function set_height(value : Float) : Float
     {
         _slider.height = value;
 		set_height(value);
         return value;
     }
-	#end
     
-    /**
-	 * @inheritDoc
-	 */
-    override private function set_detail(value : String) : String
-    {
-        super.detail = _slider.detail = value;
-        return value;
-    }
+
 }
 

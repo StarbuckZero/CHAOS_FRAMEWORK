@@ -6,6 +6,7 @@ import com.chaos.ui.classInterface.IBaseUI;
 import com.chaos.ui.classInterface.IButton;
 import com.chaos.ui.classInterface.IGridPane;
 import com.chaos.ui.classInterface.IScrollPane;
+import openfl.display.BitmapData;
 import openfl.errors.Error;
 import openfl.utils.Dictionary;
 import openfl.utils.Object;
@@ -88,11 +89,11 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
     
     private var _colButtonSize : Int = 20;
     
-    private var columnButtonImage : DisplayImage;
-    private var columnButtonOverImage : DisplayImage;
-    private var columnButtonDownImage : DisplayImage;
+    private var _columnButtonImage : BitmapData;
+    private var _columnButtonOverImage : BitmapData;
+    private var _columnButtonDownImage : BitmapData;
     
-    private var cellBackgroundImage : DisplayImage;
+    private var _cellBackgroundImage : BitmapData;
     
     private var storeList : Array<String> = new Array<String>();
     
@@ -144,18 +145,6 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
         
         addChild(buttonHolder);
         
-        columnButtonImage = new DisplayImage();
-        columnButtonOverImage = new DisplayImage();
-        columnButtonDownImage = new DisplayImage();
-        
-        cellBackgroundImage = new DisplayImage();
-        
-        columnButtonImage.addEventListener(Event.COMPLETE, onImageLoadComplete, false, 0, true);
-        columnButtonOverImage.addEventListener(Event.COMPLETE, onImageLoadComplete, false, 0, true);
-        columnButtonDownImage.addEventListener(Event.COMPLETE, onImageLoadComplete, false, 0, true);
-        
-        cellBackgroundImage.addEventListener(Event.COMPLETE, onImageLoadComplete, false, 0, true);
-        
         source = _grid.displayObject;		
 	}
 
@@ -171,20 +160,19 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
     private function initSkin() : Void
     {
 		
-		
         // Background
         if (null != UIBitmapManager.getUIElement(GridPane.TYPE, UIBitmapManager.GRIDPANE_BACKGROUND)) 
-            setBackgroundBitmap(UIBitmapManager.getUIElement(GridPane.TYPE, UIBitmapManager.GRIDPANE_BACKGROUND));
+            setBackgroundImage(UIBitmapManager.getUIElement(GridPane.TYPE, UIBitmapManager.GRIDPANE_BACKGROUND));
         
           // Buttons
         if (null != UIBitmapManager.getUIElement(GridPane.TYPE, UIBitmapManager.GRIDPANE_BUTTON_NORMAL)) 
-            setColumnButtonBitmap(UIBitmapManager.getUIElement(GridPane.TYPE, UIBitmapManager.GRIDPANE_BUTTON_NORMAL));
+            setColumnButtonImage(UIBitmapManager.getUIElement(GridPane.TYPE, UIBitmapManager.GRIDPANE_BUTTON_NORMAL));
         
         if (null != UIBitmapManager.getUIElement(GridPane.TYPE, UIBitmapManager.GRIDPANE_BUTTON_OVER)) 
-            setColumnButtonOverBitmap(UIBitmapManager.getUIElement(GridPane.TYPE, UIBitmapManager.GRIDPANE_BUTTON_OVER));
+            setColumnButtonOverImage(UIBitmapManager.getUIElement(GridPane.TYPE, UIBitmapManager.GRIDPANE_BUTTON_OVER));
         
         if (null != UIBitmapManager.getUIElement(GridPane.TYPE, UIBitmapManager.GRIDPANE_BUTTON_DOWN)) 
-            setColumnButtonDownBitmap(UIBitmapManager.getUIElement(GridPane.TYPE, UIBitmapManager.GRIDPANE_BUTTON_DOWN));
+            setColumnButtonDownImage(UIBitmapManager.getUIElement(GridPane.TYPE, UIBitmapManager.GRIDPANE_BUTTON_DOWN));
         
           // Cell
         if (null != UIBitmapManager.getUIElement(GridPane.TYPE, UIBitmapManager.GRIDPANE_CELL_BACKGROUND)) 
@@ -246,13 +234,10 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
     private function set_selectedRow(value : Int) : Int
     {
         if (_grid.validCell(value, _selectedCol)) 
-        {
             _selectedRow = value;
-        }
         else 
-        {
             Debug.print("[GridPane::selectedRow] The cell that your looking for at " + value + "x" + _selectedCol + " was not found.");
-        }
+		
         return value;
     }
     
@@ -272,13 +257,11 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
     private function set_selectedCol(value : Int) : Int
     {
         if (_grid.validCell(_selectedRow, value)) 
-        {
             _selectedCol = value;
-        }
         else 
-        {
             Debug.print("[GridPane::selectedRow] The cell that your looking for at " + _selectedRow + "x" + value + " was not found.");
-        }
+		
+		
         return value;
     }
     
@@ -295,6 +278,7 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
     {
         _colButtonSize = value;
         updateColumnArea();
+		
         return value;
     }
     
@@ -314,6 +298,7 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
     {
         _arrowSize = value;
         updateColumnArea();
+		
         return value;
     }
     
@@ -334,6 +319,7 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
     {
         _arrowColor = value;
         updateColumnArea();
+		
         return value;
     }
     
@@ -374,6 +360,7 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
     {
         _cellBorderColor = value;
         updateCellColor();
+		
         return value;
     }
     
@@ -394,6 +381,7 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
     {
         _cellColor = value;
         updateCellColor();
+		
         return value;
     }
     
@@ -414,6 +402,7 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
     {
         _cellBackground = value;
         updateCellColor();
+		
         return value;
     }
     
@@ -434,6 +423,7 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
     {
         _cellBorderAlpha = value;
         updateCellColor();
+		
         return value;
     }
     
@@ -454,6 +444,7 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
     {
         _cellBorderThinkness = value;
         updateCellColor();
+		
         return value;
     }
     
@@ -474,6 +465,7 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
     {
         _columnButtonColor = value;
         updateColumnArea();
+		
         return value;
     }
     
@@ -494,6 +486,7 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
     {
         _columnButtonOverColor = value;
         updateColumnArea();
+		
         return value;
     }
     
@@ -514,6 +507,7 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
     {
         _columnButtonDownColor = value;
         updateColumnArea();
+		
         return value;
     }
     
@@ -533,6 +527,7 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
     private function set_dataProvider(value : DataProvider) : DataProvider
     {
         gridData = value;
+		
         return value;
     }
     
@@ -852,87 +847,52 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
         return null;
     }
     
-    /**
-	 * Load image based on file path
-	 * @param	value The url location of the image
-	 */
-    
-    public function setColumnButtonImage(value : String) : Void
-    {
-        columnButtonImage.load(value);
-    }
     
     /**
 	 * Set the image based on a pasted in bitmap
 	 * @param	value
 	 */
     
-    public function setColumnButtonBitmap(value : Bitmap) : Void
+    public function setColumnButtonImage(value : BitmapData) : Void
     {
-        columnButtonImage.setImage(value);
+        _columnButtonImage = value;
         updateColumnArea();
     }
+
     
     /**
-	 * Load image based on file path
-	 * @param	value The url location of the image
-	 */
-    
-    public function setColumnButtonOverImage(value : String) : Void
-    {
-        columnButtonOverImage.load(value);
-    }
-    
-    /**
-	 * Set the image based on a pasted in bitmap
+	 * Set the image based on a pasted in image
 	 * @param	value The bitmap object that will be used
 	 */
     
-    public function setColumnButtonOverBitmap(value : Bitmap) : Void
+    public function setColumnButtonOverImage(value : BitmapData) : Void
     {
-        columnButtonOverImage.setImage(value);
+        _columnButtonOverImage = value;
         updateColumnArea();
     }
     
-    /**
-	 * Load image based on file path
-	 * @param	value The url location of the image
-	 */
-    
-    public function setColumnButtonDownImage(value : String) : Void
-    {
-        columnButtonDownImage.load(value);
-    }
+
     
     /**
-	 * Set the image based on a pasted in bitmap
+	 * Set the image based on a pasted in image
 	 * @param	value The bitmap object that will be used
 	 */
     
-    public function setColumnButtonDownBitmap(value : Bitmap) : Void
+    public function setColumnButtonDownImage(value : BitmapData) : Void
     {
-        columnButtonDownImage.setImage(value);
+        _columnButtonDownImage = value;
         updateColumnArea();
     }
-    
-    /**
-	 * Set the cell background image based on a file location
-	 * @param	value The url location of the image
-	 */
-    
-    public function setCellBackgroundImage(value : String) : Void
-    {
-        cellBackgroundImage.load(value);
-    }
+
     
     /**
 	 * Set the cell background based on bitmap data being passed
 	 * @param	value The bitmap object that will be used
 	 */
     
-    public function setCellBackgroundBitmap(value : Bitmap) : Void
+    public function setCellBackgroundBitmap(value : BitmapData) : Void
     {
-        cellBackgroundImage.setImage(value);
+        _cellBackgroundImage = value;
         updateColumnArea();
     }
     
@@ -983,6 +943,7 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
 	 * @param	gridWidth The new width
 	 * @param	gridHeight The new height
 	 */
+	
     public function setGridSize(gridWidth : Int, gridHeight : Int) : Void
     {
         _grid.width = gridWidth;
@@ -994,35 +955,8 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
         refreshPane();
     }
     
-    /**
-	 * @inheritDoc
-	 */
+
     
-	
-    override function get_detail() : String
-    {
-        return super.detail;
-    }
-    
-    /**
-	 * @inheritDoc
-	 */
-    
-    override function set_detail(value : String) : String
-    {
-        super.detail = value;
-        
-        for (i in 0...column.length)
-		{
-            // Get holder and button area
-            var colInfoHolder : Sprite = column.getItemAt(i).col;
-            var buttonArea : IAlignmentContainer = try cast(colInfoHolder.getChildByName("buttonArea"), IAlignmentContainer) catch(e:Dynamic) null;
-            var button : IButton = cast(buttonArea.getElementByName("button"), IButton);
-            
-            button.detail = value;
-        }
-        return value;
-    }
     
     /**
 	 * @inheritDoc
@@ -1094,8 +1028,8 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
                 currentCell.borderThinkness = _cellBorderThinkness;
                 
                 // Make sure image is loaded and set background image
-                if (null != cellBackgroundImage && null != cellBackgroundImage.image && null != currentCell.container) 
-                    currentCell.container.setBackgroundBitmap(cellBackgroundImage.image);
+                if (null != _cellBackgroundImage && null != _cellBackgroundImage.image && null != currentCell.container) 
+                    currentCell.container.setBackgroundBitmap(_cellBackgroundImage.image);
             }
         }
     }
@@ -1128,21 +1062,21 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
             arrow.y = (button.height / 2) - (arrow.height / 2);
             
             // If image was set the use
-            if (null != columnButtonImage && null != columnButtonImage.image) 
-                button.setBackgroundBitmap(columnButtonImage.image);
+            if (null != _columnButtonImage) 
+                button.setDefaultStateImage(_columnButtonImage);
             
             
-              // If image was set the use
-            if (null != columnButtonDownImage && null != columnButtonOverImage.image) 
-                button.setOverBackgroundBitmap(columnButtonOverImage.image);
+            // If image was set the use
+            if (null != _columnButtonOverImage) 
+                button.setOverStateImage(_columnButtonOverImage);
             
             // If image was set the use 
-            if (null != columnButtonDownImage && null != columnButtonDownImage.image) 
-                button.setDownBackgroundBitmap(columnButtonDownImage.image);
+            if (null != _columnButtonDownImage) 
+                button.setDownStateImage(_columnButtonDownImage);
             
-            if (i > 0) 
+            if (i > 0)
             {
-                var oldInfoHolder : Sprite = cast(column.getItemAt(i - 1).col,Sprite);
+                var oldInfoHolder : Sprite = cast(column.getItemAt(i - 1).col, Sprite);
                 colInfoHolder.x = oldInfoHolder.x + _grid.getCell(0, i - 1).width;
             }
             else 
@@ -1269,21 +1203,15 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
         {
             
             if (_grid.getRowCount() < gridData.length) 
-            {
                 _grid.addRow(0);
-            }
             else if (_grid.getRowCount() > gridData.length) 
-            {
                 _grid.removeRow(0);
-            }
             
             breakOut++;
             
             // Force to break out of loop
             if (breakOut == maxCount && useFailsafe) 
-            {
                 break;
-            }
         }
     }
     
@@ -1292,7 +1220,7 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
         if (null == _grid)
             return;
         
-         // Create data list
+        // Create data list
         for (row in 0 ... _grid.getRowCount())
 		{
             // Start resizing col cell
@@ -1414,22 +1342,13 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
                     dispatchEvent(new GridPaneEvent(GridPaneEvent.CHANGE, false, false, _selectedRow, _selectedCol));
                 }
             }
-        }        catch (error : Error)
+        } 
+		catch (error : Error)
         {
             Debug.print("[GridPane::onCellCheck] Fail to get cell name and check value");
         }
     }
     
-    /**
-	 * For when images load
-	 * @param	event
-	 *
-	 * @private
-	 */
-    private function onImageLoadComplete(event : Event) : Void
-    {
-        updateColumnArea();
-        updateCellColor();
-    }
+
 }
 

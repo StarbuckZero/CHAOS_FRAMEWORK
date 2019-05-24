@@ -516,22 +516,26 @@ class UIStyleManager
     public static var WINDOW_ICON_LOCATION : String = "";
     public static var WINDOW_BUTTON_LOCATION : String = "";
     public static var WINDOW_LABEL_LOCATION : String = "";
+	
     
     public static var WINDOW_MIN_NORMAL_COLOR : Int = -1;
     public static var WINDOW_MIN_OVER_COLOR : Int = -1;
     public static var WINDOW_MIN_DOWN_COLOR : Int = -1;
     public static var WINDOW_MIN_DISABLE_COLOR : Int = -1;
-    
+    public static var WINDOW_MIN_UNFOCUS_COLOR : Int = -1;
+	
     public static var WINDOW_MAX_NORMAL_COLOR : Int = -1;
     public static var WINDOW_MAX_OVER_COLOR : Int = -1;
     public static var WINDOW_MAX_DOWN_COLOR : Int = -1;
     public static var WINDOW_MAX_DISABLE_COLOR : Int = -1;
-    
+    public static var WINDOW_MAX_UNFOCUS_COLOR : Int = -1;
+	
     public static var WINDOW_CLOSE_NORMAL_COLOR : Int = -1;
     public static var WINDOW_CLOSE_OVER_COLOR : Int = -1;
     public static var WINDOW_CLOSE_DOWN_COLOR : Int = -1;
     public static var WINDOW_CLOSE_DISABLE_COLOR : Int = -1;
-    
+    public static var WINDOW_CLOSE_UNFOCUS_COLOR : Int = -1;
+	
     public static var MENU_BACKGROUND_COLOR : Int = -1;
     public static var MENU_BACKGROUND_ALPHA : Float = -1;
     

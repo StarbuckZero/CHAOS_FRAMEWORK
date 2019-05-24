@@ -11,6 +11,7 @@ import com.chaos.media.DisplayImage;
 import com.chaos.ui.BaseUI;
 import com.chaos.ui.classInterface.IBaseUI;
 import com.chaos.ui.layout.classInterface.IBaseContainer;
+import openfl.display.BitmapData;
 
 import openfl.display.Bitmap;
 import openfl.display.DisplayObject;
@@ -38,11 +39,8 @@ class BaseContainer extends BaseUI implements IBaseContainer implements IBaseUI
     /** This is used for the content getting property */
     public var contentObject : Sprite;
     
-    private var _width : Float;
-    private var _height : Float;
     
-    private var _imageBackground : Bitmap = null;
-    private var _backgroundDisplayImage : DisplayImage = new DisplayImage();
+    private var _imageBackground : BitmapData;
     private var _backgroundAlpha : Float = 1;
     private var _backgroundColor : Int = 0xCCCCCC;
     private var _background : Bool = true;
@@ -71,71 +69,6 @@ class BaseContainer extends BaseUI implements IBaseContainer implements IBaseUI
 		
     }
 	
-    /**
-	 * @inheritDoc
-	 */
-	
-    #if flash @:setter(width) 
-    private function set_width(value : Float) : Void
-    {
-        _width = value;
-        draw();
-    }
-	#else
-	override private function set_width(value : Float) : Float
-	{
-        _width = value;
-        draw();
-		
-		return value;
-	}
-	#end
-	
-	#if flash @:getter(width) 
-	private function get_width():Float 
-	{
-		return _width;
-	}
-	#else
-	override private function get_width():Float 
-	{
-		return _width;
-	}
-	#end
-	
-    
-    /**
-	 * @inheritDoc
-	 */
-	
-    #if flash @:setter(height)
-    private function set_height(value : Float) : Void
-    {
-        _height = value;
-        draw();
-    }
-	#else  
-    override private function set_height(value : Float) : Float
-    {
-        _height = value;
-        draw();
-		
-        return value;
-    }	
-	#end
-    
-	
-	#if flash @:getter(height)
-	private function get_height():Float 
-	{
-		return _height;
-	}
-	#else  
-    override private function get_height() : Float
-    {
-        return _height;
-    }	
-	#end	
 	
     /**
 	 * The content layer
@@ -192,6 +125,7 @@ class BaseContainer extends BaseUI implements IBaseContainer implements IBaseUI
     {
         _background = value;
         draw();
+		
         return value;
     }
     
@@ -212,6 +146,7 @@ class BaseContainer extends BaseUI implements IBaseContainer implements IBaseUI
     {
         _backgroundColor = value;
         draw();
+		
         return value;
     }
     
@@ -232,6 +167,7 @@ class BaseContainer extends BaseUI implements IBaseContainer implements IBaseUI
     {
         _backgroundAlpha = value;
         draw();
+		
         return value;
     }
     
@@ -250,25 +186,13 @@ class BaseContainer extends BaseUI implements IBaseContainer implements IBaseUI
 	 * @param	value The bitmap that will be used
 	 */
     
-    public function setBackgroundBitmap(value : Bitmap) : Void
+    public function setBackgroundImage(value : BitmapData) : Void
     {
         _imageBackground = value;
+		
         draw();
     }
     
-    /**
-	 *
-	 * Set the background image
-	 *
-	 * @param	value The URL of the image that will be used
-	 *
-	 */
-    
-    public function setBackgroundImage(value : String) : Void
-    {
-        _backgroundDisplayImage.load(value);
-        _backgroundDisplayImage.addEventListener(Event.COMPLETE, onImageLoaded, false, 0, true);
-    }
     
     /**
 	 * Draw the container
@@ -284,21 +208,12 @@ class BaseContainer extends BaseUI implements IBaseContainer implements IBaseUI
 		
         backgroundShape.graphics.clear();
         
-		(_showImage && null != _imageBackground) ? backgroundShape.graphics.beginBitmapFill(_imageBackground.bitmapData, null, true, _smoothImage) : backgroundShape.graphics.beginFill(_backgroundColor, _backgroundAlpha);
+		(_showImage && null != _imageBackground != null) ? backgroundShape.graphics.beginBitmapFill(_imageBackground, null, true, _smoothImage) : backgroundShape.graphics.beginFill(_backgroundColor, _backgroundAlpha);
 		
 		backgroundShape.graphics.drawRect(0, 0, _width, _height);
 		backgroundShape.graphics.endFill();
 		
     }
-    
-    private function onImageLoaded(event : Event) : Void
-    {
-        _imageBackground = cast(event.currentTarget, DisplayImage).image;
-        
-        if (_backgroundDisplayImage.hasEventListener(Event.COMPLETE)) 
-            _backgroundDisplayImage.removeEventListener(Event.COMPLETE, onImageLoaded);
-        
-        draw();
-    }
+
 }
 

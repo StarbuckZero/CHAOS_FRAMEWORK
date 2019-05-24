@@ -32,8 +32,8 @@ class NextIcon extends ArrowRightIcon implements IBasicIcon implements IBaseUI
         super.draw();
         
         // Just draw a line down
-        iconArea.graphics.moveTo(width, 0);
-        iconArea.graphics.lineTo(width, height);
+        _iconArea.graphics.moveTo(width, 0);
+        _iconArea.graphics.lineTo(width, height);
     }
 }
 

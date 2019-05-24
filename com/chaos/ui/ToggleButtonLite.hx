@@ -8,7 +8,7 @@ import openfl.display.Sprite;
 import openfl.display.Shape;
 import com.chaos.ui.event.ToggleEvent;
 import com.chaos.media.DisplayImage;
-import com.chaos.ui.UIDetailLevel;
+
 //import com.chaos.ui.interface.IToggleButton;
 //import com.chaos.ui.interface.IBaseUI;  
 

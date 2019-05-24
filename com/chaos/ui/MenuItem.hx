@@ -213,7 +213,7 @@ class MenuItem extends ToggleButtonLite implements IMenuItem implements IToggleB
     #end
 	
     #if flash @:getter(height)
-    private function get_height() : Float
+    override private function get_height() : Float
     {
         return _height;
     }
@@ -690,17 +690,7 @@ class MenuItem extends ToggleButtonLite implements IMenuItem implements IToggleB
     {
         return _showSubMenuIcon;
     }
-    
-    override private function get_detail() : String
-    {
-        return super.detail;
-    }
-    
-    override private function set_detail(value : String) : String
-    {
-        super.detail = _label.detail = _icon.detail = _subMenuIcon.detail = value;
-        return value;
-    }
+
     
     /**
 	 * Turn on and off image smoothing

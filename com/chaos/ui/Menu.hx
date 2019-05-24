@@ -16,7 +16,6 @@ import com.chaos.ui.event.MenuEvent;
 
 import com.chaos.ui.UIStyleManager;
 import com.chaos.ui.UIBitmapManager;
-import com.chaos.ui.UIDetailLevel;
 
 import openfl.display.DisplayObject;
 import openfl.display.Sprite;
@@ -307,7 +306,7 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
     {
         // Menu Background
         if (null != UIBitmapManager.getUIElement(Menu.TYPE, UIBitmapManager.MENU_BACKGROUND)) 
-            setBackgroundBitmap(UIBitmapManager.getUIElement(Menu.TYPE, UIBitmapManager.MENU_BACKGROUND));
+            setBackgroundImage(UIBitmapManager.getUIElement(Menu.TYPE, UIBitmapManager.MENU_BACKGROUND));
         
         
           // UI Skinning

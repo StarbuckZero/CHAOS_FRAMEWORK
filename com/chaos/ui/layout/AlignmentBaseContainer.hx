@@ -9,14 +9,14 @@ import openfl.errors.Error;
 
 import com.chaos.utils.Debug;
 import openfl.display.DisplayObject;
-import openfl.display.DisplayObjectContainer;
+
 import flash.geom.Rectangle;
 
 /**
-	 * The base layer the alignment container
-	 *
-	 * @author Erick Feiling
-	 */
+ * The base layer the alignment container
+ *
+ * @author Erick Feiling
+ */
 
 class AlignmentBaseContainer extends BaseContainer implements IBaseUI implements IAlignmentContainer implements IBaseContainer
 {
@@ -56,6 +56,7 @@ class AlignmentBaseContainer extends BaseContainer implements IBaseUI implements
     {
         _clipping = value;
         draw();
+		
         return value;
     }
     
@@ -145,6 +146,7 @@ class AlignmentBaseContainer extends BaseContainer implements IBaseUI implements
     private function set_align(value : String) : String
     {
         _align = value;
+		
         return value;
     }
     
@@ -170,13 +172,9 @@ class AlignmentBaseContainer extends BaseContainer implements IBaseUI implements
         for (i in 0...list.length)
 		{
             if (null != list[i] && Std.is(list[i], IBaseUI)) 
-            {
                 contentObject.addChild(list[i]);
-            }
             else 
-            {
                 Debug.print("[AlignmentBaseContainer::addElementList] Fail to add item at index " + i);
-            }
         }
     }
     
@@ -204,7 +202,8 @@ class AlignmentBaseContainer extends BaseContainer implements IBaseUI implements
         try
         {
             return try cast(contentObject.getChildAt(value), IBaseUI) catch(e:Dynamic) null;
-        }        catch (error : Error)
+        } 
+		catch (error : Error)
         {
             Debug.print("[AlignmentBaseContainer::getElementAtIndex] Can't get item at index " + value + " returning null.");
         }

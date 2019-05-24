@@ -31,8 +31,8 @@ class PreviousIcon extends ArrowLeftIcon implements IBasicIcon implements IBaseU
     {
         super.draw();
         
-        iconArea.graphics.moveTo(0, 0);
-        iconArea.graphics.lineTo(0, height);
+        _iconArea.graphics.moveTo(0, 0);
+        _iconArea.graphics.lineTo(0, height);
     }
 }
 

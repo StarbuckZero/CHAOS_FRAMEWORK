@@ -4,6 +4,7 @@ package com.chaos.ui;
 
 import com.chaos.data.DataProvider;
 import com.chaos.ui.data.ToolTipData;
+import openfl.display.BitmapData;
 import openfl.display.DisplayObjectContainer;
 import openfl.display.MovieClip;
 import openfl.display.Sprite;
@@ -99,16 +100,16 @@ class ToolTip
         if (null != UIBitmapManager.getUIElement(Bubble.TYPE, UIBitmapManager.TOOLTIP_BACKGROUND)) 
             _bubble.setBackgroundBitmap(UIBitmapManager.getUIElement(Bubble.TYPE, UIBitmapManager.TOOLTIP_BACKGROUND));
         
-        var topLeftImage : Bitmap = null;
-        var topMiddleImage : Bitmap = null;
-        var topRightImage : Bitmap = null;
+        var topLeftImage : BitmapData = null;
+        var topMiddleImage : BitmapData = null;
+        var topRightImage : BitmapData = null;
         
-        var middleLeftImage : Bitmap = null;
-        var middleRightImage : Bitmap = null;
+        var middleLeftImage : BitmapData = null;
+        var middleRightImage : BitmapData = null;
         
-        var bottomLeftImage : Bitmap = null;
-        var bottomMiddleImage : Bitmap = null;
-        var bottomRightImage : Bitmap = null;
+        var bottomLeftImage : BitmapData = null;
+        var bottomMiddleImage : BitmapData = null;
+        var bottomRightImage : BitmapData = null;
         
         // Top
         if (null != UIBitmapManager.getUIElement(Bubble.TYPE, UIBitmapManager.TOOLTIP_OVERLAY_TOP_LEFT)) 

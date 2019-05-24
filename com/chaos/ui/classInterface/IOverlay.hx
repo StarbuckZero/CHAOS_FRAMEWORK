@@ -3,13 +3,13 @@ package com.chaos.ui.classInterface;
 
 
 /**
-	 * ...
-	 * @author Erick Feiling
-	 */
+ * Overlay Interface
+ * @author Erick Feiling
+ */
 
-import openfl.display.Sprite;
-import openfl.display.Bitmap;
-import openfl.display.DisplayObject;
+
+import openfl.display.BitmapData;
+
 
 interface IOverlay extends IBaseUI
 {
@@ -47,7 +47,7 @@ interface IOverlay extends IBaseUI
 	 * @param	rightImage An right image that will be used
 	 */
     
-    function setTopImage(leftImage : Bitmap = null, middleImage : Bitmap = null, rightImage : Bitmap = null) : Void;
+    function setTopImage(leftImage : BitmapData = null, middleImage : BitmapData = null, rightImage : BitmapData = null) : Void;
     
     /**
 	 * Set the middle sides of the object
@@ -55,7 +55,7 @@ interface IOverlay extends IBaseUI
 	 * @param	rightImage right hand side
 	 */
     
-    function setMiddleCenterImage(leftImage : Bitmap = null, rightImage : Bitmap = null) : Void;
+    function setMiddleCenterImage(leftImage : BitmapData = null, rightImage : BitmapData = null) : Void;
     
     /**
 	 * Left the bottom part of the object
@@ -64,6 +64,6 @@ interface IOverlay extends IBaseUI
 	 * @param	rightImage lower right image
 	 */
     
-    function setBottomImage(leftImage : Bitmap = null, middleImage : Bitmap = null, rightImage : Bitmap = null) : Void;
+    function setBottomImage(leftImage : BitmapData = null, middleImage : BitmapData = null, rightImage : BitmapData = null) : Void;
 }
 

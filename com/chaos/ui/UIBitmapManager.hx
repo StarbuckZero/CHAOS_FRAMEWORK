@@ -1,6 +1,7 @@
 package com.chaos.ui;
 
 
+import openfl.display.BitmapData;
 import openfl.errors.Error;
 import openfl.utils.Object;
 import openfl.display.Bitmap;
@@ -420,7 +421,7 @@ class UIBitmapManager
 	 * @example UIBitmapManager.setUIElement(Button.TYPE, UIBitmapManager.BUTTON_NORMAL, btnNormalImageBitmap );
 	 */
     
-    public static function setUIElement(UITypeElement : String, style : String, bitmap : Bitmap, updateElement : Bool = true) : Void
+    public static function setUIElement(UITypeElement : String, style : String, bitmap : BitmapData, updateElement : Bool = true) : Void
     {
         
         // Make sure everything is setup
@@ -462,7 +463,7 @@ class UIBitmapManager
 	 * @example UIBitmapManager.getUIElement(CheckBox.TYPE, UIBitmapManager.CHECK_BUTTON_NORMAL );
 	 */
     
-    public static function getUIElement(UITypeElement : String, style : String) : Bitmap
+    public static function getUIElement(UITypeElement : String, style : String) : BitmapData
     {
         
         // Make sure everything is setup

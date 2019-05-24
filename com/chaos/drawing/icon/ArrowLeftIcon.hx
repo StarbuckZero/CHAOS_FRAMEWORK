@@ -30,19 +30,19 @@ class ArrowLeftIcon extends BaseIcon implements IBasicIcon implements IBaseUI
         super.draw();
         
         // Create Icon
-        iconArea.graphics.clear();
+        _iconArea.graphics.clear();
         
         if (border) 
-        iconArea.graphics.lineStyle(borderThinkness, borderColor, borderAlpha);
+        _iconArea.graphics.lineStyle(borderThinkness, borderColor, borderAlpha);
 		
-		(showImage && null != displayImg.image) ? iconArea.graphics.beginBitmapFill(displayImg.image.bitmapData) : iconArea.graphics.beginFill(baseColor);
+		(showImage && null != _image) ? _iconArea.graphics.beginBitmapFill(_image) : _iconArea.graphics.beginFill(baseColor);
         
-        iconArea.graphics.moveTo(0, height / 2);
-        iconArea.graphics.lineTo(width, 0);
-        iconArea.graphics.lineTo(width, height);
-        iconArea.graphics.lineTo(0, height / 2);
+        _iconArea.graphics.moveTo(0, height / 2);
+        _iconArea.graphics.lineTo(width, 0);
+        _iconArea.graphics.lineTo(width, height);
+        _iconArea.graphics.lineTo(0, height / 2);
         
-        iconArea.graphics.endFill();
+        _iconArea.graphics.endFill();
     }
 }
 

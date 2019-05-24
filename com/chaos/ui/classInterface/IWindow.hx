@@ -1,8 +1,7 @@
 package com.chaos.ui.classInterface;
 
-import openfl.display.Bitmap;
-import openfl.display.DisplayObject;
-import openfl.display.Sprite;
+
+import openfl.display.BitmapData;
 import openfl.utils.Object;
 
 /**
@@ -23,7 +22,7 @@ interface IWindow extends IBaseUI
 	 * Return the text label being used
 	 */
 	
-	var textLabel(get, never):Label;
+	var textLabel(get, never):ILabel;
 	
 	/**
 	 * Set the minimize width of the of the Window over all size
@@ -72,12 +71,6 @@ interface IWindow extends IBaseUI
 	
 	var closeButtonDisableColor(get, set):Int;
 	
-	/**
-	 * Set the close button unfocus state color.
-	 */
-	
-	var closeButtonUnFocusColor(get, set):Int;
-	
 	
 	/**
 	 * Set the minimize button default color
@@ -102,12 +95,7 @@ interface IWindow extends IBaseUI
 	 */
 	
 	var minButtonDisableColor(get, set):Int;
-	
-	/**
-	 * Set the minimize button unfocus state color.
-	 */
-	
-	var minButtonUnFocusColor(get, set):Int;
+
 	
 	/**
 	 * Set the maximize button default color
@@ -135,12 +123,6 @@ interface IWindow extends IBaseUI
 	
 	var maxButtonDisableColor(get, set):Int;
 
-	
-	/**
-	 * Set the maximize button unfocus state color.
-	 */
-	
-	var maxButtonUnFocusColor(get, set):Int;
 	
 	/**
 	 * Hide or Show the close button on the window
@@ -182,27 +164,16 @@ interface IWindow extends IBaseUI
 	 * Set the color of the window title area once the user select
 	 */
 	
-	var windowTitleFocusColor(get, set):Int;
+	var windowTitleColor(get, set):Int;
 	
-	
-	/**
-	 * Set the color of the window title area once it is unfocused
-	 */
-	
-	var windowTitleUnFocusColor(get, set):Int;
 
 	
 	/**
 	 * Set the color of the window
 	 */
 	
-	var windowFocusColor(get, set):Int;
-	
-	/**
-	 * Set the color of the window once it is unfocused which is everywhere but the title area
-	 */
-	
-	var windowUnFocusColor(get, set):Int;
+	var windowColor(get, set):Int;
+
 
 	/**
 	 * Set the size of the top right area of the window
@@ -273,264 +244,7 @@ interface IWindow extends IBaseUI
 	var buttonLocation(get, set):String;
 	
 	
-	/**
-	 * Anything that is added to this sprite goes in back of the window. All objects start at top left hand side of the window.
-	 */
 	
-	var windowBackDrop(get, never):Sprite;
-	
-	/**
-	 * Anything that is added to this sprite goes in front of the window. All objects start at top left hand side of the window.
-	 */
-	
-	var windowFrontOverlay(get, never):Sprite;
-	
-	/**
-	 * This is for setting an image to the close button default state. It is best to set an image that can be tiled.
-	 *
-	 * @param value Set the image based on a URL file path.
-	 *
-	 */
-	
-	function setCloseButtonImage(value:String):Void;
-	
-	/**
-	 * This is for setting an image to the close button default state. It is best to set an image that can be tiled.
-	 *
-	 * @param value Set the image based on a Bitmap being pass
-	 *
-	 */
-	
-	function setCloseButtonBitmap(value:Bitmap):Void;
-	
-	/**
-	 * This is for setting an image to the close button roll over state. It is best to set an image that can be tiled.
-	 *
-	 * @param value Set the image based on a URL file path.
-	 *
-	 */
-	
-	function setCloseOverButtonImage(value:String):Void;
-	
-	/**
-	 * This is for setting an image to the close button roll over state. It is best to set an image that can be tiled.
-	 *
-	 * @param value Set the image based on a Bitmap being pass
-	 *
-	 */
-	
-	function setCloseOverButtonBitmap(value:Bitmap):Void;
-	
-	/**
-	 * This is for setting an image to the close button press down state. It is best to set an image that can be tiled.
-	 *
-	 * @param value Set the image based on a URL file path.
-	 *
-	 */
-	
-	function setCloseDownButtonImage(value:String):Void;
-	
-	/**
-	 * This is for setting an image to the close button roll press state. It is best to set an image that can be tiled.
-	 *
-	 * @param value Set the image based on a Bitmap being pass
-	 *
-	 */
-	
-	function setCloseDownButtonBitmap(value:Bitmap):Void;
-	
-	/**
-	 * This is for setting an image to the close button disable state. It is best to set an image that can be tiled.
-	 *
-	 * @param value Set the image based on a URL file path.
-	 *
-	 */
-	
-	function setCloseDisableButtonImage(value:String):Void;
-	
-	/**
-	 * This is for setting an image to the button disable state. It is best to set an image that can be tiled.
-	 *
-	 * @param value Set the image based on a Bitmap being pass
-	 *
-	 */
-	
-	function setCloseDisableButtonBitmap(value:Bitmap):Void;
-	
-	/**
-	 * This is for setting an image to the minimize button default state. It is best to set an image that can be tiled.
-	 *
-	 * @param value Set the image based on a URL file path.
-	 *
-	 */
-	
-	function setMinButtonImage(value:String):Void;
-	
-	/**
-	 * This is for setting an image to the minimize button default state. It is best to set an image that can be tiled.
-	 *
-	 * @param value Set the image based on a Bitmap being pass
-	 *
-	 */
-	
-	function setMinButtonBitmap(value:Bitmap):Void;
-	
-	/**
-	 * This is for setting an image to the minimize button roll over state. It is best to set an image that can be tiled.
-	 *
-	 * @param value Set the image based on a URL file path.
-	 *
-	 */
-	
-	function setMinOverButtonImage(value:String):Void;
-	
-	/**
-	 * This is for setting an image to the minimize button roll over state. It is best to set an image that can be tiled.
-	 *
-	 * @param value Set the image based on a Bitmap being pass
-	 *
-	 */
-	
-	function setMinOverButtonBitmap(value:Bitmap):Void;
-	
-	/**
-	 * This is for setting an image to the minimize button press down state. It is best to set an image that can be tiled.
-	 *
-	 * @param value Set the image based on a URL file path.
-	 *
-	 */
-	
-	function setMinDownButtonImage(value:String):Void;
-	
-	/**
-	 * This is for setting an image to the minimize button roll press state. It is best to set an image that can be tiled.
-	 *
-	 * @param value Set the image based on a Bitmap being pass
-	 *
-	 */
-	
-	function setMinDownButtonBitmap(value:Bitmap):Void;
-	
-	/**
-	 * This is for setting an image to the minimize button disable state. It is best to set an image that can be tiled.
-	 *
-	 * @param value Set the image based on a URL file path.
-	 *
-	 */
-	
-	function setMinDisableButtonImage(value:String):Void;
-	
-	/**
-	 * This is for setting an image to the minimize button roll press state. It is best to set an image that can be tiled.
-	 *
-	 * @param value Set the image based on a Bitmap being pass
-	 *
-	 */
-	
-	function setMinDisableButtonBitmap(value:Bitmap):Void;
-	
-	/**
-	 * This is for setting an image to the maximize button default state. It is best to set an image that can be tiled.
-	 *
-	 * @param value Set the image based on a URL file path.
-	 *
-	 */
-	
-	function setMaxButtonImage(value:String):Void;
-	
-	/**
-	 * This is for setting an image to the maximize button default state. It is best to set an image that can be tiled.
-	 *
-	 * @param value Set the image based on a Bitmap being pass
-	 *
-	 */
-	
-	function setMaxButtonBitmap(value:Bitmap):Void;
-	
-	/**
-	 * This is for setting an image to the maximize button roll over state. It is best to set an image that can be tiled.
-	 *
-	 * @param value Set the image based on a URL file path.
-	 *
-	 */
-	
-	function setMaxOverButtonImage(value:String):Void;
-	
-	/**
-	 * This is for setting an image to the maximize button roll over state. It is best to set an image that can be tiled.
-	 *
-	 * @param value Set the image based on a Bitmap being pass
-	 *
-	 */
-	
-	function setMaxOverButtonBitmap(value:Bitmap):Void;
-	
-	/**
-	 * This is for setting an image to the maximize button press down state. It is best to set an image that can be tiled.
-	 *
-	 * @param value Set the image based on a URL file path.
-	 *
-	 */
-	
-	function setMaxDownButtonImage(value:String):Void;
-	
-	/**
-	 * This is for setting an image to the maximize button roll press state. It is best to set an image that can be tiled.
-	 *
-	 * @param value Set the image based on a Bitmap being pass
-	 *
-	 */
-	
-	function setMaxDownButtonBitmap(value:Bitmap):Void;
-	
-	/**
-	 * This is for setting an image to the maximize button disable state. It is best to set an image that can be tiled.
-	 *
-	 * @param value Set the image based on a URL file path.
-	 *
-	 */
-	
-	function setMaxDisableButtonImage(value:String):Void;
-	
-	/**
-	 * This is for setting an image to the maximize button disable state. It is best to set an image that can be tiled.
-	 *
-	 * @param value Set the image based on a Bitmap being pass
-	 *
-	 */
-	
-	function setMaxDisableButtonBitmap(value:Bitmap):Void;	
-	
-	/**
-	 * Sets the title of the window
-	 *
-	 * @param value The name of what you want to set the window to
-	 *
-	 * @example myWindow.setTitle("My Window");
-	 *
-	 */
-	
-	function setWindowTitle(value:String):Void;
-	
-	/**
-	 * Return the Window title
-	 *
-	 * @return Return the text that inside the label
-	 *
-	 */
-	
-	function getWindowTitle():String;
-	
-	/**
-	 * Set the window icon by using an image based on a URL
-	 *
-	 * @param value The bitmap you want to use for the icon
-	 *
-	 * @example myWindow.setIconBitmap("myIcon", "left");
-	 *
-	 */
-	
-	function setIcon(value:String, location:String = "left"):Void;
 	
 	/**
 	 * Set the window icon by using an image based on a bitmap
@@ -540,34 +254,9 @@ interface IWindow extends IBaseUI
 	 * @example myWindow.setIcon("myIcon", "left");
 	 *
 	 */
-	function setIconBitmap(displayBitmap:Bitmap, location:String = "left"):Void;
+	function setIcon(displayBitmap:BitmapData, location:String = "left"):Void;
 	
-	/**
-	 * This set an image to the middle of the window based on a URL
-	 *
-	 * @param value The URL path to the image you want to use
-	 *
-	 */
 	
-	function setWindowTopMiddle(value:String):Void;
-	
-	/**
-	 * This set an image to the upper top right corner of the window based on a URL
-	 *
-	 * @param value The URL path to the image you want to use
-	 *
-	 */
-	
-	function setWindowTopRight(value:String):Void;
-	
-	/**
-	 * This set an image to the upper top left corner of the window based on a URL
-	 *
-	 * @param value The URL path to the image you want to use
-	 *
-	 */
-	
-	function setWindowTopLeft(value:String):Void;
 	
 	/**
 	 * This set an image to the upper top left corner of the window based on a bitmap
@@ -576,7 +265,7 @@ interface IWindow extends IBaseUI
 	 *
 	 */
 	
-	function setWindowTopLeftImage(value:Bitmap):Void;
+	function setWindowTopLeftImage(value:BitmapData):Void;
 	
 	/**
 	 * This set an image to the middle of the window based on a bitmap
@@ -585,7 +274,7 @@ interface IWindow extends IBaseUI
 	 *
 	 */
 	
-	function setWindowTopMiddleImage(value:Bitmap):Void;
+	function setWindowTopMiddleImage(value:BitmapData):Void;
 	
 	/**
 	 * This set an image to the upper top right corner of the window based on a bitmap
@@ -594,25 +283,8 @@ interface IWindow extends IBaseUI
 	 *
 	 */
 	
-	function setWindowTopRightImage(value:Bitmap):Void;
+	function setWindowTopRightImage(value:BitmapData):Void;
 	
-	/**
-	 * This set an image to the right side of the window based on a URL
-	 *
-	 * @param value The URL path to the image you want to use
-	 *
-	 */
-	
-	function setWindowMiddleRight(value:String):Void;
-	
-	/**
-	 * This set an image to the left side of the window based on a URL
-	 *
-	 * @param value The URL path to the image you want to use
-	 *
-	 */
-	
-	function setWindowMiddleLeft(value:String):Void;
 	
 	/**
 	 * This set an image to the right side of the window based on a bitmap
@@ -620,7 +292,7 @@ interface IWindow extends IBaseUI
 	 * @param value The bitmap image you want to use
 	 */
 	
-	function setWindowMiddleRightImage(value:Bitmap):Void;
+	function setWindowMiddleRightImage(value:BitmapData):Void;
 	
 	/**
 	 * This set an image to the left side of the window based on a bitmap
@@ -628,34 +300,8 @@ interface IWindow extends IBaseUI
 	 * @param value The bitmap image you want to use
 	 */
 	
-	function setWindowMiddleLeftImage(value:Bitmap):Void;
+	function setWindowMiddleLeftImage(value:BitmapData):Void;
 	
-	/**
-	 * This set an image to the bottom lower left corner of the window based on a URL
-	 *
-	 * @param value The URL path to the image you want to use
-	 *
-	 */
-	
-	function setWindowBottomLeft(value:String):Void;
-	
-	/**
-	 * This set an image to the bottom mid area of the window based on a URL
-	 *
-	 * @param value The URL path to the image you want to use
-	 *
-	 */
-	
-	function setWindowBottomMiddle(value:String):Void;
-	
-	/**
-	 * This set an image to the bottom lower right corner of the window based on a URL
-	 *
-	 * @param value The URL path to the image you want to use
-	 *
-	 */
-	
-	function setWindowBottomRight(value:String):Void;
 	
 	/**
 	 * This set an image to the bottom lower left corner of the window based on a bitmap
@@ -664,7 +310,7 @@ interface IWindow extends IBaseUI
 	 *
 	 */
 	
-	function setWindowBottomLeftImage(displayBitmap:Bitmap):Void;
+	function setWindowBottomLeftImage(displayBitmap:BitmapData):Void;
 	
 	/**
 	 * This set an image to the bottom mid area of the window based on a bitmap
@@ -673,7 +319,7 @@ interface IWindow extends IBaseUI
 	 *
 	 */
 	
-	function setWindowBottomMiddleImage(value:Bitmap):Void;
+	function setWindowBottomMiddleImage(value:BitmapData):Void;
 	
 	/**
 	 * This set an image to the bottom lower right corner of the window based on a bitmap
@@ -682,7 +328,7 @@ interface IWindow extends IBaseUI
 	 *
 	 */
 	
-	function setWindowBottomRightImage(value:Bitmap):Void;
+	function setWindowBottomRightImage(value:BitmapData):Void;
 	
 	/* Scales and sizes the window
 	 *
@@ -707,31 +353,4 @@ interface IWindow extends IBaseUI
 	function getInsideWindowSize():Object;
 	
 
-	
-	/**
-	 * Set the icon on a button
-	 *
-	 * @param	buttonName The button you want to apply the setting to min, max or close
-	 * @param	displayObj The icon you want to set
-	 */
-	
-	function setButtonIcon(buttonName:String, displayObj:DisplayObject):Void;	
-	
-	/**
-	 * Set the icon on a button
-	 *
-	 * @param	buttonName The button you want to apply the setting to min, max or close
-	 * @param	displayObj The bitmap that will be used for the icon
-	 */
-	
-	function setButtonIconBitmap(buttonName:String, bitmap:Bitmap):Void;
-	
-	/**
-	 * Set the icon on a button
-	 *
-	 * @param	buttonName The button you want to apply the setting to min, max or close
-	 * @param	displayObj The url location of the image file
-	 */
-	
-	function setButtonIconURL(buttonName:String, fileURL:String):Void;	
 }

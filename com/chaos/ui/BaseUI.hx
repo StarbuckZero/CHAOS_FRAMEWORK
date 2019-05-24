@@ -6,7 +6,7 @@ import com.chaos.ui.classInterface.IBaseUI;
 import openfl.display.DisplayObject;
 import openfl.display.Sprite;
 
-import com.chaos.ui.UIDetailLevel;
+
 
 
 /**
@@ -20,12 +20,13 @@ class BaseUI extends Sprite implements IBaseUI
 	
 
     public var enabled(get, set) : Bool;
-    public var detail(get, set) : String;
     public var displayObject(get, never) : DisplayObject;
 
+    private var _width : Float;
+    private var _height : Float;
     
     private var _enabled : Bool = true;
-    private var _detail : String = UIDetailLevel.HIGH;
+    
     
     public function new()
     {
@@ -33,7 +34,68 @@ class BaseUI extends Sprite implements IBaseUI
 		
     }
 
-
+    
+    /**
+	 * @inheritDoc
+	 */
+	
+    #if flash @:setter(width)
+    override private function set_width(value : Float) : Void
+    {
+        _width = value;
+        draw();
+		
+    }
+	#else
+	override private function set_width(value : Float) : Float
+	{
+        _width = value;
+        draw();
+		
+		return value;
+	}
+	#end
+	
+    /**
+	 * @inheritDoc
+	 */
+	
+    #if flash @:getter(width) #else override #end
+    private function get_width() : Float
+    {
+        return _width;
+    }
+	
+    
+    /**
+	 * @inheritDoc
+	 */
+	
+    #if flash @:setter(height)
+    override private function set_height(value : Float) : Void
+    {
+        _height = value;
+        draw();
+    }
+	#else  
+    override private function set_height(value : Float) : Float
+    {
+        _height = value;
+        draw();
+		
+        return value;
+    }	
+	#end
+	
+    /**
+	 * @inheritDoc
+	 */
+	
+    #if flash @:getter(height) #else override #end
+    private function get_height() : Float
+    {
+        return _height;
+    }
 	
     function set_enabled(value : Bool) : Bool
     {
@@ -46,34 +108,6 @@ class BaseUI extends Sprite implements IBaseUI
         return _enabled;
     }
     
-    /**
-	 * Set the level of detail on the button. This degrade the button with LOW, MEDIUM and HIGH settings.
-	 * Use the the UIDetailLevel class to change the settings.
-	 *
-	 * LOW - Remove all filters and bitmap images.
-	 * MEDIUM - Remove all filters but leaves bitmap images with image smoothing off.
-	 * HIGH - Enable and show all filters plus display bitmap images if set
-	 *
-	 * @param value Send the value "low","medium" or "high"
-	 */
-    
-    function set_detail(value : String) : String
-    {
-        _detail = value;
-        return value;
-    }
-    
-    /**
-	 *
-	 * Return low, medium or high as string.
-	 *
-	 * @see com.chaos.ui.UIDetailLevel
-	 */
-    
-    function get_detail() : String
-    {
-        return _detail;
-    }
     
     /**
 	 * Return the this class DisplayObject so it can be added and removed from the stage

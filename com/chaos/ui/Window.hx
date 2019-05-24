@@ -1,23 +1,25 @@
 package com.chaos.ui;
 
 import com.chaos.ui.classInterface.IBaseUI;
+import com.chaos.ui.classInterface.IButton;
+import com.chaos.ui.classInterface.ILabel;
 import com.chaos.ui.classInterface.IScrollPane;
 import com.chaos.ui.classInterface.IWindow;
+import openfl.events.Event;
 import openfl.events.EventDispatcher;
-import com.chaos.utils.Utils;
+import openfl.events.MouseEvent;
+
 import openfl.display.Bitmap;
 import openfl.display.BitmapData;
 import openfl.display.DisplayObject;
 import openfl.display.Sprite;
 import openfl.display.Shape;
-import openfl.events.*;
-import openfl.text.TextField;
-import openfl.text.TextFormat;
+
+
 import com.chaos.ui.event.WindowEvent;
-import com.chaos.ui.Window;
+
 import com.chaos.ui.Label;
-import com.chaos.media.DisplayImage;
-import com.chaos.ui.UIDetailLevel;
+
 import com.chaos.ui.ScrollPolicy;
 import openfl.utils.Object;
 
@@ -25,7 +27,7 @@ import openfl.utils.Object;
  * Basic window that can display objects
  *
  * @author Erick Feiling
- * @date 1-22-10
+ * @date 5-24-19
  */
 
 class Window extends BaseUI implements IWindow implements IBaseUI
@@ -35,37 +37,41 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 	public static inline var TYPE : String = "Window";
 	
     public var scrollPane(get, never) : IScrollPane;
-    public var windowBackDrop(get, never) : Sprite;
-    public var windowFrontOverlay(get, never) : Sprite;
-    public var textLabel(get, never) : Label;
+    
+    public var textLabel(get, never) : ILabel;
     public var windowMinWidth(get, set) : Int;
     public var windowMinHeight(get, set) : Int;
     public var resize(get, set) : Bool;
+	
+	// TODO: Make it so deveoper can just get the button directly
     public var closeButtonNormalColor(get, set) : Int;
     public var closeButtonOverColor(get, set) : Int;
     public var closeButtonDownColor(get, set) : Int;
     public var closeButtonDisableColor(get, set) : Int;
-    public var closeButtonUnFocusColor(get, set) : Int;
+    
+	
     public var minButtonNormalColor(get, set) : Int;
     public var minButtonOverColor(get, set) : Int;
     public var minButtonDownColor(get, set) : Int;
     public var minButtonDisableColor(get, set) : Int;
-    public var minButtonUnFocusColor(get, set) : Int;
+    
+	
     public var maxButtonNormalColor(get, set) : Int;
     public var maxButtonOverColor(get, set) : Int;
     public var maxButtonDownColor(get, set) : Int;
     public var maxButtonDisableColor(get, set) : Int;
-    public var maxButtonUnFocusColor(get, set) : Int;
+    
+	
     public var showCloseButton(get, set) : Bool;
     public var showMinButton(get, set) : Bool;
     public var showMaxButton(get, set) : Bool;
+	
     public var enabledCloseButton(get, set) : Bool;
     public var enabledMinButton(get, set) : Bool;
     public var enabledMaxButton(get, set) : Bool;
-    public var windowTitleFocusColor(get, set) : Int;
-    public var windowTitleUnFocusColor(get, set) : Int;
-    public var windowFocusColor(get, set) : Int;
-    public var windowUnFocusColor(get, set) : Int;
+	
+    public var windowTitleColor(get, set) : Int;
+    public var windowColor(get, set) : Int;
     public var windowTopRightSize(get, set) : Int;
     public var windowTopMiddleSize(get, set) : Int;
     public var windowTopLeftSize(get, set) : Int;
@@ -102,9 +108,8 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 	public static var DEFAULT_MIN_BTN_COLOR : Int = 0x00000FF;
 	public static var BOTTOM_RIGHT_DRAG_OFFSET : Int = 10;
 	
-	// Initializes the movies that will be used to contain the window pieces  
-	private var _windowBackDrop : Sprite;
-	private var _windowFrontOverlay : Sprite;
+	// Initializes the Sprite that will be used to contain the window pieces  
+	
 	private var _windowTopLeft : Sprite;
 	private var _windowTopMiddle : Sprite;
 	private var _windowTopRight : Sprite;
@@ -115,15 +120,6 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 	private var _windowBottomRight : Sprite;
 	private var _windowButtonArea : Sprite; 
 	
-	// Overlay Pattern Texture Mask 
-	private var _windowTopPatternMask : Sprite;
-	private var _windowMiddlePatternMask : Sprite;
-	private var _windowBottomPatternMask : Sprite; 
-	
-	// Overlay Pattern Texture 
-	private var _windowTopPattern : Shape;
-	private var _windowMiddlePattern : Shape;
-	private var _windowBottomPattern : Shape;
 	private var _imageTopPattern : Bitmap = null;
 	private var _imageMiddlePattern : Bitmap = null;
 	private var _imageBottomPattern : Bitmap = null;  
@@ -144,56 +140,34 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 	private var _minButton : Button;
 	private var _maxButton : Button;
 	
-	private var _windowTopLeftImage : DisplayImage;
-	private var _windowTopMiddleImage : DisplayImage;
-	private var _windowTopRightImage : DisplayImage;
+	private var _windowTopLeftImage : BitmapData;
+	private var _windowTopMiddleImage : BitmapData;
+	private var _windowTopRightImage : BitmapData;
 	
-	private var _windowMiddleLeftImage : DisplayImage;
-	private var _windowMiddleRightImage : DisplayImage;
+	private var _windowMiddleLeftImage : BitmapData;
+	private var _windowMiddleRightImage : BitmapData;
 	
-	private var _windowBottomLeftImage : DisplayImage;
-	private var _windowBottomMiddleImage : DisplayImage;
-	private var _windowBottomRightImage : DisplayImage;
+	private var _windowBottomLeftImage : BitmapData;
+	private var _windowBottomMiddleImage : BitmapData;
+	private var _windowBottomRightImage : BitmapData;
 	
-	private var _windowTopLeftUnFocusImage : DisplayImage;
-	private var _windowTopMiddleUnFocusImage : DisplayImage;
-	private var _windowTopRightUnFocusImage : DisplayImage;
+	private var _windowTopLeftUnFocusImage : BitmapData;
+	private var _windowTopMiddleUnFocusImage : BitmapData;
+	private var _windowTopRightUnFocusImage : BitmapData;
 	
-	private var _windowMiddleLeftUnFocusImage : DisplayImage;
-	private var _windowMiddleRightUnFocusImage : DisplayImage;
+	private var _windowMiddleLeftUnFocusImage : BitmapData;
+	private var _windowMiddleRightUnFocusImage : BitmapData;
 	
-	private var _windowBottomLeftUnFocusImage : DisplayImage;
-	private var _windowBottomMiddleUnFocusImage : DisplayImage;
-	private var _windowBottomRightUnFocusImage : DisplayImage;
+	private var _windowBottomLeftUnFocusImage : BitmapData;
+	private var _windowBottomMiddleUnFocusImage : BitmapData;
+	private var _windowBottomRightUnFocusImage : BitmapData;
 	
-	private var _iconDisplay : DisplayImage;
+	private var _iconDisplay : Shape;
 	private var _iconLocation : String = "right";
 	private var _buttonLocation : String = "left";
 	private var _labelLocation : String = "center";
 	
-	private var _blnWindowTopLeft : Bool = false;
-	private var _blnWindowTopMiddle : Bool = false;
-	private var _blnWindowTopRight : Bool = false;
 	
-	private var _blnWindowMiddleLeft : Bool = false;
-	private var _blnWindowMiddleRight : Bool = false;
-	
-	private var _blnWindowBottomLeft : Bool = false;
-	private var _blnWindowBottomMiddle : Bool = false;
-	private var _blnWindowBottomRight : Bool = false;
-	
-	private var _blnWindowTopLeftUnFocus : Bool = false;
-	private var _blnWindowTopMiddleUnFocus : Bool = false;
-	private var _blnWindowTopRightUnFocus : Bool = false;
-	
-	private var _blnWindowMiddleLeftUnFocus : Bool = false;
-	private var _blnWindowMiddleRightUnFocus : Bool = false;
-	
-	private var _blnWindowBottomLeftUnFocus : Bool = false;
-	private var _blnWindowBottomMiddleUnFocus : Bool = false;
-	private var _blnWindowBottomRightUnFocus : Bool = false;
-	
-	private var _scaleBgImage : Bool = false;
 	private var _smoothImage : Bool = true;
 	private var _showImage : Bool = true;
 	private var _resizeName : String = ""; 
@@ -201,10 +175,6 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 	// This is to keep track of what was clicked on mouse down 
 	private var _resizeWindow : Bool = false;
 	private var _mouseDown : Bool = false;
-	
-	private var _closeUnFocusColor : Int = 0x999999;
-	private var _maxUnFocusColor : Int = 0x999999;
-	private var _minUnFocusColor : Int = 0x999999;
 	
 	private var _showCloseButton : Bool = true;
 	private var _showMinButton : Bool = true;
@@ -214,8 +184,6 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 	private var _enabledMinButton : Bool = true;
 	private var _enabledMaxButton : Bool = true;
 	
-	//private var _enabled : Bool = true;
-	
 	private var _bgShowImage : Bool = true;
 	private var _enableResize : Bool = true;
 	private var _contentMask : Sprite;
@@ -223,7 +191,6 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 	private var _scrollPane : IScrollPane;
 	private var _windowTitle : Label;
 	private var _eventDispatcher : EventDispatcher;
-	private var _windowFocus : Bool = true; 
 	
 	// Initializes the vars that are used to constrain the window to a certain minimum width and height  
 	private var _windowWidth : Float;
@@ -232,10 +199,9 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 	private var _windowMinWidth : Int = WINDOW_MIN_WIDTH;
 	private var _windowMinHeight : Int = WINDOW_MIN_HEIGHT;
 	
-	private var _windowTitleFocusColor : Int = 0xFFFFFF;
-	private var _windowTitleUnFocusColor : Int = 0x333333;
-	private var _windowFocusColor : Int = 0xFFFFFF;
-	private var _windowUnFocusColor : Int = 0xCCCCCC;
+	private var _windowTitleColor : Int = 0xFFFFFF;
+	private var _windowColor : Int = 0xFFFFFF;
+	
 	
 	// Default size for window
 	private var _windowTopRightSize : Int = WINDOW_TOP_RIGHT_SIZE;
@@ -251,11 +217,13 @@ class Window extends BaseUI implements IWindow implements IBaseUI
     {
         super();
 		
-		_windowWidth = winWidth;
-		_windowHeight = winHeight;
+		_width = winWidth;
+		_height = winHeight;
 		
 		addEventListener(Event.ADDED_TO_STAGE, onStageAdd, false, 0, true);
-		addEventListener(Event.REMOVED_FROM_STAGE, onStageRemove, false, 0, true);init();
+		addEventListener(Event.REMOVED_FROM_STAGE, onStageRemove, false, 0, true);
+		
+		init();
     }
 	
 	private function onStageAdd(event : Event) : Void
@@ -279,7 +247,7 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 		_scrollPane.mode = ScrollPolicy.AUTO;
 		
 		// Window Display Icon
-		_iconDisplay = new DisplayImage();
+		_iconDisplay = new Shape();
 		_iconDisplay.name = "windowIcon";  
 		
 		// Sets the window title textformat reference
@@ -287,9 +255,6 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 		_windowTitle.textField.multiline = false;
 		_windowTitle.textField.wordWrap = false;  
 		
-		// Window back-end layer which 
-		_windowBackDrop = new Sprite();
-		_windowFrontOverlay = new Sprite();
 		
 		// Init sprites/clips for window 
 		_windowTopLeft = new Sprite();
@@ -327,15 +292,6 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 		_windowBottomMiddleTexture = new Shape();
 		_windowBottomRightTexture = new Shape(); 
 		
-		// Mask for the pattern
-		_windowTopPatternMask = new Sprite();
-		_windowMiddlePatternMask = new Sprite();
-		_windowBottomPatternMask = new Sprite();
-		
-		_windowTopPattern = new Shape();
-		_windowMiddlePattern = new Shape();
-		_windowBottomPattern = new Shape();
-		
 		// Setup window buttons
 		_closeButton = new Button();
 		_minButton = new Button();
@@ -349,58 +305,13 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 		_maxButton.buttonColor = DEFAULT_MAX_BTN_COLOR;
 		_minButton.buttonColor = DEFAULT_MIN_BTN_COLOR;
 		
-		_closeButton.label = "";
-		_maxButton.label = "";
-		_minButton.label = "";
+		_closeButton.text = "";
+		_maxButton.text = "";
+		_minButton.text = "";
 		
 		_closeButton.addEventListener(MouseEvent.CLICK, windowCloseButton, false, 0, true);
 		_maxButton.addEventListener(MouseEvent.CLICK, windowMaxButton, false, 0, true);
 		_minButton.addEventListener(MouseEvent.CLICK, windowMinButton, false, 0, true);  
-		
-		// Setting up call back for loader images
-		_windowTopLeftImage = new DisplayImage();
-		_windowTopMiddleImage = new DisplayImage();
-		_windowTopRightImage = new DisplayImage();
-		
-		_windowMiddleLeftImage = new DisplayImage();
-		_windowMiddleRightImage = new DisplayImage();
-		
-		_windowBottomLeftImage = new DisplayImage();
-		_windowBottomMiddleImage = new DisplayImage();
-		_windowBottomRightImage = new DisplayImage();
-		
-		_windowTopLeftUnFocusImage = new DisplayImage();
-		_windowTopMiddleUnFocusImage = new DisplayImage();
-		_windowTopRightUnFocusImage = new DisplayImage();
-		
-		_windowMiddleLeftUnFocusImage = new DisplayImage();
-		_windowMiddleRightUnFocusImage = new DisplayImage();
-		
-		_windowBottomLeftUnFocusImage = new DisplayImage();
-		_windowBottomMiddleUnFocusImage = new DisplayImage();
-		_windowBottomRightUnFocusImage = new DisplayImage();
-		
-		_windowTopLeftImage.onImageComplete = windowTopLeftLoaded;
-		_windowTopMiddleImage.onImageComplete = windowTopMiddleLoaded;
-		_windowTopRightImage.onImageComplete = windowTopRightLoaded;
-		
-		_windowMiddleLeftImage.onImageComplete = windowMiddleLeftLoaded;
-		_windowMiddleRightImage.onImageComplete = windowMiddleRightLoaded;
-		
-		_windowBottomLeftImage.onImageComplete = windowBottomLeftLoaded;
-		_windowBottomMiddleImage.onImageComplete = windowBottomMiddleLoaded;
-		_windowBottomRightImage.onImageComplete = windowBottomRightLoaded;
-		
-		_windowTopLeftUnFocusImage.onImageComplete = windowTopLeftUnFocusLoaded;
-		_windowTopMiddleUnFocusImage.onImageComplete = windowTopMiddleUnFocusLoaded;
-		_windowTopRightUnFocusImage.onImageComplete = windowTopRightUnFocusLoaded;
-		
-		_windowMiddleLeftUnFocusImage.onImageComplete = windowMiddleLeftUnFocusLoaded;
-		_windowMiddleRightUnFocusImage.onImageComplete = windowMiddleRightUnFocusLoaded;
-		_windowBottomLeftUnFocusImage.onImageComplete = windowBottomLeftUnFocusLoaded;
-		
-		_windowBottomMiddleUnFocusImage.onImageComplete = windowBottomMiddleUnFocusLoaded;
-		_windowBottomRightUnFocusImage.onImageComplete = windowBottomRightUnFocusLoaded; 
 		
 		// Resize event 
 		//_windowMiddleRight.addEventListener( MouseEvent.MOUSE_MOVE, windowEventResize ); 
@@ -421,8 +332,7 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 		_windowBottomRight.addEventListener(MouseEvent.MOUSE_UP, resizeBarMouseUp);
 		_windowBottomRight.name = "windowBottomRight";  
 		
-		// Add items into display  
-		addChild(_windowBackDrop);
+		// Add items into display
 		addChild(_windowTopLeft);
 		addChild(_windowTopMiddle);
 		addChild(_windowTopRight);
@@ -433,7 +343,6 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 		addChild(_windowBottomRight);
 		addChild(_windowMiddleLeftTexture);
 		addChild(_windowMiddleRightTexture);
-		addChild(_windowMiddlePattern);
 		addChild(_scrollPane.displayObject);
 		addChild(_windowTopLeftTexture);
 		addChild(_windowTopMiddleTexture);
@@ -441,15 +350,12 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 		addChild(_windowBottomLeftTexture);
 		addChild(_windowBottomMiddleTexture);
 		addChild(_windowBottomRightTexture);
-		addChild(_windowTopPattern);
-		addChild(_windowBottomPattern);
+		
+		
 		addChild(_windowTitle);
 		addChild(_windowButtonArea);
 		addChild(_iconDisplay);
-		addChild(_windowTopPatternMask);
-		addChild(_windowMiddlePatternMask);
-		addChild(_windowBottomPatternMask);
-		addChild(_windowFrontOverlay);
+		
 		
 		// Set Theme 
 		initStyle();
@@ -476,104 +382,78 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 		
     }
 	
-	private function initSkin() : Void {  
+	private function initSkin() : Void 
+	{  
 		// Background  
 		if (null != UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_BACKGROUND))   
-		_scrollPane.setBackgroundBitmap(UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_BACKGROUND));
+			_scrollPane.setBackgroundBitmap(UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_BACKGROUND));
 		
 		// Top  
 		if (null != UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_TOP_LEFT)) 
-		setWindowTopLeftImage(UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_TOP_LEFT));
+			setWindowTopLeftImage(UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_TOP_LEFT));
 		
 		if (null != UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_TOP_MIDDLE)) 
-		setWindowTopMiddleImage(UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_TOP_MIDDLE));
+			setWindowTopMiddleImage(UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_TOP_MIDDLE));
 		
 		if (null != UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_TOP_RIGHT))
-		setWindowTopRightImage(UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_TOP_RIGHT));
+			setWindowTopRightImage(UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_TOP_RIGHT));
+			
 		// Middle  
 		if (null != UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_MIDDLE_LEFT))  
-		setWindowMiddleLeftImage(UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_MIDDLE_LEFT));
+			setWindowMiddleLeftImage(UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_MIDDLE_LEFT));
 		
 		if (null != UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_MIDDLE_RIGHT)) 
-		setWindowMiddleRightImage(UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_MIDDLE_RIGHT));
+			setWindowMiddleRightImage(UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_MIDDLE_RIGHT));
 		
 		// Bottom  
 		if (null != UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_BOTTOM_LEFT)) 
-		setWindowBottomLeftImage(UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_BOTTOM_LEFT));
+			setWindowBottomLeftImage(UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_BOTTOM_LEFT));
 		
 		if (null != UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_BOTTOM_MIDDLE))    
-		setWindowBottomMiddleImage(UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_BOTTOM_MIDDLE));
+			setWindowBottomMiddleImage(UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_BOTTOM_MIDDLE));
 		
 		if (null != UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_BOTTOM_RIGHT))       
-		setWindowBottomRightImage(UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_BOTTOM_RIGHT));
+			setWindowBottomRightImage(UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_BOTTOM_RIGHT));
 		
 		// Min Button  
-		if (null != UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_MIN_BUTTON_NORMAL))   
-		setMinButtonBitmap(UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_MIN_BUTTON_NORMAL));
-		
-		if (null != UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_MIN_BUTTON_OVER))  
-		setMinOverButtonBitmap(UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_MIN_BUTTON_OVER));
-		
-		if (null != UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_MIN_BUTTON_DOWN))       
-		setMinDownButtonBitmap(UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_MIN_BUTTON_DOWN));
-		
-		if (null != UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_MIN_BUTTON_DISABLE))   
-		setMinDisableButtonBitmap(UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_MIN_BUTTON_DISABLE));
+		//if (null != UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_MIN_BUTTON_NORMAL))   
+		//	setMinButtonBitmap(UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_MIN_BUTTON_NORMAL));
+		//
+		//if (null != UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_MIN_BUTTON_OVER))  
+		//	setMinOverButtonBitmap(UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_MIN_BUTTON_OVER));
+		//
+		//if (null != UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_MIN_BUTTON_DOWN))       
+		//	setMinDownButtonBitmap(UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_MIN_BUTTON_DOWN));
+		//
+		//if (null != UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_MIN_BUTTON_DISABLE))   
+		//	setMinDisableButtonBitmap(UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_MIN_BUTTON_DISABLE));
 		
 		// Max Button  
-		if (null != UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_MAX_BUTTON_NORMAL))       
-		setMaxButtonBitmap(UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_MAX_BUTTON_NORMAL));
-		
-		if (null != UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_MAX_BUTTON_OVER))   
-		setMaxOverButtonBitmap(UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_MAX_BUTTON_OVER));
-		
-		if (null != UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_MAX_BUTTON_DOWN)) 
-		setMaxDownButtonBitmap(UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_MAX_BUTTON_DOWN));
-		
-		if (null != UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_MAX_BUTTON_DISABLE)) 
-		setMaxDisableButtonBitmap(UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_MAX_BUTTON_DISABLE));
+		//if (null != UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_MAX_BUTTON_NORMAL))       
+		//	setMaxButtonBitmap(UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_MAX_BUTTON_NORMAL));
+		//
+		//if (null != UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_MAX_BUTTON_OVER))   
+		//	setMaxOverButtonBitmap(UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_MAX_BUTTON_OVER));
+		//
+		//if (null != UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_MAX_BUTTON_DOWN)) 
+		//	setMaxDownButtonBitmap(UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_MAX_BUTTON_DOWN));
+		//
+		//if (null != UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_MAX_BUTTON_DISABLE)) 
+		//	setMaxDisableButtonBitmap(UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_MAX_BUTTON_DISABLE));
 		
 		// Close Button  
-		if (null != UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_CLOSE_BUTTON_NORMAL))   
-		setCloseButtonBitmap(UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_CLOSE_BUTTON_NORMAL));
-		
-		if (null != UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_CLOSE_BUTTON_OVER))    
-		setCloseOverButtonBitmap(UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_CLOSE_BUTTON_OVER));
-		
-		if (null != UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_CLOSE_BUTTON_DOWN))      
-		setCloseDownButtonBitmap(UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_CLOSE_BUTTON_DOWN));
-		
-		if (null != UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_CLOSE_BUTTON_DISABLE))     
-        setCloseDisableButtonBitmap(UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_CLOSE_BUTTON_DISABLE));
-		
-		// Pattern Overlay - Every mask layer has to be cloned because you can't use the same display object.  
-		//if (null != UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_TOP_PATTERN_OVERLAY) && null != UIBitmapManager.getUIElementMask(Window.TYPE, UIBitmapManager.WINDOW_TOP_PATTERN_LEFT_MASK) && null != UIBitmapManager.getUIElementMask(Window.TYPE, UIBitmapManager.WINDOW_TOP_PATTERN_CENTER_MASK) && null != UIBitmapManager.getUIElementMask(Window.TYPE, UIBitmapManager.WINDOW_TOP_PATTERN_RIGHT_MASK)) 
-		//{
-		//	var topLeftMask : DisplayObject = Utils.duplicateDisplayObject(UIBitmapManager.getUIElementMask(Window.TYPE, UIBitmapManager.WINDOW_TOP_PATTERN_LEFT_MASK));
-		//	var topCenterMask : DisplayObject = Utils.duplicateDisplayObject(UIBitmapManager.getUIElementMask(Window.TYPE, UIBitmapManager.WINDOW_TOP_PATTERN_CENTER_MASK));
-		//	var topRightMask : DisplayObject = Utils.duplicateDisplayObject(UIBitmapManager.getUIElementMask(Window.TYPE, UIBitmapManager.WINDOW_TOP_PATTERN_RIGHT_MASK));
-		//	
-		//	setWindowTopPattern(UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_TOP_PATTERN_OVERLAY), topLeftMask, topCenterMask, topRightMask);
-		//	
-        //}
+		//if (null != UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_CLOSE_BUTTON_NORMAL))   
+		//	setCloseButtonBitmap(UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_CLOSE_BUTTON_NORMAL));
 		//
-		//if (null != UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_MIDDLE_PATTERN_OVERLAY) && null != UIBitmapManager.getUIElementMask(Window.TYPE, UIBitmapManager.WINDOW_MIDDLE_PATTERN_LEFT_MASK) && null != UIBitmapManager.getUIElementMask(Window.TYPE, UIBitmapManager.WINDOW_MIDDLE_PATTERN_RIGHT_MASK)) 
-		//{
-		//	var middleLeftMask : DisplayObject = Utils.duplicateDisplayObject(UIBitmapManager.getUIElementMask(Window.TYPE, UIBitmapManager.WINDOW_MIDDLE_PATTERN_LEFT_MASK));
-		//	var middleRightMask : DisplayObject = Utils.duplicateDisplayObject(UIBitmapManager.getUIElementMask(Window.TYPE, UIBitmapManager.WINDOW_MIDDLE_PATTERN_RIGHT_MASK));
-		//	
-		//	setWindowMiddlePattern(UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_MIDDLE_PATTERN_OVERLAY), middleLeftMask, middleRightMask);
-		//	
-        //}
+		//if (null != UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_CLOSE_BUTTON_OVER))    
+		//	setCloseOverButtonBitmap(UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_CLOSE_BUTTON_OVER));
 		//
-		//if (null != UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_BOTTOM_PATTERN_OVERLAY) && null != UIBitmapManager.getUIElementMask(Window.TYPE, UIBitmapManager.WINDOW_BOTTOM_PATTERN_LEFT_MASK) && null != UIBitmapManager.getUIElementMask(Window.TYPE, UIBitmapManager.WINDOW_BOTTOM_PATTERN_CENTER_MASK) && null != UIBitmapManager.getUIElementMask(Window.TYPE, UIBitmapManager.WINDOW_BOTTOM_PATTERN_RIGHT_MASK)) 
-		//{
-		//	var bottomLeftMask : DisplayObject = Utils.duplicateDisplayObject(UIBitmapManager.getUIElementMask(Window.TYPE, UIBitmapManager.WINDOW_BOTTOM_PATTERN_LEFT_MASK));
-		//	var bottomCenterMask : DisplayObject = Utils.duplicateDisplayObject(UIBitmapManager.getUIElementMask(Window.TYPE, UIBitmapManager.WINDOW_BOTTOM_PATTERN_CENTER_MASK));
-		//	var bottomRightMask : DisplayObject = Utils.duplicateDisplayObject(UIBitmapManager.getUIElementMask(Window.TYPE, UIBitmapManager.WINDOW_BOTTOM_PATTERN_RIGHT_MASK));
-		//	
-		//	setWindowBottomPattern(UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_BOTTOM_PATTERN_OVERLAY), bottomLeftMask, bottomCenterMask, bottomRightMask);
-        //}
+		//if (null != UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_CLOSE_BUTTON_DOWN))      
+		//	setCloseDownButtonBitmap(UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_CLOSE_BUTTON_DOWN));
+		//
+		//if (null != UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_CLOSE_BUTTON_DISABLE))     
+		//	setCloseDisableButtonBitmap(UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_CLOSE_BUTTON_DISABLE));
+		
     }
 	
 	private function initStyle() : Void 
@@ -611,16 +491,11 @@ class Window extends BaseUI implements IWindow implements IBaseUI
         _windowTitle.textColor = UIStyleManager.WINDOW_TITLE_TEXT_COLOR;
 		
 		if ( -1 != UIStyleManager.WINDOW_TITLE_AREA_COLOR)   
-		_windowTitleFocusColor = UIStyleManager.WINDOW_TITLE_AREA_COLOR;
-		
-		if ( -1 != UIStyleManager.WINDOW_TITLE_AREA_UNFOCUS_COLOR)    
-		_windowTitleUnFocusColor = UIStyleManager.WINDOW_TITLE_AREA_UNFOCUS_COLOR;
+		_windowTitleColor = UIStyleManager.WINDOW_TITLE_AREA_COLOR;
 		
 		if ( -1 != UIStyleManager.WINDOW_FOCUS_COLOR)  
-		_windowFocusColor = UIStyleManager.WINDOW_FOCUS_COLOR;
+		_windowColor = UIStyleManager.WINDOW_FOCUS_COLOR;
 		
-		if ( -1 != UIStyleManager.WINDOW_UNFOCUS_COLOR)       
-		_windowUnFocusColor = UIStyleManager.WINDOW_UNFOCUS_COLOR;
 		
 		// Min Button
 		if ( -1 != UIStyleManager.WINDOW_MIN_NORMAL_COLOR)
@@ -674,110 +549,12 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 	}
 	
 	/**
-	 * Anything that is added to this sprite goes in back of the window. All objects start at top left hand side of the window.
-	 */  
-	
-	private function get_windowBackDrop() : Sprite 
-	{
-		return _windowBackDrop; 
-	}  
-	
-	/**
-	 * Anything that is added to this sprite goes in front of the window. All objects start at top left hand side of the window.
-	 */
-	
-	private function get_windowFrontOverlay() : Sprite 
-	{
-		return _windowFrontOverlay; 
-	}
-	
-	
-	/**
 	 * Return the text label being used
 	 */
-	private function get_textLabel() : Label 
+	private function get_textLabel() : ILabel 
 	{
 		return _windowTitle;
     }
-	
-	/**
-	 * Set the width of the Window
-	 *
-	 * @param value Set the width of the Window
-	 *
-	 */ 
-	
-	#if flash @:setter(width)
-	private function set_width(value : Float) : Void
-	{
-		_windowWidth = value;
-		draw();
-    }
-	#else
-	override private function set_width(value : Float) : Float
-	{
-		_windowWidth = value;
-		draw();
-        return value;
-    }
-	#end
-	
-	/**
-	 *
-	 * @return Returns the width
-	 */
-	
-	#if flash @:getter(width)
-	private function get_width() : Float
-	{
-		return _windowWidth;
-    }
-	#else
-	override private function get_width() : Float
-	{
-		return _windowWidth;
-    }
-	#end
-	
-	/**
-	 * Set the height of the Window
-	 *
-	 * @param value Set the width of the Window
-	 *
-	 */ 
-	
-	#if flash @:setter(height)
-	private function set_height(value : Float) : Void
-	{
-		_windowHeight = value;
-		draw();
-    } 
-	#else
-	override private function set_height(value : Float) : Float
-	{
-		_windowHeight = value;
-		draw();
-		
-        return value;
-    } 
-	#end
-	
-	/**
-	 *
-	 * @return Returns the height
-	 */ 
-	
-	#if flash @:getter(height)
-	private function get_height() : Float
-	{
-		return _windowHeight;
-    }
-	#else
-	override private function get_height() : Float
-	{
-		return _windowHeight;
-    }
-	#end
 	 
 	/**
 	 * Set the minimize width of the of the Window over all size
@@ -785,7 +562,9 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 	
 	private function set_windowMinWidth(value : Int) : Int 
 	{
-		_windowWidth = value;draw();
+		_windowMinWidth = value;
+		draw();
+		
         return value;
     }
 	
@@ -804,7 +583,9 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 	
 	private function set_windowMinHeight(value : Int) : Int 
 	{
-		_windowMinHeight = value;draw();
+		_windowMinHeight = value;
+		draw();
+		
         return value;
     }
 	
@@ -832,6 +613,21 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 	{
 		return _enableResize;
     }
+	
+	private function get_closeButton():IButton
+	{
+		return _closeButton;
+	}
+	
+	private function get_minButton():IButton
+	{
+		return _minButton;
+	}
+	
+	private function get_maxButton():IButton
+	{
+		return _maxButton;
+	}
 	
 	/**
 	 * Set the close button default color
@@ -905,23 +701,7 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 		return _closeButton.buttonDisableColor;
     }
 	
-	/**
-	 * Set the close button unfocus state color.
-	 */ 
-	
-	private function set_closeButtonUnFocusColor(value : Int) : Int
-	{
-		_closeUnFocusColor = value;
-        return value;
-    }
-	
-	/**
-	 * Return the button unfocus color
-	 */
-	private function get_closeButtonUnFocusColor() : Int 
-	{
-		return _closeUnFocusColor;
-    } 
+
 	
 	/**
 	 * Set the minimize button default color
@@ -996,23 +776,7 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 		return _minButton.buttonDisableColor;
     } 
 	
-	/**
-	 * Set the minimize button unfocus state color.
-	 */
-	private function set_minButtonUnFocusColor(value : Int) : Int
-	{
-		_minUnFocusColor = value;
-        return value;
-    }
-	
-	/**
-	 * Return the button unfocus color
-	 */
-	
-	private function get_minButtonUnFocusColor() : Int 
-	{
-		return _minUnFocusColor;
-    } 
+
 	
 	/**
 	 * Set the maximize button default color
@@ -1088,23 +852,7 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 		return _maxButton.buttonDisableColor;
     }
 	
-	/**
-	 * Set the maximize button unfocus state color.
-	 */
-	
-	private function set_maxButtonUnFocusColor(value : Int) : Int 
-	{
-		_maxUnFocusColor = value;
-        return value;
-    }
-	
-	/**
-	 * Return the button unfocus color
-	 */
-	private function get_maxButtonUnFocusColor() : Int
-	{
-		return _maxUnFocusColor;
-    }
+
 	
 	/**
 	 * Hide or Show the close button on the window
@@ -1112,7 +860,9 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 	
 	private function set_showCloseButton(value : Bool) : Bool 
 	{
-		_showCloseButton = value;draw();
+		_showCloseButton = value;
+		draw();
+		
         return value;
     }
 	
@@ -1171,7 +921,8 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 	
 	private function set_enabledCloseButton(value : Bool) : Bool
 	{
-		_enabledCloseButton = value;draw();
+		_enabledCloseButton = value;
+		draw();
         return value;
     }
 	
@@ -1189,7 +940,9 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 	 */
 	private function set_enabledMinButton(value : Bool) : Bool 
 	{
-		_enabledMinButton = value;draw();
+		_enabledMinButton = value;
+		draw();
+		
         return value;
     }
 	
@@ -1207,7 +960,9 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 	 */ 
 	private function set_enabledMaxButton(value : Bool) : Bool 
 	{
-		_enabledMaxButton = value;draw();
+		_enabledMaxButton = value;
+		draw();
+		
         return value;
     }
 	
@@ -1223,9 +978,11 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 	/**
 	 * Set the color of the window title area once the user select
 	 */
-	private function set_windowTitleFocusColor(value : Int) : Int 
+	private function set_windowTitleColor(value : Int) : Int 
 	{
-		_windowTitleFocusColor = value;draw();
+		_windowTitleColor = value;
+		draw();
+		
         return value;
 	}
 	
@@ -1233,37 +990,22 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 	 * Return the color of the window
 	 */  
 	
-	private function get_windowTitleFocusColor() : Int
+	private function get_windowTitleColor() : Int
 	{
-		return _windowTitleFocusColor;
+		return _windowTitleColor;
     }
 	
-	/**
-	 * Set the color of the window title area once it is unfocused
-	 */  
-	
-	private function set_windowTitleUnFocusColor(value : Int) : Int
-	{
-		_windowTitleUnFocusColor = value;draw();
-        return value;
-    } 
-	
-	/**
-	 * Return the color of the window title area for it's unfocus state
-	 */
-	
-	private function get_windowTitleUnFocusColor() : Int 
-	{
-		return _windowTitleUnFocusColor;
-    }
+
 	
 	/**
 	 * Set the color of the window which is
 	 */  
 	
-	private function set_windowFocusColor(value : Int) : Int 
+	private function set_windowColor(value : Int) : Int 
 	{
-		_windowFocusColor = value;draw();
+		_windowColor = value;
+		draw();
+		
         return value;
     }
 	
@@ -1271,29 +1013,12 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 	 * Return the color of the window
 	 */
 	
-	private function get_windowFocusColor() : Int
+	private function get_windowColor() : Int
 	{
-		return _windowFocusColor;
+		return _windowColor;
     }
 	
-	/**
-	 * Set the color of the window once it is unfocused which is everywhere but the title area
-	 */
-	
-	private function set_windowUnFocusColor(value : Int) : Int
-	{
-		_windowUnFocusColor = value;draw();
-        return value;
-    }
-	
-	/**
-	 * Return the color of the window for it's unfocus state
-	 */ 
-	
-	private function get_windowUnFocusColor() : Int 
-	{
-		return _windowUnFocusColor;
-    }
+
 	
 	/**
 	 * Set the size of the top right area of the window.
@@ -1473,7 +1198,9 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 	 */ 
 	private function set_labelLocation(value : String) : String 
 	{
-		_labelLocation = value;draw();
+		_labelLocation = value;
+		draw();
+		
         return value;
     }
 	
@@ -1515,147 +1242,7 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 		return _buttonLocation;
     } 
 	
-	/**
-	 *
-	 * Set a pattern overlay to the top part of the window. This convers the title area of the window.
-	 *
-	 * @param	imagePattern The left patten
-	 * @param	leftMask The mask you want to use
-	 * @param	centerMask The mask you want to use
-	 * @param	rightMask The mask you want to use
-	 *
-	 */
-	public function setWindowTopPattern(imagePattern : Bitmap, leftMask : DisplayObject, centerMask : DisplayObject, rightMask : DisplayObject) : Void 
-	{
-		// Putting together mask  
-		leftMask.name = "leftMask";
-		_windowTopPatternMask.addChild(leftMask);
-		
-		centerMask.name = "centerMask";
-		_windowTopPatternMask.addChild(centerMask);
-		
-		rightMask.name = "rightMask";
-		_windowTopPatternMask.addChild(rightMask); 
-		
-		// Place the mask on the shape
-		_windowTopPattern.mask = _windowTopPatternMask;  
-		
-		// Set the bitmap
-		_imageTopPattern = imagePattern;draw();
-    }
-	
-	/**
-	 *
-	 * Set a pattern overlay to the center part of the window. If you don't want to apply a mask send a null.
-	 *
-	 * @param	imagePattern The left patten
-	 * @param	leftMask The mask you want to use
-	 * @param	rightMask The mask you want to use
-	 *
-	 */  
-	
-	public function setWindowMiddlePattern(imagePattern : Bitmap, leftMask : DisplayObject, rightMask : DisplayObject) : Void 
-	{
-		// Putting together mask  
-		leftMask.name = "leftMask";
-		_windowMiddlePatternMask.addChild(leftMask);
-		
-		rightMask.name = "rightMask";
-		_windowMiddlePatternMask.addChild(rightMask); 
-		
-		// Place the mask on the shape 
-		_windowMiddlePattern.mask = _windowMiddlePatternMask;  
-		
-		// Set the bitmap
-		_imageMiddlePattern = imagePattern;
-		
-		draw();
-    }  
-	
-	/**
-	 *
-	 * Set a pattern overlay to the bottom part of the window. If you don't want to apply a mask send a null.
-	 *
-	 * @param	imagePattern The left patten
-	 * @param	leftMask The mask you want to use
-	 * @param	centerMask The mask you want to use
-	 * @param	rightMask The mask you want to use
-	 *
-	 */
-	
-	public function setWindowBottomPattern(imagePattern : Bitmap, leftMask : DisplayObject, centerMask : DisplayObject, rightMask : DisplayObject) : Void
-	{  
-		// Putting together mask 
-		leftMask.name = "leftMask";
-		_windowBottomPatternMask.addChild(leftMask);
-		
-		centerMask.name = "centerMask";
-		_windowBottomPatternMask.addChild(centerMask);
-		
-		rightMask.name = "rightMask";
-		_windowBottomPatternMask.addChild(rightMask); 
-		
-		// Place the mask on the shape
-		_windowBottomPattern.mask = _windowBottomPatternMask;
-		
-		// Set the bitmap 
-		_imageBottomPattern = imagePattern;
-		
-		draw();
-    }
-	
-	/**
-	 * Sets the title of the window
-	 *
-	 * @param value The name of what you want to set the window to
-	 *
-	 * @example myWindow.setTitle("My Window");
-	 *
-	 */  
-	
-	public function setWindowTitle(value : String) : Void
-	{
-		
-		var titleX : Float = _windowTopMiddle.x;
-		var titleY : Float = _windowTopMiddle.y;
-		var titleWidth : Float = _windowTopMiddle.width;
-		
-		var titleHeight : Float = _windowTopMiddle.height;
-		
-		_windowTitle.textField.autoSize = "left";
-		_windowTitle.text = value;
-		
-		_windowTitle.textField.selectable = false;
-    }
-	
-	
-	/**
-	 * Return the Window title
-	 *
-	 * @return Return the text that inside the label
-	 *
-	 */
-	
-	public function getWindowTitle() : String 
-	{
-		return _windowTitle.text;
-    }
-	
-	/**
-	 * Set the window icon by using an image based on a bitmap
-	 *
-	 * @param value The URL to the image you want to use for the icon
-	 *
-	 * @example myWindow.setIcon("myIcon", "left");
-	 *
-	 */ 
-	public function setIcon(value : String, location : String = "left") : Void 
-	{
-		// Set location
-		iconLocation = location;
-		_iconDisplay.load(value);
-    }
-	
+
 	/**
 	 * Set the window icon by using an image based on a URL
 	 *
@@ -1664,93 +1251,52 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 	 * @example myWindow.setIconBitmap("myIcon", "left");
 	 *
 	 */ 
-	public function setIconBitmap(displayBitmap : Bitmap, location : String = "left") : Void 
+	
+	public function setIcon(image : BitmapData, location : String = "left") : Void 
 	{ 
 		// Set location
 		iconLocation = location;
-		_iconDisplay.setImage(displayBitmap);
+		
+		_iconDisplay.graphics.clear();
+		
+		if (image != null)
+		{
+			_iconDisplay.graphics.beginBitmapFill(image, null, false, _smoothImage);
+			_iconDisplay.graphics.drawRect(0, 0, image.width, image.height);
+			_iconDisplay.graphics.endFill();
+		}
 		
 		draw();
+		
     }
 	
 	/* Setup and draw window on stage */ 
 	override public function draw() : Void 
 	{ 
 		super.draw();  
+		
 		// Enable or Disable buttons
 		_closeButton.enabled = _enabledCloseButton;
 		_minButton.enabled = _enabledMinButton;
 		_maxButton.enabled = _enabledMaxButton;
 		
-		// Set name again
-		_closeButton.name = WindowEvent.WINDOW_CLOSE_BTN;
-		_minButton.name = WindowEvent.WINDOW_MIN_BTN;
-		_maxButton.name = WindowEvent.WINDOW_MAX_BTN;
-		
 		// Drawing basic squares  
-		if (_windowFocus) 
-		{
-			drawSquareIn(_windowTopLeft, _windowTitleFocusColor, _windowTopLeftSize, _windowTopLeftImage.loaded);
-			drawSquareIn(_windowTopMiddle, _windowTitleFocusColor, _windowTopMiddleSize, _windowTopMiddleImage.loaded);
-			drawSquareIn(_windowTopRight, _windowTitleFocusColor, _windowTopRightSize, _windowTopRightImage.loaded);drawSquareIn(_windowMiddleLeft, _windowFocusColor, _windowMiddleSize, _windowMiddleLeftImage.loaded);drawSquareIn(_windowMiddleRight, _windowFocusColor, _windowMiddleSize, _windowMiddleRightImage.loaded);drawSquareIn(_windowBottomLeft, _windowFocusColor, _windowBottomLeftSize, _windowBottomLeftImage.loaded);drawSquareIn(_windowBottomMiddle, _windowFocusColor, _windowBottomMiddleSize, _windowBottomMiddleImage.loaded);drawSquareIn(_windowBottomRight, _windowFocusColor, _windowBottomRightSize, _windowBottomRightImage.loaded);
-        }
-        else 
-		{
-			drawSquareIn(_windowTopLeft, _windowTitleUnFocusColor, _windowTopLeftSize, _windowTopLeftUnFocusImage.loaded); drawSquareIn(_windowTopMiddle, _windowTitleUnFocusColor, _windowTopMiddleSize, _windowTopMiddleUnFocusImage.loaded); drawSquareIn(_windowTopRight, _windowTitleUnFocusColor, _windowTopRightSize, _windowTopRightUnFocusImage.loaded); drawSquareIn(_windowMiddleLeft, _windowUnFocusColor, _windowMiddleSize, _windowMiddleLeftUnFocusImage.loaded); 
-			drawSquareIn(_windowMiddleRight, _windowUnFocusColor, _windowMiddleSize, _windowMiddleRightUnFocusImage.loaded);
-			drawSquareIn(_windowBottomLeft, _windowUnFocusColor, _windowBottomLeftSize, _windowBottomLeftUnFocusImage.loaded);drawSquareIn(_windowBottomMiddle, _windowUnFocusColor, _windowBottomMiddleSize, _windowBottomMiddleUnFocusImage.loaded);drawSquareIn(_windowBottomRight, _windowUnFocusColor, _windowBottomRightSize, _windowBottomRightUnFocusImage.loaded);
-        }
+		drawSquareIn(_windowTopLeft, _windowTitleColor, _windowTopLeftSize, (_windowTopLeftImage != null)  );
+		drawSquareIn(_windowTopMiddle, _windowTitleColor, _windowTopMiddleSize, (_windowTopMiddleImage != null) );
+		drawSquareIn(_windowTopRight, _windowTitleColor, _windowTopRightSize, (_windowTopRightImage != null) );
+		drawSquareIn(_windowMiddleLeft, _windowColor, _windowMiddleSize, (_windowMiddleLeftImage != null) );
+		drawSquareIn(_windowMiddleRight, _windowColor, _windowMiddleSize, (_windowMiddleRightImage != null) );
+		drawSquareIn(_windowBottomLeft, _windowColor, _windowBottomLeftSize, (_windowBottomLeftImage != null) );
+		drawSquareIn(_windowBottomMiddle, _windowColor, _windowBottomMiddleSize, (_windowBottomMiddleImage != null) );
+		drawSquareIn(_windowBottomRight, _windowColor, _windowBottomRightSize, (_windowBottomRightImage != null) );
 		
 		// Line up square 
-		setWindowSize(Std.int(_windowWidth), Std.int(_windowHeight), _windowMinWidth, _windowMinHeight);
+		setWindowSize(Std.int(_width), Std.int(_height), _windowMinWidth, _windowMinHeight);
 		
 		applyWindowImage();
     } 
 	
-	/**
-	 * Set the level of detail on the Window. This degrade the combo box with LOW, MEDIUM and HIGH settings.
-	 * Use the the UIDetailLevel class to change the settings.
-	 *
-	 * LOW - Remove all filters and bitmap images.
-	 * MEDIUM - Remove all filters but leaves bitmap images with image smoothing off.
-	 * HIGH - Enable and show all filters plus display bitmap images if set
-	 *
-	 * @param value Send the value "low","medium" or "high"
-	 * @see com.chaos.ui.UIDetailLevel
-	 */ 
-	
-	override function set_detail(value : String) : String
-	{  
-		// Set detail settings  
-		if (UIDetailLevel.HIGH == value) 
-		{
-			_showImage = true;
-			_smoothImage = true;
-        }
-        else if (UIDetailLevel.MEDIUM == value) 
-		{
-			_showImage = true;
-			_smoothImage = false;
-        }
-        else if (UIDetailLevel.LOW == value) 
-		{
-			_showImage = false;
-			_smoothImage = false;
-        }
-        else 
-		{
-			_showImage = false;
-			_smoothImage = false;
-			super.detail = UIDetailLevel.LOW;
-        }
-		
-		super.detail = _maxButton.detail = _minButton.detail = _closeButton.detail = _scrollPane.detail = value;
-		
-		draw();
-		
-        return value;
-    }
-	
+
 	/**
 	 * Set if the ScrollPane is enabled
 	 *
@@ -1774,306 +1320,7 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 		initStyle();
     }
 	
-	/**
-	 * This is for setting an image to the close button default state. It is best to set an image that can be tiled.
-	 *
-	 * @param value Set the image based on a URL file path.
-	 *
-	 */
-	
-	public function setCloseButtonImage(value : String) : Void
-	{
-		_closeButton.setBackgroundImage(value);
-    }
-	
-	/**
-	 * This is for setting an image to the close button default state. It is best to set an image that can be tiled.
-	 *
-	 * @param value Set the image based on a Bitmap being pass
-	 *
-	 */
-	public function setCloseButtonBitmap(value : Bitmap) : Void 
-	{ 
-		_closeButton.setBackgroundBitmap(value); 
-		
-	} 
-	
-	/**
-	 * This is for setting an image to the close button roll over state. It is best to set an image that can be tiled.
-	 *
-	 * @param value Set the image based on a URL file path.
-	 *
-	 */ 
-	public function setCloseOverButtonImage(value : String) : Void
-	{
-		_closeButton.setOverBackgroundImage(value);
-    } 
-	
-	/**
-	 * This is for setting an image to the close button roll over state. It is best to set an image that can be tiled.
-	 *
-	 * @param value Set the image based on a Bitmap being pass
-	 *
-	 */
-	
-	public function setCloseOverButtonBitmap(value : Bitmap) : Void
-	{
-		_closeButton.setOverBackgroundBitmap(value);
-    }
-	
-	/**
-	 * This is for setting an image to the close button press down state. It is best to set an image that can be tiled.
-	 *
-	 * @param value Set the image based on a URL file path.
-	 *
-	 */
-	public function setCloseDownButtonImage(value : String) : Void
-	{
-		_closeButton.setDownBackgroundImage(value);
-    }
-	
-	/**
-	 * This is for setting an image to the close button roll press state. It is best to set an image that can be tiled.
-	 *
-	 * @param value Set the image based on a Bitmap being pass
-	 *
-	 */
-	public function setCloseDownButtonBitmap(value : Bitmap) : Void
-	{
-		_closeButton.setDownBackgroundBitmap(value);
-    } 
-	/**
-	 * This is for setting an image to the close button disable state. It is best to set an image that can be tiled.
-	 *
-	 * @param value Set the image based on a URL file path.
-	 *
-	 */
-	public function setCloseDisableButtonImage(value : String) : Void 
-	{
-		_closeButton.setDisableBackgroundImage(value);
-    }
-	/**
-	 * This is for setting an image to the button disable state. It is best to set an image that can be tiled.
-	 *
-	 * @param value Set the image based on a Bitmap being pass
-	 *
-	 */ 
-	
-	public function setCloseDisableButtonBitmap(value : Bitmap) : Void
-	{
-		_closeButton.setDisableBackgroundBitmap(value);
-    }
-	
-	/**
-	 * This is for setting an image to the minimize button default state. It is best to set an image that can be tiled.
-	 *
-	 * @param value Set the image based on a URL file path.
-	 *
-	 */  
-	
-	public function setMinButtonImage(value : String) : Void
-	{
-		_minButton.setBackgroundImage(value);
-    } 
-	
-	/**
-	 * This is for setting an image to the minimize button default state. It is best to set an image that can be tiled.
-	 *
-	 * @param value Set the image based on a Bitmap being pass
-	 *
-	 */
-	public function setMinButtonBitmap(value : Bitmap) : Void
-	{
-		_minButton.setBackgroundBitmap(value);
-    }
-	
-	/**
-	 * This is for setting an image to the minimize button roll over state. It is best to set an image that can be tiled.
-	 *
-	 * @param value Set the image based on a URL file path.
-	 *
-	 */  
-	
-	public function setMinOverButtonImage(value : String) : Void 
-	{
-		_minButton.setOverBackgroundImage(value);
-    }
-	
-	/**
-	 * This is for setting an image to the minimize button roll over state. It is best to set an image that can be tiled.
-	 *
-	 * @param value Set the image based on a Bitmap being pass
-	 *
-	 */
-	public function setMinOverButtonBitmap(value : Bitmap) : Void 
-	{
-		_minButton.setOverBackgroundBitmap(value);
-    }
-	
-	/**
-	 * This is for setting an image to the minimize button press down state. It is best to set an image that can be tiled.
-	 *
-	 * @param value Set the image based on a URL file path.
-	 *
-	 */ 
-	
-	public function setMinDownButtonImage(value : String) : Void 
-	{
-		_minButton.setDownBackgroundImage(value);
-    }
-	
-	/**
-	 * This is for setting an image to the minimize button roll press state. It is best to set an image that can be tiled.
-	 *
-	 * @param value Set the image based on a Bitmap being pass
-	 *
-	 */
-	
-	public function setMinDownButtonBitmap(value : Bitmap) : Void
-	{
-		_minButton.setDownBackgroundBitmap(value);
-    }
-	
-	/**
-	 * This is for setting an image to the minimize button disable state. It is best to set an image that can be tiled.
-	 *
-	 * @param value Set the image based on a URL file path.
-	 *
-	 */
-	public function setMinDisableButtonImage(value : String) : Void
-	{
-		_minButton.setDisableBackgroundImage(value);
-    }
-	
-	/**
-	 * This is for setting an image to the minimize button disable state. It is best to set an image that can be tiled.
-	 *
-	 * @param value Set the image based on a Bitmap being pass
-	 *
-	 */
-	public function setMinDisableButtonBitmap(value : Bitmap) : Void
-	{
-		_minButton.setDisableBackgroundBitmap(value);
-    }
-	/**
-	 * This is for setting an image to the maximize button default state. It is best to set an image that can be tiled.
-	 *
-	 * @param value Set the image based on a URL file path.
-	 *
-	 */
-	public function setMaxButtonImage(value : String) : Void 
-	{
-		_maxButton.setBackgroundImage(value);
-    }
-	
-	/**
-	 * This is for setting an image to the maximize button default state. It is best to set an image that can be tiled.
-	 *
-	 * @param value Set the image based on a Bitmap being pass
-	 *
-	 */
-	public function setMaxButtonBitmap(value : Bitmap) : Void 
-	{
-		_maxButton.setBackgroundBitmap(value);
-    }
-	
-	/**
-	 * This is for setting an image to the maximize button roll over state. It is best to set an image that can be tiled.
-	 *
-	 * @param value Set the image based on a URL file path.
-	 *
-	 */ 
-	
-	public function setMaxOverButtonImage(value : String) : Void
-	{
-		_maxButton.setOverBackgroundImage(value);
-    }
-	
-	/**
-	 * This is for setting an image to the maximize button roll over state. It is best to set an image that can be tiled.
-	 *
-	 * @param value Set the image based on a Bitmap being pass
-	 *
-	 */ 
-	public function setMaxOverButtonBitmap(value : Bitmap) : Void
-	{
-		_maxButton.setOverBackgroundBitmap(value);
-    } 
-	
-	/**
-	 * This is for setting an image to the maximize button press down state. It is best to set an image that can be tiled.
-	 *
-	 * @param value Set the image based on a URL file path.
-	 *
-	 */ 
-	public function setMaxDownButtonImage(value : String) : Void
-	{
-		_maxButton.setDownBackgroundImage(value);
-    } 
-	
-	/**
-	 * This is for setting an image to the maximize button roll press state. It is best to set an image that can be tiled.
-	 *
-	 * @param value Set the image based on a Bitmap being pass
-	 *
-	 */
-	public function setMaxDownButtonBitmap(value : Bitmap) : Void
-	{
-		_maxButton.setDownBackgroundBitmap(value);
-    } 
-	
-	/**
-	 * This is for setting an image to the maximize button disable state. It is best to set an image that can be tiled.
-	 *
-	 * @param value Set the image based on a URL file path.
-	 *
-	 */ 
-	public function setMaxDisableButtonImage(value : String) : Void 
-	{
-		_maxButton.setDisableBackgroundImage(value);
-    }
-	
-	/**
-	 * This is for setting an image to the maximize button disable state. It is best to set an image that can be tiled.
-	 *
-	 * @param value Set the image based on a Bitmap being pass
-	 *
-	 */ 
-	public function setMaxDisableButtonBitmap(value : Bitmap) : Void 
-	{
-		_maxButton.setDisableBackgroundBitmap(value);
-    }
-	/**
-	 * This set an image to the upper top left corner of the window based on a URL
-	 *
-	 * @param value The URL path to the image you want to use
-	 *
-	 */ 
-	public function setWindowTopLeft(value : String) : Void 
-	{
-		_windowTopLeftImage.load(value);
-    }
-	/**
-	 * This set an image to the middle of the window based on a URL
-	 *
-	 * @param value The URL path to the image you want to use
-	 *
-	 */ 
-	public function setWindowTopMiddle(value : String) : Void 
-	{
-		_windowTopMiddleImage.load(value);
-    } 
-	
-	/**
-	 * This set an image to the upper top right corner of the window based on a URL
-	 *
-	 * @param value The URL path to the image you want to use
-	 *
-	 */ 
-	public function setWindowTopRight(value : String) : Void 
-	{
-		_windowTopRightImage.load(value);
-    }
+
 	
 	/**
 	 * This set an image to the upper top left corner of the window based on a bitmap
@@ -2081,9 +1328,11 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 	 * @param value The bitmap image you want to use
 	 *
 	 */  
-	public function setWindowTopLeftImage(value : Bitmap) : Void 
+	
+	public function setWindowTopLeftImage(value : BitmapData) : Void 
 	{
-		_windowTopLeftImage.setImage(value);draw();
+		_windowTopLeftImage = value;
+		draw();
     }
 	
 	/**
@@ -2092,9 +1341,10 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 	 * @param value The bitmap image you want to use
 	 *
 	 */ 
-	public function setWindowTopMiddleImage(value : Bitmap) : Void 
+	public function setWindowTopMiddleImage(value : BitmapData) : Void 
 	{
-		_windowTopMiddleImage.setImage(value);draw();
+		_windowTopMiddleImage = value;
+		draw();
     }
 	
 	/**
@@ -2102,32 +1352,13 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 	 *
 	 * @param value The bitmap image you want to use
 	 *
-	 */  
-	public function setWindowTopRightImage(value : Bitmap) : Void
+	 */
+	public function setWindowTopRightImage(value : BitmapData) : Void
 	{
-		_windowTopRightImage.setImage(value);draw();
+		_windowTopRightImage = value;
+		draw();
     } 
-	
-	/**
-	 * This set an image to the right side of the window based on a URL
-	 *
-	 * @param value The URL path to the image you want to use
-	 *
-	 */  
-	public function setWindowMiddleRight(value : String) : Void 
-	{
-		_windowMiddleRightImage.load(value);
-    }
-	/**
-	 * This set an image to the left side of the window based on a URL
-	 *
-	 * @param value The URL path to the image you want to use
-	 *
-	 */ 
-	public function setWindowMiddleLeft(value : String) : Void
-	{
-		_windowMiddleLeftImage.load(value);
-    }
+
 	
 	/**
 	 * This set an image to the right side of the window based on a bitmap
@@ -2137,9 +1368,10 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 	 *
 	 */
 	
-	public function setWindowMiddleRightImage(value : Bitmap) : Void
+	public function setWindowMiddleRightImage(value : BitmapData) : Void
 	{
-		_windowMiddleRightImage.setImage(value);draw();
+		_windowMiddleRightImage = value;
+		draw();
     }
 	
 	/**
@@ -2147,43 +1379,12 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 	 *
 	 * @param value The bitmap image you want to use
 	 */  
-	public function setWindowMiddleLeftImage(value : Bitmap) : Void
+	public function setWindowMiddleLeftImage(value : BitmapData) : Void
 	{
-		_windowMiddleLeftImage.setImage(value);draw();
+		_windowMiddleLeftImage = value;
+		draw();
     }
 	
-	/**
-	 * This set an image to the bottom lower left corner of the window based on a URL
-	 *
-	 * @param value The URL path to the image you want to use
-	 *
-	 */  
-	public function setWindowBottomLeft(value : String) : Void
-	{
-		_windowBottomLeftImage.load(value);
-    }
-	
-	/**
-	 * This set an image to the bottom mid area of the window based on a URL
-	 *
-	 * @param value The URL path to the image you want to use
-	 *
-	 */ 
-	public function setWindowBottomMiddle(value : String) : Void 
-	{
-		_windowBottomMiddleImage.load(value);
-    }
-	
-	/**
-	 * This set an image to the bottom lower right corner of the window based on a URL
-	 *
-	 * @param value The URL path to the image you want to use
-	 *
-	 */
-	public function setWindowBottomRight(value : String) : Void 
-	{
-		_windowBottomRightImage.load(value);
-    }
 	
 	/**
 	 * This set an image to the bottom lower left corner of the window based on a bitmap
@@ -2191,9 +1392,11 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 	 * @param value The bitmap image you want to use
 	 *
 	 */  
-	public function setWindowBottomLeftImage(displayBitmap : Bitmap) : Void 
+	
+	public function setWindowBottomLeftImage(value : BitmapData) : Void 
 	{
-		_windowBottomLeftImage.setImage(displayBitmap);draw();
+		_windowBottomLeftImage = value;
+		draw();
     }
 	
 	/**
@@ -2202,9 +1405,10 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 	 * @param value The bitmap image you want to use
 	 *
 	 */  
-	public function setWindowBottomMiddleImage(value : Bitmap) : Void 
+	public function setWindowBottomMiddleImage(value : BitmapData) : Void 
 	{
-		_windowBottomMiddleImage.setImage(value);draw();
+		_windowBottomMiddleImage = value;
+		draw();
     }
 	
 	/**
@@ -2213,20 +1417,20 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 	 * @param value The bitmap image you want to use
 	 *
 	 */ 
-	public function setWindowBottomRightImage(value : Bitmap) : Void 
+	public function setWindowBottomRightImage(value : BitmapData) : Void 
 	{
-		_windowBottomRightImage.setImage(value);
+		_windowBottomRightImage = value;
 		draw();
     }
 	
 	private function addDrag() : Void
 	{
-		this.startDrag();
+		startDrag();
     }
 	
 	private function removeDrag() : Void 
 	{
-		this.stopDrag();
+		stopDrag();
     } 
 	
 	/* Scales and sizes the window
@@ -2241,58 +1445,58 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 	 *
 	 */  
 	
-		public function setWindowSize(inWidth : Int, inHeight : Int, minWidth : Int = 0, minHeight : Int = 0) : Void
+	public function setWindowSize(inWidth : Int, inHeight : Int, minWidth : Int = 0, minHeight : Int = 0) : Void
+	{
+		var buttonCount : Int = 0;
+		
+		// Check to see the new widnow width and height lowest point  
+		if (minWidth > WINDOW_MIN_WIDTH)        
+		_windowMinWidth = minWidth; 
+		
+		if (_windowMinHeight > WINDOW_MIN_WIDTH)     
+		_windowMinHeight = minHeight;
+		
+		// Resize Button  
+		_closeButton.width = WINDOW_BUTTON_SIZE;
+		_closeButton.height = WINDOW_BUTTON_SIZE;
+		_minButton.width = WINDOW_BUTTON_SIZE;
+		_minButton.height = WINDOW_BUTTON_SIZE;
+		_maxButton.width = WINDOW_BUTTON_SIZE;
+		_maxButton.height = WINDOW_BUTTON_SIZE;
+		
+		_windowWidth = inWidth;
+		_windowHeight = inHeight; 
+		
+		// Hide or show buttons based on what use set
+		_closeButton.visible = _showCloseButton;
+		_minButton.visible = _showMinButton;
+		_maxButton.visible = _showMaxButton;
+		
+		// Update button count 
+		if (_showCloseButton)   
+		buttonCount++;
+		
+		if (_showMinButton)     
+		buttonCount++;
+		
+		if (_maxButton != null)  
+		buttonCount++;
+		
+		_windowTopLeftTexture.x = _windowTopLeft.x = 0;
+		
+		if (_scrollPane.x == 0 && _scrollPane.y == 0) 
 		{
-			var buttonCount : Int = 0;
+			var temp1X : Float = _windowTopLeft.x + _windowTopLeft.width;
 			
-			// Check to see the new widnow width and height lowest point  
-			if (minWidth > WINDOW_MIN_WIDTH)        
-			_windowMinWidth = minWidth; 
+			if (_windowMiddleLeft.x + _windowMiddleLeft.width < temp1X)                 
+			temp1X = _windowMiddleLeft.x + _windowMiddleLeft.width;
 			
-			if (_windowMinHeight > WINDOW_MIN_WIDTH)     
-			_windowMinHeight = minHeight;
+			if (_windowBottomLeft.x + _windowBottomLeft.width < temp1X)   
+			temp1X = _windowBottomLeft.x + _windowBottomLeft.width;
 			
-			// Resize Button  
-			_closeButton.width = WINDOW_BUTTON_SIZE;
-			_closeButton.height = WINDOW_BUTTON_SIZE;
-			_minButton.width = WINDOW_BUTTON_SIZE;
-			_minButton.height = WINDOW_BUTTON_SIZE;
-			_maxButton.width = WINDOW_BUTTON_SIZE;
-			_maxButton.height = WINDOW_BUTTON_SIZE;
-			
-			_windowWidth = inWidth;
-			_windowHeight = inHeight; 
-			
-			// Hide or show buttons based on what use set
-			_closeButton.visible = _showCloseButton;
-			_minButton.visible = _showMinButton;
-			_maxButton.visible = _showMaxButton;
-			
-			// Update button count 
-			if (_showCloseButton)   
-			buttonCount++;
-			
-			if (_showMinButton)     
-			buttonCount++;
-			
-			if (_maxButton != null)  
-			buttonCount++;
-			
-			_windowTopLeftTexture.x = _windowTopLeft.x = 0;
-			
-			if (_scrollPane.x == 0 && _scrollPane.y == 0) 
-			{
-				var temp1X : Float = _windowTopLeft.x + _windowTopLeft.width;
-				
-				if (_windowMiddleLeft.x + _windowMiddleLeft.width < temp1X)                 
-				temp1X = _windowMiddleLeft.x + _windowMiddleLeft.width;
-				
-				if (_windowBottomLeft.x + _windowBottomLeft.width < temp1X)   
-				temp1X = _windowBottomLeft.x + _windowBottomLeft.width;
-				
-				_scrollPane.x = temp1X;
-				_scrollPane.y = _windowTopLeft.height;
-			}
+			_scrollPane.x = temp1X;
+			_scrollPane.y = _windowTopLeft.height;
+		}
         
 		
 		if (_scrollPane.x == 0 && _scrollPane.y == 0) 
@@ -2307,13 +1511,9 @@ class Window extends BaseUI implements IWindow implements IBaseUI
         }
 		
 		if (inWidth > _windowMinWidth) 
-		{
 			_windowTopRightTexture.x = _windowTopRight.x = inWidth - _windowTopRight.width;
-        }
         else 
-		{
 			_windowTopRightTexture.x = _windowTopRight.x = _windowMinWidth - _windowTopRight.width;
-        }
 		
 		_windowTopRightTexture.y = _windowTopRight.y = _windowTopLeft.y;
 		
@@ -2328,44 +1528,29 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 		_windowBottomLeftTexture.x = _windowBottomLeft.x = _windowTopLeft.x;
 		
 		if (inHeight > _windowMinHeight) 
-		{
 			_windowBottomLeftTexture.y = _windowBottomLeft.y = inHeight - _windowBottomLeft.height;
-        }
         else 
-		{
 			_windowBottomLeftTexture.y = _windowBottomLeft.y = _windowMinHeight - _windowBottomLeft.height;
-        }
 		
 		if (inWidth > _windowMinWidth) 
-		{
 			_windowBottomRightTexture.x = _windowBottomRight.x = inWidth - _windowBottomRight.width;
-        }
         else 
-		{
 			_windowBottomRightTexture.x = _windowBottomRight.x = _windowMinWidth - _windowBottomRight.width;
-        }
 		
 		if (inHeight > _windowMinHeight) 
-		{
 			_windowBottomRightTexture.y = _windowBottomRight.y = inHeight - _windowBottomRight.height;
-        }
         else
-		{
 			_windowBottomRightTexture.y = _windowBottomRight.y = _windowMinHeight - _windowBottomRight.height;
-        }
 		
 		_windowBottomMiddleTexture.x = _windowBottomMiddle.x = _windowBottomLeft.x + _windowBottomLeft.width;
 		
 		if (inHeight > _windowMinHeight) 
-		{
 			_windowBottomMiddleTexture.y = _windowBottomMiddle.y = inHeight - _windowBottomMiddle.height;
-        }
         else 
-		{
 			_windowBottomMiddleTexture.y = _windowBottomMiddle.y = _windowMinHeight - _windowBottomMiddle.height;
-        }
 		
-		_windowBottomMiddle.width = _windowBottomRight.x - _windowBottomLeft.width; _windowMiddleLeftTexture.x = _windowMiddleLeft.x = _windowTopLeft.x;
+		_windowBottomMiddle.width = _windowBottomRight.x - _windowBottomLeft.width;
+		_windowMiddleLeftTexture.x = _windowMiddleLeft.x = _windowTopLeft.x;
 		_windowMiddleLeftTexture.y = _windowMiddleLeft.y = _windowTopLeft.y + _windowTopLeft.height;
 		_windowMiddleLeft.height = _windowBottomLeft.y - _windowTopLeft.height;
 		
@@ -2384,11 +1569,13 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 		// Set Icon location  
 		if (_iconLocation.toLowerCase() == "right") 
 		{
-			_iconDisplay.x = _windowTopRight.x + WINDOW_ICON_OFFSET_X;_iconDisplay.y = WINDOW_ICON_OFFSET_Y;
+			_iconDisplay.x = _windowTopRight.x + WINDOW_ICON_OFFSET_X;
+			_iconDisplay.y = WINDOW_ICON_OFFSET_Y;
         }
         else 
 		{
-			_iconDisplay.x = WINDOW_ICON_OFFSET_X;_iconDisplay.y = WINDOW_ICON_OFFSET_Y;
+			_iconDisplay.x = WINDOW_ICON_OFFSET_X;
+			_iconDisplay.y = WINDOW_ICON_OFFSET_Y;
         }  
 		
 		// Button Location  
@@ -2405,7 +1592,15 @@ class Window extends BaseUI implements IWindow implements IBaseUI
         }
         else 
 		{
-			_windowButtonArea.x = WINDOW_BUTTON_OFFSET_X;_windowButtonArea.y = WINDOW_BUTTON_OFFSET_Y;_closeButton.x = 0;_minButton.x = 0;_maxButton.x = 0;_minButton.x = ((_showMinButton)) ? (buttonCount - 2) * (WINDOW_BUTTON_SIZE + WINDOW_BUTTON_OFFSET) : 0;_maxButton.x = ((_showMaxButton)) ? (buttonCount - 1) * (WINDOW_BUTTON_SIZE + WINDOW_BUTTON_OFFSET) : 0;
+			_windowButtonArea.x = WINDOW_BUTTON_OFFSET_X;
+			_windowButtonArea.y = WINDOW_BUTTON_OFFSET_Y;
+			
+			_closeButton.x = 0;
+			_minButton.x = 0;
+			_maxButton.x = 0;
+			
+			_minButton.x = ((_showMinButton)) ? (buttonCount - 2) * (WINDOW_BUTTON_SIZE + WINDOW_BUTTON_OFFSET) : 0;
+			_maxButton.x = ((_showMaxButton)) ? (buttonCount - 1) * (WINDOW_BUTTON_SIZE + WINDOW_BUTTON_OFFSET) : 0;
         } 
 		
 		// Adjust the Title area based on  
@@ -2413,25 +1608,18 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 		{  
 			//_windowTitle.align = "left"; 
 			if (_buttonLocation == "left") 
-			{
 				_windowTitle.x = _windowButtonArea.x + TEXT_OFFSET_X;
-            }
             else if (_iconLocation == "left") 
-			{
 				_windowTitle.x = _iconDisplay.x + TEXT_OFFSET_X;
-            }
+				
         }
         else if ("right" == _labelLocation) 
 		{
 			//_windowTitle.align = "right"
 			if (_buttonLocation == "right") 
-			{
 				_windowTitle.x = _windowButtonArea.width - TEXT_OFFSET_X;
-            }
             else if (_iconLocation == "right")
-			{
 				_windowTitle.x = _iconDisplay.width - TEXT_OFFSET_X;
-            }
         }
         else 
 		{
@@ -2440,25 +1628,6 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 		
 		_windowTitle.y = Std.int((_windowTopMiddle.height / 2) - TEXT_OFFSET_Y); 
 		
-		// Top  
-		if (null != _imageTopPattern) 
-		{
-			_windowTopPattern.x = _windowTopLeft.x;_windowTopPattern.y = _windowTopLeft.y;
-        }
-		
-		// Mid
-		if (null != _imageMiddlePattern) 
-		{  
-			//_windowMiddlePattern.x = _windowMiddleLeft.x;
-			_windowMiddlePattern.y = _windowMiddleLeft.y;
-        }
-		
-		// Bottom 
-		if (null != _imageBottomPattern) 
-		{ 
-			//_windowBottomPattern.x = _windowBottomLeft.x;
-			_windowBottomPattern.y = _windowBottomLeft.y;
-        }
 		
 		// Resise scroll pane
 		sizeInsideWindow(_scrollPane);
@@ -2480,71 +1649,23 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 
 
 		if (_windowBottomRight.x - _scrollPane.x > widthVal) 
-		widthVal = _windowBottomRight.x - _scrollPane.x;
+			widthVal = _windowBottomRight.x - _scrollPane.x;
 
 		returnObj.width = widthVal;
 
 		var heightVal : Float = _windowBottomLeft.y - _scrollPane.y;
 		
 		if (_windowBottomMiddle.y - _scrollPane.y > heightVal) 
-		heightVal = _windowBottomMiddle.y - _scrollPane.y;
+			heightVal = _windowBottomMiddle.y - _scrollPane.y;
 		
 		if (_windowBottomRight.y - _scrollPane.y > heightVal) 
-		heightVal = _windowBottomRight.y - _scrollPane.y;
+			heightVal = _windowBottomRight.y - _scrollPane.y;
 		
 		returnObj.height = heightVal;
 		
 		return returnObj;
 	} 
-	
-	/**
-	 * Set the icon on a button
-	 *
-	 * @param	buttonName The button you want to apply the setting to min, max or close
-	 * @param	displayObj The icon you want to set
-	 */  
-	public function setButtonIcon(buttonName : String, displayObj : DisplayObject) : Void 
-	{ 
-		if (buttonName == "min") 
-		_minButton.setIcon(displayObj);
-        else if (buttonName == "max") 
-			_maxButton.setIcon(displayObj);
-        else if (buttonName == "clse")
-			_closeButton.setIcon(displayObj);
-    } 
-	
-	/**
-	 * Set the icon on a button
-	 *
-	 * @param	buttonName The button you want to apply the setting to min, max or close
-	 * @param	displayObj The bitmap that will be used for the icon
-	 */  
-	public function setButtonIconBitmap(buttonName : String, bitmap : Bitmap) : Void 
-	 {
-		if (buttonName == "min") 
-			_minButton.setIconBitmap(bitmap);
-		else if (buttonName == "max") 
-			_maxButton.setIconBitmap(bitmap);
-		else if (buttonName == "clse") 
-			_closeButton.setIconBitmap(bitmap);
-	 }
-     
-	/**
-	 * Set the icon on a button
-	 *
-	 * @param	buttonName The button you want to apply the setting to min, max or close
-	 * @param	displayObj The url location of the image file
-	 */ 
-	
-	public function setButtonIconURL(buttonName : String, fileURL : String) : Void 
-	{ 
-		if (buttonName == "min") 
-			_minButton.setIconImage(fileURL);
-		else if (buttonName == "max")
-			_maxButton.setIconImage(fileURL);
-		else if (buttonName == "clse") 
-			_closeButton.setIconImage(fileURL);
-	}
+
 	
 	// Resizes a passed in movie clip to the size of the window's interior 
 	private function sizeInsideWindow(inMovie : IBaseUI, inAxis : String = "scaleAll") : Void 
@@ -2554,28 +1675,20 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 			var xVal : Int = Std.int(_windowTopLeft.x + _windowTopLeft.width);
 			
 			if (_windowMiddleLeft.x + _windowMiddleLeft.width < xVal) 
-			{
 				xVal = Std.int(_windowMiddleLeft.x + _windowMiddleLeft.width);
-            }
 			
 			if (_windowBottomLeft.x + _windowBottomLeft.width < xVal) 
-			{
 				xVal = Std.int(_windowBottomLeft.x + _windowBottomLeft.width);
-            }
 			
 			inMovie.x = xVal;
 			
 			var widthVal : Int = Std.int(_windowTopRight.x - inMovie.x);
 			
 			if (_windowMiddleRight.x - inMovie.x > widthVal) 
-			{
 				widthVal = Std.int(_windowMiddleRight.x - inMovie.x);
-            }
 			
 			if (_windowBottomRight.x - inMovie.x > widthVal) 
-			{
 				widthVal = Std.int(_windowBottomRight.x - inMovie.x);
-            }
 			
 			inMovie.width = widthVal;
 			
@@ -2584,16 +1697,15 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 		if (inAxis == "scaleY" || inAxis == "scaleAll") 
 		{
 			var yVal : Int = Std.int(_windowTopLeft.y + _windowTopLeft.height);
+			
 			if (_windowTopMiddle.y + _windowTopMiddle.height < yVal) 
-			{
 				yVal = Std.int(_windowTopMiddle.y + _windowTopMiddle.height);
-			}
+				
 			if (_windowTopRight.y + _windowTopRight.height < yVal) 
-			{
 				yVal = Std.int(_windowTopRight.y + _windowTopRight.height);
-			}
 			
 			inMovie.y = yVal;
+			
 			var heightVal : Int = Std.int(_windowBottomLeft.y - inMovie.y);
 			
 			if (_windowBottomMiddle.y - inMovie.y > heightVal) 
@@ -2608,7 +1720,7 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 	
 	// End sizeInsideWindow 
 	
-	// Draws a 20x20 colored squared inside of a movie clip  
+	// Draws a 20x20 colored squared inside of a Sprite  
 	// This is usually used for new movie clips that will later be resized such as the background color.
 	private function drawSquareIn(inMovie : Sprite, inColor : Int, squareSize : Int = 0, hasImage : Bool = false) : Void
 	{
@@ -2621,7 +1733,8 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 		inMovie.alpha = ((hasImage)) ? 0 : 1;
     }
 	
-	private function applyWindowImage() : Void{  
+	private function applyWindowImage() : Void
+	{  
 		// Show Image
 		if (!_showImage)
 		return;
@@ -2637,121 +1750,40 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 		_windowBottomLeftTexture.graphics.clear();
 		_windowBottomMiddleTexture.graphics.clear();
 		_windowBottomRightTexture.graphics.clear();
-		var leftMask : DisplayObject;
-		var centerMask : DisplayObject;
-		var rightMask : DisplayObject;
 		
-		// Top
-		if (null != _imageTopPattern)
-		{
-			textureShape(_windowTopPattern, _windowWidth, _imageTopPattern.bitmapData.height, _imageTopPattern.bitmapData);
-			leftMask = _windowTopPatternMask.getChildByName("leftMask");
-			centerMask = _windowTopPatternMask.getChildByName("centerMask");
-			rightMask = _windowTopPatternMask.getChildByName("rightMask");
-			leftMask.x = _windowTopLeft.x;
-			leftMask.y = _windowTopLeft.y;
-			centerMask.x = _windowTopLeft.x + _windowTopLeft.width;
-			centerMask.y = _windowTopLeft.y;
-			centerMask.width = _windowTopMiddle.width;
-			rightMask.x = _windowTopRight.x;
-			rightMask.y = _windowTopLeft.y;
-        }
 		
-		// Mid 
-		if (null != _imageMiddlePattern) 
-		{
-			textureShape(_windowMiddlePattern, _windowWidth, _windowMiddleLeft.height, _imageMiddlePattern.bitmapData);
-			leftMask = _windowMiddlePatternMask.getChildByName("leftMask");
-			rightMask = _windowMiddlePatternMask.getChildByName("rightMask");
-			
-			leftMask.x = _windowMiddleLeft.x; leftMask.y = _windowMiddleLeft.y;
-			leftMask.height = _scrollPane.height;
-			rightMask.x = _windowMiddleRight.x;
-			rightMask.y = _windowMiddleRight.y;
-			rightMask.height = _scrollPane.height;
-        } 
+		// Top Area 
+		if (_windowTopLeftImage != null && _windowTopLeftSize > 0)       
+			textureShape(_windowTopLeftTexture, _windowTopLeft.width, _windowTopLeft.height, _windowTopLeftImage);
 		
-		// Bottom 
-		if (null != _imageBottomPattern) 
-		{
-			textureShape(_windowBottomPattern, _windowWidth, _imageBottomPattern.bitmapData.height, _imageBottomPattern.bitmapData);
-			
-			leftMask = _windowBottomPatternMask.getChildByName("leftMask");
-			centerMask = _windowBottomPatternMask.getChildByName("centerMask");
-			rightMask = _windowBottomPatternMask.getChildByName("rightMask");
-			
-			leftMask.x = _windowBottomLeft.x;
-			leftMask.y = _windowBottomLeft.y; centerMask.x = _windowBottomLeft.x + _windowBottomLeft.width;
-			centerMask.y = _windowBottomLeft.y;
-			
-			centerMask.width = _windowBottomMiddle.width;
-			rightMask.x = _windowBottomRight.x;
-			rightMask.y = _windowBottomRight.y;
-        }
+		if (_windowTopMiddleImage != null && _windowTopMiddleSize > 0)      
+			textureShape(_windowTopMiddleTexture, _windowTopMiddle.width, _windowTopMiddle.height, _windowTopMiddleImage);
 		
-		if (_windowFocus) 
-		{ 
-			// Top Area 
-			if (_windowTopLeftImage.loaded && _windowTopLeftSize > 0)       
-			textureShape(_windowTopLeftTexture, _windowTopLeft.width, _windowTopLeft.height, _windowTopLeftImage.image.bitmapData);
-			
-			if (_windowTopMiddleImage.loaded && _windowTopMiddleSize > 0)      
-			textureShape(_windowTopMiddleTexture, _windowTopMiddle.width, _windowTopMiddle.height, _windowTopMiddleImage.image.bitmapData);
-			
-			if (_windowTopRightImage.loaded && _windowTopRightSize > 0)             
-			textureShape(_windowTopRightTexture, _windowTopRight.width, _windowTopRight.height, _windowTopRightImage.image.bitmapData);
-			
-			// Mid Area  
-			if (_windowMiddleLeftImage.loaded && _windowMiddleSize > 0)    
-			textureShape(_windowMiddleLeftTexture, _windowMiddleLeft.width, _windowMiddleLeft.height, _windowMiddleLeftImage.image.bitmapData);
-			
-			if (_windowMiddleRightImage.loaded && _windowMiddleSize > 0)    
-			textureShape(_windowMiddleRightTexture, _windowMiddleRight.width, _windowMiddleRight.height, _windowMiddleRightImage.image.bitmapData);
-			
-			// Bottom Area  
-			if (_windowBottomLeftImage.loaded && _windowBottomLeftSize > 0)   
-			textureShape(_windowBottomLeftTexture, _windowBottomLeft.width, _windowBottomLeft.height, _windowBottomLeftImage.image.bitmapData);
-			
-			if (_windowBottomMiddleImage.loaded && _windowBottomMiddleSize > 0)        
-			textureShape(_windowBottomMiddleTexture, _windowBottomMiddle.width, _windowBottomMiddle.height, _windowBottomMiddleImage.image.bitmapData);
-			
-			if (_windowBottomRightImage.loaded && _windowBottomRightSize > 0)  
-			textureShape(_windowBottomRightTexture, _windowBottomRight.width, _windowBottomRight.height, _windowBottomRightImage.image.bitmapData);
-        }
-        else 
-		{  
-			// Top Area  
-			if (_windowTopLeftUnFocusImage.loaded && _windowTopLeftSize > 0)    
-			textureShape(_windowTopLeftTexture, _windowTopLeft.width, _windowTopLeft.height, _windowTopLeftUnFocusImage.image.bitmapData);
-			
-			if (_windowTopMiddleUnFocusImage.loaded && _windowTopMiddleSize > 0)       
-			textureShape(_windowTopMiddleTexture, _windowTopMiddle.width, _windowTopMiddle.height, _windowTopMiddleUnFocusImage.image.bitmapData);
-			
-			if (_windowTopRightUnFocusImage.loaded && _windowTopRightSize > 0)         
-			textureShape(_windowTopRightTexture, _windowTopRight.width, _windowTopRight.height, _windowTopRightUnFocusImage.image.bitmapData);  
-			
-			// Mid Area  
-			if (_windowMiddleLeftUnFocusImage.loaded && _windowMiddleSize > 0)      
-			textureShape(_windowMiddleLeftTexture, _windowMiddleLeft.width, _windowMiddleLeft.height, _windowMiddleLeftUnFocusImage.image.bitmapData);
-			
-			if (_windowMiddleRightUnFocusImage.loaded && _windowMiddleSize > 0)  
-			textureShape(_windowMiddleRightTexture, _windowMiddleRight.width, _windowMiddleRight.height, _windowMiddleRightUnFocusImage.image.bitmapData);
-			
-			// Bottom Area  
-			if (_windowBottomLeftUnFocusImage.loaded && _windowBottomLeftSize > 0)       
-			textureShape(_windowBottomLeftTexture, _windowBottomLeft.width, _windowBottomLeft.height, _windowBottomLeftUnFocusImage.image.bitmapData);
-			
-			if (_windowBottomMiddleUnFocusImage.loaded && _windowBottomMiddleSize > 0)        
-			textureShape(_windowBottomMiddleTexture, _windowBottomMiddle.width, _windowBottomMiddle.height, _windowBottomMiddleUnFocusImage.image.bitmapData);
-			
-			if (_windowBottomRightUnFocusImage.loaded && _windowBottomRightSize > 0)           
-			textureShape(_windowBottomRightTexture, _windowBottomRight.width, _windowBottomRight.height, _windowBottomRightUnFocusImage.image.bitmapData);
-        }
+		if (_windowTopRightImage != null && _windowTopRightSize > 0)             
+			textureShape(_windowTopRightTexture, _windowTopRight.width, _windowTopRight.height, _windowTopRightImage);
+		
+		// Mid Area  
+		if (_windowMiddleLeftImage != null && _windowMiddleSize > 0)    
+			textureShape(_windowMiddleLeftTexture, _windowMiddleLeft.width, _windowMiddleLeft.height, _windowMiddleLeftImage);
+		
+		if (_windowMiddleRightImage != null && _windowMiddleSize > 0)    
+			textureShape(_windowMiddleRightTexture, _windowMiddleRight.width, _windowMiddleRight.height, _windowMiddleRightImage);
+		
+		// Bottom Area  
+		if (_windowBottomLeftImage != null && _windowBottomLeftSize > 0)   
+			textureShape(_windowBottomLeftTexture, _windowBottomLeft.width, _windowBottomLeft.height, _windowBottomLeftImage);
+		
+		if (_windowBottomMiddleImage != null && _windowBottomMiddleSize > 0)        
+			textureShape(_windowBottomMiddleTexture, _windowBottomMiddle.width, _windowBottomMiddle.height, _windowBottomMiddleImage);
+		
+		if (_windowBottomRightImage != null && _windowBottomRightSize > 0)  
+			textureShape(_windowBottomRightTexture, _windowBottomRight.width, _windowBottomRight.height, _windowBottomRightImage);
     }
 	
 	private function textureShape(shape : Shape, imageWidth : Float, imageHeight : Float, image : BitmapData = null) : Void 
 	{
 		shape.graphics.clear();
+		
 		if (null == image)
 		return;
 		
@@ -2779,9 +1811,10 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 	
 	/*Stops Dragging
 	 *
-	 * inMovie:MovieClip - The instance name of the MovieClip to stop Dragging
+	 * inMovie: MovieClip - The instance name of the MovieClip to stop Dragging
 	 *
 	 */  
+	
 	private function dontDragMe(event : MouseEvent) : Void 
 	{
 		removeDrag();
@@ -2799,96 +1832,12 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 		dispatchEvent(new WindowEvent(WindowEvent.WINDOW_MIN_BTN));
 	}
 	
-	private function windowMaxButton(event : Event) : Void { dispatchEvent(new WindowEvent(WindowEvent.WINDOW_MAX_BTN)); }
-	
-	private function windowTopLeftLoaded(event : Event) : Void
+	private function windowMaxButton(event : Event) : Void 
 	{
-		_blnWindowTopLeft = true;
-		draw();
-    }
+		dispatchEvent(new WindowEvent(WindowEvent.WINDOW_MAX_BTN));
+	}
 	
-	private function windowTopMiddleLoaded(event : Event) : Void
-	{
-		_blnWindowTopMiddle = true;
-		draw();
-    }
-	
-	private function windowTopRightLoaded(event : Event) : Void
-	{
-		_blnWindowTopRight = true;
-		draw();
-    }
-	
-	private function windowMiddleLeftLoaded(event : Event) : Void
-	{
-		_blnWindowMiddleLeft = true;
-		draw();
-    }
-	
-	private function windowMiddleRightLoaded(event : Event) : Void
-	{
-		_blnWindowMiddleRight = true;
-		draw();
-    }
-	
-	private function windowBottomLeftLoaded(event : Event) : Void
-	{
-		_blnWindowBottomLeft = true;
-		draw();
-    }
-	
-	private function windowBottomMiddleLoaded(event : Event) : Void
-	{
-		_blnWindowBottomMiddle = true;
-		draw();
-    }
-	
-	private function windowBottomRightLoaded(event : Event) : Void
-	{
-		_blnWindowBottomRight = true;
-		draw();
-    }
-	
-	private function windowTopLeftUnFocusLoaded(event : Event) : Void 
-	{
-		_blnWindowTopLeftUnFocus = true;
-		draw();
-    }
-	
-	private function windowTopMiddleUnFocusLoaded(event : Event) : Void 
-	{
-		_blnWindowTopMiddleUnFocus = true;draw();
-    }
-	
-	private function windowTopRightUnFocusLoaded(event : Event) : Void 
-	{
-		_blnWindowTopRightUnFocus = true;draw();
-    }
-	
-	private function windowMiddleLeftUnFocusLoaded(event : Event) : Void 
-	{
-		_blnWindowMiddleLeftUnFocus = true;draw();
-    }
-	
-	private function windowMiddleRightUnFocusLoaded(event : Event) : Void
-	{
-		_blnWindowMiddleRightUnFocus = true;draw();
-    }
-	
-	private function windowBottomLeftUnFocusLoaded(event : Event) : Void
-	{
-		_blnWindowBottomLeftUnFocus = true;draw();
-    }
-	
-	private function windowBottomMiddleUnFocusLoaded(event : Event) : Void 
-	{
-		_blnWindowBottomMiddleUnFocus = true;draw();
-    }
-	
-	private function windowBottomRightUnFocusLoaded(event : Event) : Void 
-	{
-		_blnWindowBottomRightUnFocus = true;draw();
-    }
+
 	
 	private function windowResizeOver(event : Event) : Void
 	{
@@ -2898,7 +1847,7 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 	private function windowResizeOut(event : Event) : Void 
 	{
 		if (!_mouseDown)
-		_resizeWindow = false;
+			_resizeWindow = false;
     }
 	
 	private function windowEventResize(event : MouseEvent) : Void
@@ -2906,17 +1855,11 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 		if (_mouseDown && _enableResize) 
 		{
 			if (_resizeName == "windowBottomMiddle") 
-			{
 				setWindowSize(Std.int(_windowWidth), Std.int(_windowHeight + _windowBottomMiddle.mouseY - _windowBottomMiddle.mouseX));
-            }
             else if (_resizeName == "windowMiddleRight") 
-			{
 				setWindowSize(Std.int(_windowWidth + _windowMiddleRight.mouseX - _windowMiddleRight.mouseY), Std.int(_windowHeight));
-            }
             else if (_resizeName == "windowBottomRight") 
-			{
 				setWindowSize(Std.int(_windowWidth + _windowMiddleRight.mouseX - _windowMiddleRight.mouseY) + BOTTOM_RIGHT_DRAG_OFFSET, Std.int(_windowHeight + _windowBottomMiddle.mouseY - _windowBottomMiddle.mouseX) + BOTTOM_RIGHT_DRAG_OFFSET);
-            }
         }
     }
 	
@@ -2944,7 +1887,7 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 		stage.addEventListener(MouseEvent.MOUSE_DOWN, windowMouseDown, false, 0, true);
 		stage.addEventListener(MouseEvent.MOUSE_UP, windowMouseUp, false, 0, true);  
 		
-		// NOTE: Failsafe - I don't know if this out outside of the Flash window  
+		// NOTE: Failsafe - I don't know if this out outside of the window  
 		stage.addEventListener(Event.MOUSE_LEAVE, windowMouseUp, false, 0, true);
     }
 }

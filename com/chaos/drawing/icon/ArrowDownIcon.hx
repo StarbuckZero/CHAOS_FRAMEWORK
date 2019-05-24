@@ -31,20 +31,20 @@ class ArrowDownIcon extends BaseIcon implements IBaseUI implements IBasicIcon
         super.draw();
         
         // Create Icon
-        iconArea.graphics.clear();
+        _iconArea.graphics.clear();
         
         if (border)
-		iconArea.graphics.lineStyle(borderThinkness, borderColor, borderAlpha);
+		_iconArea.graphics.lineStyle(borderThinkness, borderColor, borderAlpha);
 		
 		// Bitmap or not
-		(showImage && null != displayImg.image) ? iconArea.graphics.beginBitmapFill(displayImg.image.bitmapData) : iconArea.graphics.beginFill(baseColor);  
+		(showImage && null != _image) ? _iconArea.graphics.beginBitmapFill(_image) : _iconArea.graphics.beginFill(baseColor);  
 		
 		
         // Draw first crossing block
-        iconArea.graphics.lineTo(width, 0);
-        iconArea.graphics.lineTo(width / 2, height);
-        iconArea.graphics.lineTo(0, 0);
-        iconArea.graphics.endFill();
+        _iconArea.graphics.lineTo(width, 0);
+        _iconArea.graphics.lineTo(width / 2, height);
+        _iconArea.graphics.lineTo(0, 0);
+        _iconArea.graphics.endFill();
     }
 }
 

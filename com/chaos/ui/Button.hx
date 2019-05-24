@@ -8,6 +8,7 @@ import com.chaos.ui.classInterface.IBaseUI;
 import com.chaos.ui.classInterface.IButton;
 import com.chaos.ui.classInterface.ILabel;
 import com.chaos.ui.classInterface.IOverlay;
+import openfl.display.BitmapData;
 import openfl.display.DisplayObject;
 import openfl.display.Loader;
 import openfl.display.MovieClip;
@@ -19,8 +20,6 @@ import openfl.filters.GlowFilter;
 
 import openfl.display.Bitmap;
 
-//import openfl.filters.BevelFilter;
-import openfl.filters.DropShadowFilter;
 
 import openfl.events.MouseEvent;
 import openfl.events.Event;
@@ -30,172 +29,67 @@ import openfl.text.TextFormatAlign;
 import openfl.text.TextFormat;
 import openfl.text.TextFieldAutoSize;
 
-import com.chaos.media.DisplayImage;
 
-import com.chaos.ui.Overlay;
+
+
 import com.chaos.ui.Label;
-import com.chaos.ui.UIDetailLevel;
+
 
 /**
  *  Normal push button with or without an icon
  *
  *  @author Erick Feiling
- *  @date 11-5-09
+ *  @date 5-21-19
+ * 
  */
 
-class Button extends Overlay implements IButton implements IOverlay implements IBaseUI
+class Button extends BaseUI implements IButton implements IBaseUI
 {
     public var imageOffSetX(get, set) : Int;
     public var imageOffSetY(get, set) : Int;
-    public var label(get, set) : String;
+	
+    public var text(get, set) : String;
+	public var label(get, never) : ILabel;
+	
     public var showLabel(get, set) : Bool;
-    public var textLabel(get, never) : ILabel;
+	
     public var textFont(get, set) : String;
     public var textItalic(get, set) : Bool;
     public var textBold(get, set) : Bool;
     public var textSize(get, set) : Int;
     public var textColor(get, set) : Int;
     public var textAlign(get, set) : String;
+	
     public var buttonColor(get, set) : Int;
     public var buttonOverColor(get, set) : Int;
     public var buttonDownColor(get, set) : Int;
     public var buttonDisableColor(get, set) : Int;
+	
     public var roundEdge(get, set) : Int;
+	
     public var bitmapAlpha(get, set) : Float;
+	
     public var iconDisplay(get, set) : Bool;
-    public var shadowFilter(get, set) : Bool;
-    public var filterMode(get, set) : Bool;
-    public var shadowTextFilterDefault(get, set) : DropShadowFilter;
-    public var shadowTextFilterDown(get, set) : DropShadowFilter;
-    public var shadowTextFilterOver(get, set) : DropShadowFilter;
-    //public var buttonBevelFilter(get, set) : BevelFilter;
+    public var tileImage(get, set) : Bool;
+    
 
     /** The type of UI Element */
     public static inline var TYPE : String = "Button";
+       
+    public var baseNormal : Shape;
+    public var baseOver : Shape;
+    public var baseDown : Shape;
+    public var baseDisable : Shape;
     
-    /** Set the default button state text shadow. The default value is 0x000000. */
-    private static inline var NORMAL_STATE_SHADOW_COLOR : Int = 0x000000;
-    
-    /** Set the default button state text shadow distance. */
-    private static inline var NORMAL_STATE_SHADOW_DISTANCE : Float = 2;
-    
-    /** Set the default button state text shadow angle. The range is from 0 to 360 degrees (floating point). */
-    private static inline var NORMAL_STATE_SHADOW_ANGLE : Float = 0;
-    
-    /** Set the default button state text shadow alpha. Valid values are 0.0 to 1.0. */
-    private static inline var NORMAL_STATE_SHADOW_ALPHA : Float = 1;
-    
-    /** Set the default button state text shadow blurX. Valid values are 0 to 255.0 (floating point). */
-    private static inline var NORMAL_STATE_SHADOW_BLUR_X : Float = 5;
-    
-    /** Set the default button state text shadow blurY. Valid values are 0 to 255.0 (floating point). */
-    private static inline var NORMAL_STATE_SHADOW_BLUR_Y : Float = 5;
-    
-    /** Set the default button state text shadow strength. Valid values are 0 to 255.0. */
-    private static inline var NORMAL_STATE_SHADOW_STRENGTH : Float = 1.2;
-    
-    /** The number of times to apply the filter. Use the BitmapFilterQuality constants: Settings are 1(low),2(Medium) or 3(High).*/
-    private static inline var NORMAL_STATE_SHADOW_QUALITY : Int = 2;
-    
-    /** Set the button state roll over shadow. The default value is 0x000000. */
-    private static inline var HIGHLIGHT_STATE_SHADOW_COLOR : Int = 0x000000;
-    
-    /** Set the button state roll over shadow distance. */
-    private static inline var HIGHLIGHT_STATE_SHADOW_DISTANCE : Float = 2;
-    
-    /** Set the button roll over text shadow angle. The range is from 0 to 360 degrees (floating point). */
-    private static inline var HIGHLIGHT_STATE_SHADOW_ANGLE : Float = 90;
-    
-    /** Set the button roll over text shadow alpha. Valid values are 0.0 to 1.0. */
-    private static var HIGHLIGHT_STATE_SHADOW_ALPHA : Float = 1;
-    
-    /** Set the button roll over text shadow blurX. Valid values are 0 to 255.0 (floating point). */
-    private static inline var HIGHLIGHT_STATE_SHADOW_BLUR_X : Float = 5;
-    
-    /** Set the button roll over text shadow blurY. Valid values are 0 to 255.0 (floating point). */
-    private static inline var HIGHLIGHT_STATE_SHADOW_BLUR_Y : Float = 5;
-    
-    /** Set the button roll over text shadow strength. Valid values are 0 to 255.0. */
-    private static inline var HIGHLIGHT_STATE_SHADOW_STRENGTH : Float = 1.2;
-    
-    /** The number of times to apply the filter. Use the BitmapFilterQuality constants: Settings are 1(low),2(Medium) or 3(High).*/
-    private static inline var HIGHLIGHT_STATE_SHADOW_QUALITY : Int = 2;
-    
-    /** Set the button down state text shadow. The default value is 0x000000 */
-    private static inline var DOWN_STATE_SHADOW_COLOR : Int = 0x000000;
-    
-    /** Set the button down shadow distance. */
-    private static inline var DOWN_STATE_SHADOW_DISTANCE : Float = 1;
-    
-    /** Set the button down text shadow angle. The range is from 0 to 360 degrees (floating point). */
-    private static inline var DOWN_STATE_SHADOW_ANGLE : Float = 90;
-    
-    /** Set the button down text shadow alpha. Valid values are 0.0 to 1.0. */
-    private static inline var DOWN_STATE_SHADOW_ALPHA : Float = 1;
-    
-    /** Set the button down text shadow blurX. Valid values are 0 to 255.0 (floating point). */
-    private static inline var DOWN_STATE_SHADOW_BLUR_X : Float = 6;
-    
-    /** Set the button down text shadow blurY. Valid values are 0 to 255.0 (floating point). */
-    private static inline var DOWN_STATE_SHADOW_BLUR_Y : Float = 6;
-    
-    /** Set the button down text shadow strength. Valid values are 0 to 255.0. */
-    private static inline var DOWN_STATE_SHADOW_STRENGTH : Float = 1.2;
-    
-    /** The number of times to apply the filter. Use the BitmapFilterQuality constants: Settings are 1(low),2(Medium) or 3(High).*/
-    private static inline var DOWN_STATE_SHADOW_QUALITY : Int = 2;
-    
-    /**  (default = 4.0) The offset distance of the bevel, in pixels (floating point). */
-    private static inline var BEVEL_DISTANCE : Float = 2;
-    
-    /** (default = 45) — The angle of the bevel, from 0 to 360 degrees. */
-    private static inline var BEVEL_ANGLE : Float = 45;
-    
-    /** (default = 0xFFFFFF) — The highlight color of the bevel, 0xRRGGBB. */
-    private static inline var BEVEL_HIGHLIGHT_COLOR : Int = 0xFFFFFF;
-    
-    /** (default = 1.0) — The alpha transparency value of the highlight color. Valid values are 0.0 to 1.0. For example, .25 sets a transparency value of 25%. */
-    private static inline var BEVEL_HIGHLIGHT_ALPHA : Float = 1.0;
-    
-    /** (default = 0x000000) — The shadow color of the bevel, 0xRRGGBB. */
-    private static inline var BEVEL_SHADOW_COLOR : Int = 0x000000;
-    
-    /** (default = 1.0) — The alpha transparency value of the shadow color. Valid values are 0.0 to 1.0. For example, .25 sets a transparency value of 25%. */
-    private static inline var BEVEL_SHADOW_ALPHA : Float = 1.0;
-    
-    /** (default = 2.0) — The amount of horizontal blur in pixels. Valid values are 0 to 255.0 (floating point). */
-    private static inline var BEVEL_SHADOW_BLUR_X : Float = 2;
-    
-    /** (default = 2.0) — The amount of vertical blur in pixels. Valid values are 0 to 255.0 (floating point). */
-    private static inline var BEVEL_SHADOW_BLUR_Y : Float = 2;
-    
-    /**  (default = 1) — The strength of the imprint or spread. The higher the value, the more color is imprinted and the stronger the contrast between the bevel and the background. Valid values are 0 to 255.0.*/
-    private static inline var BEVEL_SHADOW_STRENGTH : Float = .5;
-    
-    /**  (default = 1) — The quality of the bevel. Valid values are 0 to 15: */
-    private static inline var BEVEL_SHADOW_QUALITY : Int = 1;
-    
-    /** default = "inner") — The type of bevel. Valid values are BitmapFilterType constants: INNER, OUTER, or FULL. */
-    private static inline var BEVEL_TYPE : String = "inner";
-    
-    /** (default = false) — Applies a knockout effect (true), which effectively makes the object's fill transparent and reveals the background color of the document.  */
-    private static var BEVEL_SHADOW_KNOCKOUT : Bool = false;
-    
-    public var baseNormal : DisplayObject;
-    public var baseOver : DisplayObject;
-    public var baseDown : DisplayObject;
-    public var baseDisable : DisplayObject;
-    
-    private var _shapeMask : DisplayObject;
     
     private var _imageOffSetX : Int;
     private var _imageOffSetY : Int;
     
-    private var _buttonLabel : Label;
-    private var _buttonTextFormat : TextFormat;
+    private var _label : Label;
+    private var _textFormat : TextFormat;
     
     // Default button colors
-    private var _labelText : String = "";
+    private var _text : String = "";
     
     private var _buttonTextColor : Int = 0xFFFFFF;
     private var _buttonTextBold : Bool = true;
@@ -215,56 +109,38 @@ class Button extends Overlay implements IButton implements IOverlay implements I
     
     private var _bgShowImage : Bool = true;
     
-    private var _bgDisplayNormalImage : Bool = false;
-    private var _bgDisplayOverImage : Bool = false;
-    private var _bgDisplayDownImage : Bool = false;
-    private var _bgDisplayDisableImage : Bool = false;
-    
-    private var _bgSmoothImage : Bool = true;
+    private var _imageSmooth : Bool = true;
     
     private var _bgAlpha : Float = UIStyleManager.BUTTON_ALPHA;
     
-    private var _filterMode : Bool = UIStyleManager.BUTTON_BEVEL_FILTER;
-    private var _shadowFilter : Bool = UIStyleManager.BUTTON_SHADOW_FILTER;
+    private var _icon : Shape;
     
-    private var _iconArea : Sprite;
-    
-    private var _displayIcon : DisplayImage;
-    
-    private var _backgroundImage : DisplayImage;
-    private var _backgroundOverImage : DisplayImage;
-    private var _backgroundDownImage : DisplayImage;
-    private var _backgroundDisableImage : DisplayImage;
+    private var _defaultStateImage : BitmapData;
+    private var _overStateImage : BitmapData;
+    private var _downStateImage : BitmapData;
+    private var _disableStateImage : BitmapData;
     
     private var _useMask : Bool = false;
-    
-    //private var _buttonBevelFilter : BevelFilter = new BevelFilter(BEVEL_DISTANCE, BEVEL_ANGLE, BEVEL_HIGHLIGHT_COLOR, BEVEL_HIGHLIGHT_ALPHA, BEVEL_SHADOW_COLOR, BEVEL_SHADOW_ALPHA, BEVEL_SHADOW_BLUR_X, BEVEL_SHADOW_BLUR_Y, BEVEL_SHADOW_STRENGTH, BEVEL_SHADOW_QUALITY, BEVEL_TYPE, BEVEL_SHADOW_KNOCKOUT);
-    private var _buttonGlowFilter1 : GlowFilter = new GlowFilter(0xFFFFFF, .8, 10, 10, 2, 1, true, false);
-    private var _buttonGlowFilter2 : GlowFilter = new GlowFilter(0, .5, 6, 6, 2, 1, true, false);
+	private var _tileImage:Bool = false;
+
 	
-    private var _shadowTextFilterDefault : DropShadowFilter = new DropShadowFilter(NORMAL_STATE_SHADOW_DISTANCE, NORMAL_STATE_SHADOW_ANGLE, NORMAL_STATE_SHADOW_COLOR, NORMAL_STATE_SHADOW_ALPHA, NORMAL_STATE_SHADOW_BLUR_X, NORMAL_STATE_SHADOW_BLUR_Y, NORMAL_STATE_SHADOW_STRENGTH, NORMAL_STATE_SHADOW_QUALITY);
-    private var _shadowTextFilterOver : DropShadowFilter = new DropShadowFilter(HIGHLIGHT_STATE_SHADOW_DISTANCE, HIGHLIGHT_STATE_SHADOW_ANGLE, HIGHLIGHT_STATE_SHADOW_COLOR, HIGHLIGHT_STATE_SHADOW_ALPHA, HIGHLIGHT_STATE_SHADOW_BLUR_X, HIGHLIGHT_STATE_SHADOW_BLUR_Y, HIGHLIGHT_STATE_SHADOW_STRENGTH, HIGHLIGHT_STATE_SHADOW_QUALITY);
-    private var _shadowTextFilterDown : DropShadowFilter = new DropShadowFilter(DOWN_STATE_SHADOW_DISTANCE, DOWN_STATE_SHADOW_ANGLE, DOWN_STATE_SHADOW_COLOR, DOWN_STATE_SHADOW_ALPHA, DOWN_STATE_SHADOW_BLUR_X, DOWN_STATE_SHADOW_BLUR_Y, DOWN_STATE_SHADOW_STRENGTH, DOWN_STATE_SHADOW_QUALITY);
-    
+	
     /**
-	 * Creates a button on the fly with flash filters.
+	 * Push Button
 	 *
 	 * @param	label The text that will be displayed on the label
 	 * @param	buttonWidth The button width
 	 * @param	buttonHeight The button height
 	 */
     
-    public function new(label : String = "Button", buttonWidth : Int = 100, buttonHeight : Int = 20)
+    public function new(text : String = "Button", buttonWidth : Int = 100, buttonHeight : Int = 20)
     {
         
         super();
         
-		#if !flash
-		_filterMode = false;
-		#end
-		
+
         // Set defaults
-        _labelText = label;
+        _text = text;
         
         // Set if style is not set
         if (UIStyleManager.BUTTON_WIDTH == -1) 
@@ -287,11 +163,8 @@ class Button extends Overlay implements IButton implements IOverlay implements I
         UIBitmapManager.stopWatchElement(TYPE, this);
     }
     
-    override function init() : Void
+    private function init() : Void
     {
-		
-		super.init();
-		
 		
         // Init button
         baseNormal = new Shape();
@@ -299,17 +172,12 @@ class Button extends Overlay implements IButton implements IOverlay implements I
         baseDown = new Shape();
         baseDisable = new Shape();
         
-        _buttonLabel = new Label();
-        _buttonTextFormat = new TextFormat();
-        _buttonLabel.visible = _showLabel;
+        _label = new Label();
+        _textFormat = new TextFormat();
+        _label.visible = _showLabel;
         
-        _iconArea = new Sprite();
-        _displayIcon = new DisplayImage();
+        _icon = new Shape();
         
-        _backgroundImage = new DisplayImage();
-        _backgroundOverImage = new DisplayImage();
-        _backgroundDownImage = new DisplayImage();
-        _backgroundDisableImage = new DisplayImage();
         
         // Attach roll over and out event
         addEventListener(MouseEvent.MOUSE_DOWN, downState, false, 0, true);
@@ -317,13 +185,6 @@ class Button extends Overlay implements IButton implements IOverlay implements I
         
         addEventListener(MouseEvent.MOUSE_OVER, overState, false, 0, true);
         addEventListener(MouseEvent.MOUSE_OUT, normalState, false, 0, true);
-        
-        _displayIcon.onImageComplete = iconLoadComplete;
-        
-        _backgroundImage.onImageComplete = bgLoadComplete;
-        _backgroundOverImage.onImageComplete = bgOverLoadComplete;
-        _backgroundDownImage.onImageComplete = bgDownLoadComplete;
-        _backgroundDisableImage.onImageComplete = bgDisableLoadComplete;
         
         // Hide Over and Down state
         baseOver.visible = false;
@@ -337,8 +198,8 @@ class Button extends Overlay implements IButton implements IOverlay implements I
         addChild(baseDown);
         addChild(baseDisable);
         
-        addChild(_buttonLabel);
-        addChild(_iconArea);
+        addChild(_label);
+        addChild(_icon);
         
         // Create base
         reskin();
@@ -364,16 +225,16 @@ class Button extends Overlay implements IButton implements IOverlay implements I
     {
         // Set skining if in UIBitmapManager
         if (null != UIBitmapManager.getUIElement(Button.TYPE, UIBitmapManager.BUTTON_NORMAL)) 
-            setBackgroundBitmap(UIBitmapManager.getUIElement(Button.TYPE, UIBitmapManager.BUTTON_NORMAL));
+            setDefaultStateImage(UIBitmapManager.getUIElement(Button.TYPE, UIBitmapManager.BUTTON_NORMAL));
         
         if (null != UIBitmapManager.getUIElement(Button.TYPE, UIBitmapManager.BUTTON_OVER)) 
-            setOverBackgroundBitmap(UIBitmapManager.getUIElement(Button.TYPE, UIBitmapManager.BUTTON_OVER));
+            setOverStateImage(UIBitmapManager.getUIElement(Button.TYPE, UIBitmapManager.BUTTON_OVER));
         
         if (null != UIBitmapManager.getUIElement(Button.TYPE, UIBitmapManager.BUTTON_DOWN)) 
-            setDownBackgroundBitmap(UIBitmapManager.getUIElement(Button.TYPE, UIBitmapManager.BUTTON_DOWN));
+            setDownStateImage(UIBitmapManager.getUIElement(Button.TYPE, UIBitmapManager.BUTTON_DOWN));
         
         if (null != UIBitmapManager.getUIElement(Button.TYPE, UIBitmapManager.BUTTON_DISABLE)) 
-            setDisableBackgroundBitmap(UIBitmapManager.getUIElement(Button.TYPE, UIBitmapManager.BUTTON_DISABLE));
+            setDisableStateImage(UIBitmapManager.getUIElement(Button.TYPE, UIBitmapManager.BUTTON_DISABLE));
     }
     
     public function initStyle() : Void
@@ -402,13 +263,13 @@ class Button extends Overlay implements IButton implements IOverlay implements I
         _buttonTextBold = UIStyleManager.BUTTON_TEXT_BOLD;
         
         if ("" != UIStyleManager.BUTTON_TEXT_FONT) 
-            _buttonTextFormat.font = UIStyleManager.BUTTON_TEXT_FONT;
+            _textFormat.font = UIStyleManager.BUTTON_TEXT_FONT;
         
         if ("" != UIStyleManager.BUTTON_TEXT_ALIGN) 
             _buttonTextAlign = UIStyleManager.BUTTON_TEXT_ALIGN;
         
         if (null != UIStyleManager.BUTTON_TEXT_EMBED) 
-            _buttonLabel.setEmbedFont(UIStyleManager.BUTTON_TEXT_EMBED);
+            _label.setEmbedFont(UIStyleManager.BUTTON_TEXT_EMBED);
         
         if (-1 != UIStyleManager.BUTTON_NORMAL_COLOR) 
             _buttonNormalColor = UIStyleManager.BUTTON_NORMAL_COLOR;
@@ -422,8 +283,8 @@ class Button extends Overlay implements IButton implements IOverlay implements I
         if (-1 != UIStyleManager.BUTTON_DISABLE_COLOR) 
             _buttonDisableColor = UIStyleManager.BUTTON_DISABLE_COLOR;
         
-        _buttonLabel.x = UIStyleManager.BUTTON_TEXT_OFFSET_X;
-        _buttonLabel.y = UIStyleManager.BUTTON_TEXT_OFFSET_Y;
+        _label.x = UIStyleManager.BUTTON_TEXT_OFFSET_X;
+        _label.y = UIStyleManager.BUTTON_TEXT_OFFSET_Y;
         
         // Set default loc of image offset
         _imageOffSetX = UIStyleManager.BUTTON_IMAGE_OFFSET_X;
@@ -470,63 +331,6 @@ class Button extends Overlay implements IButton implements IOverlay implements I
         return value;
     }
     
-	/**
-	 * Set the level of detail on the button. This degrade the button with LOW, MEDIUM and HIGH settings.
-	 * Use the the UIDetailLevel class to change the settings.
-	 *
-	 * LOW - Remove all filters and bitmap images.
-	 * MEDIUM - Remove all filters but leaves bitmap images with image smoothing off.
-	 * HIGH - Enable and show all filters plus display bitmap images if set
-	 *
-	 * @param value Send the value "low","medium" or "high"
-	 */
-    
-    override private function set_detail(value : String) : String
-    {
-        
-        // Only turn off filter if medium and low
-        if (value.toLowerCase() == UIDetailLevel.HIGH) 
-        {
-            _filterMode = true;
-            _shadowFilter = true;
-            
-            _bgSmoothImage = true;
-            _bgShowImage = true;
-        }
-        else if (value.toLowerCase() == UIDetailLevel.MEDIUM) 
-        {
-            _filterMode = false;
-            _shadowFilter = false;
-            
-            _bgSmoothImage = false;
-            _bgShowImage = true;
-        }
-        else if (value.toLowerCase() == UIDetailLevel.LOW) 
-        {
-            
-            _filterMode = false;
-            _shadowFilter = false;
-            
-            _bgShowImage = false;
-            _bgSmoothImage = false;
-        }
-        else 
-        {
-            
-            _bgShowImage = false;
-            _filterMode = false;
-            
-            _shadowFilter = false;
-            _bgSmoothImage = false;
-            
-            super.detail = UIDetailLevel.LOW;
-        }
-        
-        super.detail = value;
-        
-        draw();
-        return value;
-    }
     
     /**
 	 * The offset of the image icon location on the X axis
@@ -573,9 +377,9 @@ class Button extends Overlay implements IButton implements IOverlay implements I
 	 * Set the text on the button
 	 */
     
-    private function set_label(value : String) : String
+    private function set_text(value : String) : String
     {
-        _labelText = value;
+        _text = value;
         draw();
         return value;
     }
@@ -584,9 +388,9 @@ class Button extends Overlay implements IButton implements IOverlay implements I
 	 * Return the text that is on the label
 	 */
     
-    private function get_label() : String
+    private function get_text() : String
     {
-        return _labelText;
+        return _text;
     }
     
     /**
@@ -613,9 +417,9 @@ class Button extends Overlay implements IButton implements IOverlay implements I
 	 * Return the label that is being used in the button
 	 */
     
-    private function get_textLabel() : ILabel
+    private function get_label() : ILabel
     {
-        return _buttonLabel;
+        return _label;
     }
     
     /**
@@ -624,7 +428,7 @@ class Button extends Overlay implements IButton implements IOverlay implements I
     
     private function set_textFont(value : String) : String
     {
-        _buttonTextFormat.font = value;
+        _textFormat.font = value;
         draw();
         return value;
     }
@@ -635,7 +439,7 @@ class Button extends Overlay implements IButton implements IOverlay implements I
     
     private function get_textFont() : String
     {
-        return _buttonTextFormat.font;
+        return _textFormat.font;
     }
     
     /**
@@ -867,14 +671,13 @@ class Button extends Overlay implements IButton implements IOverlay implements I
 	 * @param	displayObj The display object that will be used for an icon
 	 */
     
-    public function setIcon(displayObj : DisplayObject) : Void
+    public function setIcon(image : BitmapData) : Void
     {
-        
-        if (_iconArea.numChildren > 0) 
-            _iconArea.removeChildAt(0);
-        
-        _iconArea.addChildAt(displayObj, 0);
-        
+        _icon.graphics.beginBitmapFill(image, null, false, _imageSmooth);
+		_icon.graphics.drawRect(0, 0, image.width, image.height);
+		_icon.graphics.endFill();
+		
+		
         draw();
     }
     
@@ -884,52 +687,13 @@ class Button extends Overlay implements IButton implements IOverlay implements I
 	 * @return A DisplayObject if there is one if not then return null
 	 */
     
-    public function getIcon() : DisplayObject
+    public function getIcon() : Shape
     {
-        if (_iconArea.numChildren > 0) 
-            return _iconArea.getChildAt(0);
-        
-        return null;
+		
+        return _icon;
     }
     
-    /**
-	 * Set the icon used on the button based on a URL location
-	 *
-	 * @param value A URL path as a string to the image. Make sure this is one of the formats the version of the Flash player your using supports.
-	 *
-	 */
-    
-    public function setIconImage(value : String) : Void
-    {
-        _displayIcon.load(value);
-        
-        if (_iconArea.numChildren > 0) 
-            _iconArea.removeChildAt(0);
-        
-        _iconArea.addChildAt(_displayIcon, 0);
-        
-        draw();
-    }
-    
-    /**
-	 * Set the icon used on the button based on a Bitmap image
-	 *
-	 * @param value Make sure this is one of the formats the version of the Flash player your using supports.
-	 *
-	 */
-    
-    public function setIconBitmap(value : Bitmap) : Void
-    {
-        _displayIcon.setImage(value);
-        _showIcon = true;
-        
-        if (_iconArea.numChildren > 0) 
-            _iconArea.removeChildAt(0);
-        
-        _iconArea.addChildAt(_displayIcon, 0);
-        
-        draw();
-    }
+
     
     /**
 	 * Set this if you want to display the icon
@@ -953,139 +717,18 @@ class Button extends Overlay implements IButton implements IOverlay implements I
     {
         return _showIcon;
     }
-    
-    /**
-	 * Set this if you want to have a drop shadow on the label. The detail settings must be set to "high" in other for it to work.
-	 */
-    
-    private function set_shadowFilter(value : Bool) : Bool
-    {
-        _shadowFilter = value;
-        draw();
-        return value;
-    }
-    
-    /**
-	 * Return true if the shadow is enabled and false if not
-	 */
-    
-    private function get_shadowFilter() : Bool
-    {
-        return _shadowFilter;
-    }
-    
-    /**
-	 * Turn on or off the BevelFilter that is being used
-	 */
-    
-    private function set_filterMode(value : Bool) : Bool
-    {
-        _filterMode = value;
-        draw();
-        return value;
-    }
-    
-    /**
-		 * Return true if using filterMode
-		 */
-    
-    private function get_filterMode() : Bool
-    {
-        return _filterMode;
-    }
-    
-    /**
-	 * Set the normal state text shadow filter
-	 */
-    
-    private function set_shadowTextFilterDefault(value : DropShadowFilter) : DropShadowFilter
-    {
-        _shadowTextFilterDefault = value;
-        draw();
-        return value;
-    }
-    
-    /**
-	 * Return filter
-	 */
-    
-    private function get_shadowTextFilterDefault() : DropShadowFilter
-    {
-        return _shadowTextFilterDefault;
-    }
-    
-    /**
-	 * Set the down state text shadow filter
-	 */
-    
-    private function set_shadowTextFilterDown(value : DropShadowFilter) : DropShadowFilter
-    {
-        _shadowTextFilterDown = value;
-        draw();
-        return value;
-    }
-    
-    /**
-	 * Return filter
-	 */
-    
-    private function get_shadowTextFilterDown() : DropShadowFilter
-    {
-        return _shadowTextFilterDown;
-    }
-    
-    /**
-	 * Set the over state text shadow filter
-	 */
-    
-    private function set_shadowTextFilterOver(value : DropShadowFilter) : DropShadowFilter
-    {
-        _shadowTextFilterOver = value;
-        draw();
-        return value;
-    }
-    
-    /**
-	 * Return filter
-	 */
-    
-    private function get_shadowTextFilterOver() : DropShadowFilter
-    {
-        return _shadowTextFilterOver;
-    }
-    
-    /**
-	 * The bevel filter that is used for the button.
-	 */
-    
-    //private function set_buttonBevelFilter(value : BevelFilter) : BevelFilter
-    //{
-    //    _buttonBevelFilter = value;
-    //    draw();
-    //    return value;
-    //}
-    
-    /**
-	 * Return filter
-	 */
-    
-    //private function get_buttonBevelFilter() : BevelFilter
-    //{
-    //    return _buttonBevelFilter;
-    //}
-    
-    /**
-	 * This is for setting an image to the button default state. It is best to set an image that can be tile.
-	 *
-	 * @param value Set the image based on a URL file path.
-	 *
-	 */
-    
-    public function setBackgroundImage(value : String) : Void
-    {
-        _backgroundImage.load(value);
-        draw();
-    }
+
+	private function set_tileImage(value : Bool) : Bool
+	{
+		_tileImage = value;
+		draw();
+		return value;
+	}
+	
+	private function get_tileImage() : Bool
+	{
+		return _tileImage;
+	}
     
     /**
 	 * This is for setting an image to the button default state. It is best to set an image that can be tiled.
@@ -1094,26 +737,14 @@ class Button extends Overlay implements IButton implements IOverlay implements I
 	 *
 	 */
     
-    public function setBackgroundBitmap(value : Bitmap) : Void
+    public function setDefaultStateImage(value : BitmapData) : Void
     {
-        _backgroundImage.setImage(value);
-        _bgDisplayNormalImage = true;
         
+        _defaultStateImage = value;
         draw();
     }
     
-    /**
-	 * This is for setting an image to the button roll over state. It is best to set an image that can be tile.
-	 *
-	 * @param value Set the image based on a URL file path.
-	 *
-	 */
-    
-    public function setOverBackgroundImage(value : String) : Void
-    {
-        _backgroundOverImage.load(value);
-        draw();
-    }
+
     
     /**
 	 * This is for setting an image to the button roll over state. It is best to set an image that can be tiled.
@@ -1122,26 +753,13 @@ class Button extends Overlay implements IButton implements IOverlay implements I
 	 *
 	 */
     
-    public function setOverBackgroundBitmap(value : Bitmap) : Void
+    public function setOverStateImage(value : BitmapData) : Void
     {
-        _bgDisplayOverImage = true;
-        _backgroundOverImage.setImage(value);
         
+        _overStateImage = value;
         draw();
     }
     
-    /**
-	 * This is for setting an image to the button roll down state. It is best to set an image that can be tile.
-	 *
-	 * @param value Set the image based on a URL file path.
-	 *
-	 */
-    
-    public function setDownBackgroundImage(value : String) : Void
-    {
-        _backgroundDownImage.load(value);
-        draw();
-    }
     
     /**
 	 * This is for setting an image to the button press down state. It is best to set an image that can be tiled.
@@ -1150,27 +768,14 @@ class Button extends Overlay implements IButton implements IOverlay implements I
 	 *
 	 */
     
-    public function setDownBackgroundBitmap(value : Bitmap) : Void
+    public function setDownStateImage(value : BitmapData) : Void
     {
         
-        _bgDisplayDownImage = true;
-        _backgroundDownImage.setImage(value);
-        
+        _downStateImage = value;
         draw();
     }
     
-    /**
-	 * This is for setting an image to the button disable state. It is best to set an image that can be tile.
-	 *
-	 * @param value Set the image based on a URL file path.
-	 *
-	 */
-    
-    public function setDisableBackgroundImage(value : String) : Void
-    {
-        _backgroundDisableImage.load(value);
-        draw();
-    }
+
     
     /**
 	 * This is for setting an image to the button disable state. It is best to set an image that can be tile.
@@ -1179,12 +784,10 @@ class Button extends Overlay implements IButton implements IOverlay implements I
 	 *
 	 */
     
-    public function setDisableBackgroundBitmap(value : Bitmap) : Void
+    public function setDisableStateImage(value : BitmapData) : Void
     {
         
-        _bgDisplayDisableImage = true;
-        _backgroundDisableImage.setImage(value);
-        
+        _disableStateImage = value;
         draw();
     }
     
@@ -1198,162 +801,99 @@ class Button extends Overlay implements IButton implements IOverlay implements I
         super.draw();
         
         // Hide or Display items
-        _iconArea.visible = _showIcon;
-        _buttonLabel.visible = _showLabel;
-        _buttonLabel.width = 1;
-        
-        // Setting up filters
-        var buttonFilters : Array<BitmapFilter> = new Array<BitmapFilter>();
-		buttonFilters.push(_buttonGlowFilter1);
-		buttonFilters.push(_buttonGlowFilter2);
-        
-		
-        if (_filterMode) 
-            this.filters = buttonFilters;
-        else 
-            this.filters = new Array<BitmapFilter>();
-		
-		// Remove old one if there  
-        if (null != baseNormal && null != baseNormal.parent) 
-            baseNormal.parent.removeChild(baseNormal);
-        
-        if (null != baseOver && null != baseOver.parent) 
-            baseOver.parent.removeChild(baseOver);
-        
-        if (null != baseDown && null != baseDown.parent) 
-            baseDown.parent.removeChild(baseDown);
-        
-        if (null != baseDisable && null != baseDisable.parent) 
-            baseDisable.parent.removeChild(baseDisable);
-			
+        _icon.visible = _showIcon;
+        _label.visible = _showLabel;
+        _label.width = 1;
+
 		// Figure to use bitmap or normal mode
 		if (_bgShowImage) 
 		{
-			// Create an image that will be scaled later on else draw a shape that will
-			
-			
 			// Normal
-			if (null != _backgroundImage.image) 
-				baseNormal = Draw.SquareRound(Std.int(_backgroundImage.image.width), Std.int(_backgroundImage.image.height), _buttonNormalColor, _roundEdge, _bgAlpha, true , _bgSmoothImage, _backgroundImage.image.bitmapData, tileMiddleImage);
+			if (null != _defaultStateImage)
+				drawButtonState(baseNormal, _buttonNormalColor, _defaultStateImage);
 			else 
-				baseNormal = Draw.SquareRound(Std.int(width), Std.int(height), _buttonNormalColor, _roundEdge, _bgAlpha, false, _bgSmoothImage);
-			
+				drawButtonState(baseNormal, _buttonNormalColor);
+				
 			// Over
-			if (null != _backgroundOverImage.image) 
-				baseOver = Draw.SquareRound(Std.int(_backgroundOverImage.image.width), Std.int(_backgroundOverImage.image.height), _buttonOverColor, _roundEdge, _bgAlpha, false, _bgSmoothImage, _backgroundOverImage.image.bitmapData, tileMiddleImage);
-			else 
-				baseOver = Draw.SquareRound(Std.int(width), Std.int(height), _buttonOverColor, _roundEdge, _bgAlpha, false, _bgSmoothImage);
+			if (null != _overStateImage) 
+				drawButtonState(baseOver, _buttonOverColor, _overStateImage);
+			else
+				drawButtonState(baseOver, _buttonOverColor);
 			
 			// Down
-			if (null != _backgroundDownImage.image) 
-				baseDown = Draw.SquareRound(Std.int(_backgroundDownImage.image.width), Std.int(_backgroundDownImage.image.height), _buttonDownColor, _roundEdge, _bgAlpha, true, _bgSmoothImage, _backgroundDownImage.image.bitmapData, tileMiddleImage);
+			if (null != _downStateImage) 
+				drawButtonState(baseDown, _buttonDownColor, _downStateImage);
 			else 
-				baseDown = Draw.SquareRound(Std.int(width), Std.int(height), _buttonDownColor, _roundEdge, _bgAlpha, false, _bgSmoothImage);
+				drawButtonState(baseDown, _buttonDownColor);
 			
 			// Disable
-			if (null != _backgroundDisableImage.image) 
-				baseDisable = Draw.SquareRound(Std.int(_backgroundDisableImage.image.width), Std.int(_backgroundDisableImage.image.height), _buttonDisableColor, _roundEdge, _bgAlpha, true, _bgSmoothImage, _backgroundDisableImage.image.bitmapData, tileMiddleImage);
+			if (null != _disableStateImage) 
+				drawButtonState(baseDisable, _buttonDisableColor, _disableStateImage);
 			else 
-				baseDisable = Draw.SquareRound(Std.int(width), Std.int(height), _buttonDisableColor, _roundEdge, _bgAlpha, false, _bgSmoothImage);
+				drawButtonState(baseDisable, _buttonDisableColor);
 		}
 		else 
 		{
-			baseNormal = Draw.SquareRound(Std.int(width), Std.int(height), _buttonNormalColor,0, _bgAlpha, true, _bgSmoothImage);
-			baseOver = Draw.SquareRound(Std.int(width), Std.int(height), _buttonOverColor, 0, _bgAlpha, true, _bgSmoothImage);
-			baseDown = Draw.SquareRound(Std.int(width), Std.int(height), _buttonDownColor, 0, _bgAlpha, true, _bgSmoothImage);
-			baseDisable = Draw.SquareRound(Std.int(width), Std.int(height), _buttonDisableColor, 0, _bgAlpha, true, _bgSmoothImage);
+			
+			drawButtonState(baseNormal, _buttonNormalColor);
+			drawButtonState(baseOver, _buttonOverColor);
+			drawButtonState(baseDown, _buttonDownColor);
+			drawButtonState(baseDisable, _buttonDisableColor);
 		} 		
 		
-       
-        // Remove old one if there  
-        if (null != _shapeMask && null != _shapeMask.parent) 
-        {
-            _shapeMask.parent.removeChild(_shapeMask);
-            
-            // Remove old mask
-            this.mask = null;
-        }  
-        
-        
-        // Apply mask only if edge is higher than 0  
-        if (_roundEdge > 0) 
-        {
-            // Draw new shape
-            _shapeMask = Draw.SquareRound(Std.int(width) , Std.int(height), 0, _roundEdge, 1, false);
-			
-            // Mask based on shape
-            this.mask = _shapeMask;
-            
-            addChild(_shapeMask);
-        }  
-       
         
         // Resize all items  
         baseDisable.width = baseDown.width = baseOver.width = baseNormal.width = width;
         baseDisable.height = baseDown.height = baseOver.height = baseNormal.height = height;
 		
         // Set label and style
-        _buttonLabel.align = _buttonTextAlign;
-        _buttonLabel.textFormat.italic = _buttonTextItalic;
-        _buttonLabel.textFormat.bold = _buttonTextBold;
-        _buttonLabel.textColor = _buttonTextColor;
-        
-        // Setup Show filter
-        var textShadowArray : Array<BitmapFilter> = new Array<BitmapFilter>();
-        textShadowArray.push(_shadowTextFilterDefault);
-        
-        if (_shadowFilter) 
-        {
-            _buttonLabel.filters = new Array<BitmapFilter>();
-            _buttonLabel.filters = textShadowArray;
-        }
-        else 
-        {
-            _buttonLabel.filters = new Array<BitmapFilter>();
-        }  
+        _label.align = _buttonTextAlign;
+        _label.textFormat.italic = _buttonTextItalic;
+        _label.textFormat.bold = _buttonTextBold;
+        _label.textColor = _buttonTextColor;
         
         
         // Seting label  
-        _buttonLabel.text = _labelText;
-        _buttonLabel.textField.multiline = true;
-        _buttonLabel.textField.autoSize = TextFieldAutoSize.CENTER;
+        _label.text = _text;
+        _label.textField.multiline = true;
+        _label.textField.autoSize = TextFieldAutoSize.CENTER;
         
         // Set location of icon
-        _iconArea.x = _imageOffSetX;
-        _iconArea.y = _imageOffSetY;
+        _icon.x = _imageOffSetX;
+        _icon.y = _imageOffSetY;
         
         // Setting loc of items
         if (_showIcon && _showLabel) 
         {
             
             // Set location of text
-            _buttonLabel.width = width - _iconArea.width - UIStyleManager.BUTTON_TEXT_OFFSET_X;
-            _buttonLabel.x = _iconArea.width + UIStyleManager.BUTTON_TEXT_OFFSET_X;
-            _buttonLabel.y = (height / 2) - (_buttonLabel.height / 2) + UIStyleManager.BUTTON_TEXT_OFFSET_Y;
+            _label.width = width - _icon.width - UIStyleManager.BUTTON_TEXT_OFFSET_X;
+            _label.x = _icon.width + UIStyleManager.BUTTON_TEXT_OFFSET_X;
+            _label.y = (height / 2) - (_label.height / 2) + UIStyleManager.BUTTON_TEXT_OFFSET_Y;
             
             // Set this first and then use offset later
-            _iconArea.y = _buttonLabel.y;
+            _icon.y = _label.y;
             
-            _iconArea.x = _imageOffSetX;
-            _iconArea.y = _imageOffSetY;
+            _icon.x = _imageOffSetX;
+            _icon.y = _imageOffSetY;
         }
         else if (_showIcon && !_showLabel) 
         {
             
             // Set location of icon
-            if (_iconArea.width < _width) 
-                _iconArea.x = (width / 2) - (_iconArea.width / 2);
+            if (_icon.width < _width) 
+                _icon.x = (width / 2) - (_icon.width / 2);
             
-            if (_iconArea.height < height) 
-                _iconArea.y = (height / 2) - (_iconArea.height / 2);
+            if (_icon.height < height) 
+                _icon.y = (height / 2) - (_icon.height / 2);
         }
         else if (!_showIcon && _showLabel)  // Hide and show what is needed by default
         {
             
             // Set location of text
-            _buttonLabel.width = width - UIStyleManager.BUTTON_TEXT_OFFSET_X;
-            _buttonLabel.x = (width / 2) - (_buttonLabel.width / 2) + UIStyleManager.BUTTON_TEXT_OFFSET_X;
-            _buttonLabel.y = (height / 2) - (_buttonLabel.height / 2) + UIStyleManager.BUTTON_TEXT_OFFSET_Y;
+            _label.width = width - UIStyleManager.BUTTON_TEXT_OFFSET_X;
+            _label.x = (width / 2) - (_label.width / 2) + UIStyleManager.BUTTON_TEXT_OFFSET_X;
+            _label.y = (height / 2) - (_label.height / 2) + UIStyleManager.BUTTON_TEXT_OFFSET_Y;
 			
         }
         
@@ -1366,79 +906,36 @@ class Button extends Overlay implements IButton implements IOverlay implements I
         addChild(baseDown);
         addChild(baseDisable);
         
-        addChild(_buttonLabel);
-        addChild(_iconArea);
+        addChild(_label);
+        addChild(_icon);
     }
-    
-    private function iconLoadComplete(event : Event) : Void
-    {
+	
+	public function drawButtonState(square:Shape,  color:Int = 0xFFFFFF, image:BitmapData = null):Void
+	{
+		square.graphics.clear();
 		
-        // Resize Icon
-        if (UIStyleManager.BUTTON_ICON_WIDTH > -1) 
-            cast(event.target,Loader).content.width = UIStyleManager.BUTTON_ICON_WIDTH;
-        
-        if (UIStyleManager.BUTTON_ICON_HEIGHT > -1) 
-            cast(event.target,Loader).content.height = UIStyleManager.BUTTON_ICON_HEIGHT;
-        
-        _showIcon = true;
-        
-        draw();
-    }
-    
-    private function bgLoadComplete(event : Event) : Void
-    {
-        _bgDisplayNormalImage = true;
-        draw();
-    }
-    
-    private function bgOverLoadComplete(event : Event) : Void
-    {
-        _bgDisplayOverImage = true;
-        draw();
-    }
-    
-    private function bgDownLoadComplete(event : Event) : Void
-    {
-        _bgDisplayDownImage = true;
-        draw();
-    }
-    
-    private function bgDisableLoadComplete(event : Event) : Void
-    {
-        _bgDisplayDisableImage = true;
-        draw();
-    }
+		if (null != image) 
+			square.graphics.beginBitmapFill(image, null, _tileImage, _imageSmooth);
+		else 
+			square.graphics.beginFill(color, _bgAlpha);
+		
+		if (image != null)
+			square.graphics.drawRoundRect(0, 0, image.width, image.height, _roundEdge);
+		
+		square.graphics.endFill();
+	}
+
     
     private function normalState(event : MouseEvent) : Void
     {
-		/*
-        // Set Roll over shadow filter
-        if (_filterMode) 
-        {
-            var textShadowArray : Array<BitmapFilter> = new Array<BitmapFilter>();
-            textShadowArray.push(_shadowTextFilterDefault);
-            
-            _buttonLabel.filters = textShadowArray;
-        }
-        */
         baseNormal.visible = true;
         baseOver.visible = false;
         baseDown.visible = false;
         baseDisable.visible = false;
-		
     }
     
     private function overState(event : MouseEvent) : Void
     {
-        
-        // Set Roll over shadow filter
-        if (_filterMode) 
-        {
-            var textShadowArray : Array<BitmapFilter> = new Array<BitmapFilter>();
-            textShadowArray.push(_shadowTextFilterOver);
-            
-            _buttonLabel.filters = textShadowArray;
-        }
         
         if (_bgShowImage) 
         {
@@ -1460,14 +957,6 @@ class Button extends Overlay implements IButton implements IOverlay implements I
     private function downState(event : MouseEvent) : Void
     {
         
-        // Set Roll over shadow filter
-        if (_filterMode) 
-        {
-            var textShadowArray : Array<BitmapFilter> = new Array<BitmapFilter>();
-            textShadowArray.push(_shadowTextFilterDown);
-            
-            _buttonLabel.filters = textShadowArray;
-        }
         
         if (_bgShowImage) 
         {

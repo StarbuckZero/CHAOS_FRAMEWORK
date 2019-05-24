@@ -16,7 +16,6 @@ import com.chaos.ui.ScrollBarDirection;
 import com.chaos.ui.ScrollContent;
 import com.chaos.ui.event.ComboBoxEvent;
 import openfl.display.DisplayObject;
-import com.chaos.ui.UIDetailLevel;
 import com.chaos.ui.UIStyleManager;
 import com.chaos.ui.UIBitmapManager;
 import openfl.display.Bitmap;
@@ -73,7 +72,6 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
   private var _selectIndex : Int = -1;
   private var _trackSize : Int = 15;
   private var _dropButton : Button;
-  private var _qualityMode : String = UIDetailLevel.HIGH;
   private var _scrollbar : ScrollBar;
   private var _dropDownScrollContent : ScrollContent;
   private var _dropDownList : Sprite;
@@ -105,8 +103,6 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
   private var _showImage : Bool = true;
   private var _smoothImage : Bool = true;
   private var _clickLabelArea : Bool = true;
-  private var _width : Float = 70;
-  private var _height : Float = 15;
   private var _dropDownHotspot : Sprite;
   private var _dropDownIcon:ArrowDownIcon;
   private var _dropDownPadding:Int = 0;
@@ -220,7 +216,7 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 		_dropButton.showLabel = false;
 		_dropButton.height = _height;
 		_dropButton.iconDisplay = true;
-		_dropButton.label = "";
+		_dropButton.text = "";
 		
 		_dropButton.x = _selectLabel.width;
 		_dropButton.addEventListener(MouseEvent.CLICK, toggleList, false, 0, true);
@@ -533,7 +529,7 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 	*
 	*/
 	
-	public function setButtonBackgroundBitmap(value : Bitmap) : Void { _dropButton.setBackgroundBitmap(value); } 
+	public function setButtonBackgroundBitmap(value : Bitmap) : Void { _dropButton.setDefaultStateBitmap(value); } 
 	
 	/**
 	* This is for setting an image to the drop down button roll over state. It is best to set an image that can be tile. 
@@ -551,7 +547,7 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 	*
 	*/
 	
-	public function setButtonOverBackgroundBitmap(value : Bitmap) : Void { _dropButton.setOverBackgroundBitmap(value); } 
+	public function setButtonOverBackgroundBitmap(value : Bitmap) : Void { _dropButton.setOverStateImage(value); } 
 	
 	/**
 	* This is for setting an image to the drop down button roll down state. It is best to set an image that can be tile. 
@@ -569,7 +565,7 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 	*
 	*/
 	
-	public function setButtonDownBackgroundBitmap(value : Bitmap) : Void { _dropButton.setDownBackgroundBitmap(value); }
+	public function setButtonDownBackgroundBitmap(value : Bitmap) : Void { _dropButton.setDownStateImage(value); }
 	
 	/**
 	* This is for setting an image to the drop down button disable state. It is best to set an image that can be tile.
@@ -587,7 +583,7 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 	*
 	*/
 	
-	public function setButtonDisableBackgroundBitmap(value : Bitmap) : Void { _dropButton.setDisableBackgroundBitmap(value); } 
+	public function setButtonDisableBackgroundBitmap(value : Bitmap) : Void { _dropButton.setDisableStateImage(value); } 
 	
 	/**
 	 * Replace the current data provider
@@ -605,80 +601,6 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 	
 	private function get_dataProvider() : DataProvider { return _list; }  
 	 
-	/**
-	* Set the width of the combo box
-	* 
-	* @param value Set the width of the combo box
-	* 
-	*/
-	#if flash @:setter(width)
-	private function set_width(value : Float) : Void 
-	{
-		_width = value;
-		draw();
-	}
-	#else
-	override private function set_width(value : Float) : Float 
-	{
-		_width = value;
-		draw();
-		return value; 
-	}	
-	#end
-	 
-	/**
-	*
-	* @return Returns the width
-	*/
-	#if flash @:getter(width)
-	private function get_width() : Float 
-	{ 
-		return _width; 
-	}  
-	#else 
-	override private function get_width() : Float 
-	{ 
-		return _width; 
-	}  
-	#end
-	 
-	/**
-	* Set the height of the combo box
-	* 
-	* @param value The font you want to use.
-	* 
-	*/ 
-	#if flash @:setter(height)
-	private function set_height(value : Float) : Void 
-	{ 
-		_height = value;
-		draw();
-	} 
-	#else
-	override private function set_height(value : Float) : Float 
-	{ 
-		_height = value;
-		draw();
-		
-		return value;
-	} 
-	#end
-	 
-	/**
-	*
-	* @return Returns the height
-	*/
-	#if flash @:getter(height)
-	private function get_height() : Float 
-	{ 
-		return _height; 
-	}  
-	#else
-	override private function get_height() : Float 
-	{ 
-		return _height; 
-	}  
-	#end
 	 
 	/**
 	* Set the text for the main label on the combo box. This will be replace
@@ -1358,56 +1280,7 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 		_dropButton.x = (_width - _buttonWidth);
 	}
 	
-	/**
-	* Set the level of detail on the combo box. This degrade the combo box with LOW, MEDIUM and HIGH settings.
-	* Use the the UIDetailLevel class to change the settings.
-	*
-	* LOW - Remove all filters and bitmap images. 
-	* MEDIUM - Remove all filters but leaves bitmap images with image smoothing off.
-	* HIGH - Enable and show all filters plus display bitmap images if set
-	*
-	* @param value Send the value "low","medium" or "high"
-	* @see com.chaos.ui.UIDetailLevel
-	*/ 
-	
-	override private function set_detail(value : String) : String
-	{
-		// Only turn off filter if medium and low  
-		if (value.toLowerCase() == UIDetailLevel.HIGH) 
-		{
-			super.detail = value.toLowerCase();
-			_showImage = true;
-			_smoothImage = true;
-		}
-		else if (value.toLowerCase() == UIDetailLevel.MEDIUM) 
-		{
-			super.detail = value.toLowerCase();
-			_showImage = true;
-			_smoothImage = false;
-		}
-		// Setting other ui classes
-		else if (value.toLowerCase() == UIDetailLevel.LOW) 
-		{
-			super.detail = value.toLowerCase();
-			_showImage = false;
-			_smoothImage = false;
-		}
-		else 
-		{
-			super.detail = UIDetailLevel.LOW;
-			_showImage = false;
-			_smoothImage = false;
-		}
-		
-		super.detail = _dropButton.detail = value;
-		
-		if (_listOpen)
-		_scrollbar.detail = value;
-		
-		draw();
-		
-		return value;
-	}
+
 	
 	private function textOutEvent(event : MouseEvent) : Void
 	{
@@ -1591,7 +1464,6 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 		_scrollbar.visible = false;
 		
 		// Setup scrollbar defaults
-		_scrollbar.detail = _qualityMode;
 		_scrollbar.percent = 0;
 		_scrollbar.draw();
 		

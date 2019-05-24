@@ -34,15 +34,15 @@ class StopIcon extends BaseIcon implements IBasicIcon implements IBaseUI
         super.draw();
         
         // Create Icon
-        iconArea.graphics.clear();
+        _iconArea.graphics.clear();
         
         if (border) 
-        iconArea.graphics.lineStyle(borderThinkness, borderColor, borderAlpha);
+        _iconArea.graphics.lineStyle(borderThinkness, borderColor, borderAlpha);
 		
-		(showImage && null != displayImg.image) ? iconArea.graphics.beginBitmapFill(displayImg.image.bitmapData) : iconArea.graphics.beginFill(baseColor);
+		(showImage && null != _image) ? _iconArea.graphics.beginBitmapFill(_image) : _iconArea.graphics.beginFill(baseColor);
         
-        iconArea.graphics.drawRect(0, 0, width, height);
-        iconArea.graphics.endFill();
+        _iconArea.graphics.drawRect(0, 0, width, height);
+        _iconArea.graphics.endFill();
     }
 }
 

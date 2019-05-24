@@ -31,17 +31,17 @@ class ArrowRightIcon extends BaseIcon implements IBasicIcon implements IBaseUI
         super.draw();
         
         // Create Icon
-        iconArea.graphics.clear();
+        _iconArea.graphics.clear();
         
-		(showImage && null != displayImg.image) ? iconArea.graphics.beginBitmapFill(displayImg.image.bitmapData) : iconArea.graphics.beginFill(baseColor);
+		(showImage && null != _image) ? _iconArea.graphics.beginBitmapFill(_image) : _iconArea.graphics.beginFill(baseColor);
 		
         if (border) 
-           iconArea.graphics.lineStyle(borderThinkness, borderColor, borderAlpha);
+           _iconArea.graphics.lineStyle(borderThinkness, borderColor, borderAlpha);
         
-        iconArea.graphics.lineTo(0, height);
-        iconArea.graphics.lineTo(width, height / 2);
-        iconArea.graphics.lineTo(0, 0);
-        iconArea.graphics.endFill();
+        _iconArea.graphics.lineTo(0, height);
+        _iconArea.graphics.lineTo(width, height / 2);
+        _iconArea.graphics.lineTo(0, 0);
+        _iconArea.graphics.endFill();
     }
 }
 

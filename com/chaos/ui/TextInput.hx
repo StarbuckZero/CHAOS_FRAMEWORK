@@ -16,7 +16,6 @@ import openfl.events.Event;
 import openfl.events.MouseEvent;
 import openfl.events.FocusEvent;
 import com.chaos.media.DisplayImage;
-import com.chaos.ui.UIDetailLevel;
 //import com.chaos.ui.Interface.ITextInput;
 //import com.chaos.ui.Interface.IBaseUI;
 //import com.chaos.ui.Interface.ILabel;
@@ -438,47 +437,7 @@ class TextInput extends Label implements ITextInput implements ILabel implements
 		_bgDisplayDisableImage = true;
     }
 	
-	/**
-	 * Set the level of detail on the text input. This degrade the text input with LOW, MEDIUM and HIGH settings.
-	 * Use the the UIDetailLevel class to change the settings.
-	 *
-	 * LOW - Remove all filters and bitmap images.
-	 * MEDIUM - Remove all filters but leaves bitmap images with image smoothing off.
-	 * HIGH - Enable and show all filters plus display bitmap images if set
-	 *
-	 * @param value Send the value "low","medium" or "high"
-	 */
-	override private function set_detail(value : String) : String
-	{ 
-		// Only turn off filter if medium and low  
-		if (value.toLowerCase() == UIDetailLevel.HIGH) 
-		{
-			super.detail = value.toLowerCase();
-			_showImage = true;
-			_smoothImage = true;
-        }
-        else if (value.toLowerCase() == UIDetailLevel.MEDIUM) 
-		{
-			super.detail = value.toLowerCase();
-			_showImage = true;
-			_smoothImage = false;
-        }
-        else if (value.toLowerCase() == UIDetailLevel.LOW) 
-		{
-			super.detail = value.toLowerCase();
-			_showImage = false;
-			_smoothImage = false;
-        }
-        else 
-		{
-			super.detail = UIDetailLevel.LOW;
-			_showImage = false;
-			_smoothImage = false;
-        }
-		
-		draw();
-        return value;
-    }
+
 	
 	/**
 	 * Remove all roll over and roll out effects while setting text input to it's disable state

@@ -141,9 +141,6 @@ class Utils
         obj.b = (value & 255) / 255;
 			
         obj.a = (value >> 24) / 255;
-        //obj.r = value >> 16 & 0xFF;
-        //obj.g = value >> 8 & 0xFF;
-        //obj.b = value & 0xFF;
         
         return obj;
     }

@@ -83,7 +83,7 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 	private var _borderColor : Int = 0x000000;
 	private var _borderAlpha : Float = 1;
 	private var _bgDisplayImage : Bool = false;
-	private var _backgroundImage : DisplayImage;
+	
 	
 	public function new(paneWidth : Int = 400, paneHeight : Int = 300)
     {
@@ -118,7 +118,6 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 		_scrollBarV.visible = false;
 		
 		//_backgroundShape = new Shape();
-		_backgroundImage = new DisplayImage();
 		shapeBlock = new Shape();
 		_outline = new Shape();
 		
@@ -126,7 +125,7 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 		initUISkin();
 		initStyle();
 		
-		_backgroundImage.onImageComplete = bgLoadComplete;
+		
 		_contentSizeBox = new Shape();
 		_contentSizeBox.visible = false;
 		contentHolder.addChild(backgroundShape);
@@ -146,13 +145,13 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 	private function initUISkin() : Void
 	{
 		if (null != UIBitmapManager.getUIElement(ScrollPane.TYPE, UIBitmapManager.SCROLLPANE_BACKGROUND))     
-        setBackgroundBitmap(UIBitmapManager.getUIElement(ScrollPane.TYPE, UIBitmapManager.SCROLLPANE_BACKGROUND));
+			setBackgroundImage(UIBitmapManager.getUIElement(ScrollPane.TYPE, UIBitmapManager.SCROLLPANE_BACKGROUND));
     }
 	
 	private function initStyle() : Void 
 	{
 		if ( -1 != UIStyleManager.SCROLLPANE_BACKGROUND)  
-		super.backgroundColor = UIStyleManager.SCROLLPANE_BACKGROUND;
+			super.backgroundColor = UIStyleManager.SCROLLPANE_BACKGROUND;
 		
 		_border = UIStyleManager.SCROLLPANE_BORDER;
 		if ( -1 != UIStyleManager.SCROLLPANE_BORDER_COLOR) 
@@ -595,17 +594,6 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 		shapeBlock.graphics.drawRect(0, 0, _buttonWidth, _buttonHeight);
 		shapeBlock.graphics.endFill();
 		
-		/*
-		if (showImage) 
-		{
-			(_bgDisplayImage) ? shapeBlock.graphics.beginBitmapFill(_backgroundImage.image.bitmapData, null, true, imageSmoothing) : shapeBlock.graphics.beginFill(_shapeBlockColor);
-        }
-        else 
-		{
-			shapeBlock.graphics.beginFill(_shapeBlockColor);
-        }
-		
-		*/
 		_outline.graphics.clear();  
 		
 		// Setup for border if need be  
@@ -617,68 +605,7 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
         }
 		
     }
-	
-	/**
-	* Set the level of detail on the ScrollPane. This degrade the combo box with LOW, MEDIUM and HIGH settings.
-	* Use the the UIDetailLevel class to change the settings.
-	*
-	* LOW - Remove all filters and bitmap images. 
-	* MEDIUM - Remove all filters but leaves bitmap images with image smoothing off.
-	* HIGH - Enable and show all filters plus display bitmap images if set
-	*
-	* @param value Send the value "low","medium" or "high"
-	* @see com.chaos.ui.UIDetailLevel
-	*/  
-	
-	override public function set_detail(value : String) : String
-	{
-		super.detail = value;
-		
-		// Set detail settings
-		if(UIDetailLevel.HIGH == value)
-		{
-			
-			imageSmoothing = true;
-			showImage = true;
-			
-		}
-		else if(UIDetailLevel.MEDIUM == value)
-		{
-			imageSmoothing = false;
-			showImage = true;
-		}
-		else if(UIDetailLevel.LOW == value)
-		{
-			imageSmoothing = false;
-			showImage = false;
-		}
-		else
-		{
-			imageSmoothing = false;
-			showImage = false;
-			
-		}
-		
-		// Pass detail level to other ui classes
-		_scrollBarH.detail = _scrollBarV.detail = value;
-		
-		draw();
-		
-		return value;
-	
-	}
-	
-	/**
-	*
-	* @return Return low, medium or high as string.
-	*
-	* @see com.chaos.ui.UIDetailLevel
-	*/
-	
-	override public function get_detail() : String
-	{
-		return super.detail;
-    }
+
 	
 	/**
 	* Change the ScrollBar settings on the ScrollPane. This changes the way the scrollbars react to content.
@@ -696,10 +623,11 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
     } 
 	
 	/**
-		* Returns what mode the ScrollPane is in
-		*
-		* @see com.chaos.ui.ScrollPolicy
-		*/
+	* Returns what mode the ScrollPane is in
+	*
+	* @see com.chaos.ui.ScrollPolicy
+	*/
+	
 	public function get_mode() : String { return _mode; }
 		
 	/**
@@ -710,9 +638,7 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 	
 	public function setUpIcon(value : DisplayObject) : Void 
 	{
-		//TODO: Create to Shapes and then add them to display
-		//_scrollBarH.setUpIcon(Utils.duplicateDisplayObject(value));
-		//_scrollBarV.setUpIcon(value);
+
 	}
 	
 	/**
@@ -750,9 +676,7 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 	
 	public function setDownIcon(value : DisplayObject) : Void
 	{
-		//TODO: Create to Shapes and then add them to display
-		//_scrollBarH.setDownIcon(Utils.duplicateDisplayObject(value));
-		//_scrollBarV.setDownIcon(value);
+
     }
 	
 	/**

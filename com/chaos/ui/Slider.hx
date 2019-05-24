@@ -16,7 +16,6 @@ import com.chaos.ui.Button;
 import com.chaos.ui.event.SliderEvent;
 import com.chaos.ui.ScrollBarDirection;
 import com.chaos.media.DisplayImage;
-import com.chaos.ui.UIDetailLevel;
 import com.chaos.ui.UIStyleManager;
 import com.chaos.ui.UIBitmapManager;
 
@@ -29,67 +28,66 @@ import com.chaos.ui.UIBitmapManager;
 
 class Slider extends BaseUI implements ISlider implements IBaseUI
 {
-    public static var sliderEventMode(get, set) : String;
+	public static var sliderEventMode(get, set) : String;
+
+	public var showTrack(get, set) : Bool;
+	public var sliderOffSet(get, set) : Float;
+	public var rotateImage(get, set) : Bool;
+	public var percent(get, set) : Float;
+	public var direction(get, set) : String;
+	public var trackColor(get, set) : Int;
+	public var sliderColor(get, set) : Int;
+	public var sliderOverColor(get, set) : Int;
+	public var sliderDownColor(get, set) : Int;
+	public var sliderDisableColor(get, set) : Int;
+	public var sliderWidth(get, set) : Float;
+	public var sliderHeight(get, set) : Float;
+	public var trackWidth(get, set) : Float;
+	public var trackHeight(get, set) : Float;
 	
-    public var showTrack(get, set) : Bool;
-    public var sliderOffSet(get, set) : Float;
-    public var rotateImage(get, set) : Bool;
-    public var percent(get, set) : Float;
-    public var direction(get, set) : String;
-    public var trackColor(get, set) : Int;
-    public var sliderColor(get, set) : Int;
-    public var sliderOverColor(get, set) : Int;
-    public var sliderDownColor(get, set) : Int;
-    public var sliderDisableColor(get, set) : Int;
-    public var sliderWidth(get, set) : Float;
-    public var sliderHeight(get, set) : Float;
-    public var trackWidth(get, set) : Float;
-    public var trackHeight(get, set) : Float;
-	
-  /** The type of UI Element */
-  public static inline var TYPE : String = "Slider";
+	/** The type of UI Element */
+	public static inline var TYPE : String = "Slider";
+
+	public static var SLIDER_OFFSET : Float = 0; 
+
+	/** Does percent update check when slider is moved */  
+	public static inline var EVENT_MODE : String = "event";  
+
+	/** Starts timer on mouser down and stop it on mosue up*/  
+	public static inline var TIMER_MODE : String = "timer";
+
+	private static var _eventMode : String = EVENT_MODE;
+
+	// elements
+	public var track : Sprite;
+	public var marker : Button;
   
-  public static var SLIDER_OFFSET : Float = 0; 
-  
-  /** Does percent update check when slider is moved */  
-  public static inline var EVENT_MODE : String = "event";  
-  
-  /** Starts timer on mouser down and stop it on mosue up*/  
-  public static inline var TIMER_MODE : String = "timer";
-  
-  private static var _eventMode : String = EVENT_MODE;
-  
-  // elements
-  public var track : Sprite;
-  public var marker : Button;
-  
-  private var _trackerColor : Int = 0x999999;
-  private var _sliderNormalColor : Int = 0xCCCCCC;
-  private var _sliderOverColor : Int = 0x666666;
-  private var _sliderDownColor : Int = 0x333333;
-  private var _sliderDisableColor : Int = 0x999999;
-  private var _smoothImage : Bool = true;
-  private var _showImage : Bool = true;
-  private var _mode : String = ScrollBarDirection.VERTICAL;
-  private var _qualityMode : String = UIDetailLevel.HIGH;
-  private var _dragging : Bool = false;
-  
-  public var trackWidthNum : Float = 15;
-  public var trackHeightNum : Float = 15;
-  
-  public var sliderWidthNum : Float = 15;
-  public var sliderHeightNum : Float = 15;
-  
-  private var _sliderOffSet : Float = 0;
-  
-  private var _displayTrackerImage : Bool = false;
-  private var _trackerImage : DisplayImage;
-  private var _rotateImage : Bool = false;
-  
-  private var _threadCallBack:TaskCallBack;
-  
-  // percentage  
-  private var percentage : Float = 0; 
+	private var _trackerColor : Int = 0x999999;
+	private var _sliderNormalColor : Int = 0xCCCCCC;
+	private var _sliderOverColor : Int = 0x666666;
+	private var _sliderDownColor : Int = 0x333333;
+	private var _sliderDisableColor : Int = 0x999999;
+	private var _smoothImage : Bool = true;
+	private var _showImage : Bool = true;
+	private var _mode : String = ScrollBarDirection.VERTICAL;
+	private var _dragging : Bool = false;
+
+	public var trackWidthNum : Float = 15;
+	public var trackHeightNum : Float = 15;
+
+	public var sliderWidthNum : Float = 15;
+	public var sliderHeightNum : Float = 15;
+
+	private var _sliderOffSet : Float = 0;
+
+	private var _displayTrackerImage : Bool = false;
+	private var _trackerImage : DisplayImage;
+	private var _rotateImage : Bool = false;
+
+	private var _threadCallBack:TaskCallBack;
+
+	// percentage  
+	private var percentage : Float = 0; 
   
 	/**
 	 * Constructor
@@ -238,7 +236,7 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 	
 	
 	#if flash @:setter(width) 
-	private function set_width(value : Float) : Void
+	override private function set_width(value : Float) : Void
 	{
 		trackWidthNum = value;
 		draw();
@@ -269,7 +267,7 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 	
 	
 	#if flash @:setter(height) 
-	private function set_height(value : Float) : Void
+	override private function set_height(value : Float) : Void
 	{
 		trackHeightNum = value;
 		draw();
@@ -285,7 +283,7 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 	#end
 	
 	#if flash @:getter(height) 
-	private function get_height() : Float
+	override private function get_height() : Float
 	{
 		return trackHeightNum;
     }
@@ -668,7 +666,7 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 	
 	public function setSliderBitmap(value : Bitmap) : Void 
 	{
-		marker.setBackgroundBitmap(value);
+		marker.setDefaultStateBitmap(value);
     } 
 	
 	/**
@@ -692,7 +690,7 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 	
 	public function setSliderOverBitmap(value : Bitmap) : Void
 	{
-		marker.setOverBackgroundBitmap(value);
+		marker.setOverStateImage(value);
     }
 	
 	/**
@@ -716,7 +714,7 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 	
 	public function setSliderDownBitmap(value : Bitmap) : Void 
 	{
-		marker.setDownBackgroundBitmap(value);
+		marker.setDownStateImage(value);
     }  
 	
 	/**
@@ -740,53 +738,10 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 	
 	public function setSliderDisableBitmap(value : Bitmap) : Void
 	{
-		marker.setDisableBackgroundBitmap(value);
+		marker.setDisableStateImage(value);
     }
 	
-	/**
-	 * Set the level of detail on the Slider. This degrade the combo box with LOW, MEDIUM and HIGH settings.
-	 * Use the the UIDetailLevel class to change the settings.
-	 *
-	 * LOW - Remove all filters and bitmap images.
-	 * MEDIUM - Remove all filters but leaves bitmap images with image smoothing off.
-	 * HIGH - Enable and show all filters plus display bitmap images if set
-	 *
-	 * @param value Send the value "low","medium" or "high"
-	 * @see com.chaos.ui.UIDetailLevel
-	 */  
-	
-	 override private function set_detail(value : String) : String
-	 {
-		super.detail = value;  
-		
-		 // Only turn off filter if medium and low  
-		 if (value.toLowerCase() == UIDetailLevel.HIGH) 
-		 {
-			 _smoothImage = true;
-			 _showImage = true;
-			 _qualityMode = value.toLowerCase();
-        }
-        else if (value.toLowerCase() == UIDetailLevel.MEDIUM) 
-		{
-			_smoothImage = false;
-			_showImage = true;
-			_qualityMode = value.toLowerCase();
-        }
-        else if (value.toLowerCase() == UIDetailLevel.LOW) 
-		{
-			_showImage = false;
-			_qualityMode = value.toLowerCase();
-        }
-		
-        else 
-		{
-			_showImage = false;super.detail = UIDetailLevel.LOW;
-        }
-		
-		super.detail = marker.detail = _qualityMode; this.draw();
-		
-        return value;
-    }
+
 	
 	/**
 	 * Stop the slider from moving

@@ -30,23 +30,23 @@ class SoundOnIcon extends SoundIcon implements IBasicIcon implements IBaseUI
     {
         super.draw();
         
-        iconArea.graphics.lineStyle(borderThinkness, borderColor, borderAlpha);
+        _iconArea.graphics.lineStyle(borderThinkness, borderColor, borderAlpha);
         
         // Move very top with offset to start drawing lines
-        iconArea.graphics.moveTo(width - offset, offset / 2);  // 1st line  
-        iconArea.graphics.lineTo(width, offset / 2);
+        _iconArea.graphics.moveTo(width - offset, offset / 2);  // 1st line  
+        _iconArea.graphics.lineTo(width, offset / 2);
         
-        iconArea.graphics.moveTo(width - offset, (height / 2) - offset);  // 2nd line  
-        iconArea.graphics.lineTo(width, (height / 2) - offset);
+        _iconArea.graphics.moveTo(width - offset, (height / 2) - offset);  // 2nd line  
+        _iconArea.graphics.lineTo(width, (height / 2) - offset);
         
-        iconArea.graphics.moveTo(width - offset, height / 2);  // 3rd line  
-        iconArea.graphics.lineTo(width, height / 2);
+        _iconArea.graphics.moveTo(width - offset, height / 2);  // 3rd line  
+        _iconArea.graphics.lineTo(width, height / 2);
         
-        iconArea.graphics.moveTo(width - offset, (height / 2) - (offset / 2));  // 4th line  
-        iconArea.graphics.lineTo(width, (height / 2) - (offset / 2));
+        _iconArea.graphics.moveTo(width - offset, (height / 2) - (offset / 2));  // 4th line  
+        _iconArea.graphics.lineTo(width, (height / 2) - (offset / 2));
         
-        iconArea.graphics.moveTo(width - offset, (height / 2) + (offset / 2));  // 5th line  
-        iconArea.graphics.lineTo(width, (height / 2) + (offset / 2));
+        _iconArea.graphics.moveTo(width - offset, (height / 2) + (offset / 2));  // 5th line  
+        _iconArea.graphics.lineTo(width, (height / 2) + (offset / 2));
     }
 }
 

@@ -18,7 +18,6 @@ import com.chaos.media.DisplayImage;
 import com.chaos.ui.Label;
 import com.chaos.ui.ScrollPane;
 import com.chaos.data.DataProvider;
-import com.chaos.ui.UIDetailLevel;
 import com.chaos.ui.UIStyleManager;
 import com.chaos.ui.UIBitmapManager;
 
@@ -112,7 +111,7 @@ import com.chaos.ui.UIBitmapManager;
 	{ 
 		// UISkin and Style for ScrollPane
 		if (null != UIBitmapManager.getUIElement(List.TYPE, UIBitmapManager.LIST_BACKGROUND)) 
-		setBackgroundBitmap(UIBitmapManager.getUIElement(List.TYPE, UIBitmapManager.LIST_BACKGROUND));
+		setBackgroundImage(UIBitmapManager.getUIElement(List.TYPE, UIBitmapManager.LIST_BACKGROUND));
 		
 		if ( -1 != UIStyleManager.LIST_BACKGROUND_COLOR)
 		backgroundColor = UIStyleManager.LIST_BACKGROUND_COLOR;

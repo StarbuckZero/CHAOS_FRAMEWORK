@@ -36,19 +36,15 @@ class ShuffleIcon extends UnshuffleIcon implements IBasicIcon implements IBaseUI
         // This draw base shuffle icon
         super.draw();
         
-        iconArea.graphics.moveTo(0, 0);
+        _iconArea.graphics.moveTo(0, 0);
         
         // Draw circle
-        if (showImage && null != displayImg.image) 
-        {
-            iconArea.graphics.beginBitmapFill(displayImg.image.bitmapData, null, true);
-        }
+        if (showImage && null != _image) 
+            _iconArea.graphics.beginBitmapFill(_image, null, true);
         else 
-        {
-            iconArea.graphics.beginFill(baseColor, 1);
-        }
+            _iconArea.graphics.beginFill(baseColor, 1);
         
-        iconArea.graphics.drawCircle(width >> 1, height >> 1, as3hx.Compat.parseInt(width / 8));
+        _iconArea.graphics.drawCircle(width / 2, height / 2, as3hx.Compat.parseInt(width / 8));
     }
 }
 

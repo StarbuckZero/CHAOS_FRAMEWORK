@@ -4,7 +4,6 @@ import com.chaos.media.DisplayImage;
 import com.chaos.ui.Label;
 import com.chaos.ui.ToggleButtonLite;
 import com.chaos.ui.UIBitmapManager;
-import com.chaos.ui.UIDetailLevel;
 import com.chaos.ui.UIStyleManager;
 import com.chaos.ui.classInterface.IBaseUI;
 import com.chaos.ui.classInterface.ICheckBox;
@@ -31,7 +30,6 @@ class CheckBox extends ToggleButtonLite implements ICheckBox implements IBaseUI
 
 	/** The type of UI Element */
 	public static inline var TYPE : String = "CheckBox";
-	private var _qualityMode : String = UIDetailLevel.HIGH;
 	//private var _baseNormal : Shape;
 	//private var _baseOver : Shape;
 	//private var _baseDown : Shape;
@@ -405,58 +403,6 @@ class CheckBox extends ToggleButtonLite implements ICheckBox implements IBaseUI
 		
 		public function setDisableBitmap(value : Bitmap) : Void { _blnDisableImage = true; _disableDisplayImage.setImage(value); draw(); } 
 		 
-		/**
-		 * Set the level of detail on the checkbox. This degrade the button with LOW, MEDIUM and HIGH settings.
-		 * Use the the UIDetailLevel class to change the settings.
-		 *
-		 * LOW - Remove all filters and bitmap images.
-		 * MEDIUM - Remove all filters but leaves bitmap images with image smoothing off.
-		 * HIGH - Enable and show all filters plus display bitmap images if set
-		 *
-		 * @param value Send the value "low","medium" or "high"
-		 */  
-		
-		override function set_detail(value : String) : String
-		{
-			// Only turn off filter if medium and low  
-			if (value.toLowerCase() == UIDetailLevel.HIGH) 
-			{
-				_qualityMode = value.toLowerCase(); _showImage = true; 
-				_smoothImage = true;
-			}
-			else if (value.toLowerCase() == UIDetailLevel.MEDIUM)
-			{
-				_qualityMode = value.toLowerCase();
-				_showImage = true;
-				_smoothImage = false;
-			}
-			else if (value.toLowerCase() == UIDetailLevel.LOW)
-			{
-				_qualityMode = value.toLowerCase();
-				_showImage = false;
-				_smoothImage = false;
-			}
-			else 
-			{
-				_qualityMode = UIDetailLevel.LOW;
-				_showImage = false;
-				_smoothImage = false;
-			}
-			
-			draw();
-			
-			return value; 
-			
-		} 
-			
-		/**
-		 *
-		 * @return Return low, medium or high as string.
-		 *
-		 * @see com.chaos.ui.UIDetailLevel
-		 */
-		
-		override function get_detail() : String { return _qualityMode; }  
 		 
 		 /**
 		 * This setup and draw the checkbox on the screen

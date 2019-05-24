@@ -8,7 +8,7 @@ import com.chaos.ui.interface.IBaseUI;
  * Creates a Shuffle icon to be used for media players
  * @author Erick Feiling
  */
-class UnshuffleIcon extends BaseIcon implements com.chaos.drawing.icon.interface.IBasicIcon implements com.chaos.ui.classInterface.IBaseUI
+class UnshuffleIcon extends BaseIcon implements IBasicIcon implements IBaseUI
 {
     private var _spacing : Int = 6;
     
@@ -33,12 +33,12 @@ class UnshuffleIcon extends BaseIcon implements com.chaos.drawing.icon.interface
         super.draw();
         
         // Create Icon
-        iconArea.graphics.clear();
-        iconArea.graphics.lineStyle(borderThinkness, borderColor, borderAlpha);
+        _iconArea.graphics.clear();
+        _iconArea.graphics.lineStyle(borderThinkness, borderColor, borderAlpha);
         
-        iconArea.graphics.curveTo(0, height, width, height);
-        iconArea.graphics.moveTo(width, 0);
-        iconArea.graphics.curveTo(width, height, 0, height);
+        _iconArea.graphics.curveTo(0, height, width, height);
+        _iconArea.graphics.moveTo(width, 0);
+        _iconArea.graphics.curveTo(width, height, 0, height);
     }
 }
 

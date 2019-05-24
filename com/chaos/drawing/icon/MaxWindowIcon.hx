@@ -32,10 +32,10 @@ class MaxWindowIcon extends NormalWindowIcon implements IBasicIcon implements IB
         super.draw();
         
         // Create Icon
-        iconArea.graphics.lineStyle(borderThinkness, borderColor, borderAlpha);
+        _iconArea.graphics.lineStyle(borderThinkness, borderColor, borderAlpha);
         
-        iconArea.graphics.drawRect(width / 2, height / 2, width / 2, height / 2);
-        iconArea.graphics.drawRect(0, 0, width, height);
+        _iconArea.graphics.drawRect(width / 2, height / 2, width / 2, height / 2);
+        _iconArea.graphics.drawRect(0, 0, width, height);
     }
 }
 

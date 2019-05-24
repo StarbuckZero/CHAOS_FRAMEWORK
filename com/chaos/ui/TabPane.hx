@@ -11,7 +11,6 @@ import openfl.events.*;
 import com.chaos.data.DataProvider;
 import com.chaos.ui.ScrollPane;
 import com.chaos.ui.Button;
-import com.chaos.ui.UIDetailLevel;
 import com.chaos.ui.UIStyleManager;
 import com.chaos.ui.UIBitmapManager;
 import com.chaos.media.DisplayImage;
@@ -38,7 +37,6 @@ class TabPane extends ScrollPane implements ITabPane implements IScrollPane impl
   /** The type of UI Element */
   public static inline var TYPE : String = "TabPane";
   private var _contentList : DataProvider;
-  private var _qualityMode : String = UIDetailLevel.HIGH;
   private var _tabButtonHeight : Int = 20;
   private var _tabButtonNormalColor : Int = 0xCCCCCC;
   private var _tabButtonOverColor : Int = 0x666666;
@@ -93,7 +91,7 @@ class TabPane extends ScrollPane implements ITabPane implements IScrollPane impl
 	{
 		// Background
 		if (null != UIBitmapManager.getUIElement(TabPane.TYPE, UIBitmapManager.TABPANE_BACKGROUND))  
-		setBackgroundBitmap(UIBitmapManager.getUIElement(ScrollPane.TYPE, UIBitmapManager.TABPANE_BACKGROUND)); 
+		setBackgroundImage(UIBitmapManager.getUIElement(ScrollPane.TYPE, UIBitmapManager.TABPANE_BACKGROUND)); 
 		
 		// Buttons  
 		if (null != UIBitmapManager.getUIElement(TabPane.TYPE, UIBitmapManager.TABPANE_BUTTON_NORMAL))       
@@ -232,7 +230,7 @@ class TabPane extends ScrollPane implements ITabPane implements IScrollPane impl
 		var tabButton : Button = new Button();
 		var tempObject : Object = new Object();
 		
-		tabButton.label = value;
+		tabButton.text = value;
 		tabButton.addEventListener(MouseEvent.CLICK, tabPress);
 		
 		// Content
@@ -533,16 +531,16 @@ class TabPane extends ScrollPane implements ITabPane implements IScrollPane impl
 			
 			
 			if (null != _tabButtonNormalImage.image)          
-			button.setBackgroundBitmap(_tabButtonNormalImage.image);
+			button.setDefaultStateBitmap(_tabButtonNormalImage.image);
 			
 			if (null != _tabButtonOverImage.image)  
-			button.setOverBackgroundBitmap(_tabButtonOverImage.image);
+			button.setOverStateImage(_tabButtonOverImage.image);
 			
 			if (null != _tabButtonDownImage.image) 
-			button.setOverBackgroundBitmap(_tabButtonDownImage.image);
+			button.setOverStateImage(_tabButtonDownImage.image);
 			
 			if (null != _tabButtonDisableImage.image)    
-			button.setDisableBackgroundBitmap(_tabButtonDisableImage.image);
+			button.setDisableStateImage(_tabButtonDisableImage.image);
 			
 			// Set TextFormat based on UIStyleManager  
 			button.textBold = UIStyleManager.TABPANE_BUTTON_TEXT_BOLD;
@@ -576,31 +574,7 @@ class TabPane extends ScrollPane implements ITabPane implements IScrollPane impl
 		update();
     }
 	
-	/**
-	 * Set the level of detail on the TabPane. This degrade the combo box with LOW, MEDIUM and HIGH settings.
-	 * Use the the UIDetailLevel class to change the settings.
-	 *
-	 * LOW - Remove all filters and bitmap images.
-	 * MEDIUM - Remove all filters but leaves bitmap images with image smoothing off.
-	 * HIGH - Enable and show all filters plus display bitmap images if set
-	 *
-	 * @param value Send the value "low","medium" or "high"
-	 * @see com.chaos.ui.UIDetailLevel
-	 */  
-	
-	override  function set_detail(value : String) : String
-	{
-		super.detail = value;
-		
-		// Set detail level for all buttons  
-		for (i in 0..._contentList.length - 1 + 1)
-		{
-			_contentList.getItemAt(i).button.detail = value;
-        }
-		
-        return value;
-    }
-	
+
 	private function contentLoad(value : DisplayObject) : Void 
 	{
 		// Selected Index

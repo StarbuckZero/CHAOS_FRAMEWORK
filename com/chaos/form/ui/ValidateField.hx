@@ -4,7 +4,6 @@ package com.chaos.form.ui;
 import com.chaos.form.ui.classInterface.IFormUI;
 import com.chaos.ui.interface.IBaseUI;
 import com.chaos.ui.interface.ITextInput;
-import com.chaos.ui.UIDetailLevel;
 
 import com.chaos.media.DisplayImage;
 
@@ -75,8 +74,8 @@ class ValidateField extends InputField implements IFormUI implements com.chaos.u
     }
     
     /**
-		 * Set the background of the text input default state using an image file.
-		 */
+	 * Set the background of the text input default state using an image file.
+	 */
     
     public function setValidBackground(value : String) : Void
     {
@@ -84,8 +83,8 @@ class ValidateField extends InputField implements IFormUI implements com.chaos.u
     }
     
     /**
-		 * This is for setting an image to the text input default state. It is best to set an image that can be tile.
-		 */
+	 * This is for setting an image to the text input default state. It is best to set an image that can be tile.
+	 */
     
     public function setValidBackgroundImage(value : Bitmap) : Void
     {
@@ -93,8 +92,8 @@ class ValidateField extends InputField implements IFormUI implements com.chaos.u
     }
     
     /**
-		 * Set the background of the text input default state using an image file.
-		 */
+	 * Set the background of the text input default state using an image file.
+	 */
     
     public function setInvalidBackground(value : String) : Void
     {
@@ -102,8 +101,8 @@ class ValidateField extends InputField implements IFormUI implements com.chaos.u
     }
     
     /**
-		 * This is for setting an image to the text input default state. It is best to set an image that can be tile.
-		 */
+	 * This is for setting an image to the text input default state. It is best to set an image that can be tile.
+	 */
     
     public function setInvalidBackgroundImage(value : Bitmap) : Void
     {
@@ -111,9 +110,9 @@ class ValidateField extends InputField implements IFormUI implements com.chaos.u
     }
     
     /**
-		 * An event that need to be maked for override. This is ran once
-		 * @param	event
-		 */
+	 * An event that need to be maked for override. This is ran once
+	 * @param	event
+	 */
     
     public function onValidateCheck(event : Event) : Void
     {
@@ -125,60 +124,23 @@ class ValidateField extends InputField implements IFormUI implements com.chaos.u
     }
     
     /**
-		 * Check to see if info stored is correct
-		 * @return True if it's correct and false if not
-		 */
+	 * Check to see if info stored is correct
+	 * @return True if it's correct and false if not
+	 */
     
     public function isValid() : Bool
     {
         return true;
     }
     
-    override private function set_Detail(value : String) : String
-    {
-        
-        // Only turn off filter if medium and low
-        if (value.toLowerCase() == UIDetailLevel.HIGH) 
-        {
-            super.detail = value.toLowerCase();
-            
-            _showImage = true;
-            _smoothImage = true;
-        }
-        else if (value.toLowerCase() == UIDetailLevel.MEDIUM) 
-        {
-            super.detail = value.toLowerCase();
-            
-            _showImage = true;
-            _smoothImage = false;
-        }
-        else if (value.toLowerCase() == UIDetailLevel.LOW) 
-        {
-            super.detail = value.toLowerCase();
-            
-            _showImage = false;
-            _smoothImage = false;
-        }
-        else 
-        {
-            super.detail = UIDetailLevel.LOW;
-            
-            _showImage = false;
-            _smoothImage = false;
-        }
-        
-        draw();
-        return value;
-    }
     
     override public function draw() : Void
     {
         super.draw();
         
+		// Setup for background
         if (null == backgroundValidate) 
-            return  // Setup for background  ;
-        
-        
+            return;
         
         if (background) 
         {

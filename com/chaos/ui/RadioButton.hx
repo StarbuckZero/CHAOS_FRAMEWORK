@@ -15,7 +15,7 @@ import com.chaos.media.DisplayImage;
 import com.chaos.data.DataProvider;
 import com.chaos.ui.Label;
 import com.chaos.ui.RadioButtonManager;
-import com.chaos.ui.UIDetailLevel;
+
 	/**
 	 *  Create radio button on the fly
 	 *
@@ -38,7 +38,6 @@ class RadioButton extends ToggleButtonLite implements IRadioButton implements IB
 	
 	/** The type of UI Element */
 	public static var TYPE : String = "RadioButton";
-	private var _qualityMode : String = UIDetailLevel.HIGH;
 	//private var _baseNormal : Shape = new Shape();
 	//private var _baseOver : Shape = new Shape();
 	//private var _baseDown : Shape = new Shape();
@@ -467,110 +466,57 @@ class RadioButton extends ToggleButtonLite implements IRadioButton implements IB
 	 */
 	
 	public function setDisableBitmap(value : Bitmap) : Void { _blnDisableImage = true; _disableDisplayImage.setImage(value); draw(); }
-		 
+	
+
+	
+	
 	/**
-	 * Set the level of detail on the radio button. This degrade the button with LOW, MEDIUM and HIGH settings.
-	 * Use the the UIDetailLevel class to change the settings.
+	 * This setup and draw the radio button on the screen
 	 *
-	 * LOW - Remove all filters and bitmap images.
-	 * MEDIUM - Remove all filters but leaves bitmap images with image smoothing off.
-	 * HIGH - Enable and show all filters plus display bitmap images if set
-	 *
-	 * @param value Send the value "low","medium" or "high"
-	 */
+	 */  
 	
-	 override function set_detail(value : String) : String 
-	{
-		super.detail = value; 
+	override public function draw() : Void
+	{ 
+		// This make sure it toggle the down or up state  
+		super.draw();
 		
-		// Only turn off filter if medium and low  
-		if (value.toLowerCase() == UIDetailLevel.HIGH) 
+		// Draw Radio button layers
+		_baseNormal.graphics.clear();
+		_baseOver.graphics.clear();
+		_baseDown.graphics.clear();
+		_baseDisable.graphics.clear();
+		
+		// Drawing out radio button or using bitmap image if loaded 
+		if (_blnNormalImage && _showImage) 
 		{
-			_qualityMode = value.toLowerCase(); 
-			_showImage = true;
-			_smoothImage = true;
+			_baseNormal.graphics.beginBitmapFill(_normalDisplayImage.image.bitmapData, null, true, _smoothImage);
+			_baseNormal.graphics.drawRect(0, 0, _normalDisplayImage.image.bitmapData.width, _normalDisplayImage.image.bitmapData.height);
+			_baseNormal.graphics.endFill();
 		}
-		else if (value.toLowerCase() == UIDetailLevel.MEDIUM) 
+		else
 		{
-			_qualityMode = value.toLowerCase();
-			_showImage = true;
-			_smoothImage = false;
-		}
-		else if (value.toLowerCase() == UIDetailLevel.LOW) 
-		{
-			_qualityMode = value.toLowerCase();
-			_showImage = false;
-			_smoothImage = false;
-		}
-		else 
-		{
-			_qualityMode = UIDetailLevel.LOW;
-			_showImage = false;
-			_smoothImage = false;
+			_baseNormal.graphics.lineStyle(_lineSize, _normalLineColor, _lineAlpha);
+			_baseNormal.graphics.beginFill(_normalFillColor, _bgAlpha);
+			_baseNormal.graphics.drawCircle(UIStyleManager.RADIO_BTN_OFFSET_X, UIStyleManager.RADIO_BTN_OFFSET_Y, UIStyleManager.RADIO_BTN_SIZE);
+			_baseNormal.graphics.endFill();
 		}
 		
-		draw();
-		
-		return value;
-	}
-		
-		/**
-		 *
-		 * @return Return low, medium or high as string.
-		 *
-		 * @see com.chaos.ui.UIDetailLevel
-		 */
-		
-		override private function get_detail() : String { return _qualityMode; }
-		 
-	
-		/**
-		 * This setup and draw the radio button on the screen
-		 *
-		 */  
-		
-		override public function draw() : Void
-		{ 
-			// This make sure it toggle the down or up state  
-			super.draw();
-			
-			// Draw Radio button layers
-			_baseNormal.graphics.clear();
-			_baseOver.graphics.clear();
-			_baseDown.graphics.clear();
-			_baseDisable.graphics.clear();
-			
-			// Drawing out radio button or using bitmap image if loaded 
-			if (_blnNormalImage && _showImage) 
+		// Drawing out radio button or using bitmap image if loaded  
+		if (_blnOverImage && _showImage) 
+		{  
+			// Draw dot if selected  
+			if (!selected) 
 			{
-				_baseNormal.graphics.beginBitmapFill(_normalDisplayImage.image.bitmapData, null, true, _smoothImage);
-				_baseNormal.graphics.drawRect(0, 0, _normalDisplayImage.image.bitmapData.width, _normalDisplayImage.image.bitmapData.height);
-				_baseNormal.graphics.endFill();
+				_baseOver.graphics.beginBitmapFill(_overDisplayImage.image.bitmapData, null, true, _smoothImage);
+				_baseOver.graphics.drawRect(0, 0, _overDisplayImage.image.bitmapData.width, _overDisplayImage.image.bitmapData.height);
+				_baseOver.graphics.endFill();
 			}
-			else
+			else 
 			{
-				_baseNormal.graphics.lineStyle(_lineSize, _normalLineColor, _lineAlpha);
-				_baseNormal.graphics.beginFill(_normalFillColor, _bgAlpha);
-				_baseNormal.graphics.drawCircle(UIStyleManager.RADIO_BTN_OFFSET_X, UIStyleManager.RADIO_BTN_OFFSET_Y, UIStyleManager.RADIO_BTN_SIZE);
-				_baseNormal.graphics.endFill();
+				_baseOver.graphics.beginBitmapFill(_downDisplayImage.image.bitmapData, null, true, _smoothImage);
+				_baseOver.graphics.drawRect(0, 0, _downDisplayImage.image.bitmapData.width, _downDisplayImage.image.bitmapData.height);
+				_baseOver.graphics.endFill();
 			}
-			
-			// Drawing out radio button or using bitmap image if loaded  
-			if (_blnOverImage && _showImage) 
-			{  
-				// Draw dot if selected  
-				if (!selected) 
-				{
-					_baseOver.graphics.beginBitmapFill(_overDisplayImage.image.bitmapData, null, true, _smoothImage);
-					_baseOver.graphics.drawRect(0, 0, _overDisplayImage.image.bitmapData.width, _overDisplayImage.image.bitmapData.height);
-					_baseOver.graphics.endFill();
-				}
-				else 
-				{
-					_baseOver.graphics.beginBitmapFill(_downDisplayImage.image.bitmapData, null, true, _smoothImage);
-					_baseOver.graphics.drawRect(0, 0, _downDisplayImage.image.bitmapData.width, _downDisplayImage.image.bitmapData.height);
-					_baseOver.graphics.endFill();
-				}
         }
         else 
 		{

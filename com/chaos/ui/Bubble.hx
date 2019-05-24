@@ -491,54 +491,7 @@ class Bubble extends Overlay implements IBubble implements IOverlay implements I
         _backgroundDisplayImage.load(value);
         _backgroundDisplayImage.addEventListener(Event.COMPLETE, onImageLoaded, false, 0, true);
     }
-    
-    /**
-	 * Set the level of detail on the Window. This degrade the combo box with LOW, MEDIUM and HIGH settings.
-	 * Use the the UIDetailLevel class to change the settings.
-	 *
-	 * LOW - Remove all filters and bitmap images.
-	 * MEDIUM - Remove all filters but leaves bitmap images with image smoothing off.
-	 * HIGH - Enable and show all filters plus display bitmap images if set
-	 *
-	 * @param value Send the value "low","medium" or "high"
-	 * @see com.chaos.ui.UIDetailLevel
-	 */
-    
-    override private function set_detail(value : String) : String
-    {
-        
-        // Set detail settings
-        if (UIDetailLevel.HIGH == value) 
-        {
-            _showImage = true;
-            _smoothImage = true;
-        }
-        else if (UIDetailLevel.MEDIUM == value) 
-        {
-            _showImage = true;
-            _smoothImage = false;
-        }
-        // Apply settings to detail
-        else if (UIDetailLevel.LOW == value) 
-        {
-            _showImage = false;
-            _smoothImage = false;
-        }
-        else 
-        {
-            _showImage = false;
-            _smoothImage = false;
-            
-            super.detail = UIDetailLevel.LOW;
-        }
-        
-        
-        
-        super.detail = value;
-        
-        draw();
-        return value;
-    }
+
     
     /**
 	 * Draw the Bubble and all the UI classes it's using

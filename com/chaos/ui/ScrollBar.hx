@@ -9,7 +9,6 @@ import openfl.display.Sprite;
 import openfl.events.Event;
 import openfl.events.MouseEvent;
 import openfl.display.Bitmap;
-import com.chaos.ui.UIDetailLevel;
 import com.chaos.ui.ScrollBarDirection;
 import com.chaos.ui.Slider;
 import com.chaos.ui.event.SliderEvent;
@@ -45,17 +44,13 @@ class ScrollBar extends Slider implements IScrollBar implements ISlider
 	private var _scrollAmount : Float = .01;
 	private var _buttonHeight : Int = 15;
 	private var _buttonWidth : Int = 15;
-	//private var _enabled : Bool = true;
-	private var _width : Float = 15;
-	private var _height : Float = 100;
-	//private var _qualityMode : String = UIDetailLevel.HIGH;
 	private var _showArrowButton : Bool = true;
 	private var _sliderResize : Bool = true;
 	private var _buttonNormalColor : Int = 0xCCCCCC;
 	private var _buttonOverColor : Int = 0x666666;
 	private var _buttonDownColor : Int = 0x333333;
 	private var _buttonDisableColor : Int = 0x999999;
-	//private var _trackerColor : Int = 0x999999;  
+	
 	
 	/**
 	 * Constructor
@@ -230,91 +225,6 @@ class ScrollBar extends Slider implements IScrollBar implements ISlider
 	{ 
 		return _scrollAmount; 
 	} 
-	
-	
-	/**
-	 * The width of the scrollbar
-	 *
-	 * @param value Set the scrollbar width
-	 *
-	 */
-	
-	#if flash @:setter(width)
-	override private function set_width(value : Float) : Void 
-	{ 
-		_width = value;
-		draw();
-	}
-	#else
-	override private function set_width(value : Float) : Float 
-	{
-		_width = value;
-		draw();
-		
-		return value;
-	}
-	#end
-	
-	
-	/**
-	 *
-	 * @return Return the width of the scrollbar
-	 */
-	
-	#if flash @:getter(width)
-	override private function get_width() : Float 
-	{
-		return _width;
-	}
-	#else
-	override private function get_width() : Float 
-	{
-		return _width;
-	}
-	#end
-	
-	/**
-	 * The height of the scrollbar
-	 *
-	 * @param value Set the scrollbar height
-	 *
-	 */ 
-	
-	
-	#if flash @:setter(height) 
-	override private function set_height(value : Float) : Void 
-	{
-		_height = value;
-		draw(); 
-	}
-	#else
-	override private function set_height(value : Float) : Float 
-	{
-		_height = value;
-		draw(); 
-		
-		return value; 
-	}
-	#end
-	
-	/**
-	 *
-	 * @return Return the height of the scrollbar
-	 */
-	
-	
-	#if flash @:getter(height) 
-	override private function get_height() : Float 
-	{
-		return _height; 
-	} 
-	#else
-	override private function get_height() : Float 
-	{
-		return _height; 
-	} 
-	#end
-	
 	
 	
 	/**
@@ -616,7 +526,7 @@ class ScrollBar extends Slider implements IScrollBar implements ISlider
 	 * @param value Set the image based on a Bitmap being pass
 	 *
 	 */  
-	public function setButtonBackgroundBitmap(value : Bitmap) : Void { up_arrow.setBackgroundBitmap(value); down_arrow.setBackgroundBitmap(value); }
+	public function setButtonBackgroundBitmap(value : Bitmap) : Void { up_arrow.setDefaultStateBitmap(value); down_arrow.setDefaultStateBitmap(value); }
 	
 	/**
 	 * Set a image to the scrollbar buttons over state using a file path
@@ -633,7 +543,7 @@ class ScrollBar extends Slider implements IScrollBar implements ISlider
 	 * @param value Set the image based on a Bitmap being pass
 	 *
 	 */ 
-	public function setButtonOverBackgroundBitmap(value : Bitmap) : Void { up_arrow.setOverBackgroundBitmap(value); down_arrow.setOverBackgroundBitmap(value); }
+	public function setButtonOverBackgroundBitmap(value : Bitmap) : Void { up_arrow.setOverStateImage(value); down_arrow.setOverStateImage(value); }
 	
 	/**
 	 * Set a image to the scrollbar up button down state using a file path
@@ -651,7 +561,7 @@ class ScrollBar extends Slider implements IScrollBar implements ISlider
 	 *
 	 */
 	
-	public function setButtonDownBackgroundBitmap(value : Bitmap) : Void { up_arrow.setDownBackgroundBitmap(value); down_arrow.setDownBackgroundBitmap(value); }
+	public function setButtonDownBackgroundBitmap(value : Bitmap) : Void { up_arrow.setDownStateImage(value); down_arrow.setDownStateImage(value); }
 	
 	
 	/**
@@ -669,33 +579,9 @@ class ScrollBar extends Slider implements IScrollBar implements ISlider
 	 *
 	 */
 	
-	public function setButtonDisableBackgroundBitmap(value : Bitmap) : Void { up_arrow.setDisableBackgroundBitmap(value); down_arrow.setDisableBackgroundBitmap(value); }
+	public function setButtonDisableBackgroundBitmap(value : Bitmap) : Void { up_arrow.setDisableStateImage(value); down_arrow.setDisableStateImage(value); }
 	
-	/**
-	 * Set the level of detail on the ScrollBar. This degrade the combo box with LOW, MEDIUM and HIGH settings.
-	 * Use the the UIDetailLevel class to change the settings.
-	 *
-	 * LOW - Remove all filters and bitmap images.
-	 * MEDIUM - Remove all filters but leaves bitmap images with image smoothing off.
-	 * HIGH - Enable and show all filters plus display bitmap images if set
-	 *
-	 * @param value Send the value "low","medium" or "high"
-	 * @see com.chaos.ui.UIDetailLevel
-	 */ 
-	
-	override private function set_detail(value : String) : String
-	{
-		super.detail = value; 
-		
-		// Everything is ui classes so just pass detail settings  
-		if (UIDetailLevel.HIGH == value || UIDetailLevel.MEDIUM == value || UIDetailLevel.LOW == value) 
-		{
-			up_arrow.detail = value; down_arrow.detail = value;
-			_qualityMode = value;
-        }
-		
-        return value;
-    }
+
 	
 	/**
 	 * Draw the element on the stage

@@ -31,13 +31,13 @@ class SoundMuteIcon extends SoundIcon implements IBasicIcon implements IBaseUI
     {
         super.draw();
         
-        iconArea.graphics.lineStyle(borderThinkness, borderColor, borderAlpha);
+        _iconArea.graphics.lineStyle(borderThinkness, borderColor, borderAlpha);
         
         // Draw circle
-        iconArea.graphics.drawCircle(width / 2, (height / 2) - (offset / 2), offset / 2);
+        _iconArea.graphics.drawCircle(width / 2, (height / 2) - (offset / 2), offset / 2);
         
-        iconArea.graphics.moveTo(offset, height - offset);
-        iconArea.graphics.lineTo(width - offset, 0);
+        _iconArea.graphics.moveTo(offset, height - offset);
+        _iconArea.graphics.lineTo(width - offset, 0);
     }
 }
 

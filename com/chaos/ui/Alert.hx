@@ -4,7 +4,6 @@ package com.chaos.ui;
 	import com.chaos.media.DisplayImage;
 	import com.chaos.ui.Button;
 	import com.chaos.ui.UIBitmapManager;
-	import com.chaos.ui.UIDetailLevel;
 	import com.chaos.ui.UIStyleManager;
 	import com.chaos.ui.Window;
 	import com.chaos.ui.data.AlertDataObject;
@@ -39,7 +38,7 @@ class Alert
     public static var windowFocusColor(get, set) : Int;
     public static var windowUnFocusColor(get, set) : Int;
     public static var windowTitleUnFocusColor(get, set) : Int;
-    public static var detail(get, set) : String;
+    
 	
 	/** The type of UI Element */ 
 	public static inline var TYPE : String = "Alert";
@@ -110,7 +109,7 @@ class Alert
 	private static var _labelLocation : String = "";
 	private static var _enabledCloseButton : Bool = false;
 	private static var _backgroundColor : Int = 0xFFFFFF;
-	private static var _windowTitleFocusColor : Int = 0xCCCCCC;
+	private static var _windowTitleColor : Int = 0xCCCCCC;
 	private static var _windowTitleUnFocusColor : Int = 0x333333;
 	private static var _windowFocusColor : Int = 0xFFFFFF;
 	private static var _windowUnFocusColor : Int = 0xCCCCCC;
@@ -173,7 +172,7 @@ class Alert
 	private static var _neutralButtonDownBitmap : Bitmap = null;
 	private static var _tintBackgroundColor : Int = 0x000000;
 	private static var _tintAlpha : Float = .5;
-	private static var _qualityMode : String = UIDetailLevel.HIGH;
+	
 	
 	
 	
@@ -1255,38 +1254,8 @@ class Alert
 		*
 		*/  
 		public static function setBackgroundBitmap(value : Bitmap) : Void { _backgroundImage = value; } 
-	
-		/**
-		* Set the level of detail on the Alert. This degrade the combo box with LOW, MEDIUM and HIGH settings.
-		* Use the the UIDetailLevel class to change the settings.
-		*
-		* LOW - Remove all filters and bitmap images. 
-		* MEDIUM - Remove all filters but leaves bitmap images with image smoothing off.
-		* HIGH - Enable and show all filters plus display bitmap images if set
-		*
-		* @param value Send the value "low","medium" or "high"
-		* @see com.chaos.ui.UIDetailLevel
-		*/
-		private static function set_detail(value : String) : String  
-		{
-			_qualityMode = value; 
-			return value; 
-		}  
-	
-	
-		/**
-		*
-		* @return Return low, medium or high as string.
-		*
-		* @see com.chaos.ui.UIDetailLevel
-		*/
 		
-		private static function get_detail() : String 
-		{ 
-			return _qualityMode;
-		}
 		
-	
 		/**
 		* This is for setting an image to the Alert. It is best to set an image that can be tile. 
 		*
@@ -1335,7 +1304,7 @@ class Alert
 		
 		
 		if (null != alertWindowIcon) 
-		window.setIconBitmap(alertWindowIcon.image);
+		window.setIcon(alertWindowIcon.image);
 		
 		window.name = "window_" + _windowCount;
 		_windowCount++;
@@ -1385,10 +1354,10 @@ class Alert
 		window.resize = false; 
 		
 		// Setup colors for window & check and setup bitmap/image if needed  
-		window.windowTitleFocusColor = (( -1 == UIStyleManager.ALERT_TITLE_AREA_COLOR)) ? _windowTitleFocusColor : UIStyleManager.ALERT_TITLE_AREA_COLOR;
-		window.windowTitleUnFocusColor = (( -1 == UIStyleManager.ALERT_TITLE_AREA_UNFOCUS_COLOR)) ? _windowTitleUnFocusColor : UIStyleManager.ALERT_TITLE_AREA_UNFOCUS_COLOR;
-		window.windowFocusColor = (( -1 == UIStyleManager.ALERT_WINDOW_FOCUS_COLOR)) ? _windowFocusColor : UIStyleManager.ALERT_WINDOW_FOCUS_COLOR;
-		window.windowUnFocusColor = (( -1 == UIStyleManager.ALERT_WINDOW_UNFOCUS_COLOR)) ? _windowUnFocusColor : UIStyleManager.ALERT_WINDOW_UNFOCUS_COLOR;
+		window.windowTitleColor = (( -1 == UIStyleManager.ALERT_TITLE_AREA_COLOR)) ? _windowTitleFocusColor : UIStyleManager.ALERT_TITLE_AREA_COLOR;
+		//window.windowTitleUnFocusColor = (( -1 == UIStyleManager.ALERT_TITLE_AREA_UNFOCUS_COLOR)) ? _windowTitleUnFocusColor : UIStyleManager.ALERT_TITLE_AREA_UNFOCUS_COLOR;
+		window.windowColor = (( -1 == UIStyleManager.ALERT_WINDOW_FOCUS_COLOR)) ? _windowFocusColor : UIStyleManager.ALERT_WINDOW_FOCUS_COLOR;
+		//window.windowUnFocusColor = (( -1 == UIStyleManager.ALERT_WINDOW_UNFOCUS_COLOR)) ? _windowUnFocusColor : UIStyleManager.ALERT_WINDOW_UNFOCUS_COLOR;
 		window.scrollPane.backgroundColor = (( -1 == UIStyleManager.ALERT_BACKGROUND_COLOR)) ? _backgroundColor : UIStyleManager.ALERT_BACKGROUND_COLOR;
 		
 		if ("" != UIStyleManager.ALERT_ICON_LOCATION)
@@ -1443,7 +1412,7 @@ class Alert
 		if (label.textField.textHeight > label.height)
 		{
 			var scroll : ScrollBar = new ScrollBar();
-			var newScrollContent : ScrollContent = new ScrollContent(label.textField, scroll);
+			
 			scroll.direction = ScrollBarDirection.VERTICAL;
 			holderClip.mouseChildren = true;
 			holderClip.addChild(scroll);
@@ -1719,31 +1688,6 @@ class Alert
 		if (null != UIBitmapManager.getUIElement(Alert.TYPE, UIBitmapManager.ALERT_BACKGROUND)) 
 		window.scrollPane.setBackgroundBitmap(UIBitmapManager.getUIElement(Alert.TYPE, UIBitmapManager.ALERT_BACKGROUND));
 		
-		// Pattern Overlay - Every mask layer has to be cloned because you can't use the same display object.
-		//if (null != UIBitmapManager.getUIElement(Alert.TYPE, UIBitmapManager.ALERT_TOP_PATTERN_OVERLAY) && null != UIBitmapManager.getUIElementMask(Alert.TYPE, UIBitmapManager.ALERT_TOP_PATTERN_LEFT_MASK) && null != UIBitmapManager.getUIElementMask(Alert.TYPE, UIBitmapManager.ALERT_TOP_PATTERN_CENTER_MASK) && null != UIBitmapManager.getUIElementMask(Alert.TYPE, UIBitmapManager.ALERT_TOP_PATTERN_RIGHT_MASK))
-		//{
-		//	var topLeftMask : DisplayObject = Utils.duplicateDisplayObject(UIBitmapManager.getUIElementMask(Alert.TYPE, UIBitmapManager.ALERT_TOP_PATTERN_LEFT_MASK));
-		//	var topCenterMask : DisplayObject = Utils.duplicateDisplayObject(UIBitmapManager.getUIElementMask(Alert.TYPE, UIBitmapManager.ALERT_TOP_PATTERN_CENTER_MASK));
-		//	var topRightMask : DisplayObject = Utils.duplicateDisplayObject(UIBitmapManager.getUIElementMask(Alert.TYPE, UIBitmapManager.ALERT_TOP_PATTERN_RIGHT_MASK));
-		//	window.setWindowTopPattern(UIBitmapManager.getUIElement(Alert.TYPE, UIBitmapManager.ALERT_TOP_PATTERN_OVERLAY), topLeftMask, topCenterMask, topRightMask);
-        //}
-		//
-		//if (null != UIBitmapManager.getUIElement(Alert.TYPE, UIBitmapManager.ALERT_MIDDLE_PATTERN_OVERLAY) && null != UIBitmapManager.getUIElementMask(Alert.TYPE, UIBitmapManager.ALERT_MIDDLE_PATTERN_LEFT_MASK) && null != UIBitmapManager.getUIElementMask(Alert.TYPE, UIBitmapManager.ALERT_MIDDLE_PATTERN_RIGHT_MASK))
-		//{
-		//	var middleLeftMask : DisplayObject = Utils.duplicateDisplayObject(UIBitmapManager.getUIElementMask(Alert.TYPE, UIBitmapManager.ALERT_MIDDLE_PATTERN_LEFT_MASK));
-		//	var middleRightMask : DisplayObject = Utils.duplicateDisplayObject(UIBitmapManager.getUIElementMask(Alert.TYPE, UIBitmapManager.ALERT_MIDDLE_PATTERN_RIGHT_MASK));
-		//	
-		//	window.setWindowMiddlePattern(UIBitmapManager.getUIElement(Alert.TYPE, UIBitmapManager.ALERT_MIDDLE_PATTERN_OVERLAY), middleLeftMask, middleRightMask);
-        //}
-		//
-		//if (null != UIBitmapManager.getUIElement(Alert.TYPE, UIBitmapManager.ALERT_BOTTOM_PATTERN_OVERLAY) && null != UIBitmapManager.getUIElementMask(Alert.TYPE, UIBitmapManager.ALERT_BOTTOM_PATTERN_LEFT_MASK) && null != UIBitmapManager.getUIElementMask(Alert.TYPE, UIBitmapManager.ALERT_BOTTOM_PATTERN_CENTER_MASK) && null != UIBitmapManager.getUIElementMask(Alert.TYPE, UIBitmapManager.ALERT_BOTTOM_PATTERN_RIGHT_MASK))
-		//{
-		//	var bottomLeftMask : DisplayObject = Utils.duplicateDisplayObject(UIBitmapManager.getUIElementMask(Alert.TYPE, UIBitmapManager.ALERT_BOTTOM_PATTERN_LEFT_MASK));
-		//	var bottomCenterMask : DisplayObject = Utils.duplicateDisplayObject(UIBitmapManager.getUIElementMask(Alert.TYPE, UIBitmapManager.ALERT_BOTTOM_PATTERN_CENTER_MASK));
-		//	var bottomRightMask : DisplayObject = Utils.duplicateDisplayObject(UIBitmapManager.getUIElementMask(Alert.TYPE, UIBitmapManager.ALERT_BOTTOM_PATTERN_RIGHT_MASK));
-		//	
-		//	window.setWindowBottomPattern(UIBitmapManager.getUIElement(Alert.TYPE, UIBitmapManager.ALERT_BOTTOM_PATTERN_OVERLAY), bottomLeftMask, bottomCenterMask, bottomRightMask);
-        //} 
 		
 		// All images for close button that are bitmaps 
 		if (null != UIBitmapManager.getUIElement(Alert.TYPE, UIBitmapManager.ALERT_CLOSE_BUTTON_NORMAL))  
@@ -1768,29 +1712,34 @@ class Alert
         switch (buttonType)
         {
 			case Alert.OK:
-			tempButton.label = (("" == UIStyleManager.ALERT_OK_TEXT)) ? _okBtnLabel : UIStyleManager.ALERT_OK_TEXT;
+			tempButton.text = (("" == UIStyleManager.ALERT_OK_TEXT)) ? _okBtnLabel : UIStyleManager.ALERT_OK_TEXT;
 			tempButton.name = OK; 
 			setButtonType("positive", tempButton);
 			
 			case Alert.CANCEL:
-			tempButton.label = (("" == UIStyleManager.ALERT_CANCEL_TEXT)) ? _cancelBtnLabel : UIStyleManager.ALERT_CANCEL_TEXT;
-			tempButton.name = CANCEL; setButtonType("negative", tempButton);
+			tempButton.text = (("" == UIStyleManager.ALERT_CANCEL_TEXT)) ? _cancelBtnLabel : UIStyleManager.ALERT_CANCEL_TEXT;
+			tempButton.name = CANCEL;
+			setButtonType("negative", tempButton);
 			
 			case Alert.YES:
-			tempButton.label = (("" == UIStyleManager.ALERT_YES_TEXT)) ? _yesBtnLabel : UIStyleManager.ALERT_YES_TEXT;
-			tempButton.name = YES; setButtonType("positive", tempButton);
+			tempButton.text = (("" == UIStyleManager.ALERT_YES_TEXT)) ? _yesBtnLabel : UIStyleManager.ALERT_YES_TEXT;
+			tempButton.name = YES; 
+			setButtonType("positive", tempButton);
 			
 			case Alert.NO:
-			tempButton.label = (("" == UIStyleManager.ALERT_NO_TEXT)) ? _noBtnLabel : UIStyleManager.ALERT_NO_TEXT;
-			tempButton.name = NO; setButtonType("negative", tempButton);
+			tempButton.text = (("" == UIStyleManager.ALERT_NO_TEXT)) ? _noBtnLabel : UIStyleManager.ALERT_NO_TEXT;
+			tempButton.name = NO; 
+			setButtonType("negative", tempButton);
 			
 			case Alert.MAYBE:
-			tempButton.label = (("" == UIStyleManager.ALERT_MAYBE_TEXT)) ? _noBtnLabel : UIStyleManager.ALERT_MAYBE_TEXT;
-			tempButton.name = MAYBE; setButtonType("neutral", tempButton);
+			tempButton.text = (("" == UIStyleManager.ALERT_MAYBE_TEXT)) ? _noBtnLabel : UIStyleManager.ALERT_MAYBE_TEXT;
+			tempButton.name = MAYBE;
+			setButtonType("neutral", tempButton);
 			
 			default:
-			tempButton.label = (("" == UIStyleManager.ALERT_OK_TEXT)) ? _okBtnLabel : UIStyleManager.ALERT_OK_TEXT;
-			tempButton.name = OK;setButtonType("positive", tempButton);
+			tempButton.text = (("" == UIStyleManager.ALERT_OK_TEXT)) ? _okBtnLabel : UIStyleManager.ALERT_OK_TEXT;
+			tempButton.name = OK;
+			setButtonType("positive", tempButton);
         }
 		
 		return tempButton;
@@ -1805,13 +1754,13 @@ class Alert
 			button.buttonDownColor = (( -1 == UIStyleManager.ALERT_POSITIVE_BUTTON_DOWN_COLOR)) ? _positiveButtonDownColor : UIStyleManager.ALERT_POSITIVE_BUTTON_DOWN_COLOR;
 			
 			if (null != UIBitmapManager.getUIElement(Alert.TYPE, UIBitmapManager.ALERT_POSITIVE_BUTTON_NORMAL))   
-			button.setBackgroundBitmap(UIBitmapManager.getUIElement(Alert.TYPE, UIBitmapManager.ALERT_POSITIVE_BUTTON_NORMAL));
+			button.setDefaultStateBitmap(UIBitmapManager.getUIElement(Alert.TYPE, UIBitmapManager.ALERT_POSITIVE_BUTTON_NORMAL));
 			
 			if (null != UIBitmapManager.getUIElement(Alert.TYPE, UIBitmapManager.ALERT_POSITIVE_BUTTON_OVER)) 
-			button.setOverBackgroundBitmap(UIBitmapManager.getUIElement(Alert.TYPE, UIBitmapManager.ALERT_POSITIVE_BUTTON_OVER));
+			button.setOverStateImage(UIBitmapManager.getUIElement(Alert.TYPE, UIBitmapManager.ALERT_POSITIVE_BUTTON_OVER));
 			
 			if (null != UIBitmapManager.getUIElement(Alert.TYPE, UIBitmapManager.ALERT_POSITIVE_BUTTON_DOWN))
-			button.setDownBackgroundBitmap(UIBitmapManager.getUIElement(Alert.TYPE, UIBitmapManager.ALERT_POSITIVE_BUTTON_DOWN));
+			button.setDownStateImage(UIBitmapManager.getUIElement(Alert.TYPE, UIBitmapManager.ALERT_POSITIVE_BUTTON_DOWN));
 			
 			// All images for positive button
 			if (_positiveButtonNormalURL != "")
@@ -1825,13 +1774,13 @@ class Alert
 			
 			// All images for positive button that are bitmaps 
 			if (_positiveButtonNormalBitmap != null)
-			button.setBackgroundBitmap(_positiveButtonNormalBitmap);
+			button.setDefaultStateBitmap(_positiveButtonNormalBitmap);
 			
 			if (_positiveButtonOverBitmap != null)
-			button.setOverBackgroundBitmap(_positiveButtonOverBitmap);
+			button.setOverStateImage(_positiveButtonOverBitmap);
 			
 			if (_positiveButtonDownBitmap != null)
-			button.setDownBackgroundBitmap(_positiveButtonDownBitmap);
+			button.setDownStateImage(_positiveButtonDownBitmap);
         }
         else if ("negative" == strType.toLowerCase())
 		{
@@ -1840,13 +1789,13 @@ class Alert
 			button.buttonDownColor = (( -1 == UIStyleManager.ALERT_NEGATIVE_BUTTON_DOWN_COLOR)) ? _negativeButtonDownColor : UIStyleManager.ALERT_NEGATIVE_BUTTON_DOWN_COLOR;
 			
 			if (null != UIBitmapManager.getUIElement(Alert.TYPE, UIBitmapManager.ALERT_NEGATIVE_BUTTON_NORMAL))   
-			button.setBackgroundBitmap(UIBitmapManager.getUIElement(Alert.TYPE, UIBitmapManager.ALERT_NEGATIVE_BUTTON_NORMAL));
+			button.setDefaultStateBitmap(UIBitmapManager.getUIElement(Alert.TYPE, UIBitmapManager.ALERT_NEGATIVE_BUTTON_NORMAL));
 			
 			if (null != UIBitmapManager.getUIElement(Alert.TYPE, UIBitmapManager.ALERT_NEGATIVE_BUTTON_OVER)) 
-			button.setOverBackgroundBitmap(UIBitmapManager.getUIElement(Alert.TYPE, UIBitmapManager.ALERT_NEGATIVE_BUTTON_OVER));
+			button.setOverStateImage(UIBitmapManager.getUIElement(Alert.TYPE, UIBitmapManager.ALERT_NEGATIVE_BUTTON_OVER));
 			
 			if (null != UIBitmapManager.getUIElement(Alert.TYPE, UIBitmapManager.ALERT_NEGATIVE_BUTTON_DOWN))
-			button.setDownBackgroundBitmap(UIBitmapManager.getUIElement(Alert.TYPE, UIBitmapManager.ALERT_NEGATIVE_BUTTON_DOWN));
+			button.setDownStateImage(UIBitmapManager.getUIElement(Alert.TYPE, UIBitmapManager.ALERT_NEGATIVE_BUTTON_DOWN));
 			
 			// All images for negative button  
 			if (_negativeButtonNormalURL != "") 
@@ -1860,13 +1809,13 @@ class Alert
 			
 			// All images for negative button that are bitmaps  
 			if (_negativeButtonNormalBitmap != null)
-			button.setBackgroundBitmap(_negativeButtonNormalBitmap);
+			button.setDefaultStateBitmap(_negativeButtonNormalBitmap);
 			
 			if (_negativeButtonOverBitmap != null)
-			button.setOverBackgroundBitmap(_negativeButtonOverBitmap);
+			button.setOverStateImage(_negativeButtonOverBitmap);
 			
 			if (_negativeButtonDownBitmap != null)
-			button.setDownBackgroundBitmap(_negativeButtonDownBitmap);
+			button.setDownStateImage(_negativeButtonDownBitmap);
         }
         else if ("neutral" == strType.toLowerCase())
 		{
@@ -1875,13 +1824,13 @@ class Alert
 			button.buttonDownColor = (( -1 == UIStyleManager.ALERT_NEUTRAL_BUTTON_DOWN_COLOR)) ? _neutralButtonDownColor : UIStyleManager.ALERT_NEUTRAL_BUTTON_DOWN_COLOR;
 			
 			if (null != UIBitmapManager.getUIElement(Alert.TYPE, UIBitmapManager.ALERT_NEUTRAL_BUTTON_DOWN)) 
-			button.setBackgroundBitmap(UIBitmapManager.getUIElement(Alert.TYPE, UIBitmapManager.ALERT_NEUTRAL_BUTTON_DOWN));
+			button.setDefaultStateBitmap(UIBitmapManager.getUIElement(Alert.TYPE, UIBitmapManager.ALERT_NEUTRAL_BUTTON_DOWN));
 			
 			if (null != UIBitmapManager.getUIElement(Alert.TYPE, UIBitmapManager.ALERT_NEGATIVE_BUTTON_OVER)) 
-			button.setOverBackgroundBitmap(UIBitmapManager.getUIElement(Alert.TYPE, UIBitmapManager.ALERT_NEUTRAL_BUTTON_OVER));
+			button.setOverStateImage(UIBitmapManager.getUIElement(Alert.TYPE, UIBitmapManager.ALERT_NEUTRAL_BUTTON_OVER));
 			
 			if (null != UIBitmapManager.getUIElement(Alert.TYPE, UIBitmapManager.ALERT_NEGATIVE_BUTTON_DOWN))    
-			button.setDownBackgroundBitmap(UIBitmapManager.getUIElement(Alert.TYPE, UIBitmapManager.ALERT_NEUTRAL_BUTTON_DOWN));
+			button.setDownStateImage(UIBitmapManager.getUIElement(Alert.TYPE, UIBitmapManager.ALERT_NEUTRAL_BUTTON_DOWN));
 			
 			// All images for neutral button  
 			if (_neutralButtonNormalURL != "") 
@@ -1895,13 +1844,13 @@ class Alert
 			
 			// All images for neutral button that are bitmaps
 			if (_neutralButtonNormalBitmap != null)
-			button.setBackgroundBitmap(_negativeButtonNormalBitmap);
+			button.setDefaultStateBitmap(_negativeButtonNormalBitmap);
 			
 			if (_neutralButtonOverBitmap != null) 
-			button.setOverBackgroundBitmap(_negativeButtonOverBitmap);
+			button.setOverStateImage(_negativeButtonOverBitmap);
 			
 			if (_neutralButtonDownBitmap != null) 
-			button.setDownBackgroundBitmap(_negativeButtonDownBitmap);
+			button.setDownStateImage(_negativeButtonDownBitmap);
         }
     }
 	

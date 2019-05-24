@@ -17,10 +17,8 @@ import openfl.events.ProgressEvent;
 import openfl.net.URLLoader;
 import openfl.media.Sound;
 import openfl.display.Loader;
-//import openfl.filters.BevelFilter;
 import com.chaos.ui.Label;
 import com.chaos.media.DisplayImage;
-import com.chaos.ui.UIDetailLevel;
 import com.chaos.ui.UIStyleManager;
 import com.chaos.ui.UIBitmapManager;
 
@@ -59,8 +57,6 @@ import com.chaos.ui.UIBitmapManager;
 		private var _borderColor : Int = 0x000000;
 		private var _textColor : Int = 0x000000;
 		private var _textLoadedColor : Int = 0xFFFFFF;
-		private var _width : Float = 100;
-		private var _height : Float = 15;
 		private var _font : Font;
 		private var _textFormat : TextFormat;
 		private var _textLoadedFormat : TextFormat;
@@ -235,90 +231,7 @@ import com.chaos.ui.UIBitmapManager;
 	 */
 	
 	private function get_loadedLabel() : Label { return _loadedLabel; } 
-		
-	
-	/**
-	 * Set the width of the ProgressBar
-	 *
-	 * @param value Set the width of the ProgressBar
-	 *
-	 */
-	
-	#if flash @:setter(width)
-	private function set_width(value : Float) : Void 
-	{ 
-		_width = value;
-		draw(); 
-	}  
-	#else
-	override private function set_width(value : Float) : Float 
-	{ 
-		_width = value;
-		draw(); 
-		
-		return value; 
-	}  
-	#end
-	
-	
-	/**
-	 *
-	 * @return Returns the width
-	 */
-	
-	#if flash @:getter(width)
-	private function get_width() : Float 
-	{
-		return _width;
-	}
-	#else
-	override private function get_width() : Float 
-	{
-		return _width;
-	}
-	#end
-	
-	/**
-	 * Set the height of the ProgressBar
-	 *
-	 * @param value Set the height of the list
-	 *
-	 */
-	
-	#if flash @:setter(height)
-	private function set_height(value : Float) : Void 
-	{
-		_height = value; 
-		draw(); 
-		
-	} 
-	#else
-	override private function set_height(value : Float) : Float 
-	{
-		_height = value; 
-		draw(); 
-		
-		return value; 
-	} 
-	#end
 
-	
-	/**
-	 *
-	 * @return Returns the height
-	 */
-	
-	#if flash @:getter(height)
-	private function get_height() : Float 
-	{ 
-		return _height;
-	}
-	#else
-	override private function get_height() : Float 
-	{ 
-		return _height;
-	}
-	#end
 	
 	/**
 	 * Toggle on and off border
@@ -660,147 +573,82 @@ import com.chaos.ui.UIBitmapManager;
 	
 	private function get_percent() : Int { return _percent; }
 		 
-	
 	/**
-	 * Set the level of detail on the ProgressBar. This degrade the combo box with LOW, MEDIUM and HIGH settings.
-	 * Use the the UIDetailLevel class to change the settings.
-	 *
-	 * LOW - Remove all filters and bitmap images.
-	 * MEDIUM - Remove all filters but leaves bitmap images with image smoothing off.
-	 * HIGH - Enable and show all filters plus display bitmap images if set
-	 *
-	 * @param value Send the value "low","medium" or "high"
-	 * @see com.chaos.ui.UIDetailLevel
+	 * Enable or Disable filters
 	 */
 	
-	override private function set_detail(value : String) : String
-	{
-		// Only turn off filter if medium and low  
-		if (value.toLowerCase() == UIDetailLevel.HIGH) 
+	private function set_filterMode(value : Bool) : Bool { _filterMode = value; return value; }
+	 
+
+	/**
+	 * @private
+	 */
+	private function get_filterMode() : Bool { return _filterMode; }
+		 
+		 
+	 /**
+	 * Draw the ProgressBar and all the UI classes it's using
+	 *
+	 */  
+	override public function draw() : Void
+	{ 
+		// Get ready to draw background and border
+		_outline.graphics.clear();
+		_backgroundNormal.graphics.clear();
+		_loadedBar.graphics.clear(); 
+		
+		// Set alignment percent text
+		_label.align = _align;
+		_loadedLabel.align = _align;
+		_label.width = _loadedLabel.width = _width;
+		_label.height = _loadedLabel.height = _height;
+		_label.visible = _showLabel;
+		_loadedLabel.visible = _showLabel;
+		
+		if (_showImage) 
 		{
-			super.detail = value.toLowerCase();
-			
-			_showImage = true;
-			_smoothImage = true;
-			_filterMode = true;
-		}
-		else if (value.toLowerCase() == UIDetailLevel.MEDIUM) 
-		{
-			super.detail = value.toLowerCase();
-			
-			_showImage = true;
-			_smoothImage = false;
-			_filterMode = true;
-		}
-		else if (value.toLowerCase() == UIDetailLevel.LOW) 
-		{
-			super.detail = value.toLowerCase();
-			_showImage = false;
-			_smoothImage = false;
-			_filterMode = false;
-			_filterMode = false;
+			((_bgDisplayNormalImage)) ? _backgroundNormal.graphics.beginBitmapFill(_backgroundImage.image.bitmapData, null, true, _smoothImage) : _backgroundNormal.graphics.beginFill(_backgroundNormalColor, _backgroundAlpha);
+			((_bgDisplayLoadedImage)) ? _loadedBar.graphics.beginBitmapFill(_loadedBarImage.image.bitmapData, null, true, _smoothImage) : _loadedBar.graphics.beginFill(_loadColor, _loadedAlpha);
 		}
 		else 
 		{
-			super.detail = UIDetailLevel.LOW;
-			_showImage = false;
-			_smoothImage = false;
-			_filterMode = false;
+			_backgroundNormal.graphics.beginFill(_backgroundNormalColor, _backgroundAlpha);
+			_loadedBar.graphics.beginFill(_loadColor, _loadedAlpha);
+		} 
+		
+		// First set draw normal size 
+		_backgroundNormal.graphics.drawRect(0, 0, _width, _height);
+		_backgroundNormal.graphics.endFill();
+		
+		_loadedBar.graphics.drawRect(0, 0, _width, _height);
+		_loadedBar.graphics.endFill();
+		
+		_mask.graphics.beginFill(_loadColor, _backgroundAlpha);
+		_mask.graphics.drawRect(0, 0, _width, _height);
+		_mask.graphics.endFill();
+		
+		_fontMask.graphics.beginFill(_loadColor, _backgroundAlpha);
+		_fontMask.graphics.drawRect(0, 0, _width, _height);
+		_fontMask.graphics.endFill(); 
+		
+		
+		// Set loading text 
+		_label.text = _loadedLabel.text = Std.string(_percent);
+		
+		// Set Mask area 
+		_loadedBar.mask = _mask;
+		_loadedLabel.mask = _fontMask; 
+		
+		// Take the percent and scale back the loader bar
+		_mask.scaleX = _fontMask.scaleX = (_percent * .01);
+		
+		
+		// Setup for border if need be 
+		if (_border) 
+		{
+			_outline.graphics.lineStyle(_thinkness, _outlineColor, _outlineAlpha);
+			_outline.graphics.drawRect(0, 0, _width, _height);
 		}
-		
-		super.detail = _label.detail = _loadedLabel.detail = value;
-		
-		draw();
-		
-		return value;
-	}
-
-		/**
-		 * Enable or Disable filters
-		 */
-		
-		private function set_filterMode(value : Bool) : Bool { _filterMode = value; return value; }
-		 
-	
-		/**
-		 * @private
-		 */
-		private function get_filterMode() : Bool { return _filterMode; }
-		 
-		 
-		 /**
-		 * Draw the ProgressBar and all the UI classes it's using
-		 *
-		 */  
-		override public function draw() : Void
-		{ 
-			// Get ready to draw background and border
-			_outline.graphics.clear();
-			_backgroundNormal.graphics.clear();
-			_loadedBar.graphics.clear(); 
-			
-			// Set alignment percent text
-			_label.align = _align;
-			_loadedLabel.align = _align;
-			_label.width = _loadedLabel.width = _width;
-			_label.height = _loadedLabel.height = _height;
-			_label.visible = _showLabel;
-			_loadedLabel.visible = _showLabel;
-			
-			if (_showImage) 
-			{
-				((_bgDisplayNormalImage)) ? _backgroundNormal.graphics.beginBitmapFill(_backgroundImage.image.bitmapData, null, true, _smoothImage) : _backgroundNormal.graphics.beginFill(_backgroundNormalColor, _backgroundAlpha);
-				((_bgDisplayLoadedImage)) ? _loadedBar.graphics.beginBitmapFill(_loadedBarImage.image.bitmapData, null, true, _smoothImage) : _loadedBar.graphics.beginFill(_loadColor, _loadedAlpha);
-			}
-			else 
-			{
-				_backgroundNormal.graphics.beginFill(_backgroundNormalColor, _backgroundAlpha);
-				_loadedBar.graphics.beginFill(_loadColor, _loadedAlpha);
-			} 
-			
-			// First set draw normal size 
-			_backgroundNormal.graphics.drawRect(0, 0, _width, _height);
-			_backgroundNormal.graphics.endFill();
-			
-			_loadedBar.graphics.drawRect(0, 0, _width, _height);
-			_loadedBar.graphics.endFill();
-			
-			_mask.graphics.beginFill(_loadColor, _backgroundAlpha);
-			_mask.graphics.drawRect(0, 0, _width, _height);
-			_mask.graphics.endFill();
-			
-			_fontMask.graphics.beginFill(_loadColor, _backgroundAlpha);
-			_fontMask.graphics.drawRect(0, 0, _width, _height);
-			_fontMask.graphics.endFill(); 
-			
-			// NOTE: On 2nd pass place make sure not usign magic numbe and place this in pre set values
-			
-			// Setup Flitler
-			//var loaderFilters : Array<BitmapFilter> = new Array<BitmapFilter>();
-			//var loaderBevel : BevelFilter = new BevelFilter(2.0, 45, 0xFFFFFF, 1.0, 0x000000, 1.0, 2, 2, .5, 1, "inner");
-			
-			//if (_filterMode)
-			//loaderFilters.push(loaderBevel);
-			
-			//_loadedBar.filters = loaderFilters; 
-			
-			// Set loading text 
-			_label.text = _loadedLabel.text = Std.string(_percent);
-			
-			// Set Mask area 
-			_loadedBar.mask = _mask;
-			_loadedLabel.mask = _fontMask; 
-			
-			// Take the percent and scale back the loader bar
-			_mask.scaleX = _fontMask.scaleX = (_percent * .01);
-			
-			
-			// Setup for border if need be 
-			if (_border) 
-			{
-				_outline.graphics.lineStyle(_thinkness, _outlineColor, _outlineAlpha);
-				_outline.graphics.drawRect(0, 0, _width, _height);
-			}
     }
 	
 	private function onBackgroundComplete(event : Event) : Void 
