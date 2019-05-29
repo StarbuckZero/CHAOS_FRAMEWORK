@@ -107,8 +107,6 @@ class MenuItem extends ToggleButtonLite implements IMenuItem implements IToggleB
     private var _alpha : Float = 1;
     private var _lineAlpha : Float = 1;
     
-    private var _width : Float = 100;
-    private var _height : Float = 20;
     
     private var _showIcon : Bool = false;
     
@@ -120,8 +118,8 @@ class MenuItem extends ToggleButtonLite implements IMenuItem implements IToggleB
     private var _open : Bool = false;
     
     /**
-		 * A display object that is used for the menu system.
-		 */
+	 * A display object that is used for the menu system.
+	 */
     
     public function new(text : String, width : Float = 100, height : Float = 20, icon : DisplayImage = null, subMenuIcon : DisplayImage = null)
     {
@@ -163,68 +161,12 @@ class MenuItem extends ToggleButtonLite implements IMenuItem implements IToggleB
         
         _subMenuIconHolder.addChild(_subMenuIcon.displayObject);
         
-        _subMenuIcon.filterMode = false;
+        //_subMenuIcon.filterMode = false;
         _subMenuIcon.baseColor = _subMenuIcon.borderColor = 0;
         
         draw();
     }
     
-	
-    #if flash @:setter(width)
-    private function set_width(value : Float) : Void
-    {
-        _width = value;
-        draw();
-    }
-	#else
-    override private function set_width(value : Float) : Float
-    {
-        _width = value;
-        draw();
-        return value;
-    }
-	#end
-	  
-	#if flash @:getter(width)
-    private function get_width() : Float
-    {
-        return _width;
-    }
-	#else
-    override private function get_width() : Float
-    {
-        return _width;
-    }
-	#end
-	
-    #if flash @:setter(height)
-    private function set_height(value : Float) : Void
-    {
-        _height = value;
-        draw();
-    }
-	#else 
-    override private function set_height(value : Float) : Float
-    {
-        _height = value;
-        draw();
-        return value;
-    }
-    #end
-	
-    #if flash @:getter(height)
-    override private function get_height() : Float
-    {
-        return _height;
-    }
-	#else
-    override private function get_height() : Float
-    {
-        return _height;
-    }
-	#end
-
-	
     /**
 	 * Set the menu to being open or closed on roll over
 	 */

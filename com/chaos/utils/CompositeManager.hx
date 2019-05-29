@@ -32,7 +32,7 @@ class CompositeManager
 	 * @return A bitmap based on the size of the display object pasted in
 	 */
     
-    public static function displayObjectToBitmap(currentDisplayObject : DisplayObject, smoothing : Bool = true, widthOffSet : Float = 0, heightOffSet : Float = 0) : Bitmap
+    public static function displayObjectToBitmap(currentDisplayObject : DisplayObject, smoothing : Bool = true, widthOffSet : Float = 0, heightOffSet : Float = 0) : BitmapData
     {
         return cropToSize(currentDisplayObject, smoothing, currentDisplayObject.width + widthOffSet, currentDisplayObject.height + heightOffSet);
     }
@@ -48,20 +48,20 @@ class CompositeManager
 	 * @return A bitmap at the size requested
 	 */
     
-    public static function cropToSize(currentDisplayObject : DisplayObject, smoothing : Bool = true, newWidth : Float = 20, newHeight : Float = 20) : Bitmap
+    public static function cropToSize(currentDisplayObject : DisplayObject, smoothing : Bool = true, newWidth : Float = 20, newHeight : Float = 20) : BitmapData
     {
         
         // Create the size of the image and draw the bitmap
         var testBitmapData : BitmapData = new BitmapData(Std.int(newWidth), Std.int(newHeight), true, 0xFF);
         
         // Turn display object into bitmap
-        testBitmapData.draw(currentDisplayObject);
+        testBitmapData.draw(currentDisplayObject, null, null, null, null, smoothing);
         
 		
         // Create a bitmap based on the image the was
-        var testBitmap : Bitmap = new Bitmap(testBitmapData, "auto", smoothing);
+       // var testBitmap : Bitmap = new Bitmap(testBitmapData, "auto", smoothing);
         
-        return testBitmap;
+        return testBitmapData;
     }
 }
 

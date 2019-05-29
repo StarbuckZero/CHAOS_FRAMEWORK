@@ -364,6 +364,7 @@ class UIStyleManager
     public static var SCROLLBAR_BUTTON_NORMAL_COLOR : Int = -1;
     public static var SCROLLBAR_BUTTON_OVER_COLOR : Int = -1;
     public static var SCROLLBAR_BUTTON_DOWN_COLOR : Int = -1;
+    public static var SCROLLBAR_BUTTON_DISABLE_COLOR : Int = -1;
     
     public static var SCROLLBAR_BUTTON_SIZE : Int = -1;
     

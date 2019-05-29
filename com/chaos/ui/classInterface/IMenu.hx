@@ -3,7 +3,7 @@ package com.chaos.ui.classInterface;
 
 import com.chaos.ui.layout.classInterface.IBaseContainer;
 import com.chaos.ui.layout.classInterface.IFitContainer;
-import openfl.display.Bitmap;
+import openfl.display.BitmapData;
 
 /**
 	 * Interface for menu system
@@ -260,156 +260,87 @@ interface IMenu extends IBaseContainer
 	
     function removeSubMenu() : Void;
     
-    /**
-	 * Set the state based on the URL location.
-	 * @param	strImage The path to the file that will be used
-	 */
+
     
-    function setDefaultStateURL(strImage : String) : Void;
-    
-    /**
-	 * Set the sub menu button state based on the URL location.
-	 * @param	strImage The path to the file that will be used
-	 */
-    
-    function setSubDefaultStateURL(strImage : String) : Void;
     
     /**
 	 * Set the state using bitmap image
-	 * @param	bitmap The image that will be used
+	 * @param	value The image that will be used
 	 */
     
-    function setDefaultStateBitmap(bitmap : Bitmap) : Void;
+    function setDefaultStateImage(value : BitmapData) : Void;
     
     /**
 	 * Set the sub menu state using bitmap image
-	 * @param	bitmap The image that will be used
+	 * @param	value The image that will be used
 	 */
     
-    function setSubDefaultStateBitmap(bitmap : Bitmap) : Void;
+    function setSubDefaultStateImage(value : BitmapData) : Void;
     
-    /**
-	 * Set the state based on the URL location.
-	 * @param	strImage The path to the file that will be used
-	 */
     
-    function setOverStateURL(strImage : String) : Void;
-    
-    /**
-	 * Set the sub menu state based on the URL location.
-	 * @param	strImage The path to the file that will be used
-	 */
-    
-    function setSubOverStateURL(strImage : String) : Void;
     /**
 	 * Set the state using bitmap image
-	 * @param	bitmap The image that will be used
+	 * @param	value The image that will be used
 	 */
     
-    function setOverStateBitmap(bitmap : Bitmap) : Void;
+    function setOverStateImage(value : BitmapData) : Void;
     
     /**
 	 * Set the sub menu state using bitmap image
-	 * @param	bitmap The image that will be used
+	 * @param	value The image that will be used
 	 */
     
-    function setSubOverStateBitmap(bitmap : Bitmap) : Void;
-    /**
-	 * Set the state based on the URL location.
-	 * @param	strImage The path to the file that will be used
-	 */
-    function setDownStateURL(strImage : String) : Void;
-    
-    /**
-	 * Set the sub menu state based on the URL location.
-	 * @param	strImage The path to the file that will be used
-	 */
-    
-    function setSubDownStateURL(strImage : String) : Void;
+    function setSubOverStateImage(value : BitmapData) : Void;
+	
 	
     /**
 	 * Set the state using bitmap image
-	 * @param	bitmap The image that will be used
+	 * @param	value The image that will be used
 	 */
     
-    function setDownStateBitmap(bitmap : Bitmap) : Void;
+    function setDownStateImage(value : BitmapData) : Void;
     
     /**
 	 * Set the sub menu state using bitmap image
-	 * @param	bitmap The image that will be used
+	 * @param	value The image that will be used
 	 */
     
-    function setSubDownStateBitmap(bitmap : Bitmap) : Void;
-	
-    /**
-	 * Set the state based on the URL location.
-	 * @param	strImage The path to the file that will be used
-	 */
-    
-    function setDisableStateURL(strImage : String) : Void;
-    
-    /**
-	 * Set the sub menu state based on the URL location.
-	 * @param	strImage The path to the file that will be used
-	 */
-    
-    function setSubDisableStateURL(strImage : String) : Void;
+    function setSubDownStateImage(value : BitmapData) : Void;
 	
     /**
 	 * Set the state using bitmap image
-	 * @param	bitmap The image that will be used
+	 * @param	value The image that will be used
 	 */
 	
-    function setDisableStateBitmap(bitmap : Bitmap) : Void;
+    function setDisableStateImage(value : BitmapData) : Void;
     
     /**
 	 * Set the sub menu state using bitmap image
-	 * @param	bitmap The image that will be used
+	 * @param	value The image that will be used
 	 */
 	
-    function setSubDisableStateBitmap(bitmap : Bitmap) : Void;
+    function setSubDisableStateImage(value : BitmapData) : Void;
     
-    /**
-	 * Set the icon that will be used based on a URL location.
-	 * @param	strImage The path to the file that will be used.
-	 */
-    
-    function setIconURL(strImage : String) : Void;
     
     /**
 	 * Set the icon that will be used using a bitmap image
-	 * @param	bitmap The bitmap that will be used
+	 * @param	value The bitmap that will be used
 	 */
     
-    function setIconBitmap(bitmap : Bitmap) : Void;
-    
-    /**
-	 * Set the sub menu icon that will be used based on a URL location.
-	 * @param	strImage The path to the file that will be used.
-	 */
-    
-    function setSubIconURL(strImage : String) : Void;
+    function setIcon(value : BitmapData) : Void;
 	
     /**
 	 * Set the sub menu icon that will be used using a bitmap image
-	 * @param	bitmap The bitmap that will be used
+	 * @param	value The bitmap that will be used
 	 */
     
-    function setSubIconBitmap(bitmap : Bitmap) : Void;
-	
-    /**
-	 * The file location of the image that will be used.
-	 *
-	 * @param	fileURL The file location
-	 */
-    
-    function setSubMenuDropDownIconURL(fileURL : String) : Void;
+    function setSubIcon(value : BitmapData) : Void;
     
     /**
 	 * The bitmap that be used for an icon
-	 * @param	bitmap The bitmap that will be used.
+	 * @param	value The bitmap that will be used.
 	 */
     
-    function setSubMenuDropDownIconBitmap(bitmap : Bitmap) : Void;
+    function setSubMenuDropDownIconImage(value : BitmapData) : Void;
 }
 

@@ -7,9 +7,9 @@ package com.chaos.drawing.icon.classInterface;
  * @author Erick Feiling
  */
 
-import com.chaos.media.DisplayImage;
+
 import com.chaos.ui.classInterface.IBaseUI;
-import flash.display.Bitmap;
+import openfl.display.BitmapData;
 
 interface IBasicIcon extends IBaseUI
 {
@@ -59,14 +59,12 @@ interface IBasicIcon extends IBaseUI
 
 
     
-    function loadImage(value : String) : Void;
-    
     /**
 	 * Set a image to be used for the icon
 	 *
 	 * @param	value The bitmap you want touse
 	 */
     
-    function setImage(value : Bitmap) : Void;
+    function setImage(value : BitmapData) : Void;
 }
 

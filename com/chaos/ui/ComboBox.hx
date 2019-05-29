@@ -269,17 +269,17 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 		
 		// Track  
 		if (null != UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_TRACK))
-		_scrollbar.setTrackBitmap(UIBitmapManager.getUIElement(ComboBox.TYPE, UIBitmapManager.SCROLLBAR_TRACK));
+		_scrollbar.setTrackImage(UIBitmapManager.getUIElement(ComboBox.TYPE, UIBitmapManager.SCROLLBAR_TRACK));
 		
 		// Slider  
 		if (null != UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_NORMAL))   
-		_scrollbar.setSliderBitmap(UIBitmapManager.getUIElement(ComboBox.TYPE, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_NORMAL));
+		_scrollbar.setSliderImage(UIBitmapManager.getUIElement(ComboBox.TYPE, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_NORMAL));
 		
 		if (null != UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_OVER))       
-		_scrollbar.setSliderOverBitmap(UIBitmapManager.getUIElement(ComboBox.TYPE, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_OVER));
+		_scrollbar.setSliderOverImage(UIBitmapManager.getUIElement(ComboBox.TYPE, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_OVER));
 		
 		if (null != UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_DOWN)) 
-		_scrollbar.setSliderDownBitmap(UIBitmapManager.getUIElement(ComboBox.TYPE, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_DOWN));
+		_scrollbar.setSliderDownImage(UIBitmapManager.getUIElement(ComboBox.TYPE, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_DOWN));
 		
 		if (null != UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_DISABLE)) 
 		_scrollbar.setButtonDisableBackgroundBitmap(UIBitmapManager.getUIElement(ComboBox.TYPE, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_DISABLE));
@@ -1106,7 +1106,7 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 	*
 	*/
 	
-	public function setSliderBitmap(value : Bitmap) : Void { _scrollbar.setSliderBitmap(value); }  
+	public function setSliderBitmap(value : Bitmap) : Void { _scrollbar.setSliderImage(value); }  
 	
 	/**
 	* Set the scrollbar slider over state using a file path
@@ -1124,7 +1124,7 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 	*
 	*/
 	
-	public function setSliderOverBitmap(value : Bitmap) : Void { _scrollbar.setSliderOverBitmap(value); } 
+	public function setSliderOverBitmap(value : Bitmap) : Void { _scrollbar.setSliderOverImage(value); } 
 	
 	/**
 	* Set the scrollbar slider down state using a file path
@@ -1144,7 +1144,7 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 	
 	public function setSliderDownBitmap(value : Bitmap) : Void 
 	{
-		_scrollbar.setSliderDownBitmap(value); 
+		_scrollbar.setSliderDownImage(value); 
 	}
 	
 	public function setScrollBarTrackImage(value : String) : Void 
@@ -1161,7 +1161,7 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 	
 	public function setScrollBarTrackBitmap(value : Bitmap) : Void
 	{
-		_scrollbar.setTrackBitmap(value); 
+		_scrollbar.setTrackImage(value); 
 	}  
 	
 	/**

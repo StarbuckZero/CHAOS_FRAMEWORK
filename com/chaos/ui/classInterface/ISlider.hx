@@ -1,9 +1,28 @@
 package com.chaos.ui.classInterface;
 
-import openfl.display.Bitmap;
+
+import openfl.display.BitmapData;
+import openfl.display.Shape;
 
 interface ISlider extends com.chaos.ui.classInterface.IBaseUI
 {
+	
+	
+    /**
+	 * This will rotate the image by 90
+	 */ 
+	
+	var track(get, never) : Shape;     
+	
+	
+    /**
+	 * This will rotate the image by 90
+	 */ 
+	
+	var marker(get, never) : IButton;     
+	
+	
+	
     /**
 	 * This will rotate the image by 90
 	 */ 
@@ -74,26 +93,6 @@ interface ISlider extends com.chaos.ui.classInterface.IBaseUI
 	
 	var sliderHeight(get, set) : Float;      
 	
-	/**
-	 * Set the slider track width
-	 */
-	
-	var trackWidth(get, set) : Float;      
-	
-	/**
-	 * Set the slider track height
-	 */
-	
-	var trackHeight(get, set) : Float;
-	
-	/**
-	 * Set the track using a file path
-	 *
-	 * @param value A URL path as a string to the image. Make sure this is one of the formats the version of the Flash player your using supports.
-	 *
-	 */
-	
-	function setTrackImage(value : String) : Void;  
 	
 	/**
 	 * Set a image to the track
@@ -102,16 +101,8 @@ interface ISlider extends com.chaos.ui.classInterface.IBaseUI
 	 *
 	 */  
 	
-	function setTrackBitmap(value : Bitmap) : Void;  
+	function setTrackImage(value : BitmapData) : Void;  
 	
-	/**
-	 * Set the slider default state using a file path
-	 *
-	 * @param value A URL path as a string to the image. Make sure this is one of the formats the version of the Flash player your using supports.
-	 *
-	 */ 
-	
-	function setSliderImage(value : String) : Void;  
 	
 	/**
 	 * Set a image to the slider default state
@@ -120,16 +111,9 @@ interface ISlider extends com.chaos.ui.classInterface.IBaseUI
 	 *
 	 */
 	
-	function setSliderBitmap(value : Bitmap) : Void;  
+	function setSliderImage(value : BitmapData) : Void;  
 	
-	/**
-	 * Set the slider over state using a file path
-	 *
-	 * @param value A URL path as a string to the image. Make sure this is one of the formats the version of the Flash player your using supports.
-	 *
-	 */
-	
-	function setSliderOverImage(value : String) : Void;  
+
 	
 	/**
 	 * Set a image to the scrollbar slider over state
@@ -138,17 +122,9 @@ interface ISlider extends com.chaos.ui.classInterface.IBaseUI
 	 *
 	 */
 	
-	function setSliderOverBitmap(value : Bitmap) : Void; 
+	function setSliderOverImage(value : BitmapData) : Void; 
 	
-	/**
-	 * Set the slider down state using a file path
-	 *
-	 * @param value A URL path as a string to the image. Make sure this is one of the formats the version of the Flash player your using supports.
-	 *
-	 */
-	
-	function setSliderDownImage(value : String) : Void; 
-	
+
 	/**
 	 * Set a image to the slider down state
 	 *
@@ -156,16 +132,9 @@ interface ISlider extends com.chaos.ui.classInterface.IBaseUI
 	 *
 	 */
 	
-	function setSliderDownBitmap(value : Bitmap) : Void; 
+	function setSliderDownImage(value : BitmapData) : Void; 
 	
-	/**
-	 * Set the slider disable state using a file path
-	 *
-	 * @param value A URL path as a string to the image. Make sure this is one of the formats the version of the Flash player your using supports.
-	 *
-	 */
-	
-	function setSliderDisableImage(value : String) : Void;  
+ 
 	
 	/**
 	 * Set a image to the slider disable state
@@ -174,7 +143,7 @@ interface ISlider extends com.chaos.ui.classInterface.IBaseUI
 	 *
 	 */
 	
-	function setSliderDisableBitmap(value : Bitmap) : Void;
+	function setSliderDisableImage(value : BitmapData) : Void;
 	
 	/**
 	 * Stop the slider from moving

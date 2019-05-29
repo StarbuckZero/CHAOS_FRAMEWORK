@@ -176,7 +176,7 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
         
           // Cell
         if (null != UIBitmapManager.getUIElement(GridPane.TYPE, UIBitmapManager.GRIDPANE_CELL_BACKGROUND)) 
-            setCellBackgroundBitmap(UIBitmapManager.getUIElement(GridPane.TYPE, UIBitmapManager.GRIDPANE_CELL_BACKGROUND));
+            setCellBackgroundImage(UIBitmapManager.getUIElement(GridPane.TYPE, UIBitmapManager.GRIDPANE_CELL_BACKGROUND));
     }
     
 	 
@@ -890,7 +890,7 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
 	 * @param	value The bitmap object that will be used
 	 */
     
-    public function setCellBackgroundBitmap(value : BitmapData) : Void
+    public function setCellBackgroundImage(value : BitmapData) : Void
     {
         _cellBackgroundImage = value;
         updateColumnArea();

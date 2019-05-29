@@ -1,21 +1,21 @@
 package com.chaos.ui;
 
 import com.chaos.ui.classInterface.IBaseUI;
+import com.chaos.ui.classInterface.IButton;
 import com.chaos.ui.classInterface.ISlider;
 import com.chaos.utils.ThreadManager;
 import com.chaos.utils.Utils;
 import com.chaos.utils.data.TaskCallBack;
-import openfl.display.Sprite;
+import openfl.display.BitmapData;
+import openfl.display.Shape;
 import openfl.events.MouseEvent;
-import openfl.geom.Matrix;
-import openfl.geom.Point;
 import openfl.geom.Rectangle;
 import openfl.events.Event;
 import openfl.display.Bitmap;
 import com.chaos.ui.Button;
 import com.chaos.ui.event.SliderEvent;
 import com.chaos.ui.ScrollBarDirection;
-import com.chaos.media.DisplayImage;
+
 import com.chaos.ui.UIStyleManager;
 import com.chaos.ui.UIBitmapManager;
 
@@ -28,6 +28,10 @@ import com.chaos.ui.UIBitmapManager;
 
 class Slider extends BaseUI implements ISlider implements IBaseUI
 {
+	
+	/** The type of UI Element */
+	public static inline var TYPE : String = "Slider";
+	
 	public static var sliderEventMode(get, set) : String;
 
 	public var showTrack(get, set) : Bool;
@@ -42,11 +46,10 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 	public var sliderDisableColor(get, set) : Int;
 	public var sliderWidth(get, set) : Float;
 	public var sliderHeight(get, set) : Float;
-	public var trackWidth(get, set) : Float;
-	public var trackHeight(get, set) : Float;
 	
-	/** The type of UI Element */
-	public static inline var TYPE : String = "Slider";
+	public var track(get, never) : Shape;
+	public var marker(get, never) : IButton;
+	
 
 	public static var SLIDER_OFFSET : Float = 0; 
 
@@ -59,8 +62,6 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 	private static var _eventMode : String = EVENT_MODE;
 
 	// elements
-	public var track : Sprite;
-	public var marker : Button;
   
 	private var _trackerColor : Int = 0x999999;
 	private var _sliderNormalColor : Int = 0xCCCCCC;
@@ -72,16 +73,15 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 	private var _mode : String = ScrollBarDirection.VERTICAL;
 	private var _dragging : Bool = false;
 
-	public var trackWidthNum : Float = 15;
-	public var trackHeightNum : Float = 15;
-
+	private var _track : Shape;
+	private var _marker : Button;
+	
 	public var sliderWidthNum : Float = 15;
 	public var sliderHeightNum : Float = 15;
 
 	private var _sliderOffSet : Float = 0;
 
-	private var _displayTrackerImage : Bool = false;
-	private var _trackerImage : DisplayImage;
+	private var _trackerImage : BitmapData;
 	private var _rotateImage : Bool = false;
 
 	private var _threadCallBack:TaskCallBack;
@@ -97,8 +97,8 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
     {
 		super();
 		
-		trackWidthNum = sliderWidth;
-		trackHeightNum = sliderHeight;
+		_width = sliderWidth;
+		_height = sliderHeight;
 		
 		_mode = sliderDirection;
 		_sliderOffSet = SLIDER_OFFSET;
@@ -121,39 +121,36 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 	 */
 	private function init() : Void 
 	{  
-		// Setup image holder for texters 
-		_trackerImage = new DisplayImage();
-		_trackerImage.onImageComplete = trackerImageComplete;
 		
 		// Base for scroll bar  
-		track = new Sprite(); 
+		_track = new Shape(); 
 		
 		// Slider  
-		marker = new Button();
-		marker.width = sliderWidthNum;
-		marker.height = sliderHeightNum;
+		_marker = new Button();
+		_marker.width = sliderWidthNum;
+		_marker.height = sliderHeightNum;
 		
-		marker.showLabel = false;
+		_marker.showLabel = false;
 		
 		initSkin();
 		initStyle();
 		
-		marker.buttonColor = _sliderNormalColor;
-		marker.buttonOverColor = _sliderOverColor;
-		marker.buttonDownColor = _sliderDownColor;
-		marker.buttonDisableColor = _sliderDisableColor;
-		marker.addEventListener(MouseEvent.MOUSE_DOWN, markerPress, false, 0, true);
+		_marker.buttonColor = _sliderNormalColor;
+		_marker.buttonOverColor = _sliderOverColor;
+		_marker.buttonDownColor = _sliderDownColor;
+		_marker.buttonDisableColor = _sliderDisableColor;
+		_marker.addEventListener(MouseEvent.MOUSE_DOWN, markerPress, false, 0, true);
 		
 		_threadCallBack = new TaskCallBack(this, "updatePercent");
 		
 		
 		if (ScrollBarDirection.VERTICAL == _mode) 
-			marker.y = track.y + _sliderOffSet;
+			_marker.y = _track.y + _sliderOffSet;
         else 
-			marker.x = track.x + _sliderOffSet;
+			_marker.x = _track.x + _sliderOffSet;
 			
-		addChild(track);
-		addChild(marker);
+		addChild(_track);
+		addChild(_marker);
 		
 		draw();
     }
@@ -171,51 +168,52 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 	private function initSkin() : Void
 	{
 		if (null != UIBitmapManager.getUIElement(Slider.TYPE, UIBitmapManager.SLIDER_BUTTON_NORMAL))    
-		setSliderBitmap(UIBitmapManager.getUIElement(Slider.TYPE, UIBitmapManager.SLIDER_BUTTON_NORMAL));
+		setSliderImage(UIBitmapManager.getUIElement(Slider.TYPE, UIBitmapManager.SLIDER_BUTTON_NORMAL));
 		
 		if (null != UIBitmapManager.getUIElement(Slider.TYPE, UIBitmapManager.SLIDER_BUTTON_OVER))     
-        setSliderOverBitmap(UIBitmapManager.getUIElement(Slider.TYPE, UIBitmapManager.SLIDER_BUTTON_OVER));
+        setSliderOverImage(UIBitmapManager.getUIElement(Slider.TYPE, UIBitmapManager.SLIDER_BUTTON_OVER));
 		
 		if (null != UIBitmapManager.getUIElement(Slider.TYPE, UIBitmapManager.SLIDER_BUTTON_DOWN))
-		setSliderDownBitmap(UIBitmapManager.getUIElement(Slider.TYPE, UIBitmapManager.SLIDER_BUTTON_DOWN));
+		setSliderDownImage(UIBitmapManager.getUIElement(Slider.TYPE, UIBitmapManager.SLIDER_BUTTON_DOWN));
 		
 		if (null != UIBitmapManager.getUIElement(Slider.TYPE, UIBitmapManager.SLIDER_BUTTON_DISABLE))  
-		setSliderDisableBitmap(UIBitmapManager.getUIElement(Slider.TYPE, UIBitmapManager.SLIDER_BUTTON_DISABLE));
+		setSliderDisableImage(UIBitmapManager.getUIElement(Slider.TYPE, UIBitmapManager.SLIDER_BUTTON_DISABLE));
 		
 		if (null != UIBitmapManager.getUIElement(Slider.TYPE, UIBitmapManager.SLIDER_TRACK))     
-        setTrackBitmap(UIBitmapManager.getUIElement(Slider.TYPE, UIBitmapManager.SLIDER_TRACK));
+        setTrackImage(UIBitmapManager.getUIElement(Slider.TYPE, UIBitmapManager.SLIDER_TRACK));
 		
     }
 	
 	private function initStyle() : Void 
 	{
 		if ( -1 != UIStyleManager.SLIDER_NORMAL_COLOR)    
-		sliderColor = UIStyleManager.SLIDER_NORMAL_COLOR;
+			sliderColor = UIStyleManager.SLIDER_NORMAL_COLOR;
 		
 		if ( -1 != UIStyleManager.SLIDER_OVER_COLOR)       
-		sliderOverColor = UIStyleManager.SLIDER_OVER_COLOR;
+			sliderOverColor = UIStyleManager.SLIDER_OVER_COLOR;
 		
 		if ( -1 != UIStyleManager.SLIDER_DOWN_COLOR)   
-		sliderDownColor = UIStyleManager.SLIDER_DOWN_COLOR;
+			sliderDownColor = UIStyleManager.SLIDER_DOWN_COLOR;
 		
 		if ( -1 != UIStyleManager.SLIDER_DISABLE_COLOR)      
-		sliderDisableColor = UIStyleManager.SLIDER_DISABLE_COLOR;
+			sliderDisableColor = UIStyleManager.SLIDER_DISABLE_COLOR;
 		
 		if ( -1 != UIStyleManager.SLIDER_SIZE)        
-		sliderWidth = sliderHeightNum = UIStyleManager.SLIDER_SIZE;
+			sliderWidth = sliderHeightNum = UIStyleManager.SLIDER_SIZE;
 		
 		if ( -1 != UIStyleManager.SLIDER_TRACK_SIZE)  
-		trackHeightNum = trackWidth = UIStyleManager.SLIDER_TRACK_SIZE;
+			_width = _height = UIStyleManager.SLIDER_TRACK_SIZE;
 		
 		if ( -1 != UIStyleManager.SLIDER_TRACK_COLOR)    
-		trackColor = UIStyleManager.SLIDER_TRACK_COLOR;
+			trackColor = UIStyleManager.SLIDER_TRACK_COLOR;
 		
 		if ( -1 != UIStyleManager.SLIDER_OFFSET)      
-		SLIDER_OFFSET = UIStyleManager.SLIDER_OFFSET; 
+			SLIDER_OFFSET = UIStyleManager.SLIDER_OFFSET; 
 		
 		rotateImage = UIStyleManager.SLIDER_ROTATE_IMAGE;
-		
     } 
+	
+	
 	
 	/**
 	 * Set the mode that is being used once user click on slider. Use Slider.EVENT_MODE or Slider.TIMER_MODE
@@ -234,73 +232,25 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 		return _eventMode;
     }
 	
+	private function get_marker():IButton
+	{
+		return _marker;
+	}
 	
-	#if flash @:setter(width) 
-	override private function set_width(value : Float) : Void
+	private function get_track():Shape
 	{
-		trackWidthNum = value;
-		draw();
-    }
-	#else
-	override private function set_width(value : Float) : Float
-	{
-		trackWidthNum = value;
-		draw();
-		
-        return value;
-    }	
-	#end
+		return _track;
+	}
 	
 	
-	#if flash @:getter(width) 
-	private function get_width() : Float
-	{
-		return trackWidthNum;
-    }
-	#else
-	override private function get_width() : Float
-	{
-		return trackWidthNum;
-    }
-	#end
-	
-	
-	
-	#if flash @:setter(height) 
-	override private function set_height(value : Float) : Void
-	{
-		trackHeightNum = value;
-		draw();
-    }
-	#else
-	override private function set_height(value : Float) : Float 
-	{
-		trackHeightNum = value;
-		draw();
-		
-        return value;
-    }
-	#end
-	
-	#if flash @:getter(height) 
-	override private function get_height() : Float
-	{
-		return trackHeightNum;
-    }
-	#else
-	override private function get_height() : Float
-	{
-		return trackHeightNum;
-    }
-	#end
-	
+
 	/**
 	 * Hides or show the track for the slider bar
 	 */
 	
 	private function set_showTrack(value : Bool) : Bool 
 	{
-		track.visible = value;
+		_track.visible = value;
 		
 		return value; 
 	}  
@@ -311,7 +261,7 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 	
 	private function get_showTrack() : Bool 
 	{
-		return track.visible;
+		return _track.visible;
 	}
 	
 	
@@ -365,11 +315,13 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 		
 		if (ScrollBarDirection.VERTICAL == _mode) 
 		{
-			marker.y = track.y + percentage * (track.height - marker.height);marker.x = track.x + _sliderOffSet;
+			_marker.y = _track.y + percentage * (_track.height - _marker.height);
+			_marker.x = _track.x + _sliderOffSet;
         }
         else 
 		{
-			marker.x = track.x + percentage * (track.width - marker.width);marker.y = track.y + _sliderOffSet;
+			_marker.x = _track.x + percentage * (_track.width - _marker.width);
+			_marker.y = _track.y + _sliderOffSet;
         }
 		
 		dispatchEvent(new SliderEvent(SliderEvent.CHANGE, percentage));
@@ -421,7 +373,7 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 	
 	override private function set_enabled(value : Bool) : Bool
 	{
-		super.enabled = marker.visible = _enabled = value;
+		super.enabled = _marker.visible = _enabled = value;
 		this.draw();
 		
         return value;
@@ -451,7 +403,7 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 	 */
 	private function set_sliderColor(value : Int) : Int
 	{
-		marker.buttonColor = _sliderNormalColor = value;
+		_marker.buttonColor = _sliderNormalColor = value;
         return value;
     } 
 	
@@ -469,7 +421,7 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 	 */ 
 	private function set_sliderOverColor(value : Int) : Int
 	{
-		marker.buttonOverColor = _sliderOverColor = value;
+		_marker.buttonOverColor = _sliderOverColor = value;
         return value;
     }
 	
@@ -488,7 +440,7 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 	
 	private function set_sliderDownColor(value : Int) : Int
 	{
-		marker.buttonDownColor = _sliderDownColor = value;
+		_marker.buttonDownColor = _sliderDownColor = value;
         return value;
     }
 	
@@ -505,7 +457,7 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 	 */
 	private function set_sliderDisableColor(value : Int) : Int
 	{
-		marker.buttonDisableColor = _sliderDisableColor = value;
+		_marker.buttonDisableColor = _sliderDisableColor = value;
         return value;
     } 
 	
@@ -527,11 +479,11 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 		if (ScrollBarDirection.VERTICAL == _mode)
 		{
 			
-			marker.height = sliderHeightNum;
-			marker.width = sliderWidthNum;
+			_marker.height = sliderHeightNum;
+			_marker.width = sliderWidthNum;
 		}
         else
-			marker.width = sliderWidthNum;
+			_marker.width = sliderWidthNum;
 		
 		draw();
 		
@@ -556,12 +508,12 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 		
 		if (ScrollBarDirection.VERTICAL == _mode) 
 		{
-			marker.height = sliderHeightNum;
-			marker.width = sliderWidthNum;
+			_marker.height = sliderHeightNum;
+			_marker.width = sliderWidthNum;
         }
         else 
 		{
-			marker.height = sliderHeightNum;
+			_marker.height = sliderHeightNum;
         }
 		
 		draw();
@@ -578,58 +530,8 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 		return sliderHeightNum;
     } 
 	
-	/**
-	 * Set the slider track width
-	 */
-	
-	private function set_trackWidth(value : Float) : Float 
-	{
-		trackWidthNum = value;
-		this.draw();
-		
-        return value;
-    } 
-	
-	/**
-	 * Returns the slider track width
-	 */
-	
-	private function get_trackWidth() : Float
-	{
-		return trackWidthNum;
-    } 
-	
-	/**
-	 * Set the slider track height
-	 */
-	
-	private function set_trackHeight(value : Float) : Float 
-	{
-		trackHeightNum = value;
-		draw();
-		
-        return value;
-    }
-	
-	/**
-	 * Returns the slider track height
-	 */
-	private function get_trackHeight() : Float 
-	{
-		return trackHeightNum;
-    } 
-	
-	/**
-	 * Set the track using a file path
-	 *
-	 * @param value A URL path as a string to the image. Make sure this is one of the formats the version of the Flash player your using supports.
-	 *
-	 */
-	
-	public function setTrackImage(value : String) : Void 
-	{
-		_trackerImage.load(value);
-    }
+
+
 	
 	/**
 	 * Set a image to the track
@@ -638,24 +540,14 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 	 *
 	 */
 	
-	public function setTrackBitmap(value : Bitmap) : Void
+	public function setTrackImage(value : BitmapData) : Void
 	{
-		_trackerImage.setImage(value);
-		_displayTrackerImage = true;
+		_trackerImage = value;
 		
 		draw();
     }
 	
-	/**
-	 * Set the slider default state using a file path
-	 *
-	 * @param value A URL path as a string to the image. Make sure this is one of the formats the version of the Flash player your using supports.
-	 *
-	 */ 
-	public function setSliderImage(value : String) : Void
-	{
-		marker.setBackgroundImage(value);
-    }  
+
 	
 	/**
 	 * Set a image to the slider default state
@@ -664,22 +556,12 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 	 *
 	 */
 	
-	public function setSliderBitmap(value : Bitmap) : Void 
+	public function setSliderImage(value : BitmapData) : Void 
 	{
-		marker.setDefaultStateBitmap(value);
+		_marker.setDefaultStateImage(value);
     } 
 	
-	/**
-	 * Set the slider over state using a file path
-	 *
-	 * @param value A URL path as a string to the image. Make sure this is one of the formats the version of the Flash player your using supports.
-	 *
-	 */
-	
-	public function setSliderOverImage(value : String) : Void
-	{
-		marker.setOverBackgroundImage(value);
-    }
+
 	
 	/**
 	 * Set a image to the scrollbar slider over state
@@ -688,22 +570,12 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 	 *
 	 */
 	
-	public function setSliderOverBitmap(value : Bitmap) : Void
+	public function setSliderOverImage(value : BitmapData) : Void
 	{
-		marker.setOverStateImage(value);
+		_marker.setOverStateImage(value);
     }
 	
-	/**
-	 * Set the slider down state using a file path
-	 *
-	 * @param value A URL path as a string to the image. Make sure this is one of the formats the version of the Flash player your using supports.
-	 *
-	 */
-	
-	public function setSliderDownImage(value : String) : Void
-	{
-		marker.setDownBackgroundImage(value);
-    }
+
 	
 	/**
 	 * Set a image to the slider down state
@@ -712,22 +584,12 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 	 *
 	 */ 
 	
-	public function setSliderDownBitmap(value : Bitmap) : Void 
+	public function setSliderDownImage(value : BitmapData) : Void 
 	{
-		marker.setDownStateImage(value);
+		_marker.setDownStateImage(value);
     }  
 	
-	/**
-	 * Set the slider disable state using a file path
-	 *
-	 * @param value A URL path as a string to the image. Make sure this is one of the formats the version of the Flash player your using supports.
-	 *
-	 */ 
-	
-	public function setSliderDisableImage(value : String) : Void 
-	{
-		marker.setDisableBackgroundImage(value);
-    }
+
 	
 	/**
 	 * Set a image to the slider disable state
@@ -736,9 +598,9 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 	 *
 	 */
 	
-	public function setSliderDisableBitmap(value : Bitmap) : Void
+	public function setSliderDisableImage(value : BitmapData) : Void
 	{
-		marker.setDisableStateImage(value);
+		_marker.setDisableStateImage(value);
     }
 	
 
@@ -754,7 +616,7 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 			// Flag for dragging
 			_dragging = false;
 			
-			marker.stopDrag();
+			_marker.stopDrag();
 			
 			stage.removeEventListener(MouseEvent.MOUSE_MOVE, updatePercent);
 			stage.removeEventListener(MouseEvent.MOUSE_UP, stopSliding);
@@ -768,7 +630,7 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 	{
 		// Flag for dragging
 		_dragging = false;
-		marker.stopDrag();
+		_marker.stopDrag();
 		stage.removeEventListener(MouseEvent.MOUSE_MOVE, updatePercent);
 		stage.removeEventListener(MouseEvent.MOUSE_UP, stopSliding);
 		
@@ -780,12 +642,12 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 	private function updatePercent(event : MouseEvent = null) : Void
 	{
 		if (null != event)
-		event.updateAfterEvent();
+			event.updateAfterEvent();
 		
 		if (ScrollBarDirection.VERTICAL == _mode)
-			percentage = Math.round((marker.y - track.y) / (track.height - marker.height) * 100) / 100;
+			percentage = Math.round((_marker.y - _track.y) / (_track.height - _marker.height) * 100) / 100;
         else 
-			percentage = Math.round((marker.x - track.x) / (track.width - marker.width) * 100) / 100;
+			percentage = Math.round((_marker.x - _track.x) / (_track.width - _marker.width) * 100) / 100;
 		
 		dispatchEvent(new SliderEvent(SliderEvent.CHANGE, percentage));
     } 
@@ -797,9 +659,9 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 		_dragging = true;
 		
 		if (ScrollBarDirection.VERTICAL == _mode)
-			marker.startDrag(false, new Rectangle(_sliderOffSet, track.y, 0, (trackHeightNum - sliderHeightNum)))
+			_marker.startDrag(false, new Rectangle(_sliderOffSet, _track.y, 0, (_height - sliderHeightNum)))
         else
-			marker.startDrag(false, new Rectangle(track.x, _sliderOffSet, (trackWidthNum - sliderWidthNum), 0));
+			_marker.startDrag(false, new Rectangle(_track.x, _sliderOffSet, (_width - sliderWidthNum), 0));
 		
 		if (_eventMode == TIMER_MODE)
 			ThreadManager.addEventTimer(_threadCallBack);
@@ -816,22 +678,22 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 	override public function draw() : Void
 	{
 		super.draw();
-		track.graphics.clear();
+		_track.graphics.clear();
 		
-		if (_displayTrackerImage && _showImage) 
+		if (_trackerImage != null && _showImage) 
 		{
 			if (ScrollBarDirection.VERTICAL == _mode) 
-				track.graphics.beginBitmapFill(_trackerImage.image.bitmapData, null, true, _smoothImage);
+				_track.graphics.beginBitmapFill(_trackerImage, null, true, _smoothImage);
             else 
-				track.graphics.beginBitmapFill(_trackerImage.image.bitmapData, ((_rotateImage)) ? Utils.matrixRotate(_trackerImage, 90) : null, true, _smoothImage);
+				_track.graphics.beginBitmapFill(_trackerImage, ((_rotateImage)) ? Utils.matrixRotate(new Bitmap(_trackerImage), 90) : null, true, _smoothImage);
         }
         else 
 		{
-			track.graphics.beginFill(_trackerColor, 1);
+			_track.graphics.beginFill(_trackerColor, 1);
         }
 		
-		track.graphics.drawRect(0, 0, trackWidthNum, trackHeightNum);
-		track.graphics.endFill();
+		_track.graphics.drawRect(0, 0, _width, _height);
+		_track.graphics.endFill();
 		
 		// This updates the slider bar
 		percent = percentage;
@@ -846,13 +708,9 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 	private function removeStageListener(event : Event) : Void
 	{
 		stage.removeEventListener(MouseEvent.MOUSE_UP, stopSliding);
-		marker.removeEventListener(MouseEvent.MOUSE_DOWN, markerPress);
+		_marker.removeEventListener(MouseEvent.MOUSE_DOWN, markerPress);
 		stage.removeEventListener(MouseEvent.MOUSE_MOVE, updatePercent);
     }
 	
-	private function trackerImageComplete(event : Event) : Void
-	{
-		_displayTrackerImage = true;
-		draw();
-    }
+
 }

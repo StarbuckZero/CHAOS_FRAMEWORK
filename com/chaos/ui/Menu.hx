@@ -6,6 +6,7 @@ import com.chaos.ui.classInterface.IMenu;
 import com.chaos.ui.classInterface.IMenuItem;
 import com.chaos.ui.layout.classInterface.IBaseContainer;
 import com.chaos.ui.layout.classInterface.IFitContainer;
+import openfl.display.BitmapData;
 
 import com.chaos.data.DataProvider;
 import com.chaos.media.DisplayImage;
@@ -22,7 +23,7 @@ import openfl.display.Sprite;
 import openfl.display.Bitmap;
 import openfl.events.Event;
 import openfl.events.MouseEvent;
-import openfl.text.Font;
+
 
 /**
 	 * Creates an menu system
@@ -82,15 +83,15 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
     //NOTE: Build out something for overlay layer in buttons
     //private var _smoothImage : Bool = true;
     
-    private var _normalDisplayImage : DisplayImage = new DisplayImage();
-    private var _overDisplayImage : DisplayImage = new DisplayImage();
-    private var _downDisplayImage : DisplayImage = new DisplayImage();
-    private var _disableDisplayImage : DisplayImage = new DisplayImage();
+    private var _normalDisplayImage : BitmapData;
+    private var _overDisplayImage : BitmapData;
+    private var _downDisplayImage : BitmapData;
+    private var _disableDisplayImage : BitmapData;
     
-    private var _normalSubDisplayImage : DisplayImage = new DisplayImage();
-    private var _overSubDisplayImage : DisplayImage = new DisplayImage();
-    private var _downSubDisplayImage : DisplayImage = new DisplayImage();
-    private var _disableSubDisplayImage : DisplayImage = new DisplayImage();
+    private var _normalSubDisplayImage : BitmapData;
+    private var _overSubDisplayImage : BitmapData;
+    private var _downSubDisplayImage : BitmapData;
+    private var _disableSubDisplayImage : BitmapData;
     
     private var _normalFillColor : Int = 0xFFFFFF;
     private var _overFillColor : Int = 0x666666;
@@ -132,10 +133,10 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
     
     private var _showSubMenuIcon : Bool = false;
     
-    private var _icon : DisplayImage = new DisplayImage();
-    private var _subIcon : DisplayImage = new DisplayImage();
+    private var _icon : BitmapData;
+    private var _subIcon : BitmapData;
     
-    private var _subMenuDisplayImage : DisplayImage = new DisplayImage();  // Icon to display because there is a sub menu  
+    private var _subMenuDisplayImage : BitmapData;
     
     private var _alpha : Float = 1;
     private var _lineAlpha : Float = 1;
@@ -311,39 +312,39 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
         
           // UI Skinning
         if (null != UIBitmapManager.getUIElement(Menu.TYPE, UIBitmapManager.MENU_BUTTON_NORMAL)) 
-            setDefaultStateBitmap(UIBitmapManager.getUIElement(Menu.TYPE, UIBitmapManager.MENU_BUTTON_NORMAL));
+            setDefaultStateImage(UIBitmapManager.getUIElement(Menu.TYPE, UIBitmapManager.MENU_BUTTON_NORMAL));
         
         if (null != UIBitmapManager.getUIElement(Menu.TYPE, UIBitmapManager.MENU_BUTTON_OVER)) 
-            setOverStateBitmap(UIBitmapManager.getUIElement(Menu.TYPE, UIBitmapManager.MENU_BUTTON_OVER));
+            setOverStateImage(UIBitmapManager.getUIElement(Menu.TYPE, UIBitmapManager.MENU_BUTTON_OVER));
         
         if (null != UIBitmapManager.getUIElement(Menu.TYPE, UIBitmapManager.MENU_BUTTON_DOWN)) 
-            setDownStateBitmap(UIBitmapManager.getUIElement(Menu.TYPE, UIBitmapManager.MENU_BUTTON_DOWN));
+            setDownStateImage(UIBitmapManager.getUIElement(Menu.TYPE, UIBitmapManager.MENU_BUTTON_DOWN));
         
         if (null != UIBitmapManager.getUIElement(Menu.TYPE, UIBitmapManager.MENU_BUTTON_DISABLE)) 
-            setDisableStateBitmap(UIBitmapManager.getUIElement(Menu.TYPE, UIBitmapManager.MENU_BUTTON_DISABLE));
+            setDisableStateImage(UIBitmapManager.getUIElement(Menu.TYPE, UIBitmapManager.MENU_BUTTON_DISABLE));
         
         if (null != UIBitmapManager.getUIElement(Menu.TYPE, UIBitmapManager.MENU_BUTTON_ICON)) 
-            setIconBitmap(UIBitmapManager.getUIElement(Menu.TYPE, UIBitmapManager.MENU_BUTTON_ICON));
+            setIcon(UIBitmapManager.getUIElement(Menu.TYPE, UIBitmapManager.MENU_BUTTON_ICON));
         
         if (null != UIBitmapManager.getUIElement(Menu.TYPE, UIBitmapManager.MENU_BUTTON_SUB_MENU_DROPDOWN)) 
-            setSubMenuDropDownIconBitmap(UIBitmapManager.getUIElement(Menu.TYPE, UIBitmapManager.MENU_BUTTON_SUB_MENU_DROPDOWN));
+            setSubMenuDropDownIconImage(UIBitmapManager.getUIElement(Menu.TYPE, UIBitmapManager.MENU_BUTTON_SUB_MENU_DROPDOWN));
         
         
           // UI Sub Menu Skinning
         if (null != UIBitmapManager.getUIElement(Menu.TYPE, UIBitmapManager.MENU_SUB_BUTTON_NORMAL)) 
-            setSubDefaultStateBitmap(UIBitmapManager.getUIElement(Menu.TYPE, UIBitmapManager.MENU_SUB_BUTTON_NORMAL));
+            setSubDefaultStateImage(UIBitmapManager.getUIElement(Menu.TYPE, UIBitmapManager.MENU_SUB_BUTTON_NORMAL));
         
         if (null != UIBitmapManager.getUIElement(Menu.TYPE, UIBitmapManager.MENU_SUB_BUTTON_OVER)) 
-            setSubOverStateBitmap(UIBitmapManager.getUIElement(Menu.TYPE, UIBitmapManager.MENU_SUB_BUTTON_OVER));
+            setSubOverStateImage(UIBitmapManager.getUIElement(Menu.TYPE, UIBitmapManager.MENU_SUB_BUTTON_OVER));
         
         if (null != UIBitmapManager.getUIElement(Menu.TYPE, UIBitmapManager.MENU_SUB_BUTTON_DOWN)) 
-            setSubDownStateBitmap(UIBitmapManager.getUIElement(Menu.TYPE, UIBitmapManager.MENU_SUB_BUTTON_DOWN));
+            setSubDownStateImage(UIBitmapManager.getUIElement(Menu.TYPE, UIBitmapManager.MENU_SUB_BUTTON_DOWN));
         
         if (null != UIBitmapManager.getUIElement(Menu.TYPE, UIBitmapManager.MENU_SUB_BUTTON_DISABLE)) 
-            setSubDisableStateBitmap(UIBitmapManager.getUIElement(Menu.TYPE, UIBitmapManager.MENU_SUB_BUTTON_DISABLE));
+            setSubDisableStateImage(UIBitmapManager.getUIElement(Menu.TYPE, UIBitmapManager.MENU_SUB_BUTTON_DISABLE));
         
         if (null != UIBitmapManager.getUIElement(Menu.TYPE, UIBitmapManager.MENU_SUB_BUTTON_ICON)) 
-            setSubIconBitmap(UIBitmapManager.getUIElement(Menu.TYPE, UIBitmapManager.MENU_SUB_BUTTON_ICON));
+            setSubIcon(UIBitmapManager.getUIElement(Menu.TYPE, UIBitmapManager.MENU_SUB_BUTTON_ICON));
     }
     
     private function init() : Void
@@ -1029,220 +1030,125 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
         return _subThinkness;
     }
     
-    /**
-	 * Set the state based on the URL location.
-	 * @param	strImage The path to the file that will be used
-	 */
-    
-    public function setDefaultStateURL(strImage : String) : Void
-    {
-        _normalDisplayImage.onImageComplete = function() : Void
-		{
-			_normalDisplayImage.onImageComplete = null;
-			
-			draw();
-		};
-        
-        _normalDisplayImage.load(strImage);
-    }
-    
-    
-    /**
-	 * Set the sub menu button state based on the URL location.
-	 * @param	strImage The path to the file that will be used
-	 */
-    
-    public function setSubDefaultStateURL(strImage : String) : Void
-    {
-        _normalSubDisplayImage.onImageComplete = function() : Void
-		{
-			_normalSubDisplayImage.onImageComplete = null;
-			draw();
-		};
-        
-        _normalSubDisplayImage.load(strImage);
-    }
+
     
     /**
 	 * Set the state using bitmap image
-	 * @param	bitmap The image that will be used
+	 * @param	value The image that will be used
 	 */
 	
-    public function setDefaultStateBitmap(bitmap : Bitmap) : Void
+    public function setDefaultStateImage(value : BitmapData) : Void
     {
-        _normalDisplayImage.setImage(bitmap);
+        _normalDisplayImage = value;
     }
     
     /**
 	 * Set the sub menu state using bitmap image
-	 * @param	bitmap The image that will be used
+	 * @param	value The image that will be used
 	 */
 	
-    public function setSubDefaultStateBitmap(bitmap : Bitmap) : Void
+    public function setSubDefaultStateImage(value : BitmapData) : Void
     {
-        _normalSubDisplayImage.setImage(bitmap);
+        _normalSubDisplayImage = value;
+    }
+    
+
+    
+    
+    /**
+	 * Set the state using bitmap image
+	 * @param	value The image that will be used
+	 */
+    
+    public function setOverStateImage(value : BitmapData) : Void
+    {
+        _overDisplayImage = value;
     }
     
     /**
-	 * Set the state based on the URL location.
-	 * @param	strImage The path to the file that will be used
+	 * Set the sub menu state using bitmap image
+	 * @param	value The image that will be used
 	 */
     
-    public function setOverStateURL(strImage : String) : Void
+    public function setSubOverStateImage(value : BitmapData) : Void
     {
-        _overDisplayImage.onImageComplete = function() : Void
-		{
-			_overDisplayImage.onImageComplete = null;
-			draw();
-		};
-		
-        _overDisplayImage.load(strImage);
-    }
-    
-    /**
-	 * Set the sub menu state based on the URL location.
-	 * @param	strImage The path to the file that will be used
-	 */
-    
-    public function setSubOverStateURL(strImage : String) : Void
-    {
-        _overSubDisplayImage.onImageComplete = function() : Void
-		{
-			_overSubDisplayImage.onImageComplete = null;
-			draw();
-		};
-        
-        _overSubDisplayImage.load(strImage);
+        _overSubDisplayImage = value;
     }
     
     
     /**
 	 * Set the state using bitmap image
-	 * @param	bitmap The image that will be used
+	 * @param	value The image that will be used
 	 */
     
-    public function setOverStateBitmap(bitmap : Bitmap) : Void
+    public function setDownStateImage(value : BitmapData) : Void
     {
-        _overDisplayImage.setImage(bitmap);
+        _downDisplayImage = value;
     }
     
     /**
 	 * Set the sub menu state using bitmap image
-	 * @param	bitmap The image that will be used
+	 * @param	value The image that will be used
 	 */
     
-    public function setSubOverStateBitmap(bitmap : Bitmap) : Void
+    public function setSubDownStateImage(value : BitmapData) : Void
     {
-        _overSubDisplayImage.setImage(bitmap);
-    }
-    
-    /**
-	 * Set the state based on the URL location.
-	 * @param	strImage The path to the file that will be used
-	 */
-    
-    public function setDownStateURL(strImage : String) : Void
-    {
-        _downDisplayImage.onImageComplete = function() : Void
-		{
-			_downDisplayImage.onImageComplete = null;
-			draw();
-		};
-        
-        _downDisplayImage.load(strImage);
-    }
-    
-    /**
-	 * Set the sub menu state based on the URL location.
-	 * @param	strImage The path to the file that will be used
-	 */
-    
-    public function setSubDownStateURL(strImage : String) : Void
-    {
-        _downSubDisplayImage.onImageComplete = function() : Void
-		{
-			_downDisplayImage.onImageComplete = null;
-			draw();
-		};
-        
-        _downSubDisplayImage.load(strImage);
+        _downSubDisplayImage = value;
     }
     
     
     /**
 	 * Set the state using bitmap image
-	 * @param	bitmap The image that will be used
+	 * @param	value The image that will be used
 	 */
     
-    public function setDownStateBitmap(bitmap : Bitmap) : Void
+    public function setDisableStateImage(value : BitmapData) : Void
     {
-        _downDisplayImage.setImage(bitmap);
+        _disableDisplayImage = value;
     }
     
     /**
 	 * Set the sub menu state using bitmap image
-	 * @param	bitmap The image that will be used
+	 * @param	value The image that will be used
 	 */
     
-    public function setSubDownStateBitmap(bitmap : Bitmap) : Void
+    public function setSubDisableStateImage(value : BitmapData) : Void
     {
-        _downSubDisplayImage.setImage(bitmap);
-    }
-    
-    
-    /**
-	 * Set the state based on the URL location.
-	 * @param	strImage The path to the file that will be used
-	 */
-    
-    public function setDisableStateURL(strImage : String) : Void
-    {
-        _disableDisplayImage.onImageComplete = function() : Void
-		{
-			_disableDisplayImage.onImageComplete = null;
-			draw();
-		};
-		
-        _disableDisplayImage.load(strImage);
+        _disableSubDisplayImage = value;
     }
     
     /**
-	 * Set the sub menu state based on the URL location.
-	 * @param	strImage The path to the file that will be used
+	 * For buttons with sub menus. The bitmap image that be used for an icon.
+	 * @param	value The bitmap that will be used.
 	 */
     
-    public function setSubDisableStateURL(strImage : String) : Void
+    public function setSubMenuDropDownIconImage(value : BitmapData) : Void
     {
-        _disableSubDisplayImage.onImageComplete = function() : Void
-		{
-			_disableSubDisplayImage.onImageComplete = null;
-			draw();
-		};
-		
-        _disableSubDisplayImage.load(strImage);
-    }
-    
-    
+        _subMenuDisplayImage = value;
+    }	
+	
     /**
-	 * Set the state using bitmap image
-	 * @param	bitmap The image that will be used
+	 * Set the icon that will be used using a bitmap image
+	 * @param	value The bitmap that will be used
 	 */
     
-    public function setDisableStateBitmap(bitmap : Bitmap) : Void
+    public function setIcon(value : BitmapData) : Void
     {
-        _disableDisplayImage.setImage(bitmap);
+        _icon = value;
+        draw();
     }
     
     /**
-	 * Set the sub menu state using bitmap image
-	 * @param	bitmap The image that will be used
+	 * Set the sub menu icon that will be used using a bitmap image
+	 * @param	value The bitmap that will be used
 	 */
     
-    public function setSubDisableStateBitmap(bitmap : Bitmap) : Void
+    public function setSubIcon(value : BitmapData) : Void
     {
-        _disableSubDisplayImage.setImage(bitmap);
-    }
-    
+        _subIcon.setImage(value);
+        draw();
+    }	
+	
     /**
 	 * Turn on and off image smoothing
 	 */
@@ -1262,61 +1168,8 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
         return _smoothImage;
     }
     
-    /**
-	 * Set the icon that will be used based on a URL location.
-	 * @param	strImage The path to the file that will be used.
-	 */
     
-    public function setIconURL(strImage : String) : Void
-    {
-        _icon.onImageComplete = function() : Void
-		{
-			_icon.onImageComplete = null;
-			draw();
-		};
-        
-        _icon.load(strImage);
-    }
-    
-    
-    /**
-	 * Set the icon that will be used using a bitmap image
-	 * @param	bitmap The bitmap that will be used
-	 */
-    
-    public function setIconBitmap(bitmap : Bitmap) : Void
-    {
-        _icon.setImage(bitmap);
-        draw();
-    }
-    
-    /**
-	 * Set the sub menu icon that will be used based on a URL location.
-	 * @param	strImage The path to the file that will be used.
-	 */
-    
-    public function setSubIconURL(strImage : String) : Void
-    {
-        _subIcon.onImageComplete = function() : Void
-                {
-                    _subIcon.onImageComplete = null;
-                    draw();
-                };
-        
-        _subIcon.load(strImage);
-    }
-    
-    
-    /**
-	 * Set the sub menu icon that will be used using a bitmap image
-	 * @param	bitmap The bitmap that will be used
-	 */
-    
-    public function setSubIconBitmap(bitmap : Bitmap) : Void
-    {
-        _subIcon.setImage(bitmap);
-        draw();
-    }
+
     
     /**
 	 * Show or hide the Sub menu icon for button
@@ -1339,33 +1192,9 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
         return _showSubMenuIcon;
     }
     
-    /**
-	 * For buttons with sub menus. The file location of the image that will be used.
-	 * 
-	 * @param	fileURL The file location
-	 */
+
     
-    public function setSubMenuDropDownIconURL(fileURL : String) : Void
-    {
-        
-        _subMenuDisplayImage.onImageComplete = function() : Void
-                {
-                    _subMenuDisplayImage.onImageComplete = null;
-                    draw();
-                };
-        
-        _subMenuDisplayImage.load(fileURL);
-    }
-    
-    /**
-	 * For buttons with sub menus. The bitmap that be used for an icon.
-	 * @param	bitmap The bitmap that will be used.
-	 */
-    
-    public function setSubMenuDropDownIconBitmap(bitmap : Bitmap) : Void
-    {
-        _subMenuDisplayImage.setImage(bitmap);
-    }
+
     
     override public function draw() : Void
     {
@@ -1722,23 +1551,23 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
         
         menu.smoothImage = _smoothImage;
         
-        if (_normalDisplayImage.image != null) 
-            menu.setDefaultStateBitmap(_normalDisplayImage.image);
+        if (_normalDisplayImage != null) 
+            menu.setDefaultStateBitmap(_normalDisplayImage);
         
-        if (_overDisplayImage.image != null) 
-            menu.setOverStateBitmap(_overDisplayImage.image);
+        if (_overDisplayImage != null) 
+            menu.setOverStateBitmap(_overDisplayImage);
         
-        if (_downDisplayImage.image != null) 
-            menu.setDownStateBitmap(_downDisplayImage.image);
+        if (_downDisplayImage != null) 
+            menu.setDownStateBitmap(_downDisplayImage);
         
-        if (_disableDisplayImage.image != null) 
-            menu.setDisableStateBitmap(_disableDisplayImage.image);
+        if (_disableDisplayImage != null) 
+            menu.setDisableStateBitmap(_disableDisplayImage);
         
-        if (_icon.image != null) 
-            menu.setIconBitmap(_icon.image);
+        if (_icon != null) 
+            menu.setIconBitmap(_icon);
         
-        if (_subMenuDisplayImage.image != null) 
-            menu.setSubMenuBitmap(_subMenuDisplayImage.image);
+        if (_subMenuDisplayImage != null) 
+            menu.setSubMenuBitmap(_subMenuDisplayImage);
     }
     
     private function styleSubMenuButton(menu : IMenuItem) : Void
@@ -1765,23 +1594,23 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
         
         menu.smoothImage = _smoothImage;
         
-        if (_normalSubDisplayImage.image != null) 
-            menu.setDefaultStateBitmap(_normalSubDisplayImage.image);
+        if (_normalSubDisplayImage != null) 
+            menu.setDefaultStateBitmap(_normalSubDisplayImage);
         
-        if (_overSubDisplayImage.image != null) 
-            menu.setOverStateBitmap(_overSubDisplayImage.image);
+        if (_overSubDisplayImage != null) 
+            menu.setOverStateBitmap(_overSubDisplayImage);
         
-        if (_downSubDisplayImage.image != null) 
-            menu.setDownStateBitmap(_downSubDisplayImage.image);
+        if (_downSubDisplayImage != null) 
+            menu.setDownStateBitmap(_downSubDisplayImage);
         
-        if (_disableSubDisplayImage.image != null) 
-            menu.setDisableStateBitmap(_disableSubDisplayImage.image);
+        if (_disableSubDisplayImage != null) 
+            menu.setDisableStateBitmap(_disableSubDisplayImage);
         
-        if (_subIcon.image != null) 
-            menu.setIconBitmap(_subIcon.image);
+        if (_subIcon != null) 
+            menu.setIconBitmap(_subIcon);
         
         if (_subMenuDisplayImage.image != null) 
-            menu.setSubMenuBitmap(_subMenuDisplayImage.image);
+            menu.setSubMenuBitmap(_subMenuDisplayImage);
     }
     
     private function onClick(event : Event) : Void

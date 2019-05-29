@@ -3,7 +3,7 @@ package com.chaos.ui.classInterface;
 import com.chaos.data.DataProvider;
 import com.chaos.drawing.icon.classInterface.IBasicIcon;
 import com.chaos.form.ui.classInterface.IFormUI;
-import openfl.display.Bitmap;
+import openfl.display.BitmapData;
 import openfl.utils.Object;
 
 /**
@@ -211,61 +211,38 @@ interface IGridPane extends IScrollPane
     
     function getColumnButton(index : Int) : IButton;
     
-    /**
-	 * Load image based on file path
-	 * @param	value The url location of the image
-	 */
-    
-    function setColumnButtonImage(value : String) : Void;
+
     
     /**
 	 * Set the image based on a pasted in bitmap
 	 * @param	value The bitmap object that will be used
 	 */
     
-    function setColumnButtonBitmap(value : Bitmap) : Void;
+    function setColumnButtonImage(value : BitmapData) : Void;
     
-    /**
-	 * Load image based on file path
-	 * @param	value The url location of the image
-	 */
-    
-    function setColumnButtonOverImage(value : String) : Void;
     
     /**
 	 * Set the image based on a pasted in bitmap
 	 * @param	value The bitmap object that will be used
 	 */
     
-    function setColumnButtonOverBitmap(value : Bitmap) : Void;
+    function setColumnButtonOverImage(value : BitmapData) : Void;
     
-    /**
-	 * Load image based on file path
-	 * @param	value The url location of the image
-	 */
-    
-    function setColumnButtonDownImage(value : String) : Void;
     
     /**
 	 * Set the image based on a pasted in bitmap
 	 * @param	value The bitmap object that will be used
 	 */
     
-    function setColumnButtonDownBitmap(value : Bitmap) : Void;
+    function setColumnButtonDownImage(value : BitmapData) : Void;
     
-    /**
-	 * Set the cell background image based on a file location
-	 * @param	value The url location of the image
-	 */
-    
-    function setCellBackgroundImage(value : String) : Void;
     
     /**
 	 * Set the cell background based on bitmap data being passed
 	 * @param	value The bitmap object that will be used
 	 */
     
-    function setCellBackgroundBitmap(value : Bitmap) : Void;
+    function setCellBackgroundImage(value : BitmapData) : Void;
     
     /**
 	 * Gets the arrow used in column

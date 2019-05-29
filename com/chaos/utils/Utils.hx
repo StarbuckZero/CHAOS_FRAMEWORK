@@ -244,9 +244,9 @@ class Utils
         
         var rotationMatrix : Matrix = new Matrix();
         
-        rotationMatrix.translate(-object.width / 2, -object.height / 2);
+        rotationMatrix.translate( -object.width / 2, -object.height / 2);
         rotationMatrix.rotate(degrees * (Math.PI / 180));
-        rotationMatrix.translate(-object.width / 2, -object.height / 2);
+        rotationMatrix.translate( -object.width / 2, -object.height / 2);
         
         return rotationMatrix;
     }

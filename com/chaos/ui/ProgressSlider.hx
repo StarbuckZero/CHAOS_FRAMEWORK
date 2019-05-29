@@ -69,16 +69,16 @@ class ProgressSlider extends ProgressBar implements IProgressSlider implements I
 		super.initBitmap();
 		
         if (null != UIBitmapManager.getUIElement(Slider.TYPE, UIBitmapManager.PROGRESS_SLIDER_BUTTON_NORMAL)) 
-            _slider.setSliderBitmap(UIBitmapManager.getUIElement(Slider.TYPE, UIBitmapManager.PROGRESS_SLIDER_BUTTON_NORMAL));
+            _slider.setSliderImage(UIBitmapManager.getUIElement(Slider.TYPE, UIBitmapManager.PROGRESS_SLIDER_BUTTON_NORMAL));
         
         if (null != UIBitmapManager.getUIElement(Slider.TYPE, UIBitmapManager.PROGRESS_SLIDER_BUTTON_OVER)) 
-            _slider.setSliderOverBitmap(UIBitmapManager.getUIElement(Slider.TYPE, UIBitmapManager.PROGRESS_SLIDER_BUTTON_OVER));
+            _slider.setSliderOverImage(UIBitmapManager.getUIElement(Slider.TYPE, UIBitmapManager.PROGRESS_SLIDER_BUTTON_OVER));
         
         if (null != UIBitmapManager.getUIElement(Slider.TYPE, UIBitmapManager.PROGRESS_SLIDER_BUTTON_DOWN)) 
-            _slider.setSliderDownBitmap(UIBitmapManager.getUIElement(Slider.TYPE, UIBitmapManager.PROGRESS_SLIDER_BUTTON_DOWN));
+            _slider.setSliderDownImage(UIBitmapManager.getUIElement(Slider.TYPE, UIBitmapManager.PROGRESS_SLIDER_BUTTON_DOWN));
         
         if (null != UIBitmapManager.getUIElement(Slider.TYPE, UIBitmapManager.PROGRESS_SLIDER_BUTTON_DISABLE)) 
-            _slider.setSliderDisableBitmap(UIBitmapManager.getUIElement(Slider.TYPE, UIBitmapManager.PROGRESS_SLIDER_BUTTON_DISABLE));
+            _slider.setSliderDisableImage(UIBitmapManager.getUIElement(Slider.TYPE, UIBitmapManager.PROGRESS_SLIDER_BUTTON_DISABLE));
         
         if (null != UIBitmapManager.getUIElement(ProgressBar.TYPE, UIBitmapManager.PROGRESS_SLIDER_BACKGROUND)) 
             setBackgroundBitmap(UIBitmapManager.getUIElement(ProgressBar.TYPE, UIBitmapManager.PROGRESS_SLIDER_BACKGROUND));
@@ -179,27 +179,15 @@ class ProgressSlider extends ProgressBar implements IProgressSlider implements I
         return _slider;
     }
     
-    /**
-	 * @inheritDoc
-	 */
+
 	
-    override private function set_width(value : Float) : Float
-    {
-        _slider.width = value;
-		super.set_width(value);
+	override public function draw():Void 
+	{
+		super.draw();
 		
-        return value;
-    }
-	
-    /**
-	 * @inheritDoc
-	 */
-    override private function set_height(value : Float) : Float
-    {
-        _slider.height = value;
-		set_height(value);
-        return value;
-    }
+		_slider.width = _width;
+		_slider.height = _height;
+	}
     
 
 }

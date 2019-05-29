@@ -40,7 +40,7 @@ class BaseUI extends Sprite implements IBaseUI
 	 */
 	
     #if flash @:setter(width)
-    override private function set_width(value : Float) : Void
+    private function set_width(value : Float) : Void
     {
         _width = value;
         draw();
@@ -72,7 +72,7 @@ class BaseUI extends Sprite implements IBaseUI
 	 */
 	
     #if flash @:setter(height)
-    override private function set_height(value : Float) : Void
+    private function set_height(value : Float) : Void
     {
         _height = value;
         draw();
