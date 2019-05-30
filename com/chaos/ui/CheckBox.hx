@@ -2,7 +2,7 @@ package com.chaos.ui;
 
 import com.chaos.media.DisplayImage;
 import com.chaos.ui.Label;
-import com.chaos.ui.ToggleButtonLite;
+
 import com.chaos.ui.UIBitmapManager;
 import com.chaos.ui.UIStyleManager;
 import com.chaos.ui.classInterface.IBaseUI;
@@ -14,8 +14,11 @@ import openfl.text.Font;
 import openfl.text.TextFieldAutoSize;
 import openfl.text.TextFormat;
 
-class CheckBox extends ToggleButtonLite implements ICheckBox implements IBaseUI
+class CheckBox extends ToggleButton implements ICheckBox implements IBaseUI
 {
+	
+	/** The type of UI Element */
+	public static inline var TYPE : String = "CheckBox";
 	
 	public var textFormat(get, set) : TextFormat;     
 	public var textField(get, never) : Label;      
@@ -28,8 +31,6 @@ class CheckBox extends ToggleButtonLite implements ICheckBox implements IBaseUI
 	public var textAlign(get, set) : String;  
 	public var showLabel(get, set) : Bool;
 
-	/** The type of UI Element */
-	public static inline var TYPE : String = "CheckBox";
 	//private var _baseNormal : Shape;
 	//private var _baseOver : Shape;
 	//private var _baseDown : Shape;

@@ -3,8 +3,6 @@ package com.chaos.ui;
 
 import openfl.display.BitmapData;
 import openfl.errors.Error;
-import openfl.utils.Object;
-import openfl.display.Bitmap;
 import openfl.display.DisplayObject;
 
 import com.chaos.ui.classInterface.IBaseUI;
@@ -301,7 +299,7 @@ class UIBitmapManager
 		Reflect.setField(skinTheme, Alert.TYPE, { } );
         Reflect.setField(skinTheme, Bubble.TYPE, { } );
         Reflect.setField(skinTheme, Button.TYPE, { } );
-        Reflect.setField(skinTheme, ToggleButtonLite.TYPE, { } );
+        Reflect.setField(skinTheme, ToggleButton.TYPE, { } );
         Reflect.setField(skinTheme, CheckBox.TYPE, { } );
         Reflect.setField(skinTheme, ComboBox.TYPE, { } );
         Reflect.setField(skinTheme, Label.TYPE, { } );
@@ -325,7 +323,7 @@ class UIBitmapManager
 		Reflect.setField(watchList, Alert.TYPE, new DataProvider() );
         Reflect.setField(watchList, Bubble.TYPE, new DataProvider() );
         Reflect.setField(watchList, Button.TYPE, new DataProvider() );
-        Reflect.setField(watchList, ToggleButtonLite.TYPE, new DataProvider() );
+        Reflect.setField(watchList, ToggleButton.TYPE, new DataProvider() );
         Reflect.setField(watchList, CheckBox.TYPE, new DataProvider() );
         Reflect.setField(watchList, ComboBox.TYPE, new DataProvider() );
         Reflect.setField(watchList, Label.TYPE, new DataProvider() );

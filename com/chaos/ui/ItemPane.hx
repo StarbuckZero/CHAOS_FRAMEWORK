@@ -35,7 +35,7 @@ import com.chaos.ui.event.ToggleEvent;
 import com.chaos.ui.ScrollPane;
 import com.chaos.ui.ItemPane;
 import com.chaos.ui.Label;
-import com.chaos.ui.ToggleButtonLite;
+import com.chaos.ui.ToggleButton;
 
 import com.chaos.media.DisplayImage;
 
@@ -688,7 +688,7 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
 		{
            
             var itemLabel : Label = new Label();
-            var itemButton : ToggleButtonLite = new ToggleButtonLite();
+            var itemButton : ToggleButton = new ToggleButton();
             var itemData : IItemPaneObjectData = cast(_list.getItemAt(i), ItemPaneObjectData);
             var oldData : IItemPaneObjectData = ((i == 0)) ? null : cast(_list.getItemAt(i - 1), ItemPaneObjectData);
             var textFormat : TextFormat = new TextFormat();
@@ -787,7 +787,7 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
             
             
             itemData.label = cast(itemLabel, Label);
-            itemData.itemButton = cast(itemButton, ToggleButtonLite);
+            itemData.itemButton = cast(itemButton, ToggleButton);
 			
             
             _itemHolder.addChild(itemButton);

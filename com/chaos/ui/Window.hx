@@ -44,6 +44,11 @@ class Window extends BaseUI implements IWindow implements IBaseUI
     public var resize(get, set) : Bool;
 	
 	// TODO: Make it so deveoper can just get the button directly
+    public var closeButton(get, never) : IButton;
+    public var minButton(get, never) : IButton;
+    public var maxButton(get, never) : IButton;
+	
+	
     public var closeButtonNormalColor(get, set) : Int;
     public var closeButtonOverColor(get, set) : Int;
     public var closeButtonDownColor(get, set) : Int;
@@ -386,7 +391,7 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 	{  
 		// Background  
 		if (null != UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_BACKGROUND))   
-			_scrollPane.setBackgroundBitmap(UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_BACKGROUND));
+			_scrollPane.setBackgroundImage(UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_BACKGROUND));
 		
 		// Top  
 		if (null != UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_TOP_LEFT)) 
@@ -629,351 +634,6 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 		return _maxButton;
 	}
 	
-	/**
-	 * Set the close button default color
-	 */ 
-	private function set_closeButtonNormalColor(value : Int) : Int
-	{
-		_closeButton.buttonColor = value;
-        return value;
-    }
-	
-	/**
-	 * Return the button color
-	 */ 
-	private function get_closeButtonNormalColor() : Int
-	{
-		return _closeButton.buttonColor;
-    }  
-	
-	/**
-	 * Set the close button over state color
-	 */
-	
-	private function set_closeButtonOverColor(value : Int) : Int 
-	{
-		_closeButton.buttonOverColor = value;
-        return value;
-    }
-	
-	/**
-	 * Return the button color
-	 */
-	
-	private function get_closeButtonOverColor() : Int 
-	{
-		return _closeButton.buttonOverColor;
-    }  
-	
-	/**
-	 * Set the close button down state color
-	 */  
-	
-	private function set_closeButtonDownColor(value : Int) : Int 
-	{
-		_closeButton.buttonDownColor = value;
-        return value;
-    }
-	
-	/**
-	 * Return the button color
-	 */
-	
-	private function get_closeButtonDownColor() : Int 
-	{
-		return _closeButton.buttonDownColor;
-    }
-	
-	/**
-	 * Set the close button disable state color on the button
-	 */  
-	private function set_closeButtonDisableColor(value : Int) : Int 
-	{
-		_closeButton.buttonDisableColor = value;
-        return value;
-    } 
-	
-	/**
-	 * Return the button color
-	 */
-	private function get_closeButtonDisableColor() : Int
-	{
-		return _closeButton.buttonDisableColor;
-    }
-	
-
-	
-	/**
-	 * Set the minimize button default color
-	 */  
-	
-	private function set_minButtonNormalColor(value : Int) : Int 
-	{
-		_minButton.buttonColor = value;
-        return value;
-    }
-	
-	/**
-	 * Return the button color
-	 */ 
-	
-	private function get_minButtonNormalColor() : Int 
-	{
-		return _minButton.buttonColor;
-    }  
-	
-	/**
-	 * Set the minimize button over state color
-	 */  
-	
-	private function set_minButtonOverColor(value : Int) : Int
-	{
-		_minButton.buttonOverColor = value;
-        return value;
-    }
-	
-	/**
-	 * Return the button color
-	 */  
-	
-	private function get_minButtonOverColor() : Int
-	{
-		return _minButton.buttonOverColor;
-    } 
-	
-	/**
-	 * Return the button color
-	 */
-	
-	private function set_minButtonDownColor(value : Int) : Int 
-	{
-		_minButton.buttonDownColor = value;
-        return value;
-    }
-	
-	/**
-	 * Set the minimize button down state color
-	 */
-	private function get_minButtonDownColor() : Int 
-	{
-		return _minButton.buttonDownColor;
-    }
-	
-	/**
-	 * Set the minimize button disable state color
-	 */ 
-	private function set_minButtonDisableColor(value : Int) : Int 
-	{
-		_minButton.buttonDisableColor = value;
-        return value;
-    }
-	
-	/**
-	 * Return the button color
-	 */ 
-	private function get_minButtonDisableColor() : Int 
-	{
-		return _minButton.buttonDisableColor;
-    } 
-	
-
-	
-	/**
-	 * Set the maximize button default color
-	 */
-	
-	private function set_maxButtonNormalColor(value : Int) : Int 
-	{
-		_maxButton.buttonColor = value;
-        return value;
-    }
-	
-	/**
-	 * Return the button color
-	 */ 
-	
-	private function get_maxButtonNormalColor() : Int
-	{
-		return _maxButton.buttonColor;
-    }
-	
-	/**
-	 * Set the maximize button over state color
-	 */ 
-	
-	private function set_maxButtonOverColor(value : Int) : Int 
-	{
-		_maxButton.buttonOverColor = value;
-        return value;
-    }
-	
-	/**
-	 * Return the button color
-	 */ 
-	private function get_maxButtonOverColor() : Int 
-	{
-		return _maxButton.buttonOverColor;
-    }
-	
-	/**
-	 * Set the maximize button down state color
-	 */
-	private function set_maxButtonDownColor(value : Int) : Int
-	{
-		_maxButton.buttonDownColor = value;
-        return value;
-    }
-	
-	/**
-	 * Return the button color
-	 */
-	
-	private function get_maxButtonDownColor() : Int 
-	{
-		return _maxButton.buttonDownColor;
-    }
-	
-	/**
-	 * Set the maximize button disable state color
-	 */ 
-	
-	private function set_maxButtonDisableColor(value : Int) : Int 
-	{
-		_maxButton.buttonDisableColor = value;
-        return value;
-    } 
-	
-	/**
-	 * Return the button color
-	 */ 
-	
-	private function get_maxButtonDisableColor() : Int 
-	{
-		return _maxButton.buttonDisableColor;
-    }
-	
-
-	
-	/**
-	 * Hide or Show the close button on the window
-	 */  
-	
-	private function set_showCloseButton(value : Bool) : Bool 
-	{
-		_showCloseButton = value;
-		draw();
-		
-        return value;
-    }
-	
-	/**
-	 * Return true if the button is being shown and false if not
-	 */ 
-	
-	private function get_showCloseButton() : Bool 
-	{
-		return _showCloseButton;
-    } 
-	
-	/**
-	 * Hide or Show the minimize button on the window
-	 */ 
-	
-	private function set_showMinButton(value : Bool) : Bool 
-	{
-		_showMinButton = value;
-		draw();
-		
-        return value;
-    } 
-	
-	/**
-	 * Return true if the button is being shown and false if not
-	 */ 
-	
-	private function get_showMinButton() : Bool
-	{
-		return _showMinButton;
-    }
-	
-	/**
-	 * Hide or Show the maximize button on the window
-	 */ 
-	
-	private function set_showMaxButton(value : Bool) : Bool 
-	{
-		_showMaxButton = value;draw();
-        return value;
-    }
-	
-	/**
-	 * Return true if the button is being shown and false if not
-	 */ 
-	
-	private function get_showMaxButton() : Bool
-	{
-		return _showMaxButton;
-    }
-	
-	/**
-	 * Enable or disable the close button on the window
-	 */
-	
-	private function set_enabledCloseButton(value : Bool) : Bool
-	{
-		_enabledCloseButton = value;
-		draw();
-        return value;
-    }
-	
-	/**
-	 * Return true if the button is being shown and false if not
-	 */ 
-	
-	private function get_enabledCloseButton() : Bool
-	{
-		return _enabledCloseButton;
-    }
-	
-	/**
-	 * Enable or disable the minimize button on the window
-	 */
-	private function set_enabledMinButton(value : Bool) : Bool 
-	{
-		_enabledMinButton = value;
-		draw();
-		
-        return value;
-    }
-	
-	/**
-	 * Return true if the button is being shown and false if not
-	 */ 
-	
-	private function get_enabledMinButton() : Bool 
-	{
-		return _enabledMinButton;
-    }
-	
-	/**
-	 * Enable or disable the maximize button on the window
-	 */ 
-	private function set_enabledMaxButton(value : Bool) : Bool 
-	{
-		_enabledMaxButton = value;
-		draw();
-		
-        return value;
-    }
-	
-	/**
-	 * Return true if the button is being shown and false if not
-	 */
-	private function get_enabledMaxButton() : Bool
-	{
-		return _enabledMaxButton;
-	}
-    
 	
 	/**
 	 * Set the color of the window title area once the user select
@@ -1276,9 +936,9 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 		super.draw();  
 		
 		// Enable or Disable buttons
-		_closeButton.enabled = _enabledCloseButton;
-		_minButton.enabled = _enabledMinButton;
-		_maxButton.enabled = _enabledMaxButton;
+		//_closeButton.enabled = _enabledCloseButton;
+		//_minButton.enabled = _enabledMinButton;
+		//_maxButton.enabled = _enabledMaxButton;
 		
 		// Drawing basic squares  
 		drawSquareIn(_windowTopLeft, _windowTitleColor, _windowTopLeftSize, (_windowTopLeftImage != null)  );
@@ -1466,21 +1126,17 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 		
 		_windowWidth = inWidth;
 		_windowHeight = inHeight; 
-		
-		// Hide or show buttons based on what use set
-		_closeButton.visible = _showCloseButton;
-		_minButton.visible = _showMinButton;
-		_maxButton.visible = _showMaxButton;
+
 		
 		// Update button count 
-		if (_showCloseButton)   
-		buttonCount++;
+		if (_closeButton.visible)   
+			buttonCount++;
 		
-		if (_showMinButton)     
-		buttonCount++;
+		if (_minButton.visible)     
+			buttonCount++;
 		
-		if (_maxButton != null)  
-		buttonCount++;
+		if (_maxButton.visible)  
+			buttonCount++;
 		
 		_windowTopLeftTexture.x = _windowTopLeft.x = 0;
 		
@@ -1588,7 +1244,8 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 			_maxButton.x = 0;
 			_maxButton.x = _closeButton.x - WINDOW_BUTTON_SIZE - WINDOW_BUTTON_OFFSET;
 			_minButton.x = _maxButton.x - WINDOW_BUTTON_SIZE - WINDOW_BUTTON_OFFSET;
-			_maxButton.x = ((_showMaxButton)) ? (buttonCount - 2) * (WINDOW_BUTTON_SIZE + WINDOW_BUTTON_OFFSET) : 0;_minButton.x = ((_showMinButton)) ? (buttonCount - 1) * (WINDOW_BUTTON_SIZE + WINDOW_BUTTON_OFFSET) : 0;
+			_maxButton.x = ((_maxButton.visible)) ? (buttonCount - 2) * (WINDOW_BUTTON_SIZE + WINDOW_BUTTON_OFFSET) : 0;
+			_minButton.x = ((_minButton.visible)) ? (buttonCount - 1) * (WINDOW_BUTTON_SIZE + WINDOW_BUTTON_OFFSET) : 0;
         }
         else 
 		{
@@ -1599,8 +1256,8 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 			_minButton.x = 0;
 			_maxButton.x = 0;
 			
-			_minButton.x = ((_showMinButton)) ? (buttonCount - 2) * (WINDOW_BUTTON_SIZE + WINDOW_BUTTON_OFFSET) : 0;
-			_maxButton.x = ((_showMaxButton)) ? (buttonCount - 1) * (WINDOW_BUTTON_SIZE + WINDOW_BUTTON_OFFSET) : 0;
+			_minButton.x = ((_minButton.visible)) ? (buttonCount - 2) * (WINDOW_BUTTON_SIZE + WINDOW_BUTTON_OFFSET) : 0;
+			_maxButton.x = ((_maxButton.visible)) ? (buttonCount - 1) * (WINDOW_BUTTON_SIZE + WINDOW_BUTTON_OFFSET) : 0;
         } 
 		
 		// Adjust the Title area based on  

@@ -23,7 +23,7 @@ import openfl.display.Shape;
  * @author Erick Feiling
  */
 
-class MenuItem extends ToggleButtonLite implements IMenuItem implements IToggleButton implements IBaseUI
+class MenuItem extends ToggleButton implements IMenuItem implements IToggleButton implements IBaseUI
 {
     public var open(get, set) : Bool;
     public var hasParent(get, set) : Bool;
@@ -143,12 +143,12 @@ class MenuItem extends ToggleButtonLite implements IMenuItem implements IToggleB
         mouseChildren = false;
     }
     
-    private function init() : Void
+    override private function init() : Void
     {
-        setNormalState(_baseNormal);
-        setOverState(_baseOver);
-        setDownState(_baseDown);
-        setDisableState(_baseDisable);
+        //setNormalState(_baseNormal);
+        //setOverState(_baseOver);
+        //setDownState(_baseDown);
+        //setDisableState(_baseDisable);
         
         addChild(_label.displayObject);
         addChild(_icon.displayObject);
@@ -854,64 +854,67 @@ class MenuItem extends ToggleButtonLite implements IMenuItem implements IToggleB
         _disableDisplayImage.setImage(bitmap);
     }
     
-    override public function draw() : Void
-    {
-        super.draw();
-        
-        _baseNormal.graphics.clear();
-        _baseOver.graphics.clear();
-        _baseDown.graphics.clear();
-        _baseDisable.graphics.clear();
-        
-        if (_border) 
-		{
-			_baseNormal.graphics.lineStyle(_thinkness, _normalLineColor, _lineAlpha);
-			_baseOver.graphics.lineStyle(_thinkness, _overLineColor, _lineAlpha);
-			_baseDown.graphics.lineStyle(_thinkness, _downLineColor, _lineAlpha);
-			_baseDisable.graphics.lineStyle(_thinkness, _disableLineColor, _lineAlpha);
-		}
-		
-		(_normalDisplayImage.image != null && _showImage) ? _baseNormal.graphics.beginBitmapFill(_normalDisplayImage.image.bitmapData, null, true, _smoothImage) : _baseNormal.graphics.beginFill(_normalFillColor, _alpha);
-		
-		// Draw square 
-        _baseNormal.graphics.drawRect(0, 0, _width, _height);
-        _baseNormal.graphics.endFill();
-        
-        (_overDisplayImage.image != null && _showImage) ? _baseOver.graphics.beginBitmapFill(_overDisplayImage.image.bitmapData, null, true, _smoothImage) : _baseOver.graphics.beginFill(_overFillColor, _alpha);
-        _baseOver.graphics.drawRect(0, 0, _width, _height);
-        _baseOver.graphics.endFill();
-        
-        (_downDisplayImage.image != null && _showImage) ? _baseDown.graphics.beginBitmapFill(_downDisplayImage.image.bitmapData, null, true, _smoothImage) : _baseDown.graphics.beginFill(_downFillColor, _alpha);
-        _baseDown.graphics.drawRect(0, 0, _width, _height);
-        _baseDown.graphics.endFill();
-        
-        (_disableDisplayImage.image != null && _showImage) ? _baseDisable.graphics.beginBitmapFill(_disableDisplayImage.image.bitmapData, null, true, _smoothImage) : _baseDisable.graphics.beginFill(_disableFillColor, _alpha);
-        _baseDisable.graphics.drawRect(0, 0, _width, _height);
-        _baseDisable.graphics.endFill();
-        
-        // Show icon
-        _subMenuIconHolder.visible = _showSubMenuIcon;
-        
-        _subMenuIconHolder.y = (height / 2) - (_subMenuIconHolder.height / 2);
-        _subMenuIconHolder.x = width - _subMenuIconHolder.width - 5;
-        
-        // Hide or show icon
-        _icon.visible = _showIcon;
-        
-        if (_showIcon) 
-        {
-            _icon.x = ICON_OFFSETX;
-            _icon.y = (height / 2) - (_icon.height / 2) + ICON_OFFSETY;
-            
-            _label.width = width - _icon.width;
-        }
-        else 
-        {
-            _label.width = width;
-        }
-        
-        _label.height = height;
-    }
+	
+	//TODO: Update draw function later
+	
+    //override public function draw() : Void
+    //{
+    //    super.draw();
+    //    
+    //    //_baseNormal.graphics.clear();
+    //    //_baseOver.graphics.clear();
+    //    //_baseDown.graphics.clear();
+    //    //_baseDisable.graphics.clear();
+    //    
+    //    if (_border) 
+	//	{
+	//		_baseNormal.graphics.lineStyle(_thinkness, _normalLineColor, _lineAlpha);
+	//		_baseOver.graphics.lineStyle(_thinkness, _overLineColor, _lineAlpha);
+	//		_baseDown.graphics.lineStyle(_thinkness, _downLineColor, _lineAlpha);
+	//		_baseDisable.graphics.lineStyle(_thinkness, _disableLineColor, _lineAlpha);
+	//	}
+	//	
+	//	(_normalDisplayImage.image != null && _showImage) ? _baseNormal.graphics.beginBitmapFill(_normalDisplayImage.image.bitmapData, null, true, _smoothImage) : _baseNormal.graphics.beginFill(_normalFillColor, _alpha);
+	//	
+	//	// Draw square 
+    //    _baseNormal.graphics.drawRect(0, 0, _width, _height);
+    //    _baseNormal.graphics.endFill();
+    //    
+    //    (_overDisplayImage.image != null && _showImage) ? _baseOver.graphics.beginBitmapFill(_overDisplayImage.image.bitmapData, null, true, _smoothImage) : _baseOver.graphics.beginFill(_overFillColor, _alpha);
+    //    _baseOver.graphics.drawRect(0, 0, _width, _height);
+    //    _baseOver.graphics.endFill();
+    //    
+    //    (_downDisplayImage.image != null && _showImage) ? _baseDown.graphics.beginBitmapFill(_downDisplayImage.image.bitmapData, null, true, _smoothImage) : _baseDown.graphics.beginFill(_downFillColor, _alpha);
+    //    _baseDown.graphics.drawRect(0, 0, _width, _height);
+    //    _baseDown.graphics.endFill();
+    //    
+    //    (_disableDisplayImage.image != null && _showImage) ? _baseDisable.graphics.beginBitmapFill(_disableDisplayImage.image.bitmapData, null, true, _smoothImage) : _baseDisable.graphics.beginFill(_disableFillColor, _alpha);
+    //    _baseDisable.graphics.drawRect(0, 0, _width, _height);
+    //    _baseDisable.graphics.endFill();
+    //    
+    //    // Show icon
+    //    _subMenuIconHolder.visible = _showSubMenuIcon;
+    //    
+    //    _subMenuIconHolder.y = (height / 2) - (_subMenuIconHolder.height / 2);
+    //    _subMenuIconHolder.x = width - _subMenuIconHolder.width - 5;
+    //    
+    //    // Hide or show icon
+    //    _icon.visible = _showIcon;
+    //    
+    //    if (_showIcon) 
+    //    {
+    //        _icon.x = ICON_OFFSETX;
+    //        _icon.y = (height / 2) - (_icon.height / 2) + ICON_OFFSETY;
+    //        
+    //        _label.width = width - _icon.width;
+    //    }
+    //    else 
+    //    {
+    //        _label.width = width;
+    //    }
+    //    
+    //    _label.height = height;
+    //}
     
     private function onMenuOver(event : MouseEvent) : Void
     {

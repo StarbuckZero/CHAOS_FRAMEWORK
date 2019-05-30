@@ -1,10 +1,8 @@
 package com.chaos.ui.classInterface;
 
 import openfl.display.BitmapData;
-import openfl.display.DisplayObject;
-import openfl.display.Bitmap;
 import openfl.display.Shape;
-import openfl.filters.DropShadowFilter;
+
 
 interface IButton extends IBaseUI
 {

@@ -62,7 +62,7 @@ class UIDemo extends Sprite
     public var combo : ComboBox;
     public var progressBar : ProgressBar;
     public var progressSlider : ProgressSlider;
-    public var toggleButton : ToggleButtonLite;
+    public var toggleButton : ToggleButton;
     public var checkBoxGroup : CheckBoxGroup;
     public var radioButtonGroup : RadioGroup;
     public var label : Label;

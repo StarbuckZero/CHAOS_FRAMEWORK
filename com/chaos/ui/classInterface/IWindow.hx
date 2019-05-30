@@ -11,6 +11,26 @@ import openfl.utils.Object;
 interface IWindow extends IBaseUI
 {
 	
+	
+	/**
+	 * Return the closeButton
+	 */
+	
+	var closeButton(get, never):IButton;
+	
+	/**
+	 * Return the minButton 
+	 */
+	
+	var minButton(get, never):IButton;
+	
+	/**
+	 * Return the maxButton
+	 */
+	
+	var maxButton(get, never):IButton;
+	
+	
 	/**
 	 * The scroll pane being used
 	 */
@@ -45,128 +65,11 @@ interface IWindow extends IBaseUI
 	
 	
 	/**
-	 * Set the close button default color
-	 */
-	
-	var closeButtonNormalColor(get, set):Int;
-	
-	
-	/**
-	 * Set the close button over state color
-	 */
-	
-	var closeButtonOverColor(get, set):Int;
-	
-	
-	/**
-	 * Set the close button down state color
-	 */
-	
-	var closeButtonDownColor(get, set):Int;
-	
-	
-	/**
-	 * Set the close button disable state color on the button
-	 */
-	
-	var closeButtonDisableColor(get, set):Int;
-	
-	
-	/**
-	 * Set the minimize button default color
-	 */
-	
-	var minButtonNormalColor(get, set):Int;
-
-	/**
-	 * Set the minimize button over state color
-	 */
-	
-	var minButtonOverColor(get, set):Int;
-	
-	/**
-	 * Set the minimize button down state color
-	 */
-	
-	var minButtonDownColor(get, set):Int;
-	
-	/**
-	 * Set the minimize button disable state color
-	 */
-	
-	var minButtonDisableColor(get, set):Int;
-
-	
-	/**
-	 * Set the maximize button default color
-	 */
-	
-	var maxButtonNormalColor(get, set):Int;
-	
-	/**
-	 * Set the maximize button over state color
-	 */
-	
-	var maxButtonOverColor(get, set):Int;
-	
-	
-	/**
-	 * Set the maximize button down state color
-	 */
-	
-	var maxButtonDownColor(get, set):Int;
-
-	
-	/**
-	 * Set the maximize button disable state color
-	 */
-	
-	var maxButtonDisableColor(get, set):Int;
-
-	
-	/**
-	 * Hide or Show the close button on the window
-	 */
-	
-	var showCloseButton(get, set):Bool;
-	
-	/**
-	 * Hide or Show the minimize button on the window
-	 */
-	
-	var showMinButton(get, set):Bool;
-	
-	/**
-	 * Hide or Show the maximize button on the window
-	 */
-	
-	var showMaxButton(get, set):Bool;
-	
-	/**
-	 * Enable or disable the close button on the window
-	 */
-	
-	var enabledCloseButton(get, set):Bool;
-	
-	/**
-	 * Enable or disable the minimize button on the window
-	 */
-	
-	var enabledMinButton(get, set):Bool;
-	
-	/**
-	 * Enable or disable the maximize button on the window
-	 */
-	
-	var enabledMaxButton(get, set):Bool;
-	
-	/**
 	 * Set the color of the window title area once the user select
 	 */
 	
 	var windowTitleColor(get, set):Int;
 	
-
 	
 	/**
 	 * Set the color of the window

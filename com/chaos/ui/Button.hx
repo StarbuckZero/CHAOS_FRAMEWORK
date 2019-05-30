@@ -8,6 +8,7 @@ import com.chaos.ui.classInterface.IBaseUI;
 import com.chaos.ui.classInterface.IButton;
 import com.chaos.ui.classInterface.ILabel;
 import com.chaos.ui.classInterface.IOverlay;
+import com.chaos.ui.classInterface.IToggleButton;
 import openfl.display.BitmapData;
 import openfl.display.DisplayObject;
 import openfl.display.Loader;
@@ -43,7 +44,7 @@ import com.chaos.ui.Label;
  * 
  */
 
-class Button extends BaseUI implements IButton implements IBaseUI
+class Button extends ToggleButton implements IButton implements IToggleButton implements IBaseUI
 {
     public var imageOffSetX(get, set) : Int;
     public var imageOffSetY(get, set) : Int;
@@ -65,9 +66,9 @@ class Button extends BaseUI implements IButton implements IBaseUI
     public var buttonDownColor(get, set) : Int;
     public var buttonDisableColor(get, set) : Int;
 	
-    public var roundEdge(get, set) : Int;
+    //public var roundEdge(get, set) : Int;
 	
-    public var bitmapAlpha(get, set) : Float;
+    //public var bitmapAlpha(get, set) : Float;
 	
     public var iconDisplay(get, set) : Bool;
     public var tileImage(get, set) : Bool;
@@ -75,11 +76,11 @@ class Button extends BaseUI implements IButton implements IBaseUI
 
     /** The type of UI Element */
     public static inline var TYPE : String = "Button";
-       
-    public var baseNormal : Shape;
-    public var baseOver : Shape;
-    public var baseDown : Shape;
-    public var baseDisable : Shape;
+     
+    //public var normalState : Shape;
+    //public var overState : Shape;
+    //public var downState : Shape;
+    //public var disableState : Shape;
     
     
     private var _imageOffSetX : Int;
@@ -97,7 +98,7 @@ class Button extends BaseUI implements IButton implements IBaseUI
     private var _buttonTextSize : Int = 11;
     private var _buttonTextAlign : String = TextFormatAlign.CENTER;
     
-    private var _roundEdge : Int = 0;
+    //private var _roundEdge : Int = 0;
     
     private var _buttonNormalColor : Int = 0xCCCCCC;
     private var _buttonOverColor : Int = 0x666666;
@@ -109,19 +110,19 @@ class Button extends BaseUI implements IButton implements IBaseUI
     
     private var _bgShowImage : Bool = true;
     
-    private var _imageSmooth : Bool = true;
+    //private var _imageSmooth : Bool = true;
     
-    private var _bgAlpha : Float = UIStyleManager.BUTTON_ALPHA;
+    //private var _bgAlpha : Float = UIStyleManager.BUTTON_ALPHA;
     
     private var _icon : Shape;
     
-    private var _defaultStateImage : BitmapData;
-    private var _overStateImage : BitmapData;
-    private var _downStateImage : BitmapData;
-    private var _disableStateImage : BitmapData;
+    //private var _defaultStateImage : BitmapData;
+    //private var _overStateImage : BitmapData;
+    //private var _downStateImage : BitmapData;
+    //private var _disableStateImage : BitmapData;
     
     private var _useMask : Bool = false;
-	private var _tileImage:Bool = false;
+	//private var _tileImage:Bool = false;
 
 	
 	
@@ -137,6 +138,7 @@ class Button extends BaseUI implements IButton implements IBaseUI
     {
         
         super();
+		
         
 
         // Set defaults
@@ -152,25 +154,10 @@ class Button extends BaseUI implements IButton implements IBaseUI
         addEventListener(Event.ADDED_TO_STAGE, onStageAdd, false, 0, true);
         addEventListener(Event.REMOVED_FROM_STAGE, onStageRemove, false, 0, true);
     }
-    
-    private function onStageAdd(event : Event) : Void
+
+    override private function init() : Void
     {
-        UIBitmapManager.watchElement(TYPE, this);
-    }
-    
-    private function onStageRemove(event : Event) : Void
-    {
-        UIBitmapManager.stopWatchElement(TYPE, this);
-    }
-    
-    private function init() : Void
-    {
-		
-        // Init button
-        baseNormal = new Shape();
-        baseOver = new Shape();
-        baseDown = new Shape();
-        baseDisable = new Shape();
+		super.init();
         
         _label = new Label();
         _textFormat = new TextFormat();
@@ -178,25 +165,17 @@ class Button extends BaseUI implements IButton implements IBaseUI
         
         _icon = new Shape();
         
-        
+        _bgAlpha = UIStyleManager.BUTTON_ALPHA;
+		
         // Attach roll over and out event
-        addEventListener(MouseEvent.MOUSE_DOWN, downState, false, 0, true);
-        addEventListener(MouseEvent.MOUSE_UP, normalState, false, 0, true);
+        //addEventListener(MouseEvent.MOUSE_DOWN, downState, false, 0, true);
+        //addEventListener(MouseEvent.MOUSE_UP, normalState, false, 0, true);
+        //
+        //addEventListener(MouseEvent.MOUSE_OVER, overState, false, 0, true);
+        //addEventListener(MouseEvent.MOUSE_OUT, normalState, false, 0, true);
         
-        addEventListener(MouseEvent.MOUSE_OVER, overState, false, 0, true);
-        addEventListener(MouseEvent.MOUSE_OUT, normalState, false, 0, true);
-        
-        // Hide Over and Down state
-        baseOver.visible = false;
-        baseDown.visible = false;
-        baseDisable.visible = false;
         
         mouseChildren = false;
-        
-        addChild(baseNormal);
-        addChild(baseOver);
-        addChild(baseDown);
-        addChild(baseDisable);
         
         addChild(_label);
         addChild(_icon);
@@ -295,41 +274,41 @@ class Button extends BaseUI implements IButton implements IBaseUI
 	 * Remove all roll over and roll out effects while setting button to it's disable state
 	 */
     
-    override private function set_enabled(value : Bool) : Bool
-    {
-        
-        if (enabled != value) 
-        {
-            
-            if (value) 
-            {
-                // Attach roll over and out event
-                addEventListener(MouseEvent.MOUSE_DOWN, downState, false, 0, true);
-                addEventListener(MouseEvent.MOUSE_UP, normalState, false, 0, true);
-                
-                addEventListener(MouseEvent.MOUSE_OVER, overState, false, 0, true);
-                addEventListener(MouseEvent.MOUSE_OUT, normalState, false, 0, true);
-                
-                baseDisable.visible = false;
-            }
-            else 
-            {
-                
-                // Attach roll over and out event
-                removeEventListener(MouseEvent.MOUSE_DOWN, downState);
-                removeEventListener(MouseEvent.MOUSE_UP, normalState);
-                
-                removeEventListener(MouseEvent.MOUSE_OVER, overState);
-                removeEventListener(MouseEvent.MOUSE_OUT, normalState);
-                
-                baseDisable.visible = true;
-            }
-        }
-        
-        super.enabled = value;
-		
-        return value;
-    }
+    //override private function set_enabled(value : Bool) : Bool
+    //{
+    //    
+    //    if (enabled != value) 
+    //    {
+    //        
+    //        if (value) 
+    //        {
+    //            // Attach roll over and out event
+    //            addEventListener(MouseEvent.MOUSE_DOWN, downState, false, 0, true);
+    //            addEventListener(MouseEvent.MOUSE_UP, normalState, false, 0, true);
+    //            
+    //            addEventListener(MouseEvent.MOUSE_OVER, overState, false, 0, true);
+    //            addEventListener(MouseEvent.MOUSE_OUT, normalState, false, 0, true);
+    //            
+    //            disableState.visible = false;
+    //        }
+    //        else 
+    //        {
+    //            
+    //            // Attach roll over and out event
+    //            removeEventListener(MouseEvent.MOUSE_DOWN, downState);
+    //            removeEventListener(MouseEvent.MOUSE_UP, normalState);
+    //            
+    //            removeEventListener(MouseEvent.MOUSE_OVER, overState);
+    //            removeEventListener(MouseEvent.MOUSE_OUT, normalState);
+    //            
+    //            disableState.visible = true;
+    //        }
+    //    }
+    //    
+    //    super.enabled = value;
+	//	
+    //    return value;
+    //}
     
     
     /**
@@ -625,45 +604,7 @@ class Button extends BaseUI implements IButton implements IBaseUI
         return _buttonDisableColor;
     }
     
-    /**
-	 * Set how rounded the button is
-	 */
-    
-    private function set_roundEdge(value : Int) : Int
-    {
-        _roundEdge = value;
-        draw();
-        return value;
-    }
-    
-    /**
-	 * Return how rounded the button is
-	 */
-    
-    private function get_roundEdge() : Int
-    {
-        return _roundEdge;
-    }
-    
-    /**
-	 * The alpha of the button roll over and down state. Use this if you only set the default bitmap image, this will tint the button.
-	 */
-    
-    private function set_bitmapAlpha(value : Float) : Float
-    {
-        _bgAlpha = value;
-        draw();
-        return value;
-    }
-    
-    /**
-	 *  Return the alpha of the button
-	 */
-    
-    private function get_bitmapAlpha() : Float
-    {
-        return _bgAlpha;
-    }
+
     
     /**
 	 * Set the icon that will be used on the button
@@ -718,78 +659,6 @@ class Button extends BaseUI implements IButton implements IBaseUI
         return _showIcon;
     }
 
-	private function set_tileImage(value : Bool) : Bool
-	{
-		_tileImage = value;
-		draw();
-		return value;
-	}
-	
-	private function get_tileImage() : Bool
-	{
-		return _tileImage;
-	}
-    
-    /**
-	 * This is for setting an image to the button default state. It is best to set an image that can be tiled.
-	 *
-	 * @param value Set the image based on a Bitmap being pass
-	 *
-	 */
-    
-    public function setDefaultStateImage(value : BitmapData) : Void
-    {
-        
-        _defaultStateImage = value;
-        draw();
-    }
-    
-
-    
-    /**
-	 * This is for setting an image to the button roll over state. It is best to set an image that can be tiled.
-	 *
-	 * @param value Set the image based on a Bitmap being pass
-	 *
-	 */
-    
-    public function setOverStateImage(value : BitmapData) : Void
-    {
-        
-        _overStateImage = value;
-        draw();
-    }
-    
-    
-    /**
-	 * This is for setting an image to the button press down state. It is best to set an image that can be tiled.
-	 *
-	 * @param value Set the image based on a Bitmap being pass
-	 *
-	 */
-    
-    public function setDownStateImage(value : BitmapData) : Void
-    {
-        
-        _downStateImage = value;
-        draw();
-    }
-    
-
-    
-    /**
-	 * This is for setting an image to the button disable state. It is best to set an image that can be tile.
-	 *
-	 * @param value Set the image based on a Bitmap being pass
-	 *
-	 */
-    
-    public function setDisableStateImage(value : BitmapData) : Void
-    {
-        
-        _disableStateImage = value;
-        draw();
-    }
     
     /**
 	 * This setup and draw the button on the screen
@@ -810,41 +679,41 @@ class Button extends BaseUI implements IButton implements IBaseUI
 		{
 			// Normal
 			if (null != _defaultStateImage)
-				drawButtonState(baseNormal, _buttonNormalColor, _defaultStateImage);
+				drawButtonState(normalState, _buttonNormalColor, _defaultStateImage);
 			else 
-				drawButtonState(baseNormal, _buttonNormalColor);
+				drawButtonState(normalState, _buttonNormalColor);
 				
 			// Over
 			if (null != _overStateImage) 
-				drawButtonState(baseOver, _buttonOverColor, _overStateImage);
+				drawButtonState(overState, _buttonOverColor, _overStateImage);
 			else
-				drawButtonState(baseOver, _buttonOverColor);
+				drawButtonState(overState, _buttonOverColor);
 			
 			// Down
 			if (null != _downStateImage) 
-				drawButtonState(baseDown, _buttonDownColor, _downStateImage);
+				drawButtonState(downState, _buttonDownColor, _downStateImage);
 			else 
-				drawButtonState(baseDown, _buttonDownColor);
+				drawButtonState(downState, _buttonDownColor);
 			
 			// Disable
 			if (null != _disableStateImage) 
-				drawButtonState(baseDisable, _buttonDisableColor, _disableStateImage);
+				drawButtonState(disableState, _buttonDisableColor, _disableStateImage);
 			else 
-				drawButtonState(baseDisable, _buttonDisableColor);
+				drawButtonState(disableState, _buttonDisableColor);
 		}
 		else 
 		{
 			
-			drawButtonState(baseNormal, _buttonNormalColor);
-			drawButtonState(baseOver, _buttonOverColor);
-			drawButtonState(baseDown, _buttonDownColor);
-			drawButtonState(baseDisable, _buttonDisableColor);
+			drawButtonState(normalState, _buttonNormalColor);
+			drawButtonState(overState, _buttonOverColor);
+			drawButtonState(downState, _buttonDownColor);
+			drawButtonState(disableState, _buttonDisableColor);
 		} 		
 		
         
         // Resize all items  
-        baseDisable.width = baseDown.width = baseOver.width = baseNormal.width = width;
-        baseDisable.height = baseDown.height = baseOver.height = baseNormal.height = height;
+        //baseDisable.width = baseDown.width = baseOver.width = normalState.width = width;
+        //baseDisable.height = baseDown.height = baseOver.height = normalState.height = height;
 		
         // Set label and style
         _label.align = _buttonTextAlign;
@@ -898,80 +767,18 @@ class Button extends BaseUI implements IButton implements IBaseUI
         }
         
         
-        baseNormal.visible = true;
-        baseOver.visible = baseDown.visible = baseDisable.visible = false;
+        normalState.visible = true;
+        overState.visible = downState.visible = disableState.visible = false;
         
-        addChild(baseNormal);
-        addChild(baseOver);
-        addChild(baseDown);
-        addChild(baseDisable);
+        //addChild(normalState);
+        //addChild(overState);
+        //addChild(downState);
+        //addChild(disableState);
         
-        addChild(_label);
-        addChild(_icon);
+        //addChild(_label);
+        //addChild(_icon);
     }
 	
-	public function drawButtonState(square:Shape,  color:Int = 0xFFFFFF, image:BitmapData = null):Void
-	{
-		square.graphics.clear();
-		
-		if (null != image) 
-			square.graphics.beginBitmapFill(image, null, _tileImage, _imageSmooth);
-		else 
-			square.graphics.beginFill(color, _bgAlpha);
-		
-		if (image != null)
-			square.graphics.drawRoundRect(0, 0, image.width, image.height, _roundEdge);
-		
-		square.graphics.endFill();
-	}
-
-    
-    private function normalState(event : MouseEvent) : Void
-    {
-        baseNormal.visible = true;
-        baseOver.visible = false;
-        baseDown.visible = false;
-        baseDisable.visible = false;
-    }
-    
-    private function overState(event : MouseEvent) : Void
-    {
-        
-        if (_bgShowImage) 
-        {
-            
-            baseNormal.visible = true;
-            baseOver.visible = true;
-            baseDown.visible = false;
-            baseDisable.visible = false;
-        }
-        else 
-        {
-            baseNormal.visible = false;
-            baseOver.visible = true;
-            baseDown.visible = false;
-            baseDisable.visible = false;
-        }
-    }
-    
-    private function downState(event : MouseEvent) : Void
-    {
-        
-        
-        if (_bgShowImage) 
-        {
-            baseNormal.visible = true;
-            baseOver.visible = false;
-            baseDown.visible = true;
-            baseDisable.visible = false;
-        }
-        else 
-        {
-            baseNormal.visible = false;
-            baseOver.visible = false;
-            baseDown.visible = true;
-            baseDisable.visible = false;
-        }
-    }
+	
 }
 

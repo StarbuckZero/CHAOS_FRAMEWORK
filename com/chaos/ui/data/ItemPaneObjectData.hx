@@ -14,7 +14,7 @@ import openfl.display.DisplayObject;
 
 import com.chaos.ui.Label;
 
-import com.chaos.ui.ToggleButtonLite;
+
 
 class ItemPaneObjectData implements IItemPaneObjectData implements IBaseSelectData
 {
@@ -27,9 +27,9 @@ class ItemPaneObjectData implements IItemPaneObjectData implements IBaseSelectDa
     public var label(get, set) : Label;
     public var icon(get, set) : DisplayObject;
     public var id(get, set) : Int;
-    public var itemButton(get, set) : ToggleButtonLite;
+    public var itemButton(get, set) : ToggleButton;
 
-    private var _itemButton : ToggleButtonLite;
+    private var _itemButton : ToggleButton;
     
     private var _name : String = "";
     private var _id : Int = -1;
@@ -226,7 +226,7 @@ class ItemPaneObjectData implements IItemPaneObjectData implements IBaseSelectDa
 	 * Set the button being used
 	 */
     
-    private function set_itemButton(value : ToggleButtonLite) : ToggleButtonLite
+    private function set_itemButton(value : ToggleButton) : ToggleButton
     {
         _itemButton = value;
         return value;
@@ -236,7 +236,7 @@ class ItemPaneObjectData implements IItemPaneObjectData implements IBaseSelectDa
 	 * Return the toggle button being used
 	 */
     
-    private function get_itemButton() : ToggleButtonLite
+    private function get_itemButton() : ToggleButton
     {
         return _itemButton;
     }

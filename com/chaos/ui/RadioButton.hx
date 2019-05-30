@@ -22,7 +22,7 @@ import com.chaos.ui.RadioButtonManager;
 	 *  @author Erick Feiling
 	 *  @date 7-2-09
 	 */
-class RadioButton extends ToggleButtonLite implements IRadioButton implements IBaseUI
+class RadioButton extends ToggleButton implements IRadioButton implements IBaseUI
 {
     public var textFormat(get, set) : TextFormat;
     public var groupName(get, set) : String;

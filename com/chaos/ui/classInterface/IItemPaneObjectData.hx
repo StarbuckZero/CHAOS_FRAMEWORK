@@ -9,9 +9,6 @@ package com.chaos.ui.classInterface;
 
 import openfl.display.DisplayObject;
 
-import com.chaos.ui.Label;
-
-import com.chaos.ui.ToggleButtonLite;
 
 interface IItemPaneObjectData extends IBaseSelectData
 {
@@ -29,7 +26,7 @@ interface IItemPaneObjectData extends IBaseSelectData
 	 */
     
     
-    var itemButton(get, set) : ToggleButtonLite;    
+    var itemButton(get, set) : IToggleButton;
     
     /**
 	 * Set the tool-tip
