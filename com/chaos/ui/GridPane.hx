@@ -613,7 +613,7 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
         button.name = colName;
         
         arrow.name = "arrow";
-        arrow.filterMode = false;
+        
         
         button.addEventListener(MouseEvent.CLICK, onButtonClick, false, 0, true);
         
@@ -1028,8 +1028,8 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
                 currentCell.borderThinkness = _cellBorderThinkness;
                 
                 // Make sure image is loaded and set background image
-                if (null != _cellBackgroundImage && null != _cellBackgroundImage.image && null != currentCell.container) 
-                    currentCell.container.setBackgroundBitmap(_cellBackgroundImage.image);
+                if (null != _cellBackgroundImage && null != currentCell.container) 
+                    currentCell.container.setBackgroundImage(_cellBackgroundImage);
             }
         }
     }

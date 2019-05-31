@@ -185,32 +185,32 @@ class ScrollBar extends Slider implements IScrollBar implements ISlider
 			
 		// Set Track color 
 		if ( -1 != UIStyleManager.SCROLLBAR_TRACK_COLOR)
-		trackColor = UIStyleManager.SCROLLBAR_TRACK_COLOR;
+			trackColor = UIStyleManager.SCROLLBAR_TRACK_COLOR;
 		
 		// Set Slider color  
 		if ( -1 != UIStyleManager.SCROLLBAR_SLIDER_NORMAL_COLOR) 
-		sliderColor = UIStyleManager.SCROLLBAR_SLIDER_NORMAL_COLOR;
+			sliderColor = UIStyleManager.SCROLLBAR_SLIDER_NORMAL_COLOR;
 		
 		if ( -1 != UIStyleManager.SCROLLBAR_SLIDER_OVER_COLOR)       
-		sliderOverColor = UIStyleManager.SCROLLBAR_SLIDER_OVER_COLOR;
+			sliderOverColor = UIStyleManager.SCROLLBAR_SLIDER_OVER_COLOR;
 		
 		if ( -1 != UIStyleManager.SCROLLBAR_SLIDER_DOWN_COLOR)     
-        sliderDownColor = UIStyleManager.SCROLLBAR_SLIDER_DOWN_COLOR;
+			sliderDownColor = UIStyleManager.SCROLLBAR_SLIDER_DOWN_COLOR;
 		
 		if (-1 != UIStyleManager.SLIDER_DISABLE_COLOR) 
-		sliderDisableColor = UIStyleManager.SLIDER_DISABLE_COLOR;
+			sliderDisableColor = UIStyleManager.SLIDER_DISABLE_COLOR;
 		
 		if ( -1 != UIStyleManager.SCROLLBAR_SLIDER_SIZE) 
-		sliderSize = UIStyleManager.SCROLLBAR_SLIDER_SIZE;
+			sliderSize = UIStyleManager.SCROLLBAR_SLIDER_SIZE;
 		
 		// Active resize for slider
 		_sliderResize = UIStyleManager.SCROLLBAR_SLIDER_ACTIVE_RESIZE;
 		
 		if ( -1 != UIStyleManager.SCROLLBAR_BUTTON_SIZE)     
-        _buttonWidth = _buttonHeight = UIStyleManager.SCROLLBAR_BUTTON_SIZE;
+			_buttonWidth = _buttonHeight = UIStyleManager.SCROLLBAR_BUTTON_SIZE;
 		
 		if ( -1 != UIStyleManager.SCROLLBAR_SLIDER_OFFSET)      
-		sliderOffSet = UIStyleManager.SCROLLBAR_SLIDER_OFFSET;
+			sliderOffSet = UIStyleManager.SCROLLBAR_SLIDER_OFFSET;
 		
 		super.rotateImage = UIStyleManager.SCROLLBAR_ROTATE_IMAGE;
     } 

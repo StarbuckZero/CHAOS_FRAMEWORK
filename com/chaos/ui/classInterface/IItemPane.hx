@@ -9,6 +9,7 @@ package com.chaos.ui.classInterface;
 
 import com.chaos.media.DisplayImage;
 import com.chaos.data.DataProvider;
+import openfl.display.BitmapData;
 
 import com.chaos.ui.data.ItemPaneObjectData;
 
@@ -99,7 +100,7 @@ interface IItemPane extends IScrollPane
 	 * @param	value The display object that will be used for the item background
 	 */
 
-    function setNormalItem(value : DisplayImage) : Void;
+    function setNormalItem(value : BitmapData) : Void;
     
     /**
 	 *
@@ -108,7 +109,7 @@ interface IItemPane extends IScrollPane
 	 * @param	value The display object that will be used for the item background
 	 */
     
-    function setOverItem(value : DisplayImage) : Void;
+    function setOverItem(value : BitmapData) : Void;
     
     /**
 	 *
@@ -117,7 +118,7 @@ interface IItemPane extends IScrollPane
 	 * @param	value The display object that will be used for the item background
 	 */
     
-    function setSelectedItem(value : DisplayImage) : Void;
+    function setSelectedItem(value : BitmapData) : Void;
     
     /**
 	 * The disable state of an item block
@@ -125,7 +126,7 @@ interface IItemPane extends IScrollPane
 	 * @param	value The display object that will be used for the item background
 	 */
     
-    function setDisableItem(value : DisplayImage) : Void;
+    function setDisableItem(value : BitmapData) : Void;
     
     /**
 	 * Add a new item to the item pane

@@ -133,9 +133,9 @@ class UIDemo extends Sprite
         combo.x = list.x + list.width + OFFSET;
         combo.y = list.y;
         
-        combo.addItem(new ComboBoxObjectData("Windows"));
-        combo.addItem(new ComboBoxObjectData("MacOS"));
-        combo.addItem(new ComboBoxObjectData("Linux"));
+        //combo.addItem(new ComboBoxObjectData("Windows"));
+        //combo.addItem(new ComboBoxObjectData("MacOS"));
+        //combo.addItem(new ComboBoxObjectData("Linux"));
         
         // ProgressBar
         progressBar = new ProgressBar();

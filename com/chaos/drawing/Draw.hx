@@ -2,6 +2,7 @@ package com.chaos.drawing;
 
 
 import com.chaos.utils.CompositeManager;
+import openfl.display.Bitmap;
 import openfl.display.BitmapData;
 import openfl.display.DisplayObject;
 import openfl.display.Shape;
@@ -50,7 +51,7 @@ class Draw
         square.graphics.drawRect(0, 0, shapeWidth, shapeHeight);
         square.graphics.endFill();
         
-        return ((bitmapMode)) ? CompositeManager.displayObjectToBitmap(square, bitmapSmoothing) : square;
+        return ((bitmapMode)) ? new Bitmap(CompositeManager.displayObjectToBitmap(square, bitmapSmoothing)) : square;
     }
     
     /**
@@ -84,7 +85,7 @@ class Draw
         
         square.graphics.drawRoundRect(0, 0, shapeWidth, shapeHeight, roundEdge);
         square.graphics.endFill();
-        return ((bitmapMode)) ? CompositeManager.displayObjectToBitmap(square, bitmapSmoothing) : square;
+        return ((bitmapMode)) ? new Bitmap(CompositeManager.displayObjectToBitmap(square, bitmapSmoothing)) : square;
     }
     
     /**
@@ -109,7 +110,8 @@ class Draw
         square.graphics.drawRect(0, 0, shapeWidth, shapeHeight);
         square.graphics.endFill();
         
-        return ((bitmapMode)) ? CompositeManager.displayObjectToBitmap(square, bitmapSmoothing) : square;
+        return ((bitmapMode)) ? new Bitmap( CompositeManager.displayObjectToBitmap(square, bitmapSmoothing)) : square;
+		
     }
     
     /**
@@ -137,7 +139,7 @@ class Draw
         line.graphics.lineTo(endX, endY);
         line.graphics.endFill();
         
-        return ((bitmapMode)) ? CompositeManager.displayObjectToBitmap(line, bitmapSmoothing) : line;
+        return ((bitmapMode)) ? new Bitmap( CompositeManager.displayObjectToBitmap(line, bitmapSmoothing) ): line;
     }
 }
 

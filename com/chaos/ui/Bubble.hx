@@ -2,21 +2,18 @@ package com.chaos.ui;
 
 
 
-import com.chaos.media.DisplayImage;
 import com.chaos.ui.classInterface.IBaseUI;
 import com.chaos.ui.classInterface.IBubble;
 import com.chaos.ui.classInterface.IOverlay;
+import openfl.display.BitmapData;
+import openfl.display.Shape;
 
 import com.chaos.ui.Overlay;
-import com.chaos.utils.Utils;
 
-import openfl.display.DisplayObject;
-import openfl.display.Bitmap;
-import openfl.display.Shape;
+
 import openfl.display.Sprite;
 import openfl.events.Event;
 
-import openfl.geom.Point;
 
 /**
  * Creates a bubble which can also double as a tool-tip.
@@ -57,8 +54,8 @@ class Bubble extends Overlay implements IBubble implements IOverlay implements I
     //private var _showImage : Bool = true;
     //private var _smoothImage : Bool = true;
     
-    private var _imageBackground : Bitmap = null;
-    private var _backgroundDisplayImage : DisplayImage;
+    private var _imageBackground : BitmapData;
+    
     
     private var _showTail : Bool = true;
     private var _tailSize : Float = 10;
@@ -82,7 +79,7 @@ class Bubble extends Overlay implements IBubble implements IOverlay implements I
         
         super(defaultWidth, defaultHeight);
         
-        //init();
+        
         addEventListener(Event.ADDED_TO_STAGE, onStageAdd, false, 0, true);
         addEventListener(Event.REMOVED_FROM_STAGE, onStageRemove, false, 0, true);
     }
@@ -109,8 +106,6 @@ class Bubble extends Overlay implements IBubble implements IOverlay implements I
         _backgroundBorder = new Shape();
         
         _content = new Sprite();
-        
-        _backgroundDisplayImage = new DisplayImage();
         
         contentHolder.addChild(_background);
         contentHolder.addChild(_content);
@@ -145,18 +140,18 @@ class Bubble extends Overlay implements IBubble implements IOverlay implements I
     private function initBitmap() : Void
     {
         if (null != UIBitmapManager.getUIElement(Bubble.TYPE, UIBitmapManager.BUBBLE_BACKGROUND)) 
-            setBackgroundBitmap(UIBitmapManager.getUIElement(Bubble.TYPE, UIBitmapManager.BUBBLE_BACKGROUND));
+            setBackgroundImage(UIBitmapManager.getUIElement(Bubble.TYPE, UIBitmapManager.BUBBLE_BACKGROUND));
         
-        var topLeftImage : Bitmap = null;
-        var topMiddleImage : Bitmap = null;
-        var topRightImage : Bitmap = null;
+        var topLeftImage : BitmapData;
+        var topMiddleImage : BitmapData = null;
+        var topRightImage : BitmapData = null;
         
-        var middleLeftImage : Bitmap = null;
-        var middleRightImage : Bitmap = null;
+        var middleLeftImage : BitmapData = null;
+        var middleRightImage : BitmapData = null;
         
-        var bottomLeftImage : Bitmap = null;
-        var bottomMiddleImage : Bitmap = null;
-        var bottomRightImage : Bitmap = null;
+        var bottomLeftImage : BitmapData = null;
+        var bottomMiddleImage : BitmapData = null;
+        var bottomRightImage : BitmapData = null;
         
         // Top
         if (null != UIBitmapManager.getUIElement(Bubble.TYPE, UIBitmapManager.BUBBLE_OVERLAY_TOP_LEFT)) 
@@ -472,24 +467,10 @@ class Bubble extends Overlay implements IBubble implements IOverlay implements I
 	 * @param	value The bitmap that will be used
 	 */
     
-    public function setBackgroundBitmap(value : Bitmap) : Void
+    public function setBackgroundImage(value : BitmapData) : Void
     {
         _imageBackground = value;
         draw();
-    }
-    
-    /**
-	 *
-	 * Set the background image
-	 *
-	 * @param	value The URL of the image that will be used
-	 *
-	 */
-    
-    public function setBackgroundImage(value : String) : Void
-    {
-        _backgroundDisplayImage.load(value);
-        _backgroundDisplayImage.addEventListener(Event.COMPLETE, onImageLoaded, false, 0, true);
     }
 
     
@@ -505,13 +486,9 @@ class Bubble extends Overlay implements IBubble implements IOverlay implements I
         _tail.graphics.clear();
         
         if (_showImage && null != _imageBackground) 
-        {
-            _background.graphics.beginBitmapFill(_imageBackground.bitmapData, null, true, _smoothImage);
-        }
+            _background.graphics.beginBitmapFill(_imageBackground, null, true, _smoothImage);
         else 
-        {
             _background.graphics.beginFill(_backgroundColor, _backgroundAlpha);
-        }
         
         _background.graphics.drawRoundRect(topLeftPattern.width, topLeftPattern.height, width - (middleRightPattern.width + middleLeftPattern.width), height - (bottomMiddlePattern.height + topMiddlePattern.height), _rounded, _rounded);
         _background.graphics.endFill();
@@ -538,13 +515,9 @@ class Bubble extends Overlay implements IBubble implements IOverlay implements I
         
         // NOTE: Was going to use drawTriangles method but learn that lineTo and moveTo functions are faster for what I'm doing
         if (_showImage && null != _imageBackground) 
-        {
-            _tail.graphics.beginBitmapFill(_imageBackground.bitmapData, null, true, _smoothImage);
-        }
+            _tail.graphics.beginBitmapFill(_imageBackground, null, true, _smoothImage);
         else 
-        {
             _tail.graphics.beginFill(_backgroundColor, _backgroundAlpha);
-        }
         
 		_tail.graphics.moveTo(_tailSize / 2, 0);
 		_tail.graphics.lineTo(_tailSize, _tailSize);
@@ -588,15 +561,6 @@ class Bubble extends Overlay implements IBubble implements IOverlay implements I
         }
     }
     
-    private function onImageLoaded(event : Event) : Void
-    {
-        _imageBackground = cast(event.currentTarget, DisplayImage).image;
-        
-        if (_backgroundDisplayImage.hasEventListener(Event.COMPLETE)) 
-            _backgroundDisplayImage.removeEventListener(Event.COMPLETE, onImageLoaded);
-        
-        draw();
-    }
     
     private function applyContentMask() : Void
     {

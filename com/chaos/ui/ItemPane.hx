@@ -6,6 +6,7 @@ import com.chaos.ui.classInterface.IItemPane;
 import com.chaos.ui.classInterface.IItemPaneObjectData;
 import com.chaos.ui.classInterface.IScrollPane;
 import com.chaos.ui.classInterface.IToggleButton;
+import flash.display.BitmapData;
 import openfl.errors.Error;
 import openfl.text.TextFieldAutoSize;
 
@@ -13,9 +14,6 @@ import openfl.text.TextFieldAutoSize;
 import openfl.display.Bitmap;
 
 import openfl.events.Event;
-
-import openfl.text.TextFormat;
-import openfl.text.TextFormatAlign;
 
 import openfl.display.Sprite;
 import openfl.display.Shape;
@@ -69,12 +67,10 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
     private var _selectedIndex : Int = -1;
     private var _itemHolder : Sprite;
     
-    private var _itemTempItem : DisplayImage;
-    
-    private var _itemNormalState : DisplayImage;
-    private var _itemOverState : DisplayImage;
-    private var _itemSelectedState : DisplayImage;
-    private var _itemDisableState : DisplayImage;
+    private var _itemDefaultState : BitmapData;
+    private var _itemOverState : BitmapData;
+    private var _itemSelectedState : BitmapData;
+    private var _itemDisableState : BitmapData;
     
     private var _itemWidth : Int = UIStyleManager.ITEMPANE_DEFAULT_ITEM_WIDTH;
     private var _itemHeight : Int = UIStyleManager.ITEMPANE_DEFAULT_ITEM_HEIGHT;
@@ -120,11 +116,6 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
     public function new(paneWidth : Int = 200, paneHeight : Int = 300, itemData : DataProvider = null)
     {
 		
-        _itemNormalState = new DisplayImage();
-        _itemOverState = new DisplayImage();
-        _itemSelectedState = new DisplayImage();
-        _itemDisableState = new DisplayImage();
-        
         _itemHolder = new Sprite();
         
         // Init scroll pane
@@ -174,37 +165,16 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
             setBackgroundImage(UIBitmapManager.getUIElement(ItemPane.TYPE, UIBitmapManager.ITEMPANE_BACKGROUND));
         
         if (null != UIBitmapManager.getUIElement(ItemPane.TYPE, UIBitmapManager.ITEMPANE_ITEM_NORMAL)) 
-        {
-            
-            var tempNormal : DisplayImage = new DisplayImage();
-            tempNormal.setImage(UIBitmapManager.getUIElement(ItemPane.TYPE, UIBitmapManager.ITEMPANE_ITEM_NORMAL));
-            
-            setNormalItem(tempNormal);
-        }
+            setNormalItem(UIBitmapManager.getUIElement(ItemPane.TYPE, UIBitmapManager.ITEMPANE_ITEM_NORMAL));
         
         if (null != UIBitmapManager.getUIElement(ItemPane.TYPE, UIBitmapManager.ITEMPANE_ITEM_OVER)) 
-        {
-            var tempOver : DisplayImage = new DisplayImage();
-            tempOver.setImage(UIBitmapManager.getUIElement(ItemPane.TYPE, UIBitmapManager.ITEMPANE_ITEM_OVER));
-            
-            setOverItem(tempOver);
-        }
+            setOverItem(UIBitmapManager.getUIElement(ItemPane.TYPE, UIBitmapManager.ITEMPANE_ITEM_OVER));
         
         if (null != UIBitmapManager.getUIElement(ItemPane.TYPE, UIBitmapManager.ITEMPANE_ITEM_SELECTED)) 
-        {
-            var tempSelected : DisplayImage = new DisplayImage();
-            tempSelected.setImage(UIBitmapManager.getUIElement(ItemPane.TYPE, UIBitmapManager.ITEMPANE_ITEM_SELECTED));
-            
-            setSelectedItem(tempSelected);
-        }
+            setSelectedItem(UIBitmapManager.getUIElement(ItemPane.TYPE, UIBitmapManager.ITEMPANE_ITEM_SELECTED));
         
         if (null != UIBitmapManager.getUIElement(ItemPane.TYPE, UIBitmapManager.ITEMPANE_ITEM_DISABLE)) 
-        {
-            var tempDisable : DisplayImage = new DisplayImage();
-            tempDisable.setImage(UIBitmapManager.getUIElement(ItemPane.TYPE, UIBitmapManager.ITEMPANE_ITEM_DISABLE));
-            
-            setDisableItem(tempDisable);
-        }
+            setDisableItem(UIBitmapManager.getUIElement(ItemPane.TYPE, UIBitmapManager.ITEMPANE_ITEM_DISABLE));
     }
     
     override private function initStyle() : Void
@@ -614,12 +584,12 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
 	 *
 	 * The nomral state of an item block
 	 *
-	 * @param	value The display object that will be used for the item background
+	 * @param	value The image that will be used for the item background
 	 */
     
-    public function setNormalItem(value : DisplayImage) : Void
+    public function setNormalItem(value : BitmapData) : Void
     {
-        _itemNormalState = value;
+        _itemDefaultState = value;
         draw();
     }
     
@@ -627,10 +597,10 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
 	 *
 	 * The over state of an item block
 	 *
-	 * @param	value The display object that will be used for the item background
+	 * @param	value The image that will be used for the item background
 	 */
     
-    public function setOverItem(value : DisplayImage) : Void
+    public function setOverItem(value : BitmapData) : Void
     {
         _itemOverState = value;
         draw();
@@ -640,10 +610,10 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
 	 *
 	 * The down state of an item block
 	 *
-	 * @param	value The display object that will be used for the item background
+	 * @param	value The image that will be used for the item background
 	 */
     
-    public function setSelectedItem(value : DisplayImage) : Void
+    public function setSelectedItem(value : BitmapData) : Void
     {
         _itemSelectedState = value;
         draw();
@@ -655,7 +625,7 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
 	 * @param	value The display object that will be used for the item background
 	 */
     
-    public function setDisableItem(value : DisplayImage) : Void
+    public function setDisableItem(value : BitmapData) : Void
     {
         _itemDisableState = value;
         draw();
@@ -688,10 +658,10 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
 		{
            
             var itemLabel : Label = new Label();
-            var itemButton : ToggleButton = new ToggleButton();
+            var itemButton : ToggleButton = new ToggleButton(_itemWidth, _itemHeight);
             var itemData : IItemPaneObjectData = cast(_list.getItemAt(i), ItemPaneObjectData);
             var oldData : IItemPaneObjectData = ((i == 0)) ? null : cast(_list.getItemAt(i - 1), ItemPaneObjectData);
-            var textFormat : TextFormat = new TextFormat();
+            
             
             // Attach a tool-tip
             if ("" != itemData.toolTipText) 
@@ -731,10 +701,27 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
                 itemLabel.textColor = _labelSelectedColor;
             
             itemButton.name = Std.string(i);
-            itemButton.setNormalState(createButtonState(_itemWidth, _itemHeight, _itemNormalColor, ((null != _itemNormalState.image)) ? _itemNormalState.image : null));
-            itemButton.setOverState(createButtonState(_itemWidth, _itemHeight, _itemOverColor, ((null != _itemOverState.image)) ? _itemOverState.image : null));
-            itemButton.setDownState(createButtonState(_itemWidth, _itemHeight, _itemSelectedColor, ((null != _itemSelectedState.image)) ? _itemSelectedState.image : null));
-            itemButton.setDisableState(createButtonState(_itemWidth, _itemHeight, _itemDisableColor, ((null != _itemDisableState.image)) ? _itemDisableState.image : null));
+			
+			
+			if ( null != _itemDefaultState)
+				itemButton.setDefaultStateImage(_itemDefaultState);
+			else
+				itemButton.defaultColor = _itemDefaultColor;
+			
+			if (null != _itemOverState)
+				itemButton.setOverStateImage(_itemOverState);
+			else
+				itemButton.overColor = _itemOverColor;
+				
+			if (null != _itemSelectedState)
+				itemButton.setDownStateImage(_itemSelectedState);
+			else
+				itemButton.downColor = _itemSelectedColor;
+			
+			if (null != _itemDisableState)
+				itemButton.setDisableStateImage(_itemDisableState);
+			else
+				itemButton.disableColor = _itemDisableColor;
             
             itemButton.addEventListener(ToggleEvent.DOWN_STATE, onItemDownPress);
            

@@ -69,7 +69,7 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 	private var _outline : Shape;
 	private var _buttonHeight : Int = 15;
 	private var _buttonWidth : Int = 15;
-	private var _buttonNormalColor : Int = 0xCCCCCC;
+	private var _itemDefaultColor : Int = 0xCCCCCC;
 	private var _buttonOverColor : Int = 0x666666;
 	private var _buttonDownColor : Int = 0x333333;
 	private var _buttonDisableColor : Int = 0x999999;
@@ -844,7 +844,7 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 	
 	private function set_buttonColor(value : Int) : Int 
 	{
-		_scrollBarV.buttonColor = _scrollBarH.buttonColor = _buttonNormalColor = value;
+		_scrollBarV.buttonColor = _scrollBarH.buttonColor = _itemDefaultColor = value;
 		return value; 
 	}
 		
@@ -853,7 +853,7 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 	* Returns the color used on the buttons
 	*/
 	
-	private function get_buttonColor() : Int { return _buttonNormalColor; } 
+	private function get_buttonColor() : Int { return _itemDefaultColor; } 
 		
 	/**
 	* Set the color of the button over state

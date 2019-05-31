@@ -10,6 +10,7 @@ package com.chaos.ui.data;
 
 import com.chaos.ui.classInterface.IBaseSelectData;
 import com.chaos.ui.classInterface.IItemPaneObjectData;
+import com.chaos.ui.classInterface.IToggleButton;
 import openfl.display.DisplayObject;
 
 import com.chaos.ui.Label;
@@ -27,9 +28,9 @@ class ItemPaneObjectData implements IItemPaneObjectData implements IBaseSelectDa
     public var label(get, set) : Label;
     public var icon(get, set) : DisplayObject;
     public var id(get, set) : Int;
-    public var itemButton(get, set) : ToggleButton;
+    public var itemButton(get, set) : IToggleButton;
 
-    private var _itemButton : ToggleButton;
+    private var _itemButton : IToggleButton;
     
     private var _name : String = "";
     private var _id : Int = -1;
@@ -226,7 +227,7 @@ class ItemPaneObjectData implements IItemPaneObjectData implements IBaseSelectDa
 	 * Set the button being used
 	 */
     
-    private function set_itemButton(value : ToggleButton) : ToggleButton
+    private function set_itemButton(value : IToggleButton) : IToggleButton
     {
         _itemButton = value;
         return value;
@@ -236,7 +237,7 @@ class ItemPaneObjectData implements IItemPaneObjectData implements IBaseSelectDa
 	 * Return the toggle button being used
 	 */
     
-    private function get_itemButton() : ToggleButton
+    private function get_itemButton() : IToggleButton
     {
         return _itemButton;
     }

@@ -1,9 +1,9 @@
 package com.chaos.ui.classInterface;
 
-import openfl.display.Bitmap;
+
 import openfl.text.Font;
 import openfl.text.TextFormat;
-import com.chaos.media.DisplayImage;
+
 import com.chaos.ui.Label;
 import com.chaos.ui.classInterface.IToggleButton;
 
@@ -74,62 +74,5 @@ interface ICheckBox extends IToggleButton
 	 */
 	
 	function unloadEmbedFont() : Void;  
-	/**
-	 * This is for setting an image to the checkbox default state.
-	 *
-	 * @param value Set the image based on a URL file path.
-	 *
-	 */ 
 	
-	function setNormalImage(value : String) : Void;  
-	/**
-	 * This is for setting an image to the checkbox default state.
-	 *
-	 * @param value Set the image based on a Bitmap being pass
-	 *
-	 */ 
-	
-	function setNormalBitmap(value : Bitmap) : Void;  
-	/**
-	 * This is for setting an image to the checkbox roll over state.
-	 *
-	 * @param value Set the image based on a URL file path.
-	 *
-	 */
-	function setOverImage(value : String) : Void;  
-	/**
-	 * This is for setting an image to the checkbox roll over state.
-	 *
-	 * @param value Set the image based on a Bitmap being pass
-	 *
-	 */
-	function setOverBitmap(value : Bitmap) : Void; 
-	/**
-	 * This is for setting an image to the checkbox roll down state.
-	 *
-	 * @param value Set the image based on a URL file path.
-	 *
-	 */
-	function setDownImage(value : String) : Void;  
-	/**
-	 * This is for setting an image to the checkbox press down state.
-	 *
-	 * @param value Set the image based on a Bitmap being pass
-	 *
-	 */  
-	function setDownBitmap(value : Bitmap) : Void; 
-	 /**
-	 * This is for setting an image to the checkbox disable state.
-	 *
-	 * @param value Set the image based on a URL file path.
-	 *
-	 */ 
-	 function setDisableImage(value : String) : Void; 
-	 /**
-	 * This is for setting an image to the checkbox disable state.
-	 *
-	 * @param value Set the image based on a Bitmap being pass
-	 *
-	 */  
-	 function setDisableBitmap(value : Bitmap) : Void;
 }
