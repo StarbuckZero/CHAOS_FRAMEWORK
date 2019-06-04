@@ -22,17 +22,69 @@ class BaseUI extends Sprite implements IBaseUI
     public var enabled(get, set) : Bool;
     public var displayObject(get, never) : DisplayObject;
 
-    private var _width : Float;
-    private var _height : Float;
+    private var _width : Float = 0;
+    private var _height : Float = 0;
     
     private var _enabled : Bool = true;
     
     
-    public function new()
+    public function new( data:Dynamic = null )
     {
         super();
 		
+		
+		// If object passed in then start setting defaults
+		if (null != data)
+			setData(data);
+		
+		initialize();
     }
+	
+	/**
+	 * Set properties based on object
+	 * @param	data object with supported types
+	 */
+	
+	public function setData(data:Dynamic):Void
+	{
+		if (Reflect.hasField(data, "width"))
+			_width = Reflect.field(data,"width");
+		
+		if (Reflect.hasField(data, "height"))
+			_height = Reflect.field(data,"height");
+			
+		if (Reflect.hasField(data, "enabled"))
+			_enabled = Reflect.field(data,"enabled");
+	}
+	
+	/**
+	 * initialize all importain objects
+	 */
+	
+	public function initialize():Void
+	{
+		// Init objects here
+		//reskin();
+		//draw();
+	}
+	
+    
+    /**
+	 * Update the UI class
+	 */
+    public function draw() : Void
+    {
+        // Update components and shapes here
+        
+    }
+    
+    /**
+	 * Reload all bitmap images and UI Styles
+	 */
+    public function reskin() : Void
+    {
+        // Pull all 
+    }	
 
     
     /**
@@ -97,6 +149,7 @@ class BaseUI extends Sprite implements IBaseUI
         return _height;
     }
 	
+	
     function set_enabled(value : Bool) : Bool
     {
         _enabled = value;
@@ -117,23 +170,6 @@ class BaseUI extends Sprite implements IBaseUI
     {
         return this;
     }
-    
-    /**
-	 * Update the UI class
-	 */
-    public function draw() : Void
-    {
-        
-        
-    }
-    
-    /**
-	 * Reload all bitmap images
-	 */
-    public function reskin() : Void
-    {
-        
-        
-    }
+
 }
 

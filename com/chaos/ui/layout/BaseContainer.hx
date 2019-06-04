@@ -40,7 +40,7 @@ class BaseContainer extends BaseUI implements IBaseContainer implements IBaseUI
     public var contentObject : Sprite;
     
     
-    private var _imageBackground : BitmapData;
+    private var _imageBackground : BitmapData = null;
     private var _backgroundAlpha : Float = 1;
     private var _backgroundColor : Int = 0xCCCCCC;
     private var _background : Bool = true;
@@ -208,7 +208,10 @@ class BaseContainer extends BaseUI implements IBaseContainer implements IBaseUI
 		
         backgroundShape.graphics.clear();
         
-		(_showImage && null != _imageBackground != null) ? backgroundShape.graphics.beginBitmapFill(_imageBackground, null, true, _smoothImage) : backgroundShape.graphics.beginFill(_backgroundColor, _backgroundAlpha);
+		if(_showImage && null != _imageBackground)
+			backgroundShape.graphics.beginBitmapFill(_imageBackground, null, true, _smoothImage);
+		else 
+			backgroundShape.graphics.beginFill(_backgroundColor, _backgroundAlpha);
 		
 		backgroundShape.graphics.drawRect(0, 0, _width, _height);
 		backgroundShape.graphics.endFill();

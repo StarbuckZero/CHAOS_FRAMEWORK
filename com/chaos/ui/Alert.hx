@@ -1169,9 +1169,9 @@ class Alert
 		setCloseButtonTheme(window);
 
 		// Only show close button if need be will never show min and max button for AlertBox
-		window.showCloseButton = _enabledCloseButton;
-		window.showMaxButton = false;
-		window.showMinButton = false;
+		window.closeButton.visible = _enabledCloseButton;
+		window.minButton.visible = window.maxButton.visible = false;
+		
 
 		// Just in case it's going to be set locally
 		if ("" != _buttonLocation)
@@ -1288,7 +1288,7 @@ class Alert
 
 					// Show close button if using cancel button
 					if (tempButton.name == CANCEL)
-						window.showCloseButton = true;
+						window.closeButton.visible = true;
 
 					tempButton.x = ((buttonHolderClip.numChildren == 1)) ? BUTTON_OFFSET_X : tempButton.width + buttonHolderClip.getChildAt(buttonHolderClip.numChildren - 2).x + BUTTON_OFFSET_X;
 				}
@@ -1366,10 +1366,10 @@ class Alert
 
 	private static function setCloseButtonTheme(window : Window) : Void
 	{
-		window.closeButtonNormalColor = (( -1 == UIStyleManager.ALERT_CLOSE_BUTTON_NORMAL_COLOR)) ? _closeButtonNormalColor : UIStyleManager.ALERT_CLOSE_BUTTON_NORMAL_COLOR;
-		window.closeButtonOverColor = (( -1 == UIStyleManager.ALERT_CLOSE_BUTTON_OVER_COLOR)) ? _closeButtonOverColor : UIStyleManager.ALERT_CLOSE_BUTTON_OVER_COLOR;
-		window.closeButtonDownColor = (( -1 == UIStyleManager.ALERT_CLOSE_BUTTON_DOWN_COLOR)) ? _closeButtonDownColor : UIStyleManager.ALERT_CLOSE_BUTTON_DOWN_COLOR;
-		window.closeButtonDisableColor = ((-1 == UIStyleManager.ALERT_CLOSE_BUTTON_DISABLE_COLOR)) ? _closeButtonDisableColor : UIStyleManager.ALERT_CLOSE_BUTTON_DISABLE_COLOR;  // All images for close button  if (_closeButtonNormalURL != "")             window.setCloseButtonImage(_closeButtonNormalURL);if (_closeButtonOverURL != "")             window.setCloseOverButtonImage(_closeButtonOverURL);if (_closeButtonDownURL != "")             window.setCloseDownButtonImage(_closeButtonDownURL);if (_closeButtonDisableURL != "")             window.setCloseDisableButtonImage(_closeButtonDisableURL)  // All images for close button that are bitmaps  ;if (_closeButtonNormalBitmap != null)             window.setCloseButtonBitmap(_closeButtonNormalBitmap);if (_closeButtonOverBitmap != null)             window.setCloseOverButtonBitmap(_closeButtonOverBitmap);if (_closeButtonDownBitmap != null)             window.setCloseDownButtonBitmap(_closeButtonDownBitmap);if (_closeButtonDisableBitmap != null)             window.setCloseDisableButtonBitmap(_closeButtonDisableBitmap);
+		window.closeButton.buttonColor = (( -1 == UIStyleManager.ALERT_CLOSE_BUTTON_NORMAL_COLOR)) ? _closeButtonNormalColor : UIStyleManager.ALERT_CLOSE_BUTTON_NORMAL_COLOR;
+		window.closeButton.buttonOverColor = (( -1 == UIStyleManager.ALERT_CLOSE_BUTTON_OVER_COLOR)) ? _closeButtonOverColor : UIStyleManager.ALERT_CLOSE_BUTTON_OVER_COLOR;
+		window.closeButton.buttonDownColor = (( -1 == UIStyleManager.ALERT_CLOSE_BUTTON_DOWN_COLOR)) ? _closeButtonDownColor : UIStyleManager.ALERT_CLOSE_BUTTON_DOWN_COLOR;
+		window.closeButton.buttonDisableColor = ((-1 == UIStyleManager.ALERT_CLOSE_BUTTON_DISABLE_COLOR)) ? _closeButtonDisableColor : UIStyleManager.ALERT_CLOSE_BUTTON_DISABLE_COLOR;  // All images for close button  if (_closeButtonNormalURL != "")             window.setCloseButtonImage(_closeButtonNormalURL);if (_closeButtonOverURL != "")             window.setCloseOverButtonImage(_closeButtonOverURL);if (_closeButtonDownURL != "")             window.setCloseDownButtonImage(_closeButtonDownURL);if (_closeButtonDisableURL != "")             window.setCloseDisableButtonImage(_closeButtonDisableURL)  // All images for close button that are bitmaps  ;if (_closeButtonNormalBitmap != null)             window.setCloseButtonBitmap(_closeButtonNormalBitmap);if (_closeButtonOverBitmap != null)             window.setCloseOverButtonBitmap(_closeButtonOverBitmap);if (_closeButtonDownBitmap != null)             window.setCloseDownButtonBitmap(_closeButtonDownBitmap);if (_closeButtonDisableBitmap != null)             window.setCloseDisableButtonBitmap(_closeButtonDisableBitmap);
 	}
 
 	private static function setupAlertTheme(window : Window) : Void

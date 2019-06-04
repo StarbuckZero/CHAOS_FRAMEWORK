@@ -1,24 +1,21 @@
 package com.chaos.ui;
 
 import com.chaos.ui.classInterface.IBaseUI;
+import com.chaos.ui.classInterface.ILabel;
 import com.chaos.ui.classInterface.IProgressBar;
+import openfl.display.BitmapData;
 import openfl.errors.Error;
-import openfl.display.Sprite;
+
 import openfl.display.Shape;
 import openfl.events.Event;
-import openfl.filters.BitmapFilter;
 import openfl.text.Font;
 import openfl.text.TextFormat;
 import openfl.text.TextFormatAlign;
-import openfl.display.Bitmap;
-import openfl.display.DisplayObject;
-import openfl.display.LoaderInfo;
 import openfl.events.ProgressEvent;
 import openfl.net.URLLoader;
 import openfl.media.Sound;
 import openfl.display.Loader;
 import com.chaos.ui.Label;
-import com.chaos.media.DisplayImage;
 import com.chaos.ui.UIStyleManager;
 import com.chaos.ui.UIBitmapManager;
 
@@ -33,8 +30,8 @@ import com.chaos.ui.UIBitmapManager;
 		
 		public static inline var TYPE : String = "ProgressBar";
 		
-		public var label(get, never) : Label;
-		public var loadedLabel(get, never) : Label;
+		public var label(get, never) : ILabel;
+		public var loadedLabel(get, never) : ILabel;
 		public var border(get, set) : Bool;
 		public var borderColor(get, set) : Int;
 		public var borderThinkness(get, set) : Float;
@@ -73,8 +70,8 @@ import com.chaos.ui.UIBitmapManager;
 		private var _loadedBar : Shape;
 		private var _mask : Shape;
 		private var _fontMask : Shape;
-		private var _backgroundImage : DisplayImage;
-		private var _loadedBarImage : DisplayImage;
+		private var _backgroundImage : BitmapData;
+		private var _loadedBarImage : BitmapData;
 		private var _label : Label;
 		private var _loadedLabel : Label;
 		private var _align : String = TextFormatAlign.CENTER;
@@ -117,12 +114,6 @@ import com.chaos.ui.UIBitmapManager;
 		_loadedBar = new Shape();
 		_mask = new Shape();
 		_fontMask = new Shape(); 
-		
-		// Setup Image holders
-		_backgroundImage = new DisplayImage();
-		_loadedBarImage = new DisplayImage();
-		_backgroundImage.onImageComplete = onBackgroundComplete;
-		_loadedBarImage.onImageComplete = onBackgroundLoadedComplete;
 		
 		// Setup percent text
 		_label = new Label();
@@ -200,10 +191,10 @@ import com.chaos.ui.UIBitmapManager;
 	{
 		// UI Skinning
 		if (null != UIBitmapManager.getUIElement(ProgressBar.TYPE, UIBitmapManager.PROGRESSBAR_BACKGROUND))  
-		setBackgroundBitmap(UIBitmapManager.getUIElement(ProgressBar.TYPE, UIBitmapManager.PROGRESSBAR_BACKGROUND));
+		setBackgroundImage(UIBitmapManager.getUIElement(ProgressBar.TYPE, UIBitmapManager.PROGRESSBAR_BACKGROUND));
 		
 		if (null != UIBitmapManager.getUIElement(ProgressBar.TYPE, UIBitmapManager.PROGRESSBAR_LOADED_BACKGROUND))     
-        setLoadBarBitmap(UIBitmapManager.getUIElement(ProgressBar.TYPE, UIBitmapManager.PROGRESSBAR_LOADED_BACKGROUND));
+        setLoadBarImage(UIBitmapManager.getUIElement(ProgressBar.TYPE, UIBitmapManager.PROGRESSBAR_LOADED_BACKGROUND));
     }
 	
 	/**
@@ -416,16 +407,7 @@ import com.chaos.ui.UIBitmapManager;
 	
 	private function get_textLoadColor() : Int { return _loadedLabel.textColor; }
 	
-	
-	/**
-	 * This is for setting an image to the ProgressBar background.
-	 *
-	 * @param value Set the image based on a URL file path.
-	 *
-	 */
-	
-	public function setBackgroundImage(value : String) : Void { _backgroundImage.load(value); }
-		 
+
 	/**
 	 * This is for setting an image to the ProgressBar. It is best to set an image that can be tile.
 	 *
@@ -433,17 +415,12 @@ import com.chaos.ui.UIBitmapManager;
 	 *
 	 */
 	
-	public function setBackgroundBitmap(value : Bitmap) : Void { _backgroundImage.setImage(value); _bgDisplayNormalImage = true; }
+	public function setBackgroundImage(value : BitmapData) : Void 
+	{
+		_backgroundImage = value;
+	}
 	
-	
-	/**
-	 * This is for setting an image to the ProgressBar loaded background.
-	 *
-	 * @param value Set the image based on a URL file path.
-	 *
-	 */
-	
-	public function setLoadBarImage(value : String) : Void { _loadedBarImage.load(value); }
+
 	
 	/**
 	 * This is for setting an image to the ProgressBar loaded background. It is best to set an image that can be tile.
@@ -452,7 +429,10 @@ import com.chaos.ui.UIBitmapManager;
 	 *
 	 */
 	
-	public function setLoadBarBitmap(value : Bitmap) : Void { _loadedBarImage.setImage(value); _bgDisplayLoadedImage = true; }
+	public function setLoadBarImage(value : BitmapData) : Void 
+	{
+		_loadedBarImage = value;
+	}
 	
 	/**
 	 * The object you want the ProgressBar to use when it comes to showing how much of the file is loaded.
@@ -607,8 +587,16 @@ import com.chaos.ui.UIBitmapManager;
 		
 		if (_showImage) 
 		{
-			((_bgDisplayNormalImage)) ? _backgroundNormal.graphics.beginBitmapFill(_backgroundImage.image.bitmapData, null, true, _smoothImage) : _backgroundNormal.graphics.beginFill(_backgroundNormalColor, _backgroundAlpha);
-			((_bgDisplayLoadedImage)) ? _loadedBar.graphics.beginBitmapFill(_loadedBarImage.image.bitmapData, null, true, _smoothImage) : _loadedBar.graphics.beginFill(_loadColor, _loadedAlpha);
+			if (null != _backgroundImage)
+				_backgroundNormal.graphics.beginBitmapFill(_backgroundImage, null, true, _smoothImage)
+			else
+				_backgroundNormal.graphics.beginFill(_backgroundNormalColor, _backgroundAlpha);
+				
+				
+			if (null != _loadedBarImage)
+				_loadedBar.graphics.beginBitmapFill(_loadedBarImage, null, true, _smoothImage);
+			else
+				_loadedBar.graphics.beginFill(_loadColor, _loadedAlpha);
 		}
 		else 
 		{
@@ -651,17 +639,7 @@ import com.chaos.ui.UIBitmapManager;
 		}
     }
 	
-	private function onBackgroundComplete(event : Event) : Void 
-	{
-		_bgDisplayNormalImage = true; 
-		draw();
-	}
-	
-	private function onBackgroundLoadedComplete(event : Event) : Void 
-	{ 
-		_bgDisplayLoadedImage = true; 
-		draw(); 
-	}
+
 	
 	private function progressCheck(event : Event) : Void 
 	{ 

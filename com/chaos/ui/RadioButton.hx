@@ -1,18 +1,16 @@
 package com.chaos.ui;
 
+import com.chaos.ui.classInterface.ILabel;
 import com.chaos.ui.event.ToggleEvent;
 import com.chaos.ui.classInterface.IBaseUI;
 import com.chaos.ui.classInterface.IRadioButton;
-import openfl.display.Shape;
-import openfl.display.Bitmap;
-import openfl.events.MouseEvent;
 import openfl.events.Event;
 import openfl.text.Font;
 import openfl.text.TextFormatAlign;
 import openfl.text.TextFormat;
 import openfl.text.TextFieldAutoSize;
 import com.chaos.media.DisplayImage;
-import com.chaos.data.DataProvider;
+
 import com.chaos.ui.Label;
 import com.chaos.ui.RadioButtonManager;
 
@@ -26,7 +24,7 @@ class RadioButton extends ToggleButton implements IRadioButton implements IBaseU
 {
     public var textFormat(get, set) : TextFormat;
     public var groupName(get, set) : String;
-    public var textField(get, never) : Label;
+    public var label(get, never) : ILabel;
     public var text(get, set) : String;
     public var textWidth(get, set) : Float;
     public var textSize(get, set) : Int;
@@ -52,7 +50,6 @@ class RadioButton extends ToggleButton implements IRadioButton implements IBaseU
 	private var _disableFillColor : Int = 0xFFFFFF;
 	private var _downDotColor : Int = 0x000000;
 	private var _lineSize : Int = 2;
-	private var _bgAlpha : Float = 1;
 	private var _lineAlpha : Float = 1;
 	private var _overAlpha : Float = .2;
 	private var _blnNormalImage : Bool = false;
@@ -94,7 +91,7 @@ class RadioButton extends ToggleButton implements IRadioButton implements IBaseU
 		
 		_labelText = labelText;
 		
-		init();
+		initialize();
 		
 		
     }
@@ -109,22 +106,22 @@ class RadioButton extends ToggleButton implements IRadioButton implements IBaseU
 		UIBitmapManager.stopWatchElement(TYPE, this); 
 	}
 	
-	private function init() : Void
+	override public function initialize() : Void
 	{
 		// Setup Shapes
-		_baseNormal = new Shape();
-		_baseOver = new Shape();
-		_baseDown = new Shape();
-		_baseDisable = new Shape();
+		//_baseNormal = new Shape();
+		//_baseOver = new Shape();
+		//_baseDown = new Shape();
+		//_baseDisable = new Shape();
 		
 		// Create Text field
 		_labelTextField = new Label();
 		_labelTextFormat = new TextFormat();
 		
-		setNormalState(_baseNormal);
-		setOverState(_baseOver);
-		setDownState(_baseDown);
-		setDisableState(_baseDisable);
+		//setNormalState(_baseNormal);
+		//setOverState(_baseOver);
+		//setDownState(_baseDown);
+		//setDisableState(_baseDisable);
 		
 		_normalDisplayImage = new DisplayImage();
 		_overDisplayImage = new DisplayImage();
@@ -159,64 +156,64 @@ class RadioButton extends ToggleButton implements IRadioButton implements IBaseU
 	{
 		// Skin element  
 		if (null != UIBitmapManager.getUIElement(RadioButton.TYPE, UIBitmapManager.RADIOBUTTON_NORMAL))
-		setNormalBitmap(UIBitmapManager.getUIElement(RadioButton.TYPE, UIBitmapManager.RADIOBUTTON_NORMAL));
+		setDefaultStateImage(UIBitmapManager.getUIElement(RadioButton.TYPE, UIBitmapManager.RADIOBUTTON_NORMAL));
 		
 		if (null != UIBitmapManager.getUIElement(RadioButton.TYPE, UIBitmapManager.RADIOBUTTON_OVER))         
-		setOverBitmap(UIBitmapManager.getUIElement(RadioButton.TYPE, UIBitmapManager.RADIOBUTTON_OVER));
+		setOverStateImage(UIBitmapManager.getUIElement(RadioButton.TYPE, UIBitmapManager.RADIOBUTTON_OVER));
 		
 		if (null != UIBitmapManager.getUIElement(RadioButton.TYPE, UIBitmapManager.RADIOBUTTON_DOWN))     
-        setDownBitmap(UIBitmapManager.getUIElement(RadioButton.TYPE, UIBitmapManager.RADIOBUTTON_DOWN));
+        setDownStateImage(UIBitmapManager.getUIElement(RadioButton.TYPE, UIBitmapManager.RADIOBUTTON_DOWN));
 		
 		if (null != UIBitmapManager.getUIElement(RadioButton.TYPE, UIBitmapManager.RADIOBUTTON_DISABLE))   
-		setDisableBitmap(UIBitmapManager.getUIElement(RadioButton.TYPE, UIBitmapManager.RADIOBUTTON_DISABLE));
+		setDisableStateImage(UIBitmapManager.getUIElement(RadioButton.TYPE, UIBitmapManager.RADIOBUTTON_DISABLE));
     }
 	
 	private function initStyle() : Void
 	{  
 		// Unselected Color
 		if ( -1 != UIStyleManager.RADIOBUTTON_NORMAL_COLOR)
-		_normalLineColor = UIStyleManager.RADIOBUTTON_NORMAL_COLOR;
+			_normalLineColor = UIStyleManager.RADIOBUTTON_NORMAL_COLOR;
 		
 		if ( -1 != UIStyleManager.RADIOBUTTON_OVER_COLOR)   
-		_overLineColor = UIStyleManager.RADIOBUTTON_OVER_COLOR;
+			_overLineColor = UIStyleManager.RADIOBUTTON_OVER_COLOR;
 		
 		if ( -1 != UIStyleManager.RADIOBUTTON_DOWN_COLOR) 
-		_downLineColor = UIStyleManager.RADIOBUTTON_DOWN_COLOR;
+			_downLineColor = UIStyleManager.RADIOBUTTON_DOWN_COLOR;
 		
 		if ( -1 != UIStyleManager.RADIOBUTTON_DISABLE_COLOR)        
-		_disableLineColor = UIStyleManager.RADIOBUTTON_DISABLE_COLOR;
+			_disableLineColor = UIStyleManager.RADIOBUTTON_DISABLE_COLOR;
 		
 		// Selected Color
 		if ( -1 != UIStyleManager.RADIOBUTTON_NORMAL_SELECTED_COLOR)   
-		_normalFillColor = UIStyleManager.RADIOBUTTON_NORMAL_SELECTED_COLOR;
+			_normalFillColor = UIStyleManager.RADIOBUTTON_NORMAL_SELECTED_COLOR;
 		
 		if ( -1 != UIStyleManager.RADIOBUTTON_OVER_SELECTED_COLOR) 
-		_overFillColor = UIStyleManager.RADIOBUTTON_OVER_SELECTED_COLOR;
+			_overFillColor = UIStyleManager.RADIOBUTTON_OVER_SELECTED_COLOR;
 		
 		if ( -1 != UIStyleManager.RADIOBUTTON_DOWN_SELECTED_COLOR) 
-		_downFillColor = UIStyleManager.RADIOBUTTON_DOWN_SELECTED_COLOR;
+			_downFillColor = UIStyleManager.RADIOBUTTON_DOWN_SELECTED_COLOR;
 		
 		if ( -1 != UIStyleManager.RADIOBUTTON_DISABLE_SELECTED_COLOR)  
-		_disableFillColor = UIStyleManager.RADIOBUTTON_DISABLE_SELECTED_COLOR;
+			_disableFillColor = UIStyleManager.RADIOBUTTON_DISABLE_SELECTED_COLOR;
 		
 		// Label Style  
 		if ( -1 != UIStyleManager.RADIOBUTTON_TEXT_COLOR)     
-        _textColor = UIStyleManager.RADIOBUTTON_TEXT_COLOR;
+			_textColor = UIStyleManager.RADIOBUTTON_TEXT_COLOR;
 		
 		if ( -1 != UIStyleManager.RADIOBUTTON_TEXT_SIZE) 
-		_textSize = UIStyleManager.RADIOBUTTON_TEXT_SIZE;
+			_textSize = UIStyleManager.RADIOBUTTON_TEXT_SIZE;
 		
 		_textItalic = UIStyleManager.RADIOBUTTON_TEXT_ITALIC;
 		_textBold = UIStyleManager.RADIOBUTTON_TEXT_BOLD;
 		
 		if ("" != UIStyleManager.RADIOBUTTON_TEXT_FONT) 
-		_labelTextFormat.font = UIStyleManager.RADIOBUTTON_TEXT_FONT;
+			_labelTextFormat.font = UIStyleManager.RADIOBUTTON_TEXT_FONT;
 		
 		if ("" != UIStyleManager.RADIOBUTTON_TEXT_ALIGN) 
-		_textAlign = UIStyleManager.RADIOBUTTON_TEXT_ALIGN;
+			_textAlign = UIStyleManager.RADIOBUTTON_TEXT_ALIGN;
 		
 		if (null != UIStyleManager.RADIOBUTTON_TEXT_EMBED)      
-		_labelTextField.setEmbedFont(UIStyleManager.RADIOBUTTON_TEXT_EMBED);
+			_labelTextField.setEmbedFont(UIStyleManager.RADIOBUTTON_TEXT_EMBED);
     }
 	
 	/**
@@ -279,13 +276,23 @@ class RadioButton extends ToggleButton implements IRadioButton implements IBaseU
 	/**
 	 * Return the text field that is being used
 	 */
-	private function get_textField() : Label { return _labelTextField; } 
+	private function get_label() : ILabel 
+	{
+		return _labelTextField; 
+		
+	} 
 		 
 	/**
 	 * Set the label text
 	 */
 	
-	private function set_text(value : String) : String { _labelText = value; draw(); return value; } 
+	private function set_text(value : String) : String 
+	{
+		_labelText = value;
+		draw();
+		return value; 
+		
+	} 
 		 
 	/**
 	 * Return the text that is currenly being used in the label
@@ -369,14 +376,14 @@ class RadioButton extends ToggleButton implements IRadioButton implements IBaseU
 	 */
 	
 	private function set_showLabel(value : Bool) : Bool { _showLabel = value; return value; }
-		 
+	
 	
 	/**
 	 * Return if the label is hidden or is being displayed
 	 */
 	
 	private function get_showLabel() : Bool { return _showLabel; }
-		 
+	
 	
 	/**
 	 * Configure and setup the label to handle embedded fonts
@@ -386,88 +393,14 @@ class RadioButton extends ToggleButton implements IRadioButton implements IBaseU
 	 */
 	
 	public function setEmbedFont(value : Font) : Void { _labelTextField.setEmbedFont(value); }
-		 
+	
 	
 	/**
 	 * Unload the font that was set by using the setEmbedFont
 	 */
 	
 	public function unloadEmbedFont() : Void { _labelTextField.unloadEmbedFont(); }
-		 
-		/**
-		 * This is for setting an image to the radio button default state.
-		 *
-		 * @param value Set the image based on a URL file path.
-		 *
-		 */
-		
-	public function setNormalImage(value : String) : Void { _normalDisplayImage.load(value); draw(); }
 	
-	/**
-	 * This is for setting an image to the radio button default state.
-	 *
-	 * @param value Set the image based on a Bitmap being pass
-	 *
-	 */
-	
-	public function setNormalBitmap(value : Bitmap) : Void { _blnNormalImage = true; _normalDisplayImage.setImage(value); draw(); }
-	
-	/**
-	 * This is for setting an image to the radio button roll over state.
-	 *
-	 * @param value Set the image based on a URL file path.
-	 *
-	 */
-	
-	public function setOverImage(value : String) : Void { _overDisplayImage.load(value); draw(); }
-	
-	
-	/**
-	 * This is for setting an image to the radio button roll over state.
-	 *
-	 * @param value Set the image based on a Bitmap being pass
-	 *
-	 */
-	
-	public function setOverBitmap(value : Bitmap) : Void { _blnOverImage = true; _overDisplayImage.setImage(value); draw(); }
-
-	/**
-	 * This is for setting an image to the radio button roll down state.
-	 *
-	 * @param value Set the image based on a URL file path.
-	 *
-	 */
-	
-	public function setDownImage(value : String) : Void { _downDisplayImage.load(value); draw(); }
-	
-	/**
-	 * This is for setting an image to the radio button press down state.
-	 *
-	 * @param value Set the image based on a Bitmap being pass
-	 *
-	 */
-	
-	public function setDownBitmap(value : Bitmap) : Void { _blnDownImage = true; _downDisplayImage.setImage(value); draw(); }
-		 
-	/**
-	 * This is for setting an image to the radio button disable state.
-	 *
-	 * @param value Set the image based on a URL file path.
-	 *
-	 */
-	
-	public function setDisableImage(value : String) : Void { _disableDisplayImage.load(value); draw(); } 
-		 
-	/**
-	 * This is for setting an image to the radio button disable state.
-	 *
-	 * @param value Set the image based on a Bitmap being pass
-	 *
-	 */
-	
-	public function setDisableBitmap(value : Bitmap) : Void { _blnDisableImage = true; _disableDisplayImage.setImage(value); draw(); }
-	
-
 	
 	
 	/**
@@ -481,96 +414,96 @@ class RadioButton extends ToggleButton implements IRadioButton implements IBaseU
 		super.draw();
 		
 		// Draw Radio button layers
-		_baseNormal.graphics.clear();
-		_baseOver.graphics.clear();
-		_baseDown.graphics.clear();
-		_baseDisable.graphics.clear();
-		
-		// Drawing out radio button or using bitmap image if loaded 
-		if (_blnNormalImage && _showImage) 
-		{
-			_baseNormal.graphics.beginBitmapFill(_normalDisplayImage.image.bitmapData, null, true, _smoothImage);
-			_baseNormal.graphics.drawRect(0, 0, _normalDisplayImage.image.bitmapData.width, _normalDisplayImage.image.bitmapData.height);
-			_baseNormal.graphics.endFill();
-		}
-		else
-		{
-			_baseNormal.graphics.lineStyle(_lineSize, _normalLineColor, _lineAlpha);
-			_baseNormal.graphics.beginFill(_normalFillColor, _bgAlpha);
-			_baseNormal.graphics.drawCircle(UIStyleManager.RADIO_BTN_OFFSET_X, UIStyleManager.RADIO_BTN_OFFSET_Y, UIStyleManager.RADIO_BTN_SIZE);
-			_baseNormal.graphics.endFill();
-		}
-		
-		// Drawing out radio button or using bitmap image if loaded  
-		if (_blnOverImage && _showImage) 
-		{  
-			// Draw dot if selected  
-			if (!selected) 
-			{
-				_baseOver.graphics.beginBitmapFill(_overDisplayImage.image.bitmapData, null, true, _smoothImage);
-				_baseOver.graphics.drawRect(0, 0, _overDisplayImage.image.bitmapData.width, _overDisplayImage.image.bitmapData.height);
-				_baseOver.graphics.endFill();
-			}
-			else 
-			{
-				_baseOver.graphics.beginBitmapFill(_downDisplayImage.image.bitmapData, null, true, _smoothImage);
-				_baseOver.graphics.drawRect(0, 0, _downDisplayImage.image.bitmapData.width, _downDisplayImage.image.bitmapData.height);
-				_baseOver.graphics.endFill();
-			}
-        }
-        else 
-		{
-			_baseOver.graphics.lineStyle(_lineSize, _overLineColor, _lineAlpha);
-			_baseOver.graphics.beginFill(_overLineColor, _overAlpha);
-			_baseOver.graphics.drawCircle(UIStyleManager.RADIO_BTN_OFFSET_X, UIStyleManager.RADIO_BTN_OFFSET_Y, UIStyleManager.RADIO_BTN_SIZE);
-			_baseOver.graphics.endFill(); 
-			
-			// Draw dot if selected 
-			if (selected) 
-			{
-				_baseOver.graphics.lineStyle(_lineSize, _overLineColor, _lineAlpha);
-				_baseOver.graphics.beginFill(_downFillColor, _bgAlpha);
-				_baseOver.graphics.drawCircle(UIStyleManager.RADIO_BTN_OFFSET_X, UIStyleManager.RADIO_BTN_OFFSET_Y, UIStyleManager.RADIO_BTN_DOT);
-				_baseOver.graphics.endFill();
-			}
-			
-        }
-		
-		// Drawing out radio button or using bitmap image if loaded  
-		if (_blnDownImage && _showImage) 
-		{
-			_baseDown.graphics.beginBitmapFill(_downDisplayImage.image.bitmapData, null, true, _smoothImage);
-			_baseDown.graphics.drawRect(0, 0, _downDisplayImage.image.bitmapData.width, _downDisplayImage.image.bitmapData.height);
-			_baseDown.graphics.endFill();
-        }
-        else 
-		{
-			_baseDown.graphics.lineStyle(_lineSize, _downLineColor, _lineAlpha);
-			_baseDown.graphics.beginFill(_downFillColor, _bgAlpha);
-			_baseDown.graphics.drawCircle(UIStyleManager.RADIO_BTN_OFFSET_X, UIStyleManager.RADIO_BTN_OFFSET_Y, UIStyleManager.RADIO_BTN_SIZE);
-			_baseDown.graphics.endFill(); 
-			
-			// Dot needed for down state 
-			_baseDown.graphics.lineStyle(_lineSize, _downLineColor, _lineAlpha);
-			_baseDown.graphics.beginFill(_downFillColor, _bgAlpha);
-			_baseDown.graphics.drawCircle(UIStyleManager.RADIO_BTN_OFFSET_X, UIStyleManager.RADIO_BTN_OFFSET_Y, UIStyleManager.RADIO_BTN_DOT);
-			_baseDown.graphics.endFill();
-			
-        }
-		
-		// Drawing out radio button or using bitmap image if loaded  
-		if (_blnDisableImage && _showImage) 
-		{
-			_baseDisable.graphics.beginBitmapFill(_disableDisplayImage.image.bitmapData, null, true, _smoothImage);
-			_baseDisable.graphics.drawRect(0, 0, _disableDisplayImage.image.bitmapData.width, _disableDisplayImage.image.bitmapData.height);
-			_baseDisable.graphics.endFill();
-        }
-        else 
-		{	
-			_baseDisable.graphics.lineStyle(_lineSize, _disableLineColor, _lineAlpha); _baseDisable.graphics.beginFill(_disableFillColor, _bgAlpha);
-			_baseDisable.graphics.drawCircle(UIStyleManager.RADIO_BTN_OFFSET_X, UIStyleManager.RADIO_BTN_OFFSET_Y, UIStyleManager.RADIO_BTN_SIZE);
-			_baseDisable.graphics.endFill();
-        } 
+		//_baseNormal.graphics.clear();
+		//_baseOver.graphics.clear();
+		//_baseDown.graphics.clear();
+		//_baseDisable.graphics.clear();
+		//
+		//// Drawing out radio button or using bitmap image if loaded 
+		//if (_blnNormalImage && _showImage) 
+		//{
+		//	_baseNormal.graphics.beginBitmapFill(_normalDisplayImage.image.bitmapData, null, true, _smoothImage);
+		//	_baseNormal.graphics.drawRect(0, 0, _normalDisplayImage.image.bitmapData.width, _normalDisplayImage.image.bitmapData.height);
+		//	_baseNormal.graphics.endFill();
+		//}
+		//else
+		//{
+		//	_baseNormal.graphics.lineStyle(_lineSize, _normalLineColor, _lineAlpha);
+		//	_baseNormal.graphics.beginFill(_normalFillColor, _bgAlpha);
+		//	_baseNormal.graphics.drawCircle(UIStyleManager.RADIO_BTN_OFFSET_X, UIStyleManager.RADIO_BTN_OFFSET_Y, UIStyleManager.RADIO_BTN_SIZE);
+		//	_baseNormal.graphics.endFill();
+		//}
+		//
+		//// Drawing out radio button or using bitmap image if loaded  
+		//if (_blnOverImage && _showImage) 
+		//{  
+		//	// Draw dot if selected  
+		//	if (!selected) 
+		//	{
+		//		_baseOver.graphics.beginBitmapFill(_overDisplayImage.image.bitmapData, null, true, _smoothImage);
+		//		_baseOver.graphics.drawRect(0, 0, _overDisplayImage.image.bitmapData.width, _overDisplayImage.image.bitmapData.height);
+		//		_baseOver.graphics.endFill();
+		//	}
+		//	else 
+		//	{
+		//		_baseOver.graphics.beginBitmapFill(_downDisplayImage.image.bitmapData, null, true, _smoothImage);
+		//		_baseOver.graphics.drawRect(0, 0, _downDisplayImage.image.bitmapData.width, _downDisplayImage.image.bitmapData.height);
+		//		_baseOver.graphics.endFill();
+		//	}
+        //}
+        //else 
+		//{
+		//	_baseOver.graphics.lineStyle(_lineSize, _overLineColor, _lineAlpha);
+		//	_baseOver.graphics.beginFill(_overLineColor, _overAlpha);
+		//	_baseOver.graphics.drawCircle(UIStyleManager.RADIO_BTN_OFFSET_X, UIStyleManager.RADIO_BTN_OFFSET_Y, UIStyleManager.RADIO_BTN_SIZE);
+		//	_baseOver.graphics.endFill(); 
+		//	
+		//	// Draw dot if selected 
+		//	if (selected) 
+		//	{
+		//		_baseOver.graphics.lineStyle(_lineSize, _overLineColor, _lineAlpha);
+		//		_baseOver.graphics.beginFill(_downFillColor, _bgAlpha);
+		//		_baseOver.graphics.drawCircle(UIStyleManager.RADIO_BTN_OFFSET_X, UIStyleManager.RADIO_BTN_OFFSET_Y, UIStyleManager.RADIO_BTN_DOT);
+		//		_baseOver.graphics.endFill();
+		//	}
+		//	
+        //}
+		//
+		//// Drawing out radio button or using bitmap image if loaded  
+		//if (_blnDownImage && _showImage) 
+		//{
+		//	_baseDown.graphics.beginBitmapFill(_downDisplayImage.image.bitmapData, null, true, _smoothImage);
+		//	_baseDown.graphics.drawRect(0, 0, _downDisplayImage.image.bitmapData.width, _downDisplayImage.image.bitmapData.height);
+		//	_baseDown.graphics.endFill();
+        //}
+        //else 
+		//{
+		//	_baseDown.graphics.lineStyle(_lineSize, _downLineColor, _lineAlpha);
+		//	_baseDown.graphics.beginFill(_downFillColor, _bgAlpha);
+		//	_baseDown.graphics.drawCircle(UIStyleManager.RADIO_BTN_OFFSET_X, UIStyleManager.RADIO_BTN_OFFSET_Y, UIStyleManager.RADIO_BTN_SIZE);
+		//	_baseDown.graphics.endFill(); 
+		//	
+		//	// Dot needed for down state 
+		//	_baseDown.graphics.lineStyle(_lineSize, _downLineColor, _lineAlpha);
+		//	_baseDown.graphics.beginFill(_downFillColor, _bgAlpha);
+		//	_baseDown.graphics.drawCircle(UIStyleManager.RADIO_BTN_OFFSET_X, UIStyleManager.RADIO_BTN_OFFSET_Y, UIStyleManager.RADIO_BTN_DOT);
+		//	_baseDown.graphics.endFill();
+		//	
+        //}
+		//
+		//// Drawing out radio button or using bitmap image if loaded  
+		//if (_blnDisableImage && _showImage) 
+		//{
+		//	_baseDisable.graphics.beginBitmapFill(_disableDisplayImage.image.bitmapData, null, true, _smoothImage);
+		//	_baseDisable.graphics.drawRect(0, 0, _disableDisplayImage.image.bitmapData.width, _disableDisplayImage.image.bitmapData.height);
+		//	_baseDisable.graphics.endFill();
+        //}
+        //else 
+		//{	
+		//	_baseDisable.graphics.lineStyle(_lineSize, _disableLineColor, _lineAlpha); _baseDisable.graphics.beginFill(_disableFillColor, _bgAlpha);
+		//	_baseDisable.graphics.drawCircle(UIStyleManager.RADIO_BTN_OFFSET_X, UIStyleManager.RADIO_BTN_OFFSET_Y, UIStyleManager.RADIO_BTN_SIZE);
+		//	_baseDisable.graphics.endFill();
+        //} 
 		
 		// Set label and style
 		_labelTextField.align = _textAlign;
@@ -596,44 +529,50 @@ class RadioButton extends ToggleButton implements IRadioButton implements IBaseU
 		_labelTextField.visible = _showLabel;
 		
 		// Draw clear box for rollover states
-		if (_textSelectable) 
-		{
-			_baseNormal.graphics.lineStyle(_lineSize, _normalLineColor, 0);
-			_baseNormal.graphics.beginFill(_normalFillColor, 0);
-			_baseNormal.graphics.drawRect(0, 0, width, height);
-			_baseNormal.graphics.endFill(); _baseOver.graphics.lineStyle(_lineSize, _overLineColor, 0);
-			_baseOver.graphics.beginFill(_overFillColor, 0);
-			_baseOver.graphics.drawRect(0, 0, width, height);
-			_baseOver.graphics.endFill();
-			_baseDown.graphics.lineStyle(_lineSize, _downLineColor, 0);
-			_baseDown.graphics.beginFill(_downFillColor, 0);
-			_baseDown.graphics.drawRect(0, 0, width, height);
-			_baseDown.graphics.endFill();
-			_baseDisable.graphics.lineStyle(_lineSize, _downLineColor, 0);
-			_baseDisable.graphics.beginFill(_disableFillColor, 0);
-			_baseDisable.graphics.drawRect(0, 0, width, height);
-			_baseDisable.graphics.endFill();
-        }
+		//if (_textSelectable) 
+		//{
+		//	_baseNormal.graphics.lineStyle(_lineSize, _normalLineColor, 0);
+		//	_baseNormal.graphics.beginFill(_normalFillColor, 0);
+		//	_baseNormal.graphics.drawRect(0, 0, width, height);
+		//	_baseNormal.graphics.endFill(); _baseOver.graphics.lineStyle(_lineSize, _overLineColor, 0);
+		//	_baseOver.graphics.beginFill(_overFillColor, 0);
+		//	_baseOver.graphics.drawRect(0, 0, width, height);
+		//	_baseOver.graphics.endFill();
+		//	_baseDown.graphics.lineStyle(_lineSize, _downLineColor, 0);
+		//	_baseDown.graphics.beginFill(_downFillColor, 0);
+		//	_baseDown.graphics.drawRect(0, 0, width, height);
+		//	_baseDown.graphics.endFill();
+		//	_baseDisable.graphics.lineStyle(_lineSize, _downLineColor, 0);
+		//	_baseDisable.graphics.beginFill(_disableFillColor, 0);
+		//	_baseDisable.graphics.drawRect(0, 0, width, height);
+		//	_baseDisable.graphics.endFill();
+        //}
     }
 	
 	private function normalImageComplete(event : Event) : Void
 	{
-		_blnNormalImage = true;draw();
+		_blnNormalImage = true;
+		draw();
     }
 	private function overImageComplete(event : Event) : Void
 	{
-		_blnOverImage = true;draw();
+		_blnOverImage = true;
+		draw();
     }
 	private function downImageComplete(event : Event) : Void
 	{
-		_blnDownImage = true;draw();
+		_blnDownImage = true;
+		draw();
     }
 	private function disableImageComplete(event : Event) : Void
 	{
-		_blnDisableImage = true;draw();
+		_blnDisableImage = true;
+		draw();
     }
+	
 	private function groupUnselect(event : Event) : Void
 	{
-		RadioButtonManager.setGroupState(_radioBtnGroup, false);selected = true;
+		RadioButtonManager.setGroupState(_radioBtnGroup, false);
+		selected = true;
     }
 }

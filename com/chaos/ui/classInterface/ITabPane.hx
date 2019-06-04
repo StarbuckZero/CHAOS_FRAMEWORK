@@ -1,6 +1,7 @@
 package com.chaos.ui.classInterface;
 
 import openfl.display.Bitmap;
+import openfl.display.BitmapData;
 import openfl.display.DisplayObject;
 import com.chaos.ui.Button;
 
@@ -52,7 +53,7 @@ interface ITabPane extends com.chaos.ui.classInterface.IScrollPane
 	 * @return Return button being on TabPane
 	 */
 	
-	function getTabButton(value : Int = -1) : Button;  
+	function getTabButton(value : Int = -1) : IButton;  
 	
 	/**
 	 * Appends an item to the end of the data provider.
@@ -81,14 +82,7 @@ interface ITabPane extends com.chaos.ui.classInterface.IScrollPane
 	 */
 	
 	function removeItemAt(value : Int) : Dynamic;  
-	/**
-	 * Set a image to the tab buttons default state using a file path
-	 *
-	 * @param value A URL path as a string to the image. Make sure this is one of the formats the version of the Flash player your using supports.
-	 *
-	 */ 
-	
-	function setTabButtonBackgroundImage(value : String) : Void;  
+
 
 	/**
 	 * Set a image to the tab buttons default state
@@ -97,16 +91,8 @@ interface ITabPane extends com.chaos.ui.classInterface.IScrollPane
 	 *
 	 */ 
 
-	function setTabButtonBackgroundBitmap(value : Bitmap) : Void;  
-	
-	/**
-	 * Set a image to the tab buttons over state using a file path
-	 *
-	 * @param value A URL path as a string to the image. Make sure this is one of the formats the version of the Flash player your using supports.
-	 *
-	 */  
-	
-	function setTabButtonOverBackgroundImage(value : String) : Void;
+	function setTabButtonDefaultImage(value : BitmapData) : Void;  
+
 	
 	/**
 	 * Set a image to the tab buttons over state
@@ -115,16 +101,8 @@ interface ITabPane extends com.chaos.ui.classInterface.IScrollPane
 	 *
 	 */
 	
-	function setTabButtonOverBackgroundBitmap(value : Bitmap) : Void;
+	function setTabButtonOverImage(value : BitmapData) : Void;
 	
-	/**
-	 * Set a image to the tab up button down state using a file path
-	 *
-	 * @param value A URL path as a string to the image. Make sure this is one of the formats the version of the Flash player your using supports.
-	 *
-	 */ 
-	
-	function setTabButtonDownBackgroundImage(value : String) : Void;  
 	
 	/**
 	 * Set a image to the tab up button down state
@@ -133,16 +111,8 @@ interface ITabPane extends com.chaos.ui.classInterface.IScrollPane
 	 *
 	 */ 
 
-	function setTabButtonDownBackgroundBitmap(value : Bitmap) : Void; 
-	
-	/**
-	 * Set a image to the tab up button disable state using a file path
-	 *
-	 * @param value A URL path as a string to the image. Make sure this is one of the formats the version of the Flash player your using supports.
-	 *
-	 */  
-	
-	function setTabButtonDisableBackgroundImage(value : String) : Void;  
+	function setTabButtonDownImage(value : BitmapData) : Void; 
+
 	
 	/**
 	 * Set a image to the tab up button disable state
@@ -151,6 +121,6 @@ interface ITabPane extends com.chaos.ui.classInterface.IScrollPane
 	 *
 	 */
 	
-	function setTabButtonDisableBackgroundBitmap(value : Bitmap) : Void;
+	function setTabButtonDisableImage(value : BitmapData) : Void;
 	
 }

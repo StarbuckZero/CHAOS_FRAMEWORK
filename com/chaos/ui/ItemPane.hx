@@ -706,7 +706,7 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
 			if ( null != _itemDefaultState)
 				itemButton.setDefaultStateImage(_itemDefaultState);
 			else
-				itemButton.defaultColor = _itemDefaultColor;
+				itemButton.defaultColor = _itemNormalColor;
 			
 			if (null != _itemOverState)
 				itemButton.setOverStateImage(_itemOverState);

@@ -1,21 +1,20 @@
 package com.chaos.ui.classInterface;
 
-import openfl.display.Bitmap;
-import openfl.display.DisplayObject;
+
+import openfl.display.BitmapData;
 import openfl.text.Font;
-import com.chaos.ui.Label;
 
 interface IProgressBar extends com.chaos.ui.classInterface.IBaseUI
 {
     /**
 	 * Returns the label being used in the ProgressBar
 	 */
-	var label(get, never) : Label;      
+	var label(get, never) : ILabel;      
 	
 	/**
 	 * Returns the loaded label being used in the ProgressBar
 	 */
-	var loadedLabel(get, never) : Label;      
+	var loadedLabel(get, never) : ILabel;      
 	
 	/**
 	 * Toggle on and off border
@@ -83,14 +82,7 @@ interface IProgressBar extends com.chaos.ui.classInterface.IBaseUI
 	
 	function unloadEmbedFont() : Void; 
 	
-	/**
-	 * This is for setting an image to the ProgressBar background.
-	 *
-	 * @param value Set the image based on a URL file path.
-	 *
-	 */ 
-		
-	function setBackgroundImage(value : String) : Void; 
+
 	
 	/**
 	 * This is for setting an image to the ProgressBar. It is best to set an image that can be tiled.
@@ -99,16 +91,8 @@ interface IProgressBar extends com.chaos.ui.classInterface.IBaseUI
 	 *
 	 */ 
 	
-	function setBackgroundBitmap(value : Bitmap) : Void;
+	function setBackgroundImage(value : BitmapData) : Void;
 	
-	/**
-	 * This is for setting an image to the ProgressBar loaded background.
-	 *
-	 * @param value Set the image based on a URL file path.
-	 *
-	 */ 
-	
-	function setLoadBarImage(value : String) : Void;
 	
 	/**
 	 * This is for setting an image to the ProgressBar loaded background. It is best to set an image that can be tiled.
@@ -117,7 +101,8 @@ interface IProgressBar extends com.chaos.ui.classInterface.IBaseUI
 	 *
 	 */
 	
-	function setLoadBarBitmap(value : Bitmap) : Void;  
+	function setLoadBarImage(value : BitmapData) : Void;  
+	
 	/**
 	 * The object you want the ProgressBar to use when it comes to showing how much of the file is loaded.
 	 * This value goes from 0 to 100 and can only be linked to one file.

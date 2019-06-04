@@ -1,10 +1,7 @@
 package com.chaos.ui.classInterface;
 
-import openfl.display.Bitmap;
 import openfl.text.Font;
 import openfl.text.TextFormat;
-import com.chaos.media.DisplayImage;
-import com.chaos.ui.Label;
 import com.chaos.ui.classInterface.IToggleButton;
 
 interface IRadioButton extends IToggleButton
@@ -24,7 +21,7 @@ interface IRadioButton extends IToggleButton
 	/**
 	 * Return the text field that is being used
 	 */
-	var textField(get, never) : Label;     
+	var label(get, never) : ILabel;     
 	
 	/**
 	 * Set the label text
@@ -88,76 +85,6 @@ interface IRadioButton extends IToggleButton
 	 */ 
 	
 	function unloadEmbedFont() : Void; 
-	/**
-	 * This is for setting an image to the radio button default state.
-	 *
-	 * @param value Set the image based on a URL file path.
-	 *
-	 */
-	
-	function setNormalImage(value : String) : Void;  
-	
-	/**
-	 * This is for setting an image to the radio button default state.
-	 *
-	 * @param value Set the image based on a Bitmap being pass
-	 *
-	 */  
-	
-	function setNormalBitmap(value : Bitmap) : Void; 
-	
-	/**
-	 * This is for setting an image to the radio button roll over state.
-	 *
-	 * @param value Set the image based on a URL file path.
-	 *
-	 */
-	
-	function setOverImage(value : String) : Void;  
-	
-	/**
-	 * This is for setting an image to the radio button roll over state.
-	 *
-	 * @param value Set the image based on a Bitmap being pass
-	 *
-	 */  
-	
-	function setOverBitmap(value : Bitmap) : Void;  
-	
-	/**
-	 * This is for setting an image to the radio button roll down state.
-	 *
-	 * @param value Set the image based on a URL file path.
-	 *
-	 */
-	
-	function setDownImage(value : String) : Void;  
-	
-	/**
-	 * This is for setting an image to the radio button press down state.
-	 *
-	 * @param value Set the image based on a Bitmap being pass
-	 *
-	 */
-	
-	function setDownBitmap(value : Bitmap) : Void;  
-	
-	/**
-	 * This is for setting an image to the radio button disable state.
-	 *
-	 * @param value Set the image based on a URL file path.
-	 *
-	 */ 
-	
-	function setDisableImage(value : String) : Void;  
-	
-	/**
-	 * This is for setting an image to the radio button disable state.
-	 *
-	 * @param value Set the image based on a Bitmap being pass
-	 *
-	 */
-	
-	function setDisableBitmap(value : Bitmap) : Void;
+
 	
 }

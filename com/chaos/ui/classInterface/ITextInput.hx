@@ -1,6 +1,7 @@
 package com.chaos.ui.classInterface;
 
 import openfl.display.Bitmap;
+import openfl.display.BitmapData;
 
 interface ITextInput extends com.chaos.ui.classInterface.ILabel
 {
@@ -52,51 +53,35 @@ interface ITextInput extends com.chaos.ui.classInterface.ILabel
 	
 	var backgroundDisableColor(get, set) : Int;
 	
-	/**
-	 * Set the background of the text input default state using an image file
-	 */
-	
-	function setBackground(value : String) : Void; 
+
 	
 	/**
 	 * This is for setting an image to the text input default state. It is best to set an image that can be tiled.
 	 */
 	
-	function setBackgroundImage(value : Bitmap) : Void;  
+	function setBackgroundImage(value : BitmapData) : Void;  
 	
-	/**
-	 * Set the background of the text input roll over state using an image file
-	 */
-	
-	function setOverBackground(value : String) : Void;  
+
 	
 	/**
 	 * This is for setting an image to the text input roll over state. It is best to set an image that can be tiled.
 	 */
 	
-	function setOverBackgroundImage(value : Bitmap) : Void;  
+	function setOverBackgroundImage(value : BitmapData) : Void;  
 	
-	/**
-	 * Set the background of the text input selected state using an image file
-	 */
-	function setSelectedBackground(value : String) : Void;  
 	
 	/**
 	 * This is for setting an image to the text input selected state. It is best to set an image that can be tiled.
 	 */
 	
-	function setSelectedBackgroundImage(value : Bitmap) : Void;  
-	/**
-	 * Set the background of the text input disable state using an image file
-	 */
+	function setSelectedBackgroundImage(value : BitmapData) : Void;  
 	
-	function setDisableBackground(value : String) : Void;  
 	
 	/**
 	 * This is for setting an image to the text input disable state. It is best to set an image that can be tiled.
 	 */
 	
-	function setDisableBackgroundImage(value : Bitmap) : Void;  
+	function setDisableBackgroundImage(value : BitmapData) : Void;  
 	
 	/**
 	 * Display default text when string is empty

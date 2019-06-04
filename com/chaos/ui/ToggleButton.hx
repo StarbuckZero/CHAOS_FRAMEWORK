@@ -60,18 +60,17 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI
   
 	public function new( toggleWidth:Int = 100, toggleHeight:Int = 100, toggleSelected : Bool = false)
     {
+		
+		
         super();
 		
 		_width = toggleWidth;
 		_height = toggleHeight;
-		
 		_selected = toggleSelected;
-		
-		init();
 		
     }
 	
-	private function init() : Void
+	override public function initialize() : Void
 	{  
 		// Setup shapes
 		normalState = new Shape();
@@ -95,7 +94,7 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI
 		
 		mouseChildren = true;
 		
-		draw();
+		//draw();
     }
 	
 	private function onStageAdd(event : Event) : Void 
@@ -398,6 +397,7 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI
 		}	
 		
 		
+		
 		// Toggle Seleect state
 		if (_selected)
 		{
@@ -409,6 +409,8 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI
 			normalState.visible = true;
 			downState.visible = false;
 		}		
+		
+		trace("ToggleButton");
 		
     }
 	

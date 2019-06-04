@@ -57,13 +57,14 @@ class BaseIcon extends BaseUI implements IBasicIcon implements IBaseUI
     public function new(iconWidth : Float = -1, iconHeight : Float = -1)
     {
         
+        super();
+		
         if (iconWidth > 0) 
             _width = iconWidth;
         
         if (iconHeight > 0) 
             _height = iconHeight;
-        
-        super();
+		
 		
         init();
     }

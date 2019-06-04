@@ -86,15 +86,15 @@ class CheckBox extends ToggleButton implements ICheckBox implements IBaseUI
 
 		_labelText = labelText;
 
-		init();
+		initialize();
 	}
 
 	override function onStageAdd(event : Event) : Void { UIBitmapManager.watchElement(TYPE, this); }
 	override function onStageRemove(event : Event) : Void { UIBitmapManager.stopWatchElement(TYPE, this); }
 
-	override private function init() : Void
+	override public function initialize() : Void
 	{
-		super.init();
+		super.initialize();
 		
 		reskin();
 

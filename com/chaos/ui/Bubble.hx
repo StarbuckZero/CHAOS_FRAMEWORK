@@ -142,7 +142,7 @@ class Bubble extends Overlay implements IBubble implements IOverlay implements I
         if (null != UIBitmapManager.getUIElement(Bubble.TYPE, UIBitmapManager.BUBBLE_BACKGROUND)) 
             setBackgroundImage(UIBitmapManager.getUIElement(Bubble.TYPE, UIBitmapManager.BUBBLE_BACKGROUND));
         
-        var topLeftImage : BitmapData;
+        var topLeftImage : BitmapData = null;
         var topMiddleImage : BitmapData = null;
         var topRightImage : BitmapData = null;
         

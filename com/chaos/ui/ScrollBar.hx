@@ -6,15 +6,11 @@ import com.chaos.ui.classInterface.IButton;
 import com.chaos.ui.classInterface.IScrollBar;
 import com.chaos.ui.classInterface.ISlider;
 import com.chaos.utils.CompositeManager;
-import openfl.display.BitmapData;
-import openfl.display.DisplayObject;
-import openfl.display.Sprite;
 import openfl.events.Event;
 import openfl.events.MouseEvent;
-import openfl.display.Bitmap;
 import com.chaos.ui.ScrollBarDirection;
 import com.chaos.ui.Slider;
-import com.chaos.ui.event.SliderEvent;
+
 import com.chaos.ui.Button;
 
 /*

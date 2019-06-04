@@ -11,6 +11,7 @@ import com.chaos.ui.classInterface.IMenuItem;
 import com.chaos.ui.classInterface.IOverlay;
 import com.chaos.ui.classInterface.IToggleButton;
 import openfl.display.Bitmap;
+import openfl.display.BitmapData;
 import openfl.display.Sprite;
 import openfl.events.MouseEvent;
 
@@ -29,7 +30,7 @@ class MenuItem extends ToggleButton implements IMenuItem implements IToggleButto
     public var hasParent(get, set) : Bool;
     public var hasChildren(get, set) : Bool;
     public var parentMenuItem(get, set) : com.chaos.ui.classInterface.IMenuItem;
-    public var useMask(get, set) : Bool;
+    
     public var menuDefaultColor(get, set) : Int;
     public var menuOverColor(get, set) : Int;
     public var menuDownColor(get, set) : Int;
@@ -67,12 +68,12 @@ class MenuItem extends ToggleButton implements IMenuItem implements IToggleButto
     //private var _baseDown : Shape = new Shape();
     //private var _baseDisable : Shape = new Shape();
     
-    private var _normalDisplayImage : DisplayImage = new DisplayImage();
-    private var _overDisplayImage : DisplayImage = new DisplayImage();
-    private var _downDisplayImage : DisplayImage = new DisplayImage();
-    private var _disableDisplayImage : DisplayImage = new DisplayImage();
+    //private var _normalDisplayImage : DisplayImage = new DisplayImage();
+    //private var _overDisplayImage : DisplayImage = new DisplayImage();
+    //private var _downDisplayImage : DisplayImage = new DisplayImage();
+    //private var _disableDisplayImage : DisplayImage = new DisplayImage();
     
-    private var _overlay : com.chaos.ui.classInterface.IOverlay = new Overlay();
+    //private var _overlay : IOverlay = new Overlay();
     
     private var _smoothImage : Bool = true;
     private var _showImage : Bool = true;
@@ -93,12 +94,12 @@ class MenuItem extends ToggleButton implements IMenuItem implements IToggleButto
     private var _textDisableColor : Int = 0xCCCCCC;
     
     private var _showSubMenuIcon : Bool = false;
-    private var _label : com.chaos.ui.classInterface.ILabel = new Label("Text");
+    private var _label : ILabel = new Label("Text");
     
     private var _subMenuIconHolder : Sprite = new Sprite();
-    private var _subMenuIcon : com.chaos.drawing.icon.classInterface.IBasicIcon = new ArrowRightIcon(5, 5);
-    private var _icon : DisplayImage = new DisplayImage();
-    private var _subMenuDisplayImage : DisplayImage = new DisplayImage();
+    private var _subMenuIcon : Shape;// = new ArrowRightIcon(5, 5);
+    private var _icon : BitmapData;
+    private var _subMenuDisplayImage : BitmapData;
     
     private var _border : Bool = false;
     private var _thinkness : Float = 1;
@@ -113,7 +114,7 @@ class MenuItem extends ToggleButton implements IMenuItem implements IToggleButto
     private var _hasChildren : Bool = false;
     private var _hasParent : Bool = false;
     
-    private var _parentMenuItem : com.chaos.ui.classInterface.IMenuItem;
+    private var _parentMenuItem : IMenuItem;
     
     private var _open : Bool = false;
     
@@ -121,7 +122,7 @@ class MenuItem extends ToggleButton implements IMenuItem implements IToggleButto
 	 * A display object that is used for the menu system.
 	 */
     
-    public function new(text : String, width : Float = 100, height : Float = 20, icon : DisplayImage = null, subMenuIcon : DisplayImage = null)
+    public function new(text : String, width : Float = 100, height : Float = 20, icon : BitmapData = null, subMenuIcon : BitmapData = null)
     {
         super();
         
@@ -138,12 +139,13 @@ class MenuItem extends ToggleButton implements IMenuItem implements IToggleButto
         if (null != _icon || null != _subMenuDisplayImage) 
             _showImage = true;
         
-        init();
+        initialize();
         
         mouseChildren = false;
+		
     }
     
-    override private function init() : Void
+    override public function initialize() : Void
     {
         //setNormalState(_baseNormal);
         //setOverState(_baseOver);
@@ -151,20 +153,20 @@ class MenuItem extends ToggleButton implements IMenuItem implements IToggleButto
         //setDisableState(_baseDisable);
         
         addChild(_label.displayObject);
-        addChild(_icon.displayObject);
-        addChild(_subMenuIconHolder);
-        addChild(_overlay.displayObject);
+        //addChild(_icon);
+        //addChild(_subMenuIconHolder);
+        //addChild(_overlay.displayObject);
         
         addEventListener(MouseEvent.MOUSE_OVER, onMenuOver, false, 0, true);
         addEventListener(MouseEvent.MOUSE_OUT, onMenuOut, false, 0, true);
         addEventListener(MouseEvent.CLICK, onMenuClick, false, 0, true);
         
-        _subMenuIconHolder.addChild(_subMenuIcon.displayObject);
+        //_subMenuIconHolder.addChild(_subMenuIcon.displayObject);
         
         //_subMenuIcon.filterMode = false;
-        _subMenuIcon.baseColor = _subMenuIcon.borderColor = 0;
+        //_subMenuIcon.baseColor = _subMenuIcon.borderColor = 0;
         
-        draw();
+        //draw();
     }
     
     /**
@@ -241,39 +243,14 @@ class MenuItem extends ToggleButton implements IMenuItem implements IToggleButto
     override private function set_enabled(value : Bool) : Bool
     {
         if (value) 
-        {
             _label.textColor = _textColor;
-        }
         else 
-        {
             _label.textColor = _textDisableColor;
-        }
         
         super.enabled = value;
         return value;
     }
-    
-    /**
-	 * If true this will apply a mask content layer
-	 */
-    
-    private function set_useMask(value : Bool) : Bool
-    {
-        _useMask = value;
-        
-        ((_useMask)) ? applyContentMask() : removeContentMask();
-        return value;
-    }
-    
-    /**
-	 * Return true if using mask and false if not
-	 */
-    
-    private function get_useMask() : Bool
-    {
-        return _useMask;
-    }
-    
+
     /**
 	 * Set the default menu icon color
 	 */
@@ -653,109 +630,46 @@ class MenuItem extends ToggleButton implements IMenuItem implements IToggleButto
         return _smoothImage;
     }
     
-    /**
-	 * Set the icon that will be used based on a URL location.
-	 * @param	strImage The path to the file that will be used.
-	 */
-    
-    public function setIconURL(strImage : String) : Void
-    {
-        _icon.onImageComplete = function() : Void
-                {
-                    _icon.onImageComplete = null;
-                    draw();
-                };
-        
-        _icon.load(strImage);
-    }
-    
-    /**
-	 * Set the icon that will be used using a bitmap image
-	 * @param	bitmap The bitmap that will be used
-	 */
-    
-    public function setIconBitmap(bitmap : Bitmap) : Void
-    {
-        _icon.setImage(bitmap);
-        draw();
-    }
     
     /**
 	 * Return the icon that is being used for the set menu.
 	 * @return Return an icon interface
 	 */
     
-    public function getSubMenuIcon() : IBasicIcon
+    public function getSubMenuIcon() : Shape
     {
         return _subMenuIcon;
     }
     
     /**
-	 * Set a new icon to the button menu.
-	 *
-	 * @param	newIcon The new display icon
+	 * Set the icon that will be used using a bitmap image
+	 * @param	image The bitmap that will be used
 	 */
-    
-    public function setSubMenuIcon(newIcon : IBasicIcon) : Void
-    {
-        if (_subMenuIcon.parent != null) 
-            _subMenuIconHolder.removeChild(_subMenuIcon.displayObject);
-        
-        _subMenuIcon = newIcon;
-        _subMenuIconHolder.addChild(_subMenuIcon.displayObject);
-    }
-    
-    /**
-	 * The file location of the image that will be used.
-	 *
-	 * @param	fileURL The file location
-	 */
-    
-    public function setSubMenuURL(fileURL : String) : Void
-    {
-        
-        _subMenuDisplayImage.onImageComplete = function() : Void
-                {
-                    _subMenuDisplayImage.onImageComplete = null;
-                    draw();
-                };
-        
-        _subMenuDisplayImage.load(fileURL);
-        
-        // Remove old icon out of display list
-        if (_subMenuIcon.parent != null) 
-            _subMenuIconHolder.removeChild(_subMenuIcon.displayObject);
-        
-        _subMenuIconHolder.addChild(_subMenuDisplayImage);
-    }
+    	
+	
+	public function setIcon(image : BitmapData) : Void
+	{
+		_icon = image;
+	}
+	
     
     /**
 	 * The bitmap that be used for an icon
-	 * @param	bitmap The bitmap that will be used.
+	 * @param	value The bitmap that will be used.
 	 */
     
-    public function setSubMenuBitmap(bitmap : Bitmap) : Void
+    public function setSubMenuIcon(image : BitmapData) : Void
     {
         
-        _subMenuDisplayImage.setImage(bitmap);
+        _subMenuDisplayImage = image;
         
-        // Remove old icon out of display list
-        if (_subMenuIcon.parent != null) 
-            _subMenuIconHolder.removeChild(_subMenuIcon.displayObject);
-        
-        _subMenuIconHolder.addChild(_subMenuDisplayImage);
+        //// Remove old icon out of display list
+        //if (_subMenuIcon.parent != null) 
+        //    _subMenuIconHolder.removeChild(_subMenuIcon.displayObject);
+        //
+        //_subMenuIconHolder.addChild(_subMenuDisplayImage);
     }
-    
-    /**
-	 * The overlay that is being used for the button. This is for masking the bottom button layer shape.
-	 *
-	 * @return An Overlay interface interface
-	 */
-    
-    public function getOvery() : IOverlay
-    {
-        return _overlay;
-    }
+
     
     /**
 	 * Return the label being used
@@ -766,92 +680,6 @@ class MenuItem extends ToggleButton implements IMenuItem implements IToggleButto
     public function getLabel() : ILabel
     {
         return _label;
-    }
-    
-    /**
-	 * Set the state based on the URL location.
-	 * @param	strImage The path to the file that will be used
-	 */
-    
-    public function setDefaultStateURL(strImage : String) : Void
-    {
-        _normalDisplayImage.onImageComplete = function() : Void
-                {
-                    _normalDisplayImage.onImageComplete = null;
-                    draw();
-                };
-        
-        _normalDisplayImage.load(strImage);
-    }
-    
-    /**
-	 * Set the state using bitmap image
-	 * @param	bitmap The image that will be used
-	 */
-	
-    public function setDefaultStateBitmap(bitmap : Bitmap) : Void
-    {
-        _normalDisplayImage.setImage(bitmap);
-    }
-    
-    /**
-		 * Set the state based on the URL location.
-		 * @param	strImage The path to the file that will be used
-		 */
-    
-    public function setOverStateURL(strImage : String) : Void
-    {
-        _overDisplayImage.load(strImage);
-    }
-    
-    /**
-	 * Set the state using bitmap image
-	 * @param	bitmap The image that will be used
-	 */
-    
-    public function setOverStateBitmap(bitmap : Bitmap) : Void
-    {
-        _overDisplayImage.setImage(bitmap);
-    }
-    
-    /**
-	 * Set the state based on the URL location.
-	 * @param	strImage The path to the file that will be used
-	 */
-    
-    public function setDownStateURL(strImage : String) : Void
-    {
-        _downDisplayImage.load(strImage);
-    }
-    
-    /**
-	 * Set the state using bitmap image
-	 * @param	bitmap The image that will be used
-	 */
-    
-    public function setDownStateBitmap(bitmap : Bitmap) : Void
-    {
-        _downDisplayImage.setImage(bitmap);
-    }
-    
-    /**
-	 * Set the state based on the URL location.
-	 * @param	strImage The path to the file that will be used
-	 */
-    
-    public function setDisableStateURL(strImage : String) : Void
-    {
-        _disableDisplayImage.load(strImage);
-    }
-    
-    /**
-	 * Set the state using bitmap image
-	 * @param	bitmap The image that will be used
-	 */
-    
-    public function setDisableStateBitmap(bitmap : Bitmap) : Void
-    {
-        _disableDisplayImage.setImage(bitmap);
     }
     
 	
@@ -931,26 +759,10 @@ class MenuItem extends ToggleButton implements IMenuItem implements IToggleButto
     private function onMenuClick(event : MouseEvent) : Void
     {
         if (selected) 
-        {
-            
             _label.textColor = _textSelectedColor;
-        }
         else 
-        {
             _label.textColor = _textColor;
-        }
     }
-    
-    private function applyContentMask() : Void
-    {
-        //toggleButton.addChild(_overlay.overlayMask);
-        //toggleButton.mask = _overlay.overlayMask;
-        
-    }
-    
-    private function removeContentMask() : Void
-    {
-        toggleButton.mask = null;
-    }
+
 }
 

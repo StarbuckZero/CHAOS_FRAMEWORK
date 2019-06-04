@@ -81,10 +81,10 @@ class ProgressSlider extends ProgressBar implements IProgressSlider implements I
             _slider.setSliderDisableImage(UIBitmapManager.getUIElement(Slider.TYPE, UIBitmapManager.PROGRESS_SLIDER_BUTTON_DISABLE));
         
         if (null != UIBitmapManager.getUIElement(ProgressBar.TYPE, UIBitmapManager.PROGRESS_SLIDER_BACKGROUND)) 
-            setBackgroundBitmap(UIBitmapManager.getUIElement(ProgressBar.TYPE, UIBitmapManager.PROGRESS_SLIDER_BACKGROUND));
+            setBackgroundImage(UIBitmapManager.getUIElement(ProgressBar.TYPE, UIBitmapManager.PROGRESS_SLIDER_BACKGROUND));
         
         if (null != UIBitmapManager.getUIElement(ProgressBar.TYPE, UIBitmapManager.PROGRESS_SLIDER_LOADED_BACKGROUND)) 
-            setLoadBarBitmap(UIBitmapManager.getUIElement(ProgressBar.TYPE, UIBitmapManager.PROGRESS_SLIDER_LOADED_BACKGROUND));
+            setLoadBarImage(UIBitmapManager.getUIElement(ProgressBar.TYPE, UIBitmapManager.PROGRESS_SLIDER_LOADED_BACKGROUND));
     }
     
     override private function initStyle() : Void

@@ -2,6 +2,8 @@ package com.chaos.ui.classInterface;
 
 
 import com.chaos.drawing.icon.classInterface.IBasicIcon;
+import openfl.display.BitmapData;
+import openfl.display.Shape;
 import openfl.display.Sprite;
 import openfl.display.Bitmap;
 
@@ -36,15 +38,8 @@ interface IMenuItem extends IToggleButton
 	 * Set the parent menu
 	 */
     
-    
-    
     var parentMenuItem(get, set) : IMenuItem;    
-    
-    /**
-	 * If true this will apply a mask content layer
-	 */
-    
-    var useMask(get, set) : Bool;    
+   
     
     /**
 	 * Set the default menu color
@@ -164,88 +159,46 @@ interface IMenuItem extends IToggleButton
 	 * Show or hide border around button
 	 */
     
-    
-    /**
-	 * Return true if border is being shown and false if not
-	 */
     var border(get, set) : Bool;    
     
     /**
 	 * Show or hide the Sub menu icon
 	 */
     
-    
-    
-    /**
-	 * If true sub menu icon is being displayed and false if not.
-	 */
+
     
     var showSubMenuIcon(get, set) : Bool;    
     
     /**
 	 * Turn on and off image smoothing
 	 */
-    
-    
-    
-    /**
-	 * Return true if smoothing is on and false if not
-	 */
+
     
     var smoothImage(get, set) : Bool;
 
     
     /**
-	 * Set the icon that will be used based on a URL location.
-	 * @param	strImage The path to the file that will be used.
-	 */
-    
-    function setIconURL(strImage : String) : Void;
-    
-    /**
 	 * Set the icon that will be used using a bitmap image
-	 * @param	bitmap The bitmap that will be used
+	 * @param	image The bitmap that will be used
 	 */
     
-    function setIconBitmap(bitmap : Bitmap) : Void;
+    function setIcon(image : BitmapData) : Void;
     
     /**
 	 * Return the icon that is being used for the set menu.
 	 * @return Return an icon interface
 	 */
     
-    function getSubMenuIcon() : IBasicIcon;
+    function getSubMenuIcon() : Shape;
     
     /**
 	 * Set a new icon to the button menu.
 	 *
-	 * @param	newIcon The new display icon
+	 * @param	image The new display icon
 	 */
     
-    function setSubMenuIcon(newIcon : IBasicIcon) : Void;
-    
-    /**
-	 * The file location of the image that will be used.
-	 *
-	 * @param	fileURL The file location
-	 */
-    
-    function setSubMenuURL(fileURL : String) : Void;
-    
-    /**
-	 * The bitmap that be used for an icon
-	 * @param	bitmap The bitmap that will be used.
-	 */
-    
-    function setSubMenuBitmap(bitmap : Bitmap) : Void;
-    
-    /**
-	 * The overlay that is being used for the button. This is for masking the bottom button layer shape.
-	 *
-	 * @return An Overlay interface interface
-	 */
-    
-    function getOvery() : IOverlay;
+    function setSubMenuIcon(image : BitmapData) : Void;
+
     
     /**
 	 * Return the label being used
@@ -254,59 +207,7 @@ interface IMenuItem extends IToggleButton
 	 */
     
     function getLabel() : ILabel;
-    
-    /**
-	 * Set the state based on the URL location.
-	 * @param	strImage The path to the file that will be used
-	 */
-    
-    function setDefaultStateURL(strImage : String) : Void;
-    
-    /**
-	 * Set the state using bitmap image
-	 * @param	bitmap The image that will be used
-	 */
-    
-    function setDefaultStateBitmap(bitmap : Bitmap) : Void;
-    
-    /**
-	 * Set the state based on the URL location.
-	 * @param	strImage The path to the file that will be used
-	 */
-    
-    function setOverStateURL(strImage : String) : Void;
-    
-    /**
-	 * Set the state using bitmap image
-	 * @param	bitmap The image that will be used
-	 */
-    
-    function setOverStateBitmap(bitmap : Bitmap) : Void;
-    
-    /**
-	 * Set the state based on the URL location.
-	 * @param	strImage The path to the file that will be used
-	 */
-    function setDownStateURL(strImage : String) : Void;
-    
-    /**
-	 * Set the state using bitmap image
-	 * @param	bitmap The image that will be used
-	 */
-    
-    function setDownStateBitmap(bitmap : Bitmap) : Void;
-    
-    /**
-	 * Set the state based on the URL location.
-	 * @param	strImage The path to the file that will be used
-	 */
-    
-    function setDisableStateURL(strImage : String) : Void;
-    
-    /**
-	 * Set the state using bitmap image
-	 * @param	bitmap The image that will be used
-	 */
-    function setDisableStateBitmap(bitmap : Bitmap) : Void;
+
+
 }
 

@@ -3,9 +3,7 @@ package com.chaos.ui.data;
 
 import com.chaos.data.DataProvider;
 import com.chaos.ui.classInterface.IMenuItem;
-
-import com.chaos.media.DisplayImage;
-
+import openfl.display.BitmapData;
 
 /**
  * Data object for Menu class
@@ -16,10 +14,10 @@ class MenuItemObjectData
 {
     public var text(get, set) : String;
     public var value(get, set) : String;
-    public var icon(get, set) : DisplayImage;
+    public var icon(get, set) : BitmapData;
     public var menuItem(get, set) : IMenuItem;
     public var subMenuList(get, set) : DataProvider;
-    public var subMenuIcon(get, set) : DisplayImage;
+    public var subMenuIcon(get, set) : BitmapData;
     public var hasSubMenu(get, never) : Bool;
 
     
@@ -28,8 +26,8 @@ class MenuItemObjectData
     
     private var _menuItem : IMenuItem;
     
-    private var _icon : DisplayImage;
-    private var _subMenuIcon : DisplayImage;
+    private var _icon : BitmapData;
+    private var _subMenuIcon : BitmapData;
     
     private var _subMenu : DataProvider = new DataProvider();
     
@@ -43,7 +41,7 @@ class MenuItemObjectData
 	 * @param	icon The custom icon for the button
 	 */
     
-    public function new(text : String, value : String = "", subMenuList : DataProvider = null, icon : DisplayImage = null, subMenuIcon : DisplayImage = null)
+    public function new(text : String, value : String = "", subMenuList : DataProvider = null, icon : BitmapData = null, subMenuIcon : BitmapData = null)
     {
         _text = text;
         _value = value;
@@ -97,7 +95,7 @@ class MenuItemObjectData
 	 * Set the menu icon
 	 */
 	
-    private function set_icon(value : DisplayImage) : DisplayImage
+    private function set_icon(value : BitmapData) : BitmapData
     {
         _icon = value;
         return value;
@@ -107,7 +105,7 @@ class MenuItemObjectData
 	 * Return a display image being used for icon
 	 */
 	
-    private function get_icon() : DisplayImage
+    private function get_icon() : BitmapData
     {
         return _icon;
     }
@@ -149,7 +147,7 @@ class MenuItemObjectData
 	 * Set the sub menu drop down icon
 	 */
 	
-    private function set_subMenuIcon(value : DisplayImage) : DisplayImage
+    private function set_subMenuIcon(value : BitmapData) : BitmapData
     {
         _subMenuIcon = value;
         return value;
@@ -159,7 +157,7 @@ class MenuItemObjectData
 	 * Return a display image being used for icon
 	 */
     
-    private function get_subMenuIcon() : DisplayImage
+    private function get_subMenuIcon() : BitmapData
     {
         return _subMenuIcon;
     }

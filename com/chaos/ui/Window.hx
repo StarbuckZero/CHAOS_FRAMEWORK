@@ -43,37 +43,9 @@ class Window extends BaseUI implements IWindow implements IBaseUI
     public var windowMinHeight(get, set) : Int;
     public var resize(get, set) : Bool;
 	
-	// TODO: Make it so deveoper can just get the button directly
     public var closeButton(get, never) : IButton;
     public var minButton(get, never) : IButton;
     public var maxButton(get, never) : IButton;
-	
-	
-    public var closeButtonNormalColor(get, set) : Int;
-    public var closeButtonOverColor(get, set) : Int;
-    public var closeButtonDownColor(get, set) : Int;
-    public var closeButtonDisableColor(get, set) : Int;
-    
-	
-    public var minButtonNormalColor(get, set) : Int;
-    public var minButtonOverColor(get, set) : Int;
-    public var minButtonDownColor(get, set) : Int;
-    public var minButtonDisableColor(get, set) : Int;
-    
-	
-    public var maxButtonNormalColor(get, set) : Int;
-    public var maxButtonOverColor(get, set) : Int;
-    public var maxButtonDownColor(get, set) : Int;
-    public var maxButtonDisableColor(get, set) : Int;
-    
-	
-    public var showCloseButton(get, set) : Bool;
-    public var showMinButton(get, set) : Bool;
-    public var showMaxButton(get, set) : Bool;
-	
-    public var enabledCloseButton(get, set) : Bool;
-    public var enabledMinButton(get, set) : Bool;
-    public var enabledMaxButton(get, set) : Bool;
 	
     public var windowTitleColor(get, set) : Int;
     public var windowColor(get, set) : Int;

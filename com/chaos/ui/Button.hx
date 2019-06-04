@@ -137,27 +137,16 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
     public function new(text : String = "Button", buttonWidth : Int = 100, buttonHeight : Int = 20)
     {
         
-        super();
-		
+        super(buttonWidth, buttonHeight);
         
-
-        // Set defaults
-        _text = text;
-        
-        // Set if style is not set
-        if (UIStyleManager.BUTTON_WIDTH == -1) 
-            width = buttonWidth;
-        
-        if (UIStyleManager.BUTTON_HEIGHT == -1) 
-            height = buttonHeight;
         
         addEventListener(Event.ADDED_TO_STAGE, onStageAdd, false, 0, true);
         addEventListener(Event.REMOVED_FROM_STAGE, onStageRemove, false, 0, true);
     }
 
-    override private function init() : Void
+    override public function initialize() : Void
     {
-		super.init();
+		super.initialize();
         
         _label = new Label();
         _textFormat = new TextFormat();
@@ -180,9 +169,7 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
         addChild(_label);
         addChild(_icon);
         
-        // Create base
-        reskin();
-		
+ 
 		
     }
     
@@ -197,7 +184,6 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
         initBitmap();
         initStyle();
         
-        draw();
     }
     
     public function initBitmap() : Void
@@ -221,10 +207,10 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
         
         // First set style default
         if (UIStyleManager.BUTTON_WIDTH > 0 && UIStyleManager.BUTTON_WIDTH != width) 
-            width = UIStyleManager.BUTTON_WIDTH;
+            _width = UIStyleManager.BUTTON_WIDTH;
         
         if (UIStyleManager.BUTTON_HEIGHT > 0 && UIStyleManager.BUTTON_HEIGHT != height) 
-            height = UIStyleManager.BUTTON_HEIGHT;  
+            _height = UIStyleManager.BUTTON_HEIGHT;  
         
         // Set the default round edge
         if (-1 != UIStyleManager.BUTTON_ROUND_NUM) 

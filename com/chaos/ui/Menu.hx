@@ -1145,7 +1145,7 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
     
     public function setSubIcon(value : BitmapData) : Void
     {
-        _subIcon.setImage(value);
+        _subIcon = value;
         draw();
     }	
 	
@@ -1381,7 +1381,7 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
     private function updateButtons(dataObj : DataProvider) : Void
     {
         
-        for (i in 0...dataObj.length)
+        for (i in 0 ... dataObj.length)
 		{
             var menuObj : MenuItemObjectData = cast(dataObj.getItemAt(i), MenuItemObjectData);
             
@@ -1552,22 +1552,23 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
         menu.smoothImage = _smoothImage;
         
         if (_normalDisplayImage != null) 
-            menu.setDefaultStateBitmap(_normalDisplayImage);
+            menu.setDefaultStateImage(_normalDisplayImage);
         
         if (_overDisplayImage != null) 
-            menu.setOverStateBitmap(_overDisplayImage);
+            menu.setOverStateImage(_overDisplayImage);
         
         if (_downDisplayImage != null) 
-            menu.setDownStateBitmap(_downDisplayImage);
+            menu.setDownStateImage(_downDisplayImage);
         
         if (_disableDisplayImage != null) 
-            menu.setDisableStateBitmap(_disableDisplayImage);
+            menu.setDisableStateImage(_disableDisplayImage);
         
-        if (_icon != null) 
-            menu.setIconBitmap(_icon);
-        
-        if (_subMenuDisplayImage != null) 
-            menu.setSubMenuBitmap(_subMenuDisplayImage);
+		//TODO: Update menu Item button
+        //if (_icon != null) 
+        //    menu.setIconBitmap(_icon);
+        //
+        //if (_subMenuDisplayImage != null) 
+        //    menu.setSubMenuImage(_subMenuDisplayImage);
     }
     
     private function styleSubMenuButton(menu : IMenuItem) : Void
@@ -1595,22 +1596,22 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
         menu.smoothImage = _smoothImage;
         
         if (_normalSubDisplayImage != null) 
-            menu.setDefaultStateBitmap(_normalSubDisplayImage);
+            menu.setDefaultStateImage(_normalSubDisplayImage);
         
         if (_overSubDisplayImage != null) 
-            menu.setOverStateBitmap(_overSubDisplayImage);
+            menu.setOverStateImage(_overSubDisplayImage);
         
         if (_downSubDisplayImage != null) 
-            menu.setDownStateBitmap(_downSubDisplayImage);
+            menu.setDownStateImage(_downSubDisplayImage);
         
         if (_disableSubDisplayImage != null) 
-            menu.setDisableStateBitmap(_disableSubDisplayImage);
+            menu.setDisableStateImage(_disableSubDisplayImage);
         
         if (_subIcon != null) 
-            menu.setIconBitmap(_subIcon);
+            menu.setIcon(_subIcon);
         
-        if (_subMenuDisplayImage.image != null) 
-            menu.setSubMenuBitmap(_subMenuDisplayImage);
+        if (_subMenuDisplayImage != null) 
+            menu.setSubMenuIcon(_subMenuDisplayImage);
     }
     
     private function onClick(event : Event) : Void

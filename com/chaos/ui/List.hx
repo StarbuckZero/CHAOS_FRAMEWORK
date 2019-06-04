@@ -85,7 +85,7 @@ import com.chaos.ui.UIBitmapManager;
 		height = listHeight;
 		
 		if (null != listData)
-		_list = listData;
+			_list = listData;
     }
 	
 	override private function onStageAdd(event : Event) : Void
@@ -97,6 +97,7 @@ import com.chaos.ui.UIBitmapManager;
 	{
 		UIBitmapManager.stopWatchElement(TYPE, this);
     }
+	
 	
 	override function init() : Void
 	{

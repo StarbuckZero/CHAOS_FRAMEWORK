@@ -25,6 +25,9 @@ import com.chaos.ui.BaseUI;
 class Label extends BaseUI implements ILabel implements IBaseUI
 {
 	
+	/** The type of UI Element */
+	public static inline var TYPE : String = "Label";
+	
     public var showIcon(get, set) : Bool;
     public var textField(get, never) : TextField;
     public var textFormat(get, set) : TextFormat;
@@ -42,8 +45,7 @@ class Label extends BaseUI implements ILabel implements IBaseUI
     public var font(get, set) : String;
     public var editable(get, set) : Bool;
 	
-	/** The type of UI Element */
-	public static inline var TYPE : String = "Label";
+	
 	private var _textField : TextField;
 	private var _textFormat : TextFormat;
 	private var _text : String = "";
@@ -68,31 +70,25 @@ class Label extends BaseUI implements ILabel implements IBaseUI
   
 	public function new(labelText : String = "", labelWidth : Int = 100, labelHeight : Int = 20)
 	{
+		super();
+		
+		
+		//TODO: Change this later
 		_width = labelWidth;
 		_height = labelHeight;
-
-		super();
-
+		
+		_text = labelText;
+		
 		addEventListener(Event.ADDED_TO_STAGE, onStageAdd, false, 0, true);
 		addEventListener(Event.REMOVED_FROM_STAGE, onStageRemove, false, 0, true);
-
-		init();
 		
 		
-		textField.text = labelText;
-		draw();
 	}
 	
-	
-
-	
-	private function onStageAdd(event : Event) : Void { UIBitmapManager.watchElement(TYPE, this); }
-	
-	private function onStageRemove(event : Event) : Void { UIBitmapManager.stopWatchElement(TYPE, this); }
-	
-	public function init() : Void
+	override public function initialize():Void 
 	{
-		// Setup core fonts
+		super.initialize();
+		
 		_textField = new TextField();
 		_textFormat = new TextFormat();
 		_font = new Font();
@@ -117,11 +113,19 @@ class Label extends BaseUI implements ILabel implements IBaseUI
 		
 		// Add to display
 		addChild(_outline);
-		addChild(_textField); 
+		addChild(_textField); 		
 		
-		// Setup style and skinning 
+		
 		reskin();
-    }
+	}
+	
+	
+
+	
+	private function onStageAdd(event : Event) : Void { UIBitmapManager.watchElement(TYPE, this); }
+	
+	private function onStageRemove(event : Event) : Void { UIBitmapManager.stopWatchElement(TYPE, this); }
+	
 	
 	private function initStyle() : Void
 	{
@@ -134,11 +138,12 @@ class Label extends BaseUI implements ILabel implements IBaseUI
 		if ( -1 != UIStyleManager.LABEL_BORDER_ALPHA)
 		_outlineAlpha = UIStyleManager.LABEL_BORDER_ALPHA;
 		
-		if ( -1 != UIStyleManager.LABEL_TEXT_COLOR)
-		_textFormat.color = UIStyleManager.LABEL_TEXT_COLOR;
 		
 		if ( -1 != UIStyleManager.LABEL_BACKGROUND_COLOR)
 		backgroundColor = UIStyleManager.LABEL_BACKGROUND_COLOR;
+		
+		if ( -1 != UIStyleManager.LABEL_TEXT_COLOR)
+		_textFormat.color = UIStyleManager.LABEL_TEXT_COLOR;
 		
 		if ("" != UIStyleManager.LABEL_TEXT_ALIGN)
 		_textFormat.align = UIStyleManager.LABEL_TEXT_ALIGN;
@@ -159,6 +164,8 @@ class Label extends BaseUI implements ILabel implements IBaseUI
 		_textFormat.italic = UIStyleManager.LABEL_TEXT_ITALIC;
 		
 		_textField.setTextFormat(_textFormat);
+		
+		
     }
 	
 	/**

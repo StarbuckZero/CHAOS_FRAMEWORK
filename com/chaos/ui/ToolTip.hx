@@ -98,7 +98,7 @@ class ToolTip
     private static function initSkin() : Void
     {
         if (null != UIBitmapManager.getUIElement(Bubble.TYPE, UIBitmapManager.TOOLTIP_BACKGROUND)) 
-            _bubble.setBackgroundBitmap(UIBitmapManager.getUIElement(Bubble.TYPE, UIBitmapManager.TOOLTIP_BACKGROUND));
+            _bubble.setBackgroundImage(UIBitmapManager.getUIElement(Bubble.TYPE, UIBitmapManager.TOOLTIP_BACKGROUND));
         
         var topLeftImage : BitmapData = null;
         var topMiddleImage : BitmapData = null;

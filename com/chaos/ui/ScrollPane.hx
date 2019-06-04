@@ -3,18 +3,14 @@ package com.chaos.ui;
 import com.chaos.ui.classInterface.IScrollBar;
 import com.chaos.ui.classInterface.IScrollPane;
 import com.chaos.ui.layout.classInterface.IBaseContainer;
-import com.chaos.utils.Utils;
-import openfl.display.Bitmap;
 import openfl.display.DisplayObject;
-import openfl.display.Loader;
-import openfl.display.MovieClip;
 import openfl.display.Shape;
 import openfl.display.Sprite;
 import openfl.geom.Rectangle;
 import openfl.events.Event;
-import openfl.net.URLRequest;
+
 import com.chaos.ui.ScrollPolicy;
-import com.chaos.media.DisplayImage;
+
 import com.chaos.ui.layout.BaseContainer;
 
 /** 
@@ -26,37 +22,28 @@ import com.chaos.ui.layout.BaseContainer;
 
 class ScrollPane extends BaseContainer implements IScrollPane implements IBaseContainer
 {
+	
     public var borderThinkness(get, set) : Float;
-    public var trackColor(get, set) : Int;
-    public var sliderColor(get, set) : Int;
-    public var sliderOverColor(get, set) : Int;
-    public var sliderDownColor(get, set) : Int;
     public var border(get, set) : Bool;
     public var borderColor(get, set) : Int;
     public var borderAlpha(get, set) : Float;
     public var scrollBarH(get, never) : IScrollBar;
     public var scrollBarV(get, never) : IScrollBar;
     public var source(get, set) : DisplayObject;
-    public var showArrowButton(get, set) : Bool;
-    public var trackSize(get, set) : Float;
+    
+    
     public var mode(get, set) : String;
-    public var buttonWidth(get, set) : Int;
-    public var buttonHeight(get, set) : Int;
-    public var buttonColor(get, set) : Int;
-    public var buttonOverColor(get, set) : Int;
-    public var buttonDownColor(get, set) : Int;
-    public var buttonDisableColor(get, set) : Int;
 	
 	public static inline var TYPE : String = "ScrollPane";
 	
 	public var shapeBlock : Shape;
-	private var _urlRequest : URLRequest;
+	
 	private var _totalBytes : Float;
 	private var _mode : String = ScrollPolicy.AUTO;
-	private var _showArrowButton : Bool = true;
-	private var _scrollBarOver : Bool = false;
+	
+	
 	private var _scrollContentLoaded : Bool = false;
-	private var _trackSize : Float = 15;
+	
 	private var _scrollContentH : ScrollContent;
 	private var _scrollContentV : ScrollContent;
 	private var _scrollRectH : Rectangle;
@@ -67,12 +54,8 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 	
 	// This is used for the real size  
 	private var _outline : Shape;
-	private var _buttonHeight : Int = 15;
-	private var _buttonWidth : Int = 15;
-	private var _itemDefaultColor : Int = 0xCCCCCC;
-	private var _buttonOverColor : Int = 0x666666;
-	private var _buttonDownColor : Int = 0x333333;
-	private var _buttonDisableColor : Int = 0x999999;
+	
+	
 	private var _trackerColor : Int = 0x999999;
 	private var _sliderNormalColor : Int = 0xCCCCCC;
 	private var _sliderOverColor : Int = 0x666666;
@@ -109,7 +92,7 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 	public function init() : Void
 	{
 		
-		_urlRequest = new URLRequest();
+		
 		_scrollBarH = new ScrollBar();
 		_scrollBarV = new ScrollBar();
 		_scrollBarH.direction = ScrollBarDirection.HORIZONTAL; 
@@ -154,14 +137,15 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 			super.backgroundColor = UIStyleManager.SCROLLPANE_BACKGROUND;
 		
 		_border = UIStyleManager.SCROLLPANE_BORDER;
+		
 		if ( -1 != UIStyleManager.SCROLLPANE_BORDER_COLOR) 
-		_borderColor = UIStyleManager.SCROLLPANE_BORDER_COLOR; 
+			_borderColor = UIStyleManager.SCROLLPANE_BORDER_COLOR; 
 		
 		if ( -1 != UIStyleManager.SCROLLPANE_BORDER_ALPHA)
-		_borderAlpha = UIStyleManager.SCROLLPANE_BORDER_ALPHA;
+			_borderAlpha = UIStyleManager.SCROLLPANE_BORDER_ALPHA;
 		
 		if ( -1 != UIStyleManager.SCROLLPANE_BORDER_ALPHA)      
-		_thinkness = UIStyleManager.SCROLLPANE_BORDER_THINKNESS;
+			_thinkness = UIStyleManager.SCROLLPANE_BORDER_THINKNESS;
 		
     } 
 	
@@ -346,67 +330,6 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 		return _borderAlpha; 
 	}
 	
-	
-	/**
-	* Set the ScrollPane width
-	*/  
-	
-	
-    /**
-	 * @inheritDoc
-	 */
-	
-    #if flash @:setter(width) 
-    override private function set_width(value : Float) : Void
-    {
-		
-        _width = value;
-        draw();
-		
-		update();
-    }
-	#else
-	override private function set_width(value : Float) : Float
-	{
-        _width = value;
-        draw();
-		
-		// Update scroll pane
-		update();
-		
-		return value;
-	}
-	#end
-	
-	
-	/**
-	* Set the ScrollPane height
-	*/ 
-	#if flash @:setter(height) 
-	override private function set_height(value : Float) : Void 
-	{
-		
-		_height = value;  
-		
-		// Update scroll pane
-		update();
-		
-		draw();
-	}
-	#else
-	override private function set_height(value : Float) : Float 
-	{
-		_height = value;  
-		
-		// Update scroll pane
-		update();
-		
-		draw();
-		
-		return value;
-		
-	}	
-	#end
 
 	/**
 	* Set if the ScrollPane is enabled
@@ -456,8 +379,10 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 		
 		if (_scrollContentLoaded)
 		{
-			_scrollContentH.unload();_scrollContentV.unload();
+			_scrollContentH.unload();
+			_scrollContentV.unload();
         }
+		
 		_contentSizeBox.graphics.clear();
 		_contentSizeBox.graphics.beginFill(backgroundColor);
 		_contentSizeBox.graphics.drawRect(0, 0, value.width, value.height);
@@ -483,20 +408,7 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 	}
 	
 	
-	/**
-	* If you want to use the scrollbar arrow buttons or not
-	*/
-	private function set_showArrowButton(value : Bool) : Bool 
-	{
-		_showArrowButton = _scrollBarH.showArrowButton = _scrollBarV.showArrowButton = value;
-        return value;
-    } 
-	
-	/**
-	* Returns true if the scrollbar arrows buttons are being displayed and false if not
-	*/
-	
-	private function get_showArrowButton() : Bool { return _showArrowButton; }
+
 	
 	/**
 	* Reload the content that is inside the ScrollPane
@@ -530,22 +442,7 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 		
 		update();
     }
-	
-	/**
-	* Set the track size of the scrollbar
-	*/ 
-		
-	private function set_trackSize(value : Float) : Float 
-	{ 
-		_scrollBarV.trackSize = _scrollBarH.trackSize = _trackSize = value; 
-		return value; 
-		
-	}  
-	
-	/**
-	* Returns the track size which is based on the direction the scrollbar is pointed
-	*/
-	private function get_trackSize() : Float { return _trackSize; }
+
 	
 	/**
 	* Update the content area, this is needed for when the content loaded inside the ScrollPane size has changed
@@ -591,7 +488,7 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 		shapeBlock.graphics.clear();
 		shapeBlock.alpha = 0;
 		
-		shapeBlock.graphics.drawRect(0, 0, _buttonWidth, _buttonHeight);
+		shapeBlock.graphics.drawRect(0, 0, _scrollBarH.buttonWidth, _scrollBarH.buttonHeight);
 		shapeBlock.graphics.endFill();
 		
 		_outline.graphics.clear();  
@@ -609,7 +506,7 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 	
 	/**
 	* Change the ScrollBar settings on the ScrollPane. This changes the way the scrollbars react to content.
-	* The settings are ScrollPolicy.AUTO,ScrollPolicy.VERTICAL_ONLY,ScrollPolicy.HORIZONTAL_ONLY,ScrollPolicy.ON or ScrollPolicy.OFF.
+	* The settings are ScrollPolicy.AUTO, ScrollPolicy.VERTICAL_ONLY, ScrollPolicy.HORIZONTAL_ONLY, ScrollPolicy.ON or ScrollPolicy.OFF.
 	* 
 	* @see com.chaos.ui.ScrollPolicy
 	*/
@@ -628,376 +525,12 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 	* @see com.chaos.ui.ScrollPolicy
 	*/
 	
-	public function get_mode() : String { return _mode; }
-		
-	/**
-	 * Set the up icon
-	 * 
-	 * @param	value A DisplayObject that you want to use
-	 */ 
-	
-	public function setUpIcon(value : DisplayObject) : Void 
+	public function get_mode() : String 
 	{
-
-	}
-	
-	/**
-	* Set the icon used on the button based on a URL location
-	*
-	* @param value A URL path as a string to the image. Make sure this is one of the formats the version of the Flash player your using supports.
-	*
-	*/
-	
-	public function setUpIconImage(value : String) : Void 
-	{
-		_scrollBarH.setUpIconImage(value);
-		_scrollBarV.setUpIconImage(value); 
-	}
-		
-	/**
-	* Set the icon used on the button based on a Bitmap image
-	*
-	* @param value Make sure this is one of the formats the version of the Flash player your using supports.
-	*
-	*/
-	
-	public function setUpIconBitmap(value : Bitmap) : Void 
-	{
-		_scrollBarH.setUpIconBitmap(value);
-		_scrollBarV.setUpIconBitmap(value); 
+		return _mode; 
 	}
 	
 	
-	/**
-	 * Set the down icon
-	 * 
-	 * @param	value A DisplayObject that you want to use
-	 */
-	
-	public function setDownIcon(value : DisplayObject) : Void
-	{
-
-    }
-	
-	/**
-	* Set the scrollbar down icon using a file path
-	*
-	* @param value A URL path as a string to the image. Make sure this is one of the formats the version of the Flash player your using supports.
-	*
-	*/ 
-	
-	public function setDownIconImage(value : String) : Void 
-	{
-		_scrollBarH.setDownIconImage(value);
-		_scrollBarV.setDownIconImage(value); 
-	}  
-	
-	/**
-	* Set a image to the scrollbar down icon.
-	*
-	* @param value Set the image based on a Bitmap being pass
-	*
-	*/  
-	public function setDownIconBitmap(value : Bitmap) : Void
-	{
-		_scrollBarH.setDownIconBitmap(value);
-		_scrollBarV.setDownIconBitmap(value);
-    }
-	
-	/**
-	* Set the scrollbar slider default state using a file path
-	*
-	* @param value A URL path as a string to the image. Make sure this is one of the formats the version of the Flash player your using supports.
-	*
-	*/
-	public function setSliderImage(value : String) : Void 
-	{
-		_scrollBarH.setSliderImage(value);
-		_scrollBarV.setSliderImage(value); 
-	}
-	
-	/**
-	* Set a image to the scrollbar slider default state
-	*
-	* @param value Set the image based on a Bitmap being pass
-	*
-	*/ 
-	
-	public function setSliderBitmap(value : Bitmap) : Void
-	{
-		_scrollBarH.setSliderBitmap(value);
-		_scrollBarV.setSliderBitmap(value);
-    }
-	
-	/**
-	* Set the scrollbar slider over state using a file path
-	*
-	* @param value A URL path as a string to the image. Make sure this is one of the formats the version of the Flash player your using supports.
-	*
-	*/
-	
-	public function setSliderOverImage(value : String) : Void 
-	{
-		_scrollBarH.setSliderOverImage(value);
-		_scrollBarV.setSliderOverImage(value);
-	}
-		
-	/**
-	* Set a image to the scrollbar slider over state
-	*
-	* @param value Set the image based on a Bitmap being pass
-	*
-	*/ 
-	
-	public function setSliderOverBitmap(value : Bitmap) : Void 
-	{
-		_scrollBarH.setSliderOverBitmap(value);
-		_scrollBarV.setSliderOverBitmap(value); 
-	} 
-	
-	/**
-	* Set the scrollbar slider down state using a file path
-	*
-	* @param value A URL path as a string to the image. Make sure this is one of the formats the version of the Flash player your using supports.
-	*
-	*/
-	
-	public function setSliderDownImage(value : String) : Void 
-	{
-		_scrollBarH.setSliderDownImage(value);
-		_scrollBarV.setSliderDownImage(value);
-	}
-	
-	/**
-	* Set a image to the scrollbar slider down state
-	*
-	* @param value Set the image based on a Bitmap being pass
-	*
-	*/
-	public function setSliderDownBitmap(value : Bitmap) : Void 
-	{
-		_scrollBarH.setSliderDownBitmap(value);
-		_scrollBarV.setSliderDownBitmap(value); 
-	}
-	
-	/**
-	* Set the scrollbar track using a file path
-	*
-	* @param value A URL path as a string to the image. Make sure this is one of the formats the version of the Flash player your using supports.
-	*
-	*/
-	
-	public function setTrackImage(value : String) : Void
-	{
-		_scrollBarH.setTrackImage(value);
-		_scrollBarV.setTrackImage(value);
-    }
-	
-	/**
-	* Set a image to the scrollbar track
-	*
-	* @param value Set the image based on a Bitmap being pass
-	*
-	*/
-	
-	public function setTrackBitmap(value : Bitmap) : Void
-	{
-		_scrollBarH.setTrackBitmap(value);
-		_scrollBarV.setTrackBitmap(value);
-    } 
-	
-	/**
-	* Set the size of the button used on the ScrollPane. The width is based on the height of the ScrollPane. 
-	*/  
-	
-	private function set_buttonWidth(value : Int) : Int
-	{
-		_scrollBarV.buttonWidth = _scrollBarH.buttonWidth = _buttonWidth = value;
-        return value;
-    }
-	
-	/**
-	* Returns the size of the button width being used on the ScrollPane.
-	*/ 
-	
-	private function get_buttonWidth() : Int { return _buttonWidth; }
-		
-	/**
-	* Set the size of the button used on the ScrollPane. The height is based on the height of the ScrollPane. 
-	*/
-	
-	private function set_buttonHeight(value : Int) : Int 
-	{ 
-		_scrollBarV.buttonHeight = _scrollBarH.buttonHeight = _buttonHeight = value; 
-		return value;
-	}
-	
-	/**
-	* Returns the size of the button height being used on the ScrollPane.
-	*/ 
-	
-	private function get_buttonHeight() : Int { return _buttonHeight; }  
-	
-	/**
-	* Set the color of the buttons
-	*/
-	
-	private function set_buttonColor(value : Int) : Int 
-	{
-		_scrollBarV.buttonColor = _scrollBarH.buttonColor = _itemDefaultColor = value;
-		return value; 
-	}
-		
-		
-	/**
-	* Returns the color used on the buttons
-	*/
-	
-	private function get_buttonColor() : Int { return _itemDefaultColor; } 
-		
-	/**
-	* Set the color of the button over state
-	*/ 
-	
-	private function set_buttonOverColor(value : Int) : Int 
-	{ 
-		_scrollBarV.buttonOverColor = _scrollBarH.buttonOverColor = _buttonOverColor = value;
-		
-		return value; 
-	}
-		
-	/**
-	* Returns the color
-	*/
-	
-	private function get_buttonOverColor() : Int { return _buttonOverColor; }
-	
-	
-	/**
-	* Set the color of the button down state
-	*/
-	
-	private function set_buttonDownColor(value : Int) : Int 
-	{
-		_scrollBarV.buttonDownColor = _scrollBarH.buttonDownColor = _buttonDownColor = value;
-		return value; 
-	}
-	
-	/**
-	* Returns the color
-	*/
-	
-	private function get_buttonDownColor() : Int { return _buttonDownColor; }
-	
-	/**
-	* Set the color of the button disabled state
-	*/
-	
-	private function set_buttonDisableColor(value : Int) : Int 
-	{
-		_scrollBarV.buttonDisableColor = _scrollBarH.buttonDisableColor = _buttonDisableColor = value;
-		return value;
-	}
-	
-	/**
-	* Returns the color
-	*/
-	private function get_buttonDisableColor() : Int { return _buttonDisableColor; }
-	
-	/**
-	* Set a image to the scrollbar buttons default state using a file path
-	*
-	* @param value A URL path as a string to the image. Make sure this is one of the formats the version of the Flash player your using supports.
-	*
-	*/
-	public function setButtonBackgroundImage(value : String) : Void
-	{
-		_scrollBarH.setButtonBackgroundImage(value);
-		_scrollBarV.setButtonBackgroundImage(value);
-    }
-	/**
-	* Set a image to the scrollbar buttons default state
-	*
-	* @param value Set the image based on a Bitmap being pass
-	*
-	*/
-	public function setButtonBackgroundBitmap(value : Bitmap) : Void 
-	{
-		_scrollBarH.setButtonBackgroundBitmap(value);
-		_scrollBarV.setButtonBackgroundBitmap(value);
-    }
-	
-	/**
-	* Set a image to the scrollbar buttons over state using a file path
-	*
-	* @param value A URL path as a string to the image. Make sure this is one of the formats the version of the Flash player your using supports.
-	*
-	*/
-	public function setButtonOverBackgroundImage(value : String) : Void
-	{
-		_scrollBarH.setButtonOverBackgroundImage(value);
-		_scrollBarV.setButtonOverBackgroundImage(value);
-    }
-	
-	/**
-		* Set a image to the scrollbar buttons over state
-		*
-		* @param value Set the image based on a Bitmap being pass
-		*
-		*/
-	public function setButtonOverBackgroundBitmap(value : Bitmap) : Void
-	{
-		_scrollBarH.setButtonOverBackgroundBitmap(value);
-		_scrollBarV.setButtonOverBackgroundBitmap(value);
-    }
-	
-	/**
-	* Set a image to the scrollbar up button down state using a file path
-	*
-	* @param value A URL path as a string to the image. Make sure this is one of the formats the version of the Flash player your using supports.
-	*
-	*/
-	public function setButtonDownBackgroundImage(value : String) : Void
-	{
-		_scrollBarH.setButtonDownBackgroundImage(value);
-		_scrollBarV.setButtonDownBackgroundImage(value);
-    } 
-	
-	/**
-	* Set a image to the scrollbar up button down state
-	*
-	* @param value Set the image based on a Bitmap being pass
-	*
-	*/
-	
-	public function setButtonDownBackgroundBitmap(value : Bitmap) : Void
-	{
-		_scrollBarH.setButtonDownBackgroundBitmap(value);
-		_scrollBarV.setButtonDownBackgroundBitmap(value);
-    }
-	/**
-	* Set a image to the scrollbar up button disable state using a file path
-	*
-	* @param value A URL path as a string to the image. Make sure this is one of the formats the version of the Flash player your using supports.
-	*
-	*/
-	public function setButtonDisableBackgroundImage(value : String) : Void
-	{
-		_scrollBarH.setButtonDisableBackgroundImage(value);
-		_scrollBarV.setButtonDisableBackgroundImage(value);
-    }
-	
-	/**
-	* Set a image to the scrollbar up button disable state
-	*
-	* @param value Set the image based on a Bitmap being pass
-	*
-	*/
-	public function setButtonDisableBackgroundBitmap(value : Bitmap) : Void
-	{
-		_scrollBarH.setButtonDisableBackgroundBitmap(value);
-		_scrollBarV.setButtonDisableBackgroundBitmap(value);
-    }
 	
 	private function updatePolicy(value : String = "auto") : Void 
 	{
@@ -1005,9 +538,6 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 			if(contentObject.numChildren == 0)
 			return;
 			
-			// Figure out width and height based on what's loaded
-			var contentWidth:Int = Std.int(contentObject.width);
-			var contentHeight:Int = Std.int(contentObject.height);
 			
 			// Figure out what to do with the
 			if(value == ScrollPolicy.AUTO)
@@ -1079,23 +609,15 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 				
 				// Check to see width of the content loaded width greather 
 				if(_contentSizeBox.width > _width)
-				{
 					_scrollBarH.enabled = true;
-				}
 				else
-				{
 					_scrollBarH.enabled = false;
-				}
 				
 				// Check to see height of the s loaded width greather 
 				if(_contentSizeBox.height > _height)
-				{
 					_scrollBarV.enabled = true;
-				}
 				else
-				{
 					_scrollBarV.enabled = false;
-				}
 				
 				
 			}
@@ -1109,13 +631,9 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 				
 				// Check to see height of the s loaded width greather 
 				if(_contentSizeBox.height > _height)
-				{
 					_scrollBarV.enabled = true;
-				}
 				else
-				{
 					_scrollBarV.enabled = false;
-				}
 			}
 			else if (value == ScrollPolicy.ONLY_HORIZONTAL)
 			{
@@ -1127,13 +645,9 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 				
 				// Check to see width of the content loaded width greather 
 				if(_contentSizeBox.width > _width)
-				{
 					_scrollBarH.enabled = true;
-				}
 				else
-				{
 					_scrollBarH.enabled = false;
-				}				
 			}
 			else if(value == ScrollPolicy.OFF)
 			{
@@ -1144,9 +658,5 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 		
     }
 	
-	private function bgLoadComplete(event : Event) : Void
-	{
-		_bgDisplayImage = true;
-		draw();
-    }
+
 }

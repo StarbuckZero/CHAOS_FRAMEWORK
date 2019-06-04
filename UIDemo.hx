@@ -28,7 +28,7 @@ import com.chaos.ui.ScrollContent;
 import com.chaos.ui.ScrollPane;
 import com.chaos.ui.Slider;
 import com.chaos.ui.TabPane;
-import com.chaos.ui.ToggleButtonLite;
+import com.chaos.ui.ToggleButton;
 import com.chaos.ui.ToolTip;
 import com.chaos.ui.UIStyleManager;
 import com.chaos.ui.Window;
