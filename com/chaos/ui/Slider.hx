@@ -135,10 +135,10 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 		initSkin();
 		initStyle();
 		
-		_marker.buttonColor = _sliderNormalColor;
-		_marker.buttonOverColor = _sliderOverColor;
-		_marker.buttonDownColor = _sliderDownColor;
-		_marker.buttonDisableColor = _sliderDisableColor;
+		_marker.defaultColor = _sliderNormalColor;
+		_marker.overColor = _sliderOverColor;
+		_marker.downColor = _sliderDownColor;
+		_marker.disableColor = _sliderDisableColor;
 		_marker.addEventListener(MouseEvent.MOUSE_DOWN, markerPress, false, 0, true);
 		
 		_threadCallBack = new TaskCallBack(this, "updatePercent");
@@ -403,7 +403,7 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 	 */
 	private function set_sliderColor(value : Int) : Int
 	{
-		_marker.buttonColor = _sliderNormalColor = value;
+		_marker.defaultColor = _sliderNormalColor = value;
         return value;
     } 
 	
@@ -421,7 +421,7 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 	 */ 
 	private function set_sliderOverColor(value : Int) : Int
 	{
-		_marker.buttonOverColor = _sliderOverColor = value;
+		_marker.overColor = _sliderOverColor = value;
         return value;
     }
 	
@@ -440,7 +440,7 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 	
 	private function set_sliderDownColor(value : Int) : Int
 	{
-		_marker.buttonDownColor = _sliderDownColor = value;
+		_marker.downColor = _sliderDownColor = value;
         return value;
     }
 	
@@ -457,7 +457,7 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 	 */
 	private function set_sliderDisableColor(value : Int) : Int
 	{
-		_marker.buttonDisableColor = _sliderDisableColor = value;
+		_marker.disableColor = _sliderDisableColor = value;
         return value;
     } 
 	
@@ -631,6 +631,7 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 		// Flag for dragging
 		_dragging = false;
 		_marker.stopDrag();
+		
 		stage.removeEventListener(MouseEvent.MOUSE_MOVE, updatePercent);
 		stage.removeEventListener(MouseEvent.MOUSE_UP, stopSliding);
 		

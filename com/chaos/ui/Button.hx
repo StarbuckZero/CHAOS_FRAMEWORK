@@ -2,25 +2,14 @@
 package com.chaos.ui;
 
 
-
-import com.chaos.drawing.Draw;
 import com.chaos.ui.classInterface.IBaseUI;
 import com.chaos.ui.classInterface.IButton;
 import com.chaos.ui.classInterface.ILabel;
-import com.chaos.ui.classInterface.IOverlay;
 import com.chaos.ui.classInterface.IToggleButton;
+
 import openfl.display.BitmapData;
-import openfl.display.DisplayObject;
-import openfl.display.Loader;
-import openfl.display.MovieClip;
-import openfl.display.Sprite;
 import openfl.display.Shape;
-import openfl.filters.BitmapFilter;
-import openfl.filters.BitmapFilterQuality;
-import openfl.filters.GlowFilter;
-
 import openfl.display.Bitmap;
-
 
 import openfl.events.MouseEvent;
 import openfl.events.Event;
@@ -46,6 +35,13 @@ import com.chaos.ui.Label;
 
 class Button extends ToggleButton implements IButton implements IToggleButton implements IBaseUI
 {
+	
+    /** The type of UI Element */
+    public static inline var TYPE : String = "Button";
+	
+	public static var PRESS_MODE:String = "press";
+	public static var TOGGLE_MODE:String = "toggle";
+	
     public var imageOffSetX(get, set) : Int;
     public var imageOffSetY(get, set) : Int;
 	
@@ -60,28 +56,10 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
     public var textSize(get, set) : Int;
     public var textColor(get, set) : Int;
     public var textAlign(get, set) : String;
-	
-    public var buttonColor(get, set) : Int;
-    public var buttonOverColor(get, set) : Int;
-    public var buttonDownColor(get, set) : Int;
-    public var buttonDisableColor(get, set) : Int;
-	
-    //public var roundEdge(get, set) : Int;
-	
-    //public var bitmapAlpha(get, set) : Float;
+    public var mode(get, set) : String;
 	
     public var iconDisplay(get, set) : Bool;
     public var tileImage(get, set) : Bool;
-    
-
-    /** The type of UI Element */
-    public static inline var TYPE : String = "Button";
-     
-    //public var normalState : Shape;
-    //public var overState : Shape;
-    //public var downState : Shape;
-    //public var disableState : Shape;
-    
     
     private var _imageOffSetX : Int;
     private var _imageOffSetY : Int;
@@ -91,85 +69,72 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
     
     // Default button colors
     private var _text : String = "";
-    
-    private var _buttonTextColor : Int = 0xFFFFFF;
-    private var _buttonTextBold : Bool = true;
-    private var _buttonTextItalic : Bool = false;
-    private var _buttonTextSize : Int = 11;
-    private var _buttonTextAlign : String = TextFormatAlign.CENTER;
-    
-    //private var _roundEdge : Int = 0;
-    
-    private var _buttonNormalColor : Int = 0xCCCCCC;
-    private var _buttonOverColor : Int = 0x666666;
-    private var _buttonDownColor : Int = 0x333333;
-    private var _buttonDisableColor : Int = 0x999999;
+	
+	private var _labelData:Dynamic = null;
     
     private var _showLabel : Bool = true;
     private var _showIcon : Bool = false;
     
     private var _bgShowImage : Bool = true;
     
-    //private var _imageSmooth : Bool = true;
-    
-    //private var _bgAlpha : Float = UIStyleManager.BUTTON_ALPHA;
-    
     private var _icon : Shape;
-    
-    //private var _defaultStateImage : BitmapData;
-    //private var _overStateImage : BitmapData;
-    //private var _downStateImage : BitmapData;
-    //private var _disableStateImage : BitmapData;
-    
-    private var _useMask : Bool = false;
-	//private var _tileImage:Bool = false;
-
 	
+	private var _mode:String = "press";
 	
     /**
 	 * Push Button
 	 *
-	 * @param	label The text that will be displayed on the label
-	 * @param	buttonWidth The button width
-	 * @param	buttonHeight The button height
+	 * @param	data The data object with all the values. Use text, width and height 
 	 */
     
-    public function new(text : String = "Button", buttonWidth : Int = 100, buttonHeight : Int = 20)
+    public function new(data:Dynamic = null)
     {
-        
-        super(buttonWidth, buttonHeight);
-        
+		
+        super(data);
         
         addEventListener(Event.ADDED_TO_STAGE, onStageAdd, false, 0, true);
         addEventListener(Event.REMOVED_FROM_STAGE, onStageRemove, false, 0, true);
+		
+		addEventListener(MouseEvent.MOUSE_UP, mouseUpEvent, false, 1, true);
     }
+	
+	override public function setComponentData(data:Dynamic):Void 
+	{
+		super.setComponentData(data);
+		
+		if (Reflect.hasField(data, "text"))
+			_text = Reflect.field(data, "text");
+		
+		if (Reflect.hasField(data, "Label"))
+			_labelData = Reflect.field(data, "Label");
+			
+		if (Reflect.hasField(data, "showLabel"))
+			_showLabel = Reflect.field(data, "showLabel");
+			
+	}
 
     override public function initialize() : Void
     {
+		if (_labelData == null)
+			_labelData = {"textColor": 0xFFFFFF};
+		
+		// Init core components first
+        _label = new Label(_labelData);
+        _textFormat = new TextFormat();
+        _icon = new Shape();
+		
+		// Now init and add everything 
 		super.initialize();
         
-        _label = new Label();
-        _textFormat = new TextFormat();
         _label.visible = _showLabel;
-        
-        _icon = new Shape();
-        
         _bgAlpha = UIStyleManager.BUTTON_ALPHA;
-		
-        // Attach roll over and out event
-        //addEventListener(MouseEvent.MOUSE_DOWN, downState, false, 0, true);
-        //addEventListener(MouseEvent.MOUSE_UP, normalState, false, 0, true);
-        //
-        //addEventListener(MouseEvent.MOUSE_OVER, overState, false, 0, true);
-        //addEventListener(MouseEvent.MOUSE_OUT, normalState, false, 0, true);
-        
         
         mouseChildren = false;
         
         addChild(_label);
         addChild(_icon);
         
- 
+		_labelData = null;
 		
     }
     
@@ -186,7 +151,7 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
         
     }
     
-    public function initBitmap() : Void
+    private function initBitmap() : Void
     {
         // Set skining if in UIBitmapManager
         if (null != UIBitmapManager.getUIElement(Button.TYPE, UIBitmapManager.BUTTON_NORMAL)) 
@@ -202,7 +167,7 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
             setDisableStateImage(UIBitmapManager.getUIElement(Button.TYPE, UIBitmapManager.BUTTON_DISABLE));
     }
     
-    public function initStyle() : Void
+    private function initStyle() : Void
     {
         
         // First set style default
@@ -216,37 +181,36 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
         if (-1 != UIStyleManager.BUTTON_ROUND_NUM) 
             _roundEdge = UIStyleManager.BUTTON_ROUND_NUM;  
         
-        
         // Set Button Label because on UIStyleManager
         if (-1 != UIStyleManager.BUTTON_TEXT_COLOR) 
-            _buttonTextColor = UIStyleManager.BUTTON_TEXT_COLOR;
+            _label.textColor = UIStyleManager.BUTTON_TEXT_COLOR;
         
         if (-1 != UIStyleManager.BUTTON_TEXT_SIZE) 
-            _buttonTextSize = UIStyleManager.BUTTON_TEXT_SIZE;
+            _label.size = UIStyleManager.BUTTON_TEXT_SIZE;
         
-        _buttonTextItalic = UIStyleManager.BUTTON_TEXT_ITALIC;
-        _buttonTextBold = UIStyleManager.BUTTON_TEXT_BOLD;
+        _label.textFormat.italic = UIStyleManager.BUTTON_TEXT_ITALIC;
+        _label.textFormat.bold = UIStyleManager.BUTTON_TEXT_BOLD;
         
         if ("" != UIStyleManager.BUTTON_TEXT_FONT) 
             _textFormat.font = UIStyleManager.BUTTON_TEXT_FONT;
         
         if ("" != UIStyleManager.BUTTON_TEXT_ALIGN) 
-            _buttonTextAlign = UIStyleManager.BUTTON_TEXT_ALIGN;
+            _label.align = UIStyleManager.BUTTON_TEXT_ALIGN;
         
         if (null != UIStyleManager.BUTTON_TEXT_EMBED) 
             _label.setEmbedFont(UIStyleManager.BUTTON_TEXT_EMBED);
         
         if (-1 != UIStyleManager.BUTTON_NORMAL_COLOR) 
-            _buttonNormalColor = UIStyleManager.BUTTON_NORMAL_COLOR;
+            _defaultColor = UIStyleManager.BUTTON_NORMAL_COLOR;
         
         if (-1 != UIStyleManager.BUTTON_OVER_COLOR) 
-            _buttonOverColor = UIStyleManager.BUTTON_OVER_COLOR;
+            _overColor = UIStyleManager.BUTTON_OVER_COLOR;
         
         if (-1 != UIStyleManager.BUTTON_DOWN_COLOR) 
-            _buttonDownColor = UIStyleManager.BUTTON_DOWN_COLOR;
+            _downColor = UIStyleManager.BUTTON_DOWN_COLOR;
         
         if (-1 != UIStyleManager.BUTTON_DISABLE_COLOR) 
-            _buttonDisableColor = UIStyleManager.BUTTON_DISABLE_COLOR;
+            _disableColor = UIStyleManager.BUTTON_DISABLE_COLOR;
         
         _label.x = UIStyleManager.BUTTON_TEXT_OFFSET_X;
         _label.y = UIStyleManager.BUTTON_TEXT_OFFSET_Y;
@@ -260,43 +224,73 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
 	 * Remove all roll over and roll out effects while setting button to it's disable state
 	 */
     
-    //override private function set_enabled(value : Bool) : Bool
-    //{
-    //    
-    //    if (enabled != value) 
-    //    {
-    //        
-    //        if (value) 
-    //        {
-    //            // Attach roll over and out event
-    //            addEventListener(MouseEvent.MOUSE_DOWN, downState, false, 0, true);
-    //            addEventListener(MouseEvent.MOUSE_UP, normalState, false, 0, true);
-    //            
-    //            addEventListener(MouseEvent.MOUSE_OVER, overState, false, 0, true);
-    //            addEventListener(MouseEvent.MOUSE_OUT, normalState, false, 0, true);
-    //            
-    //            disableState.visible = false;
-    //        }
-    //        else 
-    //        {
-    //            
-    //            // Attach roll over and out event
-    //            removeEventListener(MouseEvent.MOUSE_DOWN, downState);
-    //            removeEventListener(MouseEvent.MOUSE_UP, normalState);
-    //            
-    //            removeEventListener(MouseEvent.MOUSE_OVER, overState);
-    //            removeEventListener(MouseEvent.MOUSE_OUT, normalState);
-    //            
-    //            disableState.visible = true;
-    //        }
-    //    }
-    //    
-    //    super.enabled = value;
-	//	
-    //    return value;
-    //}
+	
+	//@:setter(enabled)
+	override function set_enabled(value:Bool):Bool 
+	{
+		
+		if (_mode.toLowerCase() == PRESS_MODE)
+		{
+			if (enabled != value) 
+			{
+				
+				if (value) 
+				{
+					// Attach roll over and out event
+					if (!hasEventListener(MouseEvent.MOUSE_UP))
+						addEventListener(MouseEvent.MOUSE_UP, mouseUpEvent, false, 0, true);
+						
+					disableState.visible = false;
+				}
+				else 
+				{
+					
+					// Attach roll over and out event
+					removeEventListener(MouseEvent.MOUSE_UP, mouseUpEvent);
+					disableState.visible = true;
+				}
+			}
+		}
+		
+		
+		return super.set_enabled(value);
+	}
+	
     
     
+	private function set_mode(value:String):String
+	{
+		_mode = value;
+		
+		
+		if (_mode == PRESS_MODE)
+			downState.visible = disableState.visible = overState.visible = normalState.visible = true;
+		else
+		{
+			downState.visible = disableState.visible = overState.visible = normalState.visible = true;
+			
+			// Toggle Seleect state
+			if (_selected)
+			{
+				normalState.visible = false;
+				downState.visible = true;
+			}
+			else
+			{
+				normalState.visible = true;
+				downState.visible = false;
+			}
+		
+		}
+		
+		return value;
+	}
+	
+	private function get_mode():String
+	{
+		return _mode;
+	}
+	
     /**
 	 * The offset of the image icon location on the X axis
 	 */
@@ -345,7 +339,7 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
     private function set_text(value : String) : String
     {
         _text = value;
-        draw();
+        
         return value;
     }
     
@@ -413,7 +407,7 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
     
     private function set_textItalic(value : Bool) : Bool
     {
-        _buttonTextItalic = value;
+        _label.textFormat.italic = value;
         draw();
         return value;
     }
@@ -424,7 +418,7 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
     
     private function get_textItalic() : Bool
     {
-        return _buttonTextItalic;
+        return _label.textFormat.italic;
     }
     
     /**
@@ -433,7 +427,7 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
     
     private function set_textBold(value : Bool) : Bool
     {
-        _buttonTextBold = value;
+        _label.textFormat.bold = value;
         draw();
         return value;
     }
@@ -444,7 +438,7 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
     
     private function get_textBold() : Bool
     {
-        return _buttonTextBold;
+        return _label.textFormat.bold;
     }
     
     /**
@@ -453,7 +447,7 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
     
     private function set_textSize(value : Int) : Int
     {
-        _buttonTextSize = value;
+        _label.size = value;
         draw();
         return value;
     }
@@ -464,7 +458,7 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
     
     private function get_textSize() : Int
     {
-        return _buttonTextSize;
+        return _label.size;
     }
     
     /**
@@ -473,8 +467,7 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
     
     private function set_textColor(value : Int) : Int
     {
-        _buttonTextColor = value;
-        draw();
+        _label.textColor = value;
         return value;
     }
     
@@ -484,7 +477,7 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
     
     private function get_textColor() : Int
     {
-        return _buttonTextColor;
+        return _label.textColor;
     }
     
     /**
@@ -495,7 +488,7 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
     
     private function set_textAlign(value : String) : String
     {
-        _buttonTextAlign = value;
+        _label.align = value;
         draw();
         return value;
     }
@@ -506,88 +499,7 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
     
     private function get_textAlign() : String
     {
-        return _buttonTextAlign;
-    }
-    
-    /**
-	 * The button normal state color
-	 */
-    
-    private function set_buttonColor(value : Int) : Int
-    {
-        _buttonNormalColor = value;
-        
-        draw();
-        return value;
-    }
-    
-    /**
-	 * Return the normal state button color
-	 */
-    
-    private function get_buttonColor() : Int
-    {
-        return _buttonNormalColor;
-    }
-    
-    /**
-	 * The button over state color
-	 */
-    
-    private function set_buttonOverColor(value : Int) : Int
-    {
-        _buttonOverColor = value;
-        draw();
-        return value;
-    }
-    
-    /**
-	 * Return the button over state color
-	 */
-    
-    private function get_buttonOverColor() : Int
-    {
-        return _buttonOverColor;
-    }
-    
-    /**
-	 * The button down state color
-	 */
-    
-    private function set_buttonDownColor(value : Int) : Int
-    {
-        _buttonDownColor = value;
-        draw();
-        return value;
-    }
-    
-    /**
-	 * Return the button down state color
-	 */
-    
-    private function get_buttonDownColor() : Int
-    {
-        return _buttonDownColor;
-    }
-    
-    /**
-	 * The button disable state color
-	 */
-    
-    private function set_buttonDisableColor(value : Int) : Int
-    {
-        _buttonDisableColor = value;
-        draw();
-        return value;
-    }
-    
-    /**
-	 * Return the button disable state color
-	 */
-    
-    private function get_buttonDisableColor() : Int
-    {
-        return _buttonDisableColor;
+        return _label.align;
     }
     
 
@@ -609,7 +521,7 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
     }
     
     /**
-	 * The DisplayObject being used as the icon for the button
+	 * The Shape being used as the icon for the button
 	 *
 	 * @return A DisplayObject if there is one if not then return null
 	 */
@@ -659,54 +571,6 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
         _icon.visible = _showIcon;
         _label.visible = _showLabel;
         _label.width = 1;
-
-		// Figure to use bitmap or normal mode
-		if (_bgShowImage) 
-		{
-			// Normal
-			if (null != _defaultStateImage)
-				drawButtonState(normalState, _buttonNormalColor, _defaultStateImage);
-			else 
-				drawButtonState(normalState, _buttonNormalColor);
-				
-			// Over
-			if (null != _overStateImage) 
-				drawButtonState(overState, _buttonOverColor, _overStateImage);
-			else
-				drawButtonState(overState, _buttonOverColor);
-			
-			// Down
-			if (null != _downStateImage) 
-				drawButtonState(downState, _buttonDownColor, _downStateImage);
-			else 
-				drawButtonState(downState, _buttonDownColor);
-			
-			// Disable
-			if (null != _disableStateImage) 
-				drawButtonState(disableState, _buttonDisableColor, _disableStateImage);
-			else 
-				drawButtonState(disableState, _buttonDisableColor);
-		}
-		else 
-		{
-			
-			drawButtonState(normalState, _buttonNormalColor);
-			drawButtonState(overState, _buttonOverColor);
-			drawButtonState(downState, _buttonDownColor);
-			drawButtonState(disableState, _buttonDisableColor);
-		} 		
-		
-        
-        // Resize all items  
-        //baseDisable.width = baseDown.width = baseOver.width = normalState.width = width;
-        //baseDisable.height = baseDown.height = baseOver.height = normalState.height = height;
-		
-        // Set label and style
-        _label.align = _buttonTextAlign;
-        _label.textFormat.italic = _buttonTextItalic;
-        _label.textFormat.bold = _buttonTextBold;
-        _label.textColor = _buttonTextColor;
-        
         
         // Seting label  
         _label.text = _text;
@@ -751,19 +615,43 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
             _label.y = (height / 2) - (_label.height / 2) + UIStyleManager.BUTTON_TEXT_OFFSET_Y;
 			
         }
-        
-        
-        normalState.visible = true;
-        overState.visible = downState.visible = disableState.visible = false;
-        
-        //addChild(normalState);
-        //addChild(overState);
-        //addChild(downState);
-        //addChild(disableState);
-        
-        //addChild(_label);
-        //addChild(_icon);
+		
+		if (_mode.toLowerCase() == PRESS_MODE)
+		{
+			
+			normalState.visible = true;
+			disableState.visible = overState.visible = downState.visible = false;
+		}
+		else
+		{
+			if(_selected)
+				normalState.visible = true;
+			else
+				downState.visible = true;
+				
+		}        
     }
+	
+	private function mouseUpEvent(event:MouseEvent):Void 
+	{
+		normalState.visible = true;
+		disableState.visible = overState.visible = downState.visible = false;
+	}	
+	
+	override function mouseDownEvent(event:MouseEvent):Void 
+	{
+		trace("mouseDownEvent");
+		
+		// Either go with what is done in the ToggleButton Super class
+		if (_mode.toLowerCase() != PRESS_MODE)
+			super.mouseDownEvent(event);
+		else
+		{
+			// Or Just show down state on mouse down
+			downState.visible = true;	
+			disableState.visible = overState.visible = normalState.visible = false;
+		}
+	}
 	
 	
 }

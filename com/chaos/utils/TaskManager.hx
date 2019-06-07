@@ -40,8 +40,8 @@ class TaskManager
     private var _processMode : String = "queue";
     private var _threadType : String = "timer";
     
-    private var _threadArray : DataProvider;
-    private var _subThreadArray : DataProvider;
+    private var _threadArray : DataProvider<ITask>;
+    private var _subThreadArray : DataProvider<ITask>;
     
     private var _runAllSubThreads : Bool = true;
     
@@ -65,8 +65,8 @@ class TaskManager
         
         dispatch = new EventDispatcher();
         
-        _threadArray = new DataProvider();
-        _subThreadArray = new DataProvider();
+        _threadArray = new DataProvider<ITask>();
+        _subThreadArray = new DataProvider<ITask>();
         
         _threadType = threadType;
         _processMode = processMode;

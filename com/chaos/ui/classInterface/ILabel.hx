@@ -1,9 +1,10 @@
 package com.chaos.ui.classInterface;
 
+import openfl.display.BitmapData;
 import openfl.text.TextField;
 import openfl.text.Font;
 import openfl.text.TextFormat;
-import openfl.display.DisplayObject;
+
 
 interface ILabel extends IBaseUI
 {
@@ -90,10 +91,11 @@ interface ILabel extends IBaseUI
 		/**
 		 * Unload the font that was set by using the setEmbedFont
 		 */ 
-		function unloadEmbedFont() : Void;  /**
+		function unloadEmbedFont() : Void;  
+		/**
 		 * Set the icon to be used in the label
 		 *
 		 * @param	value The icon you want to use for the label
 		 */ 
-		function setDisplayIcon(value : DisplayObject) : Void;
+		function setDisplayIcon(value : BitmapData) : Void;
 }

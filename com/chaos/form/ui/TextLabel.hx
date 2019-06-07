@@ -21,6 +21,11 @@ class TextLabel extends Label implements ILabel implements IBaseUI implements IF
         super(labelText);
 		
     }
+	
+	public function data():Dynamic
+	{
+		return _text;
+	}
     
     /**
 	 * Clear values
@@ -28,7 +33,7 @@ class TextLabel extends Label implements ILabel implements IBaseUI implements IF
     
     public function clear() : Void
     {
-        text = "";
+        _text = "";
     }
     
     /**

@@ -320,26 +320,26 @@ class UIBitmapManager
 		
         
 		watchList = { };
-		Reflect.setField(watchList, Alert.TYPE, new DataProvider() );
-        Reflect.setField(watchList, Bubble.TYPE, new DataProvider() );
-        Reflect.setField(watchList, Button.TYPE, new DataProvider() );
-        Reflect.setField(watchList, ToggleButton.TYPE, new DataProvider() );
-        Reflect.setField(watchList, CheckBox.TYPE, new DataProvider() );
-        Reflect.setField(watchList, ComboBox.TYPE, new DataProvider() );
-        Reflect.setField(watchList, Label.TYPE, new DataProvider() );
-        Reflect.setField(watchList, ListBox.TYPE, new DataProvider() );
-        Reflect.setField(watchList, ProgressBar.TYPE, new DataProvider() );
-        Reflect.setField(watchList, RadioButton.TYPE, new DataProvider() );
-        Reflect.setField(watchList, ScrollBar.TYPE, new DataProvider() );
-        Reflect.setField(watchList, ScrollPane.TYPE, new DataProvider() );
-        Reflect.setField(watchList, Slider.TYPE, new DataProvider() );
-        Reflect.setField(watchList, TabPane.TYPE, new DataProvider() );
-        Reflect.setField(watchList, TextInput.TYPE, new DataProvider() );
-        Reflect.setField(watchList, Window.TYPE, new DataProvider() );
-        Reflect.setField(watchList, ItemPane.TYPE, new DataProvider() );
-        Reflect.setField(watchList, GridPane.TYPE, new DataProvider() );
-        Reflect.setField(watchList, ProgressSlider.TYPE,new DataProvider() );
-        Reflect.setField(watchList, Menu.TYPE, new DataProvider() );		
+		Reflect.setField(watchList, Alert.TYPE, new DataProvider<BaseUI>() );
+        Reflect.setField(watchList, Bubble.TYPE, new DataProvider<BaseUI>() );
+        Reflect.setField(watchList, Button.TYPE, new DataProvider<BaseUI>() );
+        Reflect.setField(watchList, ToggleButton.TYPE, new DataProvider<BaseUI>() );
+        Reflect.setField(watchList, CheckBox.TYPE, new DataProvider<BaseUI>() );
+        Reflect.setField(watchList, ComboBox.TYPE, new DataProvider<BaseUI>() );
+        Reflect.setField(watchList, Label.TYPE, new DataProvider<BaseUI>() );
+        Reflect.setField(watchList, ListBox.TYPE, new DataProvider<BaseUI>() );
+        Reflect.setField(watchList, ProgressBar.TYPE, new DataProvider<BaseUI>() );
+        Reflect.setField(watchList, RadioButton.TYPE, new DataProvider<BaseUI>() );
+        Reflect.setField(watchList, ScrollBar.TYPE, new DataProvider<BaseUI>() );
+        Reflect.setField(watchList, ScrollPane.TYPE, new DataProvider<BaseUI>() );
+        Reflect.setField(watchList, Slider.TYPE, new DataProvider<BaseUI>() );
+        Reflect.setField(watchList, TabPane.TYPE, new DataProvider<BaseUI>() );
+        Reflect.setField(watchList, TextInput.TYPE, new DataProvider<BaseUI>() );
+        Reflect.setField(watchList, Window.TYPE, new DataProvider<BaseUI>() );
+        Reflect.setField(watchList, ItemPane.TYPE, new DataProvider<BaseUI>() );
+        Reflect.setField(watchList, GridPane.TYPE, new DataProvider<BaseUI>() );
+        Reflect.setField(watchList, ProgressSlider.TYPE,new DataProvider<BaseUI>() );
+        Reflect.setField(watchList, Menu.TYPE, new DataProvider<BaseUI>() );		
 
         
         initialize = true;
@@ -399,12 +399,12 @@ class UIBitmapManager
     
     public static function updateUIElement(UITypeElement : String) : Void
     {
-        var uiList : DataProvider = Reflect.field(watchList, UITypeElement);
+        var uiList : DataProvider<BaseUI> = Reflect.field(watchList, UITypeElement);
         
-        for (i in 0...uiList.length)
+        for (i in 0 ... uiList.length)
 		{
-            cast(uiList.getItemAt(i), IBaseUI).reskin();
-            cast(uiList.getItemAt(i), IBaseUI).draw();
+            cast(uiList.getItemAt(i), BaseUI).reskin();
+            cast(uiList.getItemAt(i), BaseUI).draw();
         }
     }
     

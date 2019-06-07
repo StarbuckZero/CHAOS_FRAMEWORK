@@ -31,11 +31,10 @@ import com.chaos.ui.data.ItemPaneObjectData;
 import com.chaos.ui.event.ToggleEvent;
 
 import com.chaos.ui.ScrollPane;
-import com.chaos.ui.ItemPane;
 import com.chaos.ui.Label;
 import com.chaos.ui.ToggleButton;
 
-import com.chaos.media.DisplayImage;
+
 
 
 
@@ -47,6 +46,10 @@ import com.chaos.media.DisplayImage;
 
 class ItemPane extends ScrollPane implements IItemPane implements IScrollPane implements IBaseUI
 {
+	
+    /** The type of UI Element */
+    public static inline var TYPE : String = "ItemPane";
+	
     public var itemWidth(get, set) : Int;
     public var itemHeight(get, set) : Int;
     public var showLabel(get, set) : Bool;
@@ -57,12 +60,9 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
     public var allowMultipleSelection(get, set) : Bool;
     public var itemLocX(get, set) : Int;
     public var itemLocY(get, set) : Int;
-    public var dataProvider(get, set) : DataProvider;
-
-    /** The type of UI Element */
-    public static inline var TYPE : String = "ItemPane";
+    public var dataProvider(get, set) : DataProvider<ItemPaneObjectData>;
     
-    private var _list : DataProvider = new DataProvider();
+    private var _list : DataProvider<ItemPaneObjectData> = new DataProvider<ItemPaneObjectData>();
     
     private var _selectedIndex : Int = -1;
     private var _itemHolder : Sprite;
@@ -84,12 +84,6 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
     private var _labelSelectedColor : Int = -1;
     
     private var _showLabel : Bool = true;
-    
-    //private var _border : Bool = false;
-    
-    //private var _thinkness : Float = 1;
-    //private var _borderColor : Int = 0x000000;
-    //private var _borderAlpha : Float = 1;
     
     private var _allowMultipleSelection : Bool = false;
     
@@ -113,7 +107,8 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
 	 *
 	 * @eventType openfl.events.Event.CHANGE
 	 */
-    public function new(paneWidth : Int = 200, paneHeight : Int = 300, itemData : DataProvider = null)
+	
+    public function new(paneWidth : Int = 200, paneHeight : Int = 300, itemData : DataProvider<ItemPaneObjectData> = null)
     {
 		
         _itemHolder = new Sprite();
@@ -126,8 +121,8 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
         
         source = _itemHolder;
         
-        width = paneWidth;
-        height = paneHeight;
+        _width = paneWidth;
+        _height = paneHeight;
         
         if (null != itemData) 
             _list = itemData;
@@ -433,7 +428,7 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
 	 * @param	item The item you want to add
 	 */
     
-    public function addItem(item : Dynamic) : Void
+    public function addItem(item : ItemPaneObjectData) : Void
     {
         _list.addItem(item);
         draw();
@@ -446,9 +441,9 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
 	 *
 	 * @return Return the removed object
 	 */
-    public function removeItem(item : Dynamic) : Dynamic
+    public function removeItem(item : ItemPaneObjectData) : ItemPaneObjectData
     {
-        var oldData : Dynamic = _list.removeItem(item);
+        var oldData : ItemPaneObjectData = _list.removeItem(item);
         draw();
         
         return oldData;
@@ -461,7 +456,7 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
 	 * @param oldItem The replacement item.
 	 */
     
-    public function replaceItem(newItem : Dynamic, oldItem : Dynamic) : Void
+    public function replaceItem(newItem : ItemPaneObjectData, oldItem : ItemPaneObjectData) : Void
     {
         _list.replaceItem(newItem, oldItem);
         draw();
@@ -486,7 +481,7 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
 	 * @param index The replacement item.
 	 */
     
-    public function replaceItemAt(newItem : Dynamic, index : Int) : ItemPaneObjectData
+    public function replaceItemAt(newItem : ItemPaneObjectData, index : Int) : ItemPaneObjectData
     {
         var oldData : ItemPaneObjectData = _list.replaceItemAt(newItem, index);
         draw();
@@ -514,7 +509,7 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
 	 * Replace the current data provider and rebuild the item pane
 	 */
     
-    private function set_dataProvider(value : DataProvider) : DataProvider
+    private function set_dataProvider(value : DataProvider<ItemPaneObjectData>) : DataProvider<ItemPaneObjectData>
     {
         _list = value;
         draw();
@@ -525,7 +520,7 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
 	 * Returns the data provider being used
 	 */
     
-    private function get_dataProvider() : DataProvider
+    private function get_dataProvider() : DataProvider<ItemPaneObjectData>
     {
         return _list;
     }
@@ -547,13 +542,13 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
 	 * @return An array with selected list items
 	 */
     
-    public function getSelectedList() : Array<Dynamic>
+    public function getSelectedList() : Array<ItemPaneObjectData>
     {
-        var selectedList : Array<Dynamic> = new Array<Dynamic>();
+        var selectedList : Array<ItemPaneObjectData> = new Array<ItemPaneObjectData>();
         
         for (i in 0..._list.length - 1 + 1)
 		{
-            var itemPaneData : IBaseSelectData = cast(_list.getItemAt(i), IBaseSelectData);
+            var itemPaneData : ItemPaneObjectData = _list.getItemAt(i);
             
             if (itemPaneData.selected)
                 selectedList.push(itemPaneData);
@@ -658,15 +653,14 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
 		{
            
             var itemLabel : Label = new Label();
-            var itemButton : ToggleButton = new ToggleButton(_itemWidth, _itemHeight);
-            var itemData : IItemPaneObjectData = cast(_list.getItemAt(i), ItemPaneObjectData);
-            var oldData : IItemPaneObjectData = ((i == 0)) ? null : cast(_list.getItemAt(i - 1), ItemPaneObjectData);
-            
+            var itemButton : ToggleButton = new ToggleButton({"width":_itemWidth, "height":_itemHeight});
+            var itemData : ItemPaneObjectData = _list.getItemAt(i);
+            var oldData : ItemPaneObjectData = (i == 0) ? null : _list.getItemAt(i - 1);
             
             // Attach a tool-tip
-            if ("" != itemData.toolTipText) 
-                ToolTip.attach(itemButton, itemData.toolTipText);
-            
+            //if ("" != itemData.toolTipText) 
+            //    ToolTip.attach(itemButton, itemData.toolTipText);
+				
             itemLabel.textField.autoSize = TextFieldAutoSize.LEFT;
             itemLabel.width = _itemWidth;
             
@@ -770,7 +764,6 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
 			
 			// Add to data object    
 			//itemButton.x = (i - _lastRowNum) * itemButton.width; 
-			//trace("new row: " + i);  
             
             
             itemData.label = cast(itemLabel, Label);

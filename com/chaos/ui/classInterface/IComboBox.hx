@@ -30,7 +30,7 @@ interface IComboBox extends IBaseUI
 	 * Replace the current data provider
 	 */
 
-	var dataProvider(get, set) : DataProvider;
+	var dataProvider(get, set) : DataProvider<ComboBoxObjectData>;
 	/**
 	 * Set the track size of the scrollbar
 	 */
@@ -188,7 +188,7 @@ interface IComboBox extends IBaseUI
 	 * @param index  The index at which the item is to be added.
 	 */
 
-	function removeItemAt(index : Int) : ComboBoxObjectData;
+	function removeItemAt(index : Int) : Array<ComboBoxObjectData>;
 
 	/**
 	 * Replaces an existing item with a new item

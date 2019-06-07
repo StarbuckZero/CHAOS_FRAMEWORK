@@ -7,7 +7,7 @@ package com.chaos.ui.classInterface;
  * @author Erick Feiling
  */
 
-import com.chaos.media.DisplayImage;
+
 import com.chaos.data.DataProvider;
 import openfl.display.BitmapData;
 
@@ -90,7 +90,7 @@ interface IItemPane extends IScrollPane
 	 * Replace the current data provider and rebuild the item pane
 	 */
 
-    var dataProvider(get, set) : DataProvider;
+    var dataProvider(get, set) : DataProvider<ItemPaneObjectData>;
 
     
     /**
@@ -134,7 +134,7 @@ interface IItemPane extends IScrollPane
 	 * @param	item The item you want to add
 	 */
     
-    function addItem(item : Dynamic) : Void;
+    function addItem(item : ItemPaneObjectData) : Void;
     
     /**
 	 * Remove an item out of the item pane
@@ -144,7 +144,7 @@ interface IItemPane extends IScrollPane
 	 * @return Return the removed object
 	 */
     
-    function removeItem(item : Dynamic) : Dynamic;
+    function removeItem(item : ItemPaneObjectData) : ItemPaneObjectData;
     
     /**
 	 * Remove all items out of the list
@@ -159,7 +159,7 @@ interface IItemPane extends IScrollPane
 	 * @param oldItem The replacement item.
 	 */
     
-    function replaceItem(newItem : Dynamic, oldItem : Dynamic) : Void;
+    function replaceItem(newItem : ItemPaneObjectData, oldItem : ItemPaneObjectData) : Void;
     
     /**
 	 * Replaces the item at the specified index
@@ -168,7 +168,7 @@ interface IItemPane extends IScrollPane
 	 * @param index The replacement item.
 	 */
     
-    function replaceItemAt(newItem : Dynamic, index : Int) : ItemPaneObjectData;
+    function replaceItemAt(newItem : ItemPaneObjectData, index : Int) : ItemPaneObjectData;
     
     /**
 	 * Returns the item at the specified index.
@@ -194,7 +194,7 @@ interface IItemPane extends IScrollPane
 	 * @return An array with selected list items
 	 */
     
-    function getSelectedList() : Array<Dynamic>;
+    function getSelectedList() : Array<ItemPaneObjectData>;
     
     /**
 	 * Return the index number of the item that was selected

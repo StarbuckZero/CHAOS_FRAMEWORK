@@ -53,7 +53,7 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 	public var trackSize(get, set) : Int;
 	public var buttonWidth(get, set) : Int;
 	public var clickLabelArea(get, set) : Bool;
-	public var dataProvider(get, set) : DataProvider;
+	public var dataProvider(get, set) : DataProvider<ComboBoxObjectData>;
 	public var text(get, set) : String;
 	public var label(get, never) : ILabel;
 	public var textColor(get, set) : Int;
@@ -99,7 +99,7 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 
 	private var _buttonWidth : Int = 17;
 
-	private var _list : DataProvider = new DataProvider();
+	private var _list : DataProvider<ComboBoxObjectData> = new DataProvider<ComboBoxObjectData>();
 	private var _listOpen : Bool = false;
 
 	private var _backgroundColor : Int = 0xFFFFFF;
@@ -135,41 +135,56 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 	 *
 	 */
 
-	public function new(comboWidth : Int = 70, comboHeight : Int = 15, comboList : DataProvider = null)
+	public function new(data = null)
 	{
-		super();
-
-		if (null != comboList)
-			_list = comboList;
-
-		if (comboWidth > 0)
-			_width = comboWidth;
-
-		if (comboHeight > 0)
-			_height = comboHeight;
+		super(data);
+		
 
 		addEventListener(Event.ADDED_TO_STAGE, onStageAdd, false, 0, true);
 		addEventListener(Event.REMOVED_FROM_STAGE, onStageRemove, false, 0, true);
 
-		init();
-		draw();
+	}
+	
+	override public function setComponentData(data:Dynamic):Void 
+	{
+		super.setComponentData(data);
+		
+		//comboWidth : Int = 70, comboHeight : Int = 15, comboList : DataProvider = null
+		
+		if (Reflect.hasField(data, "data"))
+		{
+			var data:Array<Dynamic> = Reflect.field(data, "data");
+			
+			for (i in 0 ... data.length)
+			{
+				var dataObj:Dynamic = data[i];
+				
+				if (Reflect.hasField(dataObj,"text") && Reflect.hasField(dataObj, "value") && Reflect.hasField(dataObj, "selected"))
+				{
+					//TODO: 
+					//_list
+				}
+			}
+		}
+		
 
+		//if (comboWidth > 0)
+		//	_width = comboWidth;
+        //
+		//if (comboHeight > 0)
+		//	_height = comboHeight;
+		
 	}
 
 	private function onStageAdd(event : Event) : Void { UIBitmapManager.watchElement(TYPE, this); stage.addEventListener(MouseEvent.MOUSE_DOWN, stageClick); }
 
 	private function onStageRemove(event : Event) : Void { UIBitmapManager.stopWatchElement(TYPE, this); stage.removeEventListener(MouseEvent.MOUSE_DOWN, stageClick); }
 
-	private function init() : Void
+	override public function initialize():Void 
 	{
-
-		// Create default text field and boarder
 		_selectLabel = new Label();
-		_selectLabel.width = _width;
-		_selectLabel.height = _height;
-
 		_textFormat = new TextFormat();
-
+		
 		// Draw outline
 		_border = new Shape();
 		_background = new Shape();
@@ -183,19 +198,22 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 		_dropDownHotspot = new Sprite();
 
 		_dropDownIcon = new ArrowDownIcon(5, 5);
-
+		
+		super.initialize();
+		
+		// Create default text field and boarder
+		_selectLabel.width = _width;
+		_selectLabel.height = _height;
 		_dropButton.setIcon(CompositeManager.cropToSize(_dropDownIcon.displayObject));
-
-		// Setup ScrollBar and DropDown Button
-		reskin();
-
+		
 		// Add to display
 		addChild(_background);
 		addChild(_selectLabel);
 		addChild(_dropButton);
 		addChild(_border);
-		addChild(_dropDownHotspot);
+		addChild(_dropDownHotspot);		
 	}
+	
 
 	private function initBorder() : Void
 	{
@@ -350,16 +368,16 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 
 		// Drop Down Button
 		if ( -1 != UIStyleManager.COMBO_BUTTON_NORMAL_COLOR)
-			_dropButton.buttonColor = UIStyleManager.COMBO_BUTTON_NORMAL_COLOR;
+			_dropButton.defaultColor = UIStyleManager.COMBO_BUTTON_NORMAL_COLOR;
 
 		if ( -1 != UIStyleManager.COMBO_BUTTON_OVER_COLOR)
-			_dropButton.buttonOverColor = UIStyleManager.COMBO_BUTTON_OVER_COLOR;
+			_dropButton.overColor = UIStyleManager.COMBO_BUTTON_OVER_COLOR;
 
 		if ( -1 != UIStyleManager.COMBO_BUTTON_DOWN_COLOR)
-			_dropButton.buttonDownColor = UIStyleManager.COMBO_BUTTON_DOWN_COLOR;
+			_dropButton.downColor = UIStyleManager.COMBO_BUTTON_DOWN_COLOR;
 
 		if ( -1 != UIStyleManager.COMBO_BUTTON_DISABLE_COLOR)
-			_dropButton.buttonDisableColor = UIStyleManager.COMBO_BUTTON_DISABLE_COLOR;
+			_dropButton.disableColor = UIStyleManager.COMBO_BUTTON_DISABLE_COLOR;
 
 		if ( -1 != UIStyleManager.COMBO_BUTTON_ICON_COLOR)
 			_dropDownIcon.baseColor = UIStyleManager.COMBO_BUTTON_ICON_COLOR;
@@ -383,15 +401,13 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 
 	override public function reskin() : Void
 	{
-		super.reskin();
-
 		initBorder();
 		initComboBoxStyle();
 		initDropDownButton();
 		initLabel();
 		initScrollBar();
-
-		draw();
+		
+		super.reskin();
 
 	}
 	
@@ -499,7 +515,7 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 	 * Replace the current data provider
 	 */
 
-	private function set_dataProvider(value : DataProvider) : DataProvider
+	private function set_dataProvider(value : DataProvider<ComboBoxObjectData>) : DataProvider<ComboBoxObjectData>
 	{
 		_list = value;
 		return value;
@@ -509,7 +525,7 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 	 * Returns the data provider being used
 	 */
 
-	private function get_dataProvider() : DataProvider { return _list; }
+	private function get_dataProvider() : DataProvider<ComboBoxObjectData> { return _list; }
 
 	/**
 	* Set the text for the main label on the combo box. This will be replace
@@ -812,7 +828,7 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 	* @param index  The index at which the item is to be added.
 	*/
 
-	public function removeItemAt(index : Int) : ComboBoxObjectData 
+	public function removeItemAt(index : Int) : Array<ComboBoxObjectData>
 	{
 		return _list.removeItemAt(index); 
 	}

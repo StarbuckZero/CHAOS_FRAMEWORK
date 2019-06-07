@@ -1,5 +1,6 @@
 package com.chaos.ui.classInterface;
 
+import com.chaos.ui.data.ListObjectData;
 import openfl.display.Bitmap;
 import openfl.display.DisplayObject;
 import openfl.text.Font;
@@ -47,7 +48,7 @@ interface IList extends IScrollPane
 	 * Replace the current data provider
 	 */ 
 	
-	var dataProvider(get, set) : DataProvider;
+	var dataProvider(get, set) : DataProvider<ListObjectData>;
 	
 	/**
 	 * Configure and setup the label to handle embedded fonts
@@ -71,7 +72,7 @@ interface IList extends IScrollPane
 	 *
 	 */ 
 	
-	function addItem(item : IBaseSelectData) : Void;
+	function addItem(item : ListObjectData) : Void;
 	
 	/**
 	 * Removes the specified item from the
@@ -80,7 +81,7 @@ interface IList extends IScrollPane
 	 *
 	 */
 	
-	function removeItem(item : IBaseSelectData) : IBaseSelectData;  
+	function removeItem(item : ListObjectData) : ListObjectData;  
 	/**
 	 * Remove all items out of the list
 	 */
@@ -94,7 +95,7 @@ interface IList extends IScrollPane
 	 * @param oldItem The replacement item.
 	 */
 		
-	function replaceItem(newItem : IBaseSelectData, oldItem : IBaseSelectData) : Void;  
+	function replaceItem(newItem : ListObjectData, oldItem : ListObjectData) : Void;  
 	
 	/**
 	 * Replaces the item at the specified index
@@ -103,7 +104,7 @@ interface IList extends IScrollPane
 	 * @param index The replacement item.
 	 */
 	
-	function replaceItemAt(newItem : IBaseSelectData, index : Int) : IBaseSelectData;  
+	function replaceItemAt(newItem : ListObjectData, index : Int) : ListObjectData;  
 	
 	/**
 	 * Returns the item at the specified index.
@@ -113,7 +114,7 @@ interface IList extends IScrollPane
 	 *
 	 */
 	
-	function getItemAt(value : Int) : IBaseSelectData;  
+	function getItemAt(value : Int) : ListObjectData;  
 	
 	/**
 	 * Returns the item at the selected index.
@@ -122,7 +123,7 @@ interface IList extends IScrollPane
 	 *
 	 */
 	
-	function getSelected() : IBaseSelectData;  
+	function getSelected() : ListObjectData;  
 	/**
 	 * A list of selected items
 	 * @return An array with selected list items

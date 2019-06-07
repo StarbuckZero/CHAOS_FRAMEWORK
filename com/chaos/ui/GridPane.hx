@@ -51,6 +51,9 @@ import openfl.display.Sprite;
 
 class GridPane extends ScrollPane implements IGridPane implements IScrollPane implements IBaseContainer implements IBaseUI
 {
+    /** The type of UI Element */
+    public static inline var TYPE : String = "GridPane";
+	
     public var selectedRow(get, set) : Int;
     public var selectedCol(get, set) : Int;
     public var buttonSize(get, set) : Int;
@@ -65,22 +68,19 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
     public var columnButtonColor(get, set) : Int;
     public var columnButtonOverColor(get, set) : Int;
     public var columnButtonDownColor(get, set) : Int;
-    public var dataProvider(get, set) : DataProvider;
+    public var dataProvider(get, set) : DataProvider<Object>;
 
-    
-    /** The type of UI Element */
-    public static var TYPE : String = "GridPane";
     
     public static var ARROW_OFFSET : Int = 13;
     
     public var columnDefaultHeight : Int = 25;
     
-    private var column : DataProvider = new DataProvider();
+    private var column : DataProvider<Object> = new DataProvider<Object>();
     
     private var buttonHolder : Sprite = new Sprite();
     private var gridHolder : Sprite = new Sprite();
     
-    private var gridData : DataProvider = new DataProvider();
+    private var gridData : DataProvider<Object> = new DataProvider<Object>();
     
     private var _grid : IGridContainer = new GridContainer(1, 0);
     
@@ -118,7 +118,7 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
 	 * @param	gridHeight The height of the pane
 	 * @param	dataList List of Objects that will be used to build the grid
 	 */
-    public function new(gridWidth : Int = 400, gridHeight : Int = 300, dataList : DataProvider = null)
+    public function new(gridWidth : Int = 400, gridHeight : Int = 300, dataList : DataProvider<Object> = null)
     {
         super();
         
@@ -524,7 +524,7 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
 	 * Set the data provider and object with values for the grid
 	 */
     
-    private function set_dataProvider(value : DataProvider) : DataProvider
+    private function set_dataProvider(value : DataProvider<Object>) : DataProvider<Object>
     {
         gridData = value;
 		
@@ -535,7 +535,7 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
 	 * Get the data object that is being used for the grid
 	 */
     
-    private function get_dataProvider() : DataProvider
+    private function get_dataProvider() : DataProvider<Object>
     {
         return gridData;
     }
@@ -575,7 +575,7 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
 	 * @exampleText grid.addColumn("Family", DropDownMenu, "family", GridCellLayout.VERTICAL, dropDownData);
 	 */
     
-    public function addColumn(colName : String, element : Class<Object>, dataRowName : String, gridLayout : Class<Object> = null, data : DataProvider = null) : Void
+    public function addColumn(colName : String, element : Class<Object>, dataRowName : String, gridLayout : Class<Object> = null, data : DataProvider<Dynamic> = null) : Void
     {
         
         if (!(Std.is(Type.createInstance(element, []), IFormUI)) || !(Std.is(Type.createInstance(element, []), IBaseUI))) 
@@ -1040,7 +1040,7 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
     
     public function updateColumnArea() : Void
     {
-        for (i in 0...column.length)
+        for (i in 0 ... column.length)
 		{
             var colInfoHolder : Sprite = cast(column.getItemAt(i).col, Sprite);
 			
@@ -1048,9 +1048,9 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
             var buttonArea : IAlignmentContainer = cast(colInfoHolder.getChildByName("buttonArea"), IAlignmentContainer);
             var button : IButton = try cast(column.getItemAt(i).button, IButton);
             
-            button.buttonColor = _columnButtonColor;
-            button.buttonOverColor = _columnButtonOverColor;
-            button.buttonDownColor = _columnButtonDownColor;
+            button.defaultColor = _columnButtonColor;
+            button.overColor = _columnButtonOverColor;
+            button.downColor = _columnButtonDownColor;
             
             buttonArea.height = _colButtonSize;
             buttonArea.width = _grid.getCell(0, i).width;
@@ -1164,7 +1164,7 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
                     }
                     else if (_grid.getCell(row, col).container.length == 1) // Update the value inside
                     {
-                        var uiFormElement : com.chaos.ui.classInterface.IBaseUI = _grid.getCell(row, col).container.getElementAtIndex(0);
+                        var uiFormElement : IBaseUI = _grid.getCell(row, col).container.getElementAtIndex(0);
                         
                         if (Std.is(uiFormElement, IFormUI)) 
                         {

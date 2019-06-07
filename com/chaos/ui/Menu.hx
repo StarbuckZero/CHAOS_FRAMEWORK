@@ -78,7 +78,7 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
     /** Use this to turn the on y axis  */
     public static inline var VERTICAL : String = "vertical";  // Up and Down  
     
-    private var _list : DataProvider = new DataProvider();  // Main list  
+    private var _list : DataProvider<MenuItemObjectData> = new DataProvider<MenuItemObjectData>();  // Main list  
     
     //NOTE: Build out something for overlay layer in buttons
     //private var _smoothImage : Bool = true;
@@ -153,7 +153,7 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
     
     private var _reverse : Bool = false;
     
-    private var oldMenuButton : com.chaos.ui.classInterface.IMenuItem;
+    private var oldMenuButton : IMenuItem;
     
     /**
 	 * Creates a menu based on a list of MenuItemObjectData
@@ -163,7 +163,7 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
 	 * @example var menu = new Menu(menuDataList, Menu.HORIZONTAL)
 	 */
     
-    public function new(menuWidth : Int = 100, menuHeight : Int = 100, menuList : DataProvider = null, direction : String = "horizontal")
+    public function new(menuWidth : Int = 100, menuHeight : Int = 100, menuList : DataProvider<MenuItemObjectData> = null, direction : String = "horizontal")
     {
         super();
 		
@@ -1278,7 +1278,7 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
         }
     }
     
-    private function buildSubMenu(menuButton : IMenuItem, subMenu : DataProvider) : Void
+    private function buildSubMenu(menuButton : IMenuItem, subMenu : DataProvider<MenuItemObjectData>) : Void
     {
         if (null == subMenu) 
             return; 
@@ -1296,7 +1296,7 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
 			
             if (Std.is(subMenu.getItemAt(i), MenuItemObjectData)) 
             {
-                var dataObj : MenuItemObjectData = cast(subMenu.getItemAt(i), MenuItemObjectData);
+                var dataObj : MenuItemObjectData = subMenu.getItemAt(i);
                 var menu : IMenuItem = new MenuItem(dataObj.text, _buttonWidth, _buttonHeight, dataObj.icon, dataObj.subMenuIcon);
                 var subCount : Int;
                 var parentHolder : DisplayObject;
@@ -1378,12 +1378,12 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
         menuLevel++;
     }
     
-    private function updateButtons(dataObj : DataProvider) : Void
+    private function updateButtons(dataObj : DataProvider<MenuItemObjectData>) : Void
     {
         
         for (i in 0 ... dataObj.length)
 		{
-            var menuObj : MenuItemObjectData = cast(dataObj.getItemAt(i), MenuItemObjectData);
+            var menuObj : MenuItemObjectData = dataObj.getItemAt(i);
             
             if (null != menuObj.menuItem) 
             {
@@ -1424,7 +1424,7 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
     {
         for (i in 0...holder.numChildren)
 		{
-            var dataObj : DataProvider = getMenuDataObject( cast(holder.getChildAt(i), IMenuItem).parentMenuItem, _list);
+            var dataObj : DataProvider<MenuItemObjectData> = getMenuDataObject( cast(holder.getChildAt(i), IMenuItem).parentMenuItem, _list);
             
             if (dataObj != null) 
             {
@@ -1432,7 +1432,7 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
 				
                 for (a in 0...dataArray.length)
                 {
-                    var menuObj : MenuItemObjectData = cast( dataObj.getItemAt( dataObj.getItemIndex( dataArray[a]) ) , MenuItemObjectData);
+                    var menuObj : MenuItemObjectData = dataObj.getItemAt( dataObj.getItemIndex( dataArray[a]) );
                     menuObj.menuItem = null;
                 }
             }
@@ -1444,7 +1444,7 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
     private function onMenuItemRollOver(event : MouseEvent) : Void
     {
         var menu : IMenuItem = cast(event.currentTarget, IMenuItem);
-		var dataObj : DataProvider = getMenuDataObject(menu, _list);
+		var dataObj : DataProvider<MenuItemObjectData> = getMenuDataObject(menu, _list);
 		
 		
         if (null != menu) 
@@ -1506,16 +1506,16 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
 		
     }
     
-    private function getMenuDataObject(menu : IMenuItem, menuList : DataProvider) : DataProvider
+    private function getMenuDataObject(menu : IMenuItem, menuList : DataProvider<MenuItemObjectData>) : DataProvider<MenuItemObjectData>
     {
         for (i in 0...menuList.length)
 		{
-            if (cast(menuList.getItemAt(i), MenuItemObjectData).menuItem == menu) 
-                return cast(menuList.getItemAt(i), MenuItemObjectData).subMenuList;
+            if ((menuList.getItemAt(i).menuItem == menu))
+                return menuList.getItemAt(i).subMenuList;
             
-            if (cast(menuList.getItemAt(i), MenuItemObjectData).hasSubMenu) 
+            if (menuList.getItemAt(i).hasSubMenu) 
             {
-                var subMenu : DataProvider = getMenuDataObject(menu, cast(menuList.getItemAt(i), MenuItemObjectData).subMenuList);
+                var subMenu : DataProvider<MenuItemObjectData> = getMenuDataObject(menu, menuList.getItemAt(i).subMenuList);
                 
                 if (null != subMenu) 
                     return subMenu;

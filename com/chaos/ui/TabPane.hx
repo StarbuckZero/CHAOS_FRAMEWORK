@@ -39,7 +39,7 @@ class TabPane extends ScrollPane implements ITabPane implements IScrollPane impl
 	public var tabButtonSelectedColor(get, set) : Int;
 	public var tabButtonDisableColor(get, set) : Int;
 	
-	private var _contentList : DataProvider;
+	private var _contentList : DataProvider<Object>;
 	private var _tabButtonHeight : Int = 20;
 	private var _tabButtonNormalColor : Int = 0xCCCCCC;
 	private var _tabButtonOverColor : Int = 0x666666;
@@ -474,11 +474,12 @@ class TabPane extends ScrollPane implements ITabPane implements IScrollPane impl
 			button.height = _tabButtonHeight;
 			button.x = cast(_contentList.getItemAt(i).button, Button).width * i;
 			button.y = 0;
+			
 			button.textColor = _tabButtonTextColor;
-			button.buttonColor = _tabButtonNormalColor;
-			button.buttonOverColor = _tabButtonOverColor;
-			button.buttonDownColor = _tabButtonSelectedColor;
-			button.buttonDisableColor = _tabButtonDisableColor;
+			button.defaultColor = _tabButtonNormalColor;
+			button.overColor = _tabButtonOverColor;
+			button.downColor = _tabButtonSelectedColor;
+			button.disableColor = _tabButtonDisableColor;
 
 			if (null != _tabButtonDefaultImage)
 				button.setDefaultStateImage(_tabButtonDefaultImage);

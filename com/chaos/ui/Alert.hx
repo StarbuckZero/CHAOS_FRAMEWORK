@@ -87,7 +87,7 @@ class Alert
 	/** Set if you want to user to be able to grab the text*/
 	public static var ALERT_LABEL_TEXT_SELECTABLE : Bool = false;
 
-	private static var _alertList : DataProvider = new DataProvider();
+	private static var _alertList : DataProvider<AlertDataObject> = new DataProvider<AlertDataObject>();
 
 	private static var _windowCount : Int = 0;
 	private static var _cancelBtnLabel : String = "Cancel";
@@ -173,7 +173,7 @@ class Alert
 	 * Return an array with all the windows that were created
 	 */
 
-	static public function get_windowList() : DataProvider
+	static public function get_windowList() : DataProvider<AlertDataObject>
 	{
 		return _alertList;
 	}
@@ -1366,10 +1366,10 @@ class Alert
 
 	private static function setCloseButtonTheme(window : Window) : Void
 	{
-		window.closeButton.buttonColor = (( -1 == UIStyleManager.ALERT_CLOSE_BUTTON_NORMAL_COLOR)) ? _closeButtonNormalColor : UIStyleManager.ALERT_CLOSE_BUTTON_NORMAL_COLOR;
-		window.closeButton.buttonOverColor = (( -1 == UIStyleManager.ALERT_CLOSE_BUTTON_OVER_COLOR)) ? _closeButtonOverColor : UIStyleManager.ALERT_CLOSE_BUTTON_OVER_COLOR;
-		window.closeButton.buttonDownColor = (( -1 == UIStyleManager.ALERT_CLOSE_BUTTON_DOWN_COLOR)) ? _closeButtonDownColor : UIStyleManager.ALERT_CLOSE_BUTTON_DOWN_COLOR;
-		window.closeButton.buttonDisableColor = ((-1 == UIStyleManager.ALERT_CLOSE_BUTTON_DISABLE_COLOR)) ? _closeButtonDisableColor : UIStyleManager.ALERT_CLOSE_BUTTON_DISABLE_COLOR;  // All images for close button  if (_closeButtonNormalURL != "")             window.setCloseButtonImage(_closeButtonNormalURL);if (_closeButtonOverURL != "")             window.setCloseOverButtonImage(_closeButtonOverURL);if (_closeButtonDownURL != "")             window.setCloseDownButtonImage(_closeButtonDownURL);if (_closeButtonDisableURL != "")             window.setCloseDisableButtonImage(_closeButtonDisableURL)  // All images for close button that are bitmaps  ;if (_closeButtonNormalBitmap != null)             window.setCloseButtonBitmap(_closeButtonNormalBitmap);if (_closeButtonOverBitmap != null)             window.setCloseOverButtonBitmap(_closeButtonOverBitmap);if (_closeButtonDownBitmap != null)             window.setCloseDownButtonBitmap(_closeButtonDownBitmap);if (_closeButtonDisableBitmap != null)             window.setCloseDisableButtonBitmap(_closeButtonDisableBitmap);
+		window.closeButton.defaultColor = (( -1 == UIStyleManager.ALERT_CLOSE_BUTTON_NORMAL_COLOR)) ? _closeButtonNormalColor : UIStyleManager.ALERT_CLOSE_BUTTON_NORMAL_COLOR;
+		window.closeButton.overColor = (( -1 == UIStyleManager.ALERT_CLOSE_BUTTON_OVER_COLOR)) ? _closeButtonOverColor : UIStyleManager.ALERT_CLOSE_BUTTON_OVER_COLOR;
+		window.closeButton.downColor = (( -1 == UIStyleManager.ALERT_CLOSE_BUTTON_DOWN_COLOR)) ? _closeButtonDownColor : UIStyleManager.ALERT_CLOSE_BUTTON_DOWN_COLOR;
+		window.closeButton.disableColor = ((-1 == UIStyleManager.ALERT_CLOSE_BUTTON_DISABLE_COLOR)) ? _closeButtonDisableColor : UIStyleManager.ALERT_CLOSE_BUTTON_DISABLE_COLOR;  // All images for close button  if (_closeButtonNormalURL != "")             window.setCloseButtonImage(_closeButtonNormalURL);if (_closeButtonOverURL != "")             window.setCloseOverButtonImage(_closeButtonOverURL);if (_closeButtonDownURL != "")             window.setCloseDownButtonImage(_closeButtonDownURL);if (_closeButtonDisableURL != "")             window.setCloseDisableButtonImage(_closeButtonDisableURL)  // All images for close button that are bitmaps  ;if (_closeButtonNormalBitmap != null)             window.setCloseButtonBitmap(_closeButtonNormalBitmap);if (_closeButtonOverBitmap != null)             window.setCloseOverButtonBitmap(_closeButtonOverBitmap);if (_closeButtonDownBitmap != null)             window.setCloseDownButtonBitmap(_closeButtonDownBitmap);if (_closeButtonDisableBitmap != null)             window.setCloseDisableButtonBitmap(_closeButtonDisableBitmap);
 	}
 
 	private static function setupAlertTheme(window : Window) : Void
@@ -1505,9 +1505,9 @@ class Alert
 	{
 		if ("positive" == strType.toLowerCase())
 		{
-			button.buttonColor = (( -1 == UIStyleManager.ALERT_POSITIVE_BUTTON_NORMAL_COLOR)) ? _positiveButtonNormalColor : UIStyleManager.ALERT_POSITIVE_BUTTON_NORMAL_COLOR;
-			button.buttonOverColor = (( -1 == UIStyleManager.ALERT_POSITIVE_BUTTON_OVER_COLOR)) ? _positiveButtonOverColor : UIStyleManager.ALERT_POSITIVE_BUTTON_OVER_COLOR;
-			button.buttonDownColor = (( -1 == UIStyleManager.ALERT_POSITIVE_BUTTON_DOWN_COLOR)) ? _positiveButtonDownColor : UIStyleManager.ALERT_POSITIVE_BUTTON_DOWN_COLOR;
+			button.defaultColor = (( -1 == UIStyleManager.ALERT_POSITIVE_BUTTON_NORMAL_COLOR)) ? _positiveButtonNormalColor : UIStyleManager.ALERT_POSITIVE_BUTTON_NORMAL_COLOR;
+			button.overColor = (( -1 == UIStyleManager.ALERT_POSITIVE_BUTTON_OVER_COLOR)) ? _positiveButtonOverColor : UIStyleManager.ALERT_POSITIVE_BUTTON_OVER_COLOR;
+			button.downColor = (( -1 == UIStyleManager.ALERT_POSITIVE_BUTTON_DOWN_COLOR)) ? _positiveButtonDownColor : UIStyleManager.ALERT_POSITIVE_BUTTON_DOWN_COLOR;
 
 			if (null != UIBitmapManager.getUIElement(Alert.TYPE, UIBitmapManager.ALERT_POSITIVE_BUTTON_NORMAL))
 				button.setDefaultStateImage(UIBitmapManager.getUIElement(Alert.TYPE, UIBitmapManager.ALERT_POSITIVE_BUTTON_NORMAL));
@@ -1530,9 +1530,9 @@ class Alert
 		}
 		else if ("negative" == strType.toLowerCase())
 		{
-			button.buttonColor = (( -1 == UIStyleManager.ALERT_NEGATIVE_BUTTON_NORMAL_COLOR)) ? _negativeButtonNormalColor : UIStyleManager.ALERT_NEGATIVE_BUTTON_NORMAL_COLOR;
-			button.buttonOverColor = (( -1 == UIStyleManager.ALERT_NEGATIVE_BUTTON_OVER_COLOR)) ? _negativeButtonOverColor : UIStyleManager.ALERT_NEGATIVE_BUTTON_OVER_COLOR;
-			button.buttonDownColor = (( -1 == UIStyleManager.ALERT_NEGATIVE_BUTTON_DOWN_COLOR)) ? _negativeButtonDownColor : UIStyleManager.ALERT_NEGATIVE_BUTTON_DOWN_COLOR;
+			button.defaultColor = (( -1 == UIStyleManager.ALERT_NEGATIVE_BUTTON_NORMAL_COLOR)) ? _negativeButtonNormalColor : UIStyleManager.ALERT_NEGATIVE_BUTTON_NORMAL_COLOR;
+			button.overColor = (( -1 == UIStyleManager.ALERT_NEGATIVE_BUTTON_OVER_COLOR)) ? _negativeButtonOverColor : UIStyleManager.ALERT_NEGATIVE_BUTTON_OVER_COLOR;
+			button.downColor = (( -1 == UIStyleManager.ALERT_NEGATIVE_BUTTON_DOWN_COLOR)) ? _negativeButtonDownColor : UIStyleManager.ALERT_NEGATIVE_BUTTON_DOWN_COLOR;
 
 			if (null != UIBitmapManager.getUIElement(Alert.TYPE, UIBitmapManager.ALERT_NEGATIVE_BUTTON_NORMAL))
 				button.setDefaultStateImage(UIBitmapManager.getUIElement(Alert.TYPE, UIBitmapManager.ALERT_NEGATIVE_BUTTON_NORMAL));
@@ -1555,9 +1555,9 @@ class Alert
 		}
 		else if ("neutral" == strType.toLowerCase())
 		{
-			button.buttonColor = (( -1 == UIStyleManager.ALERT_NEUTRAL_BUTTON_NORMAL_COLOR)) ? _neutralButtonNormalColor : UIStyleManager.ALERT_NEUTRAL_BUTTON_NORMAL_COLOR;
-			button.buttonOverColor = (( -1 == UIStyleManager.ALERT_NEUTRAL_BUTTON_OVER_COLOR)) ? _neutralButtonOverColor : UIStyleManager.ALERT_NEUTRAL_BUTTON_OVER_COLOR;
-			button.buttonDownColor = (( -1 == UIStyleManager.ALERT_NEUTRAL_BUTTON_DOWN_COLOR)) ? _neutralButtonDownColor : UIStyleManager.ALERT_NEUTRAL_BUTTON_DOWN_COLOR;
+			button.defaultColor = (( -1 == UIStyleManager.ALERT_NEUTRAL_BUTTON_NORMAL_COLOR)) ? _neutralButtonNormalColor : UIStyleManager.ALERT_NEUTRAL_BUTTON_NORMAL_COLOR;
+			button.overColor = (( -1 == UIStyleManager.ALERT_NEUTRAL_BUTTON_OVER_COLOR)) ? _neutralButtonOverColor : UIStyleManager.ALERT_NEUTRAL_BUTTON_OVER_COLOR;
+			button.defaultColor = (( -1 == UIStyleManager.ALERT_NEUTRAL_BUTTON_DOWN_COLOR)) ? _neutralButtonDownColor : UIStyleManager.ALERT_NEUTRAL_BUTTON_DOWN_COLOR;
 
 			if (null != UIBitmapManager.getUIElement(Alert.TYPE, UIBitmapManager.ALERT_NEUTRAL_BUTTON_DOWN))
 				button.setDefaultStateImage(UIBitmapManager.getUIElement(Alert.TYPE, UIBitmapManager.ALERT_NEUTRAL_BUTTON_DOWN));

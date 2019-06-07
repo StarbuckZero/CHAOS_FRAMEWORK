@@ -59,17 +59,48 @@ class TextInput extends Label implements ITextInput implements ILabel implements
 	private var _backgroundOverColor : Int = 0xCCCCCC;
 	private var _backgroundSelectedColor : Int = 0xF1F1F1;
 	private var _backgroundDisableColor : Int = 0xCCCCCC;
-	//private var _showIcon : Bool = false;
-	//private var _displayIcon : DisplayObject;
+	
 	private var _defaultString : String = "";
 	private var _upperCaseFirst : Bool = false;
 
-	public function new(labelText : String = "", labelWidth : Int = 100, labelHeight : Int = 20)
+	public function new(data:Dynamic = null)
 	{
-		super(labelText, labelWidth, labelHeight);
+		super(data);
 
 		addEventListener(Event.ADDED_TO_STAGE, onStageAdd, false, 0, true);
 		addEventListener(Event.REMOVED_FROM_STAGE, onStageRemove, false, 0, true);
+	}
+	
+	override public function setComponentData(data:Dynamic):Void 
+	{
+		super.setComponentData(data);
+		
+		if (Reflect.hasField(data, "textOverColor"))
+			_textOverColor = Reflect.field(data, "textOverColor");
+		
+		if (Reflect.hasField(data, "textSelectedColor"))
+			_textSelectedColor = Reflect.field(data, "textSelectedColor");
+			
+		if (Reflect.hasField(data, "textDisableColor"))
+			_textDisableColor = Reflect.field(data, "textDisableColor");
+			
+		if (Reflect.hasField(data, "backgroundNormalColor"))
+			_backgroundNormalColor = Reflect.field(data, "backgroundNormalColor");
+			
+		if (Reflect.hasField(data, "backgroundOverColor"))
+			_backgroundOverColor = Reflect.field(data, "backgroundOverColor");
+
+		if (Reflect.hasField(data, "backgroundSelectedColor"))
+			_backgroundSelectedColor = Reflect.field(data, "backgroundSelectedColor");
+			
+		if (Reflect.hasField(data, "backgroundDisableColor"))
+			_backgroundDisableColor = Reflect.field(data, "backgroundDisableColor");
+			
+		if (Reflect.hasField(data, "defaultString"))
+			_defaultString = Reflect.field(data, "defaultString");
+			
+		if (Reflect.hasField(data, "upperCaseFirst"))
+			_upperCaseFirst = Reflect.field(data, "upperCaseFirst");
 	}
 
 	override function onStageAdd(event : Event) : Void

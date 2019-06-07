@@ -35,7 +35,7 @@ class BaseUI extends Sprite implements IBaseUI
 		
 		// If object passed in then start setting defaults
 		if (null != data)
-			setData(data);
+			setComponentData(data);
 		
 		initialize();
     }
@@ -45,16 +45,23 @@ class BaseUI extends Sprite implements IBaseUI
 	 * @param	data object with supported types
 	 */
 	
-	public function setData(data:Dynamic):Void
+	public function setComponentData(data:Dynamic):Void
 	{
 		if (Reflect.hasField(data, "width"))
-			_width = Reflect.field(data,"width");
+			_width = Reflect.field(data, "width");
 		
 		if (Reflect.hasField(data, "height"))
-			_height = Reflect.field(data,"height");
+			_height = Reflect.field(data, "height");
 			
 		if (Reflect.hasField(data, "enabled"))
-			_enabled = Reflect.field(data,"enabled");
+			_enabled = Reflect.field(data, "enabled");
+			
+		if (Reflect.hasField(data, "x"))
+			x = Reflect.field(data, "x");
+		
+		if (Reflect.hasField(data, "y"))
+			y = Reflect.field(data, "y");
+			
 	}
 	
 	/**
@@ -64,28 +71,29 @@ class BaseUI extends Sprite implements IBaseUI
 	public function initialize():Void
 	{
 		// Init objects here
-		//reskin();
-		//draw();
+		reskin();
 	}
 	
-    
-    /**
-	 * Update the UI class
-	 */
-    public function draw() : Void
-    {
-        // Update components and shapes here
-        
-    }
     
     /**
 	 * Reload all bitmap images and UI Styles
 	 */
     public function reskin() : Void
     {
-        // Pull all 
+        // Style and set all bitmap data objects here
+		draw();
     }	
 
+	
+    /**
+	 * Update the UI class
+	 */
+    public function draw() : Void
+    {
+        // Update component(s) here
+        
+    }
+	
     
     /**
 	 * @inheritDoc

@@ -51,7 +51,7 @@ class ToolTip
     
     private static var _followMouse : Bool = true;
     
-    private static var _list : DataProvider;
+    private static var _list : DataProvider<ToolTipData>;
     private static var _displayArea : DisplayObject;
     
     private static var _stageWidth : Float = -1;
@@ -76,7 +76,7 @@ class ToolTip
     
     private static function init() : Void
     {
-        _list = new DataProvider();
+        _list = new DataProvider<ToolTipData>();
         
         _label = new Label();
         _label.textField.multiline = true;

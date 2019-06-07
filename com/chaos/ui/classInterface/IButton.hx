@@ -4,7 +4,7 @@ import openfl.display.BitmapData;
 import openfl.display.Shape;
 
 
-interface IButton extends IBaseUI
+interface IButton extends IToggleButton
 {
     /**
 	 * The offset of the image icon location on the X axis
@@ -21,6 +21,12 @@ interface IButton extends IBaseUI
 	 */
 	
 	var text(get, set) : String;     
+	
+	/**
+	 * Change button to "press" or "toggle" state. Set to press by default.
+	 */
+	
+	var mode(get, set) : String;     
 	
 	/**
 	 * Show or hide the label on button
@@ -72,35 +78,6 @@ interface IButton extends IBaseUI
 	 
 	 var textAlign(get, set) : String;  
 	 
-	 /**
-	 * The button normal state color
-	 */ 
-	 
-	 var buttonColor(get, set) : Int;  
-	 
-	 /**
-	 * The button over state color
-	 */   
-	 
-	 var buttonOverColor(get, set) : Int;    
-	 
-	 /**
-	 * The button down state color
-	 */ 
-	 
-	 var buttonDownColor(get, set) : Int;   
-	 
-	 /**
-	 * The button disable state color
-	 */   
-	 
-	 var buttonDisableColor(get, set) : Int; 
-	 
-	 /**
-	 * Set how rounded the button is
-	 */ 
-	 
-	 var roundEdge(get, set) : Int;     
 	 
 	 /**
 	 * The alpha of the button roll over and down state. Use this if you only set the default bitmap image, this will tint the button.

@@ -32,7 +32,8 @@ import com.chaos.utils.Debug;
     public static inline var THREAD_TYPE_EVENT : String = "event";
     
     private static var _stage : Stage = null;
-    private static var eventCollection : DataProvider = new DataProvider();
+	
+    private static var eventCollection : DataProvider<TaskCallBack> = new DataProvider<TaskCallBack>();
     private static var taskCollection : Dictionary<String,TaskManager> = new Dictionary<String,TaskManager>(true);
     
     /**
@@ -114,6 +115,7 @@ import com.chaos.utils.Debug;
         
         if (eventCollection.length == 0) 
             _stage.removeEventListener(Event.ENTER_FRAME, updateEnterFrame);
+		
     }
     
     /**

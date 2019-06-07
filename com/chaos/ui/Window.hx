@@ -278,9 +278,9 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 		_minButton.name = WindowEvent.WINDOW_MIN_BTN;
 		_maxButton.name = WindowEvent.WINDOW_MAX_BTN;
 		
-		_closeButton.buttonColor = DEFAULT_CLOSE_BTN_COLOR;
-		_maxButton.buttonColor = DEFAULT_MAX_BTN_COLOR;
-		_minButton.buttonColor = DEFAULT_MIN_BTN_COLOR;
+		_closeButton.defaultColor = DEFAULT_CLOSE_BTN_COLOR;
+		_maxButton.defaultColor = DEFAULT_MAX_BTN_COLOR;
+		_minButton.defaultColor = DEFAULT_MIN_BTN_COLOR;
 		
 		_closeButton.text = "";
 		_maxButton.text = "";
@@ -476,42 +476,42 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 		
 		// Min Button
 		if ( -1 != UIStyleManager.WINDOW_MIN_NORMAL_COLOR)
-		_minButton.buttonColor = UIStyleManager.WINDOW_MIN_NORMAL_COLOR;
+		_minButton.defaultColor = UIStyleManager.WINDOW_MIN_NORMAL_COLOR;
 		
 		if ( -1 != UIStyleManager.WINDOW_MIN_OVER_COLOR)      
-		_minButton.buttonOverColor = UIStyleManager.WINDOW_MIN_OVER_COLOR;
+		_minButton.overColor = UIStyleManager.WINDOW_MIN_OVER_COLOR;
 		
 		if ( -1 != UIStyleManager.WINDOW_MIN_DOWN_COLOR)   
-		_minButton.buttonDownColor = UIStyleManager.WINDOW_MIN_DOWN_COLOR;
+		_minButton.downColor = UIStyleManager.WINDOW_MIN_DOWN_COLOR;
 		
 		if ( -1 != UIStyleManager.WINDOW_MIN_DISABLE_COLOR)  
-		_minButton.buttonDownColor = UIStyleManager.WINDOW_MIN_DISABLE_COLOR;
+		_minButton.disableColor = UIStyleManager.WINDOW_MIN_DISABLE_COLOR;
 		
 		// Max Button  
 		if ( -1 != UIStyleManager.WINDOW_MAX_NORMAL_COLOR)    
-		_maxButton.buttonColor = UIStyleManager.WINDOW_MAX_NORMAL_COLOR;
+		_maxButton.defaultColor = UIStyleManager.WINDOW_MAX_NORMAL_COLOR;
 		
 		if ( -1 != UIStyleManager.WINDOW_MAX_OVER_COLOR)  
-		_maxButton.buttonOverColor = UIStyleManager.WINDOW_MAX_OVER_COLOR;
+		_maxButton.overColor = UIStyleManager.WINDOW_MAX_OVER_COLOR;
 		
 		if ( -1 != UIStyleManager.WINDOW_MAX_DOWN_COLOR)        
-		_maxButton.buttonDownColor = UIStyleManager.WINDOW_MAX_DOWN_COLOR;
+		_maxButton.downColor = UIStyleManager.WINDOW_MAX_DOWN_COLOR;
 		
 		if ( -1 != UIStyleManager.WINDOW_MAX_DISABLE_COLOR)         
-		_maxButton.buttonDownColor = UIStyleManager.WINDOW_MAX_DISABLE_COLOR;
+		_maxButton.disableColor = UIStyleManager.WINDOW_MAX_DISABLE_COLOR;
 		
 		// Close Button  
 		if ( -1 != UIStyleManager.WINDOW_CLOSE_NORMAL_COLOR)  
-		_closeButton.buttonColor = UIStyleManager.WINDOW_CLOSE_NORMAL_COLOR;
+		_closeButton.defaultColor = UIStyleManager.WINDOW_CLOSE_NORMAL_COLOR;
 		
 		if ( -1 != UIStyleManager.WINDOW_CLOSE_OVER_COLOR)   
-		_closeButton.buttonOverColor = UIStyleManager.WINDOW_CLOSE_OVER_COLOR;
+		_closeButton.overColor = UIStyleManager.WINDOW_CLOSE_OVER_COLOR;
 		
 		if ( -1 != UIStyleManager.WINDOW_CLOSE_DOWN_COLOR)     
-        _closeButton.buttonDownColor = UIStyleManager.WINDOW_CLOSE_DOWN_COLOR;
+        _closeButton.downColor = UIStyleManager.WINDOW_CLOSE_DOWN_COLOR;
 		
 		if ( -1 != UIStyleManager.WINDOW_CLOSE_DISABLE_COLOR)      
-		_closeButton.buttonDownColor = UIStyleManager.WINDOW_CLOSE_DISABLE_COLOR;
+		_closeButton.disableColor = UIStyleManager.WINDOW_CLOSE_DISABLE_COLOR;
     }
 	
 	/* Properties */  

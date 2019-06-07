@@ -112,7 +112,7 @@ interface IGridPane extends IScrollPane
 	 * Set the data provider and object with values for the grid
 	 */
     
-    var dataProvider(get, set) : DataProvider;
+    var dataProvider(get, set) : DataProvider<Object>;
 
     
     /**
@@ -137,7 +137,7 @@ interface IGridPane extends IScrollPane
 	 * @exampleText grid.addColumn("Family", DropDownMenu, "family", GridCellLayout.VERTICAL, dropDownData);
 	 */
     
-    function addColumn(colName : String, element : Class<Object>, dataRowName : String, gridLayout : Class<Object> = null, data : DataProvider = null) : Void;
+    function addColumn(colName : String, element : Class<Object>, dataRowName : String, gridLayout : Class<Object> = null, data : DataProvider<Object> = null) : Void;
     
     /**
 	 * Remove an column using the index id

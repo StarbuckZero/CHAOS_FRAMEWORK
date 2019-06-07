@@ -167,17 +167,17 @@ class ScrollBar extends Slider implements IScrollBar implements ISlider
 		
 		// Set button colors
 		if ( -1 != UIStyleManager.SCROLLBAR_BUTTON_NORMAL_COLOR) 
-			_downButton.buttonColor = _upButton.buttonColor = UIStyleManager.SCROLLBAR_BUTTON_NORMAL_COLOR;
+			_downButton.defaultColor = _upButton.defaultColor = UIStyleManager.SCROLLBAR_BUTTON_NORMAL_COLOR;
 		
 		if ( -1 != UIStyleManager.SCROLLBAR_BUTTON_OVER_COLOR)       
-			_downButton.buttonOverColor = _upButton.buttonOverColor = UIStyleManager.SCROLLBAR_BUTTON_OVER_COLOR;
+			_downButton.overColor = _upButton.overColor = UIStyleManager.SCROLLBAR_BUTTON_OVER_COLOR;
 		
 		if ( -1 != UIStyleManager.SCROLLBAR_BUTTON_DOWN_COLOR)     
-			_downButton.buttonDownColor = _upButton.buttonDownColor =  UIStyleManager.SCROLLBAR_BUTTON_DOWN_COLOR;
+			_downButton.downColor = _upButton.downColor =  UIStyleManager.SCROLLBAR_BUTTON_DOWN_COLOR;
 		
 			
 		if ( -1 != UIStyleManager.SCROLLBAR_BUTTON_DISABLE_COLOR)
-			_downButton.buttonDisableColor = _upButton.buttonDisableColor =  UIStyleManager.SCROLLBAR_BUTTON_DISABLE_COLOR;
+			_downButton.disableColor = _upButton.disableColor =  UIStyleManager.SCROLLBAR_BUTTON_DISABLE_COLOR;
 			
 		// Set Track color 
 		if ( -1 != UIStyleManager.SCROLLBAR_TRACK_COLOR)

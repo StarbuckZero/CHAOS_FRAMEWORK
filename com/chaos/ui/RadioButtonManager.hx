@@ -7,7 +7,7 @@ import openfl.utils.Object;
 
 class RadioButtonManager
 {
-	private static var _groupArray : Dictionary<String,DataProvider> = new Dictionary<String,DataProvider>(true);
+	private static var _groupArray : Dictionary<String,DataProvider<IRadioButton>> = new Dictionary<String,DataProvider<IRadioButton>>(true);
 	
 	public function new()
     {
@@ -23,9 +23,7 @@ class RadioButtonManager
 	{
 		
 		if (null != _groupArray.get(value))
-		{
 			return true;
-		}
 		else 
 			return false;
     }
@@ -41,7 +39,7 @@ class RadioButtonManager
 	{
 		if (!groupCheck(value)) 
 		{
-			var dataList : DataProvider = new DataProvider();
+			var dataList : DataProvider<IRadioButton> = new DataProvider<IRadioButton>();
 			_groupArray.set(value, dataList);
         }
     } 
@@ -73,7 +71,7 @@ class RadioButtonManager
 	{	
 		if (groupCheck(groupName)) 
 		{
-			cast(_groupArray.get(groupName),DataProvider).addItem(radioButton);
+			_groupArray.get(groupName).addItem(radioButton);
 			return true;
 		}
 		else 
@@ -93,7 +91,7 @@ class RadioButtonManager
 	{
 		if (groupCheck(groupName)) 
 		{
-			var dataList : DataProvider = _groupArray.get(groupName);
+			var dataList : DataProvider<IRadioButton> = _groupArray.get(groupName);
 			var tempRadioButton : Dynamic = dataList.removeItem(radioButton);
 			tempRadioButton = null;
         }
@@ -106,17 +104,12 @@ class RadioButtonManager
 	 *
 	 * @return Return the radio button group. If the group is not found then a null object will be returned.
 	 */ 
-	public static function getGroup(groupName : String) : DataProvider 
+	public static function getGroup(groupName : String) : DataProvider<IRadioButton>
 	{
 		if (groupCheck(groupName)) 
-		{
-			return cast(_groupArray.get(groupName),DataProvider);
-        }
-		
+			return _groupArray.get(groupName);
         else 
-		{
 			return null;
-        }
     } 
 	
 	/**
@@ -126,7 +119,7 @@ class RadioButtonManager
 	 * @param listData The DataProvider filled with radio button objects.
 	 *
 	 */
-	public static function setGroup(groupName : String, listData : DataProvider) : Void 
+	public static function setGroup(groupName : String, listData : DataProvider<IRadioButton>) : Void 
 	{
 		_groupArray.set(groupName, listData);
     } 
@@ -142,12 +135,10 @@ class RadioButtonManager
 	{
 		if (groupCheck(groupName)) 
 		{
-			var dataList : DataProvider = _groupArray.get(groupName);
+			var dataList : DataProvider<IRadioButton> = _groupArray.get(groupName);
 			
 			for (i in 0...dataList.length - 1 + 1)
-			{
-				cast(dataList.getItemAt(i),IRadioButton).selected = value;
-            }
+				dataList.getItemAt(i).selected = value;
         }
     }
 }

@@ -8,8 +8,15 @@ import com.chaos.ui.classInterface.IBaseUI;
  * @author Erick Feiling
  */
 
-interface IFormUI
+interface IFormUI extends IBaseUI
 {
+	
+	/**
+	 * Data 
+	 */
+	
+	 
+	function data():Dynamic;
 
     /**
 	 * Clear values
@@ -65,5 +72,6 @@ interface IFormUI
 	 * @param	value The name
 	 */
     function setName(value : String) : Void;
+	
 }
 

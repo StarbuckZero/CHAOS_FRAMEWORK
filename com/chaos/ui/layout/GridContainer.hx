@@ -27,7 +27,7 @@ class GridContainer extends BaseContainer implements IGridContainer implements I
     public var cellHeight(get, set) : Int;
 
     
-    private var _list : DataProvider;
+    private var _list : DataProvider<DataProvider<IGridCell>>;
     
     private var rowCount : Int = 0;
     private var columnCount : Int = 0;
@@ -57,20 +57,20 @@ class GridContainer extends BaseContainer implements IGridContainer implements I
     
     private function init() : Void
     {
-        _list = new DataProvider();
+        _list = new DataProvider<DataProvider<IGridCell>>();
         
         // Create data list
         for (row in 0...rowCount)
 		{
             // Add new row
-            var rowData : DataProvider = new DataProvider();
+            var rowData : DataProvider<IGridCell> = new DataProvider<IGridCell>();
 			
             _list.addItem(rowData);
             
             for (col in 0...columnCount)
 			{
                 // Create cell
-                var cell : com.chaos.ui.layout.classInterface.IGridCell = new GridCell(Std.int(width / rowCount), Std.int(height / columnCount));
+                var cell : IGridCell = new GridCell(Std.int(_width / rowCount), Std.int(_height / columnCount));
                 contentObject.addChild(cell.displayObject);
 				
                 cell.x = cell.width * col;
@@ -153,9 +153,9 @@ class GridContainer extends BaseContainer implements IGridContainer implements I
         if (!validCell(row, col)) 
             return;
         
-        var rowData : DataProvider = _list.getItemAt(row);
+        var rowData : DataProvider<IGridCell> = _list.getItemAt(row);
         var cell : IGridCell = rowData.getItemAt(col);
-        
+		
         cell.width = widthNum;
         
         // Move everything else x location
@@ -187,13 +187,14 @@ class GridContainer extends BaseContainer implements IGridContainer implements I
         if (!validCell(row, col)) 
             return;
         
-        var rowData : DataProvider = _list.getItemAt(row);
+        var rowData : DataProvider<IGridCell> = _list.getItemAt(row);
         var cell : IGridCell = rowData.getItemAt(col);
         
         cell.height = heightNum;
         
         // Move everything else y location
-        for (i in row...rowCount){
+        for (i in row ... rowCount)
+		{
             // Get the next row in list
             rowData = _list.getItemAt(i);
             
@@ -204,7 +205,7 @@ class GridContainer extends BaseContainer implements IGridContainer implements I
             if ((i + 1) < rowCount) 
             {
                 // Get next row
-                var nextRow : DataProvider = _list.getItemAt(i + 1);
+                var nextRow : DataProvider<IGridCell> = _list.getItemAt(i + 1);
                 
                 // Get column for that row
                 var nextCell : IGridCell = nextRow.getItemAt(col);
@@ -223,10 +224,11 @@ class GridContainer extends BaseContainer implements IGridContainer implements I
     
     public function addRow(index : Int) : Void
     {
-        var newRow : DataProvider = new DataProvider();
+        var newRow : DataProvider<IGridCell> = new DataProvider<IGridCell>();
         
         // Create the columns for the row
-        for (col in 0...columnCount){
+        for (col in 0 ... columnCount)
+		{
             var cell : IGridCell = new GridCell(Std.int(width / rowCount), Std.int(height / columnCount));
             
             contentObject.addChild(cell.displayObject);
@@ -253,17 +255,17 @@ class GridContainer extends BaseContainer implements IGridContainer implements I
         
         
          // Get the rows
-        var oldRow : DataProvider = _list.getItemAt(index);
+        var oldRow : DataProvider<IGridCell> = _list.getItemAt(index);
         
         // Remove columns out of the display
-        for (col in 0...columnCount){
-            var cell : com.chaos.ui.layout.classInterface.IGridCell = oldRow.getItemAt(col);
-            
+        for (col in 0...columnCount)
+		{
+            var cell : IGridCell = oldRow.getItemAt(col);
             contentObject.removeChild(cell.displayObject);
         }  
         
         // Remove the row  
-        _list.removeItem(index);
+        _list.removeItemAt(index);
         
         rowCount--;
         
@@ -283,12 +285,13 @@ class GridContainer extends BaseContainer implements IGridContainer implements I
         
         
          // Get each row and add a col  
-        for (row in 0...rowCount){
+        for (row in 0 ... rowCount)
+		{
             // Get the row
-            var rowData : DataProvider = _list.getItemAt(row);
+            var rowData : DataProvider<IGridCell> = _list.getItemAt(row);
             
             // Create a new cell
-            var cell : com.chaos.ui.layout.classInterface.IGridCell = new GridCell(Std.int(width / rowCount), Std.int(height / columnCount));
+            var cell : IGridCell = new GridCell(Std.int(width / rowCount), Std.int(height / columnCount));
             
             // Add to the display
             contentObject.addChild(cell.displayObject);
@@ -313,10 +316,10 @@ class GridContainer extends BaseContainer implements IGridContainer implements I
         for (row in 0...rowCount)
 		{
             // Get the row
-            var rowData : DataProvider = _list.getItemAt(row);
+            var rowData : DataProvider<IGridCell> = _list.getItemAt(row);
             
             // Get cell at Column index
-            var cell : com.chaos.ui.layout.classInterface.IGridCell = rowData.getItemAt(index);
+            var cell : IGridCell = rowData.getItemAt(index);
             
             // Remove event
             if (cell.hasEventListener(MouseEvent.MOUSE_OVER)) 
@@ -346,14 +349,9 @@ class GridContainer extends BaseContainer implements IGridContainer implements I
     
     public function getCell(row : Int, col : Int) : IGridCell
     {
-        try
-        {
-            return (try cast(_list.getItemAt(row), DataProvider) catch(e:Dynamic) null).getItemAt(col);
-        }
-		catch (error : Error)
-        {
-            Debug.print("[GridContainer::getCell] Couldn't find cell.");
-        }
+		
+		if (_list.getItemAt(row) != null && _list.getItemAt(row).getItemAt(col) != null)
+			return _list.getItemAt(row).getItemAt(col);
         
         return null;
     }
@@ -369,10 +367,10 @@ class GridContainer extends BaseContainer implements IGridContainer implements I
     public function validCell(row : Int, col : Int) : Bool
     {
         
-        if (_list.getItemAt(row) != null && (try cast(_list.getItemAt(row), DataProvider) catch(e:Dynamic) null).getItemAt(col) != null) 
+        if (_list.getItemAt(row) != null && _list.getItemAt(row).getItemAt(col) != null) 
             return true;
         
-        Debug.print("[GridContainer::validCell] Couldn't find cell at " + row + "x" + col);
+			Debug.print("[GridContainer::validCell] Couldn't find cell at " + row + "x" + col);
         
         return false;
     }
@@ -413,13 +411,13 @@ class GridContainer extends BaseContainer implements IGridContainer implements I
         for (row in 0...rowCount)
 		{
             // Get row
-            var rowData : DataProvider = _list.getItemAt(row);
+            var rowData : DataProvider<IGridCell> = _list.getItemAt(row);
             
             // Start resizing col cell
             for (col in 0...columnCount)
 			{
                 // Get the cell
-                var cell : com.chaos.ui.layout.classInterface.IGridCell = rowData.getItemAt(col);
+                var cell : IGridCell = rowData.getItemAt(col);
                 cell.addEventListener(MouseEvent.MOUSE_OVER, moveToFront, false, 0, true);
                 
                 // Re add to the display for order

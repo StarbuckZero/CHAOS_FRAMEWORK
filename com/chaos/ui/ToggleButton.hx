@@ -58,43 +58,69 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI
 	
 	private var _imageSmooth : Bool = true;
   
-	public function new( toggleWidth:Int = 100, toggleHeight:Int = 100, toggleSelected : Bool = false)
+	public function new( data:Dynamic = null)
     {
+        super(data);
 		
 		
-        super();
+		// Setup events 
+		addEventListener(MouseEvent.MOUSE_OVER, mouseOverEvent, false, 0, true);
+		addEventListener(MouseEvent.MOUSE_OUT, mouseOutEvent, false, 0, true);
+		addEventListener(MouseEvent.MOUSE_DOWN, mouseDownEvent, false, 2, true);
 		
-		_width = toggleWidth;
-		_height = toggleHeight;
-		_selected = toggleSelected;
+		addEventListener(Event.ADDED_TO_STAGE, onStageAdd, false, 0, true);
+		addEventListener(Event.REMOVED_FROM_STAGE, onStageRemove, false, 0, true); 
+		
+		buttonMode = true;
+		mouseChildren = false;
 		
     }
 	
+	override public function setComponentData(data:Dynamic):Void 
+	{
+		super.setComponentData(data);
+		
+		if (Reflect.hasField(data, "selected"))
+			_selected = Reflect.field(data, "selected");
+			
+		if (Reflect.hasField(data, "defaultColor"))
+			_defaultColor = Reflect.field(data, "defaultColor");
+			
+		if (Reflect.hasField(data, "overColor"))
+			_overColor = Reflect.field(data, "overColor");
+			
+		if (Reflect.hasField(data, "downColor"))
+			_downColor = Reflect.field(data, "downColor");
+			
+		if (Reflect.hasField(data, "disableColor"))
+			_disableColor = Reflect.field(data, "disableColor");
+			
+		if (Reflect.hasField(data, "roundEdge"))
+			_roundEdge = Reflect.field(data, "roundEdge");
+			
+		if (Reflect.hasField(data, "backgroundAlpha"))
+			_roundEdge = Reflect.field(data, "backgroundAlpha");
+			
+			
+			
+	}
+	
 	override public function initialize() : Void
-	{  
+	{
 		// Setup shapes
 		normalState = new Shape();
 		overState = new Shape();
 		downState = new Shape();
 		disableState = new Shape();
 		
+		super.initialize();
+		
 		addChild(normalState);
 		addChild(overState);
 		addChild(downState);
 		addChild(disableState);
 		
-		// Setup events 
-		addEventListener(MouseEvent.MOUSE_OVER, mouseOverEvent, false, 0, true);
-		addEventListener(MouseEvent.MOUSE_OUT, mouseOutEvent, false, 0, true);
-		addEventListener(MouseEvent.CLICK, mouseDownEvent, false, 0, true);
-		
-		addEventListener(Event.ADDED_TO_STAGE, onStageAdd, false, 0, true);
-		addEventListener(Event.REMOVED_FROM_STAGE, onStageRemove, false, 0, true); 
-		
-		
-		mouseChildren = true;
-		
-		//draw();
+		reskin();
     }
 	
 	private function onStageAdd(event : Event) : Void 
@@ -332,9 +358,14 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI
 			if (value) 
 			{  
 				// Add events
-				addEventListener(MouseEvent.MOUSE_OUT, mouseOutEvent, false, 0, true);
-				addEventListener(MouseEvent.MOUSE_OVER, mouseOverEvent, false, 0, true);
-				addEventListener(MouseEvent.MOUSE_DOWN, mouseDownEvent, false, 0, true);
+				if (!hasEventListener(MouseEvent.MOUSE_OUT))
+					addEventListener(MouseEvent.MOUSE_OUT, mouseOutEvent, false, 0, true);
+				
+				if (!hasEventListener(MouseEvent.MOUSE_OVER))
+					addEventListener(MouseEvent.MOUSE_OVER, mouseOverEvent, false, 0, true);
+				
+				if (!hasEventListener(MouseEvent.MOUSE_DOWN))
+					addEventListener(MouseEvent.MOUSE_DOWN, mouseDownEvent, false, 0, true);
 				
 				disableState.visible = false;
             }
@@ -401,16 +432,15 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI
 		// Toggle Seleect state
 		if (_selected)
 		{
-			normalState.visible = false;
 			downState.visible = true;
+			disableState.visible = normalState.visible = false;
 		}
 		else
 		{
 			normalState.visible = true;
-			downState.visible = false;
+			disableState.visible = downState.visible = false;
 		}		
 		
-		trace("ToggleButton");
 		
     }
 	
@@ -425,6 +455,8 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI
 		
 		if (image != null)
 			square.graphics.drawRoundRect(0, 0, image.width, image.height, _roundEdge);
+		else
+			square.graphics.drawRoundRect(0, 0, _width, _height, _roundEdge);
 		
 		square.graphics.endFill();
 	}	
@@ -435,9 +467,15 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI
 		overState.visible = false;
 		
 		if (_selected)
+		{
 			downState.visible = true;
+			normalState.visible = disableState.visible = false;
+		}
 		else
+		{
 			normalState.visible = true;
+			downState.visible = disableState.visible = false;
+		}
 		
     }
 	
@@ -446,27 +484,37 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI
 		// Check to set toggle
 		overState.visible = true;
 		
-		if (_selected)
-			downState.visible = false;
-		else
-			normalState.visible = false;
+		disableState.visible = downState.visible = normalState.visible = false;
+		
+		//if (_selected)
+		//{
+		//	downState.visible = false;
+		//	disableState.visible = false;
+		//	
+		//}
+		//else
+		//{
+		//	disableState.visible = false;
+		//	normalState.visible = false;
+		//}
     }
 	
 	private function mouseDownEvent(event : MouseEvent) : Void
 	{
+		
 		// Toggle selected stage
 		_selected = !_selected;
 		
 		// Toggle Seleect state
 		if (_selected)
 		{
-			normalState.visible = false;
 			downState.visible = true;
+			overState.visible = disableState.visible = normalState.visible = false;
 		}
 		else
 		{
 			normalState.visible = true;
-			downState.visible = false;
+			overState.visible = disableState.visible = downState.visible = false;
 		}
 		
     }

@@ -2,6 +2,7 @@ package com.chaos.ui;
 
 import com.chaos.ui.classInterface.IBaseUI;
 import com.chaos.ui.classInterface.ILabel;
+import openfl.display.BitmapData;
 import openfl.display.DisplayObject;
 import openfl.display.Sprite;
 import openfl.display.Shape;
@@ -54,7 +55,8 @@ class Label extends BaseUI implements ILabel implements IBaseUI
 	private var _editable : Bool = false;
 	private var _embedFonts : Bool = false;
 	private var _textColor : Int = 0x000000;
-	private var _font : Font; private var _beginIndex : Int = -1;
+	private var _font : Font;
+	private var _beginIndex : Int = -1;
 	private var _endIndex : Int = -1;
 	private var _background : Bool = false;
 	private var _backgroundColor : Int = 0xFFFFFF;
@@ -65,19 +67,12 @@ class Label extends BaseUI implements ILabel implements IBaseUI
 	private var _outlineAlpha : Float = 1;
 	private var _bgAlpha : Float = .2;
 	private var _showIcon : Bool = false;
-	private var _displayIcon : DisplayObject = null;
+	private var _displayIcon : Shape;
 	private var _outline : Shape;
   
-	public function new(labelText : String = "", labelWidth : Int = 100, labelHeight : Int = 20)
+	public function new(data:Dynamic = null)
 	{
-		super();
-		
-		
-		//TODO: Change this later
-		_width = labelWidth;
-		_height = labelHeight;
-		
-		_text = labelText;
+		super(data);
 		
 		addEventListener(Event.ADDED_TO_STAGE, onStageAdd, false, 0, true);
 		addEventListener(Event.REMOVED_FROM_STAGE, onStageRemove, false, 0, true);
@@ -85,13 +80,57 @@ class Label extends BaseUI implements ILabel implements IBaseUI
 		
 	}
 	
+	override public function setComponentData(data:Dynamic):Void 
+	{
+		super.setComponentData(data);
+		
+		if (Reflect.hasField(data, "text"))
+			_text = Reflect.field(data, "text");
+			
+		if (Reflect.hasField(data, "editable"))
+			_editable = Reflect.field(data, "editable");
+			
+		if (Reflect.hasField(data, "background"))
+			_background = Reflect.field(data, "background");
+			
+		if (Reflect.hasField(data, "textColor"))
+			_textColor = Reflect.field(data, "textColor");
+			
+		if (Reflect.hasField(data, "align"))
+			_align = Reflect.field(data, "align");
+			
+		if (Reflect.hasField(data, "border"))
+			_border = Reflect.field(data, "border");
+			
+		if (Reflect.hasField(data, "thinkness"))
+			_thinkness = Reflect.field(data, "thinkness");
+			
+		if (Reflect.hasField(data, "outlineColor"))
+			_outlineColor = Reflect.field(data, "outlineColor");
+			
+		if (Reflect.hasField(data, "outlineAlpha"))
+			_outlineAlpha = Reflect.field(data, "outlineAlpha");
+			
+		if (Reflect.hasField(data, "backgroundAlpha"))
+			_bgAlpha = Reflect.field(data, "backgroundAlpha");
+			
+		if (Reflect.hasField(data, "backgroundColor"))
+			_backgroundColor = Reflect.field(data, "backgroundColor");
+			
+	}
+	
 	override public function initialize():Void 
 	{
-		super.initialize();
-		
+		// Init main objects first
 		_textField = new TextField();
 		_textFormat = new TextFormat();
 		_font = new Font();
+		
+		_displayIcon = new Shape();
+		_outline = new Shape(); 
+		
+		super.initialize();
+		
 		
 		// Add if offset & align
 		_textField.multiline = true;
@@ -104,8 +143,6 @@ class Label extends BaseUI implements ILabel implements IBaseUI
 		_textFormat.color = _textColor;
 		_textFormat.align = _align; 
 		
-		// Draw border  
-		_outline = new Shape(); 
 		
 		// Setup height
 		_textField.width = width;
@@ -113,7 +150,8 @@ class Label extends BaseUI implements ILabel implements IBaseUI
 		
 		// Add to display
 		addChild(_outline);
-		addChild(_textField); 		
+		addChild(_textField);
+		addChild(_displayIcon);
 		
 		
 		reskin();
@@ -568,16 +606,15 @@ class Label extends BaseUI implements ILabel implements IBaseUI
 	 * @param	value The icon you want to use for the label
 	 */
 	
-	public function setDisplayIcon(value : DisplayObject) : Void 
-	{  
-		// If in display then remove them 
+	public function setDisplayIcon(value : BitmapData) : Void 
+	{
+		_displayIcon.graphics.clear();
 		
-		if (null != value.parent)
-			removeChild(value);_displayIcon = value;
+		_displayIcon.graphics.beginBitmapFill(value, null, false, false);
+		_displayIcon.graphics.drawRect(0, 0, value.width, value.height);
+		_displayIcon.graphics.endFill();
 		
-		// If icon is null then don't add it to display
-		if (null != value)
-			addChild(value);
+		draw();
 	}
 	
 	/**
@@ -603,7 +640,7 @@ class Label extends BaseUI implements ILabel implements IBaseUI
 			_height = _textField.height;
 		
 		// Adjust if icon  
-		if (null != _displayIcon) 
+		if (null != _displayIcon && _showIcon) 
 		{
 			_textField.width = _width - _displayIcon.width;
 			_textField.x = _displayIcon.width;

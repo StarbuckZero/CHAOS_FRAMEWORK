@@ -16,7 +16,7 @@ class MenuItemObjectData
     public var value(get, set) : String;
     public var icon(get, set) : BitmapData;
     public var menuItem(get, set) : IMenuItem;
-    public var subMenuList(get, set) : DataProvider;
+    public var subMenuList(get, set) : DataProvider<MenuItemObjectData>;
     public var subMenuIcon(get, set) : BitmapData;
     public var hasSubMenu(get, never) : Bool;
 
@@ -29,7 +29,7 @@ class MenuItemObjectData
     private var _icon : BitmapData;
     private var _subMenuIcon : BitmapData;
     
-    private var _subMenu : DataProvider = new DataProvider();
+    private var _subMenu : DataProvider<MenuItemObjectData> = new DataProvider<MenuItemObjectData>();
     
     /**
 	 * An data object to be used for the menu system in the CHAOS framework
@@ -41,7 +41,7 @@ class MenuItemObjectData
 	 * @param	icon The custom icon for the button
 	 */
     
-    public function new(text : String, value : String = "", subMenuList : DataProvider = null, icon : BitmapData = null, subMenuIcon : BitmapData = null)
+    public function new(text : String, value : String = "", subMenuList : DataProvider<MenuItemObjectData> = null, icon : BitmapData = null, subMenuIcon : BitmapData = null)
     {
         _text = text;
         _value = value;
@@ -128,7 +128,7 @@ class MenuItemObjectData
 	 * A DataProvider filled with items
 	 */
 	
-    private function set_subMenuList(value : DataProvider) : DataProvider
+    private function set_subMenuList(value : DataProvider<MenuItemObjectData>) : DataProvider<MenuItemObjectData>
     {
         _subMenu = value;
         return value;
@@ -138,7 +138,7 @@ class MenuItemObjectData
 	 * Return DataProvider with MenuItemObjectData objects
 	 */
 	
-    private function get_subMenuList() : DataProvider
+    private function get_subMenuList() : DataProvider<MenuItemObjectData>
     {
         return _subMenu;
     }

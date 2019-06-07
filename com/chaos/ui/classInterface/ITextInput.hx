@@ -3,7 +3,7 @@ package com.chaos.ui.classInterface;
 import openfl.display.Bitmap;
 import openfl.display.BitmapData;
 
-interface ITextInput extends com.chaos.ui.classInterface.ILabel
+interface ITextInput extends ILabel
 {
     /**
 	 * Will upper case first letter on FOCUS_OUT event
