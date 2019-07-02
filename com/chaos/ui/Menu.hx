@@ -1206,6 +1206,7 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
     /**
 	 * Unload all menu items
 	 */
+	
     public function unload() : Void
     {
         // Remove and UnRef all sub menu items first

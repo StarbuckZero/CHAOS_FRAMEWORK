@@ -2,21 +2,27 @@ package com.chaos.ui.classInterface;
 
 
 
-interface IScrollBar extends ISlider
+interface IScrollBar extends IBaseUI
 {
 	
 	/**
-	 * Up Button for scroll bar
+	 * Up Button for scrollbar
 	 */
 	
 	var upButton(get, never) : IButton;      
 
 	
 	/**
-	 * Down Button for scroll bar
+	 * Down Button for scrollbar
 	 */
 	
-	var downButton(get, never) : IButton;      
+	var downButton(get, never) : IButton;
+	
+	/**
+	 * The slider bar that is being used in scrollbar
+	 */
+	
+	public var slider(get, never) : ISlider;
 	
 
 	/**

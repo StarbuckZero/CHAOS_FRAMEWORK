@@ -24,7 +24,7 @@ import com.chaos.ui.ProgressBar;
 import com.chaos.ui.ProgressSlider;
 import com.chaos.ui.RadioGroup;
 import com.chaos.ui.ScrollBar;
-import com.chaos.ui.ScrollContent;
+import com.chaos.ui.ScrollContentBase;
 import com.chaos.ui.ScrollPane;
 import com.chaos.ui.Slider;
 import com.chaos.ui.TabPane;
@@ -247,7 +247,7 @@ class UIDemo extends Sprite
         dummyText.wordWrap = true;
         dummyText.text = GANGSTA_TEXT;
         
-        var scrollContent : ScrollContent = new ScrollContent(dummyText, scrollBar);
+        var scrollContent : ScrollContentBase = new ScrollContentBase(dummyText, scrollBar);
         
         scrollPane = new ScrollPane(300, 200);
         scrollPane.x = tabPane.x + tabPane.width + OFFSET;

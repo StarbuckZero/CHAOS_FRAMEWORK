@@ -1,15 +1,14 @@
 package com.chaos.ui.data;
 
 
-//TODO: Update to use BaseSelectData class later
 
 /**
  * ...
  * @author Erick Feiling
  */
 
-import com.chaos.ui.classInterface.IBaseSelectData;
-import com.chaos.ui.classInterface.IItemPaneObjectData;
+
+
 import com.chaos.ui.classInterface.IToggleButton;
 import openfl.display.DisplayObject;
 
@@ -17,7 +16,7 @@ import com.chaos.ui.Label;
 
 
 
-class ItemPaneObjectData implements IItemPaneObjectData implements IBaseSelectData
+class ItemPaneObjectData 
 {
     public var name(get, set) : String;
     public var text(get, set) : String;

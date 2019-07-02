@@ -2,6 +2,7 @@ package com.chaos.ui;
 
 import com.chaos.drawing.icon.ArrowDownIcon;
 import com.chaos.drawing.icon.ArrowUpIcon;
+import com.chaos.ui.classInterface.IBaseUI;
 import com.chaos.ui.classInterface.IButton;
 import com.chaos.ui.classInterface.IScrollBar;
 import com.chaos.ui.classInterface.ISlider;
@@ -14,13 +15,14 @@ import com.chaos.ui.Slider;
 import com.chaos.ui.Button;
 
 /*
- * A scrollbar that could be attached to display objects or flash text field
+ * A scrollbar that could be attached to display objects or text field
  *
  *  @author Erick Feiling
  *  @date 11-13-09
  *
  */
-class ScrollBar extends Slider implements IScrollBar implements ISlider
+
+class ScrollBar extends BaseUI implements IScrollBar implements IBaseUI
 {
 	
 	/** The type of UI Element */
@@ -29,13 +31,16 @@ class ScrollBar extends Slider implements IScrollBar implements ISlider
     public var scrollAmount(get, set) : Float;
     public var sliderActiveResize(get, set) : Bool;
     public var showArrowButton(get, set) : Bool;
+	public var slider(get, never) : ISlider;
+	
     public var buttonWidth(get, set) : Int;
     public var buttonHeight(get, set) : Int;
+	
     public var sliderSize(get, set) : Float;
     public var trackSize(get, set) : Float;
 	
-	public var upButton(get, never):IButton;
-	public var downButton(get, never):IButton;
+	public var upButton(get, never) : IButton;
+	public var downButton(get, never) : IButton;
 	
 	
 	// elements  
@@ -46,6 +51,10 @@ class ScrollBar extends Slider implements IScrollBar implements ISlider
 	private var _buttonWidth : Int = 15;
 	private var _showArrowButton : Bool = true;
 	private var _sliderResize : Bool = true;
+	private var _smoothImage : Bool = true;
+	
+	private var _slider : Slider;
+	
 
 	
 	
@@ -53,44 +62,49 @@ class ScrollBar extends Slider implements IScrollBar implements ISlider
 	 * Constructor
 	 */
 	
-	public function new()
+	public function new(data:Dynamic = null)
     {
-		super();
+		super(data);
 		
 		addEventListener(Event.ADDED_TO_STAGE, onStageAdd, false, 0, true);
 		addEventListener(Event.REMOVED_FROM_STAGE, onStageRemove, false, 0, true);
     }
 	
-	override private function onStageAdd(event : Event) : Void { UIBitmapManager.watchElement(TYPE, this); }
-	override private function onStageRemove(event : Event) : Void { UIBitmapManager.stopWatchElement(TYPE, this); }
 	
+	
+	private function onStageAdd(event : Event) : Void { UIBitmapManager.watchElement(TYPE, this); }
+	private function onStageRemove(event : Event) : Void { UIBitmapManager.stopWatchElement(TYPE, this); }
 	
 	/**
 	 * Create and initialize the slider and arrow elements.
 	 */
 		
-	override private function init() : Void
+	
+	override public function initialize():Void 
 	{
-		super.init();
 		
-		super.sliderOffSet = UIStyleManager.SCROLLBAR_SLIDER_OFFSET;
+		
+		_slider = new Slider();
+		_upButton = new Button();
+		_downButton = new Button();
+		
+		_slider.sliderOffSet = UIStyleManager.SCROLLBAR_SLIDER_OFFSET;
+		
+		super.initialize();
 		
 		var upArrowIcon : ArrowUpIcon = new ArrowUpIcon(4, 4);
 		var downArrowIcon : ArrowDownIcon = new ArrowDownIcon(4, 4);
 		
-		
 		// Setting Up Arrow  
-		_upButton = new Button();
 		_upButton.showLabel = false;
 		_upButton.iconDisplay = true;  
 		
 		// Setting Down Arrow  
-		_downButton = new Button();
 		_downButton.showLabel = false;
 		_downButton.iconDisplay = true;
 		
-		_upButton.setIcon(CompositeManager.displayObjectToBitmap(upArrowIcon));
-		_downButton.setIcon(CompositeManager.displayObjectToBitmap(downArrowIcon.displayObject));
+		_upButton.setIcon(CompositeManager.displayObjectToBitmap(upArrowIcon, _smoothImage, upArrowIcon.width, upArrowIcon.height));
+		_downButton.setIcon(CompositeManager.displayObjectToBitmap(downArrowIcon,_smoothImage, upArrowIcon.width, upArrowIcon.height));
 		
 		_upButton.addEventListener(MouseEvent.MOUSE_DOWN, arrowPressedUp, false, 0, true);
 		_downButton.addEventListener(MouseEvent.MOUSE_DOWN, arrowPressedDown, false, 0, true);
@@ -102,8 +116,9 @@ class ScrollBar extends Slider implements IScrollBar implements ISlider
 		addChild(_upButton.displayObject);
 		addChild(_downButton.displayObject);
 		
-		draw();
-    }
+	}
+	
+	
 	
 	private function initBitmap() : Void
 	{
@@ -145,26 +160,24 @@ class ScrollBar extends Slider implements IScrollBar implements ISlider
 		
 		// Set tracker  
 		if (null != UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_TRACK))  
-		setTrackImage(UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_TRACK));
+		_slider.setTrackImage(UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_TRACK));
 		
 		// Set Slider  
 		if (null != UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_NORMAL))   
-		setSliderImage(UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_NORMAL));
+		_slider.setSliderImage(UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_NORMAL));
 		
 		if (null != UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_OVER)) 
-		setSliderOverImage(UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_OVER));
+		_slider.setSliderOverImage(UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_OVER));
 		
 		if (null != UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_DOWN))       
-		setSliderDownImage(UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_DOWN));
+		_slider.setSliderDownImage(UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_DOWN));
 		
 		//if (null != UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_DISABLE) )
 		//setSliderDisableBitmap( UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_DISABLE) );
     }
 	
-	override private function initStyle() : Void 
+	private function initStyle() : Void 
 	{
-		super.initStyle();
-		
 		// Set button colors
 		if ( -1 != UIStyleManager.SCROLLBAR_BUTTON_NORMAL_COLOR) 
 			_downButton.defaultColor = _upButton.defaultColor = UIStyleManager.SCROLLBAR_BUTTON_NORMAL_COLOR;
@@ -181,20 +194,20 @@ class ScrollBar extends Slider implements IScrollBar implements ISlider
 			
 		// Set Track color 
 		if ( -1 != UIStyleManager.SCROLLBAR_TRACK_COLOR)
-			trackColor = UIStyleManager.SCROLLBAR_TRACK_COLOR;
+			_slider.trackColor = UIStyleManager.SCROLLBAR_TRACK_COLOR;
 		
 		// Set Slider color  
 		if ( -1 != UIStyleManager.SCROLLBAR_SLIDER_NORMAL_COLOR) 
-			sliderColor = UIStyleManager.SCROLLBAR_SLIDER_NORMAL_COLOR;
+			_slider.sliderColor = UIStyleManager.SCROLLBAR_SLIDER_NORMAL_COLOR;
 		
 		if ( -1 != UIStyleManager.SCROLLBAR_SLIDER_OVER_COLOR)       
-			sliderOverColor = UIStyleManager.SCROLLBAR_SLIDER_OVER_COLOR;
+			_slider.sliderOverColor = UIStyleManager.SCROLLBAR_SLIDER_OVER_COLOR;
 		
 		if ( -1 != UIStyleManager.SCROLLBAR_SLIDER_DOWN_COLOR)     
-			sliderDownColor = UIStyleManager.SCROLLBAR_SLIDER_DOWN_COLOR;
+			_slider.sliderDownColor = UIStyleManager.SCROLLBAR_SLIDER_DOWN_COLOR;
 		
 		if (-1 != UIStyleManager.SLIDER_DISABLE_COLOR) 
-			sliderDisableColor = UIStyleManager.SLIDER_DISABLE_COLOR;
+			_slider.sliderDisableColor = UIStyleManager.SLIDER_DISABLE_COLOR;
 		
 		if ( -1 != UIStyleManager.SCROLLBAR_SLIDER_SIZE) 
 			sliderSize = UIStyleManager.SCROLLBAR_SLIDER_SIZE;
@@ -206,9 +219,9 @@ class ScrollBar extends Slider implements IScrollBar implements ISlider
 			_buttonWidth = _buttonHeight = UIStyleManager.SCROLLBAR_BUTTON_SIZE;
 		
 		if ( -1 != UIStyleManager.SCROLLBAR_SLIDER_OFFSET)      
-			sliderOffSet = UIStyleManager.SCROLLBAR_SLIDER_OFFSET;
+			_slider.sliderOffSet = UIStyleManager.SCROLLBAR_SLIDER_OFFSET;
 		
-		super.rotateImage = UIStyleManager.SCROLLBAR_ROTATE_IMAGE;
+		_slider.rotateImage = UIStyleManager.SCROLLBAR_ROTATE_IMAGE;
     } 
 	
 	private function get_upButton():IButton
@@ -221,12 +234,23 @@ class ScrollBar extends Slider implements IScrollBar implements ISlider
 		return _downButton;
 	}
 	
+	private function get_slider():ISlider
+	{
+		return _slider;
+	}
+	
 	/**
 	 * @inheritDoc
 	 */
 	
-	override public function reskin() : Void { super.reskin(); initBitmap(); initStyle(); }  
-		 
+	override public function reskin() : Void 
+	{
+		super.reskin();
+		
+		initBitmap();
+		initStyle(); 
+	}  
+	
 	
 	/**
 	 * The amount in percent wise to when it comes to scroll amount
@@ -258,19 +282,21 @@ class ScrollBar extends Slider implements IScrollBar implements ISlider
 	
 	override private function set_enabled(value : Bool) : Bool 
 	{
+		super.draw();
+		
 		_enabled = _downButton.enabled = _upButton.enabled = super.enabled = value;
 		
 		draw();
-		super.draw();
+		
 		
 		return value; 
 	} 
 	
-		/**
-		 *
-		 * @return Return if the scrollbar is enabled or disable
-		 */
-		override private function get_enabled() : Bool { return _enabled; }
+	/**
+	 *
+	 * @return Return if the scrollbar is enabled or disable
+	 */
+	override private function get_enabled() : Bool { return _enabled; }
 		
 	
 	/**
@@ -360,7 +386,7 @@ class ScrollBar extends Slider implements IScrollBar implements ISlider
 	 */
 	private function set_sliderSize(value : Float) : Float 
 	{
-		((ScrollBarDirection.VERTICAL == direction)) ? super.sliderHeight = value : super.sliderWidth = value;
+		((ScrollBarDirection.VERTICAL == _slider.direction)) ? slider.sliderHeight = value : slider.sliderWidth = value;
 		return value; 
 	}
 	
@@ -370,13 +396,13 @@ class ScrollBar extends Slider implements IScrollBar implements ISlider
 	 */
 	private function get_sliderSize() : Float
 	{
-		if (ScrollBarDirection.VERTICAL == direction) 
+		if (ScrollBarDirection.VERTICAL == _slider.direction) 
 		{
-			return super.sliderHeight;
+			return slider.sliderHeight;
         }
         else 
 		{
-			return super.sliderWidth;
+			return slider.sliderWidth;
         }
     }
 	
@@ -386,9 +412,9 @@ class ScrollBar extends Slider implements IScrollBar implements ISlider
 	
 	private function set_trackSize(value : Float) : Float 
 	{
-		if (ScrollBarDirection.VERTICAL == super.direction) 
+		if (ScrollBarDirection.VERTICAL == _slider.direction) 
 			_height = value;
-        else if (ScrollBarDirection.HORIZONTAL == super.direction) 
+        else if (ScrollBarDirection.HORIZONTAL == _slider.direction) 
 			_width = value;
 		
         return value;
@@ -399,14 +425,39 @@ class ScrollBar extends Slider implements IScrollBar implements ISlider
 	 */  
 	private function get_trackSize() : Float
 	{
-		if (ScrollBarDirection.VERTICAL == super.direction) 
+		if (ScrollBarDirection.VERTICAL == _slider.direction) 
 			return _height;
-        else if (ScrollBarDirection.HORIZONTAL == super.direction) 
+        else if (ScrollBarDirection.HORIZONTAL == _slider.direction) 
 			return _width;
 		
 		return -1;
     }
 	
+	
+	override public function destroy():Void 
+	{
+		super.destroy();
+		
+		// Events
+		_upButton.removeEventListener(MouseEvent.MOUSE_DOWN, arrowPressedUp);
+		_downButton.removeEventListener(MouseEvent.MOUSE_DOWN, arrowPressedDown);
+		
+		removeEventListener(Event.ADDED_TO_STAGE, onStageAdd);
+		removeEventListener(Event.REMOVED_FROM_STAGE, onStageRemove);
+		
+		removeChild(_upButton.displayObject);
+		removeChild(_downButton.displayObject);
+		removeChild(_slider.displayObject);
+		
+		// Unload button and slider
+		_upButton.destroy();
+		_downButton.destroy();
+		_slider.destroy();
+		
+		_upButton = null;
+		_downButton = null;
+		_slider = null;
+	}
 
 	
 	/**
@@ -415,13 +466,16 @@ class ScrollBar extends Slider implements IScrollBar implements ISlider
 	 */
 	override public function draw() : Void
 	{
+		
+		super.draw();
+		
 		// Setup the scrollbar
-		if (ScrollBarDirection.VERTICAL == direction) 
+		if (ScrollBarDirection.VERTICAL == _slider.direction) 
 			setupSliderVerticalMode();
         else
 			setupSliderHorizontal();
 		
-		super.draw();
+		
     }
 	
 	private function setupSliderVerticalMode() : Void
@@ -434,24 +488,24 @@ class ScrollBar extends Slider implements IScrollBar implements ISlider
         } 
 		
 		// Set the slider size
-		_width = sliderWidthNum = _buttonWidth;
+		_width = _slider.width = _slider.sliderWidthNum = _buttonWidth;
 		
 		// Set the size of the track  
-		if (_showArrowButton) 
+		if (_showArrowButton)
 		{
-			if (null != _upButton)
-			_track.y = _upButton.height;
-			
-			_height = Std.int(_height) - (_buttonHeight * 2) + UIStyleManager.SCROLLBAR_OFFSET;
+			_slider.y = _upButton.y + _upButton.height;
+			_slider.height = _height - (_buttonHeight * 2) + UIStyleManager.SCROLLBAR_OFFSET;
         }
         else 
 		{
-			_track.y = 0;
-			_height = Std.int(_height) + UIStyleManager.SCROLLBAR_OFFSET;
+			_slider.y = 0;
+			_slider.height = Std.int(_height) + UIStyleManager.SCROLLBAR_OFFSET;
         }
 		
 		if (null != _downButton)
-			_downButton.y = (_track.y + _height) - UIStyleManager.SCROLLBAR_OFFSET;
+			_downButton.y = (_slider.y +_slider.height) - UIStyleManager.SCROLLBAR_OFFSET;
+			
+		addChild(_slider);
     }
 	
 	private function setupSliderHorizontal() : Void
@@ -461,26 +515,23 @@ class ScrollBar extends Slider implements IScrollBar implements ISlider
 		_upButton.height = _downButton.height = _buttonHeight;
 		
 		if (_showArrowButton) 
-		{
-			_width = Std.int(_width) - (_buttonWidth * 2) + UIStyleManager.SCROLLBAR_OFFSET;
-        }
+			_slider.width = Std.int(_width) - (_buttonWidth * 2) + UIStyleManager.SCROLLBAR_OFFSET;
         else 
-		{
-			_width = Std.int(_width);
-        }
+			_slider.width = Std.int(_width);
 		
-		_height = sliderHeightNum = _buttonHeight; 
+		_slider.height = _slider.sliderHeightNum = _buttonHeight; 
 		_downButton.rotation = 90;
 		_downButton.x = _downButton.width; _downButton.y = 0;
 		
 		if (_showArrowButton) 
 		{
-			_track.x = _upButton.width;_track.y = _upButton.y;
+			_slider.track.x = _upButton.width;
+			_slider.track.y = _upButton.y;
         }
         else 
 		{
-			_track.x = 0;
-			_track.y = 0;
+			_slider.track.x = 0;
+			_slider.track.y = 0;
         }
 		
 		_upButton.rotation = 90;
@@ -494,16 +545,12 @@ class ScrollBar extends Slider implements IScrollBar implements ISlider
 		{
 			var dir : Int = 0;
 			
-			if (ScrollBarDirection.VERTICAL == direction) 
-			{
+			if (ScrollBarDirection.VERTICAL == _slider.direction) 
 				dir = -1;
-            }
             else 
-			{
 				dir = 1;
-            }
 			
-			percent = percent + dir * _scrollAmount;
+			_slider.percent = _slider.percent + dir * _scrollAmount;
         }
     }
 	
@@ -514,16 +561,12 @@ class ScrollBar extends Slider implements IScrollBar implements ISlider
 		{
 			var dir : Int = 0;
 			
-			if (ScrollBarDirection.VERTICAL == direction) 
-			{
+			if (ScrollBarDirection.VERTICAL == _slider.direction) 
 				dir = 1;
-            }
             else 
-			{
 				dir = -1;
-            }
 			
-			percent = percent + dir * _scrollAmount;
+			_slider.percent = _slider.percent + dir * _scrollAmount;
         }
     }
 }

@@ -11,7 +11,7 @@ import com.chaos.ui.layout.classInterface.IAlignmentContainer;
  * @author Erick Feiling
  */
 
-interface IRadioGroup extends com.chaos.ui.layout.classInterface.IAlignmentContainer
+interface IRadioGroup extends IAlignmentContainer
 {
     
     
@@ -19,7 +19,7 @@ interface IRadioGroup extends com.chaos.ui.layout.classInterface.IAlignmentConta
 	 * Replace the current data provider
 	 */
     
-    var dataProvider(get, set) : DataProvider;
+    var dataProvider(get, set) : DataProvider<IRadioButton>;
 
     /**
 	 * Creates a radio button and adds it to the container
@@ -45,7 +45,7 @@ interface IRadioGroup extends com.chaos.ui.layout.classInterface.IAlignmentConta
 	 * @return Return a radio button
 	 */
     
-    function getSelected() : com.chaos.ui.classInterface.IRadioButton;
+    function getSelected() : IRadioButton;
     
     /**
 	 * Change the name of the group being used

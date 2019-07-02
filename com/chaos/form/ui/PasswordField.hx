@@ -2,8 +2,8 @@ package com.chaos.form.ui;
 
 
 import com.chaos.form.ui.classInterface.IFormUI;
-import com.chaos.ui.interface.IBaseUI;
-import com.chaos.ui.interface.ITextInput;
+import com.chaos.ui.classInterface.IBaseUI;
+import com.chaos.ui.classInterface.ITextInput;
 
 /**
 	 * Configure the InputField as a Password Field

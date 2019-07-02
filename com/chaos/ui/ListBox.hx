@@ -1,7 +1,7 @@
 package com.chaos.ui;
 
 import com.chaos.ui.data.BaseObjectData;
-import com.chaos.ui.classInterface.IBaseSelectData;
+
 import com.chaos.ui.classInterface.IBaseUI;
 import com.chaos.ui.classInterface.ILabel;
 import com.chaos.ui.classInterface.IList;
@@ -362,10 +362,10 @@ class ListBox extends ScrollPane implements IList implements IBaseUI
 
 		for (i in 0..._list.length - 1 + 1)
 		{
-			var listData : IBaseSelectData = cast(_list.getItemAt(i), IBaseSelectData);
+			var listData : ListObjectData = _list.getItemAt(i);
 
-			if (listData.selected)
-				selectedList.push(listData);
+			//if (listData.selected)
+			//	selectedList.push(listData);
 		}
 
 		return selectedList;
@@ -482,8 +482,8 @@ class ListBox extends ScrollPane implements IList implements IBaseUI
 			if ( -1 != UIStyleManager.LIST_TEXT_SIZE)
 				listBoxLabel.size = UIStyleManager.LIST_TEXT_SIZE;
 
-			if (null != listData.icon)
-				listBoxLabel.setDisplayIcon(CompositeManager.displayObjectToBitmap(listData.icon));
+			//if (null != listData.icon)
+			//	listBoxLabel.setDisplayIcon(CompositeManager.displayObjectToBitmap(listData.icon));
 
 			if (null != _font)
 				listBoxLabel.setEmbedFont(_font);
@@ -491,27 +491,29 @@ class ListBox extends ScrollPane implements IList implements IBaseUI
 			// Set location of item
 			if (i > 0)
 			{
-				var oldLabel : ILabel = cast(_list.getItemAt(i - 1), IBaseSelectData).label;
-				listBoxLabel.y = oldLabel.y + oldLabel.textField.height;
+				//var oldLabel : ILabel = cast(_list.getItemAt(i - 1), IBaseObjectData).label;
+				//listBoxLabel.y = oldLabel.y + oldLabel.textField.height;
 			}
 
 			// Keep a ref object for later
-			listData.label = listBoxLabel;
-
-			if (listData.selected == true)
-			{
-				// Set background and text color
-				listData.label.textColor = _textSelectedColor;
-				listData.label.backgroundColor = _textSelectedBackground;
-				listData.label.background = true;
-			}
+			//listData.label = listBoxLabel;
+            //
+			//if (listData.selected == true)
+			//{
+			//	// Set background and text color
+			//	listData.label.textColor = _textSelectedColor;
+			//	listData.label.backgroundColor = _textSelectedBackground;
+			//	listData.label.background = true;
+			//}
 
 			// Events for text fields
 			listBoxLabel.addEventListener(MouseEvent.MOUSE_OVER, textOverEvent, false, 0, true);
 			listBoxLabel.addEventListener(MouseEvent.MOUSE_OUT, textOutEvent, false, 0, true);
 			listBoxLabel.addEventListener(MouseEvent.MOUSE_DOWN, textSelectedEvent, false, 0, true);
 			listBoxLabel.addEventListener(MouseEvent.MOUSE_UP, textUpEvent, false, 0, true);
-			_itemList.addChild(listData.label);
+			
+			
+			//_itemList.addChild(listData.label);
 		}
 
 	}
@@ -544,26 +546,26 @@ class ListBox extends ScrollPane implements IList implements IBaseUI
 		//TODO: Add back in support for using event.currentTarget.name once name doesn't come back null
 		for (i in 0..._list.length)
 		{
-			var listObj:IBaseSelectData = _list.getItemAt(i);
-
-			if (listObj.label == event.currentTarget)
-			{
-
-				if (listObj.selected)
-				{
-					listObj.label.textColor = _textSelectedColor;
-					listObj.label.backgroundColor = _textSelectedBackground;
-					listObj.label.background = true;
-				}
-				else
-				{
-					listObj.label.textColor = _textColor;
-					listObj.label.backgroundColor = _backgroundColor;
-					listObj.label.background = false;
-
-				}
-
-			}
+			//var listObj:ListObjectData = _list.getItemAt(i);
+            //
+			//if (listObj.label == event.currentTarget)
+			//{
+            //
+			//	if (listObj.selected)
+			//	{
+			//		listObj.label.textColor = _textSelectedColor;
+			//		listObj.label.backgroundColor = _textSelectedBackground;
+			//		listObj.label.background = true;
+			//	}
+			//	else
+			//	{
+			//		listObj.label.textColor = _textColor;
+			//		listObj.label.backgroundColor = _backgroundColor;
+			//		listObj.label.background = false;
+            //
+			//	}
+            //
+			//}
 		}
 
 		/*
@@ -588,17 +590,17 @@ class ListBox extends ScrollPane implements IList implements IBaseUI
 		//TODO: Add back in support for using event.currentTarget.name once name doesn't come back null
 		for (i in 0..._list.length)
 		{
-			var listObj:IBaseSelectData = _list.getItemAt(i);
-
-			if (listObj.label == event.currentTarget)
-			{
-
-				listObj.label.backgroundColor = _textOverBackground;
-				listObj.label.textColor = _textOverColor;
-				listObj.label.background = true;
-
-				break;
-			}
+			//var listObj:ListObjectData = _list.getItemAt(i);
+            //
+			//if (listObj.label == event.currentTarget)
+			//{
+            //
+			//	listObj.label.backgroundColor = _textOverBackground;
+			//	listObj.label.textColor = _textOverColor;
+			//	listObj.label.background = true;
+            //
+			//	break;
+			//}
 		}
 
 		/*
@@ -617,16 +619,16 @@ class ListBox extends ScrollPane implements IList implements IBaseUI
 		//TODO: Add back in support for using event.currentTarget.name once name doesn't come back null
 		for (i in 0..._list.length)
 		{
-			var listObj:IBaseSelectData = _list.getItemAt(i);
-
-			if (listObj.label == event.currentTarget)
-			{
-				listObj.label.textColor = _textSelectedColor;
-				listObj.label.backgroundColor = _textSelectedBackground;
-				listObj.label.background = true;
-
-				break;
-			}
+			//var listObj:ListObjectData = _list.getItemAt(i);
+            //
+			//if (listObj.label == event.currentTarget)
+			//{
+			//	listObj.label.textColor = _textSelectedColor;
+			//	listObj.label.backgroundColor = _textSelectedBackground;
+			//	listObj.label.background = true;
+            //
+			//	break;
+			//}
 		}
 
 		/*
@@ -643,18 +645,18 @@ class ListBox extends ScrollPane implements IList implements IBaseUI
 
 		for (i in 0..._list.length)
 		{
-			var listObj:IBaseSelectData = _list.getItemAt(i);
+			var listObj:ListObjectData = _list.getItemAt(i);
 
-			if (listObj.label == event.currentTarget)
-			{
-
-				_selectText = listObj.text;
-				_selectIndex = i;
-
-				listObj.selected = !listObj.selected;
-
-				break;
-			}
+			//if (listObj.label == event.currentTarget)
+			//{
+            //
+			//	_selectText = listObj.text;
+			//	_selectIndex = i;
+            //
+			//	listObj.selected = !listObj.selected;
+            //
+			//	break;
+			//}
 		}
 
 		/*
@@ -671,10 +673,10 @@ class ListBox extends ScrollPane implements IList implements IBaseUI
 	{
 		for (i in 0..._list.length - 1 + 1)
 		{
-			var listData : IBaseSelectData = cast(_list.getItemAt(i), IBaseSelectData);
-			listData.selected = false;
-			listData.label.textColor = _textColor;
-			listData.label.background = false;
+			var listData : ListObjectData = _list.getItemAt(i);
+			//listData.selected = false;
+			//listData.label.textColor = _textColor;
+			//listData.label.background = false;
 		}
 	}
 }

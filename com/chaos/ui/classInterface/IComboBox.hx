@@ -163,60 +163,6 @@ interface IComboBox extends IBaseUI
 	 */
 
 	function setDropDownBackgroundImage(value : BitmapData) : Void;
-
-	/**
-	 * Appends an item to the end of the data provider.
-	 *
-	 * @param item Appends an item to the end of the data provider.
-	 *
-	 */
-
-	function addItem(item : ComboBoxObjectData) : Void;
-
-	/**
-	 * Removes the specified item from the
-	 *
-	 * @param item  Item to be removed.
-	 *
-	 */
-
-	function removeItem(item : ComboBoxObjectData) : ComboBoxObjectData;
-
-	/**
-	 * Removes the item at the specified index
-	 *
-	 * @param index  The index at which the item is to be added.
-	 */
-
-	function removeItemAt(index : Int) : Array<ComboBoxObjectData>;
-
-	/**
-	 * Replaces an existing item with a new item
-	 *
-	 * @param newItem The item to be replaced.
-	 * @param oldItem The replacement item.
-	 */
-
-	function replaceItem(newItem : ComboBoxObjectData, oldItem : ComboBoxObjectData) : Void;
-
-	/**
-	 * Replaces the item at the specified index
-	 *
-	 * @param newItem The replacement item.
-	 * @param index The replacement item.
-	 */
-
-	function replaceItemAt(newItem : ComboBoxObjectData, index : Int) : ComboBoxObjectData;
-	
-	/**
-	 * Returns the item at the specified index.
-	 *
-	 * @param value Location of the item to be returned.
-	 * @return The item at the specified index.
-	 *
-	 */
-
-	function getItemAt(value : Int) : ComboBoxObjectData;
 	
 	/**
 	 * Returns the item at the selected index.
@@ -226,16 +172,7 @@ interface IComboBox extends IBaseUI
 	 */
 
 	function getSelected() : ComboBoxObjectData;
-	
-	/**
-	 * Sorts the items that the data
-	 *
-	 * @param sortOpt The arguments to use for sorting.
-	 * @return The return value depends on whether the method receives any arguments.
-	 *
-	 * 
-	 */
-	function sort(sortOpt : Dynamic) : Void;
+
 
 	/**
 	 * Opens the combo box so the user can select an item

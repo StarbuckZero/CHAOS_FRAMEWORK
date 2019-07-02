@@ -10,7 +10,7 @@ import com.chaos.ui.layout.classInterface.IAlignmentContainer;
  * Interface for CheckBoxGroup
  * @author Erick Feiling
  */
-interface ICheckBoxGroup extends com.chaos.ui.layout.classInterface.IAlignmentContainer
+interface ICheckBoxGroup extends IAlignmentContainer
 {
     
     
@@ -19,7 +19,7 @@ interface ICheckBoxGroup extends com.chaos.ui.layout.classInterface.IAlignmentCo
 	 */
 
     
-    var dataProvider(get, set) : DataProvider;
+    var dataProvider(get, set) : DataProvider<ICheckBox>;
 
     
     /**
@@ -31,7 +31,7 @@ interface ICheckBoxGroup extends com.chaos.ui.layout.classInterface.IAlignmentCo
 	 * @return The newly created check box.
 	 */
     
-    function createCheckBox(checkBoxName : String, labelText : String, selected : Bool = false) : com.chaos.ui.classInterface.ICheckBox;
+    function createCheckBox(checkBoxName : String, labelText : String, selected : Bool = false) : ICheckBox;
     
     /**
 	 * Remove a check box
@@ -39,7 +39,7 @@ interface ICheckBoxGroup extends com.chaos.ui.layout.classInterface.IAlignmentCo
 	 * @param	checkbox The check box you want to remove out of the container
 	 */
     
-    function removeCheckBox(checkbox : com.chaos.ui.classInterface.ICheckBox) : Void;
+    function removeCheckBox(checkbox : ICheckBox) : Void;
     
     /**
 	 * An array filled with checkboxes
@@ -47,6 +47,6 @@ interface ICheckBoxGroup extends com.chaos.ui.layout.classInterface.IAlignmentCo
 	 * @return A list of checkboxes
 	 */
     
-    function getSelected() : Array<Dynamic>;
+    function getSelected() : Array<ICheckBox>;
 }
 

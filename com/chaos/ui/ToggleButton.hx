@@ -380,10 +380,40 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI
             }
         }
 		
-		super.enabled = value;
+		super.enabled = buttonMode = value;
 		
         return value;
     }
+	
+	override public function destroy():Void 
+	{
+		super.destroy();
+		
+		// Remove Events 
+		removeEventListener(MouseEvent.MOUSE_OVER, mouseOverEvent);
+		removeEventListener(MouseEvent.MOUSE_OUT, mouseOutEvent);
+		removeEventListener(MouseEvent.MOUSE_DOWN, mouseDownEvent);
+		
+		removeEventListener(Event.ADDED_TO_STAGE, onStageAdd);
+		removeEventListener(Event.REMOVED_FROM_STAGE, onStageRemove); 
+		
+		normalState.graphics.clear();
+		overState.graphics.clear();
+		downState.graphics.clear();
+		disableState.graphics.clear();
+		
+		removeChild(normalState);
+		removeChild(overState);
+		removeChild(downState);
+		removeChild(disableState);
+		
+		_defaultStateImage = null;
+		_overStateImage = null;
+		_downStateImage = null;
+		_disableStateImage = null;
+		
+		normalState = null;
+	}
 	
 	/**
 	 * This setup and draw the toogle button on the screen

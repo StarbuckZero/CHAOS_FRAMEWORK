@@ -26,6 +26,8 @@ class DataProvider<T>
     {
 		if (null != newDataArray)
 			_dataArray = newDataArray;
+		else
+			_dataArray = new Array<T>();
     }
 	
 	/**

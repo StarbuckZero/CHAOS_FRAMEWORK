@@ -85,6 +85,13 @@ interface IBaseUI
 	 function hasEventListener(type : String) : Bool; 
 		
 	/**
+	 * Unload Component
+	 */
+	
+	function destroy() : Void;  
+	 
+	 
+	/**
 	 * Update the UI class
 	 */
 	

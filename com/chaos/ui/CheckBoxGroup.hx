@@ -2,7 +2,7 @@ package com.chaos.ui;
 
 
 import com.chaos.data.DataProvider;
-import com.chaos.ui.classInterface.IBaseSelectData;
+
 import com.chaos.ui.classInterface.IBaseUI;
 import com.chaos.ui.classInterface.ICheckBox;
 import com.chaos.ui.classInterface.ICheckBoxGroup;
@@ -24,10 +24,10 @@ import openfl.events.Event;
 
 class CheckBoxGroup extends HorizontalContainer implements ICheckBoxGroup implements IBaseContainer implements IAlignmentContainer implements IBaseUI
 {
-    public var dataProvider(get, set) : DataProvider;
+    public var dataProvider(get, set) : DataProvider<ICheckBox>;
 
     private var nameList : Object;
-    private var _list : DataProvider;
+    private var _list : DataProvider<ICheckBox>;
     
     /**
 	 * Creates a container and
@@ -51,7 +51,7 @@ class CheckBoxGroup extends HorizontalContainer implements ICheckBoxGroup implem
 	 * Replace the current data provider
 	 */
     
-    private function set_dataProvider(value : DataProvider) : DataProvider
+    private function set_dataProvider(value : DataProvider<ICheckBox>) : DataProvider<ICheckBox>
     {
         if (null == _list) 
             return null;
@@ -63,7 +63,7 @@ class CheckBoxGroup extends HorizontalContainer implements ICheckBoxGroup implem
         
         for (i in 0..._list.length)
 		{
-            var item : IBaseSelectData = cast(_list.getItemAt(i), IBaseSelectData);
+            var item : ICheckBox = _list.getItemAt(i);
             
             if (item.name != "" && item.text != "") 
             {
@@ -78,7 +78,7 @@ class CheckBoxGroup extends HorizontalContainer implements ICheckBoxGroup implem
 	 * Returns the data provider being used
 	 */
     
-    private function get_dataProvider() : DataProvider
+    private function get_dataProvider() : DataProvider<ICheckBox>
     {
         return _list;
     }

@@ -93,15 +93,15 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 	 * Constructor
 	 */
 	
-	public function new (sliderWidth : Int = 100, sliderHeight : Int = 15, sliderDirection : String = "vertical")
+	public function new (data:Dynamic = null)
     {
-		super();
 		
-		_width = sliderWidth;
-		_height = sliderHeight;
+		// If nothing is pasted then setup default with and height
+		if (data == null)
+			data = {"width":100, "height":15};
 		
-		_mode = sliderDirection;
-		_sliderOffSet = SLIDER_OFFSET;
+		super(data);
+		
 		
 		addEventListener(Event.ADDED_TO_STAGE, onStageAdd, false, 0, true);
 		addEventListener(Event.REMOVED_FROM_STAGE, onStageRemove, false, 0, true);
@@ -110,8 +110,18 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 		addEventListener(Event.REMOVED_FROM_STAGE, removeStageListener, false, 0, true);
 		
 		
-		init();
+		
     }
+	
+	override public function setComponentData(data:Dynamic):Void 
+	{
+		
+		_mode = (Reflect.hasField(data, "sliderDirection")) ? Reflect.field(data, "sliderDirection") : "vertical";
+		_sliderOffSet = SLIDER_OFFSET;
+		
+		super.setComponentData(data);
+		
+	}
 	
 	private function onStageAdd(event : Event) : Void { UIBitmapManager.watchElement(TYPE, this); }
 	private function onStageRemove(event : Event) : Void { UIBitmapManager.stopWatchElement(TYPE, this); } 
@@ -119,21 +129,26 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 	/**
 	 * Creates and initializes the marker/track elements.
 	 */
-	private function init() : Void 
-	{  
+	
+	override public function initialize():Void 
+	{
 		
 		// Base for scroll bar  
 		_track = new Shape(); 
 		
 		// Slider  
 		_marker = new Button();
+		
+		
+		super.initialize();
+		
+		
 		_marker.width = sliderWidthNum;
 		_marker.height = sliderHeightNum;
 		
 		_marker.showLabel = false;
+		_marker.iconDisplay = false;
 		
-		initSkin();
-		initStyle();
 		
 		_marker.defaultColor = _sliderNormalColor;
 		_marker.overColor = _sliderOverColor;
@@ -152,8 +167,9 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 		addChild(_track);
 		addChild(_marker);
 		
-		draw();
-    }
+		//draw();		
+	}
+
 	
 	override public function reskin() : Void
 	{
@@ -272,7 +288,7 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 	private function set_sliderOffSet(value : Float) : Float
 	{
 		_sliderOffSet = value;
-		draw();
+		//draw();
 		
         return value;
     }
@@ -292,7 +308,7 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 	private function set_rotateImage(value : Bool) : Bool 
 	{
 		_rotateImage = value;
-		draw();
+		//draw();
 		
         return value;
     }
@@ -374,7 +390,7 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 	override private function set_enabled(value : Bool) : Bool
 	{
 		super.enabled = _marker.visible = _enabled = value;
-		this.draw();
+		draw();
 		
         return value;
     }
@@ -385,7 +401,8 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 	private function set_trackColor(value : Int) : Int
 	{
 		_trackerColor = value;
-		this.draw();
+		draw();
+		
         return value;
     }
 	
@@ -479,8 +496,8 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 		if (ScrollBarDirection.VERTICAL == _mode)
 		{
 			
-			_marker.height = sliderHeightNum;
 			_marker.width = sliderWidthNum;
+			_marker.height = sliderHeightNum;
 		}
         else
 			_marker.width = sliderWidthNum;
@@ -508,8 +525,8 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 		
 		if (ScrollBarDirection.VERTICAL == _mode) 
 		{
-			_marker.height = sliderHeightNum;
 			_marker.width = sliderWidthNum;
+			_marker.height = sliderHeightNum;
         }
         else 
 		{
@@ -672,6 +689,37 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 		stage.addEventListener(MouseEvent.MOUSE_UP, stopSliding, false, 0, true);
     }
 	
+	override public function destroy():Void 
+	{
+		super.destroy();
+		
+		// Event
+		if (_dragging) 
+		{ 
+			// Flag for dragging
+			_dragging = false;
+			
+			_marker.stopDrag();
+			
+			stage.removeEventListener(MouseEvent.MOUSE_MOVE, updatePercent);
+			stage.removeEventListener(MouseEvent.MOUSE_UP, stopSliding);
+			
+			ThreadManager.removeEventTimer(_threadCallBack);
+        }
+		
+		// Drawing
+		_track.graphics.clear();
+		
+		removeChild(_track);
+		removeChild(_marker);
+		
+		_marker.destroy();
+		
+		_track = null;
+		_marker = null;
+		_trackerImage = null;
+	}
+	
 	/**
 	 * Draw the element on the stage
 	 *
@@ -679,6 +727,7 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 	override public function draw() : Void
 	{
 		super.draw();
+		
 		_track.graphics.clear();
 		
 		if (_trackerImage != null && _showImage) 
@@ -709,8 +758,9 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 	private function removeStageListener(event : Event) : Void
 	{
 		stage.removeEventListener(MouseEvent.MOUSE_UP, stopSliding);
-		_marker.removeEventListener(MouseEvent.MOUSE_DOWN, markerPress);
 		stage.removeEventListener(MouseEvent.MOUSE_MOVE, updatePercent);
+		
+		_marker.removeEventListener(MouseEvent.MOUSE_DOWN, markerPress);
     }
 	
 

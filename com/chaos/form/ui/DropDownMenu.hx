@@ -3,18 +3,18 @@ package com.chaos.form.ui;
 
 import com.chaos.form.ui.classInterface.IFormUI;
 import com.chaos.ui.ComboBox;
-import com.chaos.ui.interface.IBaseUI;
-import com.chaos.ui.interface.IComboBox;
+import com.chaos.ui.classInterface.IBaseUI;
+import com.chaos.ui.classInterface.IComboBox;
 import com.chaos.data.DataProvider;
 
 /**
 	 * Pretty much the ComboBox but with support for forms
 	 * @author Erick Feiling
 	 */
-class DropDownMenu extends ComboBox implements com.chaos.ui.classInterface.IComboBox implements com.chaos.ui.classInterface.IBaseUI implements IFormUI
+class DropDownMenu extends ComboBox implements IComboBox implements IBaseUI implements IFormUI
 {
     
-    public function new(comboWidth : Int = -1, comboHeight : Int = -1, comboList : DataProvider = null)
+    public function new(comboWidth : Int = -1, comboHeight : Int = -1, comboList : DataProvider<Dynamic> = null)
     {
         super(comboWidth, comboHeight, comboList);
     }

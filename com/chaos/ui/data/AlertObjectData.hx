@@ -9,7 +9,7 @@ import haxe.Constraints.Function;
  * @author Erick Feiling
  */
 
-class AlertDataObject 
+class AlertObjectData 
 {
 	public var window(get, never) : IWindow;
 	public var buttonList(get, never) : Array<IButton>;

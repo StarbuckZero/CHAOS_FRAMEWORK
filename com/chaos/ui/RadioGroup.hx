@@ -2,7 +2,8 @@ package com.chaos.ui;
 
 
 import com.chaos.data.DataProvider;
-import com.chaos.ui.classInterface.IBaseSelectData;
+import com.chaos.ui.data.SelectObjectData;
+
 import com.chaos.ui.classInterface.IBaseUI;
 import com.chaos.ui.classInterface.IRadioButton;
 import com.chaos.ui.classInterface.IRadioGroup;
@@ -66,7 +67,7 @@ class RadioGroup extends HorizontalContainer implements IRadioGroup implements I
         
         for (i in 0..._list.length)
 		{
-            var item : IBaseSelectData = cast(_list.getItemAt(i), IBaseSelectData);
+            var item : SelectObjectData = cast(_list.getItemAt(i), IBaseObjectData);
             
             if (item.name != "" && item.text != "") 
             {

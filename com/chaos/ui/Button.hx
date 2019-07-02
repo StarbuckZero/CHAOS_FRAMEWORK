@@ -252,6 +252,7 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
 			}
 		}
 		
+		buttonMode = value;
 		
 		return super.set_enabled(value);
 	}
@@ -512,6 +513,7 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
     
     public function setIcon(image : BitmapData) : Void
     {
+		_icon.graphics.clear();
         _icon.graphics.beginBitmapFill(image, null, false, _imageSmooth);
 		_icon.graphics.drawRect(0, 0, image.width, image.height);
 		_icon.graphics.endFill();
@@ -556,6 +558,28 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
     {
         return _showIcon;
     }
+	
+	override public function destroy():Void 
+	{
+		super.destroy();
+		
+		// Unload label
+		_label.destroy();
+		
+		// Event
+		removeEventListener(Event.ADDED_TO_STAGE, onStageAdd);
+		removeEventListener(Event.REMOVED_FROM_STAGE, onStageRemove);
+		
+		// Clear icon
+		_icon.graphics.clear();
+		
+		// Remove
+		if (_icon.parent != null)
+			_icon.parent.removeChild(_icon);
+		
+		_icon = null;
+		
+	}
 
     
     /**
@@ -586,9 +610,9 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
         {
             
             // Set location of text
-            _label.width = width - _icon.width - UIStyleManager.BUTTON_TEXT_OFFSET_X;
+            _label.width = _width - _icon.width - UIStyleManager.BUTTON_TEXT_OFFSET_X;
             _label.x = _icon.width + UIStyleManager.BUTTON_TEXT_OFFSET_X;
-            _label.y = (height / 2) - (_label.height / 2) + UIStyleManager.BUTTON_TEXT_OFFSET_Y;
+            _label.y = (_height / 2) - (_label.height / 2) + UIStyleManager.BUTTON_TEXT_OFFSET_Y;
             
             // Set this first and then use offset later
             _icon.y = _label.y;
@@ -598,21 +622,21 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
         }
         else if (_showIcon && !_showLabel) 
         {
-            
             // Set location of icon
             if (_icon.width < _width) 
-                _icon.x = (width / 2) - (_icon.width / 2);
+                _icon.x = (_width / 2) - (_icon.width / 2);
             
-            if (_icon.height < height) 
-                _icon.y = (height / 2) - (_icon.height / 2);
+            if (_icon.height < _height) 
+                _icon.y = (_height / 2) - (_icon.height / 2);
+			
         }
         else if (!_showIcon && _showLabel)  // Hide and show what is needed by default
         {
             
             // Set location of text
-            _label.width = width - UIStyleManager.BUTTON_TEXT_OFFSET_X;
-            _label.x = (width / 2) - (_label.width / 2) + UIStyleManager.BUTTON_TEXT_OFFSET_X;
-            _label.y = (height / 2) - (_label.height / 2) + UIStyleManager.BUTTON_TEXT_OFFSET_Y;
+            _label.width = _width - UIStyleManager.BUTTON_TEXT_OFFSET_X;
+            _label.x = (_width / 2) - (_label.width / 2) + UIStyleManager.BUTTON_TEXT_OFFSET_X;
+            _label.y = (_height / 2) - (_label.height / 2) + UIStyleManager.BUTTON_TEXT_OFFSET_Y;
 			
         }
 		
@@ -640,8 +664,6 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
 	
 	override function mouseDownEvent(event:MouseEvent):Void 
 	{
-		trace("mouseDownEvent");
-		
 		// Either go with what is done in the ToggleButton Super class
 		if (_mode.toLowerCase() != PRESS_MODE)
 			super.mouseDownEvent(event);

@@ -94,6 +94,15 @@ class BaseUI extends Sprite implements IBaseUI
         
     }
 	
+	/**
+	 * Unload Component
+	 */
+	
+	public function destroy():Void
+	{
+		// Remove events and clear graphics here
+	}
+	
     
     /**
 	 * @inheritDoc

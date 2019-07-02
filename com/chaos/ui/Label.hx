@@ -2,6 +2,8 @@ package com.chaos.ui;
 
 import com.chaos.ui.classInterface.IBaseUI;
 import com.chaos.ui.classInterface.ILabel;
+import com.chaos.utils.CompositeManager;
+import openfl.display.Bitmap;
 import openfl.display.BitmapData;
 import openfl.display.DisplayObject;
 import openfl.display.Sprite;
@@ -45,8 +47,9 @@ class Label extends BaseUI implements ILabel implements IBaseUI
     public var size(get, set) : Dynamic;
     public var font(get, set) : String;
     public var editable(get, set) : Bool;
+	public var bitmapMode (get, set): Bool;
 	
-	
+	private var _textImage:Shape;
 	private var _textField : TextField;
 	private var _textFormat : TextFormat;
 	private var _text : String = "";
@@ -69,6 +72,7 @@ class Label extends BaseUI implements ILabel implements IBaseUI
 	private var _showIcon : Bool = false;
 	private var _displayIcon : Shape;
 	private var _outline : Shape;
+	private var _bitmapMode : Bool = false;
   
 	public function new(data:Dynamic = null)
 	{
@@ -117,11 +121,14 @@ class Label extends BaseUI implements ILabel implements IBaseUI
 		if (Reflect.hasField(data, "backgroundColor"))
 			_backgroundColor = Reflect.field(data, "backgroundColor");
 			
+		if (Reflect.hasField(data, "bitmapMode"))
+			_bitmapMode = Reflect.field(data, "bitmapMode");
 	}
 	
 	override public function initialize():Void 
 	{
 		// Init main objects first
+		_textImage = new Shape();
 		_textField = new TextField();
 		_textFormat = new TextFormat();
 		_font = new Font();
@@ -145,13 +152,18 @@ class Label extends BaseUI implements ILabel implements IBaseUI
 		
 		
 		// Setup height
-		_textField.width = width;
-		_textField.height = height;
+		_textField.width = _width;
+		_textField.height = _height;
 		
 		// Add to display
 		addChild(_outline);
-		addChild(_textField);
 		addChild(_displayIcon);
+		
+		// Create as bitmap image or display the label for real
+		if (_bitmapMode)
+			addChild(_textImage);
+		else
+			addChild(_textField);
 		
 		
 		reskin();
@@ -205,6 +217,36 @@ class Label extends BaseUI implements ILabel implements IBaseUI
 		
 		
     }
+	
+	private function set_bitmapMode(value:Bool) : Bool
+	{
+		_bitmapMode = value;
+		
+		// Create as bitmap image or display the label for real
+		if (_bitmapMode)
+		{
+			if (_textField.parent != null)
+				_textField.parent.removeChild(_textField);
+				
+			addChild(_textImage);
+		}
+		else
+		{
+			if (_textImage.parent != null)
+				_textImage.parent.removeChild(_textImage);
+			
+			addChild(_textField);
+		}
+
+		
+		return value;
+	}
+	
+	private function get_bitmapMode():Bool
+	{
+		return _bitmapMode;
+	}
+	
 	
 	/**
 	 * @inheritDoc
@@ -264,7 +306,8 @@ class Label extends BaseUI implements ILabel implements IBaseUI
 	
 	private function set_text(value : String) : String 
 	{
-		_textField.text = value;
+		_text = value;
+		
 		draw();
 		
 		return value;
@@ -403,7 +446,9 @@ class Label extends BaseUI implements ILabel implements IBaseUI
 
 	private function set_backgroundColor(value : Int) : Int 
 	{ 
-		_textField.backgroundColor = value;
+		_backgroundColor = value;
+		draw();
+		
 		return value;
 	}
 		
@@ -426,6 +471,7 @@ class Label extends BaseUI implements ILabel implements IBaseUI
 	private function set_borderThinkness(value : Float) : Float 
 	{
 		_thinkness = value;
+		draw();
 		return value; 
 	} 
 	 
@@ -446,8 +492,8 @@ class Label extends BaseUI implements ILabel implements IBaseUI
 	
 	private function set_background(value : Bool) : Bool 
 	{
-		_textField.background = _background = value;
-		
+		_background = value;
+		draw();
 		return value;
 	}
 	
@@ -495,8 +541,8 @@ class Label extends BaseUI implements ILabel implements IBaseUI
 	
 	private function set_textColor(value : Int) : Int 
 	{ 
-		_textFormat.color = _textColor = value;
-		 
+		_textColor = value;
+		
 		draw();
 		 
 		return value; 
@@ -520,6 +566,7 @@ class Label extends BaseUI implements ILabel implements IBaseUI
 	{ 
 		_textFormat.size = value; 
 		draw();
+		
 		return value;
 		
 	}
@@ -617,6 +664,36 @@ class Label extends BaseUI implements ILabel implements IBaseUI
 		draw();
 	}
 	
+	override public function destroy():Void 
+	{
+		super.destroy();
+		
+		// Event
+		removeEventListener(Event.ADDED_TO_STAGE, onStageAdd);
+		removeEventListener(Event.REMOVED_FROM_STAGE, onStageRemove);
+		
+		
+		// Clear out lines
+		_outline.graphics.clear();
+		_textImage.graphics.clear();
+		_displayIcon.graphics.clear();
+		
+		// Remove items
+		removeChild(_outline);
+		removeChild(_displayIcon);
+		
+		if (_textField.parent != null)
+			removeChild(_textField);
+		
+		if (_textImage.parent != null)
+			removeChild(_textImage);
+		
+		_textFormat = null;
+		_textField = null;
+		
+		
+	}
+	
 	/**
 	 * This setup and draw the label on the screen
 	 *
@@ -626,9 +703,16 @@ class Label extends BaseUI implements ILabel implements IBaseUI
 		// First turn off all the stuff that would be turned on if nomral TextField  
 		_textField.selectable = ((_enabled && _editable)) ? true : false;
 		
+		
+		
 		_textField.setTextFormat(_textFormat, _beginIndex, _endIndex);
 		_textField.embedFonts = _embedFonts;
 		_textField.border = false;
+		_textField.textColor = _textColor;
+		_textField.background = _background;
+		_textField.backgroundColor = _backgroundColor;
+		_textField.text = _text;
+		_textFormat.color = _textColor;
 		
 		// Get ready to draw background and border
 		_outline.graphics.clear(); 
@@ -659,6 +743,17 @@ class Label extends BaseUI implements ILabel implements IBaseUI
 			_outline.graphics.lineStyle(_thinkness, _outlineColor, _outlineAlpha);
 			_outline.graphics.drawRect(0, 0, _width, _height);
 		}
+		
+		_textImage.graphics.clear();
+		
+		if (_bitmapMode)
+		{
+			_textImage.graphics.beginBitmapFill(CompositeManager.displayObjectToBitmap(_textField, true), null, false, false);
+			_textImage.graphics.drawRect(0, 0, _textField.width, _textField.height);
+			_textImage.graphics.endFill();
+		}
+		
+		
 		
 		super.draw();
     }

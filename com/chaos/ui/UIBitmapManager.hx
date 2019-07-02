@@ -35,33 +35,6 @@ class UIBitmapManager
     public static inline var ALERT_MIDDLE_PATTERN_OVERLAY : String = "alert_middle_pattern_overlay";
     public static inline var ALERT_BOTTOM_PATTERN_OVERLAY : String = "alert_bottom_pattern_overlay";
     
-    /** This doesn't have to be a bitmap, it can be any form of a DisplayObject */
-    public static inline var ALERT_TOP_PATTERN_LEFT_MASK : String = "alert_top_pattern_left_mask";
-    
-    /** This doesn't have to be a bitmap, it can be any form of a DisplayObject */
-    public static inline var ALERT_TOP_PATTERN_CENTER_MASK : String = "alert_top_pattern_left_mask";
-    
-    /** This doesn't have to be a bitmap, it can be any form of a DisplayObject */
-    public static inline var ALERT_TOP_PATTERN_RIGHT_MASK : String = "alert_top_pattern_right_mask";
-    
-    /** This doesn't have to be a bitmap, it can be any form of a DisplayObject */
-    public static inline var ALERT_MIDDLE_PATTERN_LEFT_MASK : String = "alert_middle_pattern_left_mask";
-    
-    /** This doesn't have to be a bitmap, it can be any form of a DisplayObject */
-    public static inline var ALERT_MIDDLE_PATTERN_CENTER_MASK : String = "alert_middle_pattern_center_mask";
-    
-    /** This doesn't have to be a bitmap, it can be any form of a DisplayObject */
-    public static inline var ALERT_MIDDLE_PATTERN_RIGHT_MASK : String = "alert_middle_pattern_right_mask";
-    
-    /** This doesn't have to be a bitmap, it can be any form of a DisplayObject */
-    public static inline var ALERT_BOTTOM_PATTERN_LEFT_MASK : String = "alert_bottom_pattern_left_mask";
-    
-    /** This doesn't have to be a bitmap, it can be any form of a DisplayObject */
-    public static inline var ALERT_BOTTOM_PATTERN_CENTER_MASK : String = "alert_bottom_pattern_center_mask";
-    
-    /** This doesn't have to be a bitmap, it can be any form of a DisplayObject */
-    public static inline var ALERT_BOTTOM_PATTERN_RIGHT_MASK : String = "alert_bottom_pattern_right_mask";
-    
     public static inline var ALERT_CLOSE_BUTTON_NORMAL : String = "alert_close_button_normal";
     public static inline var ALERT_CLOSE_BUTTON_OVER : String = "alert_close_button_over";
     public static inline var ALERT_CLOSE_BUTTON_DOWN : String = "alert_close_button_down";
@@ -256,33 +229,6 @@ class UIBitmapManager
     public static inline var WINDOW_MIDDLE_PATTERN_OVERLAY : String = "window_middle_pattern_overlay";
     public static inline var WINDOW_BOTTOM_PATTERN_OVERLAY : String = "window_bottom_pattern_overlay";
     
-    /** This doesn't have to be a bitmap, it can be any form of a DisplayObject */
-    public static inline var WINDOW_TOP_PATTERN_LEFT_MASK : String = "window_top_pattern_left_mask";
-    
-    /** This doesn't have to be a bitmap, it can be any form of a DisplayObject */
-    public static inline var WINDOW_TOP_PATTERN_CENTER_MASK : String = "window_top_pattern_center_mask";
-    
-    /** This doesn't have to be a bitmap, it can be any form of a DisplayObject */
-    public static inline var WINDOW_TOP_PATTERN_RIGHT_MASK : String = "window_top_pattern_right_mask";
-    
-    /** This doesn't have to be a bitmap, it can be any form of a DisplayObject */
-    public static inline var WINDOW_MIDDLE_PATTERN_LEFT_MASK : String = "window_middle_pattern_left_mask";
-    
-    /** This doesn't have to be a bitmap, it can be any form of a DisplayObject */
-    public static inline var WINDOW_MIDDLE_PATTERN_CENTER_MASK : String = "window_middle_pattern_center_mask";
-    
-    /** This doesn't have to be a bitmap, it can be any form of a DisplayObject */
-    public static inline var WINDOW_MIDDLE_PATTERN_RIGHT_MASK : String = "window_middle_pattern_right_mask";
-    
-    /** This doesn't have to be a bitmap, it can be any form of a DisplayObject */
-    public static inline var WINDOW_BOTTOM_PATTERN_LEFT_MASK : String = "window_bottom_pattern_left_mask";
-    
-    /** This doesn't have to be a bitmap, it can be any form of a DisplayObject */
-    public static inline var WINDOW_BOTTOM_PATTERN_CENTER_MASK : String = "window_bottom_pattern_center_mask";
-    
-    /** This doesn't have to be a bitmap, it can be any form of a DisplayObject */
-    public static inline var WINDOW_BOTTOM_PATTERN_RIGHT_MASK : String = "window_bottom_pattern_right_mask";
-    
     private static var initialize : Bool = false;
     private static var skinTheme : Dynamic;
     
@@ -320,26 +266,26 @@ class UIBitmapManager
 		
         
 		watchList = { };
-		Reflect.setField(watchList, Alert.TYPE, new DataProvider<BaseUI>() );
-        Reflect.setField(watchList, Bubble.TYPE, new DataProvider<BaseUI>() );
-        Reflect.setField(watchList, Button.TYPE, new DataProvider<BaseUI>() );
-        Reflect.setField(watchList, ToggleButton.TYPE, new DataProvider<BaseUI>() );
-        Reflect.setField(watchList, CheckBox.TYPE, new DataProvider<BaseUI>() );
-        Reflect.setField(watchList, ComboBox.TYPE, new DataProvider<BaseUI>() );
-        Reflect.setField(watchList, Label.TYPE, new DataProvider<BaseUI>() );
-        Reflect.setField(watchList, ListBox.TYPE, new DataProvider<BaseUI>() );
-        Reflect.setField(watchList, ProgressBar.TYPE, new DataProvider<BaseUI>() );
-        Reflect.setField(watchList, RadioButton.TYPE, new DataProvider<BaseUI>() );
-        Reflect.setField(watchList, ScrollBar.TYPE, new DataProvider<BaseUI>() );
-        Reflect.setField(watchList, ScrollPane.TYPE, new DataProvider<BaseUI>() );
-        Reflect.setField(watchList, Slider.TYPE, new DataProvider<BaseUI>() );
-        Reflect.setField(watchList, TabPane.TYPE, new DataProvider<BaseUI>() );
-        Reflect.setField(watchList, TextInput.TYPE, new DataProvider<BaseUI>() );
-        Reflect.setField(watchList, Window.TYPE, new DataProvider<BaseUI>() );
-        Reflect.setField(watchList, ItemPane.TYPE, new DataProvider<BaseUI>() );
-        Reflect.setField(watchList, GridPane.TYPE, new DataProvider<BaseUI>() );
-        Reflect.setField(watchList, ProgressSlider.TYPE,new DataProvider<BaseUI>() );
-        Reflect.setField(watchList, Menu.TYPE, new DataProvider<BaseUI>() );		
+		Reflect.setField(watchList, Alert.TYPE, new DataProvider<IBaseUI>() );
+        Reflect.setField(watchList, Bubble.TYPE, new DataProvider<IBaseUI>() );
+        Reflect.setField(watchList, Button.TYPE, new DataProvider<IBaseUI>() );
+        Reflect.setField(watchList, ToggleButton.TYPE, new DataProvider<IBaseUI>() );
+        Reflect.setField(watchList, CheckBox.TYPE, new DataProvider<IBaseUI>() );
+        Reflect.setField(watchList, ComboBox.TYPE, new DataProvider<IBaseUI>() );
+        Reflect.setField(watchList, Label.TYPE, new DataProvider<IBaseUI>() );
+        Reflect.setField(watchList, ListBox.TYPE, new DataProvider<IBaseUI>() );
+        Reflect.setField(watchList, ProgressBar.TYPE, new DataProvider<IBaseUI>() );
+        Reflect.setField(watchList, RadioButton.TYPE, new DataProvider<IBaseUI>() );
+        Reflect.setField(watchList, ScrollBar.TYPE, new DataProvider<IBaseUI>() );
+        Reflect.setField(watchList, ScrollPane.TYPE, new DataProvider<IBaseUI>() );
+        Reflect.setField(watchList, Slider.TYPE, new DataProvider<IBaseUI>() );
+        Reflect.setField(watchList, TabPane.TYPE, new DataProvider<IBaseUI>() );
+        Reflect.setField(watchList, TextInput.TYPE, new DataProvider<IBaseUI>() );
+        Reflect.setField(watchList, Window.TYPE, new DataProvider<IBaseUI>() );
+        Reflect.setField(watchList, ItemPane.TYPE, new DataProvider<IBaseUI>() );
+        Reflect.setField(watchList, GridPane.TYPE, new DataProvider<IBaseUI>() );
+        Reflect.setField(watchList, ProgressSlider.TYPE,new DataProvider<IBaseUI>() );
+        Reflect.setField(watchList, Menu.TYPE, new DataProvider<IBaseUI>() );		
 
         
         initialize = true;
@@ -352,7 +298,7 @@ class UIBitmapManager
 	 * @param	displayObj The UI class that will be watched
 	 */
     
-    public static function watchElement(UITypeElement : String, displayObj : DisplayObject) : Void
+    public static function watchElement(UITypeElement : String, displayObj : IBaseUI) : Void
     {
         // Make sure everything is setup
         if (!initialize) 
@@ -399,12 +345,12 @@ class UIBitmapManager
     
     public static function updateUIElement(UITypeElement : String) : Void
     {
-        var uiList : DataProvider<BaseUI> = Reflect.field(watchList, UITypeElement);
+        var uiList : DataProvider<IBaseUI> = Reflect.field(watchList, UITypeElement);
         
         for (i in 0 ... uiList.length)
 		{
-            cast(uiList.getItemAt(i), BaseUI).reskin();
-            cast(uiList.getItemAt(i), BaseUI).draw();
+            cast(uiList.getItemAt(i), IBaseUI).reskin();
+            cast(uiList.getItemAt(i), IBaseUI).draw();
         }
     }
     

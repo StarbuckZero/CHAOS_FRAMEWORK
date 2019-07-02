@@ -9,13 +9,13 @@ package com.chaos.ui.data;
  */
 
 
-import com.chaos.ui.Label;
-import com.chaos.ui.classInterface.IBaseSelectData;
+
+
 
 import openfl.display.DisplayObject;
 import com.chaos.ui.data.BaseObjectData;
 
-class ListObjectData extends BaseObjectData implements IBaseSelectData
+class ListObjectData extends BaseObjectData
 {
    
     
@@ -34,8 +34,8 @@ class ListObjectData extends BaseObjectData implements IBaseSelectData
 		
         _text = itemText;
         _value = value;
-        _selected = itemSelected;
-        _icon = itemIcon;
+        //_selected = itemSelected;
+        //_icon = itemIcon;
 		
     }
     

@@ -1,9 +1,8 @@
 package com.chaos.ui;
 
-import com.chaos.ui.classInterface.IBaseSelectData;
+
 import com.chaos.ui.classInterface.IBaseUI;
 import com.chaos.ui.classInterface.IItemPane;
-import com.chaos.ui.classInterface.IItemPaneObjectData;
 import com.chaos.ui.classInterface.IScrollPane;
 import com.chaos.ui.classInterface.IToggleButton;
 import flash.display.BitmapData;
@@ -865,7 +864,7 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
     {
         for (i in 0..._list.length - 1 + 1)
 		{
-            var itemData : IItemPaneObjectData = cast(_list.getItemAt(i), IItemPaneObjectData);
+            var itemData : ItemPaneObjectData = cast(_list.getItemAt(i), ItemPaneObjectData);
             
             itemData.itemButton.selected = itemData.selected = false;
             

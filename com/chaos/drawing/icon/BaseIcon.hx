@@ -56,27 +56,32 @@ class BaseIcon extends BaseUI implements IBasicIcon implements IBaseUI
     
     public function new(iconWidth : Float = -1, iconHeight : Float = -1)
     {
+        var dataObj:Dynamic = {"width":20, "height":20};
         
-        super();
 		
         if (iconWidth > 0) 
-            _width = iconWidth;
+           Reflect.setField(dataObj, "width", iconWidth);
         
         if (iconHeight > 0) 
-            _height = iconHeight;
+			Reflect.setField(dataObj, "height", iconHeight);
 		
-		
-        init();
+		super(dataObj);
     }
+	
+	override public function initialize():Void 
+	{
+		_iconArea = new Shape();
+		
+		super.initialize();
+		
+		addChild(_iconArea);
+		
+		// Doesn't use reskin 
+		draw();
+	}
+	
     
-    private function init() : Void
-    {
-        
-        _iconArea = new Shape();
-        addChild(_iconArea);
-        
-        draw();
-    }
+
     
     /**
 	 * Set the base color for the icon
@@ -226,8 +231,6 @@ class BaseIcon extends BaseUI implements IBasicIcon implements IBaseUI
     override public function draw() : Void
     {
         super.draw();
-        
-        _iconArea.filters = new Array<BitmapFilter>();
     }
     
 

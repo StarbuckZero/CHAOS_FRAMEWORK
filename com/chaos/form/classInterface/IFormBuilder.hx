@@ -1,8 +1,8 @@
 package com.chaos.form.classInterface;
 
 
-import com.chaos.ui.interface.IBaseUI;
-import com.chaos.ui.layout.Interface.IGridCell;
+import com.chaos.ui.classInterface.IBaseUI;
+import com.chaos.ui.layout.classInterface.IGridCell;
 import com.chaos.form.ui.classInterface.IFormUI;
 import com.chaos.form.FormData;
 

@@ -6,7 +6,7 @@ import com.chaos.ui.Button;
 import com.chaos.ui.UIBitmapManager;
 import com.chaos.ui.UIStyleManager;
 import com.chaos.ui.Window;
-import com.chaos.ui.data.AlertDataObject;
+import com.chaos.ui.data.AlertObjectData;
 
 import com.chaos.ui.classInterface.IButton;
 import com.chaos.ui.classInterface.IWindow;
@@ -87,7 +87,7 @@ class Alert
 	/** Set if you want to user to be able to grab the text*/
 	public static var ALERT_LABEL_TEXT_SELECTABLE : Bool = false;
 
-	private static var _alertList : DataProvider<AlertDataObject> = new DataProvider<AlertDataObject>();
+	private static var _alertList : DataProvider<AlertObjectData> = new DataProvider<AlertObjectData>();
 
 	private static var _windowCount : Int = 0;
 	private static var _cancelBtnLabel : String = "Cancel";
@@ -173,7 +173,7 @@ class Alert
 	 * Return an array with all the windows that were created
 	 */
 
-	static public function get_windowList() : DataProvider<AlertDataObject>
+	static public function get_windowList() : DataProvider<AlertObjectData>
 	{
 		return _alertList;
 	}
@@ -1204,7 +1204,7 @@ class Alert
 		{
 			var scroll : ScrollBar = new ScrollBar();
 
-			scroll.direction = ScrollBarDirection.VERTICAL;
+			scroll.slider.direction = ScrollBarDirection.VERTICAL;
 			holderClip.mouseChildren = true;
 			holderClip.addChild(scroll);
 			scroll.y = label.y;
@@ -1309,7 +1309,7 @@ class Alert
 		window.scrollPane.source = holderClip;
 		alertHolder.addChild(window);
 
-		var alertData:AlertDataObject = new AlertDataObject(window, buttonList, callBackFunc);
+		var alertData:AlertObjectData = new AlertObjectData(window, buttonList, callBackFunc);
 		_alertList.addItem(alertData);
 
 		return alertHolder;
@@ -1324,7 +1324,7 @@ class Alert
 		for (i in 0... _alertList.length)
 		{
 
-			var alertObj:AlertDataObject = cast(_alertList.getItemAt(i), AlertDataObject);
+			var alertObj:AlertObjectData = cast(_alertList.getItemAt(i), AlertObjectData);
 			var buttonList:Array<IButton> = alertObj.buttonList;
 
 			// Look for button in button list
@@ -1335,7 +1335,7 @@ class Alert
 				if (buttonList[j] == button)
 				{
 
-					var oldWindow:IWindow = cast(_alertList.removeItem(alertObj),AlertDataObject).window;
+					var oldWindow:IWindow = cast(_alertList.removeItem(alertObj),AlertObjectData).window;
 
 					// Remove window out of display
 					if (null != oldWindow && null != oldWindow.parent)
@@ -1606,7 +1606,7 @@ class Alert
 		{
 			for (i in 0..._alertList.length)
 			{
-				var window : Window = cast(cast(_alertList.getItemAt(i), AlertDataObject).window,Window);
+				var window : Window = cast(cast(_alertList.getItemAt(i), AlertObjectData).window,Window);
 				window.x = (window.stage.stageWidth / 2) - (window.width / 2);
 				window.y = (window.stage.stageHeight / 2) - (window.height / 2);
 			}

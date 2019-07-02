@@ -4,7 +4,7 @@ package com.chaos.ui.classInterface;
 import openfl.display.BitmapData;
 import openfl.display.Shape;
 
-interface ISlider extends com.chaos.ui.classInterface.IBaseUI
+interface ISlider extends IBaseUI
 {
 	
 	

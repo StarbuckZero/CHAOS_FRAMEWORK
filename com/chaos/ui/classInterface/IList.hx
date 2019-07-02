@@ -4,7 +4,7 @@ import com.chaos.ui.data.ListObjectData;
 import openfl.display.Bitmap;
 import openfl.display.DisplayObject;
 import openfl.text.Font;
-import com.chaos.ui.classInterface.IBaseSelectData;
+
 import com.chaos.data.DataProvider;
 
 interface IList extends IScrollPane

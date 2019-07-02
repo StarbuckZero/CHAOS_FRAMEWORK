@@ -44,8 +44,8 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 	
 	private var _scrollContentLoaded : Bool = false;
 	
-	private var _scrollContentH : ScrollContent;
-	private var _scrollContentV : ScrollContent;
+	private var _scrollContentH : ScrollContentBase;
+	private var _scrollContentV : ScrollContentBase;
 	private var _scrollRectH : Rectangle;
 	private var _scrollRectV : Rectangle;
 	private var _scrollBarH : IScrollBar;
@@ -95,8 +95,8 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 		
 		_scrollBarH = new ScrollBar();
 		_scrollBarV = new ScrollBar();
-		_scrollBarH.direction = ScrollBarDirection.HORIZONTAL; 
-		_scrollBarV.direction = ScrollBarDirection.VERTICAL;
+		_scrollBarH.slider.direction = ScrollBarDirection.HORIZONTAL; 
+		_scrollBarV.slider.direction = ScrollBarDirection.VERTICAL;
 		_scrollBarH.visible = false;
 		_scrollBarV.visible = false;
 		
@@ -199,7 +199,7 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 	
 	private function set_trackColor(value : Int) : Int 
 	{ 
-		_scrollBarV.trackColor = _scrollBarH.trackColor = _trackerColor = value;
+		_scrollBarV.slider.trackColor = _scrollBarH.slider.trackColor = _trackerColor = value;
 		return value;
 	}
 		
@@ -218,7 +218,7 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 	*/
 	private function set_sliderColor(value : Int) : Int 
 	{ 
-		_scrollBarV.sliderColor = _scrollBarH.sliderColor = _sliderNormalColor = value;
+		_scrollBarV.slider.sliderColor = _scrollBarH.slider.sliderColor = _sliderNormalColor = value;
 		return value;
 	}
 		
@@ -237,7 +237,7 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 	
 	private function set_sliderOverColor(value : Int) : Int 
 	{ 
-		_scrollBarV.sliderOverColor = _scrollBarH.sliderOverColor = _sliderOverColor = value;
+		_scrollBarV.slider.sliderOverColor = _scrollBarH.slider.sliderOverColor = _sliderOverColor = value;
 		return value;
 	}
 		
@@ -258,7 +258,7 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 	
 	private function set_sliderDownColor(value : Int) : Int 
 	{ 
-		_scrollBarV.sliderDownColor = _scrollBarH.sliderDownColor = _sliderDownColor = value;
+		_scrollBarV.slider.sliderDownColor = _scrollBarH.slider.sliderDownColor = _sliderDownColor = value;
 		return value;
 	}
 		
@@ -374,8 +374,8 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 		return null;
 		
 		// Unload if something has been loaded because scroll content has been set  
-		_scrollBarH.percent = 0;
-		_scrollBarV.percent = 0;
+		_scrollBarH.slider.percent = 0;
+		_scrollBarV.slider.percent = 0;
 		
 		if (_scrollContentLoaded)
 		{
@@ -390,7 +390,8 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 		
 		// See if some content is already loaded  
 		if (contentObject.numChildren > 0)
-		contentObject.removeChildAt(0);
+			contentObject.removeChildAt(0);
+		
 		contentObject.addChild(value);
 		
 		// Update scroll pane  
@@ -462,10 +463,12 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 			_scrollContentV.unload();
         }
 		
-		_scrollBarH.percent = 0;
-		_scrollBarV.percent = 0;
-		_scrollContentH = new ScrollContent(contentObject, _scrollBarH, _scrollRectH);
-		_scrollContentV = new ScrollContent(contentObject, _scrollBarV, _scrollRectV);
+		_scrollBarH.slider.percent = 0;
+		_scrollBarV.slider.percent = 0;
+		
+		//TODO: Use new ScrollMaskContent
+		//_scrollContentH = new ScrollContentBase(contentObject, _scrollBarH, _scrollRectH);
+		//_scrollContentV = new ScrollContentBase(contentObject, _scrollBarV, _scrollRectV);
 		
 		contentObject.visible = _scrollContentLoaded = true;
 		

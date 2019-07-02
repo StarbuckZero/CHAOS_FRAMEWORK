@@ -1,13 +1,16 @@
 package com.chaos.ui;
 
+import com.chaos.drawing.Draw;
 import com.chaos.drawing.icon.ArrowDownIcon;
 import com.chaos.ui.classInterface.IBaseUI;
 import com.chaos.ui.classInterface.IButton;
 import com.chaos.ui.classInterface.IComboBox;
 import com.chaos.ui.classInterface.ILabel;
 import com.chaos.ui.classInterface.IScrollBar;
+import com.chaos.ui.event.SliderEvent;
 import com.chaos.utils.CompositeManager;
 import openfl.display.BitmapData;
+import openfl.geom.Point;
 
 import openfl.display.Shape;
 import com.chaos.ui.data.ComboBoxObjectData;
@@ -17,7 +20,7 @@ import com.chaos.ui.Button;
 import com.chaos.ui.Label;
 import com.chaos.ui.ScrollBar;
 
-import com.chaos.ui.ScrollContent;
+import com.chaos.ui.ScrollContentBase;
 import com.chaos.ui.event.ComboBoxEvent;
 import openfl.display.DisplayObject;
 import com.chaos.ui.UIStyleManager;
@@ -26,7 +29,7 @@ import com.chaos.ui.UIBitmapManager;
 import openfl.display.Sprite;
 import openfl.events.MouseEvent;
 import openfl.events.Event;
-import openfl.geom.Rectangle;
+
 import openfl.text.Font;
 import openfl.text.TextFormat;
 
@@ -66,6 +69,7 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 	public var borderThinkness(get, set) : Float;
 	public var length(get, never) : Int;
 	public var rowCount(get, set) : Int;
+	public var itemBuffer(get, set) : Int;
 	
 	
 	public var dropDownPadding(get, set) : Int;
@@ -83,8 +87,9 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 	private var _dropButton : Button;
 	private var _scrollbar : ScrollBar;
 
-	private var _dropDownScrollContent : ScrollContent;
+	private var _dropDownScrollContent : ScrollMaskContent;
 	private var _dropDownList : Sprite;
+	private var _dropDownLabelHolder:Sprite;
 
 	private var _border : Shape;
 	private var _background : Shape;
@@ -112,11 +117,12 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 	private var _textColor : Int = 0x000000;
 	private var _textOverColor : Int = 0xFFFFFF;
 	private var _textDownColor : Int = 0xCCCCCC;
-	private var _textOverBackground : Int = 0x00FF00;
+	private var _textOverBackground : Int = 0x0000FF;
 	private var _textDownBackground : Int = 0x999999;
 
 	private var _backgroundImage : BitmapData;
 	private var _backgroundDropImage : BitmapData;
+	
 
 	private var _showImage : Bool = true;
 	private var _smoothImage : Bool = true;
@@ -126,12 +132,17 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 	private var _dropDownHotspot : Sprite;
 	private var _dropDownIcon:ArrowDownIcon;
 	private var _dropDownPadding:Int = 0;
+	private var _maskHeight:Float = 0;
+	
+	private var _itemDropDownSize:Shape;
+	private var _itemBuffer:Int = 4;
+	private var _labelArray:Array<ILabel>;
+	private var _lastScrollPercent:Float;
+	private var _itemIndex:Int = 0;
 
 	/**
 	 * Creates a drop down list
-	 * @param	comboWidth The width of this object
-	 * @param	comboHeight The height of this object
-	 * @param	comboList A list of data objects
+	 * @param	data Object with the list values. ex: {"data":{"text":"Item 1", "value":"1"}}
 	 *
 	 */
 
@@ -149,8 +160,6 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 	{
 		super.setComponentData(data);
 		
-		//comboWidth : Int = 70, comboHeight : Int = 15, comboList : DataProvider = null
-		
 		if (Reflect.hasField(data, "data"))
 		{
 			var data:Array<Dynamic> = Reflect.field(data, "data");
@@ -159,21 +168,10 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 			{
 				var dataObj:Dynamic = data[i];
 				
-				if (Reflect.hasField(dataObj,"text") && Reflect.hasField(dataObj, "value") && Reflect.hasField(dataObj, "selected"))
-				{
-					//TODO: 
-					//_list
-				}
+				if (Reflect.hasField(dataObj,"text") && Reflect.hasField(dataObj, "value"))
+					_list.addItem(new ComboBoxObjectData(i, Reflect.field(dataObj, "text"), Reflect.field(dataObj, "value"), (Reflect.hasField(dataObj, "selected")) ? Reflect.field(dataObj, "selected") : false));
 			}
 		}
-		
-
-		//if (comboWidth > 0)
-		//	_width = comboWidth;
-        //
-		//if (comboHeight > 0)
-		//	_height = comboHeight;
-		
 	}
 
 	private function onStageAdd(event : Event) : Void { UIBitmapManager.watchElement(TYPE, this); stage.addEventListener(MouseEvent.MOUSE_DOWN, stageClick); }
@@ -184,6 +182,9 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 	{
 		_selectLabel = new Label();
 		_textFormat = new TextFormat();
+		_itemDropDownSize = new Shape();
+		_labelArray = new Array<ILabel>();
+		_dropDownList = new Sprite();
 		
 		// Draw outline
 		_border = new Shape();
@@ -191,9 +192,9 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 
 		// Setup drop down outline
 		_dropDownBorder = new Shape();
-
+		_dropDownLabelHolder = new Sprite();
+		
 		// Scroll bars for drop down area
-		_scrollbar = new ScrollBar();
 		_dropButton = new Button();
 		_dropDownHotspot = new Sprite();
 
@@ -204,14 +205,20 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 		// Create default text field and boarder
 		_selectLabel.width = _width;
 		_selectLabel.height = _height;
-		_dropButton.setIcon(CompositeManager.cropToSize(_dropDownIcon.displayObject));
+		
+		_dropDownHotspot.buttonMode = true;
+		
+		_dropButton.showLabel = false;
+		_dropButton.setIcon(CompositeManager.displayObjectToBitmap(_dropDownIcon.displayObject));
+		
 		
 		// Add to display
 		addChild(_background);
 		addChild(_selectLabel);
 		addChild(_dropButton);
 		addChild(_border);
-		addChild(_dropDownHotspot);		
+		addChild(_dropDownHotspot);	
+		addChild(_dropDownLabelHolder);
 	}
 	
 
@@ -313,20 +320,20 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 
 		// Track
 		if (null != UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_TRACK))
-			_scrollbar.setTrackImage(UIBitmapManager.getUIElement(ComboBox.TYPE, UIBitmapManager.SCROLLBAR_TRACK));
+			_scrollbar.slider.setTrackImage(UIBitmapManager.getUIElement(ComboBox.TYPE, UIBitmapManager.SCROLLBAR_TRACK));
 
 		// Slider
 		if (null != UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_NORMAL))
-			_scrollbar.setSliderImage(UIBitmapManager.getUIElement(ComboBox.TYPE, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_NORMAL));
+			_scrollbar.slider.setSliderImage(UIBitmapManager.getUIElement(ComboBox.TYPE, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_NORMAL));
 
 		if (null != UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_OVER))
-			_scrollbar.setSliderOverImage(UIBitmapManager.getUIElement(ComboBox.TYPE, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_OVER));
+			_scrollbar.slider.setSliderOverImage(UIBitmapManager.getUIElement(ComboBox.TYPE, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_OVER));
 
 		if (null != UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_DOWN))
-			_scrollbar.setSliderDownImage(UIBitmapManager.getUIElement(ComboBox.TYPE, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_DOWN));
+			_scrollbar.slider.setSliderDownImage(UIBitmapManager.getUIElement(ComboBox.TYPE, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_DOWN));
 
 		if (null != UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_DISABLE))
-			_scrollbar.setSliderDisableImage(UIBitmapManager.getUIElement(ComboBox.TYPE, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_DISABLE));
+			_scrollbar.slider.setSliderDisableImage(UIBitmapManager.getUIElement(ComboBox.TYPE, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_DISABLE));
 	}
 
 	private function initComboBoxStyle() : Void
@@ -389,10 +396,22 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 			_dropDownPadding = UIStyleManager.COMBO_DROPDOWN_PADDING;
 
 	}
+	
+	private function set_itemBuffer(value:Int):Int
+	{
+		_itemBuffer = value;
+		return value;
+	}
+	
+	private function get_itemBuffer():Int
+	{
+		return _itemBuffer;
+	}
 
 	/**
 	 * Return a int value of the current selected item
 	 */
+	
 	private function get_selectedIndex() : Int { return _selectIndex; }
 
 	/**
@@ -749,7 +768,8 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 
 	override private function set_enabled(value : Bool) : Bool
 	{
-		super.enabled = _scrollbar.enabled = _dropButton.enabled = value;
+		super.enabled = _scrollbar.enabled = _dropButton.enabled = _dropDownHotspot.buttonMode =value;
+		 
 
 		return value;
 	}
@@ -792,85 +812,6 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 	}
 	
 
-	
-	/**
-	 * Appends an item to the end of the data provider.
-	 *
-	 * @param item Appends an item to the end of the data provider.
-	 *
-	 */ 
-	
-	public function addItem(item : ComboBoxObjectData) : Void
-	{
-		// Set the display if item is selected
-		if (null != _selectLabel && item.selected)
-			_selectLabel.text = item.text;
-
-		_list.addItem(item);
-	}
-
-	/**
-	* Removes the specified item from the
-	*
-	* @param item  Item to be removed.
-	*
-	*/
-
-	public function removeItem(item : ComboBoxObjectData) : ComboBoxObjectData 
-	{
-		return _list.removeItem(item); 
-		
-	}
-
-	/**
-	* Removes the item at the specified index
-	*
-	* @param index  The index at which the item is to be added.
-	*/
-
-	public function removeItemAt(index : Int) : Array<ComboBoxObjectData>
-	{
-		return _list.removeItemAt(index); 
-	}
-
-	/**
-	* Replaces an existing item with a new item
-	*
-	* @param newItem The item to be replaced.
-	* @param oldItem The replacement item.
-	*/
-
-	public function replaceItem(newItem : ComboBoxObjectData, oldItem : ComboBoxObjectData) : Void
-	{
-		_list.replaceItem(newItem, oldItem); 
-	}
-
-	/**
-	* Replaces the item at the specified index
-	*
-	* @param newItem The replacement item.
-	* @param index The replacement item.
-	*/
-
-	public function replaceItemAt(newItem : ComboBoxObjectData, index : Int) : ComboBoxObjectData 
-	{
-		return _list.replaceItemAt(newItem, index); 
-		
-	}
-
-	/**
-	* Returns the item at the specified index.
-	*
-	* @param value Location of the item to be returned.
-	* @return The item at the specified index.
-	*
-	*/
-
-	public function getItemAt(value : Int) : ComboBoxObjectData 
-	{
-		return _list.getItemAt(value); 
-		
-	}
 
 	/**
 	* Returns the item at the selected index.
@@ -882,19 +823,6 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 	public function getSelected() : ComboBoxObjectData 
 	{
 		return ((_selectIndex == -1)) ? null : _list.getItemAt(_selectIndex); 
-	}
-
-	/**
-	* Sorts the items that the data
-	*
-	* @param sortOpt The arguments to use for sorting.
-	* @return The return value depends on whether the method receives any arguments.
-	*
-	*/
-
-	public function sort(sortOpt : Dynamic) : Void
-	{
-		return _list.dataArray.sort(sortOpt);
 	}
 
 
@@ -927,6 +855,54 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 			removeComboList();
 			dispatchEvent(new ComboBoxEvent(ComboBoxEvent.CLOSE));
 		}
+	}
+	
+	override public function destroy():Void 
+	{
+		super.destroy();
+		
+		// Events
+		_dropButton.removeEventListener(MouseEvent.CLICK, toggleList);
+		_dropDownHotspot.removeEventListener(MouseEvent.CLICK, toggleList);
+		
+		removeEventListener(Event.ADDED_TO_STAGE, onStageAdd);
+		removeEventListener(Event.REMOVED_FROM_STAGE, onStageRemove);
+		
+		// If open remove and destory 
+		if (_listOpen)
+			removeComboList();
+		
+		// Remove out screen
+		removeChild(_selectLabel);
+		removeChild(_dropDownHotspot);
+		removeChild(_background);
+		removeChild(_border);
+		
+		removeChild(_itemDropDownSize);
+		removeChild(_dropDownList);
+		removeChild(_dropDownBorder);
+		
+		// Clear graphics
+		_dropDownHotspot.graphics.clear();
+		_background.graphics.clear();
+		_border.graphics.clear();
+		
+		// Destory the label
+		_selectLabel.destroy();
+		_scrollbar.destroy();
+		
+		// Set everything to null
+		_backgroundImage = null;
+		_backgroundDropImage = null;
+		
+		_selectLabel = null;
+		_dropDownHotspot = null;
+		_background = null;
+		_border = null;
+		
+		_itemDropDownSize = null;
+		_dropDownList = null;
+		
 	}
 
 	/**
@@ -987,6 +963,8 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 		_selectLabel.width = (_width - _buttonWidth);
 		_selectLabel.height = _height;
 		_selectLabel.textField.setTextFormat(_textFormat);
+		
+		
 		_dropButton.width = _buttonWidth;
 		_dropButton.height = _height;
 		_dropButton.x = (_width - _buttonWidth);
@@ -994,15 +972,17 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 
 	private function textOutEvent(event : MouseEvent) : Void
 	{
+		
 		cast(event.currentTarget,Label).textColor = _textColor;
 		cast(event.currentTarget,Label).backgroundColor = _backgroundColor;
-		cast(event.currentTarget,Label).background = false;
+		cast(event.currentTarget,Label).background = true;
 	}
 
 	private function textOverEvent(event : MouseEvent) : Void
 	{
+		
 		// Stop Slider
-		_scrollbar.stop();
+		_scrollbar.slider.stop();
 
 		cast(event.currentTarget,Label).textColor = _textOverColor;
 		cast(event.currentTarget,Label).backgroundColor = _textOverBackground;
@@ -1023,24 +1003,21 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 		var listDataObject:ComboBoxObjectData = null;
 		var currentLabel:Label = cast(event.currentTarget, Label);
 
-		for (i in 0..._list.length)
+		for (i in 0 ... _list.length)
 		{
-			var listObj:ComboBoxObjectData = cast(_list.getItemAt(i), ComboBoxObjectData);
-
-			if (currentLabel == listObj.label)
+			if (currentLabel.name == Std.string(_list.getItemAt(i).id))
 			{
-				listDataObject = listObj;
-
-				// Set text and selected index
+				listDataObject = _list.getItemAt(i);
+				
 				_selectLabel.text = listDataObject.text;
 				_selectIndex = i;
-
+				
 				break;
 			}
 
 		}
 
-		dispatchEvent(new ComboBoxEvent(ComboBoxEvent.CHANGE));
+		
 
 		// Set close flag
 		_listOpen = false;
@@ -1050,10 +1027,15 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 		clearSelected();
 
 		// Get the selected item
-		listDataObject.selected = true;
-
+		if (listDataObject != null)
+			listDataObject.selected = true;
+			
+		dispatchEvent(new ComboBoxEvent(ComboBoxEvent.CHANGE));
+		
 		draw();
 	}
+	
+
 
 	private function stageClick(event : MouseEvent) : Void
 	{
@@ -1084,125 +1066,412 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 	private function clearSelected() : Void
 	{
 		for (i in 0..._list.length)
-		{
-			cast(_list.getItemAt(i), ComboBoxObjectData).selected = false;
-		}
+			_list.getItemAt(i).selected = false;
 	}
 
 	private function removeComboList() : Void
 	{
-		// Do try to clear list if nothing is in drop down
-		if (_dropDownList.numChildren == 0)
-			return
-
-			// First remove everything out of list
-			for (i in 0..._list.length - 1 + 1)
-			{
-				var tempLabel : DisplayObject = _dropDownList.removeChild(_list.getItemAt(i).label);
-				tempLabel = null;
-			}
-
-		// Now remove drop down for display
-		removeChild(_dropDownList);
+		
+		
+		// First remove everything drop down area
+		for (i in 0 ... _labelArray.length)
+		{
+			
+			_labelArray[i].removeEventListener(MouseEvent.MOUSE_OVER, textOverEvent);
+			_labelArray[i].removeEventListener(MouseEvent.MOUSE_OUT, textOutEvent);
+			_labelArray[i].removeEventListener(MouseEvent.MOUSE_DOWN, textDownEvent);
+			_labelArray[i].removeEventListener(MouseEvent.MOUSE_UP, textUpEvent);
+			
+			_dropDownList.removeChild(_labelArray[i].displayObject);
+			
+			_labelArray[i].destroy();
+		}
+		
+		for (i in 0 ... _labelArray.length)
+			_labelArray.shift();
+			
 		removeChild(_scrollbar);
+		
 
-		if (_showOutline)
-			removeChild(_dropDownBorder);
+		if (_dropDownScrollContent != null)
+			_dropDownScrollContent.unload();
+			
+		if (_itemDropDownSize.parent != null)
+			_itemDropDownSize.parent.removeChild(_itemDropDownSize);
+		
+		_itemDropDownSize.graphics.clear();
+		_dropDownList.graphics.clear();
+		_dropDownBorder.graphics.clear();
+		
+		_scrollbar.slider.removeEventListener(SliderEvent.CHANGE, updateLabelLocation);
+		_scrollbar.destroy();
+		_scrollbar = null;
+		
+		_lastScrollPercent = _itemIndex = 0;
+		
 	}
 
 	private function createComboList() : Void
 	{
+		// Create scrollbar and setup event to keep track of labels
+		_scrollbar = new ScrollBar();
+		_scrollbar.slider.addEventListener(SliderEvent.CHANGE, updateLabelLocation, false, 0, true);
+		
+		//TODO: Figure out the buffer mode to work better
+		_itemBuffer = _list.length;//Std.int(_list.length / 2);
+		
 		// Setup drop down area
-		_dropDownList = new Sprite();
 		_dropDownList.y = _height;
-
-		for (i in 0..._list.length)
+		
+		// Get ready to create labels
+		var labelCount:Int = _itemBuffer;//(_rowCount + _itemBuffer);
+		
+		// If row count and label buffer is greater than list then set list length as label count
+		if (labelCount >= _list.length)
+			labelCount = _list.length;
+			 
+		
+		// Draw the over all size that is needed for labels
+		if (_backgroundDropImage != null && _showImage)
+			_itemDropDownSize.graphics.beginBitmapFill(_backgroundDropImage, null, true, _smoothImage);
+		else
+			_itemDropDownSize.graphics.beginFill(_backgroundColor, 1);
+			
+		_itemDropDownSize.graphics.drawRect(0, 0, (_width + SCROLLBAR_OFFSET) - _buttonWidth, (_height + _dropDownPadding) * (_list.length));
+		_itemDropDownSize.graphics.endFill();
+		
+		
+		_dropDownList.addChild(_itemDropDownSize);
+		
+		if (_rowCount >= labelCount - 1)
+			_scrollbar.visible = false;
+			
+		_itemIndex = labelCount;
+		
+		
+		// This will be used to create the label
+		var labelData:Dynamic = {"width": (_scrollbar.visible)  ? _width + SCROLLBAR_OFFSET + _scrollbar.width - _buttonWidth : _width, "height": _height + SCROLLBAR_OFFSET, "textColor": _textColor, "bitmapMode":true, "background":true};
+		
+		// Create labels
+		for (i in 0 ... labelCount)
 		{
-			// Setup text field
-			var comboLabel : Label = new Label();
-			var comboDataObj : ComboBoxObjectData = cast(_list.getItemAt(i), ComboBoxObjectData);
-			comboLabel.text = comboDataObj.text;
-			comboLabel.textColor = _textColor;
-			comboLabel.width = _width + SCROLLBAR_OFFSET + _scrollbar.width - _buttonWidth;
-			comboLabel.height = _height + SCROLLBAR_OFFSET;
-			comboLabel.background = true;
+			var comboLabel : Label = new Label(labelData);
+			
 			comboLabel.name = Std.string(i);
-
 			comboLabel.textField.setTextFormat(_textFormat);
-			comboDataObj.id = i;
-
+			
+			// If label count is less or equal to the data in the list
+			if(labelCount <= _list.length)
+				comboLabel.text = _list.getItemAt(i).text;
+			
 			if (null != _textFormat.size)
 				comboLabel.size = _textFormat.size;
-
+			  
 			if (null != _textFormat.align)
 				comboLabel.align = _textFormat.align;
-
+			  
 			if (_useEmbedFonts)
 				comboLabel.setEmbedFont(_embedFont);
-
+				
+			  
 			// Set location of item
-			comboLabel.y = (_height * i + 1) - SCROLLBAR_OFFSET;
-
-			// Keep a ref object for later
-			comboDataObj.label = comboLabel;
-
+			comboLabel.y = (_height * i) - SCROLLBAR_OFFSET;
+			
 			// Events for text fields
 			comboLabel.addEventListener(MouseEvent.MOUSE_OVER, textOverEvent, false, 0, true);
 			comboLabel.addEventListener(MouseEvent.MOUSE_OUT, textOutEvent, false, 0, true);
 			comboLabel.addEventListener(MouseEvent.MOUSE_DOWN, textDownEvent, false, 0, true);
 			comboLabel.addEventListener(MouseEvent.MOUSE_UP, textUpEvent, false, 0, true);
-
+			comboLabel.buttonMode = true;
+			
+			_labelArray.push(comboLabel);
+			
 			// Add to Drop down display
 			_dropDownList.addChild(comboLabel);
+			
 		}
-
-		if (_dropDownScrollContent != null)
-			_dropDownScrollContent.unload();
-
-		if (_rowCount >= _list.length - 1)
-			_dropDownScrollContent = new ScrollContent(_dropDownList, _scrollbar, new Rectangle(0, _height, _width + SCROLLBAR_OFFSET + (_scrollbar.width - _buttonWidth), (_height + _dropDownPadding) * (_list.length) + SCROLLBAR_OFFSET));
+		
+			
+		var mask:Shape = new Shape();
+		mask.graphics.beginFill(0, 1);
+		
+		if (labelCount < _rowCount)
+			mask.graphics.drawRect(0, 0, (_width + SCROLLBAR_OFFSET), (_height + _dropDownPadding) * (_list.length) + SCROLLBAR_OFFSET);
 		else
-			_dropDownScrollContent = new ScrollContent(_dropDownList, _scrollbar, new Rectangle(0, _height, _width + SCROLLBAR_OFFSET + (_scrollbar.width - _buttonWidth), (_height + _dropDownPadding) * (_rowCount - 1) + SCROLLBAR_OFFSET));
-
-		if (_rowCount >= _list.length - 1)
-			_scrollbar.visible = false;
-
-		// Setup scrollbar defaults
-		_scrollbar.percent = 0;
-		_scrollbar.draw();
-
+			mask.graphics.drawRect(0, 0, (_width + SCROLLBAR_OFFSET), (_height + _dropDownPadding) * (_rowCount) + SCROLLBAR_OFFSET);
+		
+		mask.graphics.endFill();
+		
+		_maskHeight = mask.height;
+		_dropDownScrollContent = new ScrollMaskContent(_dropDownList, _scrollbar, mask);		
+		
 		// Redraw outline
-		_dropDownBorder.y = _dropDownList.y;
+		_dropDownBorder.y = _scrollbar.y;
 		_dropDownBorder.graphics.clear();
-		_dropDownBorder.graphics.lineStyle(_thinkness, _outlineColor, _outlineAlpha);
-		_dropDownBorder.graphics.lineTo(0, (((_height + _dropDownPadding) * (_list.length)) - _thinkness));
-		_dropDownBorder.graphics.lineTo(_dropDownList.width, (((_height + _dropDownPadding) * (_list.length))  - _thinkness));
-		_dropDownBorder.graphics.lineTo(_dropDownList.width, 0);
-		_dropDownBorder.graphics.moveTo(0, 0);
-
-		// Drop down background
-		_dropDownList.graphics.clear();
-
-		// Show display image
-		if (_backgroundDropImage != null && _showImage)
-			_dropDownList.graphics.beginBitmapFill(_backgroundDropImage, null, true, _smoothImage);
+		
+		if (labelCount < _rowCount)
+		{
+			_dropDownBorder.graphics.lineStyle(_thinkness, _outlineColor, _outlineAlpha);
+			_dropDownBorder.graphics.lineTo(0, (((_scrollbar.height + _dropDownPadding)) - _thinkness));
+			_dropDownBorder.graphics.lineTo(_dropDownList.width, (((_scrollbar.height + _dropDownPadding))  - _thinkness));
+			_dropDownBorder.graphics.lineTo(_dropDownList.width, 0);
+			_dropDownBorder.graphics.moveTo(0, 0);
+			
+		}
 		else
-			_dropDownList.graphics.beginFill(_backgroundColor, 1);
-
-		if (_rowCount >= _list.length - 1)
-			_dropDownList.graphics.drawRect(0, 0, _width + SCROLLBAR_OFFSET + _scrollbar.width - _buttonWidth, (_height + _dropDownPadding) * _list.length);
-		else
-			_dropDownList.graphics.drawRect(0, 0, _width + SCROLLBAR_OFFSET - _buttonWidth, (_height + _dropDownPadding) * _list.length);
-
-		_dropDownList.graphics.endFill();
-
-		addChildAt(_dropDownList, 0);
-		addChildAt(_scrollbar, 1);
-
+		{
+			_dropDownBorder.graphics.lineStyle(_thinkness, _outlineColor, _outlineAlpha);
+			_dropDownBorder.graphics.lineTo(0, ((_scrollbar.height + _dropDownPadding) - _thinkness));
+			_dropDownBorder.graphics.lineTo(_dropDownList.width, ((_scrollbar.height + _dropDownPadding) - _thinkness));
+			_dropDownBorder.graphics.lineTo(_dropDownList.width, 0);
+			_dropDownBorder.graphics.moveTo(0, 0);			
+		}
+		
+		addChild(_dropDownList);
+		addChild(_scrollbar);
+		
+		
 		// Show Outline
 		if (_showOutline)
 			addChild(_dropDownBorder);
 
+	}
+	
+	
+	private function updateLabelLocation(e:SliderEvent):Void 
+	{
+		var labelShift:Bool = false;
+		var direction:String = "";
+		var shiftDirection:String = "";
+		var label:ILabel = null;
+		var lastLabel:ILabel = _labelArray[0];
+		var labelLoc:Point = new Point();
+		
+		
+		if (_lastScrollPercent > e.percent)
+			direction = "up";
+		else
+			direction = "down";
+		
+		_lastScrollPercent = e.percent;	
+		
+		for (i in 0 ... _labelArray.length)
+		{
+			var locY:Float = _dropDownList.localToGlobal(new Point(0, _labelArray[i].y)).y;
+			
+			if (direction == "down" && (locY + _labelArray[i].height) < (_height + SCROLLBAR_OFFSET) * -(_itemBuffer - _rowCount))
+			{
+				shiftDirection = "down";
+				label = _labelArray[i];
+				labelShift = true;
+				
+				
+				//trace("Hit! On Going Down!");
+				break;
+			}
+			else if (direction == "up" && (locY) >= (_height + SCROLLBAR_OFFSET) * (_itemBuffer + _rowCount))
+			{
+				
+				//TODO: This should be the item with the lowest id. How
+				shiftDirection = "up";
+				label = _labelArray[i];
+				labelShift = true;
+				
+				//trace("Hit! On Going Up!");
+				break;
+			}
+			
+		}
+		
+		for (i in 0 ... _labelArray.length)
+		{
+			// Save the highest label Y location
+			if (direction == "down")
+			{
+				if (lastLabel.y < _labelArray[i].y)
+					lastLabel = _labelArray[i];				
+			}
+			else if (direction == "up")
+			{
+				if (lastLabel.y > _labelArray[i].y && labelShift)
+				{
+					trace("Updated to -> " + _labelArray[i].name);
+					lastLabel = _labelArray[i];
+				}
+			}
+		}
+			
+		
+		if (direction == "down" && label != null && Std.parseInt(lastLabel.name) < _list.length - 1)
+		{
+			trace("Down -> Label: " + label.name + " Last Label: " + lastLabel.name + " Updated: " + (Std.parseInt(lastLabel.name) + 1));
+			var newId:Int = Std.parseInt(lastLabel.name) + 1;
+			label.name = Std.string(newId);
+			label.text = _list.getItemAt(newId).text;
+			label.y = lastLabel.y + lastLabel.height;
+		}
+		else if (direction == "up" && label != null && Std.parseInt(lastLabel.name) > 0)
+		{
+			trace("Up -> Label: " + label.name + " Last Label: " + lastLabel.name + " Updated: " + (Std.parseInt(lastLabel.name) - 1));
+			
+			var newId:Int = Std.parseInt(lastLabel.name) - 1;
+			label.name = Std.string(newId);
+			label.text = _list.getItemAt(newId).text;
+			label.y = lastLabel.y - lastLabel.height;
+		}
+			
+	}
+	
+	private function updateLabelLocationOld(e:SliderEvent):Void 
+	{
+		
+		var labelShift:Bool = false;
+		var direction:String = "";
+		var shiftDirection:String = "";
+		var label:ILabel = null;
+		var labelLoc:Point = new Point();
+		
+		if (_lastScrollPercent > e.percent)
+			direction = "up";
+		else
+			direction = "down";
+		
+		_lastScrollPercent = e.percent;
+		
+		//trace("Direction -> " + direction + " Scroll -> " + _lastScrollPercent);
+		
+		// Check the labels and see if they need to be shifted
+		for (i in 0 ... _labelArray.length)
+		{
+			var locY:Float = _dropDownList.localToGlobal(new Point(0, _labelArray[i].y)).y;
+			
+			
+			if (direction == "down")
+			{
+				if ((locY + _labelArray[i].height) < 0)
+				{
+					shiftDirection = "down";
+					label = _labelArray[i];
+					labelShift = true;
+					
+					break;
+				}
+			}
+			else 
+			{
+				
+				// Check to see if item should be grab from the top
+				if ((locY + _labelArray[i].height) < 0)
+				{
+					shiftDirection = "up";
+					label = _labelArray[i];
+					labelShift = true;
+					
+					break;
+				}
+				else if ((locY + _labelArray[i].height) > (_maskHeight) )
+				{
+					shiftDirection = "down";
+					label = _labelArray[i];
+					labelShift = true;
+					
+					break;
+				}
+				
+			}
+		}
+		
+		
+		for (i in 0 ... _labelArray.length)
+		{
+			// Save the highest label Y location
+			if (shiftDirection == "down")
+			{
+				if (labelLoc.y < _labelArray[i].y)
+					labelLoc.y = _labelArray[i].y;				
+			}
+			else if (shiftDirection == "up")
+			{
+				if (labelLoc.y >= _labelArray[i].y)
+					labelLoc.y = _labelArray[i].y;
+			}
+		}
+		
+			
+		// If more shift items to top
+		if (labelShift)
+		{
+			if (direction == "down")
+			{
+				if (_itemIndex < _list.length)
+				{
+					_itemIndex++;
+					
+					// Update the index and text location
+					label.name = Std.string(_itemIndex -1);
+					label.text = _list.getItemAt(_itemIndex -1).text;
+					label.y = labelLoc.y + label.height;
+					
+					trace(_itemIndex -1);
+					
+				}
+				
+				
+				// Shift to bottom
+				//trace("Move " + label.name + " down");
+			}
+			else
+			{
+				
+				if (shiftDirection == "up")
+				{
+					trace("Move " + label.name + " Down Rename -> " + ( _itemIndex - (_itemBuffer - 1)) );
+					
+					// Update the index and text location
+					//label.name = Std.string((_itemIndex - (_itemBuffer - 1)));
+					//label.text = "Updated Item!";//_list.getItemAt((_itemIndex - (_itemBuffer - 1))).text;
+					//label.y = labelLoc.y - label.height;
+					//
+					////_itemIndex = (_itemIndex - _rowCount);		
+					//_itemIndex--;
+					
+					//if (_itemIndex < _list.length)
+					//{
+					//	// Update the index and text location
+					//	label.name = Std.string(_itemIndex - (_itemBuffer + _rowCount) );
+					//	label.text = _list.getItemAt(_itemIndex - (_itemBuffer + _rowCount) ).text;
+					//	
+					//	//_itemIndex = (_itemIndex - _rowCount);		
+					//	_itemIndex--;
+					//	
+					//}
+					
+				}
+				else
+				{
+					
+					trace("Move " + label.name + " Up Rename -> " + (_itemIndex - 1) );
+					
+					//if (_itemIndex > 0)
+					//{
+					//	// Update the index and text location
+					//	label.name = Std.string(_itemIndex - 1);
+					//	label.text = _list.getItemAt(_itemIndex - 1).text;
+					//	label.y = labelLoc.y + label.height;
+					//	
+					//	_itemIndex--;
+					//	
+					//	
+					//	
+					//	trace(_itemIndex -1);
+					//}
+					
+				}
+				
+				
+				
+			}
+		}	
 	}
 
 
