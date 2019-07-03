@@ -44,8 +44,8 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 	
 	private var _scrollContentLoaded : Bool = false;
 	
-	private var _scrollContentH : ScrollContentBase;
-	private var _scrollContentV : ScrollContentBase;
+	private var _scrollContentH : ScrollRectContent;
+	private var _scrollContentV : ScrollRectContent;
 	private var _scrollRectH : Rectangle;
 	private var _scrollRectV : Rectangle;
 	private var _scrollBarH : IScrollBar;
@@ -68,14 +68,14 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 	private var _bgDisplayImage : Bool = false;
 	
 	
-	public function new(paneWidth : Int = 400, paneHeight : Int = 300)
+	public function new(data:Dynamic = null)
     {
-		super(paneWidth, paneHeight);
+		super(data);
 		
 		addEventListener(Event.ADDED_TO_STAGE, onStageAdd, false, 0, true);
 		addEventListener(Event.REMOVED_FROM_STAGE, onStageRemove, false, 0, true);
 		
-		init();
+		
     }
 	
 	private function onStageAdd(event : Event) : Void 
@@ -89,28 +89,30 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 	}
 	
 	
-	public function init() : Void
+	override public function initialize():Void 
 	{
-		
-		
 		_scrollBarH = new ScrollBar();
 		_scrollBarV = new ScrollBar();
+		
+		shapeBlock = new Shape();
+		_outline = new Shape();
+		
+		_contentSizeBox = new Shape();
+		_contentSizeBox.visible = false;
+		
+		super.initialize();
+		
 		_scrollBarH.slider.direction = ScrollBarDirection.HORIZONTAL; 
 		_scrollBarV.slider.direction = ScrollBarDirection.VERTICAL;
 		_scrollBarH.visible = false;
 		_scrollBarV.visible = false;
 		
-		//_backgroundShape = new Shape();
-		shapeBlock = new Shape();
-		_outline = new Shape();
 		
 		// Set background from UIBitmapManager and UIStyle Manager if need be  
 		initUISkin();
 		initStyle();
 		
 		
-		_contentSizeBox = new Shape();
-		_contentSizeBox.visible = false;
 		contentHolder.addChild(backgroundShape);
 		contentHolder.addChild(_contentSizeBox);
 		contentHolder.addChild(contentObject);
@@ -120,11 +122,9 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 		contentHolder.addChild(shapeBlock);
 		contentHolder.addChild(_outline); 
 		
-		//addChild(contentHolder);  
-		
-		draw();
-    }
+	}
 	
+
 	private function initUISkin() : Void
 	{
 		if (null != UIBitmapManager.getUIElement(ScrollPane.TYPE, UIBitmapManager.SCROLLPANE_BACKGROUND))     
@@ -450,12 +450,24 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 	*/
 	
 	public function update() : Void 
-	{ 
+	{
+		//TODO: Add mode where developer can pick between scroll rect or mask
 		// Scroll rect for width and height of the content area
 		_scrollRectH = new Rectangle(UIStyleManager.SCROLLPANE_CONTENT_OFFSET_X, UIStyleManager.SCROLLPANE_CONTENT_OFFSET_Y, _width, _height - shapeBlock.height);
 		_scrollRectV = new Rectangle(UIStyleManager.SCROLLPANE_CONTENT_OFFSET_X, UIStyleManager.SCROLLPANE_CONTENT_OFFSET_Y, _width, _height - shapeBlock.height);
 		
-		contentObject.scrollRect = null;
+		//var markH:Shape = new Shape();
+		//var markV:Shape = new Shape();
+		//
+		//markH.graphics.beginFill(0, 1);
+		//markV.graphics.beginFill(0, 1);
+		//
+		//markH.graphics.drawRect(UIStyleManager.SCROLLPANE_CONTENT_OFFSET_X, UIStyleManager.SCROLLPANE_CONTENT_OFFSET_Y, _width, _height - shapeBlock.height);
+		//markV.graphics.drawRect(UIStyleManager.SCROLLPANE_CONTENT_OFFSET_X, UIStyleManager.SCROLLPANE_CONTENT_OFFSET_Y, _width, _height - shapeBlock.height);
+		//
+		//markH.graphics.endFill();
+		//markV.graphics.endFill();
+		
 		
 		if (_scrollContentLoaded) 
 		{
@@ -466,9 +478,8 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 		_scrollBarH.slider.percent = 0;
 		_scrollBarV.slider.percent = 0;
 		
-		//TODO: Use new ScrollMaskContent
-		//_scrollContentH = new ScrollContentBase(contentObject, _scrollBarH, _scrollRectH);
-		//_scrollContentV = new ScrollContentBase(contentObject, _scrollBarV, _scrollRectV);
+		_scrollContentH = new ScrollRectContent(contentObject, _scrollBarH, _scrollRectH);
+		_scrollContentV = new ScrollRectContent(contentObject, _scrollBarV, _scrollRectV);
 		
 		contentObject.visible = _scrollContentLoaded = true;
 		

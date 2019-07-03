@@ -47,6 +47,7 @@ class BaseUI extends Sprite implements IBaseUI
 	
 	public function setComponentData(data:Dynamic):Void
 	{
+		
 		if (Reflect.hasField(data, "width"))
 			_width = Reflect.field(data, "width");
 		
@@ -62,6 +63,8 @@ class BaseUI extends Sprite implements IBaseUI
 		if (Reflect.hasField(data, "y"))
 			y = Reflect.field(data, "y");
 			
+		if (Reflect.hasField(data, "name"))
+			name = Reflect.field(data, "name");
 	}
 	
 	/**

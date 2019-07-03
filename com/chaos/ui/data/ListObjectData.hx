@@ -1,8 +1,6 @@
 package com.chaos.ui.data;
 
 
-//TODO: Update to use BaseSelectData class later
-
 /**
  * Data object for List and Select classes
  * @author Erick Feiling
@@ -12,12 +10,13 @@ package com.chaos.ui.data;
 
 
 
-import openfl.display.DisplayObject;
-import com.chaos.ui.data.BaseObjectData;
+import openfl.display.BitmapData;
 
-class ListObjectData extends BaseObjectData
+class ListObjectData extends SelectObjectData
 {
+	public var icon(get, set) :BitmapData;
    
+	private var _icon:BitmapData;
     
     /**
 	 * The object being used for the List class
@@ -28,16 +27,26 @@ class ListObjectData extends BaseObjectData
 	 * @param	itemLabel The label that will be used. If empty one will be created.
 	 */
     
-    public function new(itemText : String, value : String = "", itemSelected : Bool = false, itemIcon : DisplayObject = null)
+    public function new(id:Int = -1, itemText : String, value : String = "", itemSelected : Bool = false, itemIcon : BitmapData = null)
     {
-        super();
+        super(id, itemText, value, itemSelected);
 		
-        _text = itemText;
-        _value = value;
-        //_selected = itemSelected;
-        //_icon = itemIcon;
+        
+        _icon = itemIcon;
 		
     }
+	
+	private function set_icon(value:BitmapData):BitmapData
+	{
+		_icon = value;
+		
+		return value;
+	}
+	
+	private function get_icon():BitmapData
+	{
+		return _icon;
+	}
     
 }
 

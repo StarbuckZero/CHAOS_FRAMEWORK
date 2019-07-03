@@ -60,9 +60,10 @@ class TabPane extends ScrollPane implements ITabPane implements IScrollPane impl
 
 	private var _selectedIndex : Int = 0;
 
-	public function new(paneWidth : Int = 400, paneHeight : Int = 300)
+	public function new(data:Dynamic = null)
 	{
-		super(paneWidth, paneHeight);
+		// paneWidth : Int = 400, paneHeight : Int = 300
+		super(data);
 
 		addEventListener(Event.ADDED_TO_STAGE, onStageAdd, false, 0, true);
 		addEventListener(Event.REMOVED_FROM_STAGE, onStageRemove, false, 0, true);
@@ -74,15 +75,15 @@ class TabPane extends ScrollPane implements ITabPane implements IScrollPane impl
 
 	override private function onStageAdd(event : Event) : Void { UIBitmapManager.watchElement(TYPE, this); }
 	override private function onStageRemove(event : Event) : Void { UIBitmapManager.stopWatchElement(TYPE, this); }
-
-	override function init() : Void
+	
+	override public function initialize():Void 
 	{
-		super.init();
-
 		// setup list
 		_contentList = new DataProvider();
-
+		
+		super.initialize();
 	}
+
 
 	private function initSkin() : Void
 	{

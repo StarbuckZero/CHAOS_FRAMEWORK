@@ -116,7 +116,7 @@ class ScrollRectContent extends ScrollContentBase
 			var scrollable_v : Float = contentHeight - _content.scrollRect.height - _scrollbar.scrollAmount;
 			var sr_v : Rectangle = _content.scrollRect.clone();
 			
-			sr_v.y = scrollable_v * event.percent;
+			sr_v.y = -(scrollable_v * event.percent);
 			_content.scrollRect = sr_v;
 			
 		}
@@ -125,7 +125,7 @@ class ScrollRectContent extends ScrollContentBase
 			var scrollable_h : Float = contentWidth - _content.scrollRect.width - _scrollbar.scrollAmount;
 			var sr_h : Rectangle = _content.scrollRect.clone();
 			
-			sr_h.x = scrollable_h * event.percent;
+			sr_h.x = -(scrollable_h * event.percent);
 			
 			_content.scrollRect = sr_h;
 		}

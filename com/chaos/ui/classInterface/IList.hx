@@ -65,57 +65,7 @@ interface IList extends IScrollPane
 	
 	function unloadEmbedFont() : Void;
 	
-	/**
-	 * Appends an item to the end of the data provider.
-	 *
-	 * @param item Appends an item to the end of the data provider.
-	 *
-	 */ 
-	
-	function addItem(item : ListObjectData) : Void;
-	
-	/**
-	 * Removes the specified item from the
-	 *
-	 * @param item  Item to be removed.
-	 *
-	 */
-	
-	function removeItem(item : ListObjectData) : ListObjectData;  
-	/**
-	 * Remove all items out of the list
-	 */
-	
-	function removeAll() : Void;  
-	
-	/**
-	 * Replaces an existing item with a new item
-	 *
-	 * @param newItem The item to be replaced.
-	 * @param oldItem The replacement item.
-	 */
-		
-	function replaceItem(newItem : ListObjectData, oldItem : ListObjectData) : Void;  
-	
-	/**
-	 * Replaces the item at the specified index
-	 *
-	 * @param newItem The replacement item.
-	 * @param index The replacement item.
-	 */
-	
-	function replaceItemAt(newItem : ListObjectData, index : Int) : ListObjectData;  
-	
-	/**
-	 * Returns the item at the specified index.
-	 *
-	 * @param value Location of the item to be returned.
-	 * @return The item at the specified index.
-	 *
-	 */
-	
-	function getItemAt(value : Int) : ListObjectData;  
-	
+
 	/**
 	 * Returns the item at the selected index.
 	 *
@@ -136,9 +86,5 @@ interface IList extends IScrollPane
 	 */
 	
 	function selectIndex() : Int;  
-	/**
-	 * Returns the listed item in the list
-	 */ 
-	
-	function selectText() : String;
+
 }

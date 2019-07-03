@@ -44,6 +44,7 @@ class ListBox extends ScrollPane implements IList implements IBaseUI
 	public var allowMultipleSelection(get, set) : Bool;
 	public var textAlign(get, set) : String;
 	public var dataProvider(get, set) : DataProvider<ListObjectData>;
+	
 	private var _outlineColor : Int = 0x000000;
 	private var _outlineAlpha : Float = 1;
 	private var _list : DataProvider<ListObjectData> = new DataProvider<ListObjectData>();
@@ -61,6 +62,7 @@ class ListBox extends ScrollPane implements IList implements IBaseUI
 	private var _allowMultipleSelection : Bool = false;
 	private var _align : String = TextFormatAlign.LEFT;
 
+
 	/**
 	 * Creates a list box on the fly
 	 *
@@ -71,18 +73,39 @@ class ListBox extends ScrollPane implements IList implements IBaseUI
 	 * @eventType openfl.events.Event.CHANGE
 	 */
 	
-	public function new(listWidth : Int = 100, listHeight : Int = 100, listData : DataProvider<ListObjectData> = null)
+	public function new(data:Dynamic = null)
 	{
-		super();
+		//listWidth : Int = 100, listHeight : Int = 100, listData : DataProvider<ListObjectData> = null
+		
+		super(data);
 
 		addEventListener(Event.ADDED_TO_STAGE, onStageAdd, false, 0, true);
 		addEventListener(Event.REMOVED_FROM_STAGE, onStageRemove, false, 0, true);
 
-		_width = listWidth;
-		_height = listHeight;
-
-		if (null != listData)
-			_list = listData;
+	}
+	
+	override public function setComponentData(data:Dynamic):Void 
+	{
+		super.setComponentData(data);
+		
+		if (Reflect.hasField(data, "data"))
+		{
+			var data:Array<Dynamic> = Reflect.field(data, "data");
+			
+			for (i in 0 ... data.length)
+			{
+				var dataObj:Dynamic = data[i];
+				
+				if (Reflect.hasField(dataObj,"text") && Reflect.hasField(dataObj, "value"))
+					_list.addItem(new ListObjectData(i, Reflect.field(dataObj, "text"), Reflect.field(dataObj, "value"), (Reflect.hasField(dataObj, "selected")) ? Reflect.field(dataObj, "selected") : false));
+					
+				// Update selected item
+				if (Reflect.hasField(dataObj, "selected") && Reflect.field(dataObj, "selected"))
+					_selectIndex = i;			
+			}
+			
+		}		
+		
 	}
 
 	override private function onStageAdd(event : Event) : Void
@@ -95,13 +118,16 @@ class ListBox extends ScrollPane implements IList implements IBaseUI
 		UIBitmapManager.stopWatchElement(TYPE, this);
 	}
 
-	override function init() : Void
-	{
-		super.init();
 
+	
+	override public function initialize():Void 
+	{
 		_itemList = new Sprite();
+		
+		super.initialize();
+		
 		source = _itemList;
-		mode = ScrollPolicy.AUTO; initListStyle();
+		mode = ScrollPolicy.AUTO; 
 	}
 
 	private function initListStyle() : Void
@@ -128,14 +154,20 @@ class ListBox extends ScrollPane implements IList implements IBaseUI
 		if (null != UIStyleManager.LIST_TEXT_EMBED)
 			_font = UIStyleManager.LIST_TEXT_EMBED;
 
-		border = UIStyleManager.LIST_BORDER;
+		_border = UIStyleManager.LIST_BORDER;
 	}
 
 	/**
 	 * @inheritDoc
 	 */
 
-	override public function reskin() : Void { initListStyle(); draw(); }
+	override public function reskin() : Void 
+	{
+		super.reskin();
+		
+		initListStyle();
+		
+	}
 
 	/**
 	 * The default label color
@@ -244,100 +276,12 @@ class ListBox extends ScrollPane implements IList implements IBaseUI
 		draw();
 	}
 
-	/**
-	 * Appends an item to the end of the data provider.
-	 *
-	 * @param item Appends an item to the end of the data provider.
-	 *
-	 */
-
-	public function addItem(item : ListObjectData) : Void
-	{
-		_list.addItem(item);
-		draw();
-	}
-
-	/**
-	 * Removes the specified item from the
-	 *
-	 * @param item  Item to be removed.
-	 *
-	 */
-
-	public function removeItem(item : ListObjectData) : ListObjectData
-	{
-		var oldItem : ListObjectData = _list.removeItem(item);
-		draw();
-
-		return oldItem;
-	}
-
-	/**
-	 * Removes the item at the specified index
-	 *
-	 * @param index  The index at which the item is to be added.
-	 */
-
-	public function removeItemAt(index : Int) : Array<ListObjectData>
-	{
-		return _list.removeItemAt(index); 
-		
-	}
-
-	/**
-	 * Remove all items out of the list
-	 */
-
-	public function removeAll() : Void
-	{
-		_list.removeAll();
-		_selectIndex = -1;
-
-		draw();
-	}
 
 	/**
 	 * Make sure no items are selected
 	 */
 
 	public function clear() : Void { clearAllSelected(); }
-
-	/**
-	 * Replaces an existing item with a new item
-	 *
-	 * @param newItem The item to be replaced.
-	 * @param oldItem The replacement item.
-	 */
-
-	public function replaceItem(newItem : ListObjectData, oldItem : ListObjectData) : Void
-	{
-		draw();
-
-		return _list.replaceItem(newItem, oldItem);
-	}
-
-	/**
-	 * Replaces the item at the specified index
-	 *
-	 * @param newItem The replacement item.
-	 * @param index The replacement item.
-	 */
-
-	public function replaceItemAt(newItem : ListObjectData, index : Int) : ListObjectData
-	{
-		draw();
-
-		return _list.replaceItemAt(newItem, index);
-	}
-
-	/**
-	 * Returns the item at the specified index.
-	 *
-	 * @param value Location of the item to be returned.
-	 * @return The item at the specified index.
-	 *
-	 */
-	public function getItemAt(value : Int) : ListObjectData { return _list.getItemAt(value); }
 
 	/**
 	 * Returns the item at the selected index.
@@ -356,16 +300,16 @@ class ListBox extends ScrollPane implements IList implements IBaseUI
 	 * @return An array with selected list items
 	 */
 
-	public function getSelectedList() : Array<Dynamic>
+	public function getSelectedList() : Array<ListObjectData>
 	{
-		var selectedList : Array<Dynamic> = new Array<Dynamic>();
+		var selectedList : Array<ListObjectData> = new Array<ListObjectData>();
 
 		for (i in 0..._list.length - 1 + 1)
 		{
 			var listData : ListObjectData = _list.getItemAt(i);
 
-			//if (listData.selected)
-			//	selectedList.push(listData);
+			if (listData.selected)
+				selectedList.push(listData);
 		}
 
 		return selectedList;
@@ -428,11 +372,6 @@ class ListBox extends ScrollPane implements IList implements IBaseUI
 	public function selectIndex() : Int { return _selectIndex; }
 
 	/**
-	 * Returns the listed item in the list
-	 */
-	public function selectText() : String { return _selectText; }
-
-	/**
 	 * Replace the current data provider and rebuild the list
 	 */
 
@@ -468,6 +407,7 @@ class ListBox extends ScrollPane implements IList implements IBaseUI
 			var listBoxLabel : Label = new Label();
 			var listData : ListObjectData = _list.getItemAt(i);
 
+			listBoxLabel.name = Std.string(i);
 			listBoxLabel.text = listData.text;
 			listBoxLabel.textColor = _textColor;
 			listBoxLabel.width = width - 1;
@@ -482,8 +422,8 @@ class ListBox extends ScrollPane implements IList implements IBaseUI
 			if ( -1 != UIStyleManager.LIST_TEXT_SIZE)
 				listBoxLabel.size = UIStyleManager.LIST_TEXT_SIZE;
 
-			//if (null != listData.icon)
-			//	listBoxLabel.setDisplayIcon(CompositeManager.displayObjectToBitmap(listData.icon));
+			if (null != listData.icon)
+				listBoxLabel.setDisplayIcon(listData.icon);
 
 			if (null != _font)
 				listBoxLabel.setEmbedFont(_font);
@@ -491,20 +431,17 @@ class ListBox extends ScrollPane implements IList implements IBaseUI
 			// Set location of item
 			if (i > 0)
 			{
-				//var oldLabel : ILabel = cast(_list.getItemAt(i - 1), IBaseObjectData).label;
-				//listBoxLabel.y = oldLabel.y + oldLabel.textField.height;
+				var oldLabel : ILabel = cast(_itemList.getChildByName( Std.string( Std.int(i - 1) ) ), ILabel);
+				listBoxLabel.y = oldLabel.y + oldLabel.height;
 			}
 
-			// Keep a ref object for later
-			//listData.label = listBoxLabel;
-            //
-			//if (listData.selected == true)
-			//{
-			//	// Set background and text color
-			//	listData.label.textColor = _textSelectedColor;
-			//	listData.label.backgroundColor = _textSelectedBackground;
-			//	listData.label.background = true;
-			//}
+			if (listData.selected == true)
+			{
+				// Set background and text color
+				listBoxLabel.textColor = _textSelectedColor;
+				listBoxLabel.backgroundColor = _textSelectedBackground;
+				listBoxLabel.background = true;
+			}
 
 			// Events for text fields
 			listBoxLabel.addEventListener(MouseEvent.MOUSE_OVER, textOverEvent, false, 0, true);
@@ -513,7 +450,7 @@ class ListBox extends ScrollPane implements IList implements IBaseUI
 			listBoxLabel.addEventListener(MouseEvent.MOUSE_UP, textUpEvent, false, 0, true);
 			
 			
-			//_itemList.addChild(listData.label);
+			_itemList.addChild(listBoxLabel);
 		}
 
 	}
@@ -528,12 +465,17 @@ class ListBox extends ScrollPane implements IList implements IBaseUI
 
 		while (i > 0)
 		{
-			var tempObj : Label = cast(_itemList.removeChild( _itemList.getChildAt(i - 1) ),Label);
-
+			trace(i - 1);
+			var tempObj : Label = cast(_itemList.getChildByName(Std.string( Std.int(i - 1) ) ),Label); //cast(_itemList.removeChild( _itemList.getChildAt(i - 1) ),Label);
 			tempObj.removeEventListener(MouseEvent.MOUSE_OVER, textOverEvent);
 			tempObj.removeEventListener(MouseEvent.MOUSE_OUT, textOutEvent);
 			tempObj.removeEventListener(MouseEvent.MOUSE_DOWN, textSelectedEvent);
 			tempObj.removeEventListener(MouseEvent.MOUSE_UP, textUpEvent);
+			
+			_itemList.removeChild(tempObj);
+			tempObj.destroy();
+			tempObj = null;
+			
 			i--;
 		}
 
@@ -546,26 +488,25 @@ class ListBox extends ScrollPane implements IList implements IBaseUI
 		//TODO: Add back in support for using event.currentTarget.name once name doesn't come back null
 		for (i in 0..._list.length)
 		{
-			//var listObj:ListObjectData = _list.getItemAt(i);
-            //
-			//if (listObj.label == event.currentTarget)
-			//{
-            //
-			//	if (listObj.selected)
-			//	{
-			//		listObj.label.textColor = _textSelectedColor;
-			//		listObj.label.backgroundColor = _textSelectedBackground;
-			//		listObj.label.background = true;
-			//	}
-			//	else
-			//	{
-			//		listObj.label.textColor = _textColor;
-			//		listObj.label.backgroundColor = _backgroundColor;
-			//		listObj.label.background = false;
-            //
-			//	}
-            //
-			//}
+			var listObj:ListObjectData = _list.getItemAt(i);
+            var label:Label = cast(_itemList.getChildByName(Std.string(i)), Label);
+			
+			if (label == event.currentTarget)
+			{
+            
+				if (listObj.selected)
+				{
+					label.textColor = _textSelectedColor;
+					label.backgroundColor = _textSelectedBackground;
+					label.background = true;
+				}
+				else
+				{
+					label.textColor = _textColor;
+					label.backgroundColor = _backgroundColor;
+					label.background = false;
+				}
+			}
 		}
 
 		/*
@@ -590,17 +531,18 @@ class ListBox extends ScrollPane implements IList implements IBaseUI
 		//TODO: Add back in support for using event.currentTarget.name once name doesn't come back null
 		for (i in 0..._list.length)
 		{
-			//var listObj:ListObjectData = _list.getItemAt(i);
-            //
-			//if (listObj.label == event.currentTarget)
-			//{
-            //
-			//	listObj.label.backgroundColor = _textOverBackground;
-			//	listObj.label.textColor = _textOverColor;
-			//	listObj.label.background = true;
-            //
-			//	break;
-			//}
+			var listObj:ListObjectData = _list.getItemAt(i);
+			var label:Label = cast(_itemList.getChildByName(Std.string(i)),Label);
+            
+			if (label == event.currentTarget)
+			{
+            
+				label.backgroundColor = _textOverBackground;
+				label.textColor = _textOverColor;
+				label.background = true;
+            
+				break;
+			}
 		}
 
 		/*
@@ -619,16 +561,17 @@ class ListBox extends ScrollPane implements IList implements IBaseUI
 		//TODO: Add back in support for using event.currentTarget.name once name doesn't come back null
 		for (i in 0..._list.length)
 		{
-			//var listObj:ListObjectData = _list.getItemAt(i);
-            //
-			//if (listObj.label == event.currentTarget)
-			//{
-			//	listObj.label.textColor = _textSelectedColor;
-			//	listObj.label.backgroundColor = _textSelectedBackground;
-			//	listObj.label.background = true;
-            //
-			//	break;
-			//}
+			var listObj:ListObjectData = _list.getItemAt(i);
+            var label:Label = cast(_itemList.getChildByName(Std.string(i)), Label);
+			
+			if (label == event.currentTarget)
+			{
+				label.textColor = _textSelectedColor;
+				label.backgroundColor = _textSelectedBackground;
+				label.background = true;
+            
+				break;
+			}
 		}
 
 		/*
@@ -646,17 +589,18 @@ class ListBox extends ScrollPane implements IList implements IBaseUI
 		for (i in 0..._list.length)
 		{
 			var listObj:ListObjectData = _list.getItemAt(i);
-
-			//if (listObj.label == event.currentTarget)
-			//{
-            //
-			//	_selectText = listObj.text;
-			//	_selectIndex = i;
-            //
-			//	listObj.selected = !listObj.selected;
-            //
-			//	break;
-			//}
+			var label:Label = cast(_itemList.getChildByName(Std.string(i)), Label);
+			
+			if (label == event.currentTarget)
+			{
+            
+				_selectText = listObj.text;
+				_selectIndex = i;
+            
+				listObj.selected = !listObj.selected;
+            
+				break;
+			}
 		}
 
 		/*
@@ -674,9 +618,11 @@ class ListBox extends ScrollPane implements IList implements IBaseUI
 		for (i in 0..._list.length - 1 + 1)
 		{
 			var listData : ListObjectData = _list.getItemAt(i);
-			//listData.selected = false;
-			//listData.label.textColor = _textColor;
-			//listData.label.background = false;
+			var label:Label = cast(_itemList.getChildByName(Std.string(i)),Label);
+			listData.selected = false;
+			
+			label.textColor = _textColor;
+			label.background = false;
 		}
 	}
 }

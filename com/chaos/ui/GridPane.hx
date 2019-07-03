@@ -75,12 +75,12 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
     
     public var columnDefaultHeight : Int = 25;
     
-    private var column : DataProvider<Object> = new DataProvider<Object>();
+    private var column : DataProvider<Dynamic> = new DataProvider<Dynamic>();
     
     private var buttonHolder : Sprite = new Sprite();
     private var gridHolder : Sprite = new Sprite();
     
-    private var gridData : DataProvider<Object> = new DataProvider<Object>();
+    private var gridData : DataProvider<Dynamic> = new DataProvider<Dynamic>();
     
     private var _grid : IGridContainer = new GridContainer(1, 0);
     
@@ -118,35 +118,44 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
 	 * @param	gridHeight The height of the pane
 	 * @param	dataList List of Objects that will be used to build the grid
 	 */
-    public function new(gridWidth : Int = 400, gridHeight : Int = 300, dataList : DataProvider<Object> = null)
+	
+    public function new(data:Dynamic = null)
     {
-        super();
-        
-        init();
-        
-        if (null != dataList) 
-            gridData = dataList;
-        
-        width = gridWidth;
-        height = gridHeight;
 		
-        setGridSize(gridWidth, gridHeight);
+		//gridWidth : Int = 400, gridHeight : Int = 300, dataList : DataProvider<Object> = null
+		
+        super(data);
+        
     }
-    
-	override function init():Void 
+	
+	override public function setComponentData(data:Dynamic):Void 
 	{
-		super.init();
+		super.setComponentData(data);
+		
+		if (Reflect.hasField(data, "data"))
+		{
+			gridData = Reflect.field(data, "data");
+			setGridSize(_width, _height);
+		}
+		
+	}
+	
+	override public function initialize():Void 
+	{
+		super.initialize();
 		
 		mouseChildren = true;
         mouseEnabled = false;
         
-        _grid.width = width;
-        _grid.height = height;
+        _grid.width = _width;
+        _grid.height = _height;
         
         addChild(buttonHolder);
         
         source = _grid.displayObject;		
+		
 	}
+    
 
     
     override public function reskin() : Void
@@ -944,7 +953,7 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
 	 * @param	gridHeight The new height
 	 */
 	
-    public function setGridSize(gridWidth : Int, gridHeight : Int) : Void
+    public function setGridSize(gridWidth : Float, gridHeight : Float) : Void
     {
         _grid.width = gridWidth;
         _grid.height = gridHeight;

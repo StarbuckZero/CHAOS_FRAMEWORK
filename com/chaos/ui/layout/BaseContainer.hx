@@ -48,26 +48,46 @@ class BaseContainer extends BaseUI implements IBaseContainer implements IBaseUI
     private var _smoothImage : Bool = true;
     private var _showImage : Bool = true;
     
-    public function new(baseWidth : Int = 400, baseHeight : Int = 300)
+    public function new(data:Dynamic = null)
     {
-        super();
+        super(data);
 		
-        _width = baseWidth;
-        _height = baseHeight;
+        //_width = baseWidth;
+        //_height = baseHeight;
         
+        
+    }
+	
+	override public function initialize():Void 
+	{
         contentHolder = new Sprite();
         
         backgroundShape = new Shape();
         contentObject = new Sprite();
-        
+		
+		super.initialize();
+		
         contentHolder.addChild(backgroundShape);
         contentHolder.addChild(contentObject);
         
         addChild(contentHolder);
         
-        draw();
 		
-    }
+	}
+	
+	override public function setComponentData(data:Dynamic):Void 
+	{
+		super.setComponentData(data);
+		
+		if (Reflect.hasField(data, "backgroundAlpha"))
+			_backgroundAlpha = Reflect.field(data, "backgroundAlpha");
+			
+		if (Reflect.hasField(data, "backgroundColor"))
+			_backgroundColor = Reflect.field(data, "backgroundColor");
+			
+		if (Reflect.hasField(data, "background"))
+			_background = Reflect.field(data, "background");
+	}
 	
 	
     /**
