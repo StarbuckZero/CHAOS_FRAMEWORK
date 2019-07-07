@@ -8,6 +8,8 @@ import openfl.display.DisplayObject;
 
 interface IScrollPane extends IBaseContainer
 {
+
+
     /**
 	 * Returns the bottom horizontal scrollbar being used
 	 */

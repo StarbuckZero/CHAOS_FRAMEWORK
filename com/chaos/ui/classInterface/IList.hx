@@ -10,6 +10,19 @@ import com.chaos.data.DataProvider;
 interface IList extends IScrollPane
 {
     /**
+	 * Outline color
+	 */
+
+	var outlineColor(get, set) : Int;
+
+    /**
+	 * Outline alpha
+	 */
+
+
+	var outlineAlpha(get, set) : Float;
+
+    /**
 	 * Set the align on all the labels
 	 */
 	

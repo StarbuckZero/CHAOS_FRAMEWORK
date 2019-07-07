@@ -37,6 +37,8 @@ class ListBox extends ScrollPane implements IList implements IBaseUI
 	/** The type of UI Element */
 	public static inline var TYPE : String = "ListBox";
 
+	public var outlineColor(get, set) : Int;
+	public var outlineAlpha(get, set) : Float;
 	public var textColor(get, set) : Int;
 	public var textOverColor(get, set) : Int;
 	public var textSelectedColor(get, set) : Int;
@@ -64,11 +66,9 @@ class ListBox extends ScrollPane implements IList implements IBaseUI
 
 
 	/**
-	 * Creates a list box on the fly
+	 * Creates a ListBox on the fly
 	 *
-	 * @param	listWidth The width of the list
-	 * @param	listHeight The height of the list
-	 * @param	listData a list of data objects
+	 * @param	data pass in data list plus width, height and etc.
 	 *
 	 * @eventType openfl.events.Event.CHANGE
 	 */
@@ -104,7 +104,35 @@ class ListBox extends ScrollPane implements IList implements IBaseUI
 					_selectIndex = i;			
 			}
 			
-		}		
+		}
+
+		
+		if (Reflect.hasField(data, "textColor"))
+			_textColor = Reflect.field(data,"textColor");
+		
+		if (Reflect.hasField(data, "textOverColor"))
+			_textOverColor = Reflect.field(data,"textOverColor");
+
+		if (Reflect.hasField(data, "textSelectedColor"))
+			_textSelectedColor = Reflect.field(data,"textSelectedColor");
+
+		if (Reflect.hasField(data, "textOverBackground"))
+			_textOverBackground = Reflect.field(data,"textOverBackground");
+
+		if (Reflect.hasField(data, "allowMultipleSelection"))
+			_allowMultipleSelection = Reflect.field(data,"allowMultipleSelection");
+
+		if (Reflect.hasField(data, "align"))
+			_align = Reflect.field(data,"align");
+
+		if (Reflect.hasField(data, "outlineColor"))
+			_outlineColor = Reflect.field(data,"outlineColor");
+
+		if (Reflect.hasField(data, "outlineAlpha"))
+			_outlineAlpha = Reflect.field(data,"outlineAlpha");
+
+			
+
 		
 	}
 
@@ -179,6 +207,29 @@ class ListBox extends ScrollPane implements IList implements IBaseUI
 		draw();
 
 		return value;
+	}
+
+	private function set_outlineAlpha(value:Float) : Float 
+	{
+		_outlineAlpha = value;
+		return value;
+	}
+
+	private function get_outlineAlpha() : Float 
+	{
+		return _outlineAlpha;
+	}
+
+	private function set_outlineColor( value:Int ) : Int 
+	{
+		_outlineColor = value;
+		return _outlineColor;
+	}
+
+
+	private function get_outlineColor() : Int
+	{
+		return _outlineColor;
 	}
 
 	/**

@@ -19,7 +19,7 @@ import com.chaos.media.DisplayImage;
 import openfl.utils.Object;
 
 /**
- *  A list of containers for loading in swf and images plus displaying content based on what button is pressed
+ *  A list of containers for displaying content based on what button is pressed
  *
  *  @author Erick Feiling
  *  @date 11-19-09

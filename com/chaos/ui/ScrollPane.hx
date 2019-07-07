@@ -14,7 +14,7 @@ import com.chaos.ui.ScrollPolicy;
 import com.chaos.ui.layout.BaseContainer;
 
 /** 
-*  A container for loading in swf and images
+*  A container for loading in DisplayObject
 *
 *  @author Erick Feiling
 *  @date 11-19-09  
@@ -51,16 +51,11 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 	private var _scrollBarH : IScrollBar;
 	private var _scrollBarV : IScrollBar;
 	private var _contentSizeBox : Shape;
+	private var _mask : Shape;
 	
 	// This is used for the real size  
 	private var _outline : Shape;
 	
-	
-	private var _trackerColor : Int = 0x999999;
-	private var _sliderNormalColor : Int = 0xCCCCCC;
-	private var _sliderOverColor : Int = 0x666666;
-	private var _sliderDownColor : Int = 0x333333;
-	private var _shapeBlockColor : Int = 0xCCCCCC;
 	private var _border : Bool = false;
 	private var _thinkness : Float = 1;
 	private var _borderColor : Int = 0x000000;
@@ -87,6 +82,27 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 	{
 		UIBitmapManager.stopWatchElement(TYPE, this);
 	}
+
+	override function setComponentData(data:Dynamic) 
+	{
+		super.setComponentData(data);
+
+		if(Reflect.hasField(data,"border"))
+			_border = Reflect.field(data,"border");
+
+		if(Reflect.hasField(data,"thinkness"))
+			_thinkness = Reflect.field(data,"thinkness");
+
+		if(Reflect.hasField(data,"borderColor"))
+			_borderColor = Reflect.field(data,"borderColor");
+
+		if(Reflect.hasField(data,"borderAlpha"))
+			_borderAlpha = Reflect.field(data,"borderAlpha");
+
+		if(Reflect.hasField(data,"mode"))
+			_mode = Reflect.field(data,"mode");
+
+	}
 	
 	
 	override public function initialize():Void 
@@ -99,6 +115,9 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 		
 		_contentSizeBox = new Shape();
 		_contentSizeBox.visible = false;
+
+		_mask = new Shape();
+
 		
 		super.initialize();
 		
@@ -112,7 +131,8 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 		initUISkin();
 		initStyle();
 		
-		
+		mask = _mask;
+
 		contentHolder.addChild(backgroundShape);
 		contentHolder.addChild(_contentSizeBox);
 		contentHolder.addChild(contentObject);
@@ -192,83 +212,6 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 		return super.backgroundColor; 
 	}
 	
-	
-	/**
-	* Set the color of the track
-	*/
-	
-	private function set_trackColor(value : Int) : Int 
-	{ 
-		_scrollBarV.slider.trackColor = _scrollBarH.slider.trackColor = _trackerColor = value;
-		return value;
-	}
-		
-	
-	/**
-	* Returns the color of the track
-	*/
-	private function get_trackColor() : Int 
-	{
-		return _trackerColor; 
-	} 
-	
-	
-	/**
-	* Set the color of the slider
-	*/
-	private function set_sliderColor(value : Int) : Int 
-	{ 
-		_scrollBarV.slider.sliderColor = _scrollBarH.slider.sliderColor = _sliderNormalColor = value;
-		return value;
-	}
-		
-	/**
-	* Returns the color slider 
-	*/
-	private function get_sliderColor() : Int 
-	{ 
-		return _sliderNormalColor;
-	}
-		
-	
-	/**
-	* Set the color of the slider over state
-	*/
-	
-	private function set_sliderOverColor(value : Int) : Int 
-	{ 
-		_scrollBarV.slider.sliderOverColor = _scrollBarH.slider.sliderOverColor = _sliderOverColor = value;
-		return value;
-	}
-		
-	
-	/**
-	* Returns the color
-	*/
-	
-	private function get_sliderOverColor() : Int 
-	{ 
-		return _sliderOverColor; 
-	} 
-		
-	
-	/**
-	* Set the color of the slider down state
-	*/ 
-	
-	private function set_sliderDownColor(value : Int) : Int 
-	{ 
-		_scrollBarV.slider.sliderDownColor = _scrollBarH.slider.sliderDownColor = _sliderDownColor = value;
-		return value;
-	}
-		
-	
-	/**
-	* Returns the color
-	*/
-	
-	private function get_sliderDownColor() : Int { return _sliderDownColor; }  
-		
 	
 	/**
 	* Toggle on and off border
@@ -504,6 +447,11 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 		
 		shapeBlock.graphics.drawRect(0, 0, _scrollBarH.buttonWidth, _scrollBarH.buttonHeight);
 		shapeBlock.graphics.endFill();
+
+		_mask.graphics.clear();
+		_mask.graphics.beginFill();
+		_mask.graphics.drawRect(0,0,_width,_height);
+		_mask.graphics.endFill();
 		
 		_outline.graphics.clear();  
 		
