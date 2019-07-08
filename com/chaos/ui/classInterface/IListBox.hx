@@ -7,7 +7,7 @@ import openfl.text.Font;
 
 import com.chaos.data.DataProvider;
 
-interface IList extends IScrollPane
+interface IListBox extends IScrollPane
 {
     /**
 	 * Outline color
