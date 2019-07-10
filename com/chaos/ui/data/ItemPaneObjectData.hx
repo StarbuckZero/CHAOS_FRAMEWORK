@@ -9,41 +9,32 @@ package com.chaos.ui.data;
 
 
 
+import com.chaos.ui.ItemPaneButton;
 import com.chaos.ui.classInterface.IToggleButton;
-import openfl.display.DisplayObject;
+import openfl.display.BitmapData;
+
 
 import com.chaos.ui.Label;
 
 
 
-class ItemPaneObjectData 
+class ItemPaneObjectData extends SelectObjectData
 {
-    public var name(get, set) : String;
-    public var text(get, set) : String;
-    public var value(get, set) : String;
     public var toolTipText(get, set) : String;
-    public var selected(get, set) : Bool;
-    public var item(get, set) : DisplayObject;
-    public var label(get, set) : Label;
-    public var icon(get, set) : DisplayObject;
-    public var id(get, set) : Int;
-    public var itemButton(get, set) : IToggleButton;
+    public var item(get, set) : BitmapData;
+    public var icon(get, set) : BitmapData;
+    public var itemButton(get, set) : ItemPaneButton;
 
-    private var _itemButton : IToggleButton;
+    private var _itemButton : ItemPaneButton;
     
-    private var _name : String = "";
-    private var _id : Int = -1;
-    private var _text : String = "label";
-    private var _value : String = "";
+    
     private var _toolTipText : String = "";
-    private var _selected : Bool = false;
-    private var _item : DisplayObject = null;
-    private var _label : Label = null;
-    private var _icon : DisplayObject = null;
+    private var _item : BitmapData = null;
+    private var _icon : BitmapData = null;
     
     /**
 	 * The ItemPanel DisplayObject
-	 *
+	 * @param	id The id for the item
 	 * @param	itemText The object text if the labels is being displayed
 	 * @param	toolTipText The tool-tip text. If nothing is set then no tool-tip will be displayed.
 	 * @param	itemSelected If the object is already selected or not
@@ -51,64 +42,18 @@ class ItemPaneObjectData
 	 * @param	itemIcon An icon that can be displayed
 	 */
     
-    public function new(itemText : String = "", value : String = "", toolTipText : String = "", itemSelected : Bool = false, item : DisplayObject = null, itemIcon : DisplayObject = null)
+    public function new( id:Int = -1, itemText : String = "", value : String = "", toolTipText : String = "", itemSelected : Bool = false, item : BitmapData = null, itemIcon : BitmapData = null)
     {
-        _text = itemText;
-        _value = value;
+		super(id, itemText, value, itemSelected);
+		
+		
         _toolTipText = toolTipText;
         _selected = itemSelected;
         _item = item;
         _icon = itemIcon;
     }
     
-    private function set_name(value : String) : String
-    {
-        _name = value;
-        return value;
-    }
-    
-    private function get_name() : String
-    {
-        return _name;
-    }
-    
-    /**
-	 * The object text if the labels is being displayed
-	 */
-    
-    private function set_text(value : String) : String
-    {
-        _text = value;
-        return value;
-    }
-    
-    /**
-	 * Return the text that is being used
-	 */
-    
-    private function get_text() : String
-    {
-        return _text;
-    }
-    
-    /**
-	 * The object value
-	 */
-    
-    private function set_value(value : String) : String
-    {
-        _value = value;
-        return value;
-    }
-    
-    /**
-	 * Return the value that is being used
-	 */
-    
-    private function get_value() : String
-    {
-        return _value;
-    }
+   
     
     /**
 	 * Set the tool-tip
@@ -129,28 +74,12 @@ class ItemPaneObjectData
         return _toolTipText;
     }
     
-    /**
-	 * Set if the object is selected or not
-	 */
-    private function set_selected(value : Bool) : Bool
-    {
-        _selected = value;
-        return value;
-    }
-    
-    /**
-	 * Return if object is selected or not
-	 */
-    private function get_selected() : Bool
-    {
-        return _selected;
-    }
     
     /**
 	 * Set the item
 	 */
     
-    private function set_item(value : DisplayObject) : DisplayObject
+    private function set_item(value : BitmapData) : BitmapData
     {
         _item = value;
         return value;
@@ -160,35 +89,18 @@ class ItemPaneObjectData
 	 * Return the DisplayObject being used
 	 */
     
-    private function get_item() : DisplayObject
+    private function get_item() : BitmapData
     {
         return _item;
     }
     
-    /**
-	 * Set the label being used.
-	 */
-    
-    private function set_label(value : Label) : Label
-    {
-        _label = value;
-        return value;
-    }
-    
-    /**
-	 * Return the label
-	 */
-    
-    private function get_label() : Label
-    {
-        return _label;
-    }
+  
     
     /**
 	 * Set the icon being used
 	 */
     
-    private function set_icon(value : DisplayObject) : DisplayObject
+    private function set_icon(value : BitmapData) : BitmapData
     {
         _icon = value;
         return value;
@@ -198,35 +110,17 @@ class ItemPaneObjectData
 	 * Return the icon
 	 */
     
-    private function get_icon() : DisplayObject
+    private function get_icon() : BitmapData
     {
         return _icon;
     }
     
-    /**
-	 * Set the id
-	 */
-    
-    private function set_id(value : Int) : Int
-    {
-        _id = value;
-        return value;
-    }
-    
-    /**
-	 * Return the id
-	 */
-    
-    private function get_id() : Int
-    {
-        return _id;
-    }
     
     /**
 	 * Set the button being used
 	 */
     
-    private function set_itemButton(value : IToggleButton) : IToggleButton
+    private function set_itemButton(value : ItemPaneButton) : ItemPaneButton
     {
         _itemButton = value;
         return value;
@@ -236,7 +130,7 @@ class ItemPaneObjectData
 	 * Return the toggle button being used
 	 */
     
-    private function get_itemButton() : IToggleButton
+    private function get_itemButton() : ItemPaneButton
     {
         return _itemButton;
     }

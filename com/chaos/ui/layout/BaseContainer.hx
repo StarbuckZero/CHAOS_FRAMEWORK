@@ -67,8 +67,8 @@ class BaseContainer extends BaseUI implements IBaseContainer implements IBaseUI
 		
 		super.initialize();
 		
-        contentHolder.addChild(backgroundShape);
-        contentHolder.addChild(contentObject);
+        addChild(backgroundShape);
+        addChild(contentObject);
         
         addChild(contentHolder);
         

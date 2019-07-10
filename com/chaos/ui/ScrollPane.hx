@@ -22,6 +22,10 @@ import com.chaos.ui.layout.BaseContainer;
 
 class ScrollPane extends BaseContainer implements IScrollPane implements IBaseContainer
 {
+	public static inline var TYPE : String = "ScrollPane";
+	
+	private static inline var RECT_MODE : String = "rect";
+	private static inline var MASK_MODE : String = "mask";
 	
     public var borderThinkness(get, set) : Float;
     public var border(get, set) : Bool;
@@ -34,20 +38,18 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
     
     public var mode(get, set) : String;
 	
-	public static inline var TYPE : String = "ScrollPane";
-	
 	public var shapeBlock : Shape;
 	
-	private var _totalBytes : Float;
 	private var _mode : String = ScrollPolicy.AUTO;
-	
+	private var _scrollContentType:String = RECT_MODE;
 	
 	private var _scrollContentLoaded : Bool = false;
 	
-	private var _scrollContentH : ScrollRectContent;
-	private var _scrollContentV : ScrollRectContent;
+	private var _scrollContentH : ScrollContentBase;
+	private var _scrollContentV : ScrollContentBase;
 	private var _scrollRectH : Rectangle;
 	private var _scrollRectV : Rectangle;
+	private var _scrollMask : Shape;
 	private var _scrollBarH : IScrollBar;
 	private var _scrollBarV : IScrollBar;
 	private var _contentSizeBox : Shape;
@@ -63,13 +65,13 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 	private var _bgDisplayImage : Bool = false;
 	
 	
+	
 	public function new(data:Dynamic = null)
     {
 		super(data);
 		
 		addEventListener(Event.ADDED_TO_STAGE, onStageAdd, false, 0, true);
 		addEventListener(Event.REMOVED_FROM_STAGE, onStageRemove, false, 0, true);
-		
 		
     }
 	
@@ -100,7 +102,13 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 			_borderAlpha = Reflect.field(data,"borderAlpha");
 
 		if(Reflect.hasField(data,"mode"))
-			_mode = Reflect.field(data,"mode");
+			_mode = Reflect.field(data, "mode");
+			
+		if (Reflect.hasField(data, "scrollContentType"))
+		{
+			if (Reflect.field(data, "scrollContentType") == RECT_MODE || Reflect.field(data, "scrollContentType") == MASK_MODE)
+				_scrollContentType = Reflect.field(data, "scrollContentType");
+		}
 
 	}
 	
@@ -112,6 +120,8 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 		
 		shapeBlock = new Shape();
 		_outline = new Shape();
+		
+		_scrollMask = new Shape();
 		
 		_contentSizeBox = new Shape();
 		_contentSizeBox.visible = false;
@@ -131,16 +141,13 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 		initUISkin();
 		initStyle();
 		
-		mask = _mask;
-
-		contentHolder.addChild(backgroundShape);
-		contentHolder.addChild(_contentSizeBox);
-		contentHolder.addChild(contentObject);
-		contentHolder.addChild(_scrollBarH.displayObject);
-		contentHolder.addChild(_scrollBarV.displayObject);
-		
-		contentHolder.addChild(shapeBlock);
-		contentHolder.addChild(_outline); 
+		//addChild(backgroundShape);
+		addChild(_contentSizeBox);
+		//addChild(contentObject);
+		addChild(shapeBlock);
+		addChild(_outline); 
+		addChild(_scrollBarH.displayObject);
+		addChild(_scrollBarV.displayObject);
 		
 	}
 	
@@ -197,7 +204,7 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 	*/
 	override private function set_backgroundColor(value : Int) : Int 
 	{
-		super.backgroundColor = value;
+		_backgroundColor = value;
 		draw();
 		
 		return value;
@@ -317,17 +324,17 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 		return null;
 		
 		// Unload if something has been loaded because scroll content has been set  
-		_scrollBarH.slider.percent = 0;
-		_scrollBarV.slider.percent = 0;
-		
-		if (_scrollContentLoaded)
-		{
-			_scrollContentH.unload();
-			_scrollContentV.unload();
-        }
+		//_scrollBarH.slider.percent = 0;
+		//_scrollBarV.slider.percent = 0;
+		//
+		//if (_scrollContentLoaded)
+		//{
+		//	_scrollContentH.unload();
+		//	_scrollContentV.unload();
+        //}
 		
 		_contentSizeBox.graphics.clear();
-		_contentSizeBox.graphics.beginFill(backgroundColor);
+		_contentSizeBox.graphics.beginFill(_backgroundColor);
 		_contentSizeBox.graphics.drawRect(0, 0, value.width, value.height);
 		_contentSizeBox.graphics.endFill();
 		
@@ -365,26 +372,27 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 		
 		// Pull content out of display clip
 		var tempClip : DisplayObject = contentObject.getChildAt(0);
-		contentObject.removeChild(tempClip);
+		//contentObject.removeChild(tempClip);
 		
 		// Redraw the content size blog based on display object removed
 		_contentSizeBox.graphics.clear();
-		_contentSizeBox.graphics.beginFill(super.backgroundColor);
+		_contentSizeBox.graphics.beginFill(_backgroundColor);
 		_contentSizeBox.graphics.drawRect(0, 0, tempClip.width, tempClip.height);
 		_contentSizeBox.graphics.endFill();
 		
 		// Update Scrollbar
-		contentObject = new Sprite();
-		contentObject.addChild(tempClip);
-		contentHolder.addChild(backgroundShape);
-		contentHolder.addChild(_contentSizeBox);
-		contentHolder.addChild(contentObject);
+		//contentObject = new Sprite();
+		//contentObject.addChild(tempClip);
+		//contentHolder.addChild(backgroundShape);
+		//contentHolder.addChild(_contentSizeBox);
+		//contentHolder.addChild(contentObject);
 		contentHolder.addChild(_scrollBarH.displayObject);
 		contentHolder.addChild(_scrollBarV.displayObject);
 		contentHolder.addChild(_outline);
-		contentHolder.addChild(shapeBlock);
+		//contentHolder.addChild(shapeBlock);
 		
 		update();
+		//draw();
     }
 
 	
@@ -394,23 +402,6 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 	
 	public function update() : Void 
 	{
-		//TODO: Add mode where developer can pick between scroll rect or mask
-		// Scroll rect for width and height of the content area
-		_scrollRectH = new Rectangle(UIStyleManager.SCROLLPANE_CONTENT_OFFSET_X, UIStyleManager.SCROLLPANE_CONTENT_OFFSET_Y, _width, _height - shapeBlock.height);
-		_scrollRectV = new Rectangle(UIStyleManager.SCROLLPANE_CONTENT_OFFSET_X, UIStyleManager.SCROLLPANE_CONTENT_OFFSET_Y, _width, _height - shapeBlock.height);
-		
-		//var markH:Shape = new Shape();
-		//var markV:Shape = new Shape();
-		//
-		//markH.graphics.beginFill(0, 1);
-		//markV.graphics.beginFill(0, 1);
-		//
-		//markH.graphics.drawRect(UIStyleManager.SCROLLPANE_CONTENT_OFFSET_X, UIStyleManager.SCROLLPANE_CONTENT_OFFSET_Y, _width, _height - shapeBlock.height);
-		//markV.graphics.drawRect(UIStyleManager.SCROLLPANE_CONTENT_OFFSET_X, UIStyleManager.SCROLLPANE_CONTENT_OFFSET_Y, _width, _height - shapeBlock.height);
-		//
-		//markH.graphics.endFill();
-		//markV.graphics.endFill();
-		
 		
 		if (_scrollContentLoaded) 
 		{
@@ -418,11 +409,25 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 			_scrollContentV.unload();
         }
 		
+		// Set things based on scroll mode
+		if (_scrollContentType == RECT_MODE)
+		{
+			_scrollRectH = new Rectangle(UIStyleManager.SCROLLPANE_CONTENT_OFFSET_X, UIStyleManager.SCROLLPANE_CONTENT_OFFSET_Y, _width, _height - shapeBlock.height);
+			_scrollRectV = new Rectangle(UIStyleManager.SCROLLPANE_CONTENT_OFFSET_X, UIStyleManager.SCROLLPANE_CONTENT_OFFSET_Y, _width, _height - shapeBlock.height);
+			
+			_scrollContentH = new ScrollRectContent(contentObject, _scrollBarH, _scrollRectH);
+			_scrollContentV = new ScrollRectContent(contentObject, _scrollBarV, _scrollRectV);
+			
+		}
+		else if (_scrollContentType == MASK_MODE)
+		{
+			_scrollContentH = new ScrollMaskContent(contentObject, _scrollBarH, _scrollMask);
+			_scrollContentV = new ScrollMaskContent(contentObject, _scrollBarV, _scrollMask);
+		}
+		
+		
 		_scrollBarH.slider.percent = 0;
 		_scrollBarV.slider.percent = 0;
-		
-		_scrollContentH = new ScrollRectContent(contentObject, _scrollBarH, _scrollRectH);
-		_scrollContentV = new ScrollRectContent(contentObject, _scrollBarV, _scrollRectV);
 		
 		contentObject.visible = _scrollContentLoaded = true;
 		
@@ -447,11 +452,31 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 		
 		shapeBlock.graphics.drawRect(0, 0, _scrollBarH.buttonWidth, _scrollBarH.buttonHeight);
 		shapeBlock.graphics.endFill();
-
+		
 		_mask.graphics.clear();
-		_mask.graphics.beginFill();
-		_mask.graphics.drawRect(0,0,_width,_height);
-		_mask.graphics.endFill();
+		
+		
+		// Scroll mask if mode is enabled
+		_scrollMask.graphics.clear();
+		
+		if (_scrollContentType == RECT_MODE)
+		{
+			// Over all mask
+			_mask.graphics.beginFill();
+			_mask.graphics.drawRect(0, 0, _width, _height);
+			_mask.graphics.endFill();
+			
+			mask = _mask;
+		}
+		else if (_scrollContentType == MASK_MODE)
+		{
+			_scrollMask.graphics.beginFill(0, 1);
+			_scrollMask.graphics.drawRect(UIStyleManager.SCROLLPANE_CONTENT_OFFSET_X, UIStyleManager.SCROLLPANE_CONTENT_OFFSET_Y, (_scrollBarH.visible) ? _width - shapeBlock.width : _width, (_scrollBarV.visible) ? _height : _height - _scrollBarV.buttonHeight);
+			_scrollMask.graphics.endFill();
+			
+			mask = null;
+		}
+		
 		
 		_outline.graphics.clear();  
 		
@@ -556,7 +581,7 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 						_scrollBarV.height = _height - UIStyleManager.SCROLLPANE_CONTENT_HEIGHT_OFFSET;
 					
 					// Move to a safe place
-					shapeBlock.x =  shapeBlock.y = 0;
+					shapeBlock.x = shapeBlock.y = 0;
 				}
 				
 			}

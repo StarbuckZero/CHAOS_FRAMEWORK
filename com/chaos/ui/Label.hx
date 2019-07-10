@@ -164,9 +164,7 @@ class Label extends BaseUI implements ILabel implements IBaseUI
 			addChild(_textImage);
 		else
 			addChild(_textField);
-		
-		
-		reskin();
+
 	}
 	
 	

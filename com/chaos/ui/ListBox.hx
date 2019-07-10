@@ -4,7 +4,7 @@ import com.chaos.ui.data.BaseObjectData;
 
 import com.chaos.ui.classInterface.IBaseUI;
 import com.chaos.ui.classInterface.ILabel;
-import com.chaos.ui.classInterface.IList;
+import com.chaos.ui.classInterface.IListBox;
 import com.chaos.ui.data.ItemPaneObjectData;
 import com.chaos.ui.data.ListObjectData;
 import com.chaos.utils.CompositeManager;
@@ -31,7 +31,7 @@ import com.chaos.ui.UIBitmapManager;
  * @date 7-12-2008
  */
 
-class ListBox extends ScrollPane implements IList implements IBaseUI
+class ListBox extends ScrollPane implements IListBox implements IBaseUI
 {
 
 	/** The type of UI Element */
@@ -451,24 +451,22 @@ class ListBox extends ScrollPane implements IList implements IBaseUI
 
 		// Remove old one
 		removeList();
-
+		
+		// Create data object for common use values for when label is created
+		var labelData:Dynamic = {"textColor":_textColor, "background":false, "align":_align, "width":width - 1};
+		
 		for (i in 0..._list.length)
 		{
 			// Setup text field
-			var listBoxLabel : Label = new Label();
 			var listData : ListObjectData = _list.getItemAt(i);
-
-			listBoxLabel.name = Std.string(i);
-			listBoxLabel.text = listData.text;
-			listBoxLabel.textColor = _textColor;
-			listBoxLabel.width = width - 1;
-			listBoxLabel.background = false;
-			listBoxLabel.name = Std.string(i);
-			listBoxLabel.textColor = _textColor;
+			Reflect.setField(labelData, "name", Std.string(i));
+			Reflect.setField(labelData, "text", listData.text);
+			
+			var listBoxLabel : Label = new Label(labelData);
 			listBoxLabel.textField.autoSize = "left";
-			listBoxLabel.align = _align;
 			listBoxLabel.textFormat.bold = UIStyleManager.LIST_TEXT_BOLD;
 			listBoxLabel.textFormat.italic = UIStyleManager.LIST_TEXT_ITALIC;
+			listBoxLabel.draw();
 
 			if ( -1 != UIStyleManager.LIST_TEXT_SIZE)
 				listBoxLabel.size = UIStyleManager.LIST_TEXT_SIZE;
@@ -493,7 +491,7 @@ class ListBox extends ScrollPane implements IList implements IBaseUI
 				listBoxLabel.backgroundColor = _textSelectedBackground;
 				listBoxLabel.background = true;
 			}
-
+			
 			// Events for text fields
 			listBoxLabel.addEventListener(MouseEvent.MOUSE_OVER, textOverEvent, false, 0, true);
 			listBoxLabel.addEventListener(MouseEvent.MOUSE_OUT, textOutEvent, false, 0, true);
@@ -516,91 +514,51 @@ class ListBox extends ScrollPane implements IList implements IBaseUI
 
 		while (i > 0)
 		{
-			trace(i - 1);
-			var tempObj : Label = cast(_itemList.getChildByName(Std.string( Std.int(i - 1) ) ),Label); //cast(_itemList.removeChild( _itemList.getChildAt(i - 1) ),Label);
+			
+			var tempObj : Label = cast(_itemList.getChildByName(Std.string( Std.int(i - 1) ) ),Label);
 			tempObj.removeEventListener(MouseEvent.MOUSE_OVER, textOverEvent);
 			tempObj.removeEventListener(MouseEvent.MOUSE_OUT, textOutEvent);
 			tempObj.removeEventListener(MouseEvent.MOUSE_DOWN, textSelectedEvent);
 			tempObj.removeEventListener(MouseEvent.MOUSE_UP, textUpEvent);
 			
 			_itemList.removeChild(tempObj);
+			
 			tempObj.destroy();
 			tempObj = null;
 			
 			i--;
 		}
 
-		source = _itemList;
 	}
 
 	private function textOutEvent(event : MouseEvent) : Void
 	{
-
-		//TODO: Add back in support for using event.currentTarget.name once name doesn't come back null
-		for (i in 0..._list.length)
+		var label:Label = cast(event.currentTarget, Label);
+		
+		if (_list.getItemAt(Std.parseInt(label.name)).selected == true)
 		{
-			var listObj:ListObjectData = _list.getItemAt(i);
-            var label:Label = cast(_itemList.getChildByName(Std.string(i)), Label);
-			
-			if (label == event.currentTarget)
-			{
-            
-				if (listObj.selected)
-				{
-					label.textColor = _textSelectedColor;
-					label.backgroundColor = _textSelectedBackground;
-					label.background = true;
-				}
-				else
-				{
-					label.textColor = _textColor;
-					label.backgroundColor = _backgroundColor;
-					label.background = false;
-				}
-			}
-		}
-
-		/*
-		if (_list.getItemAt(Std.parseInt(event.currentTarget.name)).selected == true)
-		{
-			event.currentTarget.textColor = _textSelectedColor;
-			event.currentTarget.backgroundColor = _textSelectedBackground;
-			event.currentTarget.background = true;
+			label.textColor = _textSelectedColor;
+			label.backgroundColor = _textSelectedBackground;
+			label.background = true;
 		}
 		else
 		{
-			event.currentTarget.textColor = _textColor;
-			event.currentTarget.backgroundColor = _backgroundColor;
-			event.currentTarget.background = false;
+			label.textColor = _textColor;
+			label.backgroundColor = _backgroundColor;
+			label.background = false;
 		}
-		*/
+		
 	}
 
 	private function textOverEvent(event : MouseEvent) : Void
 	{
-
-		//TODO: Add back in support for using event.currentTarget.name once name doesn't come back null
-		for (i in 0..._list.length)
-		{
-			var listObj:ListObjectData = _list.getItemAt(i);
-			var label:Label = cast(_itemList.getChildByName(Std.string(i)),Label);
-            
-			if (label == event.currentTarget)
-			{
-            
-				label.backgroundColor = _textOverBackground;
-				label.textColor = _textOverColor;
-				label.background = true;
-            
-				break;
-			}
-		}
-
-		/*
-		event.currentTarget.backgroundColor = _textOverBackground;
-		event.currentTarget.textColor = _textOverColor;
-		event.currentTarget.background = true;
-		*/
+		
+		var label:Label = cast(event.currentTarget, Label);
+		
+		label.backgroundColor = _textOverBackground;
+		label.textColor = _textOverColor;
+		label.background = true;
+		
 	}
 
 	private function textSelectedEvent(event : MouseEvent) : Void
@@ -608,65 +566,35 @@ class ListBox extends ScrollPane implements IList implements IBaseUI
 		// If user only want one item listed
 		if (!_allowMultipleSelection)
 			clearAllSelected();
-
-		//TODO: Add back in support for using event.currentTarget.name once name doesn't come back null
-		for (i in 0..._list.length)
-		{
-			var listObj:ListObjectData = _list.getItemAt(i);
-            var label:Label = cast(_itemList.getChildByName(Std.string(i)), Label);
-			
-			if (label == event.currentTarget)
-			{
-				label.textColor = _textSelectedColor;
-				label.backgroundColor = _textSelectedBackground;
-				label.background = true;
-            
-				break;
-			}
-		}
-
-		/*
+		
+		var label:Label = cast(event.currentTarget, Label);
+		
 		// Set background and text color
-		event.currentTarget.textColor = _textSelectedColor;
-		event.currentTarget.backgroundColor = _textSelectedBackground;
-		event.currentTarget.background = true;
-		*/
+		label.textColor = _textSelectedColor;
+		label.backgroundColor = _textSelectedBackground;
+		label.background = true;
+		
 	}
 
 	private function textUpEvent(event : MouseEvent) : Void
 	{
-		//TODO: Add back in support for using event.currentTarget.name once name doesn't come back null
-
-		for (i in 0..._list.length)
-		{
-			var listObj:ListObjectData = _list.getItemAt(i);
-			var label:Label = cast(_itemList.getChildByName(Std.string(i)), Label);
-			
-			if (label == event.currentTarget)
-			{
-            
-				_selectText = listObj.text;
-				_selectIndex = i;
-            
-				listObj.selected = !listObj.selected;
-            
-				break;
-			}
-		}
-
-		/*
+		
+		var label:Label = cast(event.currentTarget, Label);
+		
 		// Set text and selected index
-		_selectText = event.currentTarget.text;
-		_selectIndex = Std.parseInt(event.currentTarget.name);
-		_list.getItemAt(_selectIndex).selected = ((_list.getItemAt(_selectIndex).selected)) ? false : true;
-
-		event.currentTarget.background = true;dispatchEvent(new Event(Event.CHANGE));
-		*/
+		_selectText = label.text;
+		_selectIndex = Std.parseInt(label.name);
+		_list.getItemAt(_selectIndex).selected = !_list.getItemAt(_selectIndex).selected;
+		
+		label.background = true;
+		
+		dispatchEvent(new Event(Event.CHANGE));
+		
 	}
 
 	private function clearAllSelected() : Void
 	{
-		for (i in 0..._list.length - 1 + 1)
+		for (i in 0 ... _list.length - 1 + 1)
 		{
 			var listData : ListObjectData = _list.getItemAt(i);
 			var label:Label = cast(_itemList.getChildByName(Std.string(i)),Label);

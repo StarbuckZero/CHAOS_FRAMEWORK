@@ -1295,7 +1295,7 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 			{
 				if (lastLabel.y > _labelArray[i].y && labelShift)
 				{
-					trace("Updated to -> " + _labelArray[i].name);
+					//trace("Updated to -> " + _labelArray[i].name);
 					lastLabel = _labelArray[i];
 				}
 			}
@@ -1304,7 +1304,7 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 		
 		if (direction == "down" && label != null && Std.parseInt(lastLabel.name) < _list.length - 1)
 		{
-			trace("Down -> Label: " + label.name + " Last Label: " + lastLabel.name + " Updated: " + (Std.parseInt(lastLabel.name) + 1));
+			//trace("Down -> Label: " + label.name + " Last Label: " + lastLabel.name + " Updated: " + (Std.parseInt(lastLabel.name) + 1));
 			var newId:Int = Std.parseInt(lastLabel.name) + 1;
 			label.name = Std.string(newId);
 			label.text = _list.getItemAt(newId).text;
@@ -1312,7 +1312,7 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 		}
 		else if (direction == "up" && label != null && Std.parseInt(lastLabel.name) > 0)
 		{
-			trace("Up -> Label: " + label.name + " Last Label: " + lastLabel.name + " Updated: " + (Std.parseInt(lastLabel.name) - 1));
+			//trace("Up -> Label: " + label.name + " Last Label: " + lastLabel.name + " Updated: " + (Std.parseInt(lastLabel.name) - 1));
 			
 			var newId:Int = Std.parseInt(lastLabel.name) - 1;
 			label.name = Std.string(newId);

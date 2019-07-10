@@ -120,6 +120,7 @@ class ScrollContentBase
 		
 		contentWidth = _content.width;
 		contentHeight = _content.height;
+
 		
 		// Set active flag so content can be unloaded
 		_active = true;

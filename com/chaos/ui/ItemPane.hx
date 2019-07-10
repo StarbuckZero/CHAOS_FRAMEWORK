@@ -107,27 +107,103 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
 	 * @eventType openfl.events.Event.CHANGE
 	 */
 	
-    public function new(paneWidth : Int = 200, paneHeight : Int = 300, itemData : DataProvider<ItemPaneObjectData> = null)
+    public function new(data:Dynamic = null)
     {
-		
-        _itemHolder = new Sprite();
-        
         // Init scroll pane
-        super();
-        
+        super(data);
+		
+        // paneWidth : Int = 200, paneHeight : Int = 300, itemData : DataProvider<ItemPaneObjectData> = null
+    }
+	
+	override function setComponentData(data:Dynamic) 
+	{
+		super.setComponentData(data);
+		
+		if (Reflect.hasField(data, "data"))
+		{
+			var data:Array<Dynamic> = Reflect.field(data, "data");
+			
+			for (i in 0 ... data.length)
+			{
+				var dataObj:Dynamic = data[i];
+				
+				if (Reflect.hasField(dataObj,"text") && Reflect.hasField(dataObj, "value"))
+					_list.addItem(new ItemPaneObjectData(i, Reflect.field(dataObj, "text"), Reflect.field(dataObj, "value"), "", (Reflect.hasField(dataObj, "selected")) ? Reflect.field(dataObj, "selected") : false));
+			}
+		}
+		
+		
+		if (Reflect.hasField(data, "itemWidth"))
+			_itemWidth = Reflect.field(data, "itemWidth");
+		
+		if (Reflect.hasField(data, "itemHeight"))
+			_itemHeight = Reflect.field(data, "itemHeight");
+			
+			
+			
+		if (Reflect.hasField(data, "itemNormalColor"))
+			_itemNormalColor = Reflect.field(data, "itemNormalColor");
+			
+		if (Reflect.hasField(data, "itemOverColor"))
+			_itemOverColor = Reflect.field(data, "itemOverColor");
+			
+		if (Reflect.hasField(data, "itemSelectedColor"))
+			_itemSelectedColor = Reflect.field(data, "itemSelectedColor");
+			
+		if (Reflect.hasField(data, "itemDisableColor"))
+			_itemDisableColor = Reflect.field(data, "itemDisableColor");
+			
+			
+			
+		if (Reflect.hasField(data, "labelNormalColor"))
+			_labelNormalColor = Reflect.field(data, "labelNormalColor");
+			
+		if (Reflect.hasField(data, "labelSelectedColor"))
+			_labelSelectedColor = Reflect.field(data, "labelSelectedColor");
+			
+		if (Reflect.hasField(data, "showLabel"))
+			_showLabel = Reflect.field(data, "showLabel");
+			
+			
+		if (Reflect.hasField(data, "allowMultipleSelection"))
+			_allowMultipleSelection = Reflect.field(data, "allowMultipleSelection");
+			
+			
+		if (Reflect.hasField(data, "selectedIndex"))
+			_selectedIndex = Reflect.field(data, "selectedIndex");
+			
+			
+		if (Reflect.hasField(data, "font"))
+			_font = Reflect.field(data, "font");
+			
+		if (Reflect.hasField(data, "color"))
+			_color = Reflect.field(data, "color");
+			
+			
+		if (Reflect.hasField(data, "bold"))
+			_bold = Reflect.field(data, "bold");
+			
+
+		if (Reflect.hasField(data, "italic"))
+			_italic = Reflect.field(data, "italic");
+			
+		if (Reflect.hasField(data, "size"))
+			_size = Reflect.field(data, "size");
+			
+	}
+	
+	override public function initialize():Void 
+	{
+		_itemHolder = new Sprite();
+		
+		super.initialize();
+		
         addEventListener(Event.ADDED_TO_STAGE, onStageAdd, false, 0, true);
         addEventListener(Event.REMOVED_FROM_STAGE, onStageRemove, false, 0, true);
         
         source = _itemHolder;
-        
-        _width = paneWidth;
-        _height = paneHeight;
-        
-        if (null != itemData) 
-            _list = itemData;
-        
-        reskin();
-    }
+		
+	}
     
     override public function reskin() : Void
     {
@@ -136,9 +212,6 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
         // init them
         initUISkin();
         initStyle();
-        
-        draw();
-        refreshPane();
     }
     
     override private function onStageAdd(event : Event) : Void
@@ -179,8 +252,6 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
         if (-1 != UIStyleManager.ITEMPANE_BACKGROUND) 
             backgroundColor = UIStyleManager.ITEMPANE_BACKGROUND; 
 			
-		// Scroll Pane
-        border = UIStyleManager.ITEMPANE_BORDER;
         
         if (-1 != UIStyleManager.ITEMPANE_BORDER_COLOR) 
             borderColor = UIStyleManager.ITEMPANE_BORDER_COLOR;
@@ -651,47 +722,45 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
         for (i in 0... _list.length)
 		{
            
-            var itemLabel : Label = new Label();
-            var itemButton : ToggleButton = new ToggleButton({"width":_itemWidth, "height":_itemHeight});
+            //var itemLabel : Label = new Label();
             var itemData : ItemPaneObjectData = _list.getItemAt(i);
             var oldData : ItemPaneObjectData = (i == 0) ? null : _list.getItemAt(i - 1);
-            
+			
+			var itemButton : ItemPaneButton = new ItemPaneButton({"width":_itemWidth, "height":_itemHeight, "Label":{"text":itemData.text, "align":"center"}} );
+			
+			
             // Attach a tool-tip
             //if ("" != itemData.toolTipText) 
             //    ToolTip.attach(itemButton, itemData.toolTipText);
 				
-            itemLabel.textField.autoSize = TextFieldAutoSize.LEFT;
-            itemLabel.width = _itemWidth;
+            //itemLabel.textField.autoSize = TextFieldAutoSize.LEFT;
+            //itemLabel.width = _itemWidth;
             
-            itemLabel.text = itemData.text;
-            itemLabel.align = "center";
-            
-            itemLabel.visible = _showLabel;
+            itemButton.showLabel = _showLabel;
             
             if (null != _embed) 
-                itemLabel.setEmbedFont(_embed);
-            
+				itemButton.label.setEmbedFont(_embed);
+				
             if ("" != _font) 
-                itemLabel.font = _font;
+                itemButton.label.font = _font;
             
             if (-1 != _color) 
-                itemLabel.textColor = _color;
+                itemButton.label.textColor = _color;
             
             if (-1 != _size) 
-                itemLabel.size = _size;
+                itemButton.label.size = _size;
              
-            itemLabel.textFormat.bold = _bold;
-            itemLabel.textFormat.italic = _italic;
+            itemButton.label.textFormat.bold = _bold;
+            itemButton.label.textFormat.italic = _italic;
             
-            //itemLabel.setTextFormat(textFormat);
             
             // Set color default color if was set
             if (!itemData.selected && -1 != _labelNormalColor) 
-                itemLabel.textColor = _labelNormalColor;  
+                itemButton.label.textColor = _labelNormalColor;  
             
             // Set selected color if was set
             if (itemData.selected && -1 != _labelSelectedColor) 
-                itemLabel.textColor = _labelSelectedColor;
+                itemButton.label.textColor = _labelSelectedColor;
             
             itemButton.name = Std.string(i);
 			
@@ -719,20 +788,20 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
             itemButton.addEventListener(ToggleEvent.DOWN_STATE, onItemDownPress);
            
             // Center the Item label at the bottom
-			itemLabel.x = UIStyleManager.ITEMPANE_LABEL_OFFSET_X;
-			itemLabel.y = (_itemHeight - itemLabel.height) + UIStyleManager.ITEMPANE_LABEL_OFFSET_Y;
+			//itemLabel.x = UIStyleManager.ITEMPANE_LABEL_OFFSET_X;
+			//itemLabel.y = (_itemHeight - itemLabel.height) + UIStyleManager.ITEMPANE_LABEL_OFFSET_Y;
 
             // Add in the item if it's there
             if (null != itemData.item) 
             {
-                itemData.item.x = _itemLocX;
-                itemData.item.y = _itemLocY;
-                
-                itemButton.addChild(itemData.item);
+                //itemData.item.x = _itemLocX;
+                //itemData.item.y = _itemLocY;
+                //
+                //itemButton.addChild(itemData.item);
             }  
             
             // Add label to button
-            itemButton.addChild(itemLabel);
+            //itemButton.addChild(itemLabel);
             
             // Shift items to where they need to be on the screen
             itemButton.x = (i - _lastRowNum) * itemButton.width;
@@ -754,19 +823,20 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
             // Add icon if need be  
             if (null != itemData.icon) 
             {
-                
-                itemData.icon.x = UIStyleManager.ITEMPANE_ICON_LOC_X;
-                itemData.icon.y = UIStyleManager.ITEMPANE_ICON_LOC_Y;
-                
-                itemButton.addChild(itemData.icon);
+                itemButton.setIcon(itemData.icon);
+				
+                //itemData.icon.x = UIStyleManager.ITEMPANE_ICON_LOC_X;
+                //itemData.icon.y = UIStyleManager.ITEMPANE_ICON_LOC_Y;
+                //
+                //itemButton.addChild(itemData.icon);
             }
 			
 			// Add to data object    
 			//itemButton.x = (i - _lastRowNum) * itemButton.width; 
             
             
-            itemData.label = cast(itemLabel, Label);
-            itemData.itemButton = cast(itemButton, ToggleButton);
+            //itemData.label = cast(itemLabel, Label);
+            itemData.itemButton = itemButton;
 			
             
             _itemHolder.addChild(itemButton);
@@ -790,7 +860,7 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
                 
                 var tempObj : Sprite = cast(_itemHolder.removeChildAt(i - 1), Sprite);
 				
-                ToolTip.remove(tempObj);
+                //ToolTip.remove(tempObj);
 				
                 tempObj.removeEventListener(ToggleEvent.DOWN_STATE, onItemDownPress);
                 tempObj = null;
@@ -807,33 +877,10 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
 		//source = _itemHolder;
 		//_itemHolder = new Sprite();  
         
-        refreshPane();
+        //refreshPane();
     }
     
-    private function createButtonState(shapeWidth : Int, shapeHeight : Int, shapeColor : Int = 0xFFFFFF, shapeBitmap : Bitmap = null) : Shape
-    {
-        var tempShape : Shape = new Shape();
-        
-        tempShape.graphics.clear();
-        
-        // Draw border if need be
-        if (_border) 
-            tempShape.graphics.lineStyle(_thinkness, _borderColor, _borderAlpha);
-        
-        if (null == shapeBitmap) 
-        {
-            tempShape.graphics.beginFill(shapeColor);
-        }
-        else 
-        {
-            tempShape.graphics.beginBitmapFill(shapeBitmap.bitmapData, null, false, true);
-        }
-        
-        tempShape.graphics.drawRect(0, 0, shapeWidth, shapeHeight);
-        tempShape.graphics.endFill();
-        
-        return tempShape;
-    }
+   
     
     private function onItemDownPress(event : ToggleEvent) : Void
     {
@@ -870,7 +917,7 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
             
             // If color label was selected
             if (-1 != _labelNormalColor) 
-                itemData.label.textColor = _labelNormalColor;
+                itemData.itemButton.label.textColor = _labelNormalColor;
         }
     }
 }

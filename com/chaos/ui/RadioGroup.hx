@@ -26,11 +26,11 @@ import openfl.events.MouseEvent;
 
 class RadioGroup extends HorizontalContainer implements IRadioGroup implements IBaseContainer implements IAlignmentContainer implements IBaseUI
 {
-    public var dataProvider(get, set) : DataProvider;
+    public var dataProvider(get, set) : DataProvider<IRadioButton>;
 
     private var group : String = "";
     private var nameList : Object = new Object();
-    private var _list : DataProvider;
+    private var _list : DataProvider<IRadioButton>;
     
     /**
 	 * Once a name is passed in the container will create and add them to the display
@@ -55,7 +55,7 @@ class RadioGroup extends HorizontalContainer implements IRadioGroup implements I
 	 * Replace the current data provider
 	 */
     
-    private function set_dataProvider(value : DataProvider) : DataProvider
+    private function set_dataProvider(value : DataProvider<IRadioButton>) : DataProvider<IRadioButton>
     {
         if (null == _list) 
             return null;
@@ -82,7 +82,7 @@ class RadioGroup extends HorizontalContainer implements IRadioGroup implements I
 	 * Returns the data provider being used
 	 */
     
-    private function get_dataProvider() : DataProvider
+    private function get_dataProvider() : DataProvider<IRadioButton>
     {
         return _list;
     }

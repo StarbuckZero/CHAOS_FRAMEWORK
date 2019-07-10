@@ -57,7 +57,8 @@ class ScrollMaskContent extends ScrollContentBase
 			_contentHolder.addChild(_content);
 			
 			// Apply mask to holder
-			_contentHolder.mask = _mask;
+			if(_contentHolder.mask == null)
+				_contentHolder.mask = _mask;
 		}
 		else
 			clip.addEventListener(Event.ADDED, onAddToObject, false, 0, true);

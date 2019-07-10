@@ -16,9 +16,9 @@ class ScrollRectContent extends ScrollContentBase
 	
 	public function new(clip:DisplayObject, scroller:IScrollBar, scrollRect:Rectangle) 
 	{
-		super(clip, scroller);
-		
 		_scrollRect = scrollRect;
+		
+		super(clip, scroller);
 	}
 	
 	override public function attachContent(clip:DisplayObject, scroller:IScrollBar):Void
@@ -28,14 +28,6 @@ class ScrollRectContent extends ScrollContentBase
 		// If no scrollRect was passed in then create one 
 		if (null == _scrollRect) 
 			_scrollRect = new Rectangle(0, 0, clip.width, clip.height);
-		else
-		{
-			_scrollRect.width = clip.width;
-			_scrollRect.height = clip.height;
-		}
-		
-		contentWidth = _content.width;
-		contentHeight = _content.height;
 		
 		
 		if (_scrollRect != null) 
@@ -50,20 +42,30 @@ class ScrollRectContent extends ScrollContentBase
 		
 	}
 	
+	override public function unload():Void 
+	{
+		super.unload();
+		
+		_content.scrollRect = null;
+	}
+	
 	override public function update():Void 
 	{
 		super.update();
 		
-		//_content.scrollRect = null;
+		_content.scrollRect = null;
 		
 		contentWidth = _content.width;
 		contentHeight = _content.height;
 		
+		if (ScrollBarDirection.VERTICAL == _scrollbar.slider.direction) 
+			_content.scrollRect = new Rectangle(_scrollRect.x, _scrollRect.y, _scrollRect.width, _scrollRect.height + _scrollbar.buttonHeight);
+		else 
+			_content.scrollRect = new Rectangle(_scrollRect.x, _scrollRect.y, _scrollRect.width + _scrollbar.buttonWidth, _scrollRect.height);
 	}
 	
 	override public function draw():Void 
 	{
-		
 		
 		if (ScrollBarDirection.VERTICAL == _scrollbar.slider.direction) 
 		{
@@ -116,7 +118,7 @@ class ScrollRectContent extends ScrollContentBase
 			var scrollable_v : Float = contentHeight - _content.scrollRect.height - _scrollbar.scrollAmount;
 			var sr_v : Rectangle = _content.scrollRect.clone();
 			
-			sr_v.y = -(scrollable_v * event.percent);
+			sr_v.y = (scrollable_v * event.percent);
 			_content.scrollRect = sr_v;
 			
 		}
@@ -125,7 +127,7 @@ class ScrollRectContent extends ScrollContentBase
 			var scrollable_h : Float = contentWidth - _content.scrollRect.width - _scrollbar.scrollAmount;
 			var sr_h : Rectangle = _content.scrollRect.clone();
 			
-			sr_h.x = -(scrollable_h * event.percent);
+			sr_h.x = (scrollable_h * event.percent);
 			
 			_content.scrollRect = sr_h;
 		}

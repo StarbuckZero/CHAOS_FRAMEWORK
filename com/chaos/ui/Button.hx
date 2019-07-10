@@ -39,8 +39,8 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
     /** The type of UI Element */
     public static inline var TYPE : String = "Button";
 	
-	public static var PRESS_MODE:String = "press";
-	public static var TOGGLE_MODE:String = "toggle";
+	private static inline var PRESS_MODE:String = "press";
+	private static inline var TOGGLE_MODE:String = "toggle";
 	
     public var imageOffSetX(get, set) : Int;
     public var imageOffSetY(get, set) : Int;
