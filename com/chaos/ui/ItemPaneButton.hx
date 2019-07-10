@@ -20,6 +20,10 @@ class ItemPaneButton extends ToggleButton implements IToggleButton
 	
 	private var _label : Label;
 	private var _icon : Shape;
+	private var _item : Shape;
+	
+	private var _itemLocX : Int = 0;
+	private var _itemLocY : Int = 0;
 	
 	public function new(data:Dynamic=null) 
 	{
@@ -33,12 +37,36 @@ class ItemPaneButton extends ToggleButton implements IToggleButton
 		
 		if (Reflect.hasField(data, "Label"))
 			_labelData = Reflect.field(data, "Label");
+			
+		if (Reflect.hasField(data, "ItemLocX"))
+			_itemLocX = Reflect.field(data, "ItemLocX");
+		
+		if (Reflect.hasField(data, "ItemLocY"))
+			_itemLocY = Reflect.field(data, "ItemLocY");
+			
+	}
+	
+	override public function destroy():Void 
+	{
+		super.destroy();
+		
+		removeChild(_label);
+		
+		_label.destroy();
+		_label = null;
+		
+		removeChild(_icon);
+		
+		_icon.graphics.clear();
+		_icon = null;
+		
 	}
 	
 	override public function initialize():Void 
 	{
 		_label = new Label(_labelData);
 		_icon = new Shape();
+		_item = new Shape();
 		
 		super.initialize();
 		
@@ -46,6 +74,7 @@ class ItemPaneButton extends ToggleButton implements IToggleButton
 		
 		addChild(_label);
 		addChild(_icon);
+		addChild(_item);
 		
 	}
 	
@@ -78,6 +107,14 @@ class ItemPaneButton extends ToggleButton implements IToggleButton
 		_icon.graphics.endFill();
 	}
 	
+	public function setItem( value:BitmapData ) : Void
+	{
+		_item.graphics.beginBitmapFill(value, null, false, true);
+		_item.graphics.drawRect(0, 0, value.width, value.height);
+		_item.graphics.endFill();
+		
+	}
+	
 	override public function draw():Void 
 	{
 		super.draw();
@@ -90,6 +127,9 @@ class ItemPaneButton extends ToggleButton implements IToggleButton
 		
         _icon.x = UIStyleManager.ITEMPANE_ICON_LOC_X;
         _icon.y = UIStyleManager.ITEMPANE_ICON_LOC_Y;
+		
+		_item.x = _itemLocX;
+		_item.y = _itemLocY;
 		
 	}
 	

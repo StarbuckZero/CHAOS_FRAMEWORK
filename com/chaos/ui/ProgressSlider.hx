@@ -10,7 +10,7 @@ import com.chaos.ui.classInterface.ISlider;
 import openfl.events.Event;
 
 /**
- * A SliderBar that also has a ProgressBar as well. There is not track because the ProgressBar is in the background.
+ * ProgressBar is used for things like video and MP3 players
  * @author Erick Feiling
  */
 
@@ -21,15 +21,15 @@ class ProgressSlider extends ProgressBar implements IProgressSlider implements I
     
     public static inline var TYPE : String = "ProgressSlider";
     
-    private var _slider : Slider = new Slider();
+    private var _slider : Slider;
     
     /**
 	 * A slider that can be used to keep try of objects that are loading
 	 */
     
-    public function new()
+    public function new(data:Dynamic = null)
     {
-        super();
+        super(data);
         
         addEventListener(Event.ADDED_TO_STAGE, onStageAdd, false, 0, true);
         addEventListener(Event.REMOVED_FROM_STAGE, onStageRemove, false, 0, true);
@@ -37,6 +37,13 @@ class ProgressSlider extends ProgressBar implements IProgressSlider implements I
         addChild(_slider);
        
     }
+	
+	override public function setComponentData(data:Dynamic):Void 
+	{
+		super.setComponentData(data);
+		
+		
+	}
     
     /**
 	 * @inheritDoc
@@ -49,20 +56,15 @@ class ProgressSlider extends ProgressBar implements IProgressSlider implements I
         initBitmap();
         initStyle();
     }
-    
-    override private function init() : Void
-    {
-		super.init();
+	
+	override public function initialize():Void 
+	{
 		
-        _slider.direction = ScrollBarDirection.HORIZONTAL;
-        _slider.showTrack = false;
-        showLabel = false;
-        
-        _slider.width = width;
-        _slider.height = height;
-        
-        reskin();
-    }
+		_slider = new Slider({"width":_width, "height":_height, "showTrack":false, "direction":ScrollBarDirection.HORIZONTAL});
+		
+		super.initialize();
+	}
+    
     
     override private function initBitmap() : Void
     {

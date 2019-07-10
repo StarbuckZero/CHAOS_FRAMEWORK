@@ -3,32 +3,19 @@ package com.chaos.ui.data;
 
 
 /**
- * ...
+ * Data Object for Item Pane
  * @author Erick Feiling
  */
 
 
-
-import com.chaos.ui.ItemPaneButton;
-import com.chaos.ui.classInterface.IToggleButton;
 import openfl.display.BitmapData;
-
-
-import com.chaos.ui.Label;
-
 
 
 class ItemPaneObjectData extends SelectObjectData
 {
-    public var toolTipText(get, set) : String;
     public var item(get, set) : BitmapData;
     public var icon(get, set) : BitmapData;
-    public var itemButton(get, set) : ItemPaneButton;
-
-    private var _itemButton : ItemPaneButton;
     
-    
-    private var _toolTipText : String = "";
     private var _item : BitmapData = null;
     private var _icon : BitmapData = null;
     
@@ -42,38 +29,14 @@ class ItemPaneObjectData extends SelectObjectData
 	 * @param	itemIcon An icon that can be displayed
 	 */
     
-    public function new( id:Int = -1, itemText : String = "", value : String = "", toolTipText : String = "", itemSelected : Bool = false, item : BitmapData = null, itemIcon : BitmapData = null)
+    public function new( id:Int = -1, itemText : String = "", value : String = "", itemSelected : Bool = false, item : BitmapData = null, itemIcon : BitmapData = null)
     {
 		super(id, itemText, value, itemSelected);
 		
-		
-        _toolTipText = toolTipText;
         _selected = itemSelected;
         _item = item;
         _icon = itemIcon;
     }
-    
-   
-    
-    /**
-	 * Set the tool-tip
-	 */
-    
-    private function set_toolTipText(value : String) : String
-    {
-        _toolTipText = value;
-        return value;
-    }
-    
-    /**
-	 * Return the text that item is being used
-	 */
-	
-    private function get_toolTipText() : String
-    {
-        return _toolTipText;
-    }
-    
     
     /**
 	 * Set the item
@@ -114,25 +77,6 @@ class ItemPaneObjectData extends SelectObjectData
     {
         return _icon;
     }
-    
-    
-    /**
-	 * Set the button being used
-	 */
-    
-    private function set_itemButton(value : ItemPaneButton) : ItemPaneButton
-    {
-        _itemButton = value;
-        return value;
-    }
-    
-    /**
-	 * Return the toggle button being used
-	 */
-    
-    private function get_itemButton() : ItemPaneButton
-    {
-        return _itemButton;
-    }
+
 }
 

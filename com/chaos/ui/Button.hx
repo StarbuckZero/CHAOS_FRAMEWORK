@@ -111,6 +111,8 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
 		if (Reflect.hasField(data, "showLabel"))
 			_showLabel = Reflect.field(data, "showLabel");
 			
+		if (Reflect.hasField(data, "showIcon"))	
+			_showIcon = Reflect.field(data, "showIcon");
 	}
 
     override public function initialize() : Void

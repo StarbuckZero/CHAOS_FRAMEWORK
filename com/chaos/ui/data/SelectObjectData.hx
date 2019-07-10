@@ -4,7 +4,7 @@ package com.chaos.ui.data;
 import com.chaos.ui.data.BaseObjectData;
 
 /**
- * ...
+ * Select Data Object
  * @author Erick Feiling
  */
 class SelectObjectData extends BaseObjectData
@@ -16,7 +16,7 @@ class SelectObjectData extends BaseObjectData
     private var _selected : Bool = false;
 	private var _id:Int = -1;
 
-	public function new(newId : Int = -1, newText:String="", newVal:String="", isSelected:Bool = false) 
+	public function new(newId : Int = -1, newText:String = "", newVal:String = "", isSelected:Bool = false) 
 	{
 		super(newText, newVal);
 		

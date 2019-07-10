@@ -6,6 +6,11 @@ import openfl.text.Font;
 
 interface IProgressBar extends com.chaos.ui.classInterface.IBaseUI
 {
+	/**
+	 * Clear event once context is done loading this is set to false by default
+	 */
+	var stopWatchAfterComplete(get, set) : Bool;
+	
     /**
 	 * Returns the label being used in the ProgressBar
 	 */
@@ -64,10 +69,7 @@ interface IProgressBar extends com.chaos.ui.classInterface.IBaseUI
 	 * Set how much of the ProgressBar is loaded or complete. This is another way of showing how much data is loaded without using the watchURL method.
 	 */ 
 	var percent(get, set) : Int;   
-	/**
-	 * Enable or Disable filters
-	 */  
-	var filterMode(get, set) : Bool;
+	
 	/**
 	 * Configure and setup the label to handle embedded fonts
 	 *
@@ -81,8 +83,6 @@ interface IProgressBar extends com.chaos.ui.classInterface.IBaseUI
 	 */
 	
 	function unloadEmbedFont() : Void; 
-	
-
 	
 	/**
 	 * This is for setting an image to the ProgressBar. It is best to set an image that can be tiled.
@@ -114,6 +114,7 @@ interface IProgressBar extends com.chaos.ui.classInterface.IBaseUI
 	 */ 
 	
 	function watchObject(value : Dynamic) : Void;  
+	
 	/**
 	 * Stop ProgressBar from keeping track of how much of a file is loaded
 	 */ 

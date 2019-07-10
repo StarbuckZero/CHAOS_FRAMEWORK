@@ -119,8 +119,10 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 		_mode = (Reflect.hasField(data, "sliderDirection")) ? Reflect.field(data, "sliderDirection") : "vertical";
 		_sliderOffSet = SLIDER_OFFSET;
 		
-		super.setComponentData(data);
+		if (Reflect.hasField(data, "showTrack")) 
+			_track.visible = Reflect.field(data, "showTrack");
 		
+		super.setComponentData(data);
 	}
 	
 	private function onStageAdd(event : Event) : Void { UIBitmapManager.watchElement(TYPE, this); }
@@ -137,23 +139,10 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 		_track = new Shape(); 
 		
 		// Slider  
-		_marker = new Button();
-		
+		_marker = new Button({"width":sliderWidthNum, "height":sliderHeightNum, "showLabel":false, "iconDisplay":false, "defaultColor":_sliderNormalColor, "overColor":_sliderOverColor, "downColor":_sliderDownColor,"disableColor":_sliderDisableColor});
 		
 		super.initialize();
 		
-		
-		_marker.width = sliderWidthNum;
-		_marker.height = sliderHeightNum;
-		
-		_marker.showLabel = false;
-		_marker.iconDisplay = false;
-		
-		
-		_marker.defaultColor = _sliderNormalColor;
-		_marker.overColor = _sliderOverColor;
-		_marker.downColor = _sliderDownColor;
-		_marker.disableColor = _sliderDisableColor;
 		_marker.addEventListener(MouseEvent.MOUSE_DOWN, markerPress, false, 0, true);
 		
 		_threadCallBack = new TaskCallBack(this, "updatePercent");
@@ -167,7 +156,6 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 		addChild(_track);
 		addChild(_marker);
 		
-		//draw();		
 	}
 
 	

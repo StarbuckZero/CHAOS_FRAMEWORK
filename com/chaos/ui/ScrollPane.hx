@@ -466,7 +466,7 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 			_mask.graphics.drawRect(0, 0, _width, _height);
 			_mask.graphics.endFill();
 			
-			mask = _mask;
+			contentObject.mask = _mask;
 		}
 		else if (_scrollContentType == MASK_MODE)
 		{

@@ -21,7 +21,7 @@ import com.chaos.ui.UIBitmapManager;
 
 	/**
 	 *
-	 * Creates a ProgressBar on the fly
+	 * Creates a ProgressBar
 	 *
 	 *  @author Erick Feiling
 	 */
@@ -29,7 +29,7 @@ import com.chaos.ui.UIBitmapManager;
 	{
 		
 		public static inline var TYPE : String = "ProgressBar";
-		
+
 		public var label(get, never) : ILabel;
 		public var loadedLabel(get, never) : ILabel;
 		public var border(get, set) : Bool;
@@ -43,8 +43,9 @@ import com.chaos.ui.UIBitmapManager;
 		public var textLoadColor(get, set) : Int;
 		public var align(get, set) : String;
 		public var percent(get, set) : Int;
-		public var filterMode(get, set) : Bool;
-		
+		public var stopWatchAfterComplete(get, set) : Bool;
+
+
 		private var _background : Bool = true;
 		private var _backgroundAlpha : Float = 1;
 		private var _loadedAlpha : Float = 1;
@@ -63,8 +64,6 @@ import com.chaos.ui.UIBitmapManager;
 		private var _displayImage : Bool = false;
 		private var _showImage : Bool = true;
 		private var _smoothImage : Bool = true;
-		private var _bgDisplayNormalImage : Bool = false;
-		private var _bgDisplayLoadedImage : Bool = false;
 		private var _outline : Shape;
 		private var _backgroundNormal : Shape;
 		private var _loadedBar : Shape;
@@ -79,25 +78,22 @@ import com.chaos.ui.UIBitmapManager;
 		private var _watchingFile : Bool = false;
 		private var _urlFile : Dynamic;
 		private var _percent : Int = 0;
-		private var _filterMode : Bool = true;
-	
-	public function new(progressBarWidth : Int = 100, progressBarHeight : Int = 15)
-    {
-        super();
+		private var _stopWatchAfterComplete : Bool = false;
 		
-		_width = progressBarWidth;
-		_height = progressBarHeight;
+	
+	public function new(data:Dynamic = null)
+    {
+		// progressBarWidth : Int = 100, progressBarHeight : Int = 15
+        super(data);
 		
 		addEventListener(Event.ADDED_TO_STAGE, onStageAdd, false, 0, true);
 		addEventListener(Event.REMOVED_FROM_STAGE, onStageRemove, false, 0, true);
-		
-		init();
     }
 	
 	private function onStageAdd(event : Event) : Void { UIBitmapManager.watchElement(TYPE, this); }
 	private function onStageRemove(event : Event) : Void { UIBitmapManager.stopWatchElement(TYPE, this); }
 	
-	private function init() : Void
+	override public function initialize():Void 
 	{
 		// Text Format
 		_textFormat = new TextFormat();
@@ -116,15 +112,18 @@ import com.chaos.ui.UIBitmapManager;
 		_fontMask = new Shape(); 
 		
 		// Setup percent text
-		_label = new Label();
-		_label.width = _width;
-		_label.height = _height;
-		_label.textColor = _textColor;
+		var labelData:Dynamic = {"width":_width, "height":_height, "textColor":_textColor};
 		
-		_loadedLabel = new Label();
-		_loadedLabel.width = _width;
-		_loadedLabel.height = _height;
-		_loadedLabel.textColor = _textLoadedColor;
+		// Set label data
+		_label = new Label(labelData);
+		
+		// Change color value
+		Reflect.setField(labelData, "textColor", _textLoadedColor);
+		
+		// Set other label
+		_loadedLabel = new Label(labelData);
+		
+		super.initialize();
 		
 		// Add to display 
 		addChild(_backgroundNormal);
@@ -135,9 +134,7 @@ import com.chaos.ui.UIBitmapManager;
 		addChild(_label);
 		addChild(_loadedLabel);
 		
-		reskin();
-    }
-	
+	}
 	
 	private function initStyle() : Void 
 	{
@@ -204,11 +201,22 @@ import com.chaos.ui.UIBitmapManager;
 	override public function reskin() : Void
 	{
 		super.reskin();
+		
 		initBitmap();
 		initStyle();
 		
-		draw();
     }
+	
+	private function set_stopWatchAfterComplete(value:Bool) : Bool
+	{
+		_stopWatchAfterComplete = value;
+		return value;
+	}
+	
+	private function get_stopWatchAfterComplete() : Bool
+	{
+		return _stopWatchAfterComplete;
+	}
 	
 	/**
 	 * Returns the label being used in ProgressBar
@@ -242,7 +250,7 @@ import com.chaos.ui.UIBitmapManager;
 	 */
 	
 	private function get_border() : Bool { return _border; }
-		 
+	
 	
 	/**
 	 * The ProgressBar border color that is to
@@ -356,8 +364,8 @@ import com.chaos.ui.UIBitmapManager;
 	
 	 public function unloadEmbedFont() : Void 
 	 {
-		 _label.unloadEmbedFont();
-		 _loadedLabel.unloadEmbedFont();
+		_label.unloadEmbedFont();
+		_loadedLabel.unloadEmbedFont();
 	 }
 	
 	/**
@@ -449,7 +457,7 @@ import com.chaos.ui.UIBitmapManager;
 		var blnStremClass : Bool = false;
 		
 		if (Std.is(value, Sound) || Std.is(value, URLLoader) || Std.is(value, Loader))
-		blnStremClass = true;
+			blnStremClass = true;
 		
 		// Add in events and set flag 
 		_urlFile = value;
@@ -519,13 +527,9 @@ import com.chaos.ui.UIBitmapManager;
 	private function set_align(value : String) : String
 	{
 		if (TextFormatAlign.LEFT == value || TextFormatAlign.CENTER == value || TextFormatAlign.JUSTIFY == value || TextFormatAlign.RIGHT == value) 
-		{
 			_align = value;
-		}
 		else 
-		{
 			_align = TextFormatAlign.LEFT;
-		}
 		
 		return value;
 	} 
@@ -533,7 +537,10 @@ import com.chaos.ui.UIBitmapManager;
 	/**
 	 * Return the alignment that is being used
 	 */
-	private function get_align() : String { return _align; } 
+	private function get_align() : String 
+	{
+		return _align; 
+	} 
 
 	/**
 	 * Set how much of the ProgressBar is loaded or complete. This is another way of showing how much data is loaded without using the watchURL method.
@@ -552,24 +559,13 @@ import com.chaos.ui.UIBitmapManager;
 	 */
 	
 	private function get_percent() : Int { return _percent; }
-		 
-	/**
-	 * Enable or Disable filters
-	 */
 	
-	private function set_filterMode(value : Bool) : Bool { _filterMode = value; return value; }
-	 
-
-	/**
-	 * @private
-	 */
-	private function get_filterMode() : Bool { return _filterMode; }
-		 
-		 
+	
 	 /**
 	 * Draw the ProgressBar and all the UI classes it's using
 	 *
-	 */  
+	 */
+	 
 	override public function draw() : Void
 	{ 
 		// Get ready to draw background and border
@@ -655,7 +651,9 @@ import com.chaos.ui.UIBitmapManager;
 	
 	private function progressComplete(event : Event) : Void
 	{
-		// NOTE: Might want to stop watching once done 
 		draw();
+		
+		if (_stopWatchAfterComplete)
+			stopWatchObject();
 	}
 }

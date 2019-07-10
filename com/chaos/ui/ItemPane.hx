@@ -128,7 +128,7 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
 				var dataObj:Dynamic = data[i];
 				
 				if (Reflect.hasField(dataObj,"text") && Reflect.hasField(dataObj, "value"))
-					_list.addItem(new ItemPaneObjectData(i, Reflect.field(dataObj, "text"), Reflect.field(dataObj, "value"), "", (Reflect.hasField(dataObj, "selected")) ? Reflect.field(dataObj, "selected") : false));
+					_list.addItem(new ItemPaneObjectData(i, Reflect.field(dataObj, "text"), Reflect.field(dataObj, "value"), (Reflect.hasField(dataObj, "selected")) ? Reflect.field(dataObj, "selected") : false));
 			}
 		}
 		
@@ -724,18 +724,10 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
            
             //var itemLabel : Label = new Label();
             var itemData : ItemPaneObjectData = _list.getItemAt(i);
-            var oldData : ItemPaneObjectData = (i == 0) ? null : _list.getItemAt(i - 1);
+            var lastButton : ItemPaneButton = (i == 0) ? null : cast(_itemHolder.getChildByName( Std.string( Std.int(i - 1) ) ), ItemPaneButton);
+			var itemButton : ItemPaneButton = new ItemPaneButton({"width":_itemWidth, "height":_itemHeight, "ItemLocX": _itemLocX, "ItemLocY": _itemLocY, "Label":{"text":itemData.text, "align":"center"}} );
 			
-			var itemButton : ItemPaneButton = new ItemPaneButton({"width":_itemWidth, "height":_itemHeight, "Label":{"text":itemData.text, "align":"center"}} );
-			
-			
-            // Attach a tool-tip
-            //if ("" != itemData.toolTipText) 
-            //    ToolTip.attach(itemButton, itemData.toolTipText);
 				
-            //itemLabel.textField.autoSize = TextFieldAutoSize.LEFT;
-            //itemLabel.width = _itemWidth;
-            
             itemButton.showLabel = _showLabel;
             
             if (null != _embed) 
@@ -787,21 +779,10 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
             
             itemButton.addEventListener(ToggleEvent.DOWN_STATE, onItemDownPress);
            
-            // Center the Item label at the bottom
-			//itemLabel.x = UIStyleManager.ITEMPANE_LABEL_OFFSET_X;
-			//itemLabel.y = (_itemHeight - itemLabel.height) + UIStyleManager.ITEMPANE_LABEL_OFFSET_Y;
 
             // Add in the item if it's there
             if (null != itemData.item) 
-            {
-                //itemData.item.x = _itemLocX;
-                //itemData.item.y = _itemLocY;
-                //
-                //itemButton.addChild(itemData.item);
-            }  
-            
-            // Add label to button
-            //itemButton.addChild(itemLabel);
+                itemButton.setItem(itemData.item);
             
             // Shift items to where they need to be on the screen
             itemButton.x = (i - _lastRowNum) * itemButton.width;
@@ -812,33 +793,18 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
                 _lastRowNum = i;
                 
                 itemButton.x = 0;
-                itemButton.y = (null == oldData) ? itemButton.y : oldData.itemButton.y + _itemHeight;
+                itemButton.y = (null == lastButton) ? itemButton.y : lastButton.y + _itemHeight;
             }
             else 
             {
-                itemButton.y = ((null == oldData)) ? itemButton.y : oldData.itemButton.y;
+                itemButton.y = ((null == lastButton)) ? itemButton.y : lastButton.y;
             }  
              
             
             // Add icon if need be  
             if (null != itemData.icon) 
-            {
                 itemButton.setIcon(itemData.icon);
-				
-                //itemData.icon.x = UIStyleManager.ITEMPANE_ICON_LOC_X;
-                //itemData.icon.y = UIStyleManager.ITEMPANE_ICON_LOC_Y;
-                //
-                //itemButton.addChild(itemData.icon);
-            }
 			
-			// Add to data object    
-			//itemButton.x = (i - _lastRowNum) * itemButton.width; 
-            
-            
-            //itemData.label = cast(itemLabel, Label);
-            itemData.itemButton = itemButton;
-			
-            
             _itemHolder.addChild(itemButton);
 			
         }
@@ -855,29 +821,21 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
         while (i > 0)
         {
             
-            try
-            {
-                
-                var tempObj : Sprite = cast(_itemHolder.removeChildAt(i - 1), Sprite);
-				
-                //ToolTip.remove(tempObj);
-				
-                tempObj.removeEventListener(ToggleEvent.DOWN_STATE, onItemDownPress);
-                tempObj = null;
-            }
-            catch (error : Error)
-            {
-                
-                
-            }
+			var itemButton : ItemPaneButton = cast(_itemHolder.getChildByName(Std.string(i)), ItemPaneButton);
+			
+			_itemHolder.removeChild(itemButton);
+			itemButton.destroy();
+			itemButton = null;
+			
+			//TODO: Add back in once support for tool-tips is fixed
+			//ToolTip.remove(tempObj);
+			
+			itemButton.removeEventListener(ToggleEvent.DOWN_STATE, onItemDownPress);
+			itemButton = null;
 			
 			i--;
-        }  
+        }
 		
-		//source = _itemHolder;
-		//_itemHolder = new Sprite();  
-        
-        //refreshPane();
     }
     
    
@@ -891,6 +849,7 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
         if (!_allowMultipleSelection) 
         {
             clearAllSelected();
+			
             
             if (null != _list.getItemAt(_selectedIndex)) 
                 _list.getItemAt(_selectedIndex).selected = toggleButton.selected = true;
@@ -911,13 +870,15 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
     {
         for (i in 0..._list.length - 1 + 1)
 		{
+			
             var itemData : ItemPaneObjectData = cast(_list.getItemAt(i), ItemPaneObjectData);
-            
-            itemData.itemButton.selected = itemData.selected = false;
+            var itemButton : ItemPaneButton = cast(_itemHolder.getChildByName(Std.string(i)), ItemPaneButton);
+			
+            itemData.selected = false;
             
             // If color label was selected
             if (-1 != _labelNormalColor) 
-                itemData.itemButton.label.textColor = _labelNormalColor;
+                itemButton.label.textColor = _labelNormalColor;
         }
     }
 }
