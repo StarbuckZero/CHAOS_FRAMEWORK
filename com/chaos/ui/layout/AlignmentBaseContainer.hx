@@ -35,18 +35,47 @@ class AlignmentBaseContainer extends BaseContainer implements IBaseUI implements
     
     private var _clipping : Bool = true;
     
-    public function new()
+    public function new(data:Dynamic = null)
     {
-        super();
-        
-        init();
+        super(data);
     }
-    
-    private function init() : Void
-    {
-        
-        
-    }
+	
+	override public function initialize():Void 
+	{
+		super.initialize();
+		
+	}
+	
+	override public function setComponentData(data:Dynamic):Void 
+	{
+		super.setComponentData(data);
+		
+		if (Reflect.hasField(data, "align"))
+			_align = Reflect.field(data, "align");
+		
+		if (Reflect.hasField(data, "spacingH"))
+			_spacingH = Reflect.field(data, "spacingH");
+			
+		if (Reflect.hasField(data, "spacingV"))
+			_spacingV = Reflect.field(data, "spacingV");
+			
+		if (Reflect.hasField(data, "padding"))
+			_padding = Reflect.field(data, "padding");
+			
+		if (Reflect.hasField(data, "clipping"))
+			_clipping = Reflect.field(data, "clipping");
+			
+	}
+	
+	override public function destroy():Void 
+	{
+		super.destroy();
+		
+		removeAll();
+		
+		contentHolder.scrollRect = null;
+	}
+	
     
     /**
 	 * For making it so the content can overlap or bleed outside the container
@@ -169,7 +198,7 @@ class AlignmentBaseContainer extends BaseContainer implements IBaseUI implements
     
     public function addElementList(list : Array<Dynamic>) : Void
     {
-        for (i in 0...list.length)
+        for (i in 0 ... list.length)
 		{
             if (null != list[i] && Std.is(list[i], IBaseUI)) 
                 contentObject.addChild(list[i]);
@@ -186,7 +215,6 @@ class AlignmentBaseContainer extends BaseContainer implements IBaseUI implements
     
     public function addElement(object : IBaseUI) : Void
     {
-        
         contentObject.addChild(object.displayObject);
     }
     
@@ -266,9 +294,7 @@ class AlignmentBaseContainer extends BaseContainer implements IBaseUI implements
         
         // Add it back  
         for (a in 0...temp.length)
-		{
             contentObject.addChild(temp[a]);
-        }
     }
     
     /**
@@ -279,12 +305,16 @@ class AlignmentBaseContainer extends BaseContainer implements IBaseUI implements
     {
         var currentObject : IBaseUI;
         
-        for (i in 0...contentObject.numChildren)
+        for (i in 0 ... contentObject.numChildren)
 		{
             try
             {
                 currentObject = cast(contentObject.getChildAt(i), IBaseUI);
                 contentObject.removeChild(currentObject.displayObject);
+				
+				currentObject.destroy();
+				currentObject = null;
+				
             } 
 			catch (error : Error)
             {

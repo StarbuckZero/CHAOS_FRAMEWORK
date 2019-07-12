@@ -51,10 +51,6 @@ class BaseContainer extends BaseUI implements IBaseContainer implements IBaseUI
     public function new(data:Dynamic = null)
     {
         super(data);
-		
-        //_width = baseWidth;
-        //_height = baseHeight;
-        
         
     }
 	
@@ -87,6 +83,24 @@ class BaseContainer extends BaseUI implements IBaseContainer implements IBaseUI
 			
 		if (Reflect.hasField(data, "background"))
 			_background = Reflect.field(data, "background");
+	}
+	
+	override public function destroy():Void 
+	{
+		super.destroy();
+		
+		backgroundShape.graphics.clear();
+		
+        removeChild(backgroundShape);
+        removeChild(contentObject);
+        
+        removeChild(contentHolder);
+		
+		
+		backgroundShape = null;
+		contentObject = null;
+		contentHolder = null;
+		
 	}
 	
 	

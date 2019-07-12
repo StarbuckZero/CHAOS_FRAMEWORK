@@ -157,7 +157,7 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 	private var _enableResize : Bool = true;
 	private var _contentMask : Sprite;
 	
-	private var _scrollPane : IScrollPane;
+	private var _scrollPane : ScrollPane;
 	private var _windowTitle : Label;
 	private var _eventDispatcher : EventDispatcher;
 	
@@ -184,6 +184,10 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 	private var _labelData:Dynamic = null;
 	private var _scrollPanelData:Dynamic = null;
 	
+	private var _closeButtonData:Dynamic = null;
+	private var _minButtonData:Dynamic = null;
+	private var _maxButtonData:Dynamic = null;
+	
 	// Constructor.  Also assigns the window main variable and loads in the window's content  
 	public function new(data:Dynamic = null)
     {
@@ -200,12 +204,15 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 	{
 		super.setComponentData(data);
 		
+		// Window Color
 		if (Reflect.hasField(data, "windowColor"))
 			_windowColor = Reflect.field(data, "windowColor");
 			
 		if (Reflect.hasField(data, "windowTitleColor"))
 			_windowTitleColor = Reflect.field(data, "windowTitleColor");
 			
+			
+		// Location of buttons and label	
 		if (Reflect.hasField(data, "labelLocation"))
 			_labelLocation = Reflect.field(data, "labelLocation");
 			
@@ -216,11 +223,59 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 			_iconLocation = Reflect.field(data, "iconLocation");
 			
 			
+		// Min Size	
+		if (Reflect.hasField(data, "windowMinWidth"))
+			_windowMinWidth = Reflect.field(data, "windowMinWidth");
+			
+		if (Reflect.hasField(data, "windowMinHeight"))
+			_windowMinHeight = Reflect.field(data, "windowMinHeight");
+			
+		if (Reflect.hasField(data, "resize"))
+			_enableResize = Reflect.field(data, "resize");
+			
+			
+		// Window Resize
+		if (Reflect.hasField(data, "windowTopRightSize"))
+			_windowTopRightSize = Reflect.field(data, "windowTopRightSize");
+		
+		if (Reflect.hasField(data, "windowTopMiddleSize"))
+			_windowTopMiddleSize = Reflect.field(data, "windowTopMiddleSize");
+			
+		if (Reflect.hasField(data, "windowTopLeftSize"))
+			_windowTopLeftSize = Reflect.field(data, "windowTopLeftSize");
+		
+			
+		if (Reflect.hasField(data, "windowMiddleSize"))
+			_windowMiddleSize = Reflect.field(data, "windowMiddleSize");
+			
+			
+		if (Reflect.hasField(data, "windowBottomRightSize"))
+			_windowBottomRightSize = Reflect.field(data, "windowBottomRightSize");
+			
+		if (Reflect.hasField(data, "windowBottomMiddleSize"))
+			_windowBottomMiddleSize = Reflect.field(data, "windowBottomMiddleSize");
+		
+		if (Reflect.hasField(data, "windowBottomLeftSize"))
+			_windowBottomLeftSize = Reflect.field(data, "windowBottomLeftSize");
+		
+		
+		// Other Comonents 
 		if (Reflect.hasField(data, "Label"))
 			_labelData = Reflect.field(data, "Label");
 		
 		if (Reflect.hasField(data, "ScrollPanel"))
 			_scrollPanelData = Reflect.field(data, "ScrollPanel");
+			
+			
+		if (Reflect.hasField(data, "CloseButton"))
+			_closeButtonData = Reflect.field(data, "CloseButton");
+			
+		if (Reflect.hasField(data, "MinButton"))
+			_minButtonData = Reflect.field(data, "MinButton");
+			
+		if (Reflect.hasField(data, "MaxButton"))
+			_maxButtonData = Reflect.field(data, "MaxButton");
+			
 	}
 	
 	private function onStageAdd(event : Event) : Void
@@ -238,14 +293,19 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 		// Send instance of self to the Event Dispatcher 
 		_eventDispatcher = new EventDispatcher();
 		
+		if (_scrollPanelData == null)
+			_scrollPanelData = {"name":"windowScrollPane", "mode":ScrollPolicy.AUTO};
+		else
+			Reflect.setField(_scrollPanelData, "name", "windowScrollPane");
+		
 		// Setup scroll pane
-		_scrollPane = new ScrollPane({"name":"windowScrollPane", "mode":ScrollPolicy.AUTO});
+		_scrollPane = new ScrollPane(_scrollPanelData);
 		
 		// Window Display Icon
 		_iconDisplay = new Shape();
 		
 		// Sets the window title textformat reference
-		_windowTitle = new Label();
+		_windowTitle = new Label(_labelData);
 		
 		// Init sprites/clips for window 
 		_windowTopLeft = new Sprite();
@@ -273,15 +333,34 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 		_windowBottomRightTexture = new Shape(); 
 		
 		// Setup window buttons
-		_closeButton = new Button({"name":WindowEvent.WINDOW_CLOSE_BTN, "showLabel":false, "defaultColor":DEFAULT_CLOSE_BTN_COLOR});
-		_minButton = new Button({"name":WindowEvent.WINDOW_MIN_BTN, "showLabel":false, "defaultColor":DEFAULT_MAX_BTN_COLOR});
-		_maxButton = new Button({"name":WindowEvent.WINDOW_MAX_BTN, "showLabel":false, "defaultColor":DEFAULT_MIN_BTN_COLOR});
+		if (_closeButtonData == null)
+			_closeButtonData = {"name":WindowEvent.WINDOW_CLOSE_BTN, "showLabel":false, "defaultColor":DEFAULT_CLOSE_BTN_COLOR};
+		else
+			Reflect.setField(_closeButtonData, "name", WindowEvent.WINDOW_CLOSE_BTN);
+		
+		
+		if (_minButtonData == null)
+			_minButtonData = {"name":WindowEvent.WINDOW_MIN_BTN, "showLabel":false, "defaultColor":DEFAULT_MIN_BTN_COLOR};
+		else
+			Reflect.setField(_minButtonData, "name", WindowEvent.WINDOW_MIN_BTN);
+			
+			
+		if (_maxButtonData == null)
+			_maxButtonData = {"name":WindowEvent.WINDOW_MAX_BTN, "showLabel":false, "defaultColor":DEFAULT_MAX_BTN_COLOR};
+		else
+			Reflect.setField(_maxButtonData, "name", WindowEvent.WINDOW_MAX_BTN);
+			
+		_closeButton = new Button(_closeButtonData);
+		_minButton = new Button(_minButtonData);
+		_maxButton = new Button(_maxButtonData);
+		
+		
+		// Clear objects
+		_maxButtonData = _minButtonData = _closeButtonData = _labelData = _scrollPanelData = null;
+		
 		
 		super.initialize();
 		
-		
-		//_scrollPane.name = "windowScrollPane";
-		//_scrollPane.mode = ScrollPolicy.AUTO;
 		
 		_iconDisplay.name = "windowIcon";  
 		
@@ -302,18 +381,6 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 		
 		
 		_windowButtonArea.name = "windowButtonArea";
-		
-		//_closeButton.name = WindowEvent.WINDOW_CLOSE_BTN;
-		//_minButton.name = WindowEvent.WINDOW_MIN_BTN;
-		//_maxButton.name = WindowEvent.WINDOW_MAX_BTN;
-		
-		//_closeButton.defaultColor = DEFAULT_CLOSE_BTN_COLOR;
-		//_maxButton.defaultColor = DEFAULT_MAX_BTN_COLOR;
-		//_minButton.defaultColor = DEFAULT_MIN_BTN_COLOR;
-		
-		//_closeButton.text = "";
-		//_maxButton.text = "";
-		//_minButton.text = "";
 		
 		_closeButton.addEventListener(MouseEvent.CLICK, windowCloseButton, false, 0, true);
 		_maxButton.addEventListener(MouseEvent.CLICK, windowMaxButton, false, 0, true);
@@ -349,7 +416,7 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 		addChild(_windowBottomRight);
 		addChild(_windowMiddleLeftTexture);
 		addChild(_windowMiddleRightTexture);
-		addChild(_scrollPane.displayObject);
+		addChild(_scrollPane);
 		addChild(_windowTopLeftTexture);
 		addChild(_windowTopMiddleTexture);
 		addChild(_windowTopRightTexture);
@@ -383,6 +450,62 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 		
 	}
 	
+	override public function destroy():Void 
+	{
+		super.destroy();
+		
+		// Events
+		_windowTitle.removeEventListener(MouseEvent.MOUSE_DOWN, dragMe);
+		_windowTitle.removeEventListener(MouseEvent.MOUSE_UP, dontDragMe);
+		_windowTopLeft.removeEventListener(MouseEvent.MOUSE_DOWN, dragMe);
+		
+		_windowTopLeft.removeEventListener(MouseEvent.MOUSE_UP, dontDragMe);
+		_windowTopRight.removeEventListener(MouseEvent.MOUSE_DOWN, dragMe);
+		
+		_windowTopRight.removeEventListener(MouseEvent.MOUSE_UP, dontDragMe);
+		_windowTopMiddle.removeEventListener(MouseEvent.MOUSE_DOWN, dragMe);
+		
+		_windowTopMiddle.removeEventListener(MouseEvent.MOUSE_UP, dontDragMe);
+		
+		removeEventListener(Event.ADDED_TO_STAGE, windowStageInit);
+		
+		// Remove items into display
+		removeChild(_windowTopLeft);
+		removeChild(_windowTopMiddle);
+		removeChild(_windowTopRight);
+		removeChild(_windowMiddleLeft);
+		removeChild(_windowMiddleRight);
+		removeChild(_windowBottomLeft);
+		removeChild(_windowBottomMiddle);
+		removeChild(_windowBottomRight);
+		removeChild(_windowMiddleLeftTexture);
+		removeChild(_windowMiddleRightTexture);
+		removeChild(_scrollPane);
+		removeChild(_windowTopLeftTexture);
+		removeChild(_windowTopMiddleTexture);
+		removeChild(_windowTopRightTexture);
+		removeChild(_windowBottomLeftTexture);
+		removeChild(_windowBottomMiddleTexture);
+		removeChild(_windowBottomRightTexture);
+		
+		
+		removeChild(_windowTitle);
+		removeChild(_windowButtonArea);
+		removeChild(_iconDisplay);		
+		
+		// Remove buttons to button area 
+		_windowButtonArea.removeChild(_closeButton);
+		_windowButtonArea.removeChild(_maxButton);
+		_windowButtonArea.removeChild(_minButton);
+		
+		_scrollPane.destroy();
+		_windowTitle.destroy();
+		
+		_closeButton.destroy();
+		_maxButton.destroy();
+		_minButton.destroy();
+	}	
+	
 
 	private function initSkin() : Void 
 	{  
@@ -415,47 +538,7 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 			setWindowBottomMiddleImage(UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_BOTTOM_MIDDLE));
 		
 		if (null != UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_BOTTOM_RIGHT))       
-			setWindowBottomRightImage(UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_BOTTOM_RIGHT));
-		
-		// Min Button  
-		//if (null != UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_MIN_BUTTON_NORMAL))   
-		//	setMinButtonBitmap(UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_MIN_BUTTON_NORMAL));
-		//
-		//if (null != UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_MIN_BUTTON_OVER))  
-		//	setMinOverButtonBitmap(UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_MIN_BUTTON_OVER));
-		//
-		//if (null != UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_MIN_BUTTON_DOWN))       
-		//	setMinDownButtonBitmap(UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_MIN_BUTTON_DOWN));
-		//
-		//if (null != UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_MIN_BUTTON_DISABLE))   
-		//	setMinDisableButtonBitmap(UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_MIN_BUTTON_DISABLE));
-		
-		// Max Button  
-		//if (null != UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_MAX_BUTTON_NORMAL))       
-		//	setMaxButtonBitmap(UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_MAX_BUTTON_NORMAL));
-		//
-		//if (null != UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_MAX_BUTTON_OVER))   
-		//	setMaxOverButtonBitmap(UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_MAX_BUTTON_OVER));
-		//
-		//if (null != UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_MAX_BUTTON_DOWN)) 
-		//	setMaxDownButtonBitmap(UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_MAX_BUTTON_DOWN));
-		//
-		//if (null != UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_MAX_BUTTON_DISABLE)) 
-		//	setMaxDisableButtonBitmap(UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_MAX_BUTTON_DISABLE));
-		
-		// Close Button  
-		//if (null != UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_CLOSE_BUTTON_NORMAL))   
-		//	setCloseButtonBitmap(UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_CLOSE_BUTTON_NORMAL));
-		//
-		//if (null != UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_CLOSE_BUTTON_OVER))    
-		//	setCloseOverButtonBitmap(UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_CLOSE_BUTTON_OVER));
-		//
-		//if (null != UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_CLOSE_BUTTON_DOWN))      
-		//	setCloseDownButtonBitmap(UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_CLOSE_BUTTON_DOWN));
-		//
-		//if (null != UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_CLOSE_BUTTON_DISABLE))     
-		//	setCloseDisableButtonBitmap(UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_CLOSE_BUTTON_DISABLE));
-		
+			setWindowBottomRightImage(UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_BOTTOM_RIGHT));		
     }
 	
 	private function initStyle() : Void 

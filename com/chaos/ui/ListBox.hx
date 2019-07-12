@@ -157,6 +157,21 @@ class ListBox extends ScrollPane implements IListBox implements IBaseUI
 		source = _itemList;
 		mode = ScrollPolicy.AUTO; 
 	}
+	
+	override public function destroy():Void 
+	{
+		super.destroy();
+		
+		// Events
+		removeEventListener(Event.ADDED_TO_STAGE, onStageAdd);
+		removeEventListener(Event.REMOVED_FROM_STAGE, onStageRemove);
+		
+		// Remove all labels out of list
+		removeList();
+		
+		_list.removeAll();
+		_list = null;
+	}
 
 	private function initListStyle() : Void
 	{

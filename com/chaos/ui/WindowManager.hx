@@ -3,7 +3,7 @@ package com.chaos.ui;
 import nme.errors.Error;
 
 
-import com.chaos.ui.interface.IBaseUI;
+
 import openfl.display.DisplayObject;
 import openfl.display.Sprite;
 import openfl.events.Event;

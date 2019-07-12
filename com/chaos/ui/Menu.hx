@@ -9,7 +9,7 @@ import com.chaos.ui.layout.classInterface.IFitContainer;
 import openfl.display.BitmapData;
 
 import com.chaos.data.DataProvider;
-import com.chaos.media.DisplayImage;
+
 import com.chaos.ui.data.MenuItemObjectData;
 import com.chaos.ui.layout.BaseContainer;
 import com.chaos.ui.layout.FitContainer;
@@ -20,7 +20,7 @@ import com.chaos.ui.UIBitmapManager;
 
 import openfl.display.DisplayObject;
 import openfl.display.Sprite;
-import openfl.display.Bitmap;
+
 import openfl.events.Event;
 import openfl.events.MouseEvent;
 
@@ -147,13 +147,15 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
     private var _buttonWidth : Float = 100;
     private var _buttonHeight : Float = 20;
     
-    private var buttonArea : FitContainer = new FitContainer();
-    private var subButtonArea : Sprite = new Sprite();
+    private var buttonArea : FitContainer;
+    private var subButtonArea : Sprite;
     private var menuLevel : Int = 0;
     
     private var _reverse : Bool = false;
     
     private var oldMenuButton : IMenuItem;
+	
+	private var _direction : String;
     
     /**
 	 * Creates a menu based on a list of MenuItemObjectData
@@ -163,25 +165,51 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
 	 * @example var menu = new Menu(menuDataList, Menu.HORIZONTAL)
 	 */
     
-    public function new(menuWidth : Int = 100, menuHeight : Int = 100, menuList : DataProvider<MenuItemObjectData> = null, direction : String = "horizontal")
+    public function new(data:Dynamic = null)
     {
-        super();
+		// menuWidth : Int = 100, menuHeight : Int = 100, menuList : DataProvider<MenuItemObjectData> = null, direction : String = "horizontal"
+        super(data);
 		
 		
-        if (null != menuList) 
-            _list = menuList;
-			
+        addEventListener(Event.ADDED_TO_STAGE, onStageAdd, false, 0, true);
+        addEventListener(Event.REMOVED_FROM_STAGE, onStageRemove, false, 0, true);
         
-        buttonArea.direction = direction;
         
-        width = menuWidth;
-        height = menuHeight;
-        
-        reskin();
-        
-        init();
-        build();
     }
+	
+	override public function setComponentData(data:Dynamic):Void 
+	{
+		super.setComponentData(data);
+		
+		
+		
+        //if (null != menuList) 
+        //    _list = menuList;
+		
+		
+		if (Reflect.hasField(data, "direction"))
+			_direction = Reflect.field(data, "direction");
+	}
+	
+	override public function initialize():Void 
+	{
+		buttonArea = new FitContainer();
+		subButtonArea = new Sprite();
+		
+		super.initialize();
+		
+        // Make it so you can see drop down button
+        buttonArea.clipping = false;
+        contentObject.addChild(subButtonArea);
+        contentObject.addChild(buttonArea.displayObject);
+        
+		build();
+	}
+	
+	override public function destroy():Void 
+	{
+		super.destroy();
+	}
 	
     override public function reskin() : Void
     {
@@ -347,17 +375,7 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
             setSubIcon(UIBitmapManager.getUIElement(Menu.TYPE, UIBitmapManager.MENU_SUB_BUTTON_ICON));
     }
     
-    private function init() : Void
-    {
-        
-        // Make it so you can see drop down button
-        buttonArea.clipping = false;
-        contentObject.addChild(subButtonArea);
-        contentObject.addChild(buttonArea.displayObject);
-        
-        addEventListener(Event.ADDED_TO_STAGE, onStageAdd, false, 0, true);
-        addEventListener(Event.REMOVED_FROM_STAGE, onStageRemove, false, 0, true);
-    }
+
     
 	#if flash @:setter(width) 
     override private function set_width(value : Float) : Void

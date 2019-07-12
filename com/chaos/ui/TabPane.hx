@@ -4,19 +4,16 @@ import com.chaos.ui.classInterface.IBaseUI;
 import com.chaos.ui.classInterface.IButton;
 import com.chaos.ui.classInterface.IScrollPane;
 import com.chaos.ui.classInterface.ITabPane;
+import com.chaos.ui.data.TabPaneObjectData;
 import openfl.display.BitmapData;
 import openfl.display.Sprite;
-import openfl.display.Shape;
 import openfl.display.DisplayObject;
-import openfl.display.Bitmap;
 import openfl.events.*;
 import com.chaos.data.DataProvider;
 import com.chaos.ui.ScrollPane;
 import com.chaos.ui.Button;
 import com.chaos.ui.UIStyleManager;
 import com.chaos.ui.UIBitmapManager;
-import com.chaos.media.DisplayImage;
-import openfl.utils.Object;
 
 /**
  *  A list of containers for displaying content based on what button is pressed
@@ -25,7 +22,7 @@ import openfl.utils.Object;
  *  @date 11-19-09
  */
 
-class TabPane extends ScrollPane implements ITabPane implements IScrollPane implements IBaseUI
+class TabPane extends BaseUI implements ITabPane implements IBaseUI
 {
 	
 	/** The type of UI Element */
@@ -38,8 +35,11 @@ class TabPane extends ScrollPane implements ITabPane implements IScrollPane impl
 	public var tabButtonOverColor(get, set) : Int;
 	public var tabButtonSelectedColor(get, set) : Int;
 	public var tabButtonDisableColor(get, set) : Int;
+	public var scrollPane(get, never) : IScrollPane;
 	
-	private var _contentList : DataProvider<Object>;
+	public var buttonArea : Sprite;
+	
+	private var _contentList : DataProvider<TabPaneObjectData>;
 	private var _tabButtonHeight : Int = 20;
 	private var _tabButtonNormalColor : Int = 0xCCCCCC;
 	private var _tabButtonOverColor : Int = 0x666666;
@@ -59,6 +59,9 @@ class TabPane extends ScrollPane implements ITabPane implements IScrollPane impl
 	private var _scrollButtonDisableColor : Int = 0x999999;
 
 	private var _selectedIndex : Int = 0;
+	
+	private var _scrollPane:ScrollPane;
+	private var _scrollPaneData:Dynamic;
 
 	public function new(data:Dynamic = null)
 	{
@@ -67,21 +70,61 @@ class TabPane extends ScrollPane implements ITabPane implements IScrollPane impl
 
 		addEventListener(Event.ADDED_TO_STAGE, onStageAdd, false, 0, true);
 		addEventListener(Event.REMOVED_FROM_STAGE, onStageRemove, false, 0, true);
-
-		border = true;
-
-		draw();
+	}
+	
+	override public function setComponentData(data:Dynamic):Void 
+	{
+		super.setComponentData(data);
+		
+		if (Reflect.hasField(data, "tabButtonHeight"))
+			_tabButtonHeight = Reflect.field(data, "tabButtonHeight");
+			
+		if (Reflect.hasField(data, "tabButtonNormalColor"))
+			_tabButtonNormalColor = Reflect.field(data, "tabButtonNormalColor");
+			
+		if (Reflect.hasField(data, "tabButtonOverColor"))
+			_tabButtonOverColor = Reflect.field(data, "tabButtonOverColor");
+			
+		if (Reflect.hasField(data, "tabButtonSelectedColor"))
+			_tabButtonSelectedColor = Reflect.field(data, "tabButtonSelectedColor");
+			
+		if (Reflect.hasField(data, "tabButtonDisableColor"))
+			_tabButtonDisableColor = Reflect.field(data, "tabButtonDisableColor");
+			
+		if (Reflect.hasField(data, "tabButtonTextColor"))
+			_tabButtonTextColor = Reflect.field(data, "tabButtonTextColor");
+			
+		if (Reflect.hasField(data, "tabButtonTextSelectedColor"))
+			_tabButtonTextSelectedColor = Reflect.field(data, "tabButtonTextSelectedColor");
+			
+			
+		// Component
+		
+		if (Reflect.hasField(data, "ScrollPane"))
+		_scrollPaneData = Reflect.field(data, "ScrollPane");
+			
 	}
 
-	override private function onStageAdd(event : Event) : Void { UIBitmapManager.watchElement(TYPE, this); }
-	override private function onStageRemove(event : Event) : Void { UIBitmapManager.stopWatchElement(TYPE, this); }
+	private function onStageAdd(event : Event) : Void { UIBitmapManager.watchElement(TYPE, this); }
+	private function onStageRemove(event : Event) : Void { UIBitmapManager.stopWatchElement(TYPE, this); }
 	
 	override public function initialize():Void 
 	{
 		// setup list
-		_contentList = new DataProvider();
+		_contentList = new DataProvider<TabPaneObjectData>();
+		buttonArea = new Sprite();
+		
+		_scrollPane = new ScrollPane(_scrollPaneData);
+		_scrollPaneData = null;
 		
 		super.initialize();
+		
+		_scrollPane.border = true;
+		
+		addChild(buttonArea);
+		addChild(_scrollPane);
+		
+		
 	}
 
 
@@ -89,7 +132,7 @@ class TabPane extends ScrollPane implements ITabPane implements IScrollPane impl
 	{
 		// Background
 		if (null != UIBitmapManager.getUIElement(TabPane.TYPE, UIBitmapManager.TABPANE_BACKGROUND))
-			setBackgroundImage(UIBitmapManager.getUIElement(ScrollPane.TYPE, UIBitmapManager.TABPANE_BACKGROUND));
+			_scrollPane.setBackgroundImage(UIBitmapManager.getUIElement(ScrollPane.TYPE, UIBitmapManager.TABPANE_BACKGROUND));
 
 		// Buttons
 		if (null != UIBitmapManager.getUIElement(TabPane.TYPE, UIBitmapManager.TABPANE_BUTTON_NORMAL))
@@ -105,24 +148,24 @@ class TabPane extends ScrollPane implements ITabPane implements IScrollPane impl
 			setTabButtonDisableImage(UIBitmapManager.getUIElement(TabPane.TYPE, UIBitmapManager.TABPANE_BUTTON_DISABLE));
 	}
 
-	override private function initStyle() : Void
+	private function initStyle() : Void
 	{
-		super.initStyle();
-
+		
+		
 		// Border
 		if ( -1 != UIStyleManager.TABPANE_BACKGROUND)
-			backgroundColor = UIStyleManager.TABPANE_BACKGROUND;
+			_scrollPane.backgroundColor = UIStyleManager.TABPANE_BACKGROUND;
 
-		border = UIStyleManager.TABPANE_BORDER;
+		_scrollPane.border = UIStyleManager.TABPANE_BORDER;
 
 		if ( -1 != UIStyleManager.TABPANE_BORDER_COLOR)
-			borderColor = UIStyleManager.TABPANE_BORDER_COLOR;
+			_scrollPane.borderColor = UIStyleManager.TABPANE_BORDER_COLOR;
 
 		if ( -1 != UIStyleManager.TABPANE_BORDER_ALPHA)
-			borderAlpha = UIStyleManager.TABPANE_BORDER_ALPHA;
+			_scrollPane.borderAlpha = UIStyleManager.TABPANE_BORDER_ALPHA;
 
 		if ( -1 != UIStyleManager.TABPANE_BORDER_THINKNESS)
-			borderThinkness = UIStyleManager.TABPANE_BORDER_THINKNESS;
+			_scrollPane.borderThinkness = UIStyleManager.TABPANE_BORDER_THINKNESS;
 
 		// Buttons
 		if ( -1 != UIStyleManager.TABPANE_BUTTON_NORMAL_COLOR)
@@ -145,6 +188,33 @@ class TabPane extends ScrollPane implements ITabPane implements IScrollPane impl
 			_tabButtonSelectedColor = UIStyleManager.TABPANE_BUTTON_SELECTED_COLOR;
 
 	}
+	
+	override public function destroy():Void 
+	{
+		super.destroy();
+		
+		removeEventListener(Event.ADDED_TO_STAGE, onStageAdd);
+		removeEventListener(Event.REMOVED_FROM_STAGE, onStageRemove);
+		
+		for (i in 0 ... buttonArea.numChildren)
+		{
+			var button:Button = cast(buttonArea.getChildByName(Std.string(i)), Button);
+			
+			button.removeEventListener(MouseEvent.CLICK, tabPress);
+			buttonArea.removeChild(button);
+			
+			button.destroy();
+			button = null;
+		}
+		
+		removeChild(buttonArea);
+		removeChild(_scrollPane);
+		
+		_contentList.removeAll();
+		
+		_scrollPane.destroy();
+		_scrollPane = null;
+	}
 
 	/**
 	 * @inheritDoc
@@ -156,6 +226,11 @@ class TabPane extends ScrollPane implements ITabPane implements IScrollPane impl
 		initSkin();
 		initStyle();
 	}
+	
+	private function get_scrollPane() : IScrollPane
+	{
+		return _scrollPane;
+	}
 
 	/**
 	 * Set the color of the TabPane button text field color
@@ -163,7 +238,9 @@ class TabPane extends ScrollPane implements ITabPane implements IScrollPane impl
 
 	private function set_tabButtonTextColor(value : Int) : Int
 	{
-		_tabButtonTextColor = value; draw();
+		_tabButtonTextColor = value;
+		draw();
+		
 		return value;
 	}
 
@@ -172,15 +249,15 @@ class TabPane extends ScrollPane implements ITabPane implements IScrollPane impl
 	 * @return Returns the color
 	 */
 
-	private function get_tabButtonTextColor() : Int {return _tabButtonTextColor;
-													}
+	private function get_tabButtonTextColor() : Int {return _tabButtonTextColor;}
 
 	/**
 	 * Set the color of the TabPane button text field color in it's selected state
 	 */
 	private function set_tabButtonTextSelectedColor(value : Int) : Int
 	{
-		_tabButtonTextSelectedColor = value; draw();
+		_tabButtonTextSelectedColor = value;
+		draw();
 		return value;
 	}
 
@@ -203,12 +280,12 @@ class TabPane extends ScrollPane implements ITabPane implements IScrollPane impl
 		super.enabled = value;
 
 		// Disable or enable all buttons
-		for (i in 0..._contentList.length - 1 + 1)
-		{
-			_contentList.getItemAt(i).button.enabled = value;
-		}
+		for (i in 0..._contentList.length)
+			cast(buttonArea.getChildByName(Std.string(i)), IButton).enabled = value;
 
-		_contentList.getItemAt(_selectedIndex).button.enabled = (super.enabled) ? false : true;
+		
+		// Don't know why it would enable the current selected button here
+		//_contentList.getItemAt(_selectedIndex).button.enabled = (super.enabled) ? false : true;
 
 		return value;
 	}
@@ -226,24 +303,13 @@ class TabPane extends ScrollPane implements ITabPane implements IScrollPane impl
 	{
 		// Create new button & scroll pane
 		var tabButton : Button = new Button();
-		var tempObject : Object = new Object();
+		var tempObject : TabPaneObjectData = new TabPaneObjectData(content, -1, value, value);
 
 		tabButton.text = value;
 		tabButton.addEventListener(MouseEvent.CLICK, tabPress);
 
-		// Content
-		tempObject.label = value;
-		tempObject.content = content;
-		tempObject.button = tabButton;
 
-		if (Std.is(content, DisplayObject))
-		{
-			tempObject.content_width = content.width;
-			tempObject.content_height = content.height;
-		}
-
-		addChild(tabButton);
-
+		buttonArea.addChild(tabButton);
 		_contentList.addItem(tempObject);
 
 		// Redraw buttons
@@ -261,9 +327,9 @@ class TabPane extends ScrollPane implements ITabPane implements IScrollPane impl
 
 	public function removeItem(value : String) : Dynamic
 	{
-		for (i in 0..._contentList.length - 1 + 1)
+		for (i in 0..._contentList.length)
 		{
-			if (_contentList.getItemAt(i).label.toLowerCase() == value.toLowerCase())
+			if (_contentList.getItemAt(i).text.toLowerCase() == value.toLowerCase())
 				return removeItemAt(i);
 		}
 
@@ -275,17 +341,19 @@ class TabPane extends ScrollPane implements ITabPane implements IScrollPane impl
 	 *
 	 * @param index  The index at which the item is to be added.
 	 */
-	public function removeItemAt(value : Int) : Dynamic
+	public function removeItemAt(value : Int) : TabPaneObjectData
 	{
 		if (value < 0 || value > _contentList.length - 1)
 			return null;
 
-		var tempObj : Dynamic = _contentList.removeItemAt(value);
+		var tempObj : TabPaneObjectData = _contentList.removeItemAt(value)[0];
 
+		var button:Button = cast(buttonArea.getChildByName(Std.string(tempObj.id)), Button);
+		
 		// Remove button from display
-		removeChild(tempObj.button);
+		removeChild(button);
 
-		tempObj.button.addEventListener(MouseEvent.CLICK, tabPress);
+		button.addEventListener(MouseEvent.CLICK, tabPress);
 
 		draw();
 
@@ -448,9 +516,9 @@ class TabPane extends ScrollPane implements ITabPane implements IScrollPane impl
 	{
 		// Return value passed if not found or incorrect return the current selected index
 		if (value <= _contentList.length - 1 && value >= 0)
-			return _contentList.getItemAt(value).button;
+			return cast(buttonArea.getChildByName(Std.string(value)), Button);
 		else
-			return _contentList.getItemAt(_selectedIndex).button;
+			return cast(buttonArea.getChildByName(Std.string(_selectedIndex)), Button);
 	}
 
 	/**
@@ -465,15 +533,19 @@ class TabPane extends ScrollPane implements ITabPane implements IScrollPane impl
 		super.draw();
 
 		// Create and resize buttons
-		for (i in 0 ... _contentList.length - 1 + 1)
+		for (i in 0 ... buttonArea.numChildren)
 		{
 
 			// Setting up buttons
-			var button:Button = cast(_contentList.getItemAt(i).button, Button);
+			var button:Button = cast(buttonArea.getChildAt(i), Button);
+			
+			// Update all the i
+			_contentList.getItemAt(i).id = i;
+			
 			button.name = Std.string(i);
-			button.width = width / _contentList.length;
+			button.width = width / buttonArea.numChildren;
 			button.height = _tabButtonHeight;
-			button.x = cast(_contentList.getItemAt(i).button, Button).width * i;
+			button.x = button.width * i;
 			button.y = 0;
 			
 			button.textColor = _tabButtonTextColor;
@@ -513,29 +585,33 @@ class TabPane extends ScrollPane implements ITabPane implements IScrollPane impl
 		}
 
 		// Set location of scroll pane
-		contentHolder.height = height;
-		contentHolder.y = _tabButtonHeight;
+		buttonArea.x = 0;
+		buttonArea.y = 0;
+		
+		_scrollPane.width = _width;
+		_scrollPane.height = _height - _tabButtonHeight;
+		_scrollPane.y = _tabButtonHeight;
 
 		// Load in content
 		if (_contentList.length > 0 && _contentList.getItemAt(_selectedIndex).content != null)
 		{
-			cast(_contentList.getItemAt(_selectedIndex).button,Button).enabled = false;
+			cast(buttonArea.getChildByName(Std.string(_selectedIndex)), Button).enabled = false;
 			contentLoad(_contentList.getItemAt(_selectedIndex).content);
 		}
 
-		update();
+		_scrollPane.update();
 	}
 
 	private function contentLoad(value : DisplayObject) : Void
 	{
 		// Selected Index
-		source = value;
+		_scrollPane.source = value;
 	}
 
 	private function tabPress(event : MouseEvent) : Void
 	{
 		var button:Button =  cast(event.currentTarget, Button);
-		var oldButton:Button = cast(_contentList.getItemAt(_selectedIndex).button, Button);
+		var oldButton:Button = cast(buttonArea.getChildByName(Std.string(_selectedIndex)), Button);
 
 		if (_selectedIndex != Std.parseInt(button.name))
 		{

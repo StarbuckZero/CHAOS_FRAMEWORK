@@ -1,11 +1,11 @@
 package com.chaos.ui.classInterface;
 
-import openfl.display.Bitmap;
+
 import openfl.display.BitmapData;
 import openfl.display.DisplayObject;
-import com.chaos.ui.Button;
 
-interface ITabPane extends com.chaos.ui.classInterface.IScrollPane
+
+interface ITabPane
 {
     /**
 	 * Switch the TabPane to the section as if the button was pressed. This will remove whatever content that is currenly being used and replace it with new data.

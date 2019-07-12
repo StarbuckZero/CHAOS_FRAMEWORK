@@ -139,6 +139,31 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
 		_labelData = null;
 		
     }
+	
+	override public function destroy():Void 
+	{
+		super.destroy();
+		
+		// Event
+		removeEventListener(Event.ADDED_TO_STAGE, onStageAdd);
+		removeEventListener(Event.REMOVED_FROM_STAGE, onStageRemove);
+		
+		// Unload label
+		removeChild(_label);
+		_label.destroy();
+		
+		// Clear icon
+		_icon.graphics.clear();
+		
+		// Remove
+		if (_icon.parent != null)
+			_icon.parent.removeChild(_icon);
+		
+		// Clear memory
+		_label = null;
+		_icon = null;
+		
+	}	
     
 	/**
 	 * @inheritDoc
@@ -561,27 +586,7 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
         return _showIcon;
     }
 	
-	override public function destroy():Void 
-	{
-		super.destroy();
-		
-		// Unload label
-		_label.destroy();
-		
-		// Event
-		removeEventListener(Event.ADDED_TO_STAGE, onStageAdd);
-		removeEventListener(Event.REMOVED_FROM_STAGE, onStageRemove);
-		
-		// Clear icon
-		_icon.graphics.clear();
-		
-		// Remove
-		if (_icon.parent != null)
-			_icon.parent.removeChild(_icon);
-		
-		_icon = null;
-		
-	}
+
 
     
     /**

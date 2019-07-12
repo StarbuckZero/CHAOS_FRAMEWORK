@@ -128,57 +128,6 @@ interface IItemPane extends IScrollPane
     
     function setDisableItem(value : BitmapData) : Void;
     
-    /**
-	 * Add a new item to the item pane
-	 *
-	 * @param	item The item you want to add
-	 */
-    
-    function addItem(item : ItemPaneObjectData) : Void;
-    
-    /**
-	 * Remove an item out of the item pane
-	 *
-	 * @param	item The object you want to remove
-	 *
-	 * @return Return the removed object
-	 */
-    
-    function removeItem(item : ItemPaneObjectData) : ItemPaneObjectData;
-    
-    /**
-	 * Remove all items out of the list
-	 */
-    
-    function removeAll() : Void;
-    
-    /**
-	 * Replaces an existing item with a new item
-	 *
-	 * @param newItem The item to be replaced.
-	 * @param oldItem The replacement item.
-	 */
-    
-    function replaceItem(newItem : ItemPaneObjectData, oldItem : ItemPaneObjectData) : Void;
-    
-    /**
-	 * Replaces the item at the specified index
-	 *
-	 * @param newItem The replacement item.
-	 * @param index The replacement item.
-	 */
-    
-    function replaceItemAt(newItem : ItemPaneObjectData, index : Int) : ItemPaneObjectData;
-    
-    /**
-	 * Returns the item at the specified index.
-	 *
-	 * @param value Location of the item to be returned.
-	 * @return The item at the specified index.
-	 *
-	 */
-    
-    function getItemAt(value : Int) : ItemPaneObjectData;
     
     /**
 	 * Returns the item at the selected index.

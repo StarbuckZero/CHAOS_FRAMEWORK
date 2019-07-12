@@ -141,13 +141,37 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 		initUISkin();
 		initStyle();
 		
-		//addChild(backgroundShape);
+		
 		addChild(_contentSizeBox);
-		//addChild(contentObject);
+		
 		addChild(shapeBlock);
 		addChild(_outline); 
 		addChild(_scrollBarH.displayObject);
 		addChild(_scrollBarV.displayObject);
+		
+	}
+	
+	override public function destroy():Void 
+	{
+		super.destroy();
+		
+		_contentSizeBox.graphics.clear();
+		shapeBlock.graphics.clear();
+		_outline.graphics.clear();
+		
+		removeChild(_contentSizeBox);
+		
+		removeChild(shapeBlock);
+		removeChild(_outline); 
+		removeChild(_scrollBarH.displayObject);
+		removeChild(_scrollBarV.displayObject);
+		
+		// See if some content is already loaded  
+		if (contentObject.numChildren > 0)
+			contentObject.removeChildAt(0);
+		
+		_scrollBarH.destroy();
+		_scrollBarV.destroy();
 		
 	}
 	
@@ -323,16 +347,6 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 		if (null == _scrollBarH && null == _scrollBarV)
 		return null;
 		
-		// Unload if something has been loaded because scroll content has been set  
-		//_scrollBarH.slider.percent = 0;
-		//_scrollBarV.slider.percent = 0;
-		//
-		//if (_scrollContentLoaded)
-		//{
-		//	_scrollContentH.unload();
-		//	_scrollContentV.unload();
-        //}
-		
 		_contentSizeBox.graphics.clear();
 		_contentSizeBox.graphics.beginFill(_backgroundColor);
 		_contentSizeBox.graphics.drawRect(0, 0, value.width, value.height);
@@ -381,18 +395,11 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 		_contentSizeBox.graphics.endFill();
 		
 		// Update Scrollbar
-		//contentObject = new Sprite();
-		//contentObject.addChild(tempClip);
-		//contentHolder.addChild(backgroundShape);
-		//contentHolder.addChild(_contentSizeBox);
-		//contentHolder.addChild(contentObject);
 		contentHolder.addChild(_scrollBarH.displayObject);
 		contentHolder.addChild(_scrollBarV.displayObject);
 		contentHolder.addChild(_outline);
-		//contentHolder.addChild(shapeBlock);
 		
 		update();
-		//draw();
     }
 
 	
@@ -433,6 +440,8 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 		
 		updatePolicy(_mode);
     }
+	
+	
 	
 	/**
 	* Draw the ScrollPane and all the UI classes it's using

@@ -30,8 +30,6 @@ import com.chaos.ui.data.ItemPaneObjectData;
 import com.chaos.ui.event.ToggleEvent;
 
 import com.chaos.ui.ScrollPane;
-import com.chaos.ui.Label;
-import com.chaos.ui.ToggleButton;
 
 
 
@@ -492,89 +490,7 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
         return _itemLocY;
     }
     
-    /**
-	 * Add a new item to the item pane
-	 *
-	 * @param	item The item you want to add
-	 */
-    
-    public function addItem(item : ItemPaneObjectData) : Void
-    {
-        _list.addItem(item);
-        draw();
-    }
-    
-    /**
-	 * Remove an item out of the item pane
-	 *
-	 * @param	item The object you want to remove
-	 *
-	 * @return Return the removed object
-	 */
-    public function removeItem(item : ItemPaneObjectData) : ItemPaneObjectData
-    {
-        var oldData : ItemPaneObjectData = _list.removeItem(item);
-        draw();
-        
-        return oldData;
-    }
-    
-    /**
-	 * Replaces an existing item with a new item
-	 *
-	 * @param newItem The item to be replaced.
-	 * @param oldItem The replacement item.
-	 */
-    
-    public function replaceItem(newItem : ItemPaneObjectData, oldItem : ItemPaneObjectData) : Void
-    {
-        _list.replaceItem(newItem, oldItem);
-        draw();
-    }
-    
-    /**
-	 * Remove all items out of the list
-	 */
-    
-    public function removeAll() : Void
-    {
-        _list.removeAll();
-        
-        _selectedIndex = -1;
-        draw();
-    }
-    
-    /**
-	 * Replaces the item at the specified index
-	 *
-	 * @param newItem The replacement item.
-	 * @param index The replacement item.
-	 */
-    
-    public function replaceItemAt(newItem : ItemPaneObjectData, index : Int) : ItemPaneObjectData
-    {
-        var oldData : ItemPaneObjectData = _list.replaceItemAt(newItem, index);
-        draw();
-        
-        return oldData;
-    }
-    
-    /**
-	 * Returns the item at the specified index.
-	 *
-	 * @param value Location of the item to be returned.
-	 * @return The item at the specified index.
-	 *
-	 */
-    
-    public function getItemAt(value : Int) : ItemPaneObjectData
-    {
-        var oldData : ItemPaneObjectData = _list.getItemAt(value);
-        draw();
-        
-        return oldData;
-    }
-    
+
     /**
 	 * Replace the current data provider and rebuild the item pane
 	 */

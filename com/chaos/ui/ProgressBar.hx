@@ -194,6 +194,32 @@ import com.chaos.ui.UIBitmapManager;
         setLoadBarImage(UIBitmapManager.getUIElement(ProgressBar.TYPE, UIBitmapManager.PROGRESSBAR_LOADED_BACKGROUND));
     }
 	
+	override public function destroy():Void 
+	{
+		super.destroy();
+		
+		_backgroundNormal.graphics.clear();
+		_loadedBar.graphics.clear();
+		_outline.graphics.clear();
+		_mask.graphics.clear();
+		_fontMask.graphics.clear();
+		
+		removeChild(_backgroundNormal);
+		removeChild(_loadedBar);
+		removeChild(_outline);
+		removeChild(_mask);
+		removeChild(_fontMask);
+		removeChild(_label);
+		removeChild(_loadedLabel);
+		
+		_label.destroy();
+		_loadedLabel.destroy();
+		
+		// Clear objects from memory
+		_label = _loadedLabel = null;
+		_backgroundNormal = _loadedBar = _outline = _mask = _fontMask = null;
+	}
+	
 	/**
 	 * @inheritDoc
 	 */

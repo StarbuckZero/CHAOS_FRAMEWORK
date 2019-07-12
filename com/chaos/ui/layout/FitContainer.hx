@@ -22,21 +22,29 @@ class FitContainer extends AlignmentBaseContainer implements IFitContainer imple
     public var direction(get, set) : String;
 
     
-    private var _mode : String;
+    private var _mode : String = "horizontal";
     
     /**
-		 * Create a container that fits all UI elements inside
-		 */
+	 * Create a container that fits all UI elements inside
+	 */
     
-    public function new(direction : String = "horizontal")
+    public function new(data:Dynamic = null)
     {
-        _mode = direction;
-        super();
+        // direction : String = "horizontal"
+        super(data);
     }
+	
+	override public function setComponentData(data:Dynamic):Void 
+	{
+		super.setComponentData(data);
+		
+		if (Reflect.hasField(data,"direction"))
+			_mode = Reflect.field(data, "direction");
+	}
     
     /**
-		 * @inheritDoc
-		 */
+	 * @inheritDoc
+	 */
     
     override public function addElement(object : IBaseUI) : Void
     {
@@ -46,8 +54,8 @@ class FitContainer extends AlignmentBaseContainer implements IFitContainer imple
     }
     
     /**
-		 * @inheritDoc
-		 */
+	 * @inheritDoc
+	 */
     
     override public function addElementList(list : Array<Dynamic>) : Void
     {
@@ -58,8 +66,8 @@ class FitContainer extends AlignmentBaseContainer implements IFitContainer imple
     }
     
     /**
-		 * @inheritDoc
-		 */
+	 * @inheritDoc
+	 */
     
     override public function removeElement(object : IBaseUI) : Void
     {
@@ -70,8 +78,8 @@ class FitContainer extends AlignmentBaseContainer implements IFitContainer imple
     }
     
     /**
-		 * @inheritDoc
-		 */
+	 * @inheritDoc
+	 */
     
     override public function draw() : Void
     {
