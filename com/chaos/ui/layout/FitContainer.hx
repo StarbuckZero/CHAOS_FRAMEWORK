@@ -97,7 +97,7 @@ class FitContainer extends AlignmentBaseContainer implements IFitContainer imple
     private function set_direction(value : String) : String
     {
         _mode = value.toLowerCase();
-        draw();
+        
 		
         return value;
     }

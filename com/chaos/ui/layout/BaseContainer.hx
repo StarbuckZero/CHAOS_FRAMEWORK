@@ -158,7 +158,7 @@ class BaseContainer extends BaseUI implements IBaseContainer implements IBaseUI
     private function set_background(value : Bool) : Bool
     {
         _background = value;
-        draw();
+        
 		
         return value;
     }
@@ -179,7 +179,7 @@ class BaseContainer extends BaseUI implements IBaseContainer implements IBaseUI
     private function set_backgroundColor(value : Int) : Int
     {
         _backgroundColor = value;
-        draw();
+        
 		
         return value;
     }
@@ -200,7 +200,7 @@ class BaseContainer extends BaseUI implements IBaseContainer implements IBaseUI
     private function set_backgroundAlpha(value : Float) : Float
     {
         _backgroundAlpha = value;
-        draw();
+        
 		
         return value;
     }
@@ -224,7 +224,6 @@ class BaseContainer extends BaseUI implements IBaseContainer implements IBaseUI
     {
         _imageBackground = value;
 		
-        draw();
     }
     
     

@@ -26,10 +26,10 @@ import openfl.events.MouseEvent;
 
 
 /**
-	 * Creates an menu system
-	 * 
-	 * @author Erick Feiling
-	 */
+ * Creates an menu system
+ * 
+ * @author Erick Feiling
+ */
 
 class Menu extends BaseContainer implements IBaseContainer implements IMenu implements IBaseUI
 {
@@ -78,7 +78,7 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
     /** Use this to turn the on y axis  */
     public static inline var VERTICAL : String = "vertical";  // Up and Down  
     
-    private var _list : DataProvider<MenuItemObjectData> = new DataProvider<MenuItemObjectData>();  // Main list  
+    private var _list : DataProvider<MenuItemObjectData>;
     
     //NOTE: Build out something for overlay layer in buttons
     //private var _smoothImage : Bool = true;
@@ -93,7 +93,7 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
     private var _downSubDisplayImage : BitmapData;
     private var _disableSubDisplayImage : BitmapData;
     
-    private var _normalFillColor : Int = 0xFFFFFF;
+    private var _normalFillColor : Int = 0xCCCCCC;
     private var _overFillColor : Int = 0x666666;
     private var _downFillColor : Int = 0x999999;
     private var _disableFillColor : Int = 0xFFFFFF;
@@ -108,7 +108,7 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
     private var _textSelectedColor : Int = 0x999999;
     private var _textDisableColor : Int = 0xCCCCCC;
     
-    private var _subMenuDefaultColor : Int = 0xFFFFFF;
+    private var _subMenuDefaultColor : Int = 0xCCCCCC;
     private var _subMenuOverColor : Int = 0xCCCCCC;
     private var _subMenuDownColor : Int = 0x666666;
     private var _subMenuDisableColor : Int = 0x000000;
@@ -123,10 +123,10 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
     private var _subTextSelectedColor : Int = 0x999999;
     private var _subTextDisableColor : Int = 0xCCCCCC;
     
-    private var _border : Bool = false;
+    private var _border : Bool = UIStyleManager.MENU_BORDER;
     private var _thinkness : Float = 1;
     
-    private var _subBorder : Bool = false;
+    private var _subBorder : Bool = UIStyleManager.MENU_SUB_BORDER;
     private var _subThinkness : Float = 1;
     
     private var _useMask : Bool = false;
@@ -171,10 +171,9 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
         super(data);
 		
 		
+
         addEventListener(Event.ADDED_TO_STAGE, onStageAdd, false, 0, true);
         addEventListener(Event.REMOVED_FROM_STAGE, onStageRemove, false, 0, true);
-        
-        
     }
 	
 	override public function setComponentData(data:Dynamic):Void 
@@ -182,26 +181,181 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
 		super.setComponentData(data);
 		
 		
+		// Build Menu System
+		if (Reflect.hasField(data, "data"))
+		{
+			_list = new DataProvider<MenuItemObjectData>(); 
+			
+			var dataMenu:Array<Dynamic> = Reflect.field(data, "data");
+			
+			for (i in 0 ... dataMenu.length)
+			{
+				var dataObj:Dynamic = dataMenu[i];
+				
+				if (Reflect.hasField(dataObj, "text") && Reflect.hasField(dataObj, "value"))
+				{
+					var menuObjectData:MenuItemObjectData = new MenuItemObjectData(i, Reflect.field(dataObj, "text"), Reflect.field(dataObj, "value"));
+					
+					// Check to see if current object has children
+					if (Reflect.hasField(dataObj, "data"))
+						menuObjectData.subMenuList = buildChildMenuData(Reflect.field(dataObj, "data"));
+					
+					_list.addItem(menuObjectData);
+				}
+					
+			}
+			
+		}		
 		
-        //if (null != menuList) 
-        //    _list = menuList;
-		
+		// Setup direction
 		
 		if (Reflect.hasField(data, "direction"))
 			_direction = Reflect.field(data, "direction");
+			
+		// Set button fill color
+		if (Reflect.hasField(data, "normalFillColor"))
+			_normalFillColor = Reflect.field(data, "normalFillColor");
+		
+		if (Reflect.hasField(data, "overFillColor"))
+			_overFillColor = Reflect.field(data, "overFillColor");
+	
+		if (Reflect.hasField(data, "downFillColor"))
+			_downFillColor = Reflect.field(data, "downFillColor");
+		
+		if (Reflect.hasField(data, "disableFillColor"))
+			_disableFillColor = Reflect.field(data, "disableFillColor");
+		
+		// Set button fill color
+		
+		if (Reflect.hasField(data, "normalLineColor"))
+			_normalLineColor = Reflect.field(data, "normalLineColor");
+
+		if (Reflect.hasField(data, "overLineColor"))
+			_overLineColor = Reflect.field(data, "overLineColor");
+		
+		if (Reflect.hasField(data, "downLineColor"))
+			_downLineColor = Reflect.field(data, "downLineColor");
+		
+		if (Reflect.hasField(data, "disableLineColor"))
+			_disableLineColor = Reflect.field(data, "disableLineColor");
+		
+		// Text Color
+		
+		if (Reflect.hasField(data, "textColor"))
+			_textColor = Reflect.field(data, "textColor");
+
+		if (Reflect.hasField(data, "textOverColor"))
+			_textOverColor = Reflect.field(data, "textOverColor");
+		
+		if (Reflect.hasField(data, "textSelectedColor"))
+			_textSelectedColor = Reflect.field(data, "textSelectedColor");
+		
+		if (Reflect.hasField(data, "textDisableColor"))
+			_textDisableColor = Reflect.field(data, "textDisableColor");
+		
+		
+		// Sub Menu colors
+		
+		if (Reflect.hasField(data, "subMenuDefaultColor"))
+			_subMenuDefaultColor = Reflect.field(data, "subMenuDefaultColor");
+		
+		if (Reflect.hasField(data, "subMenuOverColor"))
+			_subMenuOverColor = Reflect.field(data, "subMenuOverColor");
+		
+		if (Reflect.hasField(data, "subMenuDownColor"))
+			_subMenuDownColor = Reflect.field(data, "subMenuDownColor");
+		
+		if (Reflect.hasField(data, "subMenuDisableColor"))
+			_subMenuDisableColor = Reflect.field(data, "subMenuDisableColor");
+		
+		
+		// Sub Menu Color Line
+		
+		if (Reflect.hasField(data, "subNormalLineColor"))
+			_subNormalLineColor = Reflect.field(data, "subNormalLineColor");
+		
+		if (Reflect.hasField(data, "subOverLineColor"))
+			_subOverLineColor = Reflect.field(data, "subOverLineColor");
+		
+		if (Reflect.hasField(data, "subDownLineColor"))
+			_subDownLineColor = Reflect.field(data, "subDownLineColor");
+		
+		if (Reflect.hasField(data, "subDisableLineColor"))
+			_subDisableLineColor = Reflect.field(data, "subDisableLineColor");
+		
+		
+		// Sub Text Color
+		
+		if (Reflect.hasField(data, "subTextColor"))
+			_subTextColor = Reflect.field(data, "subDisableLineColor");
+		
+		if (Reflect.hasField(data, "subTextOverColor"))
+			_subTextOverColor = Reflect.field(data, "subTextOverColor");
+		
+		if (Reflect.hasField(data, "subTextSelectedColor"))
+			_subTextSelectedColor = Reflect.field(data, "subTextSelectedColor");
+		
+		if (Reflect.hasField(data, "subTextDisableColor"))
+			_subTextDisableColor = Reflect.field(data, "subTextDisableColor");
+			
+			
+		// Border
+		
+		if (Reflect.hasField(data, "border"))
+			_border = Reflect.field(data, "border");
+		
+		if (Reflect.hasField(data, "subBorder"))
+			_subBorder = Reflect.field(data, "subBorder");
+			
+		if (Reflect.hasField(data, "lineAlpha"))
+			_lineAlpha = Reflect.field(data, "lineAlpha");
+			
+		// Reverse the direction of the sub menu buttons
+		if (Reflect.hasField(data, "reverse"))
+			_reverse = Reflect.field(data, "reverse");
+		
+		
+	}
+	
+	private function buildChildMenuData(data:Array<Dynamic>):DataProvider<MenuItemObjectData>
+	{
+		var children:DataProvider<MenuItemObjectData> = new DataProvider<MenuItemObjectData>();
+		
+		// Loop through data
+		for (i in 0 ... data.length)
+		{
+			var dataObj:Dynamic = data[i];
+			
+			// Make sure it has text and value
+			if (Reflect.hasField(dataObj, "text") && Reflect.hasField(dataObj, "value"))
+			{
+				// Create new child object
+				var childObject:MenuItemObjectData = new MenuItemObjectData(i, Reflect.field(dataObj, "text"), Reflect.field(dataObj, "value"));
+				
+				// See if there are any children and build submenu if there is
+				if (Reflect.hasField(dataObj, "data"))
+					childObject.subMenuList = buildChildMenuData(Reflect.field(dataObj, "data"));
+				
+				children.addItem(childObject);
+			}
+			
+		}
+		
+		return children;
 	}
 	
 	override public function initialize():Void 
 	{
-		buttonArea = new FitContainer();
+		buttonArea = new FitContainer({"width":_width, "height":_height,"direction":_direction});
 		subButtonArea = new Sprite();
 		
+		 
 		super.initialize();
 		
         // Make it so you can see drop down button
         buttonArea.clipping = false;
         contentObject.addChild(subButtonArea);
-        contentObject.addChild(buttonArea.displayObject);
+        contentObject.addChild(buttonArea);
         
 		build();
 	}
@@ -209,6 +363,17 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
 	override public function destroy():Void 
 	{
 		super.destroy();
+		
+		// Events
+        removeEventListener(Event.ADDED_TO_STAGE, onStageAdd);
+        removeEventListener(Event.REMOVED_FROM_STAGE, onStageRemove);
+		
+        contentObject.removeChild(subButtonArea);
+        contentObject.removeChild(buttonArea.displayObject);
+		
+		
+		buttonArea.destroy();
+		removeSubMenu();
 	}
 	
     override public function reskin() : Void
@@ -218,8 +383,6 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
         // Set style
         initStyle();
         initBitmap();
-        
-        draw();
     }
     
     private function initStyle() : Void
@@ -265,7 +428,7 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
         if (UIStyleManager.MENU_BORDER_THINKNESS != -1) 
             _thinkness = UIStyleManager.MENU_BORDER_THINKNESS;
         
-        _border = UIStyleManager.MENU_BORDER;
+        
         
         // Button Text
         if (UIStyleManager.MENU_LABEL_TEXT_NORMAL_COLOR != -1) 
@@ -315,7 +478,7 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
         if (UIStyleManager.MENU_SUB_BORDER_THINKNESS != -1) 
             _subThinkness = UIStyleManager.MENU_SUB_BORDER_THINKNESS;
         
-        _subBorder = UIStyleManager.MENU_SUB_BORDER;
+        
         
         // Sub Menu Text
         if (UIStyleManager.MENU_SUB_LABEL_TEXT_NORMAL_COLOR != -1) 
@@ -441,7 +604,7 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
     private function set_menuDefaultColor(value : Int) : Int
     {
         _normalFillColor = value;
-        draw();
+        
         return value;
     }
     
@@ -462,7 +625,7 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
     private function set_menuSubDefaultColor(value : Int) : Int
     {
         _subMenuDefaultColor = value;
-        draw();
+        
         return value;
     }
     
@@ -483,7 +646,7 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
     private function set_menuOverColor(value : Int) : Int
     {
         _overFillColor = value;
-        draw();
+        
 		
         return value;
     }
@@ -505,7 +668,7 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
     private function set_menuSubOverColor(value : Int) : Int
     {
         _subMenuOverColor = value;
-        draw();
+        
         return value;
     }
     
@@ -525,7 +688,7 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
     private function set_menuDownColor(value : Int) : Int
     {
         _downFillColor = value;
-        draw();
+        
 		
         return value;
     }
@@ -546,7 +709,7 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
     private function set_menuSubDownColor(value : Int) : Int
     {
         _subMenuDownColor = value;
-        draw();
+        
         return value;
     }
     
@@ -566,7 +729,7 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
     private function set_menuDisableColor(value : Int) : Int
     {
         _disableFillColor = value;
-        draw();
+        
 		
         return value;
     }
@@ -588,7 +751,7 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
     private function set_menuSubDisableColor(value : Int) : Int
     {
         _subMenuDisableColor = value;
-        draw();
+        
         return value;
     }
     
@@ -608,7 +771,7 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
     private function set_normalBorderColor(value : Int) : Int
     {
         _normalLineColor = value;
-        draw();
+        
 		
         return value;
     }
@@ -629,7 +792,7 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
     private function set_normalSubBorderColor(value : Int) : Int
     {
         _subNormalLineColor = value;
-        draw();
+        
 		
         return value;
     }
@@ -650,7 +813,7 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
     private function set_overBorderColor(value : Int) : Int
     {
         _overLineColor = value;
-        draw();
+        
         return value;
     }
     
@@ -670,7 +833,7 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
     private function set_overSubBorderColor(value : Int) : Int
     {
         _subOverLineColor = value;
-        draw();
+        
         return value;
     }
     
@@ -691,7 +854,7 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
     private function set_downBorderColor(value : Int) : Int
     {
         _downLineColor = value;
-        draw();
+        
         return value;
     }
     
@@ -711,7 +874,7 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
     private function set_downSubBorderColor(value : Int) : Int
     {
         _subDownLineColor = value;
-        draw();
+        
         return value;
     }
     
@@ -731,7 +894,7 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
     private function set_disableBorderColor(value : Int) : Int
     {
         _disableLineColor = value;
-        draw();
+        
         return value;
     }
     
@@ -751,7 +914,6 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
     private function set_disableSubBorderColor(value : Int) : Int
     {
         _subDisableLineColor = value;
-        draw();
 		
         return value;
     }
@@ -772,7 +934,7 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
     private function set_fillAlpha(value : Float) : Float
     {
         _alpha = value;
-        draw();
+        
         return value;
     }
     
@@ -792,7 +954,7 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
     private function set_subAlpha(value : Float) : Float
     {
         _subAlpha = value;
-        draw();
+        
         return value;
     }
     
@@ -812,7 +974,7 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
     private function set_lineAlpha(value : Float) : Float
     {
         _alpha = value;
-        draw();
+        
         return value;
     }
     
@@ -832,7 +994,7 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
     private function set_subLineAlpha(value : Float) : Float
     {
         _subLineAlpha = value;
-        draw();
+        
 		
         return value;
     }
@@ -853,7 +1015,7 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
     private function set_textColor(value : Int) : Int
     {
         _textColor = value;
-        draw();
+        
         return value;
     }
     
@@ -873,7 +1035,7 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
     private function set_subTextColor(value : Int) : Int
     {
         _subTextColor = value;
-        draw();
+        
         return value;
     }
     
@@ -893,7 +1055,7 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
     private function set_textOverColor(value : Int) : Int
     {
         _textOverColor = value;
-        draw();
+        
         return value;
     }
     
@@ -913,7 +1075,7 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
     private function set_textSubOverColor(value : Int) : Int
     {
         _subTextOverColor = value;
-        draw();
+        
         return value;
     }
     
@@ -933,7 +1095,7 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
     private function set_textSelectedColor(value : Int) : Int
     {
         _textSelectedColor = value;
-        draw();
+        
         return value;
     }
     
@@ -953,7 +1115,6 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
     private function set_textSubSelectedColor(value : Int) : Int
     {
         _subTextSelectedColor = value;
-        draw();
 		
         return value;
     }
@@ -974,7 +1135,7 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
     private function set_textDisableColor(value : Int) : Int
     {
         _textDisableColor = value;
-        draw();
+        
         return value;
     }
     
@@ -994,7 +1155,7 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
     private function set_textSubDisableColor(value : Int) : Int
     {
         _subTextDisableColor = value;
-        draw();
+        
         return value;
     }
     
@@ -1014,7 +1175,7 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
     private function set_borderThinkness(value : Float) : Float
     {
         _thinkness = value;
-        draw();
+        
         return value;
     }
     
@@ -1034,7 +1195,7 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
     private function set_subBorderThinkness(value : Float) : Float
     {
         _subThinkness = value;
-        draw();
+        
 		
         return value;
     }
@@ -1153,7 +1314,7 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
     public function setIcon(value : BitmapData) : Void
     {
         _icon = value;
-        draw();
+        
     }
     
     /**
@@ -1164,7 +1325,7 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
     public function setSubIcon(value : BitmapData) : Void
     {
         _subIcon = value;
-        draw();
+        
     }	
 	
     /**
@@ -1196,7 +1357,7 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
     private function set_showSubMenuIcon(value : Bool) : Bool
     {
         _showSubMenuIcon = value;
-        draw();
+        
 		
         return value;
     }
@@ -1262,38 +1423,34 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
     
     private function build() : Void
     {
-        for (i in 0..._list.length)
+        for (i in 0 ... _list.length)
 		{
-            if (Std.is(_list.getItemAt(i), MenuItemObjectData)) 
-            {
-                var dataObj : MenuItemObjectData = cast(_list.getItemAt(i), MenuItemObjectData);
-                var menu : IMenuItem = new MenuItem(dataObj.text, _buttonWidth, _buttonHeight, dataObj.icon, dataObj.subMenuIcon);
-                menu.name = "menu" + i;
-                menu.hasChildren = dataObj.hasSubMenu;
-                
-                // Only if font is set in Style Manager
-                if (null != UIStyleManager.MENU_LABEL_TEXT_EMBED) 
-                    menu.getLabel().setEmbedFont(UIStyleManager.MENU_LABEL_TEXT_EMBED);
-                
-                if ("" != UIStyleManager.MENU_LABEL_TEXT_FONT) 
-                    menu.getLabel().font = UIStyleManager.MENU_LABEL_TEXT_FONT;
-                
-                dataObj.menuItem = menu;
-                
-                // Display sub menu
-                if (dataObj.hasSubMenu) 
-                    menu.addEventListener(MouseEvent.MOUSE_OVER, onMenuItemRollOver, false, 0, true);
-                
-                
-                // Remove sub menu
-                menu.addEventListener(MouseEvent.ROLL_OVER, onMenuItemRollOut, false, 0, true);
-                
-                menu.addEventListener(MouseEvent.CLICK, onClick, false, 5, true);
-				
-                styleMenuButton(menu);
-				
-                buttonArea.addElement(menu);
-            }
+			var dataObj : MenuItemObjectData = _list.getItemAt(i);
+			var menu : IMenuItem = new MenuItem({"text":dataObj.text, "width":_buttonWidth, "height":_buttonHeight}); // dataObj.text, _buttonWidth, _buttonHeight, dataObj.icon, dataObj.subMenuIcon
+			menu.name = "menu" + i;
+			menu.hasChildren = dataObj.hasSubMenu;
+			
+			// Only if font is set in Style Manager
+			if (null != UIStyleManager.MENU_LABEL_TEXT_EMBED) 
+				menu.label.setEmbedFont(UIStyleManager.MENU_LABEL_TEXT_EMBED);
+			
+			if ("" != UIStyleManager.MENU_LABEL_TEXT_FONT) 
+				menu.label.font = UIStyleManager.MENU_LABEL_TEXT_FONT;
+			
+			dataObj.menuItem = menu;
+			
+			// Display sub menu
+			if (dataObj.hasSubMenu) 
+				menu.addEventListener(MouseEvent.MOUSE_OVER, onMenuItemRollOver, false, 0, true);
+			
+			
+			// Remove sub menu
+			menu.addEventListener(MouseEvent.ROLL_OVER, onMenuItemRollOut, false, 0, true);
+			menu.addEventListener(MouseEvent.CLICK, onClick, false, 5, true);
+			
+			styleMenuButton(menu);
+			
+			buttonArea.addElement(menu);
         }
     }
     
@@ -1316,7 +1473,7 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
             if (Std.is(subMenu.getItemAt(i), MenuItemObjectData)) 
             {
                 var dataObj : MenuItemObjectData = subMenu.getItemAt(i);
-                var menu : IMenuItem = new MenuItem(dataObj.text, _buttonWidth, _buttonHeight, dataObj.icon, dataObj.subMenuIcon);
+                var menu : IMenuItem = new MenuItem({"text":dataObj.text,"width":_buttonWidth, "height":_buttonHeight}); // dataObj.icon, dataObj.subMenuIcon
                 var subCount : Int;
                 var parentHolder : DisplayObject;
                 
@@ -1326,10 +1483,10 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
                 menu.hasParent = true;
                 
                 if (null != UIStyleManager.MENU_SUB_LABEL_TEXT_EMBED) 
-                    menu.getLabel().setEmbedFont(UIStyleManager.MENU_SUB_LABEL_TEXT_EMBED);
+                    menu.label.setEmbedFont(UIStyleManager.MENU_SUB_LABEL_TEXT_EMBED);
                 
                 if ("" != UIStyleManager.MENU_SUB_LABEL_TEXT_FONT) 
-                    menu.getLabel().font = UIStyleManager.MENU_SUB_LABEL_TEXT_FONT;
+                    menu.label.font = UIStyleManager.MENU_SUB_LABEL_TEXT_FONT;
                 
                 if (buttonArea.direction == HORIZONTAL) 
                 {
@@ -1553,12 +1710,12 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
         menu.textSelectedColor = _textSelectedColor;
         menu.textDisableColor = _textDisableColor;
         
-        menu.menuDefaultColor = _normalFillColor;
-        menu.menuOverColor = _overFillColor;
-        menu.menuDownColor = _downFillColor;
-        menu.menuDisableColor = _disableFillColor;
+        menu.defaultColor = _normalFillColor;
+        menu.overColor = _overFillColor;
+        menu.downColor = _downFillColor;
+        menu.disableColor = _disableFillColor;
         
-        menu.fillAlpha = _alpha;
+        //menu.fillAlpha = _alpha;
         menu.lineAlpha = _lineAlpha;
         menu.border = _border;
         menu.borderThinkness = _thinkness;
@@ -1568,7 +1725,7 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
         menu.downBorderColor = _downLineColor;
         menu.disableBorderColor = _disableLineColor;
         
-        menu.smoothImage = _smoothImage;
+        //menu.smoothImage = _smoothImage;
         
         if (_normalDisplayImage != null) 
             menu.setDefaultStateImage(_normalDisplayImage);
@@ -1588,6 +1745,8 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
         //
         //if (_subMenuDisplayImage != null) 
         //    menu.setSubMenuImage(_subMenuDisplayImage);
+		
+		menu.draw();
     }
     
     private function styleSubMenuButton(menu : IMenuItem) : Void
@@ -1597,12 +1756,13 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
         menu.textSelectedColor = _subTextSelectedColor;
         menu.textDisableColor = _subTextDisableColor;
         
-        menu.menuDefaultColor = _subMenuDefaultColor;
-        menu.menuOverColor = _subMenuOverColor;
-        menu.menuDownColor = _subMenuDownColor;
-        menu.menuDisableColor = _subMenuDisableColor;
+		
+        menu.defaultColor = _subMenuDefaultColor;
+        menu.overColor = _subMenuOverColor;
+        menu.downColor = _subMenuDownColor;
+        menu.disableColor = _subMenuDisableColor;
         
-        menu.fillAlpha = _subAlpha;
+        //menu.fillAlpha = _subAlpha;
         menu.lineAlpha = _subLineAlpha;
         menu.border = _subBorder;
         menu.borderThinkness = _subThinkness;
@@ -1612,7 +1772,7 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
         menu.downBorderColor = _subDownLineColor;
         menu.disableBorderColor = _subDisableLineColor;
         
-        menu.smoothImage = _smoothImage;
+        //menu.smoothImage = _smoothImage;
         
         if (_normalSubDisplayImage != null) 
             menu.setDefaultStateImage(_normalSubDisplayImage);
@@ -1631,6 +1791,8 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
         
         if (_subMenuDisplayImage != null) 
             menu.setSubMenuIcon(_subMenuDisplayImage);
+			
+		menu.draw();
     }
     
     private function onClick(event : Event) : Void

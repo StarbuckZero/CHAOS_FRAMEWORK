@@ -473,7 +473,7 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 	private function set_buttonWidth(value : Int) : Int
 	{
 		_buttonWidth = value;
-		draw();
+		
 
 		return value;
 	}
@@ -553,7 +553,7 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 	private function set_text(value : String) : String
 	{
 		_selectLabel.text = value;
-		draw();
+		
 
 		return value;
 	}
@@ -612,7 +612,7 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 	private function set_textColor(value : Int) : Int
 	{
 		_textColor = value;
-		draw();
+		
 
 		return value;
 	}
@@ -634,7 +634,7 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 	private function set_textOverColor(value : Int) : Int
 	{
 		_textOverColor = value;
-		draw();
+		
 
 		return value;
 	}
@@ -655,7 +655,7 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 	private function set_textDownColor(value : Int) : Int
 	{
 		_textDownColor = value;
-		draw();
+		
 
 		return value;
 	}
@@ -677,7 +677,7 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 	private function set_backgroundColor(value : Int) : Int
 	{
 		_backgroundColor = value;
-		draw();
+		
 
 		return value;
 	}
@@ -715,7 +715,7 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 	private function set_borderColor(value : Int) : Int
 	{
 		_outlineColor = value;
-		draw();
+		
 
 		return value;
 	}
@@ -733,7 +733,6 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 	private function set_borderAlpha(value : Float) : Float
 	{
 		_outlineAlpha = value;
-		draw();
 
 		return value;
 	}

@@ -88,10 +88,13 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 	override function setComponentData(data:Dynamic) 
 	{
 		super.setComponentData(data);
-
+		
+		
 		if(Reflect.hasField(data,"border"))
-			_border = Reflect.field(data,"border");
-
+			_border = Reflect.field(data, "border");
+		else
+			_border = UIStyleManager.SCROLLPANE_BORDER;
+			
 		if(Reflect.hasField(data,"thinkness"))
 			_thinkness = Reflect.field(data,"thinkness");
 
@@ -187,7 +190,7 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 		if ( -1 != UIStyleManager.SCROLLPANE_BACKGROUND)  
 			super.backgroundColor = UIStyleManager.SCROLLPANE_BACKGROUND;
 		
-		_border = UIStyleManager.SCROLLPANE_BORDER;
+		
 		
 		if ( -1 != UIStyleManager.SCROLLPANE_BORDER_COLOR) 
 			_borderColor = UIStyleManager.SCROLLPANE_BORDER_COLOR; 

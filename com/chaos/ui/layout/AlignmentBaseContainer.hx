@@ -84,7 +84,6 @@ class AlignmentBaseContainer extends BaseContainer implements IBaseUI implements
     private function set_clipping(value : Bool) : Bool
     {
         _clipping = value;
-        draw();
 		
         return value;
     }

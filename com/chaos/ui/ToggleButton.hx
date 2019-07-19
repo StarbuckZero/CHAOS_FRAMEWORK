@@ -119,8 +119,7 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI
 		addChild(overState);
 		addChild(downState);
 		addChild(disableState);
-		
-		reskin();
+
     }
 	
 	private function onStageAdd(event : Event) : Void 
@@ -141,7 +140,6 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI
     {
         _roundEdge = value;
 		
-        draw();
         return value;
     }
     
@@ -162,7 +160,6 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI
     {
         _defaultColor = value;
         
-        draw();
         return value;
     }
     
@@ -183,7 +180,6 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI
     {
         _overColor = value;
 		
-        draw();
         return value;
     }
     
@@ -204,7 +200,7 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI
     {
         _downColor = value;
 		
-        draw();
+        
         return value;
     }
     
@@ -225,7 +221,7 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI
     {
         _disableColor = value;
 		
-        draw();
+        
         return value;
     }
     
@@ -246,7 +242,7 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI
 	{
 		_selected = value;
 		
-		draw();
+		
         return value;
     } 
 	
@@ -266,7 +262,7 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI
     {
         _bgAlpha = value;
 		
-        draw();
+        
         return value;
     }
     
@@ -283,7 +279,7 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI
 	{
 		_tileImage = value;
 		
-		draw();
+
 		return value;
 	}
 	
@@ -304,7 +300,7 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI
 	public function setDefaultStateImage(value : BitmapData) : Void 
 	{
 		_defaultStateImage = value;
-		draw();
+		
     }
 	
 	/**
@@ -316,7 +312,7 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI
 	public function setOverStateImage(value : BitmapData) : Void
 	{  
 		_overStateImage = value;
-		draw();
+		
     }
 	
 	/**
@@ -329,7 +325,7 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI
 	public function setDownStateImage(value : BitmapData) : Void
 	{
 		_downStateImage = value;
-		draw();
+		
     } 
 	
 	/**
@@ -341,7 +337,7 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI
 	public function setDisableStateImage(value : BitmapData) : Void
 	{
 		_disableStateImage = value;
-		draw();
+		
     }
 	
 

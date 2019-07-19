@@ -93,10 +93,15 @@ class Bubble extends Overlay implements IBubble implements IOverlay implements I
     {
         UIBitmapManager.stopWatchElement(TYPE, this);
     }
-    
-    override private function init() : Void
-    {
-		super.init();
+	
+	override public function setComponentData(data:Dynamic):Void 
+	{
+		super.setComponentData(data);
+	}
+	
+	override public function initialize():Void 
+	{
+		super.initialize();
 		
         contentHolder = new Sprite();
         
@@ -114,10 +119,20 @@ class Bubble extends Overlay implements IBubble implements IOverlay implements I
         
         addChildAt(contentHolder, 0);
         
-        initBitmap();
-        initStyle();
         
-        draw();
+        
+		
+	}
+	
+	override public function destroy():Void 
+	{
+		super.destroy();
+	}
+    
+    override private function init() : Void
+    {
+		super.init();
+		
     }
     
     private function initStyle() : Void
@@ -193,10 +208,10 @@ class Bubble extends Overlay implements IBubble implements IOverlay implements I
     
     override public function reskin() : Void
     {
-        super.reskin();
-        
         initStyle();
         initBitmap();
+		
+        super.reskin();
     }
     
     /**

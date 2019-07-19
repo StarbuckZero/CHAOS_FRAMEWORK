@@ -115,14 +115,14 @@ class BaseUI extends Sprite implements IBaseUI
     private function set_width(value : Float) : Void
     {
         _width = value;
-        draw();
+        
 		
     }
 	#else
 	override private function set_width(value : Float) : Float
 	{
         _width = value;
-        draw();
+        
 		
 		return value;
 	}
@@ -147,13 +147,13 @@ class BaseUI extends Sprite implements IBaseUI
     private function set_height(value : Float) : Void
     {
         _height = value;
-        draw();
+        
     }
 	#else  
     override private function set_height(value : Float) : Float
     {
         _height = value;
-        draw();
+        
 		
         return value;
     }	

@@ -171,11 +171,10 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
     
     override public function reskin() : Void
     {
-        super.reskin();
-        
         initBitmap();
         initStyle();
-        
+		
+        super.reskin();
     }
     
     private function initBitmap() : Void
@@ -327,7 +326,7 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
     {
         _imageOffSetX = value;
 		
-        draw();
+        
         return value;
     }
     
@@ -347,7 +346,7 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
     private function set_imageOffSetY(value : Int) : Int
     {
         _imageOffSetY = value;
-        draw();
+        
         return value;
     }
     
@@ -387,7 +386,7 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
     private function set_showLabel(value : Bool) : Bool
     {
         _showLabel = value;
-        draw();
+        
         return value;
     }
     
@@ -416,7 +415,7 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
     private function set_textFont(value : String) : String
     {
         _textFormat.font = value;
-        draw();
+        
         return value;
     }
     
@@ -436,7 +435,7 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
     private function set_textItalic(value : Bool) : Bool
     {
         _label.textFormat.italic = value;
-        draw();
+        
         return value;
     }
     
@@ -456,7 +455,7 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
     private function set_textBold(value : Bool) : Bool
     {
         _label.textFormat.bold = value;
-        draw();
+        
         return value;
     }
     
@@ -476,7 +475,7 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
     private function set_textSize(value : Int) : Int
     {
         _label.size = value;
-        draw();
+        
         return value;
     }
     
@@ -517,7 +516,7 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
     private function set_textAlign(value : String) : String
     {
         _label.align = value;
-        draw();
+        
         return value;
     }
     
@@ -544,9 +543,6 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
         _icon.graphics.beginBitmapFill(image, null, false, _imageSmooth);
 		_icon.graphics.drawRect(0, 0, image.width, image.height);
 		_icon.graphics.endFill();
-		
-		
-        draw();
     }
     
     /**
@@ -573,7 +569,7 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
     private function set_iconDisplay(value : Bool) : Bool
     {
         _showIcon = value;
-        draw();
+        
         return value;
     }
     
@@ -643,7 +639,7 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
             // Set location of text
             _label.width = _width - UIStyleManager.BUTTON_TEXT_OFFSET_X;
             _label.x = (_width / 2) - (_label.width / 2) + UIStyleManager.BUTTON_TEXT_OFFSET_X;
-            _label.y = (_height / 2) - (_label.height / 2) + UIStyleManager.BUTTON_TEXT_OFFSET_Y;
+            _label.y = (_height / 2) - (_label.textField.textHeight / 2) + UIStyleManager.BUTTON_TEXT_OFFSET_Y;
 			
         }
 		

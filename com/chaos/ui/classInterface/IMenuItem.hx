@@ -1,11 +1,9 @@
 package com.chaos.ui.classInterface;
 
 
-import com.chaos.drawing.icon.classInterface.IBasicIcon;
+
 import openfl.display.BitmapData;
 import openfl.display.Shape;
-import openfl.display.Sprite;
-import openfl.display.Bitmap;
 
 
 /**
@@ -13,7 +11,7 @@ import openfl.display.Bitmap;
  * @author Erick Feiling
  */
 
-interface IMenuItem extends IToggleButton
+interface IMenuItem extends IButton 
 {
     
     
@@ -39,39 +37,10 @@ interface IMenuItem extends IToggleButton
 	 */
     
     var parentMenuItem(get, set) : IMenuItem;    
-   
-    
-    /**
-	 * Set the default menu color
-	 */
-    
-    var menuDefaultColor(get, set) : Int;    
-    
-    /**
-	 * Set the over menu color
-	 */
-
-    var menuOverColor(get, set) : Int;    
-    
-    /**
-	 * Set the down menu color
-	 */
- 
-    
-    var menuDownColor(get, set) : Int;    
-    
-    /**
-	 * Set the disable menu icon color
-	 */
-  
-    
-    var menuDisableColor(get, set) : Int;    
     
     /**
 	 * Border color for normal button state
 	 */
-    
-    
 
     var normalBorderColor(get, set) : Int;    
     
@@ -96,14 +65,7 @@ interface IMenuItem extends IToggleButton
     
     
     var disableBorderColor(get, set) : Int;    
-    
-    /**
-	 * Set the inner menu button alpha
-	 */
-    
 
-    var fillAlpha(get, set) : Float;    
-    
     /**
 	 * Set the border menu button alpha
 	 */
@@ -142,11 +104,6 @@ interface IMenuItem extends IToggleButton
     
     var textDisableColor(get, set) : Int;    
     
-    /**
-	 * Set the menu button icon
-	 */
-    
-    var showIcon(get, set) : Bool;    
     
     /**
 	 * Border thinkness
@@ -169,21 +126,7 @@ interface IMenuItem extends IToggleButton
     
     var showSubMenuIcon(get, set) : Bool;    
     
-    /**
-	 * Turn on and off image smoothing
-	 */
 
-    
-    var smoothImage(get, set) : Bool;
-
-    
-    /**
-	 * Set the icon that will be used using a bitmap image
-	 * @param	image The bitmap that will be used
-	 */
-    
-    function setIcon(image : BitmapData) : Void;
-    
     /**
 	 * Return the icon that is being used for the set menu.
 	 * @return Return an icon interface
@@ -198,16 +141,6 @@ interface IMenuItem extends IToggleButton
 	 */
     
     function setSubMenuIcon(image : BitmapData) : Void;
-
-    
-    /**
-	 * Return the label being used
-	 *
-	 * @return An interface
-	 */
-    
-    function getLabel() : ILabel;
-
 
 }
 

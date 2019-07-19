@@ -250,10 +250,11 @@ class Label extends BaseUI implements ILabel implements IBaseUI
 	 * @inheritDoc
 	 */
 	override public function reskin() : Void 
-	{ 
-		initStyle();
-		draw();
+	{
 		
+		initStyle();
+		
+		super.reskin();
 	} 
 	 
 	 /**
@@ -263,7 +264,7 @@ class Label extends BaseUI implements ILabel implements IBaseUI
 	 private function set_showIcon(value : Bool) : Bool
 	 {
 		_showIcon = value;
-		draw();
+		
 		
 		return value;
 	 }
@@ -306,8 +307,6 @@ class Label extends BaseUI implements ILabel implements IBaseUI
 	{
 		_text = value;
 		
-		draw();
-		
 		return value;
 	}
 		
@@ -339,7 +338,6 @@ class Label extends BaseUI implements ILabel implements IBaseUI
 			
 		value = value.toLowerCase();
 		
-		draw();
 		
 		return value;
 	} 
@@ -379,7 +377,7 @@ class Label extends BaseUI implements ILabel implements IBaseUI
 	private function set_border(value : Bool) : Bool 
 	{
 		_border = value;
-		draw(); 
+		
 		
 		return value;
 	}  
@@ -401,7 +399,7 @@ class Label extends BaseUI implements ILabel implements IBaseUI
 	{ 
 		_outlineColor = value;
 		
-		draw();
+		
 		return value;
 	}
 		
@@ -422,7 +420,7 @@ class Label extends BaseUI implements ILabel implements IBaseUI
 	private function set_borderAlpha(value : Float) : Float 
 	{
 		_outlineAlpha = value;
-		draw();
+		
 		
 		return value; 
 		
@@ -445,7 +443,7 @@ class Label extends BaseUI implements ILabel implements IBaseUI
 	private function set_backgroundColor(value : Int) : Int 
 	{ 
 		_backgroundColor = value;
-		draw();
+		
 		
 		return value;
 	}
@@ -469,7 +467,7 @@ class Label extends BaseUI implements ILabel implements IBaseUI
 	private function set_borderThinkness(value : Float) : Float 
 	{
 		_thinkness = value;
-		draw();
+		
 		return value; 
 	} 
 	 
@@ -491,7 +489,7 @@ class Label extends BaseUI implements ILabel implements IBaseUI
 	private function set_background(value : Bool) : Bool 
 	{
 		_background = value;
-		draw();
+		
 		return value;
 	}
 	
@@ -516,7 +514,7 @@ class Label extends BaseUI implements ILabel implements IBaseUI
 		_font = value;
 		_textFormat.font = _font.fontName;
 		_embedFonts = true;
-		draw(); 
+		
 	}
 	 
 	/**
@@ -529,7 +527,7 @@ class Label extends BaseUI implements ILabel implements IBaseUI
 		_font = new Font();
 		_textFormat.font = null;
 		_embedFonts = false;
-		draw();
+		
 	} 
 		
 	
@@ -540,8 +538,6 @@ class Label extends BaseUI implements ILabel implements IBaseUI
 	private function set_textColor(value : Int) : Int 
 	{ 
 		_textColor = value;
-		
-		draw();
 		 
 		return value; 
 	 }
@@ -563,7 +559,7 @@ class Label extends BaseUI implements ILabel implements IBaseUI
 	private function set_size(value : Dynamic) : Dynamic 
 	{ 
 		_textFormat.size = value; 
-		draw();
+		
 		
 		return value;
 		
@@ -586,7 +582,7 @@ class Label extends BaseUI implements ILabel implements IBaseUI
 	private function set_font(value : String) : String 
 	{ 
 		_textFormat.font = value;
-		draw(); 
+		
 		return value; 
 		
 	} 
@@ -659,7 +655,6 @@ class Label extends BaseUI implements ILabel implements IBaseUI
 		_displayIcon.graphics.drawRect(0, 0, value.width, value.height);
 		_displayIcon.graphics.endFill();
 		
-		draw();
 	}
 	
 	override public function destroy():Void 

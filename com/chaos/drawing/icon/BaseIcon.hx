@@ -76,8 +76,7 @@ class BaseIcon extends BaseUI implements IBasicIcon implements IBaseUI
 		
 		addChild(_iconArea);
 		
-		// Doesn't use reskin 
-		draw();
+
 	}
 	
     
@@ -90,7 +89,7 @@ class BaseIcon extends BaseUI implements IBasicIcon implements IBaseUI
     private function set_baseColor(value : Int) : Int
     {
         _baseColor = value;
-        draw();
+        
 		
         return value;
     }
@@ -111,7 +110,7 @@ class BaseIcon extends BaseUI implements IBasicIcon implements IBaseUI
     private function set_border(value : Bool) : Bool
     {
         _border = value;
-        draw();
+        
 		
         return value;
     }
@@ -132,7 +131,7 @@ class BaseIcon extends BaseUI implements IBasicIcon implements IBaseUI
     private function set_borderColor(value : Int) : Int
     {
         _borderColor = value;
-        draw();
+        
         return value;
     }
     
@@ -152,7 +151,7 @@ class BaseIcon extends BaseUI implements IBasicIcon implements IBaseUI
     private function set_borderThinkness(value : Float) : Float
     {
         _thinkness = value;
-        draw();
+        
 		
 		
         return value;
@@ -174,7 +173,7 @@ class BaseIcon extends BaseUI implements IBasicIcon implements IBaseUI
     private function set_borderAlpha(value : Float) : Float
     {
         _borderAlpha = value;
-        draw();
+        
 		
 		
         return value;
@@ -197,7 +196,7 @@ class BaseIcon extends BaseUI implements IBasicIcon implements IBaseUI
     private function set_showImage(value : Bool) : Bool
     {
         _showImage = value;
-        draw();
+        
 		
         return value;
     }

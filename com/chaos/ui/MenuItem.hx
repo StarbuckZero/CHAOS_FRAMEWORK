@@ -2,15 +2,14 @@ package com.chaos.ui;
 
 
 import com.chaos.drawing.icon.ArrowRightIcon;
-import com.chaos.drawing.icon.classInterface.IBasicIcon;
-import com.chaos.media.DisplayImage;
-import com.chaos.ui.Overlay;
+
 import com.chaos.ui.classInterface.IBaseUI;
-import com.chaos.ui.classInterface.ILabel;
+import com.chaos.ui.classInterface.IButton;
+
 import com.chaos.ui.classInterface.IMenuItem;
-import com.chaos.ui.classInterface.IOverlay;
+
 import com.chaos.ui.classInterface.IToggleButton;
-import openfl.display.Bitmap;
+
 import openfl.display.BitmapData;
 import openfl.display.Sprite;
 import openfl.events.MouseEvent;
@@ -24,32 +23,25 @@ import openfl.display.Shape;
  * @author Erick Feiling
  */
 
-class MenuItem extends ToggleButton implements IMenuItem implements IToggleButton implements IBaseUI
+class MenuItem extends Button implements IMenuItem implements IToggleButton implements IButton implements IBaseUI
 {
     public var open(get, set) : Bool;
     public var hasParent(get, set) : Bool;
     public var hasChildren(get, set) : Bool;
-    public var parentMenuItem(get, set) : com.chaos.ui.classInterface.IMenuItem;
+    public var parentMenuItem(get, set) : IMenuItem;
     
-    public var menuDefaultColor(get, set) : Int;
-    public var menuOverColor(get, set) : Int;
-    public var menuDownColor(get, set) : Int;
-    public var menuDisableColor(get, set) : Int;
     public var normalBorderColor(get, set) : Int;
     public var overBorderColor(get, set) : Int;
     public var downBorderColor(get, set) : Int;
     public var disableBorderColor(get, set) : Int;
-    public var fillAlpha(get, set) : Float;
-    public var lineAlpha(get, set) : Float;
-    public var textColor(get, set) : Int;
+	public var lineAlpha(get, set) : Float;
     public var textOverColor(get, set) : Int;
     public var textSelectedColor(get, set) : Int;
     public var textDisableColor(get, set) : Int;
-    public var showIcon(get, set) : Bool;
     public var border(get, set) : Bool;
     public var borderThinkness(get, set) : Float;
     public var showSubMenuIcon(get, set) : Bool;
-    public var smoothImage(get, set) : Bool;
+    
 
     /** The type of UI Element */
     public static inline var TYPE : String = "MenuItem";
@@ -63,53 +55,30 @@ class MenuItem extends ToggleButton implements IMenuItem implements IToggleButto
     private static inline var DEFAULT_WIDTH : Float = 20;
     private static inline var DEFAULT_HEIGHT : Float = 20;
     
-    //private var _baseNormal : Shape = new Shape();
-    //private var _baseOver : Shape = new Shape();
-    //private var _baseDown : Shape = new Shape();
-    //private var _baseDisable : Shape = new Shape();
-    
-    //private var _normalDisplayImage : DisplayImage = new DisplayImage();
-    //private var _overDisplayImage : DisplayImage = new DisplayImage();
-    //private var _downDisplayImage : DisplayImage = new DisplayImage();
-    //private var _disableDisplayImage : DisplayImage = new DisplayImage();
-    
-    //private var _overlay : IOverlay = new Overlay();
-    
-    private var _smoothImage : Bool = true;
-    private var _showImage : Bool = true;
-    
-    private var _normalFillColor : Int = 0xFFFFFF;
-    private var _overFillColor : Int = 0x666666;
-    private var _downFillColor : Int = 0x999999;
-    private var _disableFillColor : Int = 0xFFFFFF;
-    
     private var _normalLineColor : Int = 0x000000;
     private var _overLineColor : Int = 0x666666;
     private var _downLineColor : Int = 0x000000;
     private var _disableLineColor : Int = 0xCCCCCC;
-    
+	
     private var _textColor : Int = 0x000000;
     private var _textOverColor : Int = 0xFFFFFF;
     private var _textSelectedColor : Int = 0x999999;
     private var _textDisableColor : Int = 0xCCCCCC;
     
     private var _showSubMenuIcon : Bool = false;
-    private var _label : ILabel = new Label("Text");
     
-    private var _subMenuIconHolder : Sprite = new Sprite();
+    
+    private var _subMenuIconHolder : Sprite;
     private var _subMenuIcon : Shape;// = new ArrowRightIcon(5, 5);
-    private var _icon : BitmapData;
+    
     private var _subMenuDisplayImage : BitmapData;
     
     private var _border : Bool = false;
     private var _thinkness : Float = 1;
-    private var _useMask : Bool = false;
+    
     
     private var _alpha : Float = 1;
     private var _lineAlpha : Float = 1;
-    
-    
-    private var _showIcon : Bool = false;
     
     private var _hasChildren : Bool = false;
     private var _hasParent : Bool = false;
@@ -122,52 +91,40 @@ class MenuItem extends ToggleButton implements IMenuItem implements IToggleButto
 	 * A display object that is used for the menu system.
 	 */
     
-    public function new(text : String, width : Float = 100, height : Float = 20, icon : BitmapData = null, subMenuIcon : BitmapData = null)
+    public function new( data:Dynamic = null)
     {
-        super();
+		// text : String, width : Float = 100, height : Float = 20, icon : BitmapData = null, subMenuIcon : BitmapData = null
+        super(data);
         
-        _label.text = text;
-        _width = width;
-        _height = height;
-        
-        if (null != icon) 
-            _icon = icon;
-        
-        if (null != subMenuIcon) 
-            _subMenuDisplayImage = subMenuIcon;
-        
-        if (null != _icon || null != _subMenuDisplayImage) 
-            _showImage = true;
-        
-        initialize();
-        
-        mouseChildren = false;
-		
     }
+	
+	override public function setComponentData(data:Dynamic):Void 
+	{
+		super.setComponentData(data);
+		
+		
+	}
     
     override public function initialize() : Void
     {
-        //setNormalState(_baseNormal);
-        //setOverState(_baseOver);
-        //setDownState(_baseDown);
-        //setDisableState(_baseDisable);
-        
-        addChild(_label.displayObject);
-        //addChild(_icon);
-        //addChild(_subMenuIconHolder);
-        //addChild(_overlay.displayObject);
+		_subMenuIconHolder = new Sprite();
+		
+		super.initialize();
         
         addEventListener(MouseEvent.MOUSE_OVER, onMenuOver, false, 0, true);
         addEventListener(MouseEvent.MOUSE_OUT, onMenuOut, false, 0, true);
         addEventListener(MouseEvent.CLICK, onMenuClick, false, 0, true);
         
-        //_subMenuIconHolder.addChild(_subMenuIcon.displayObject);
-        
-        //_subMenuIcon.filterMode = false;
-        //_subMenuIcon.baseColor = _subMenuIcon.borderColor = 0;
-        
-        //draw();
     }
+	
+	override public function destroy():Void 
+	{
+		super.destroy();
+		
+        removeEventListener(MouseEvent.MOUSE_OVER, onMenuOver);
+        removeEventListener(MouseEvent.MOUSE_OUT, onMenuOut);
+        removeEventListener(MouseEvent.CLICK, onMenuClick);
+	}
     
     /**
 	 * Set the menu to being open or closed on roll over
@@ -250,86 +207,7 @@ class MenuItem extends ToggleButton implements IMenuItem implements IToggleButto
         super.enabled = value;
         return value;
     }
-
-    /**
-	 * Set the default menu icon color
-	 */
-    
-    private function set_menuDefaultColor(value : Int) : Int
-    {
-        _normalFillColor = value;
-        draw();
-        return value;
-    }
-    
-    /**
-	 * Return the color
-	 */
-    
-    private function get_menuDefaultColor() : Int
-    {
-        return _normalFillColor;
-    }
-    
-    /**
-	 * Set the over menu icon color
-	 */
-    
-    private function set_menuOverColor(value : Int) : Int
-    {
-        _overFillColor = value;
-        draw();
-        return value;
-    }
-    
-    /**
-	 * Return the color
-	 */
-    
-    private function get_menuOverColor() : Int
-    {
-        return _overFillColor;
-    }
-    
-    /**
-	 * Set the down menu icon color
-	 */
-    
-    private function set_menuDownColor(value : Int) : Int
-    {
-        _downFillColor = value;
-        draw();
-        return value;
-    }
-    
-    /**
-	 * Return the color
-	 */
-    
-    private function get_menuDownColor() : Int
-    {
-        return _downFillColor;
-    }
-    
-    /**
-	 * Set the disable menu icon color
-	 */
-    
-    private function set_menuDisableColor(value : Int) : Int
-    {
-        _disableFillColor = value;
-        draw();
-        return value;
-    }
-    
-    /**
-	 * Return the color
-	 */
-    
-    private function get_menuDisableColor() : Int
-    {
-        return _disableFillColor;
-    }
+   
     
     /**
 	 * Border color for normal button state
@@ -338,7 +216,7 @@ class MenuItem extends ToggleButton implements IMenuItem implements IToggleButto
     private function set_normalBorderColor(value : Int) : Int
     {
         _normalLineColor = value;
-        draw();
+        
         return value;
     }
     
@@ -357,7 +235,7 @@ class MenuItem extends ToggleButton implements IMenuItem implements IToggleButto
     private function set_overBorderColor(value : Int) : Int
     {
         _overLineColor = value;
-        draw();
+        
         return value;
     }
     
@@ -377,7 +255,7 @@ class MenuItem extends ToggleButton implements IMenuItem implements IToggleButto
     private function set_downBorderColor(value : Int) : Int
     {
         _downLineColor = value;
-        draw();
+        
         return value;
     }
     
@@ -397,7 +275,7 @@ class MenuItem extends ToggleButton implements IMenuItem implements IToggleButto
     private function set_disableBorderColor(value : Int) : Int
     {
         _disableLineColor = value;
-        draw();
+        
         return value;
     }
     
@@ -409,7 +287,7 @@ class MenuItem extends ToggleButton implements IMenuItem implements IToggleButto
     {
         return _disableLineColor;
     }
-    
+	
     /**
 	 * Set the inner menu button alpha
 	 */
@@ -417,7 +295,7 @@ class MenuItem extends ToggleButton implements IMenuItem implements IToggleButto
     private function set_fillAlpha(value : Float) : Float
     {
         _alpha = value;
-        draw();
+        
 		
         return value;
     }
@@ -438,7 +316,7 @@ class MenuItem extends ToggleButton implements IMenuItem implements IToggleButto
     private function set_lineAlpha(value : Float) : Float
     {
         _lineAlpha = value;
-        draw();
+        
 		
         return value;
     }
@@ -451,26 +329,15 @@ class MenuItem extends ToggleButton implements IMenuItem implements IToggleButto
     {
         return _lineAlpha;
     }
-    
-    /**
-	 * Set the label text color
-	 */
 	
-    private function set_textColor(value : Int) : Int
-    {
-        _textColor = value;
-        draw();
-        return value;
-    }
+  
+	
+	override function set_textColor(value:Int):Int 
+	{
+		_textColor = value;
+		return super.set_textColor(value);
+	}
     
-    /**
-	 * Return the color
-	 */
-    
-    private function get_textColor() : Int
-    {
-        return _textColor;
-    }
     
     /**
 	 * Set the label over state color
@@ -478,7 +345,7 @@ class MenuItem extends ToggleButton implements IMenuItem implements IToggleButto
     private function set_textOverColor(value : Int) : Int
     {
         _textOverColor = value;
-        draw();
+        
         return value;
     }
     
@@ -498,7 +365,7 @@ class MenuItem extends ToggleButton implements IMenuItem implements IToggleButto
     private function set_textSelectedColor(value : Int) : Int
     {
         _textSelectedColor = value;
-        draw();
+        
         return value;
     }
     
@@ -518,7 +385,7 @@ class MenuItem extends ToggleButton implements IMenuItem implements IToggleButto
     private function set_textDisableColor(value : Int) : Int
     {
         _textDisableColor = value;
-        draw();
+        
         return value;
     }
     
@@ -530,26 +397,7 @@ class MenuItem extends ToggleButton implements IMenuItem implements IToggleButto
     {
         return _textDisableColor;
     }
-    
-    /**
-	 * Set the menu button icon
-	 */
-    
-    private function set_showIcon(value : Bool) : Bool
-    {
-        _showIcon = value;
-        draw();
-        return value;
-    }
-    
-    /**
-	 * True if the icon is being displayed and false if not
-	 */
-    
-    private function get_showIcon() : Bool
-    {
-        return _showIcon;
-    }
+
     
     /**
 	 * Show or hide border around button
@@ -558,7 +406,7 @@ class MenuItem extends ToggleButton implements IMenuItem implements IToggleButto
     private function set_border(value : Bool) : Bool
     {
         _border = value;
-        draw();
+        
         return value;
     }
     
@@ -597,7 +445,7 @@ class MenuItem extends ToggleButton implements IMenuItem implements IToggleButto
     private function set_showSubMenuIcon(value : Bool) : Bool
     {
         _showSubMenuIcon = value;
-        draw();
+        
         return value;
     }
     
@@ -611,25 +459,7 @@ class MenuItem extends ToggleButton implements IMenuItem implements IToggleButto
     }
 
     
-    /**
-	 * Turn on and off image smoothing
-	 */
-    
-    private function set_smoothImage(value : Bool) : Bool
-    {
-        _smoothImage = value;
-        return value;
-    }
-    
-    /**
-	 * Return true if smoothing is on and false if not
-	 */
-	
-    private function get_smoothImage() : Bool
-    {
-        return _smoothImage;
-    }
-    
+
     
     /**
 	 * Return the icon that is being used for the set menu.
@@ -641,16 +471,7 @@ class MenuItem extends ToggleButton implements IMenuItem implements IToggleButto
         return _subMenuIcon;
     }
     
-    /**
-	 * Set the icon that will be used using a bitmap image
-	 * @param	image The bitmap that will be used
-	 */
-    	
-	
-	public function setIcon(image : BitmapData) : Void
-	{
-		_icon = image;
-	}
+
 	
     
     /**
@@ -671,78 +492,41 @@ class MenuItem extends ToggleButton implements IMenuItem implements IToggleButto
     }
 
     
-    /**
-	 * Return the label being used
-	 *
-	 * @return An interface
-	 */
-    
-    public function getLabel() : ILabel
-    {
-        return _label;
-    }
-    
 	
 	//TODO: Update draw function later
 	
-    //override public function draw() : Void
-    //{
-    //    super.draw();
-    //    
-    //    //_baseNormal.graphics.clear();
-    //    //_baseOver.graphics.clear();
-    //    //_baseDown.graphics.clear();
-    //    //_baseDisable.graphics.clear();
-    //    
-    //    if (_border) 
-	//	{
-	//		_baseNormal.graphics.lineStyle(_thinkness, _normalLineColor, _lineAlpha);
-	//		_baseOver.graphics.lineStyle(_thinkness, _overLineColor, _lineAlpha);
-	//		_baseDown.graphics.lineStyle(_thinkness, _downLineColor, _lineAlpha);
-	//		_baseDisable.graphics.lineStyle(_thinkness, _disableLineColor, _lineAlpha);
-	//	}
-	//	
-	//	(_normalDisplayImage.image != null && _showImage) ? _baseNormal.graphics.beginBitmapFill(_normalDisplayImage.image.bitmapData, null, true, _smoothImage) : _baseNormal.graphics.beginFill(_normalFillColor, _alpha);
-	//	
-	//	// Draw square 
-    //    _baseNormal.graphics.drawRect(0, 0, _width, _height);
-    //    _baseNormal.graphics.endFill();
-    //    
-    //    (_overDisplayImage.image != null && _showImage) ? _baseOver.graphics.beginBitmapFill(_overDisplayImage.image.bitmapData, null, true, _smoothImage) : _baseOver.graphics.beginFill(_overFillColor, _alpha);
-    //    _baseOver.graphics.drawRect(0, 0, _width, _height);
-    //    _baseOver.graphics.endFill();
-    //    
-    //    (_downDisplayImage.image != null && _showImage) ? _baseDown.graphics.beginBitmapFill(_downDisplayImage.image.bitmapData, null, true, _smoothImage) : _baseDown.graphics.beginFill(_downFillColor, _alpha);
-    //    _baseDown.graphics.drawRect(0, 0, _width, _height);
-    //    _baseDown.graphics.endFill();
-    //    
-    //    (_disableDisplayImage.image != null && _showImage) ? _baseDisable.graphics.beginBitmapFill(_disableDisplayImage.image.bitmapData, null, true, _smoothImage) : _baseDisable.graphics.beginFill(_disableFillColor, _alpha);
-    //    _baseDisable.graphics.drawRect(0, 0, _width, _height);
-    //    _baseDisable.graphics.endFill();
-    //    
-    //    // Show icon
-    //    _subMenuIconHolder.visible = _showSubMenuIcon;
-    //    
-    //    _subMenuIconHolder.y = (height / 2) - (_subMenuIconHolder.height / 2);
-    //    _subMenuIconHolder.x = width - _subMenuIconHolder.width - 5;
-    //    
-    //    // Hide or show icon
-    //    _icon.visible = _showIcon;
-    //    
-    //    if (_showIcon) 
-    //    {
-    //        _icon.x = ICON_OFFSETX;
-    //        _icon.y = (height / 2) - (_icon.height / 2) + ICON_OFFSETY;
-    //        
-    //        _label.width = width - _icon.width;
-    //    }
-    //    else 
-    //    {
-    //        _label.width = width;
-    //    }
-    //    
-    //    _label.height = height;
-    //}
+    override public function draw() : Void
+    {
+		super.draw();
+		
+        if (_border) 
+		{
+			
+			normalState.graphics.lineStyle(_thinkness, _normalLineColor, _lineAlpha);
+			overState.graphics.lineStyle(_thinkness, _overLineColor, _lineAlpha);
+			downState.graphics.lineStyle(_thinkness, _downLineColor, _lineAlpha);
+			disableState.graphics.lineStyle(_thinkness, _disableLineColor, _lineAlpha);
+			
+			normalState.graphics.drawRect(0, 0, _width, _height);
+			overState.graphics.drawRect(0, 0, _width, _height);
+			downState.graphics.drawRect(0, 0, _width, _height);
+			disableState.graphics.drawRect(0, 0, _width, _height);
+			
+			
+		}
+		
+		
+		
+		
+        
+        
+        //_baseNormal.graphics.clear();
+        //_baseOver.graphics.clear();
+        //_baseDown.graphics.clear();
+        //_baseDisable.graphics.clear();
+        //_label.y = 0;
+		
+	}
     
     private function onMenuOver(event : MouseEvent) : Void
     {
@@ -758,6 +542,7 @@ class MenuItem extends ToggleButton implements IMenuItem implements IToggleButto
     
     private function onMenuClick(event : MouseEvent) : Void
     {
+		
         if (selected) 
             _label.textColor = _textSelectedColor;
         else 

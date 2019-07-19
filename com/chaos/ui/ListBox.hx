@@ -78,7 +78,9 @@ class ListBox extends ScrollPane implements IListBox implements IBaseUI
 		//listWidth : Int = 100, listHeight : Int = 100, listData : DataProvider<ListObjectData> = null
 		
 		super(data);
-
+		
+		
+		
 		addEventListener(Event.ADDED_TO_STAGE, onStageAdd, false, 0, true);
 		addEventListener(Event.REMOVED_FROM_STAGE, onStageRemove, false, 0, true);
 
@@ -129,9 +131,13 @@ class ListBox extends ScrollPane implements IListBox implements IBaseUI
 			_outlineColor = Reflect.field(data,"outlineColor");
 
 		if (Reflect.hasField(data, "outlineAlpha"))
-			_outlineAlpha = Reflect.field(data,"outlineAlpha");
-
+			_outlineAlpha = Reflect.field(data, "outlineAlpha");
 			
+		// If false then use default
+		if (!Reflect.hasField(data, "border"))
+			_border = UIStyleManager.LIST_BORDER;	
+		
+		 
 
 		
 	}
@@ -197,7 +203,7 @@ class ListBox extends ScrollPane implements IListBox implements IBaseUI
 		if (null != UIStyleManager.LIST_TEXT_EMBED)
 			_font = UIStyleManager.LIST_TEXT_EMBED;
 
-		_border = UIStyleManager.LIST_BORDER;
+		
 	}
 
 	/**
@@ -206,10 +212,10 @@ class ListBox extends ScrollPane implements IListBox implements IBaseUI
 
 	override public function reskin() : Void 
 	{
-		super.reskin();
 		
 		initListStyle();
 		
+		super.reskin();		
 	}
 
 	/**
@@ -219,7 +225,7 @@ class ListBox extends ScrollPane implements IListBox implements IBaseUI
 	private function set_textColor(value : Int) : Int
 	{
 		_textColor = value;
-		draw();
+		
 
 		return value;
 	}
@@ -329,7 +335,7 @@ class ListBox extends ScrollPane implements IListBox implements IBaseUI
 	public function setEmbedFont(value : Font) : Void
 	{
 		_font = value;
-		draw();
+		
 	}
 
 	/**
@@ -339,7 +345,7 @@ class ListBox extends ScrollPane implements IListBox implements IBaseUI
 	public function unloadEmbedFont() : Void
 	{
 		_font = new Font();
-		draw();
+		
 	}
 
 
@@ -444,7 +450,6 @@ class ListBox extends ScrollPane implements IListBox implements IBaseUI
 	private function set_dataProvider(value : DataProvider<ListObjectData>) : DataProvider<ListObjectData>
 	{
 		_list = value;
-		draw();
 
 		return value;
 	}
