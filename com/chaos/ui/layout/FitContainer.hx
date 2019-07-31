@@ -139,6 +139,8 @@ class FitContainer extends AlignmentBaseContainer implements IFitContainer imple
                     element.y = contentObject.getChildAt(i).height * i;
                     element.x = 0;
                 }
+				
+				element.draw();
             }
         }
         else 

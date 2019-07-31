@@ -53,19 +53,31 @@ class Overlay extends BaseUI implements IOverlay
     
     
     
-    public function new(defaultWidth : Float = 100, defaultHeight : Float = 100)
+    public function new(data:Dynamic = null)
     {
+		// defaultWidth : Float = 100, defaultHeight : Float = 100
         
-        super();
+        super(data);
         
-        _width = defaultWidth;
-        _height = defaultHeight;
         
-        init();
     }
-    
-    private function init() : Void
-    {
+	
+	override public function setComponentData(data:Dynamic):Void 
+	{
+		super.setComponentData(data);
+		
+		if (Reflect.hasField(data, "tileTopCenterImage"))
+			_tileTopCenterImage = Reflect.field(data, "tileTopCenterImage");
+		
+		if (Reflect.hasField(data, "tileMiddleImage"))
+			_tileMiddleImage = Reflect.field(data, "tileMiddleImage");
+			
+		if (Reflect.hasField(data, "tileBottomCenterImage"))
+			_tileBottomCenterImage = Reflect.field(data, "tileBottomCenterImage");
+	}
+	
+	override public function initialize():Void 
+	{
         mouseChildren = true;
         
         topLeftPattern = new Shape();
@@ -78,6 +90,8 @@ class Overlay extends BaseUI implements IOverlay
         
         middleLeftPattern = new Shape();
         middleRightPattern = new Shape();
+		
+		super.initialize();
         
         // Overlay corners first
         addChild(middleLeftPattern);
@@ -91,7 +105,37 @@ class Overlay extends BaseUI implements IOverlay
         
         addChild(bottomLeftPattern);
         addChild(bottomRightPattern);
-    }
+		
+	}
+	
+	override public function destroy():Void 
+	{
+		super.destroy();
+		
+        topLeftPattern.graphics.clear();
+        topMiddlePattern.graphics.clear();
+        topRightPattern.graphics.clear();
+        
+        bottomLeftPattern.graphics.clear();
+        bottomMiddlePattern.graphics.clear();
+        bottomRightPattern.graphics.clear();
+        
+        middleLeftPattern.graphics.clear();
+        middleRightPattern.graphics.clear();
+		
+        removeChild(middleLeftPattern);
+        removeChild(middleRightPattern);
+        
+        removeChild(topMiddlePattern);
+        removeChild(bottomMiddlePattern);
+        
+        removeChild(topLeftPattern);
+        removeChild(topRightPattern);
+        
+        removeChild(bottomLeftPattern);
+        removeChild(bottomRightPattern);		
+		
+	}
     
 	
     

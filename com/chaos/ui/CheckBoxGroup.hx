@@ -1,7 +1,6 @@
 package com.chaos.ui;
 
 
-import com.chaos.data.DataProvider;
 
 import com.chaos.ui.classInterface.IBaseUI;
 import com.chaos.ui.classInterface.ICheckBox;
@@ -9,7 +8,7 @@ import com.chaos.ui.classInterface.ICheckBoxGroup;
 import com.chaos.ui.layout.HorizontalContainer;
 import com.chaos.ui.layout.classInterface.IAlignmentContainer;
 import com.chaos.ui.layout.classInterface.IBaseContainer;
-import openfl.utils.Object;
+
 
 import com.chaos.ui.CheckBox;
 
@@ -24,64 +23,51 @@ import openfl.events.Event;
 
 class CheckBoxGroup extends HorizontalContainer implements ICheckBoxGroup implements IBaseContainer implements IAlignmentContainer implements IBaseUI
 {
-    public var dataProvider(get, set) : DataProvider<ICheckBox>;
-
-    private var nameList : Object;
-    private var _list : DataProvider<ICheckBox>;
+	private var _list:Array<ICheckBox>;
     
     /**
-	 * Creates a container and
+	 * Creates a container 
 	 * @eventType openfl.events.Event.CHANGE
 	 */
     
-    public function new(checkBoxName : String, defaultWidth : Int = 300, defaultHeight : Int = 30)
+    public function new(data:Dynamic = null)
     {
-        super();
+        super(data);
 		
-        name = checkBoxName;
-        background = false;
-		
-        nameList = new Object();
-		
-        width = defaultWidth;
-        height = defaultHeight;
     }
-    
-    /**
-	 * Replace the current data provider
-	 */
-    
-    private function set_dataProvider(value : DataProvider<ICheckBox>) : DataProvider<ICheckBox>
-    {
-        if (null == _list) 
-            return null;
-        
-        _list = value;
-        
-        // Clear everything out
-        removeAll();
-        
-        for (i in 0..._list.length)
+	
+	override public function setComponentData(data:Dynamic):Void 
+	{
+		super.setComponentData(data);
+		
+		if (Reflect.hasField(data, "data"))
 		{
-            var item : ICheckBox = _list.getItemAt(i);
-            
-            if (item.name != "" && item.text != "") 
-            {
-                createCheckBox(item.name, item.text, item.selected);
-            }
-        }
+			var data:Array<Dynamic> = Reflect.field(data, "data");
+			
+			for (i in 0 ... data.length)
+			{
+				var dataObj:Dynamic = data[i];
+				
+				if (Reflect.hasField(dataObj,"name") && Reflect.hasField(dataObj,"text"))
+					createCheckBox(Reflect.field(dataObj, "name"), Reflect.field(dataObj, "text"), Reflect.hasField(dataObj, "selected") ? Reflect.field(dataObj, "selected") : false);
+			}
+			
+		}
+		else
+		{
+			if (null == _list)
+				_list = new Array<ICheckBox>();			
+		}
 		
-        return value;
-    }
+	}
+	
+	override public function destroy():Void 
+	{
+		super.destroy();
+		
+		removeAll();
+	}
     
-    /**
-	 * Returns the data provider being used
-	 */
-    
-    private function get_dataProvider() : DataProvider<ICheckBox>
-    {
-        return _list;
-    }
     
     /**
 	 * Creates a check box and adds it to the container
@@ -92,16 +78,16 @@ class CheckBoxGroup extends HorizontalContainer implements ICheckBoxGroup implem
 	 * @return The newly created check box.
 	 */
     
-    public function createCheckBox(checkBoxName : String, labelText : String, selected : Bool = false) : com.chaos.ui.classInterface.ICheckBox
+    public function createCheckBox(checkBoxName : String, labelText : String, selected : Bool = false) : ICheckBox
     {
-        var checkbox : ICheckBox = new CheckBox(labelText);
-        
-        checkbox.name = checkBoxName;
-        checkbox.selected = selected;
+		if (null == _list)
+			_list = new Array<ICheckBox>();
+
+        var checkbox : ICheckBox = new CheckBox({"name":checkBoxName, "text":labelText, "selected":selected, "width": 100, "height":20});
+		
         checkbox.addEventListener(MouseEvent.CLICK, onChange, false, 0, true);
-        Reflect.setField(nameList, checkBoxName, checkbox);
-        
-        addElement(checkbox);
+		
+		_list.push(checkbox);
         
         return checkbox;
     }
@@ -114,7 +100,17 @@ class CheckBoxGroup extends HorizontalContainer implements ICheckBoxGroup implem
     
     public function removeCheckBox(checkbox : ICheckBox) : Void
     {
-        contentObject.removeChild(checkbox.displayObject);
+		// Remove out of display if there
+		if (contentObject != null && contentObject.parent != null)
+			contentObject.removeChild(checkbox.displayObject);
+			
+			
+		checkbox.removeEventListener(MouseEvent.CLICK, onChange);
+		
+		_list.remove(checkbox);
+		
+		checkbox.destroy();
+		checkbox = null;
     }
     
     /**
@@ -123,25 +119,28 @@ class CheckBoxGroup extends HorizontalContainer implements ICheckBoxGroup implem
 	 * @return A list of checkboxes objects
 	 */
     
-    public function getSelected() : Array<Dynamic>
+    public function getSelected() : Array<ICheckBox>
     {
-        var checkboxArray : Array<Dynamic> = new Array<Dynamic>();
+        var checkboxArray : Array<ICheckBox> = new Array<ICheckBox>();
         
         // Loop display object
-        for (i in 0...contentObject.numChildren){
-            // Make sure it's a check box
-            if (Std.is(contentObject.getChildAt(i), CheckBox)) 
-            {
-                var checkbox : ICheckBox = try cast(contentObject.getChildAt(i), ICheckBox) catch(e:Dynamic) null;
-                
-                // Make sure item is checked
-                if (checkbox.selected) 
-                    checkboxArray.push(checkbox);
-            }
+        for (i in 0 ... _list.length)
+		{
+			// Make sure item is checked
+			if (_list[i].selected) 
+				checkboxArray.push(_list[i]);
         }
         
         return checkboxArray;
     }
+	
+	override public function draw():Void 
+	{
+		super.draw();
+		
+		// Add the checkboxes into the display
+		addElementList(_list);
+	}
     
     /**
 	 * Remove all items out of group
@@ -149,9 +148,9 @@ class CheckBoxGroup extends HorizontalContainer implements ICheckBoxGroup implem
     
     override public function removeAll() : Void
     {
-        for (index in Reflect.fields(nameList))
+        for (i in 0 ... _list.length)
         {
-            var checkbox : ICheckBox = Reflect.field(nameList, index);
+            var checkbox : ICheckBox = _list[i];
             removeCheckBox(checkbox);
         }
     }
@@ -160,5 +159,8 @@ class CheckBoxGroup extends HorizontalContainer implements ICheckBoxGroup implem
     {
         displayObject.dispatchEvent(new Event(Event.CHANGE));
     }
+
+	
+	
 }
 

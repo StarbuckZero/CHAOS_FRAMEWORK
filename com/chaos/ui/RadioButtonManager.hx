@@ -9,6 +9,7 @@ class RadioButtonManager
 {
 	private static var _groupArray : Dictionary<String,DataProvider<IRadioButton>> = new Dictionary<String,DataProvider<IRadioButton>>(true);
 	
+	
 	public function new()
     {
 		
@@ -108,8 +109,8 @@ class RadioButtonManager
 	{
 		if (groupCheck(groupName)) 
 			return _groupArray.get(groupName);
-        else 
-			return null;
+			
+		return null;
     } 
 	
 	/**
@@ -137,8 +138,11 @@ class RadioButtonManager
 		{
 			var dataList : DataProvider<IRadioButton> = _groupArray.get(groupName);
 			
-			for (i in 0...dataList.length - 1 + 1)
+			for (i in 0 ... dataList.length)
+			{
 				dataList.getItemAt(i).selected = value;
+				dataList.getItemAt(i).draw();
+			}
         }
     }
 }

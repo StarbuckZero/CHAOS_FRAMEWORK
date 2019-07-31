@@ -79,7 +79,10 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
     
     private var _icon : Shape;
 	
-	private var _mode:String = "press";
+	private var _mode : String = "press";
+	
+	private var _bold : Bool = UIStyleManager.BUTTON_TEXT_BOLD;
+	private var _italic : Bool = UIStyleManager.BUTTON_TEXT_ITALIC;
 	
     /**
 	 * Push Button
@@ -118,7 +121,7 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
     override public function initialize() : Void
     {
 		if (_labelData == null)
-			_labelData = {"textColor": 0xFFFFFF};
+			_labelData = {"textColor": 0xFFFFFF, "bold":_bold, "italic":_italic};
 		
 		// Init core components first
         _label = new Label(_labelData);
@@ -129,7 +132,7 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
 		super.initialize();
         
         _label.visible = _showLabel;
-        _bgAlpha = UIStyleManager.BUTTON_ALPHA;
+        
         
         mouseChildren = false;
         
@@ -171,10 +174,10 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
     
     override public function reskin() : Void
     {
+		super.reskin();
+		
         initBitmap();
         initStyle();
-		
-        super.reskin();
     }
     
     private function initBitmap() : Void
@@ -622,6 +625,7 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
             
             _icon.x = _imageOffSetX;
             _icon.y = _imageOffSetY;
+			_label.draw();
         }
         else if (_showIcon && !_showLabel) 
         {
@@ -640,7 +644,7 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
             _label.width = _width - UIStyleManager.BUTTON_TEXT_OFFSET_X;
             _label.x = (_width / 2) - (_label.width / 2) + UIStyleManager.BUTTON_TEXT_OFFSET_X;
             _label.y = (_height / 2) - (_label.textField.textHeight / 2) + UIStyleManager.BUTTON_TEXT_OFFSET_Y;
-			
+			_label.draw();
         }
 		
 		if (_mode.toLowerCase() == PRESS_MODE)

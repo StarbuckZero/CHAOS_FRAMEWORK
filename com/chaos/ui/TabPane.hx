@@ -581,12 +581,15 @@ class TabPane extends BaseUI implements ITabPane implements IBaseUI
 
 			if ( -1 != UIStyleManager.TABPANE_BUTTON_TINT_ALPHA)
 				button.label.borderAlpha = UIStyleManager.TABPANE_BUTTON_TINT_ALPHA;
+				
+			button.draw();
 
 		}
 
 		// Set location of scroll pane
 		buttonArea.x = 0;
 		buttonArea.y = 0;
+		
 		
 		_scrollPane.width = _width;
 		_scrollPane.height = _height - _tabButtonHeight;
@@ -600,6 +603,7 @@ class TabPane extends BaseUI implements ITabPane implements IBaseUI
 		}
 
 		_scrollPane.update();
+		_scrollPane.draw();
 	}
 
 	private function contentLoad(value : DisplayObject) : Void

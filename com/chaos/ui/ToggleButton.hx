@@ -47,11 +47,9 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI
     private var _downStateImage : BitmapData;
     private var _disableStateImage : BitmapData;
 	
-	private var _bitmapShowImage : Bool = true;
-	
 	private var _roundEdge : Int = 0;
 	
-	private var _bgAlpha : Float = 1;
+	private var _bgAlpha : Float = UIStyleManager.BUTTON_ALPHA;
 	
 	private var _selected : Bool = false;
 	private var _tileImage:Bool = false;
@@ -121,6 +119,44 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI
 		addChild(disableState);
 
     }
+	
+	override public function destroy():Void 
+	{
+		super.destroy();
+		
+		// Remove Events 
+		removeEventListener(MouseEvent.MOUSE_OVER, mouseOverEvent);
+		removeEventListener(MouseEvent.MOUSE_OUT, mouseOutEvent);
+		removeEventListener(MouseEvent.MOUSE_DOWN, mouseDownEvent);
+		
+		removeEventListener(Event.ADDED_TO_STAGE, onStageAdd);
+		removeEventListener(Event.REMOVED_FROM_STAGE, onStageRemove); 
+		
+		normalState.graphics.clear();
+		overState.graphics.clear();
+		downState.graphics.clear();
+		disableState.graphics.clear();
+		
+		removeChild(normalState);
+		removeChild(overState);
+		removeChild(downState);
+		removeChild(disableState);
+		
+		if (_defaultStateImage != null)
+			_defaultStateImage.dispose();
+		
+		if (_defaultStateImage != null)
+			_defaultStateImage.dispose();
+			
+		if (_downStateImage != null)
+			_downStateImage.dispose();
+		
+		if (_disableStateImage != null)
+			_disableStateImage.dispose();
+		
+		_disableStateImage = _downStateImage = _overStateImage = _defaultStateImage = null;
+		disableState = downState = overState = normalState = null;
+	}	
 	
 	private function onStageAdd(event : Event) : Void 
 	{
@@ -364,6 +400,7 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI
 					addEventListener(MouseEvent.MOUSE_DOWN, mouseDownEvent, false, 0, true);
 				
 				disableState.visible = false;
+				
             }
             else 
 			{  
@@ -373,6 +410,12 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI
 				removeEventListener(MouseEvent.MOUSE_DOWN, mouseDownEvent);
 				
 				disableState.visible = true;
+				
+				// Hide state
+				if (_selected)
+					downState.visible = false;
+				else
+					normalState.visible = false;
             }
         }
 		
@@ -381,35 +424,7 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI
         return value;
     }
 	
-	override public function destroy():Void 
-	{
-		super.destroy();
-		
-		// Remove Events 
-		removeEventListener(MouseEvent.MOUSE_OVER, mouseOverEvent);
-		removeEventListener(MouseEvent.MOUSE_OUT, mouseOutEvent);
-		removeEventListener(MouseEvent.MOUSE_DOWN, mouseDownEvent);
-		
-		removeEventListener(Event.ADDED_TO_STAGE, onStageAdd);
-		removeEventListener(Event.REMOVED_FROM_STAGE, onStageRemove); 
-		
-		normalState.graphics.clear();
-		overState.graphics.clear();
-		downState.graphics.clear();
-		disableState.graphics.clear();
-		
-		removeChild(normalState);
-		removeChild(overState);
-		removeChild(downState);
-		removeChild(disableState);
-		
-		_defaultStateImage = null;
-		_overStateImage = null;
-		_downStateImage = null;
-		_disableStateImage = null;
-		
-		normalState = null;
-	}
+
 	
 	/**
 	 * This setup and draw the toogle button on the screen
@@ -418,42 +433,10 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI
 	override public function draw() : Void 
 	{
 		// Figure to use bitmap or normal mode
-		if (_bitmapShowImage)
-		{
-			// Normal
-			if (null != _defaultStateImage)
-				drawButtonState(normalState, _defaultColor, _defaultStateImage);
-			else 
-				drawButtonState(normalState, _defaultColor);
-				
-			// Over
-			if (null != _overStateImage) 
-				drawButtonState(overState, _overColor, _overStateImage);
-			else
-				drawButtonState(overState, _overColor);
-			
-			// Down
-			if (null != _downStateImage) 
-				drawButtonState(downState, _downColor, _downStateImage);
-			else 
-				drawButtonState(downState, _downColor);
-			
-			// Disable
-			if (null != _disableStateImage) 
-				drawButtonState(disableState, _disableColor, _disableStateImage);
-			else 
-				drawButtonState(disableState, _disableColor);
-		}
-		else 
-		{
-			
-			drawButtonState(normalState, _defaultColor);
-			drawButtonState(overState, _overColor);
-			drawButtonState(downState, _downColor);
-			drawButtonState(disableState, _disableColor);
-		}	
-		
-		
+		drawButtonState(normalState, _defaultColor, _defaultStateImage);
+		drawButtonState(overState, _overColor, _overStateImage);
+		drawButtonState(downState, _downColor, _downStateImage);
+		drawButtonState(disableState, _disableColor, _disableStateImage);
 		
 		// Toggle Seleect state
 		if (_selected)
@@ -511,18 +494,6 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI
 		overState.visible = true;
 		
 		disableState.visible = downState.visible = normalState.visible = false;
-		
-		//if (_selected)
-		//{
-		//	downState.visible = false;
-		//	disableState.visible = false;
-		//	
-		//}
-		//else
-		//{
-		//	disableState.visible = false;
-		//	normalState.visible = false;
-		//}
     }
 	
 	private function mouseDownEvent(event : MouseEvent) : Void

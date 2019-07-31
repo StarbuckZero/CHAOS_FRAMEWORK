@@ -109,8 +109,6 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
     {
         // Init scroll pane
         super(data);
-		
-        // paneWidth : Int = 200, paneHeight : Int = 300, itemData : DataProvider<ItemPaneObjectData> = null
     }
 	
 	override function setComponentData(data:Dynamic) 
@@ -300,7 +298,7 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
     private function set_itemWidth(value : Int) : Int
     {
         _itemWidth = value;
-        draw();
+        
         return value;
     }
     
@@ -320,7 +318,7 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
     private function set_itemHeight(value : Int) : Int
     {
         _itemHeight = value;
-        draw();
+        
         return value;
     }
     
@@ -340,7 +338,7 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
     private function set_showLabel(value : Bool) : Bool
     {
         _showLabel = value;
-        draw();
+        
         return value;
     }
     
@@ -360,7 +358,7 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
     private function set_itemNormalColor(value : Int) : Int
     {
         _itemNormalColor = value;
-        draw();
+        
         return value;
     }
     
@@ -380,7 +378,7 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
     private function set_itemOverColor(value : Int) : Int
     {
         _itemOverColor = value;
-        draw();
+        
         return value;
     }
     
@@ -400,7 +398,7 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
     private function set_itemSelectedColor(value : Int) : Int
     {
         _itemSelectedColor = value;
-        draw();
+        
         return value;
     }
     
@@ -420,7 +418,7 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
     private function set_itemDisableColor(value : Int) : Int
     {
         _itemDisableColor = value;
-        draw();
+        
         return value;
     }
     
@@ -498,7 +496,7 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
     private function set_dataProvider(value : DataProvider<ItemPaneObjectData>) : DataProvider<ItemPaneObjectData>
     {
         _list = value;
-        draw();
+        
         return value;
     }
     
@@ -571,7 +569,7 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
     public function setNormalItem(value : BitmapData) : Void
     {
         _itemDefaultState = value;
-        draw();
+        
     }
     
     /**
@@ -584,7 +582,7 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
     public function setOverItem(value : BitmapData) : Void
     {
         _itemOverState = value;
-        draw();
+        
     }
     
     /**
@@ -597,7 +595,7 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
     public function setSelectedItem(value : BitmapData) : Void
     {
         _itemSelectedState = value;
-        draw();
+        
     }
     
     /**
@@ -609,7 +607,7 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
     public function setDisableItem(value : BitmapData) : Void
     {
         _itemDisableState = value;
-        draw();
+        
     }
     
     /**
@@ -784,7 +782,7 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
     
     private function clearAllSelected() : Void
     {
-        for (i in 0..._list.length - 1 + 1)
+        for (i in 0 ... _list.length)
 		{
 			
             var itemData : ItemPaneObjectData = cast(_list.getItemAt(i), ItemPaneObjectData);

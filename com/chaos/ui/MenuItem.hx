@@ -102,6 +102,33 @@ class MenuItem extends Button implements IMenuItem implements IToggleButton impl
 	{
 		super.setComponentData(data);
 		
+		// Border Lines 
+		if (Reflect.hasField(data, "normalLineColor"))
+		_normalLineColor = Reflect.field(data,"normalLineColor");
+		
+		if (Reflect.hasField(data, "overLineColor"))
+		_overLineColor = Reflect.field(data,"overLineColor");
+
+		if (Reflect.hasField(data, "downLineColor"))
+		_downLineColor = Reflect.field(data,"downLineColor");
+		
+		if (Reflect.hasField(data, "disableLineColor"))
+		_disableLineColor = Reflect.field(data,"disableLineColor");
+		
+		
+		// Text Label
+		if (Reflect.hasField(data, "textColor"))
+		_textColor = Reflect.field(data, "textColor");
+		
+		if (Reflect.hasField(data, "textOverColor"))
+		_textOverColor = Reflect.field(data,"textOverColor");
+		
+		if (Reflect.hasField(data, "textSelectedColor"))
+		_textSelectedColor = Reflect.field(data,"textSelectedColor");
+		
+		if (Reflect.hasField(data, "textDisableColor"))
+		_textDisableColor = Reflect.field(data, "textDisableColor");
+		
 		
 	}
     

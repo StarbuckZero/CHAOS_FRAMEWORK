@@ -7,6 +7,7 @@ import com.chaos.ui.classInterface.IBubble;
 import com.chaos.ui.classInterface.IOverlay;
 import openfl.display.BitmapData;
 import openfl.display.Shape;
+import openfl.errors.Error;
 
 import com.chaos.ui.Overlay;
 
@@ -74,10 +75,11 @@ class Bubble extends Overlay implements IBubble implements IOverlay implements I
     
     private var _useMask : Bool = false;
     
-    public function new(defaultWidth : Float = 100, defaultHeight : Float = 100)
+    public function new(data:Dynamic = null)
     {
         
-        super(defaultWidth, defaultHeight);
+		// defaultWidth : Float = 100, defaultHeight : Float = 100
+        super(data);
         
         
         addEventListener(Event.ADDED_TO_STAGE, onStageAdd, false, 0, true);
@@ -97,11 +99,50 @@ class Bubble extends Overlay implements IBubble implements IOverlay implements I
 	override public function setComponentData(data:Dynamic):Void 
 	{
 		super.setComponentData(data);
+		
+		if (Reflect.hasField(data, "thinkness"))
+			_thinkness = Reflect.field(data, "thinkness");
+		
+		if (Reflect.hasField(data, "border"))
+			_border = Reflect.field(data, "border");
+			
+		if (Reflect.hasField(data, "borderColor"))
+			_borderColor = Reflect.field(data, "borderColor");
+			
+		if (Reflect.hasField(data, "borderAlpha"))
+			_borderAlpha = Reflect.field(data, "borderAlpha");
+			
+			
+		if (Reflect.hasField(data, "rounded"))
+			_rounded = Reflect.field(data, "rounded");
+			
+			
+		if (Reflect.hasField(data, "useMask"))
+			_useMask = Reflect.field(data, "useMask");
+			
+			
+		if (Reflect.hasField(data, "showTail"))
+			_showTail = Reflect.field(data, "showTail");
+			
+		if (Reflect.hasField(data, "tailSize"))
+			_tailSize = Reflect.field(data, "tailSize");
+			
+		if (Reflect.hasField(data, "tailAutoCenter"))
+			_tailAutoCenter = Reflect.field(data, "tailAutoCenter");
+			
+		
+		if (Reflect.hasField(data, "tailLocation"))
+			_tailLocation = Reflect.field(data, "tailLocation");
+			
+			
+		if (Reflect.hasField(data, "tailPlacement"))
+			_tailPlacement = Reflect.field(data, "tailPlacement");
+		
 	}
 	
 	override public function initialize():Void 
 	{
-		super.initialize();
+		
 		
         contentHolder = new Sprite();
         
@@ -112,28 +153,46 @@ class Bubble extends Overlay implements IBubble implements IOverlay implements I
         
         _content = new Sprite();
         
-        contentHolder.addChild(_background);
-        contentHolder.addChild(_content);
-        contentHolder.addChild(_backgroundBorder);
-        contentHolder.addChild(_tail);
+		super.initialize();
+		
+        addChild(_background);
+        addChild(_content);
+        addChild(_backgroundBorder);
+        addChild(_tail);
         
-        addChildAt(contentHolder, 0);
-        
-        
-        
+        //addChildAt(contentHolder, 0);
 		
 	}
 	
 	override public function destroy():Void 
 	{
 		super.destroy();
-	}
-    
-    override private function init() : Void
-    {
-		super.init();
 		
-    }
+        removeEventListener(Event.ADDED_TO_STAGE, onStageAdd);
+        removeEventListener(Event.REMOVED_FROM_STAGE, onStageRemove);
+		
+		_background.graphics.clear();
+		_tail.graphics.clear();
+		_backgroundBorder.graphics.clear();
+		
+		
+		try
+		{
+			_content.removeChildren(0, _content.numChildren - 1);
+		}
+		catch (e:Error)
+		{
+			trace("[Bubble::destroy] Something went wrong when trying to remove children from content area.");
+		}
+		
+		removeChild(_background);
+		removeChild(_tail);
+		removeChild(_backgroundBorder);
+		removeChild(_content);
+		
+		
+	}
+
     
     private function initStyle() : Void
     {
@@ -208,10 +267,11 @@ class Bubble extends Overlay implements IBubble implements IOverlay implements I
     
     override public function reskin() : Void
     {
+		super.reskin();
+		
         initStyle();
         initBitmap();
-		
-        super.reskin();
+
     }
     
     /**

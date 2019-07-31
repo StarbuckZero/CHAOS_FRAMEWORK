@@ -5,10 +5,10 @@ package com.chaos.form.ui;
 
 import com.chaos.form.ui.classInterface.IFormUI;
 import com.chaos.ui.RadioButton;
-import com.chaos.ui.RadioGroup;
+import com.chaos.ui.RadioButtonGroup;
 import com.chaos.ui.classInterface.IBaseUI;
 import com.chaos.ui.classInterface.IRadioButton;
-import com.chaos.ui.classInterface.IRadioGroup;
+import com.chaos.ui.classInterface.IRadioButtonGroup;
 import com.chaos.ui.layout.classInterface.IAlignmentContainer;
 import com.chaos.ui.layout.classInterface.IBaseContainer;
 
@@ -17,7 +17,7 @@ import com.chaos.ui.layout.classInterface.IBaseContainer;
  * @author Erick Feiling
  */
 
-class RadioButtonList extends RadioGroup implements IFormUI implements IRadioGroup implements IAlignmentContainer implements IBaseContainer implements IBaseUI
+class RadioButtonList extends RadioButtonGroup implements IFormUI implements IRadioButtonGroup implements IAlignmentContainer implements IBaseContainer implements IBaseUI
 {
     
     private var id : Int = 0;
@@ -32,78 +32,80 @@ class RadioButtonList extends RadioGroup implements IFormUI implements IRadioGro
 	 */
     public function clear() : Void
     {
-        for (i in 0...contentObject.numChildren)
-		{
-            if (Std.is(contentObject.getChildAt(i), RadioButton)) 
-                (try cast(contentObject.getChildAt(i), com.chaos.ui.classInterface.IRadioButton) catch(e:Dynamic) null).selected = false;
-        }
+		
+        for (i in 0 ... _list.length)
+            _list[i].selected = false;
     }
     
     /**
-		 * Get the type of form object
-		 *
-		 * @return The type of form object as a string
-		 */
+	 * Get the type of form object
+	 *
+	 * @return The type of form object as a string
+	 */
     public function getElementType() : String
     {
         return "radio";
     }
     
     /**
-		 * Get the id
-		 *
-		 * @return A int value
-		 */
+	 * Get the id
+	 *
+	 * @return A int value
+	 */
     public function getId() : Int
     {
         return id;
     }
     
     /**
-		 * Set the id of the element
-		 *
-		 * @param	value The id number
-		 */
+	 * Set the id of the element
+	 *
+	 * @param	value The id number
+	 */
     public function setId(value : Int) : Void
     {
         id = value;
     }
     
     /**
-		 * Return the value that has been stored
-		 *
-		 * @return The name of the radio button that was selected
-		 */
+	 * Return the value that has been stored
+	 *
+	 * @return The name of the radio button that was selected
+	 */
     public function getValue() : String
     {
         return getSelected().name;
     }
     
     /**
-		 * Set the value being used
-		 *
-		 * @param	value which radio button that will be selected based on name
-		 */
+	 * Set the value being used
+	 *
+	 * @param	value which radio button that will be selected based on name
+	 */
     
     public function setValue(value : String) : Void
     {
-        for (i in 0...contentObject.numChildren){
-            // Search for radio button by name
-            if (Std.is(contentObject.getChildAt(i), RadioButton) && (try cast(contentObject.getChildAt(i), com.chaos.ui.classInterface.IRadioButton) catch(e:Dynamic) null).name == value) 
-            {
-                // Clear and set the new values
-                clear();
-                
-                (try cast(contentObject.getChildAt(i), com.chaos.ui.classInterface.IRadioButton) catch(e:Dynamic) null).selected = true;
-            }
-        }
+		
+        for (i in 0 ... _list.length)
+		{
+			// Search for radio button by name
+			if (_list[i].name == value) 
+			{
+				// Clear and set the new values
+				clear();
+				
+				// Set the item that should be true
+				_list[i].selected = true;
+			}
+            
+		}
     }
     
     /**
-		 * Return the name
-		 *
-		 * @return The name that is used
-		 */
+	 * Return the name
+	 *
+	 * @return The name that is used
+	 */
     
     public function getName() : String
     {
@@ -111,10 +113,11 @@ class RadioButtonList extends RadioGroup implements IFormUI implements IRadioGro
     }
     
     /**
-		 * Set the name
-		 *
-		 * @param	value The name
-		 */
+	 * Set the name
+	 *
+	 * @param	value The name
+	 */
+	
     public function setName(value : String) : Void
     {
         name = value;

@@ -36,7 +36,6 @@ class TextInput extends Label implements ITextInput implements ILabel implements
 	public var backgroundDisableColor(get, set) : Int;
 	public var bitmapAlpha(get, set) : Float;
 
-	
 	private var _textOverColor : Int = 0x000000;
 	private var _textSelectedColor : Int = 0x000000;
 	private var _textDisableColor : Int = 0x000000;
@@ -45,10 +44,10 @@ class TextInput extends Label implements ITextInput implements ILabel implements
 	private var _displayImage : Bool = false;
 	private var _smoothImage : Bool = true;
 
-	public var backgroundNormal : Shape = new Shape();
-	public var backgroundOver : Shape = new Shape();
-	public var backgroundSelected : Shape = new Shape();
-	public var backgroundDisable : Shape = new Shape();
+	public var backgroundNormal : Shape;
+	public var backgroundOver : Shape;
+	public var backgroundSelected : Shape;
+	public var backgroundDisable : Shape;
 
 	private var _backgroundImage : BitmapData;
 	private var _backgroundOverImage : BitmapData;
@@ -116,11 +115,18 @@ class TextInput extends Label implements ITextInput implements ILabel implements
 		UIBitmapManager.stopWatchElement(TYPE, this);
 
 		// Remove event once gone
-		stage.removeEventListener(MouseEvent.MOUSE_DOWN, onInputCheck);
+		if (stage.hasEventListener(MouseEvent.MOUSE_DOWN))
+			stage.removeEventListener(MouseEvent.MOUSE_DOWN, onInputCheck);
 	}
 	
 	override public function initialize():Void 
 	{
+		
+		backgroundNormal = new Shape();
+		backgroundOver = new Shape();
+		backgroundSelected = new Shape();
+		backgroundDisable = new Shape();
+		
 		super.initialize();
 		
 		// Add if offset & align
@@ -153,6 +159,45 @@ class TextInput extends Label implements ITextInput implements ILabel implements
 		addChild(textField);		
 		
 		
+	}
+	
+	override public function destroy():Void 
+	{
+		super.destroy();
+		
+		// Attach roll over and out event
+		removeEventListener(MouseEvent.MOUSE_OVER, overState);
+		removeEventListener(MouseEvent.MOUSE_OUT, normalState);
+		removeEventListener(FocusEvent.FOCUS_IN, selectedState);
+		removeEventListener(FocusEvent.FOCUS_OUT, normalState);
+		
+		if (null != stage && stage.hasEventListener(MouseEvent.MOUSE_DOWN))
+			stage.removeEventListener(MouseEvent.MOUSE_DOWN, onInputCheck);
+		
+		backgroundNormal.graphics.clear();
+		backgroundOver.graphics.clear();
+		backgroundSelected.graphics.clear();
+		backgroundDisable.graphics.clear();
+		
+		removeChild(backgroundNormal);
+		removeChild(backgroundOver);
+		removeChild(backgroundSelected);
+		removeChild(backgroundDisable);
+		
+		if (null != _backgroundImage)
+			_backgroundImage.dispose();
+			
+		if(null != _backgroundOverImage)
+			_backgroundOverImage.dispose();
+		
+		if (null != _backgroundSelectedImage)
+			_backgroundSelectedImage.dispose();
+			
+		if (null != _backgroundSelectedImage)	
+			_backgroundDisableImage.dispose();
+		
+		backgroundDisable = backgroundSelected = backgroundOver = backgroundNormal = null;	
+		_backgroundDisableImage = _backgroundSelectedImage = _backgroundOverImage = _backgroundImage = null;
 	}
 
 
@@ -216,12 +261,12 @@ class TextInput extends Label implements ITextInput implements ILabel implements
 		if (null != UIStyleManager.INPUT_TEXT_EMBED)
 			setEmbedFont(UIStyleManager.INPUT_TEXT_EMBED);
 
-		border = UIStyleManager.INPUT_BORDER;
-		background = UIStyleManager.INPUT_BACKGROUND;
-		textFormat.bold = UIStyleManager.INPUT_TEXT_BOLD;
-
-		textFormat.italic = UIStyleManager.INPUT_TEXT_ITALIC;
-		textField.setTextFormat(textFormat);
+		_border = UIStyleManager.INPUT_BORDER;
+		_background = UIStyleManager.INPUT_BACKGROUND;
+		
+		_bold = UIStyleManager.INPUT_TEXT_BOLD;
+		_italic = UIStyleManager.INPUT_TEXT_ITALIC;
+		
 	}
 
 	/**
@@ -234,8 +279,6 @@ class TextInput extends Label implements ITextInput implements ILabel implements
 
 		initBitmap();
 		initStyle();
-
-		draw();
 	}
 
 	/**
@@ -249,8 +292,8 @@ class TextInput extends Label implements ITextInput implements ILabel implements
 		_defaultString = value;
 
 		// Set default string to be empty
-		if (_defaultString.length > 0 && text.length == 0)
-			text = _defaultString;
+		if (_defaultString.length > 0 && _textField.text.length == 0)
+			_textField.text = _text = _defaultString;
 	}
 
 	/**
@@ -262,7 +305,7 @@ class TextInput extends Label implements ITextInput implements ILabel implements
 	public function isEmpty() : Bool
 	{
 		// True if text length is 0 or default string is the same as text other then that false
-		return (_defaultString == text) ? true : false;
+		return (_defaultString == _textField.text) ? true : false;
 	}
 
 	/**
@@ -379,7 +422,8 @@ class TextInput extends Label implements ITextInput implements ILabel implements
 	 */
 	private function set_backgroundDisableColor(value : Int) : Int
 	{
-		_backgroundDisableColor = value; draw();
+		_backgroundDisableColor = value;
+		
 		return value;
 	}
 
@@ -462,9 +506,7 @@ class TextInput extends Label implements ITextInput implements ILabel implements
 			removeEventListener(FocusEvent.FOCUS_OUT, normalState);
 			backgroundDisable.visible = true;
 		}
-
-		draw();
-
+		
 		return value;
 	}
 
@@ -474,7 +516,7 @@ class TextInput extends Label implements ITextInput implements ILabel implements
 	private function set_bitmapAlpha(value : Float) : Float
 	{
 		_bgAlpha = value;
-		draw();
+		
 		return value;
 	}
 
@@ -575,12 +617,12 @@ class TextInput extends Label implements ITextInput implements ILabel implements
 	private function onInputCheck(event : MouseEvent) : Void
 	{
 		// If there is nothing in the text field and default string is greather than 0
-		if (text.length == 0 && _defaultString.length > 0 && !hitTestPoint(stage.mouseX, stage.mouseY))
-			text = _defaultString;
+		if (_textField.text.length == 0 && _defaultString.length > 0 && !hitTestPoint(stage.mouseX, stage.mouseY))
+			_textField.text = _defaultString;
 
 		// Upper case first letter
-		if (_upperCaseFirst && text.length > 0 && text != _defaultString)
-			text = text.charAt(0).toUpperCase() + text.substr(1);
+		if (_upperCaseFirst && _textField.text.length > 0 && _textField.text != _defaultString)
+			_textField.text = _textField.text.charAt(0).toUpperCase() + text.substr(1);
 	}
 
 	private function normalState(event : Event) : Void
@@ -620,8 +662,8 @@ class TextInput extends Label implements ITextInput implements ILabel implements
 		textFormat.color = textField.textColor = _textSelectedColor;
 
 		// Default string is not empty and text is the same as default text then clear it
-		if (_defaultString.length > 0 && text == _defaultString)
-			text = "";
+		if (_defaultString.length > 0 && _textField.text == _defaultString)
+			_textField.text = "";
 
 		if (_showImage)
 		{

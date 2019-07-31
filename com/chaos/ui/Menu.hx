@@ -1449,6 +1449,7 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
 			menu.addEventListener(MouseEvent.CLICK, onClick, false, 5, true);
 			
 			styleMenuButton(menu);
+			menu.draw();
 			
 			buttonArea.addElement(menu);
         }
@@ -1545,6 +1546,7 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
                 menu.addEventListener(MouseEvent.CLICK, onClick, false, 5, true);
                 
                 styleSubMenuButton(menu);
+				menu.draw();
             }
         }
         
@@ -1704,7 +1706,7 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
     
     private function styleMenuButton(menu : IMenuItem) : Void
     {
-        
+        //TODO: Look into moving this into object that builds the butto later
         menu.textColor = _textColor;
         menu.textOverColor = _textOverColor;
         menu.textSelectedColor = _textSelectedColor;
@@ -1751,6 +1753,7 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
     
     private function styleSubMenuButton(menu : IMenuItem) : Void
     {
+		//TODO: Look into moving this into object that builds the butto later
         menu.textColor = _subTextColor;
         menu.textOverColor = _subTextOverColor;
         menu.textSelectedColor = _subTextSelectedColor;

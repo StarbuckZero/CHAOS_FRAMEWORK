@@ -1,7 +1,7 @@
 package com.chaos.ui.classInterface;
 
 
-import com.chaos.data.DataProvider;
+
 import com.chaos.ui.layout.classInterface.IAlignmentContainer;
 
 
@@ -12,15 +12,6 @@ import com.chaos.ui.layout.classInterface.IAlignmentContainer;
  */
 interface ICheckBoxGroup extends IAlignmentContainer
 {
-    
-    
-    /**
-	 * Replace or return the current data provider
-	 */
-
-    
-    var dataProvider(get, set) : DataProvider<ICheckBox>;
-
     
     /**
 	 * Creates a check box and adds it to the container

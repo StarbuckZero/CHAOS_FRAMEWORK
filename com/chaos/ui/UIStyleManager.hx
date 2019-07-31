@@ -128,13 +128,6 @@ class UIStyleManager
     public static var CHECKBOX_DOWN_COLOR : Int = -1;
     public static var CHECKBOX_DISABLE_COLOR : Int = -1;
     
-    public static var CHECKBOX_NORMAL_SELECTED_COLOR : Int = -1;
-    public static var CHECKBOX_OVER_SELECTED_COLOR : Int = -1;
-    public static var CHECKBOX_DOWN_SELECTED_COLOR : Int = -1;
-    public static var CHECKBOX_DISABLE_SELECTED_COLOR : Int = -1;
-    
-    public static var CHECKBOX_TEXT_EMBED : Font = null;
-    public static var CHECKBOX_TEXT_FONT : String = "";
     public static var CHECKBOX_TEXT_COLOR : Int = -1;
     
     public static var CHECKBOX_TEXT_BOLD : Bool = false;
@@ -144,26 +137,19 @@ class UIStyleManager
     public static var CHECKBOX_TEXT_ALIGN : String = "";
     
     /** The over all size of checkbox */
-    public static var CHECKBOX_SIZE : Int = 9;
+    public static var CHECKBOX_SIZE : Int = -1;
     
     /** Label offset on x axis */
-    public static var CHECKBOX_LABEL_OFFSET_X : Int = 12;
+    public static var CHECKBOX_LABEL_OFFSET_X : Int = 0;
     
     /** Label offset on y axis */
-    public static var CHECKBOX_LABEL_OFFSET_Y : Int = -1;
-    
-    public static var RADIOBUTTON_NORMAL_SELECTED_COLOR : Int = -1;
-    public static var RADIOBUTTON_OVER_SELECTED_COLOR : Int = -1;
-    public static var RADIOBUTTON_DOWN_SELECTED_COLOR : Int = -1;
-    public static var RADIOBUTTON_DISABLE_SELECTED_COLOR : Int = -1;
+    public static var CHECKBOX_LABEL_OFFSET_Y : Int = 0;
     
     public static var RADIOBUTTON_NORMAL_COLOR : Int = -1;
     public static var RADIOBUTTON_OVER_COLOR : Int = -1;
     public static var RADIOBUTTON_DOWN_COLOR : Int = -1;
     public static var RADIOBUTTON_DISABLE_COLOR : Int = -1;
     
-    public static var RADIOBUTTON_TEXT_EMBED : Font = null;
-    public static var RADIOBUTTON_TEXT_FONT : String = "";
     public static var RADIOBUTTON_TEXT_COLOR : Int = -1;
     
     public static var RADIOBUTTON_TEXT_BOLD : Bool = false;
@@ -173,22 +159,22 @@ class UIStyleManager
     public static var RADIOBUTTON_TEXT_ALIGN : String = "";
     
     /** The radio button over all size */
-    public static var RADIO_BTN_SIZE : Int = 4;
+    public static var RADIOBUTTON_SIZE : Int = -1;
     
     /** The radio button dot */
-    public static var RADIO_BTN_DOT : Int = 1;
+    public static var RADIOBUTTON_DOT : Int = -1;
     
     /** Radio button offset on the x axis */
-    public static var RADIO_BTN_OFFSET_X : Int = 5;
+    public static var RADIOBUTTON_OFFSET_X : Int = 0;
     
     /** Radio button offset on the y axis */
-    public static var RADIO_BTN_OFFSET_Y : Int = 6;
+    public static var RADIOBUTTON_OFFSET_Y : Int = 0;
     
     /** Label offset on x axis */
-    public static var RADIO_LABEL_OFFSET_X : Int = 10;
+    public static var RADIOBUTTON_LABEL_OFFSET_X : Int = 0;
     
     /** Label offset on y axis */
-    public static var RADIO_LABEL_OFFSET_Y : Int = 5;
+    public static var RADIOBUTTON_LABEL_OFFSET_Y : Int = 0;
     
     public static var COMBO_BUTTON_NORMAL_COLOR : Int = -1;
     public static var COMBO_BUTTON_OVER_COLOR : Int = -1;

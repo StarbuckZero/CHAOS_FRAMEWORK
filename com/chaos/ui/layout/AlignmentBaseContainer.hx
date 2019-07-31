@@ -8,7 +8,7 @@ import openfl.errors.Error;
 
 
 import com.chaos.utils.Debug;
-import openfl.display.DisplayObject;
+
 
 import flash.geom.Rectangle;
 
@@ -200,7 +200,7 @@ class AlignmentBaseContainer extends BaseContainer implements IBaseUI implements
         for (i in 0 ... list.length)
 		{
             if (null != list[i] && Std.is(list[i], IBaseUI)) 
-                contentObject.addChild(list[i]);
+                contentObject.addChild(cast(list[i], IBaseUI).displayObject);
             else 
                 Debug.print("[AlignmentBaseContainer::addElementList] Fail to add item at index " + i);
         }
@@ -258,6 +258,16 @@ class AlignmentBaseContainer extends BaseContainer implements IBaseUI implements
         
         return null;
     }
+	
+    /**
+	 * Adjust the location of all UI elements 
+	 *
+	 */	
+	
+	public function updateAlignment():Void
+	{
+		// align elemcts 
+	}
     
     /**
 	 * Remove an UI element from the container

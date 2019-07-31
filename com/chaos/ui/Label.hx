@@ -61,9 +61,9 @@ class Label extends BaseUI implements ILabel implements IBaseUI
 	private var _font : Font;
 	private var _beginIndex : Int = -1;
 	private var _endIndex : Int = -1;
-	private var _background : Bool = false;
+	private var _background : Bool = UIStyleManager.LABEL_BACKGROUND;
 	private var _backgroundColor : Int = 0xFFFFFF;
-	private var _border : Bool = false;
+	private var _border : Bool = UIStyleManager.LABEL_BORDER;
 	private var _borderColor : Int = 0x000000;
 	private var _thinkness : Float = 1;
 	private var _outlineColor : Int = 0x000000;
@@ -73,7 +73,11 @@ class Label extends BaseUI implements ILabel implements IBaseUI
 	private var _displayIcon : Shape;
 	private var _outline : Shape;
 	private var _bitmapMode : Bool = false;
-  
+	private var _size:Int = 11;
+	private var _bold : Bool = UIStyleManager.LABEL_TEXT_BOLD;
+	private var _italic : Bool = UIStyleManager.LABEL_TEXT_ITALIC;
+	private var _fontName : String = "";
+	
 	public function new(data:Dynamic = null)
 	{
 		super(data);
@@ -91,6 +95,18 @@ class Label extends BaseUI implements ILabel implements IBaseUI
 		if (Reflect.hasField(data, "text"))
 			_text = Reflect.field(data, "text");
 			
+		if (Reflect.hasField(data, "font"))
+			_fontName = Reflect.field(data, "font");
+
+		if (Reflect.hasField(data, "size"))
+			_size = Reflect.field(data, "size");
+		
+		if (Reflect.hasField(data, "bold"))
+			_bold = Reflect.field(data, "bold");
+			
+		if (Reflect.hasField(data, "italic"))
+			_italic = Reflect.field(data, "italic");
+
 		if (Reflect.hasField(data, "editable"))
 			_editable = Reflect.field(data, "editable");
 			
@@ -149,11 +165,22 @@ class Label extends BaseUI implements ILabel implements IBaseUI
 		_textFormat.indent = UIStyleManager.LABEL_INDENT;
 		_textFormat.color = _textColor;
 		_textFormat.align = _align; 
+		_textFormat.bold = _bold;
+		_textFormat.italic = _italic;
+		_textFormat.size = _size;
 		
+		if(_fontName != "")
+			_textFormat.font = _fontName;
 		
 		// Setup height
 		_textField.width = _width;
-		_textField.height = _height;
+		
+		// First figure out if auto resize is being used 
+		if (_textField.autoSize == TextFieldAutoSize.NONE) 
+			_textField.height = _height;
+		else 
+			_height = _textField.height;		
+		
 		
 		// Add to display
 		addChild(_outline);
@@ -167,7 +194,35 @@ class Label extends BaseUI implements ILabel implements IBaseUI
 
 	}
 	
-	
+	override public function destroy():Void 
+	{
+		super.destroy();
+		
+		// Event
+		removeEventListener(Event.ADDED_TO_STAGE, onStageAdd);
+		removeEventListener(Event.REMOVED_FROM_STAGE, onStageRemove);
+		
+		
+		// Clear out lines
+		_outline.graphics.clear();
+		_textImage.graphics.clear();
+		_displayIcon.graphics.clear();
+		
+		// Remove items
+		removeChild(_outline);
+		removeChild(_displayIcon);
+		
+		if (_textField.parent != null)
+			removeChild(_textField);
+		
+		if (_textImage.parent != null)
+			removeChild(_textImage);
+		
+		_textFormat = null;
+		_textField = null;
+		
+		
+	}	
 
 	
 	private function onStageAdd(event : Event) : Void { UIBitmapManager.watchElement(TYPE, this); }
@@ -191,27 +246,24 @@ class Label extends BaseUI implements ILabel implements IBaseUI
 		backgroundColor = UIStyleManager.LABEL_BACKGROUND_COLOR;
 		
 		if ( -1 != UIStyleManager.LABEL_TEXT_COLOR)
-		_textFormat.color = UIStyleManager.LABEL_TEXT_COLOR;
+		_textColor = UIStyleManager.LABEL_TEXT_COLOR;
 		
 		if ("" != UIStyleManager.LABEL_TEXT_ALIGN)
-		_textFormat.align = UIStyleManager.LABEL_TEXT_ALIGN;
+		_align = UIStyleManager.LABEL_TEXT_ALIGN;
 		
 		if ( -1 != UIStyleManager.LABEL_TEXT_SIZE)
-		_textFormat.size = UIStyleManager.LABEL_TEXT_SIZE;
+		_size = UIStyleManager.LABEL_TEXT_SIZE;
 		
 		if (null != UIStyleManager.LABEL_TEXT_EMBED)
 		setEmbedFont(UIStyleManager.LABEL_TEXT_EMBED);
 		
-		_background = UIStyleManager.LABEL_BACKGROUND;
-		_border = UIStyleManager.LABEL_BORDER;
+		//_background = UIStyleManager.LABEL_BACKGROUND;
+		//_border = UIStyleManager.LABEL_BORDER;
 		
 		if ("" != UIStyleManager.LABEL_TEXT_FONT)
-		_textFormat.font = UIStyleManager.LABEL_TEXT_FONT;
+		_fontName = UIStyleManager.LABEL_TEXT_FONT;
 		
-		_textFormat.bold = UIStyleManager.LABEL_TEXT_BOLD;
-		_textFormat.italic = UIStyleManager.LABEL_TEXT_ITALIC;
-		
-		_textField.setTextFormat(_textFormat);
+		//_textField.setTextFormat(_textFormat);
 		
 		
     }
@@ -252,9 +304,10 @@ class Label extends BaseUI implements ILabel implements IBaseUI
 	override public function reskin() : Void 
 	{
 		
+		super.reskin();
+		
 		initStyle();
 		
-		super.reskin();
 	} 
 	 
 	 /**
@@ -560,7 +613,6 @@ class Label extends BaseUI implements ILabel implements IBaseUI
 	{ 
 		_textFormat.size = value; 
 		
-		
 		return value;
 		
 	}
@@ -657,35 +709,7 @@ class Label extends BaseUI implements ILabel implements IBaseUI
 		
 	}
 	
-	override public function destroy():Void 
-	{
-		super.destroy();
-		
-		// Event
-		removeEventListener(Event.ADDED_TO_STAGE, onStageAdd);
-		removeEventListener(Event.REMOVED_FROM_STAGE, onStageRemove);
-		
-		
-		// Clear out lines
-		_outline.graphics.clear();
-		_textImage.graphics.clear();
-		_displayIcon.graphics.clear();
-		
-		// Remove items
-		removeChild(_outline);
-		removeChild(_displayIcon);
-		
-		if (_textField.parent != null)
-			removeChild(_textField);
-		
-		if (_textImage.parent != null)
-			removeChild(_textImage);
-		
-		_textFormat = null;
-		_textField = null;
-		
-		
-	}
+
 	
 	/**
 	 * This setup and draw the label on the screen
@@ -693,28 +717,7 @@ class Label extends BaseUI implements ILabel implements IBaseUI
 	 */ 
 	override public function draw() : Void
 	{
-		// First turn off all the stuff that would be turned on if nomral TextField  
-		_textField.selectable = ((_enabled && _editable)) ? true : false;
-		
-		
-		
-		_textField.setTextFormat(_textFormat, _beginIndex, _endIndex);
-		_textField.embedFonts = _embedFonts;
-		_textField.border = false;
-		_textField.textColor = _textColor;
-		_textField.background = _background;
-		_textField.backgroundColor = _backgroundColor;
-		_textField.text = _text;
-		_textFormat.color = _textColor;
-		
-		// Get ready to draw background and border
-		_outline.graphics.clear(); 
-		
-		// First figure out if auto resize is being used 
-		if (_textField.autoSize == TextFieldAutoSize.NONE) 
-			_textField.height = _height;
-		else 
-			_height = _textField.height;
+		super.draw();
 		
 		// Adjust if icon  
 		if (null != _displayIcon && _showIcon) 
@@ -729,6 +732,27 @@ class Label extends BaseUI implements ILabel implements IBaseUI
 			_textField.x = 0;
 			_textField.y = 0;
 		}
+		
+		// First turn off all the stuff that would be turned on if nomral TextField  
+		_textField.selectable = ((_enabled && _editable)) ? true : false;
+		
+		
+		_textField.setTextFormat(_textFormat, _beginIndex, _endIndex);
+		_textField.embedFonts = _embedFonts;
+		_textField.textColor = _textColor;
+		_textField.background = _background;
+		_textField.backgroundColor = _backgroundColor;
+		_textField.text = _text;
+		
+		// Get ready to draw background and border
+		_outline.graphics.clear(); 
+		
+		// First figure out if auto resize is being used 
+		if (_textField.autoSize == TextFieldAutoSize.NONE) 
+			_textField.height = _height;
+		else 
+			_height = _textField.height;
+		
 		
 		// Setup for border if need be  
 		if (_border) 
@@ -745,9 +769,5 @@ class Label extends BaseUI implements ILabel implements IBaseUI
 			_textImage.graphics.drawRect(0, 0, _textField.width, _textField.height);
 			_textImage.graphics.endFill();
 		}
-		
-		
-		
-		super.draw();
     }
 }

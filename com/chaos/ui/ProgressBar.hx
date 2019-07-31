@@ -265,7 +265,6 @@ import com.chaos.ui.UIBitmapManager;
 	private function set_border(value : Bool) : Bool 
 	{
 		_border = value;
-		draw();
 		
 		return value;
 	}
@@ -285,7 +284,6 @@ import com.chaos.ui.UIBitmapManager;
 	private function set_borderColor(value : Int) : Int
 	{ 
 		_outlineColor = value;
-		draw();
 		
 		return value;
 	}
@@ -303,7 +301,7 @@ import com.chaos.ui.UIBitmapManager;
 	private function set_borderThinkness(value : Float) : Float 
 	{
 		_thinkness = value; 
-		draw();
+		
 		
 		return value;
 	}
@@ -322,7 +320,7 @@ import com.chaos.ui.UIBitmapManager;
 	private function set_borderAlpha(value : Float) : Float
 	{ 
 		_outlineAlpha = value; 
-		draw();
+		
 		
 		return value; 
 	}
@@ -340,7 +338,7 @@ import com.chaos.ui.UIBitmapManager;
 	private function set_backgroundColor(value : Int) : Int 
 	{ 
 		_backgroundNormalColor = value;
-		draw(); 
+		
 		
 		return value;
 	}

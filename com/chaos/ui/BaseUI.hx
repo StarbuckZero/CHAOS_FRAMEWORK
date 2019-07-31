@@ -18,7 +18,8 @@ import openfl.display.Sprite;
 class BaseUI extends Sprite implements IBaseUI
 {
 	
-
+	public var drawOnResize(get, set) : Bool;
+	
     public var enabled(get, set) : Bool;
     public var displayObject(get, never) : DisplayObject;
 
@@ -26,18 +27,25 @@ class BaseUI extends Sprite implements IBaseUI
     private var _height : Float = 0;
     
     private var _enabled : Bool = true;
+	private var _drawOnResize:Bool = false;
     
     
     public function new( data:Dynamic = null )
     {
         super();
 		
+		// Make sure all style and bitmap skinning is set first
+		reskin();
 		
 		// If object passed in then start setting defaults
 		if (null != data)
 			setComponentData(data);
 		
+		// Init component parts
 		initialize();
+		
+		// Draw and texture object
+		draw();
     }
 	
 	/**
@@ -74,7 +82,6 @@ class BaseUI extends Sprite implements IBaseUI
 	public function initialize():Void
 	{
 		// Init objects here
-		reskin();
 	}
 	
     
@@ -84,7 +91,6 @@ class BaseUI extends Sprite implements IBaseUI
     public function reskin() : Void
     {
         // Style and set all bitmap data objects here
-		draw();
     }	
 
 	
@@ -116,12 +122,17 @@ class BaseUI extends Sprite implements IBaseUI
     {
         _width = value;
         
+		if (_drawOnResize)
+		draw();
 		
     }
 	#else
 	override private function set_width(value : Float) : Float
 	{
         _width = value;
+		
+		if (_drawOnResize)
+		draw();
         
 		
 		return value;
@@ -146,12 +157,18 @@ class BaseUI extends Sprite implements IBaseUI
     #if flash @:setter(height)
     private function set_height(value : Float) : Void
     {
+		if (_drawOnResize)
+		draw();
+		
         _height = value;
         
     }
 	#else  
     override private function set_height(value : Float) : Float
     {
+		if (_drawOnResize)
+		draw();
+		
         _height = value;
         
 		
@@ -168,6 +185,18 @@ class BaseUI extends Sprite implements IBaseUI
     {
         return _height;
     }
+	
+	
+	private function set_drawOnResize(value:Bool):Bool
+	{
+		_drawOnResize = value;
+		return value;
+	}
+	
+	private function get_drawOnResize():Bool
+	{
+		return _drawOnResize;
+	}
 	
 	
     function set_enabled(value : Bool) : Bool

@@ -420,13 +420,13 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 
 	override public function reskin() : Void
 	{
+		super.reskin();
+		
 		initBorder();
 		initComboBoxStyle();
 		initDropDownButton();
 		initLabel();
 		initScrollBar();
-		
-		super.reskin();
 
 	}
 	
@@ -962,11 +962,13 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 		_selectLabel.width = (_width - _buttonWidth);
 		_selectLabel.height = _height;
 		_selectLabel.textField.setTextFormat(_textFormat);
+		_selectLabel.draw();
 		
 		
 		_dropButton.width = _buttonWidth;
 		_dropButton.height = _height;
 		_dropButton.x = (_width - _buttonWidth);
+		_dropButton.draw();
 	}
 
 	private function textOutEvent(event : MouseEvent) : Void

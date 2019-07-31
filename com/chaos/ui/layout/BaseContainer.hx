@@ -96,6 +96,8 @@ class BaseContainer extends BaseUI implements IBaseContainer implements IBaseUI
         
         removeChild(contentHolder);
 		
+		if (null != _imageBackground)
+			_imageBackground.dispose();
 		
 		backgroundShape = null;
 		contentObject = null;

@@ -1199,6 +1199,10 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 		_maxButton.width = WINDOW_BUTTON_SIZE;
 		_maxButton.height = WINDOW_BUTTON_SIZE;
 		
+		_closeButton.draw();
+		_minButton.draw();
+		_maxButton.draw();
+		
 		_windowWidth = inWidth;
 		_windowHeight = inHeight; 
 
@@ -1448,6 +1452,8 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 			
 			inMovie.height = heightVal;
 		}
+		
+		inMovie.draw();
     }
 	
 	// End sizeInsideWindow 

@@ -140,11 +140,6 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 		_scrollBarV.visible = false;
 		
 		
-		// Set background from UIBitmapManager and UIStyle Manager if need be  
-		initUISkin();
-		initStyle();
-		
-		
 		addChild(_contentSizeBox);
 		
 		addChild(shapeBlock);
@@ -178,6 +173,15 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 		
 	}
 	
+	override public function reskin():Void 
+	{
+		super.reskin();
+		
+		initUISkin();
+		initStyle();
+		
+	}
+	
 
 	private function initUISkin() : Void
 	{
@@ -188,8 +192,7 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 	private function initStyle() : Void 
 	{
 		if ( -1 != UIStyleManager.SCROLLPANE_BACKGROUND)  
-			super.backgroundColor = UIStyleManager.SCROLLPANE_BACKGROUND;
-		
+			_backgroundColor = UIStyleManager.SCROLLPANE_BACKGROUND;
 		
 		
 		if ( -1 != UIStyleManager.SCROLLPANE_BORDER_COLOR) 

@@ -212,10 +212,9 @@ class ListBox extends ScrollPane implements IListBox implements IBaseUI
 
 	override public function reskin() : Void 
 	{
+		super.reskin();
 		
 		initListStyle();
-		
-		super.reskin();		
 	}
 
 	/**

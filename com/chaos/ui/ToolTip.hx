@@ -344,6 +344,7 @@ class ToolTip
         _label.x = (_bubble.width / 2) - (_label.width / 2);
         _label.y = (_bubble.height / 2) - (_label.height / 2);
         
+		
         _bubble.x = locX - (_bubble.width / 2);
         _bubble.y = locY - _bubble.height;
         
@@ -353,6 +354,9 @@ class ToolTip
         if (_bubble.showTail) 
             _bubble.y -= _bubble.tailSize;
         
+		_label.draw();
+		_bubble.draw();
+		
         onShowBubble();
     }
     
@@ -492,6 +496,10 @@ class ToolTip
         
         if (_bubble.showTail) 
             _bubble.y -= _bubble.tailSize;
+			
+			
+		_label.draw();
+		_bubble.draw();
     }
     
     private static function onRollOut(event : MouseEvent) : Void

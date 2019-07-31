@@ -1,265 +1,158 @@
 package com.chaos.ui;
 
-import com.chaos.ui.classInterface.ILabel;
-import com.chaos.ui.event.ToggleEvent;
+
+
+import com.chaos.ui.UIBitmapManager;
+import com.chaos.ui.UIStyleManager;
 import com.chaos.ui.classInterface.IBaseUI;
 import com.chaos.ui.classInterface.IRadioButton;
-import openfl.events.Event;
-import openfl.text.Font;
-import openfl.text.TextFormatAlign;
-import openfl.text.TextFormat;
-import openfl.text.TextFieldAutoSize;
-import com.chaos.media.DisplayImage;
+import openfl.events.MouseEvent;
 
-import com.chaos.ui.Label;
-import com.chaos.ui.RadioButtonManager;
+import openfl.display.BitmapData;
+import openfl.display.Shape;
+import openfl.events.Event;
+
+class RadioButton extends SelectToggleBase implements IRadioButton implements IBaseUI
+{
+
+	/** The type of UI Element */
+	public static inline var TYPE : String = "RadioButton";
+
+	public var groupName(get, set) : String;
+	public var dotSize(get, set) : Int;
+	
+	private var _groupName : String = "default";
+	
+	private var _dotSize : Int = 1;
 
 	/**
-	 *  Create radio button on the fly
-	 *
-	 *  @author Erick Feiling
-	 *  @date 7-2-09
+	 * Creates new radio button
+	 * @param	data object with all the properies you want to set
 	 */
-class RadioButton extends ToggleButton implements IRadioButton implements IBaseUI
-{
-    public var textFormat(get, set) : TextFormat;
-    public var groupName(get, set) : String;
-    public var label(get, never) : ILabel;
-    public var text(get, set) : String;
-    public var textWidth(get, set) : Float;
-    public var textSize(get, set) : Int;
-    public var textItalic(get, set) : Bool;
-    public var textBold(get, set) : Bool;
-    public var textColor(get, set) : Int;
-    public var textAlign(get, set) : String;
-    public var showLabel(get, set) : Bool;
-	
-	/** The type of UI Element */
-	public static var TYPE : String = "RadioButton";
-	//private var _baseNormal : Shape = new Shape();
-	//private var _baseOver : Shape = new Shape();
-	//private var _baseDown : Shape = new Shape();
-	//private var _baseDisable : Shape = new Shape();
-	private var _normalLineColor : Int = 0x000000;
-	private var _overLineColor : Int = 0x666666;
-	private var _downLineColor : Int = 0x000000;
-	private var _disableLineColor : Int = 0xCCCCCC;
-	private var _normalFillColor : Int = 0xFFFFFF;
-	private var _overFillColor : Int = 0x666666;
-	private var _downFillColor : Int = 0xFFFFFF;
-	private var _disableFillColor : Int = 0xFFFFFF;
-	private var _downDotColor : Int = 0x000000;
-	private var _lineSize : Int = 2;
-	private var _lineAlpha : Float = 1;
-	private var _overAlpha : Float = .2;
-	private var _blnNormalImage : Bool = false;
-	private var _blnOverImage : Bool = false;
-	private var _blnDownImage : Bool = false;
-	private var _blnDisableImage : Bool = false;
-	private var _normalDisplayImage : DisplayImage;
-	private var _overDisplayImage : DisplayImage;
-	private var _downDisplayImage : DisplayImage;
-	private var _disableDisplayImage : DisplayImage;
-	private var _radioBtnGroup : String = "RadioButtonGroup";
-	
-	// Default text
-	private var _labelText : String = "RadioButton";
-	private var _labelTextField : Label;
-	private var _labelTextFormat : TextFormat;
-	private var _textItalic : Bool = false;
-	private var _textBold : Bool = false;
-	private var _textColor : Int = 0x000000;
-	private var _textAlign : String = TextFormatAlign.LEFT;
-	private var _textSize : Int = 11;
-	private var _showLabel : Bool = true;
-	private var _useTextFormat : Bool = false;
-	private var _textWidth : Float = 65;
-	private var _textSelectable : Bool = true;
-	private var _smoothImage : Bool = true;
-	private var _showImage : Bool = true;
-	
-	
-	public function new(labelText : String = "")
-    {
-        
-		// Init toggle class first
-		super();
-		
-		
+
+	public function new(data:Dynamic = null)
+	{
+		super(data);
+
 		addEventListener(Event.ADDED_TO_STAGE, onStageAdd, false, 0, true);
 		addEventListener(Event.REMOVED_FROM_STAGE, onStageRemove, false, 0, true);
-		
-		_labelText = labelText;
-		
-		initialize();
-		
-		
-    }
-	
-	override function onStageAdd(event : Event) : Void 
-	{ 
-		UIBitmapManager.watchElement(TYPE, this);
 	}
 	
-	override function onStageRemove(event : Event) : Void 
+	override public function setComponentData(data:Dynamic):Void 
 	{
-		UIBitmapManager.stopWatchElement(TYPE, this); 
+		super.setComponentData(data);
+		
+		// Go with what's in data object first, UI style second
+		if (Reflect.hasField(data, "textColor"))
+			Reflect.setField(_labelData, "textColor", Reflect.field(data, "textColor") );
+		else if ( -1 != UIStyleManager.RADIOBUTTON_TEXT_COLOR)
+			Reflect.setField(_labelData, "textColor", UIStyleManager.RADIOBUTTON_TEXT_COLOR);
+		
+		// Go with what's in data object first, UI style second
+		if (Reflect.hasField(data, "size"))
+			Reflect.setField(_labelData, "size", Reflect.field(data, "size"));
+		else if ( -1 != UIStyleManager.RADIOBUTTON_TEXT_SIZE)
+			Reflect.setField(_labelData, "size", UIStyleManager.RADIOBUTTON_TEXT_SIZE);
+		
+		if (Reflect.hasField(data, "dotSize"))
+			_dotSize = Reflect.field(data, "dotSize");
+			
+		if (Reflect.hasField(data, "groupName"))
+		{
+			_groupName = Reflect.field(data, "groupName");
+			
+			// If group is not there then add it 
+			if (!RadioButtonManager.groupCheck(_groupName))  
+			RadioButtonManager.addGroup(_groupName); 
+			
+			// Add item to the manager  
+			RadioButtonManager.addItem(_groupName, this);
+		}
+		
+		if (""  != UIStyleManager.RADIOBUTTON_TEXT_ALIGN)
+			Reflect.setField(_labelData, "align", UIStyleManager.RADIOBUTTON_TEXT_ALIGN);
+		
+		// If not found then go with default
+		if (!Reflect.hasField(_labelData, "bold"))
+			Reflect.setField(_labelData, "bold", UIStyleManager.RADIOBUTTON_TEXT_BOLD);
+		
+		if (!Reflect.hasField(_labelData, "italic"))
+			Reflect.setField(_labelData, "italic", UIStyleManager.RADIOBUTTON_TEXT_ITALIC);
 	}
 	
-	override public function initialize() : Void
-	{
-		// Setup Shapes
-		//_baseNormal = new Shape();
-		//_baseOver = new Shape();
-		//_baseDown = new Shape();
-		//_baseDisable = new Shape();
-		
-		// Create Text field
-		_labelTextField = new Label();
-		_labelTextFormat = new TextFormat();
-		
-		//setNormalState(_baseNormal);
-		//setOverState(_baseOver);
-		//setDownState(_baseDown);
-		//setDisableState(_baseDisable);
-		
-		_normalDisplayImage = new DisplayImage();
-		_overDisplayImage = new DisplayImage();
-		_downDisplayImage = new DisplayImage();
-		_disableDisplayImage = new DisplayImage();
-		
-		_normalDisplayImage.onImageComplete = normalImageComplete;
-		_overDisplayImage.onImageComplete = overImageComplete;
-		_downDisplayImage.onImageComplete = downImageComplete;
-		_disableDisplayImage.onImageComplete = disableImageComplete;
-		
-		addChildAt(_labelTextField, 0);
-		initSkin();
-		initStyle();
-		
-		draw();
-		
-		
-		// Check to see if group has been created if not then create one  
-		if (!RadioButtonManager.groupCheck(_radioBtnGroup))  
-			RadioButtonManager.addGroup(_radioBtnGroup);
-		
-		// Add item to the manager  
-		RadioButtonManager.addItem(_radioBtnGroup, this);
-		
-		// Adding event for clearing down press 
-		addEventListener(ToggleEvent.DOWN_STATE, groupUnselect, false, 0, true);
-    }
 	
-	
-	private function initSkin() : Void 
+
+	override function onStageAdd(event : Event) : Void { UIBitmapManager.watchElement(TYPE, this); }
+	override function onStageRemove(event : Event) : Void { UIBitmapManager.stopWatchElement(TYPE, this); }
+
+
+	override private function initSkin() : Void
 	{
-		// Skin element  
+		// Skin element
 		if (null != UIBitmapManager.getUIElement(RadioButton.TYPE, UIBitmapManager.RADIOBUTTON_NORMAL))
-		setDefaultStateImage(UIBitmapManager.getUIElement(RadioButton.TYPE, UIBitmapManager.RADIOBUTTON_NORMAL));
-		
-		if (null != UIBitmapManager.getUIElement(RadioButton.TYPE, UIBitmapManager.RADIOBUTTON_OVER))         
-		setOverStateImage(UIBitmapManager.getUIElement(RadioButton.TYPE, UIBitmapManager.RADIOBUTTON_OVER));
-		
-		if (null != UIBitmapManager.getUIElement(RadioButton.TYPE, UIBitmapManager.RADIOBUTTON_DOWN))     
-        setDownStateImage(UIBitmapManager.getUIElement(RadioButton.TYPE, UIBitmapManager.RADIOBUTTON_DOWN));
-		
-		if (null != UIBitmapManager.getUIElement(RadioButton.TYPE, UIBitmapManager.RADIOBUTTON_DISABLE))   
-		setDisableStateImage(UIBitmapManager.getUIElement(RadioButton.TYPE, UIBitmapManager.RADIOBUTTON_DISABLE));
-    }
-	
-	private function initStyle() : Void
-	{  
-		// Unselected Color
+			setDefaultStateImage(UIBitmapManager.getUIElement(CheckBox.TYPE, UIBitmapManager.RADIOBUTTON_NORMAL));
+
+		if (null != UIBitmapManager.getUIElement(RadioButton.TYPE, UIBitmapManager.RADIOBUTTON_OVER))
+			setOverStateImage(UIBitmapManager.getUIElement(RadioButton.TYPE, UIBitmapManager.RADIOBUTTON_OVER));
+
+		if (null != UIBitmapManager.getUIElement(RadioButton.TYPE, UIBitmapManager.RADIOBUTTON_DOWN))
+			setDownStateImage(UIBitmapManager.getUIElement(RadioButton.TYPE, UIBitmapManager.RADIOBUTTON_DOWN));
+
+		if (null != UIBitmapManager.getUIElement(RadioButton.TYPE, UIBitmapManager.RADIOBUTTON_DISABLE))
+			setDisableStateImage(UIBitmapManager.getUIElement(RadioButton.TYPE, UIBitmapManager.RADIOBUTTON_DISABLE));
+	}
+
+	override private function initStyle() : Void
+	{
+		// Color
 		if ( -1 != UIStyleManager.RADIOBUTTON_NORMAL_COLOR)
-			_normalLineColor = UIStyleManager.RADIOBUTTON_NORMAL_COLOR;
-		
-		if ( -1 != UIStyleManager.RADIOBUTTON_OVER_COLOR)   
-			_overLineColor = UIStyleManager.RADIOBUTTON_OVER_COLOR;
-		
-		if ( -1 != UIStyleManager.RADIOBUTTON_DOWN_COLOR) 
-			_downLineColor = UIStyleManager.RADIOBUTTON_DOWN_COLOR;
-		
-		if ( -1 != UIStyleManager.RADIOBUTTON_DISABLE_COLOR)        
-			_disableLineColor = UIStyleManager.RADIOBUTTON_DISABLE_COLOR;
-		
-		// Selected Color
-		if ( -1 != UIStyleManager.RADIOBUTTON_NORMAL_SELECTED_COLOR)   
-			_normalFillColor = UIStyleManager.RADIOBUTTON_NORMAL_SELECTED_COLOR;
-		
-		if ( -1 != UIStyleManager.RADIOBUTTON_OVER_SELECTED_COLOR) 
-			_overFillColor = UIStyleManager.RADIOBUTTON_OVER_SELECTED_COLOR;
-		
-		if ( -1 != UIStyleManager.RADIOBUTTON_DOWN_SELECTED_COLOR) 
-			_downFillColor = UIStyleManager.RADIOBUTTON_DOWN_SELECTED_COLOR;
-		
-		if ( -1 != UIStyleManager.RADIOBUTTON_DISABLE_SELECTED_COLOR)  
-			_disableFillColor = UIStyleManager.RADIOBUTTON_DISABLE_SELECTED_COLOR;
-		
-		// Label Style  
-		if ( -1 != UIStyleManager.RADIOBUTTON_TEXT_COLOR)     
-			_textColor = UIStyleManager.RADIOBUTTON_TEXT_COLOR;
-		
-		if ( -1 != UIStyleManager.RADIOBUTTON_TEXT_SIZE) 
-			_textSize = UIStyleManager.RADIOBUTTON_TEXT_SIZE;
-		
-		_textItalic = UIStyleManager.RADIOBUTTON_TEXT_ITALIC;
-		_textBold = UIStyleManager.RADIOBUTTON_TEXT_BOLD;
-		
-		if ("" != UIStyleManager.RADIOBUTTON_TEXT_FONT) 
-			_labelTextFormat.font = UIStyleManager.RADIOBUTTON_TEXT_FONT;
-		
-		if ("" != UIStyleManager.RADIOBUTTON_TEXT_ALIGN) 
-			_textAlign = UIStyleManager.RADIOBUTTON_TEXT_ALIGN;
-		
-		if (null != UIStyleManager.RADIOBUTTON_TEXT_EMBED)      
-			_labelTextField.setEmbedFont(UIStyleManager.RADIOBUTTON_TEXT_EMBED);
-    }
+			_defaultColor = UIStyleManager.RADIOBUTTON_NORMAL_COLOR;
+
+		if ( -1 != UIStyleManager.RADIOBUTTON_OVER_COLOR)
+			_overColor = UIStyleManager.RADIOBUTTON_OVER_COLOR;
+
+		if ( -1 != UIStyleManager.RADIOBUTTON_DOWN_COLOR)
+			_downColor = UIStyleManager.RADIOBUTTON_DOWN_COLOR;
+
+		if ( -1 != UIStyleManager.RADIOBUTTON_DISABLE_COLOR)
+			_disableColor = UIStyleManager.RADIOBUTTON_DISABLE_COLOR;
+			
+		if ( -1 != UIStyleManager.RADIOBUTTON_DISABLE_COLOR)
+			_disableColor = UIStyleManager.RADIOBUTTON_DISABLE_COLOR;
+			
+		if (-1 != UIStyleManager.RADIOBUTTON_SIZE)
+			_buttonSize = UIStyleManager.RADIOBUTTON_SIZE;
+			
+		if (-1 != UIStyleManager.RADIOBUTTON_DOT)
+			_dotSize = UIStyleManager.RADIOBUTTON_DOT;
+	}
 	
-	/**
-	 * @inheritDoc
-	 */
-	
-	override public function reskin() : Void { initSkin(); initStyle(); super.reskin(); }
-		 
-	
-	/**
-	 * Set the textformat to label
-	 */
-	
-	private function set_textFormat(textFormat : TextFormat) : TextFormat
+	private function set_dotSize( value:Int ) : Int
 	{
-		_useTextFormat = true;
-		_labelTextFormat = textFormat;
-		draw();
-		
-        return textFormat;
-    }
+		_dotSize = value;
+		return value;
+	}
 	
-	/**
-	 * Return the text format object
-	 */
-	
-	private function get_textFormat() : TextFormat
+	private function get_dotSize() : Int
 	{
-		return _labelTextFormat;
-    }
+		return _dotSize;
+	}
 	
 	/**
-		 * Set what group this radio button belong to
-		 */
+	 * Set what group this radio button belong to
+	 */
 	private function set_groupName(value : String) : String
 	{
 		// Remove from old group
-		RadioButtonManager.removeItem(_radioBtnGroup, this);
-		_radioBtnGroup = value;
+		RadioButtonManager.removeItem(_groupName, this);
+		_groupName = value;
 		
 		// If group is not there then add it 
-		if (!RadioButtonManager.groupCheck(_radioBtnGroup))  
-		RadioButtonManager.addGroup(_radioBtnGroup); 
+		if (!RadioButtonManager.groupCheck(_groupName))  
+		RadioButtonManager.addGroup(_groupName); 
 		
 		// Add to group
-		RadioButtonManager.addItem(_radioBtnGroup, this);
+		RadioButtonManager.addItem(_groupName, this);
 		
         return value;
     }
@@ -270,309 +163,54 @@ class RadioButton extends ToggleButton implements IRadioButton implements IBaseU
 	
 	private function get_groupName() : String
 	{
-		return _radioBtnGroup;
+		return _groupName;
     }
 	
-	/**
-	 * Return the text field that is being used
-	 */
-	private function get_label() : ILabel 
+	override public function draw():Void 
 	{
-		return _labelTextField; 
-		
-	} 
-		 
-	/**
-	 * Set the label text
-	 */
-	
-	private function set_text(value : String) : String 
-	{
-		_labelText = value;
-		draw();
-		return value; 
-		
-	} 
-		 
-	/**
-	 * Return the text that is currenly being used in the label
-	 */
-	private function get_text() : String { return _labelText; } 
-	
-	/**
-	 * Set the label width
-	 */
-	
-	private function set_textWidth(value : Float) : Float { _textWidth = value; return value; }
-		
-	/**
-	 * Return the width of the label
-	 */
-	
-	private function get_textWidth() : Float { return _textWidth; }
-		
-	/**
-	 * Change the font size of the text field
-	 */
-	
-	private function set_textSize(value : Int) : Int { _textSize = value; return value; }
-	
-	/**
-	 * Return text size
-	 */
-	
-	private function get_textSize() : Int { return _textSize; }
-	
-	/**
-	 * Indicates whether text in this text format is italicized. The default value is false, which means no italics are used
-	 */
-	private function set_textItalic(value : Bool) : Bool { _textItalic = value; draw(); return value; }
-		
-	/**
-	 * True if using italicized text and false if not
-	 */
-	
-	private function get_textItalic() : Bool { return _textItalic; }
-	
-	/**
-	 * Specifies whether the text is boldface. The default value is false, which means no boldface is used. If the value is true, then the text is boldface.
-	 */
-	
-	private function set_textBold(value : Bool) : Bool { _textBold = value; draw(); return value; }
-	
-	
-	/**
-	 * True if using boldface text and false if not
-	 */
-	private function get_textBold() : Bool { return _textBold; }
-	
-	/**
-	 * The color of the text in a text field, in hexadecimal format.
-	 */
-	
-	private function set_textColor(value : Int) : Int { _textColor = value; return value; }
-		 
-	/**
-	 * Return the label color
-	 */
-	
-	private function get_textColor() : Int { return _textColor; }
-	
-	/**
-	 * Set the alignment of the label text
-	 */
-	
-	private function set_textAlign(value : String) : String { _textAlign = value; draw(); return value; }
-	
-	/**
-	 * Return the alignment that is being used
-	 */
-	
-	private function get_textAlign() : String { return _textAlign; }
-	
-	
-	/**
-	 * Show or hide the label on checkbox
-	 */
-	
-	private function set_showLabel(value : Bool) : Bool { _showLabel = value; return value; }
-	
-	
-	/**
-	 * Return if the label is hidden or is being displayed
-	 */
-	
-	private function get_showLabel() : Bool { return _showLabel; }
-	
-	
-	/**
-	 * Configure and setup the label to handle embedded fonts
-	 *
-	 * @param value The font you want to use.
-	 *
-	 */
-	
-	public function setEmbedFont(value : Font) : Void { _labelTextField.setEmbedFont(value); }
-	
-	
-	/**
-	 * Unload the font that was set by using the setEmbedFont
-	 */
-	
-	public function unloadEmbedFont() : Void { _labelTextField.unloadEmbedFont(); }
-	
-	
-	
-	/**
-	 * This setup and draw the radio button on the screen
-	 *
-	 */  
-	
-	override public function draw() : Void
-	{ 
-		// This make sure it toggle the down or up state  
 		super.draw();
 		
-		// Draw Radio button layers
-		//_baseNormal.graphics.clear();
-		//_baseOver.graphics.clear();
-		//_baseDown.graphics.clear();
-		//_baseDisable.graphics.clear();
-		//
-		//// Drawing out radio button or using bitmap image if loaded 
-		//if (_blnNormalImage && _showImage) 
-		//{
-		//	_baseNormal.graphics.beginBitmapFill(_normalDisplayImage.image.bitmapData, null, true, _smoothImage);
-		//	_baseNormal.graphics.drawRect(0, 0, _normalDisplayImage.image.bitmapData.width, _normalDisplayImage.image.bitmapData.height);
-		//	_baseNormal.graphics.endFill();
-		//}
-		//else
-		//{
-		//	_baseNormal.graphics.lineStyle(_lineSize, _normalLineColor, _lineAlpha);
-		//	_baseNormal.graphics.beginFill(_normalFillColor, _bgAlpha);
-		//	_baseNormal.graphics.drawCircle(UIStyleManager.RADIO_BTN_OFFSET_X, UIStyleManager.RADIO_BTN_OFFSET_Y, UIStyleManager.RADIO_BTN_SIZE);
-		//	_baseNormal.graphics.endFill();
-		//}
-		//
-		//// Drawing out radio button or using bitmap image if loaded  
-		//if (_blnOverImage && _showImage) 
-		//{  
-		//	// Draw dot if selected  
-		//	if (!selected) 
-		//	{
-		//		_baseOver.graphics.beginBitmapFill(_overDisplayImage.image.bitmapData, null, true, _smoothImage);
-		//		_baseOver.graphics.drawRect(0, 0, _overDisplayImage.image.bitmapData.width, _overDisplayImage.image.bitmapData.height);
-		//		_baseOver.graphics.endFill();
-		//	}
-		//	else 
-		//	{
-		//		_baseOver.graphics.beginBitmapFill(_downDisplayImage.image.bitmapData, null, true, _smoothImage);
-		//		_baseOver.graphics.drawRect(0, 0, _downDisplayImage.image.bitmapData.width, _downDisplayImage.image.bitmapData.height);
-		//		_baseOver.graphics.endFill();
-		//	}
-        //}
-        //else 
-		//{
-		//	_baseOver.graphics.lineStyle(_lineSize, _overLineColor, _lineAlpha);
-		//	_baseOver.graphics.beginFill(_overLineColor, _overAlpha);
-		//	_baseOver.graphics.drawCircle(UIStyleManager.RADIO_BTN_OFFSET_X, UIStyleManager.RADIO_BTN_OFFSET_Y, UIStyleManager.RADIO_BTN_SIZE);
-		//	_baseOver.graphics.endFill(); 
-		//	
-		//	// Draw dot if selected 
-		//	if (selected) 
-		//	{
-		//		_baseOver.graphics.lineStyle(_lineSize, _overLineColor, _lineAlpha);
-		//		_baseOver.graphics.beginFill(_downFillColor, _bgAlpha);
-		//		_baseOver.graphics.drawCircle(UIStyleManager.RADIO_BTN_OFFSET_X, UIStyleManager.RADIO_BTN_OFFSET_Y, UIStyleManager.RADIO_BTN_DOT);
-		//		_baseOver.graphics.endFill();
-		//	}
-		//	
-        //}
-		//
-		//// Drawing out radio button or using bitmap image if loaded  
-		//if (_blnDownImage && _showImage) 
-		//{
-		//	_baseDown.graphics.beginBitmapFill(_downDisplayImage.image.bitmapData, null, true, _smoothImage);
-		//	_baseDown.graphics.drawRect(0, 0, _downDisplayImage.image.bitmapData.width, _downDisplayImage.image.bitmapData.height);
-		//	_baseDown.graphics.endFill();
-        //}
-        //else 
-		//{
-		//	_baseDown.graphics.lineStyle(_lineSize, _downLineColor, _lineAlpha);
-		//	_baseDown.graphics.beginFill(_downFillColor, _bgAlpha);
-		//	_baseDown.graphics.drawCircle(UIStyleManager.RADIO_BTN_OFFSET_X, UIStyleManager.RADIO_BTN_OFFSET_Y, UIStyleManager.RADIO_BTN_SIZE);
-		//	_baseDown.graphics.endFill(); 
-		//	
-		//	// Dot needed for down state 
-		//	_baseDown.graphics.lineStyle(_lineSize, _downLineColor, _lineAlpha);
-		//	_baseDown.graphics.beginFill(_downFillColor, _bgAlpha);
-		//	_baseDown.graphics.drawCircle(UIStyleManager.RADIO_BTN_OFFSET_X, UIStyleManager.RADIO_BTN_OFFSET_Y, UIStyleManager.RADIO_BTN_DOT);
-		//	_baseDown.graphics.endFill();
-		//	
-        //}
-		//
-		//// Drawing out radio button or using bitmap image if loaded  
-		//if (_blnDisableImage && _showImage) 
-		//{
-		//	_baseDisable.graphics.beginBitmapFill(_disableDisplayImage.image.bitmapData, null, true, _smoothImage);
-		//	_baseDisable.graphics.drawRect(0, 0, _disableDisplayImage.image.bitmapData.width, _disableDisplayImage.image.bitmapData.height);
-		//	_baseDisable.graphics.endFill();
-        //}
-        //else 
-		//{	
-		//	_baseDisable.graphics.lineStyle(_lineSize, _disableLineColor, _lineAlpha); _baseDisable.graphics.beginFill(_disableFillColor, _bgAlpha);
-		//	_baseDisable.graphics.drawCircle(UIStyleManager.RADIO_BTN_OFFSET_X, UIStyleManager.RADIO_BTN_OFFSET_Y, UIStyleManager.RADIO_BTN_SIZE);
-		//	_baseDisable.graphics.endFill();
-        //} 
+		// Center Shapes
+		_label.draw();
+		_label.x = _buttonSize + UIStyleManager.RADIOBUTTON_LABEL_OFFSET_X;
+		_label.y = (_height / 2) - (_label.height / 2) + UIStyleManager.RADIOBUTTON_LABEL_OFFSET_Y;
 		
-		// Set label and style
-		_labelTextField.align = _textAlign;
-		_labelTextField.textFormat.italic = _textItalic;
-		_labelTextField.textFormat.bold = _textBold;
-		_labelTextField.textColor = _textColor;
-		_labelTextField.size = _textSize;
-		
-		// Text field 
-		//_labelTextField.setTextFormat(_labelTextFormat);
-		_labelTextField.textField.selectable = false;
-		_labelTextField.textField.wordWrap = true;
-		_labelTextField.textField.multiline = false;
-		_labelTextField.textField.autoSize = TextFieldAutoSize.LEFT;
-		_labelTextField.x = UIStyleManager.RADIO_LABEL_OFFSET_X;
-		_labelTextField.y = UIStyleManager.RADIO_LABEL_OFFSET_Y;
-		
-		if (_blnNormalImage)    
-		_labelTextField.x += _normalDisplayImage.image.bitmapData.width;
-		
-		_labelTextField.width = _textWidth;
-		_labelTextField.text = _labelText;
-		_labelTextField.visible = _showLabel;
-		
-		// Draw clear box for rollover states
-		//if (_textSelectable) 
-		//{
-		//	_baseNormal.graphics.lineStyle(_lineSize, _normalLineColor, 0);
-		//	_baseNormal.graphics.beginFill(_normalFillColor, 0);
-		//	_baseNormal.graphics.drawRect(0, 0, width, height);
-		//	_baseNormal.graphics.endFill(); _baseOver.graphics.lineStyle(_lineSize, _overLineColor, 0);
-		//	_baseOver.graphics.beginFill(_overFillColor, 0);
-		//	_baseOver.graphics.drawRect(0, 0, width, height);
-		//	_baseOver.graphics.endFill();
-		//	_baseDown.graphics.lineStyle(_lineSize, _downLineColor, 0);
-		//	_baseDown.graphics.beginFill(_downFillColor, 0);
-		//	_baseDown.graphics.drawRect(0, 0, width, height);
-		//	_baseDown.graphics.endFill();
-		//	_baseDisable.graphics.lineStyle(_lineSize, _downLineColor, 0);
-		//	_baseDisable.graphics.beginFill(_disableFillColor, 0);
-		//	_baseDisable.graphics.drawRect(0, 0, width, height);
-		//	_baseDisable.graphics.endFill();
-        //}
-    }
+		disableState.y = downState.y = overState.y = normalState.y = (_height / 2) - (_buttonSize / 2);		
+	}
+
 	
-	private function normalImageComplete(event : Event) : Void
+	override public function drawButtonState(square:Shape, color:Int = 0xFFFFFF, image:BitmapData = null):Void 
 	{
-		_blnNormalImage = true;
-		draw();
-    }
-	private function overImageComplete(event : Event) : Void
-	{
-		_blnOverImage = true;
-		draw();
-    }
-	private function downImageComplete(event : Event) : Void
-	{
-		_blnDownImage = true;
-		draw();
-    }
-	private function disableImageComplete(event : Event) : Void
-	{
-		_blnDisableImage = true;
-		draw();
-    }
+		super.drawButtonState(square, color, image);
+		
+		if (image == null)
+		{
+			square.graphics.clear();
+			square.graphics.lineStyle(_lineSize, color, _lineAlpha);
+			square.graphics.beginFill(color, 0);
+			square.graphics.drawCircle(0,0, _buttonSize / 2);
+			square.graphics.endFill(); 
+			
+			// Draw dot if selected  
+			if (_selected) 
+			{
+				square.graphics.lineStyle(_lineSize, color, _lineAlpha);
+				square.graphics.beginFill(color, _bgAlpha);
+				square.graphics.drawCircle(0, 0, _dotSize);
+				square.graphics.endFill();
+			}
+		}
+	}
 	
-	private function groupUnselect(event : Event) : Void
+	override function mouseDownEvent(event:MouseEvent):Void 
 	{
-		RadioButtonManager.setGroupState(_radioBtnGroup, false);
-		selected = true;
-    }
+		super.mouseDownEvent(event);
+		
+		// Force redraw after select toggle
+		RadioButtonManager.setGroupState(_groupName, false);
+		_selected = true;
+		
+		draw();
+	}
+
 }

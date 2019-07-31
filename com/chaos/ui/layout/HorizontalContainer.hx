@@ -2,33 +2,33 @@ package com.chaos.ui.layout;
 
 
 
-import com.chaos.ui.BaseUI;
+
 import com.chaos.ui.event.ContainerEvent;
 import com.chaos.ui.classInterface.IBaseUI;
 import com.chaos.ui.layout.ContainerAlignPolicy;
 import com.chaos.ui.layout.classInterface.IBaseContainer;
 import com.chaos.ui.layout.classInterface.IAlignmentContainer;
-import openfl.display.DisplayObject;
+
 
 /**
-	 * Added UI Elements to the container and align them. Everything that will be added will be from left to right or the x-axis.
-	 *
-	 * @author Erick Feiling
-	 */
+ * Added UI Elements to the container and align them. Everything that will be added will be from left to right or the x-axis.
+ *
+ * @author Erick Feiling
+ */
 
 class HorizontalContainer extends AlignmentBaseContainer implements IBaseContainer implements IAlignmentContainer implements IBaseUI
 {
     
-    public function new()
+    public function new(data:Dynamic = null)
     {
-        super();
+        super(data);
     }
     
     /**
-		 * @inheritDoc
-		 *
-		 * @eventType ContainerEvent.UPDATE
-		 */
+	 * @inheritDoc
+	 *
+	 * @eventType ContainerEvent.UPDATE
+	 */
     
     override public function addElementList(list : Array<Dynamic>) : Void
     {
@@ -39,10 +39,10 @@ class HorizontalContainer extends AlignmentBaseContainer implements IBaseContain
     }
     
     /**
-		 * @inheritDoc
-		 *
-		 * @eventType ContainerEvent.UPDATE
-		 */
+	 * @inheritDoc
+	 *
+	 * @eventType ContainerEvent.UPDATE
+	 */
     
     override public function addElement(object : IBaseUI) : Void
     {
@@ -53,10 +53,10 @@ class HorizontalContainer extends AlignmentBaseContainer implements IBaseContain
     }
     
     /**
-		 * @inheritDoc
-		 *
-		 * @eventType ContainerEvent.UPDATE
-		 */
+	 * @inheritDoc
+	 *
+	 * @eventType ContainerEvent.UPDATE
+	 */
     
     override public function removeElement(object : IBaseUI) : Void
     {
@@ -67,10 +67,10 @@ class HorizontalContainer extends AlignmentBaseContainer implements IBaseContain
     }
     
     /**
-		 * @inheritDoc
-		 *
-		 * @eventType ContainerEvent.UPDATE
-		 */
+	 * @inheritDoc
+	 *
+	 * @eventType ContainerEvent.UPDATE
+	 */
     
     override public function draw() : Void
     {
@@ -79,13 +79,18 @@ class HorizontalContainer extends AlignmentBaseContainer implements IBaseContain
         updateAlignment();
         dispatchEvent(new ContainerEvent(ContainerEvent.UPDATE));
     }
-    
-    private function updateAlignment() : Void
+	
+	/**
+	* @inheritDoc
+	*/
+    override public function updateAlignment() : Void
     {
         
-        for (i in 0...contentObject.numChildren){
-            var alignObj : IBaseUI = try cast(contentObject.getChildAt(i), IBaseUI) catch(e:Dynamic) null;
+        for (i in 0 ... contentObject.numChildren)
+		{
+            var alignObj : BaseUI = try cast(contentObject.getChildAt(i), BaseUI) catch(e:Dynamic) null;
             
+			
             // Set x
             alignObj.x = ((i == 0)) ? spacingH + padding : (contentObject.getChildAt(i - 1).x + contentObject.getChildAt(i - 1).width) + spacingH;
             
@@ -124,12 +129,15 @@ class HorizontalContainer extends AlignmentBaseContainer implements IBaseContain
                 else if (align == ContainerAlignPolicy.BOTTOM) 
                 {
                     // Now swift everything up based on height
-                    for (a in 0...i){
+                    for (a in 0 ... i)
+					{
                         // Shift everything up
                         contentObject.getChildAt(a).y -= (contentObject.getChildAt(a).height + spacingV);
                     }
                 }
             }
+			
+			
         }
     }
 }

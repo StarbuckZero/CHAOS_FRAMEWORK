@@ -55,6 +55,13 @@ interface IAlignmentContainer extends IBaseContainer
     
     var align(get, set) : String;
 
+    /**
+	 * Adjust the location of all UI elements 
+	 *
+	 */
+    
+	
+	function updateAlignment():Void;
     
     /**
 	 * Adds more then one item to the object to the list
@@ -62,7 +69,7 @@ interface IAlignmentContainer extends IBaseContainer
 	 * @param	list A list of UI Elements
 	 */
     
-    function addElementList(list : Array<IBaseUI>) : Void;
+    function addElementList(list : Array<Dynamic>) : Void;
 	
     /**
 	 * Return the object inside the container
