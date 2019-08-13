@@ -79,7 +79,7 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 	public static var WINDOW_BOTTOM_MIDDLE_SIZE : Int = 20;
 	public static var WINDOW_BOTTOM_LEFT_SIZE : Int = 20;
 	public static var TEXT_OFFSET_X : Int = 0;
-	public static var TEXT_OFFSET_Y : Int = 7;
+	public static var TEXT_OFFSET_Y : Int = 0;
 	public static var DEFAULT_CLOSE_BTN_COLOR : Int = 0xFF0000;
 	public static var DEFAULT_MAX_BTN_COLOR : Int = 0x00FF00;
 	public static var DEFAULT_MIN_BTN_COLOR : Int = 0x00000FF;
@@ -87,31 +87,31 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 	
 	// Initializes the Sprite that will be used to contain the window pieces  
 	
-	private var _windowTopLeft : Sprite;
-	private var _windowTopMiddle : Sprite;
-	private var _windowTopRight : Sprite;
-	private var _windowMiddleLeft : Sprite;
-	private var _windowMiddleRight : Sprite;
-	private var _windowBottomLeft : Sprite;
-	private var _windowBottomMiddle : Sprite;
-	private var _windowBottomRight : Sprite;
-	private var _windowButtonArea : Sprite; 
+	private var _windowTopLeft : Sprite = new Sprite();
+	private var _windowTopMiddle : Sprite = new Sprite();
+	private var _windowTopRight : Sprite = new Sprite();
+	private var _windowMiddleLeft : Sprite = new Sprite();
+	private var _windowMiddleRight : Sprite = new Sprite();
+	private var _windowBottomLeft : Sprite = new Sprite();
+	private var _windowBottomMiddle : Sprite = new Sprite();
+	private var _windowBottomRight : Sprite = new Sprite();
+	private var _windowButtonArea : Sprite = new Sprite();
 	
 	private var _imageTopPattern : Bitmap = null;
 	private var _imageMiddlePattern : Bitmap = null;
 	private var _imageBottomPattern : Bitmap = null;  
 	
 	// Texture Layer 
-	private var _windowTopLeftTexture : Shape;
-	private var _windowTopMiddleTexture : Shape;
-	private var _windowTopRightTexture : Shape;
+	private var _windowTopLeftTexture : Shape = new Shape();
+	private var _windowTopMiddleTexture : Shape = new Shape();
+	private var _windowTopRightTexture : Shape = new Shape();
 	
-	private var _windowMiddleLeftTexture : Shape;
-	private var _windowMiddleRightTexture : Shape;
+	private var _windowMiddleLeftTexture : Shape = new Shape();
+	private var _windowMiddleRightTexture : Shape = new Shape();
 	
-	private var _windowBottomLeftTexture : Shape;
-	private var _windowBottomMiddleTexture : Shape;
-	private var _windowBottomRightTexture : Shape;
+	private var _windowBottomLeftTexture : Shape = new Shape();
+	private var _windowBottomMiddleTexture : Shape = new Shape();
+	private var _windowBottomRightTexture : Shape = new Shape();
 	
 	private var _closeButton : Button;
 	private var _minButton : Button;
@@ -139,7 +139,7 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 	private var _windowBottomMiddleUnFocusImage : BitmapData;
 	private var _windowBottomRightUnFocusImage : BitmapData;
 	
-	private var _iconDisplay : Shape;
+	private var _iconDisplay : Shape = new Shape();
 	private var _iconLocation : String = "right";
 	private var _buttonLocation : String = "left";
 	private var _labelLocation : String = "center";
@@ -191,7 +191,7 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 	// Constructor.  Also assigns the window main variable and loads in the window's content  
 	public function new(data:Dynamic = null)
     {
-		// winWidth : Int = 320, winHeight : Int = 320
+		
         super(data);
 		
 		addEventListener(Event.ADDED_TO_STAGE, onStageAdd, false, 0, true);
@@ -210,7 +210,6 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 			
 		if (Reflect.hasField(data, "windowTitleColor"))
 			_windowTitleColor = Reflect.field(data, "windowTitleColor");
-			
 			
 		// Location of buttons and label	
 		if (Reflect.hasField(data, "labelLocation"))
@@ -295,60 +294,26 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 		
 		if (_scrollPanelData == null)
 			_scrollPanelData = {"name":"windowScrollPane", "mode":ScrollPolicy.AUTO};
-		else
-			Reflect.setField(_scrollPanelData, "name", "windowScrollPane");
 		
 		// Setup scroll pane
 		_scrollPane = new ScrollPane(_scrollPanelData);
 		
-		// Window Display Icon
-		_iconDisplay = new Shape();
 		
 		// Sets the window title textformat reference
 		_windowTitle = new Label(_labelData);
 		
-		// Init sprites/clips for window 
-		_windowTopLeft = new Sprite();
-		_windowTopMiddle = new Sprite();
-		_windowTopRight = new Sprite();
-		
-		_windowMiddleLeft = new Sprite();
-		_windowMiddleRight = new Sprite();
-		
-		_windowBottomLeft = new Sprite();
-		_windowBottomMiddle = new Sprite();
-		_windowBottomRight = new Sprite();
-		
-		_windowButtonArea = new Sprite();
-		
-		_windowTopLeftTexture = new Shape();
-		_windowTopMiddleTexture = new Shape();
-		_windowTopRightTexture = new Shape();
-		
-		_windowMiddleLeftTexture = new Shape();
-		_windowMiddleRightTexture = new Shape();
-		_windowBottomLeftTexture = new Shape();
-		
-		_windowBottomMiddleTexture = new Shape();
-		_windowBottomRightTexture = new Shape(); 
 		
 		// Setup window buttons
 		if (_closeButtonData == null)
 			_closeButtonData = {"name":WindowEvent.WINDOW_CLOSE_BTN, "showLabel":false, "defaultColor":DEFAULT_CLOSE_BTN_COLOR};
-		else
-			Reflect.setField(_closeButtonData, "name", WindowEvent.WINDOW_CLOSE_BTN);
 		
 		
 		if (_minButtonData == null)
 			_minButtonData = {"name":WindowEvent.WINDOW_MIN_BTN, "showLabel":false, "defaultColor":DEFAULT_MIN_BTN_COLOR};
-		else
-			Reflect.setField(_minButtonData, "name", WindowEvent.WINDOW_MIN_BTN);
 			
 			
 		if (_maxButtonData == null)
 			_maxButtonData = {"name":WindowEvent.WINDOW_MAX_BTN, "showLabel":false, "defaultColor":DEFAULT_MAX_BTN_COLOR};
-		else
-			Reflect.setField(_maxButtonData, "name", WindowEvent.WINDOW_MAX_BTN);
 			
 		_closeButton = new Button(_closeButtonData);
 		_minButton = new Button(_minButtonData);
@@ -364,8 +329,9 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 		
 		_iconDisplay.name = "windowIcon";  
 		
-		_windowTitle.textField.multiline = false;
-		_windowTitle.textField.wordWrap = false;  
+		//_windowTitle.textField.multiline = false;
+		//_windowTitle.textField.wordWrap = false;  
+		_windowTitle.textField.selectable = false;
 		
 		_windowTopLeft.name = "windowTopLeft";
 		_windowTopMiddle.name = "windowTopMiddle";
@@ -374,11 +340,9 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 		_windowMiddleLeft.name = "windowMiddleLeft";
 		_windowMiddleRight.name = "windowMiddleRight";
 		
-		
 		_windowBottomLeft.name = "windowBottomLeft";
 		_windowBottomMiddle.name = "windowBottomMiddle";
 		_windowBottomRight.name = "windowBottomRight";
-		
 		
 		_windowButtonArea.name = "windowButtonArea";
 		
@@ -387,23 +351,17 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 		_minButton.addEventListener(MouseEvent.CLICK, windowMinButton, false, 0, true);  
 		
 		// Resize event 
-		//_windowMiddleRight.addEventListener( MouseEvent.MOUSE_MOVE, windowEventResize ); 
 		_windowMiddleRight.addEventListener(MouseEvent.MOUSE_OVER, windowResizeOver);
 		_windowMiddleRight.addEventListener(MouseEvent.MOUSE_OUT, windowResizeOut);
 		_windowMiddleRight.addEventListener(MouseEvent.MOUSE_UP, resizeBarMouseUp);
-		_windowMiddleRight.name = "windowMiddleRight";
 		
-		//_windowBottomMiddle.addEventListener( MouseEvent.MOUSE_MOVE, windowEventResize );
 		_windowBottomMiddle.addEventListener(MouseEvent.MOUSE_OVER, windowResizeOver);
 		_windowBottomMiddle.addEventListener(MouseEvent.MOUSE_OUT, windowResizeOut);
 		_windowBottomMiddle.addEventListener(MouseEvent.MOUSE_UP, resizeBarMouseUp);
-		_windowBottomMiddle.name = "windowBottomMiddle";  
 		
-		//_windowBottomRight.addEventListener( MouseEvent.MOUSE_MOVE, windowEventResize );
 		_windowBottomRight.addEventListener(MouseEvent.MOUSE_OVER, windowResizeOver);
 		_windowBottomRight.addEventListener(MouseEvent.MOUSE_OUT, windowResizeOut);
 		_windowBottomRight.addEventListener(MouseEvent.MOUSE_UP, resizeBarMouseUp);
-		_windowBottomRight.name = "windowBottomRight";  
 		
 		// Add items into display
 		addChild(_windowTopLeft);
@@ -542,84 +500,105 @@ class Window extends BaseUI implements IWindow implements IBaseUI
     }
 	
 	private function initStyle() : Void 
-	{ 
+	{
+		if (null == _scrollPanelData)
+			_scrollPanelData = {"name":"windowScrollPane", "mode":ScrollPolicy.AUTO};
+		
+		if (null == _labelData)
+			_labelData = {};
+		
+			
+		// Setup window buttons
+		if (_closeButtonData == null)
+			_closeButtonData = {"name":WindowEvent.WINDOW_CLOSE_BTN, "showLabel":false, "defaultColor":DEFAULT_CLOSE_BTN_COLOR};
+		
+		if (_minButtonData == null)
+			_minButtonData = {"name":WindowEvent.WINDOW_MIN_BTN, "showLabel":false, "defaultColor":DEFAULT_MIN_BTN_COLOR};
+			
+		if (_maxButtonData == null)
+			_maxButtonData = {"name":WindowEvent.WINDOW_MAX_BTN, "showLabel":false, "defaultColor":DEFAULT_MAX_BTN_COLOR};
+			
+			
 		if ( -1 != UIStyleManager.WINDOW_BACKGROUND_COLOR) 
-		_scrollPane.backgroundColor = UIStyleManager.WINDOW_BACKGROUND_COLOR;
+			Reflect.setField(_scrollPanelData, "backgroundColor", UIStyleManager.WINDOW_BACKGROUND_COLOR);
 		
 		if ( -1 != UIStyleManager.WINDOW_BORDER_ALPHA)   
-		_scrollPane.borderAlpha = UIStyleManager.WINDOW_BORDER_ALPHA;
+			Reflect.setField(_scrollPanelData, "borderAlpha", UIStyleManager.WINDOW_BORDER_ALPHA);
 		
 		if ( -1 != UIStyleManager.WINDOW_BORDER_COLOR)   
-		_scrollPane.borderColor = UIStyleManager.WINDOW_BORDER_COLOR;
+			Reflect.setField(_scrollPanelData, "borderColor", UIStyleManager.WINDOW_BORDER_COLOR);
 		
-		_scrollPane.border = UIStyleManager.WINDOW_BORDER;
+		
+		Reflect.setField(_scrollPanelData, "border", UIStyleManager.WINDOW_BORDER);
 		
 		if ("" != UIStyleManager.WINDOW_ICON_LOCATION)       
-		iconLocation = UIStyleManager.WINDOW_ICON_LOCATION;
+			_iconLocation = UIStyleManager.WINDOW_ICON_LOCATION;
 		
 		if ("" != UIStyleManager.WINDOW_BUTTON_LOCATION)    
-		buttonLocation = UIStyleManager.WINDOW_BUTTON_LOCATION;
+			_buttonLocation = UIStyleManager.WINDOW_BUTTON_LOCATION;
 		
 		if ("" != UIStyleManager.WINDOW_LABEL_LOCATION) 
-		labelLocation = UIStyleManager.WINDOW_LABEL_LOCATION;
+			_labelLocation = UIStyleManager.WINDOW_LABEL_LOCATION;
 		
-		if ("" != UIStyleManager.WINDOW_TITLE_TEXT_FONT)      
-		_windowTitle.font = UIStyleManager.WINDOW_TITLE_TEXT_FONT;
+		if ("" != UIStyleManager.WINDOW_TITLE_TEXT_FONT) 
+			Reflect.setField(_labelData, "font", UIStyleManager.WINDOW_TITLE_TEXT_FONT);
 		
 		if ( -1 != UIStyleManager.WINDOW_TITLE_TEXT_SIZE)    
-		_windowTitle.size = UIStyleManager.WINDOW_TITLE_TEXT_SIZE;
+			Reflect.setField(_labelData, "size", UIStyleManager.WINDOW_TITLE_TEXT_SIZE);
 		
-		if (null != UIStyleManager.WINDOW_TITLE_TEXT_EMBED)       
-		_windowTitle.setEmbedFont(UIStyleManager.WINDOW_TITLE_TEXT_EMBED);
+		//if (null != UIStyleManager.WINDOW_TITLE_TEXT_EMBED)
+		//_windowTitle.setEmbedFont(UIStyleManager.WINDOW_TITLE_TEXT_EMBED);
 		
 		if ( -1 != UIStyleManager.WINDOW_TITLE_TEXT_COLOR)     
-        _windowTitle.textColor = UIStyleManager.WINDOW_TITLE_TEXT_COLOR;
+			Reflect.setField(_labelData, "textColor", UIStyleManager.WINDOW_TITLE_TEXT_COLOR);
 		
 		if ( -1 != UIStyleManager.WINDOW_TITLE_AREA_COLOR)   
-		_windowTitleColor = UIStyleManager.WINDOW_TITLE_AREA_COLOR;
+			_windowTitleColor = UIStyleManager.WINDOW_TITLE_AREA_COLOR;
 		
 		if ( -1 != UIStyleManager.WINDOW_FOCUS_COLOR)  
-		_windowColor = UIStyleManager.WINDOW_FOCUS_COLOR;
+			_windowColor = UIStyleManager.WINDOW_FOCUS_COLOR;
 		
 		
 		// Min Button
 		if ( -1 != UIStyleManager.WINDOW_MIN_NORMAL_COLOR)
-		_minButton.defaultColor = UIStyleManager.WINDOW_MIN_NORMAL_COLOR;
+			Reflect.setField(_minButtonData, "defaultColor", UIStyleManager.WINDOW_MIN_NORMAL_COLOR);
 		
 		if ( -1 != UIStyleManager.WINDOW_MIN_OVER_COLOR)      
-		_minButton.overColor = UIStyleManager.WINDOW_MIN_OVER_COLOR;
+			Reflect.setField(_minButtonData, "overColor", UIStyleManager.WINDOW_MIN_OVER_COLOR);
+		
 		
 		if ( -1 != UIStyleManager.WINDOW_MIN_DOWN_COLOR)   
-		_minButton.downColor = UIStyleManager.WINDOW_MIN_DOWN_COLOR;
+			Reflect.setField(_minButtonData, "downColor", UIStyleManager.WINDOW_MIN_DOWN_COLOR);
 		
 		if ( -1 != UIStyleManager.WINDOW_MIN_DISABLE_COLOR)  
-		_minButton.disableColor = UIStyleManager.WINDOW_MIN_DISABLE_COLOR;
+			Reflect.setField(_minButtonData, "disableColor", UIStyleManager.WINDOW_MIN_DISABLE_COLOR);
 		
 		// Max Button  
 		if ( -1 != UIStyleManager.WINDOW_MAX_NORMAL_COLOR)    
-		_maxButton.defaultColor = UIStyleManager.WINDOW_MAX_NORMAL_COLOR;
+			Reflect.setField(_maxButtonData, "defaultColor", UIStyleManager.WINDOW_MAX_NORMAL_COLOR);
 		
 		if ( -1 != UIStyleManager.WINDOW_MAX_OVER_COLOR)  
-		_maxButton.overColor = UIStyleManager.WINDOW_MAX_OVER_COLOR;
+			Reflect.setField(_maxButtonData, "overColor", UIStyleManager.WINDOW_MAX_OVER_COLOR);
+		
 		
 		if ( -1 != UIStyleManager.WINDOW_MAX_DOWN_COLOR)        
-		_maxButton.downColor = UIStyleManager.WINDOW_MAX_DOWN_COLOR;
+			Reflect.setField(_maxButtonData, "downColor", UIStyleManager.WINDOW_MAX_DOWN_COLOR);
 		
 		if ( -1 != UIStyleManager.WINDOW_MAX_DISABLE_COLOR)         
-		_maxButton.disableColor = UIStyleManager.WINDOW_MAX_DISABLE_COLOR;
+			Reflect.setField(_maxButtonData, "disableColor", UIStyleManager.WINDOW_MAX_DISABLE_COLOR);
 		
 		// Close Button  
 		if ( -1 != UIStyleManager.WINDOW_CLOSE_NORMAL_COLOR)  
-		_closeButton.defaultColor = UIStyleManager.WINDOW_CLOSE_NORMAL_COLOR;
+			Reflect.setField(_closeButtonData, "defaultColor", UIStyleManager.WINDOW_CLOSE_NORMAL_COLOR);
 		
 		if ( -1 != UIStyleManager.WINDOW_CLOSE_OVER_COLOR)   
-		_closeButton.overColor = UIStyleManager.WINDOW_CLOSE_OVER_COLOR;
+			Reflect.setField(_closeButtonData, "overColor", UIStyleManager.WINDOW_CLOSE_OVER_COLOR);
 		
 		if ( -1 != UIStyleManager.WINDOW_CLOSE_DOWN_COLOR)     
-        _closeButton.downColor = UIStyleManager.WINDOW_CLOSE_DOWN_COLOR;
-		
+			Reflect.setField(_closeButtonData, "downColor", UIStyleManager.WINDOW_CLOSE_DOWN_COLOR);
+        
 		if ( -1 != UIStyleManager.WINDOW_CLOSE_DISABLE_COLOR)      
-		_closeButton.disableColor = UIStyleManager.WINDOW_CLOSE_DISABLE_COLOR;
+			Reflect.setField(_closeButtonData, "disableColor", UIStyleManager.WINDOW_CLOSE_DISABLE_COLOR);
     }
 	
 	/* Properties */  
@@ -648,7 +627,6 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 	private function set_windowMinWidth(value : Int) : Int 
 	{
 		_windowMinWidth = value;
-		draw();
 		
         return value;
     }
@@ -669,7 +647,6 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 	private function set_windowMinHeight(value : Int) : Int 
 	{
 		_windowMinHeight = value;
-		draw();
 		
         return value;
     }
@@ -721,7 +698,6 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 	private function set_windowTitleColor(value : Int) : Int 
 	{
 		_windowTitleColor = value;
-		draw();
 		
         return value;
 	}
@@ -744,7 +720,6 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 	private function set_windowColor(value : Int) : Int 
 	{
 		_windowColor = value;
-		draw();
 		
         return value;
     }
@@ -767,7 +742,6 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 	private function set_windowTopRightSize(value : Int) : Int
 	{
 		_windowTopRightSize = value;
-		draw();
 		
         return value;
     }
@@ -788,7 +762,6 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 	private function set_windowTopMiddleSize(value : Int) : Int
 	{
 		_windowTopMiddleSize = value;
-		draw();
 		
         return value;
     }
@@ -808,7 +781,8 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 	
 	private function set_windowTopLeftSize(value : Int) : Int 
 	{
-		_windowTopLeftSize = value;draw();
+		_windowTopLeftSize = value;
+		
         return value;
     }
 	
@@ -827,7 +801,6 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 	private function set_windowMiddleSize(value : Int) : Int
 	{
 		_windowMiddleSize = value;
-		draw();
 		
         return value;
     } 
@@ -848,7 +821,6 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 	private function set_windowBottomRightSize(value : Int) : Int 
 	{
 		_windowBottomRightSize = value;
-		draw();
 		
         return value;
     }  
@@ -869,7 +841,6 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 	private function set_windowBottomMiddleSize(value : Int) : Int 
 	{
 		_windowBottomMiddleSize = value;
-		draw();
 		
         return value;
     }
@@ -888,7 +859,6 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 	private function set_windowBottomLeftSize(value : Int) : Int 
 	{
 		_windowBottomLeftSize = value;
-		draw();
 		
         return value;
     } 
@@ -920,7 +890,6 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 			_buttonLocation = "right";
         }
 		
-		draw();
         return value;
     }
 	
@@ -939,7 +908,6 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 	private function set_labelLocation(value : String) : String 
 	{
 		_labelLocation = value;
-		draw();
 		
         return value;
     }
@@ -970,7 +938,6 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 			_iconLocation = "right";
         }
 		
-		draw();
         return value;
     }
 	
@@ -1006,8 +973,6 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 			_iconDisplay.graphics.endFill();
 		}
 		
-		draw();
-		
     }
 	
 	/* Setup and draw window on stage */ 
@@ -1029,6 +994,12 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 		setWindowSize(Std.int(_width), Std.int(_height), _windowMinWidth, _windowMinHeight);
 		
 		applyWindowImage();
+		
+		//_closeButton.draw();
+		//_minButton.draw();
+		//_maxButton.draw();
+		
+		//_windowTitle.draw();
     } 
 	
 
@@ -1067,7 +1038,6 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 	public function setWindowTopLeftImage(value : BitmapData) : Void 
 	{
 		_windowTopLeftImage = value;
-		draw();
     }
 	
 	/**
@@ -1079,7 +1049,6 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 	public function setWindowTopMiddleImage(value : BitmapData) : Void 
 	{
 		_windowTopMiddleImage = value;
-		draw();
     }
 	
 	/**
@@ -1091,7 +1060,6 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 	public function setWindowTopRightImage(value : BitmapData) : Void
 	{
 		_windowTopRightImage = value;
-		draw();
     } 
 
 	
@@ -1106,7 +1074,6 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 	public function setWindowMiddleRightImage(value : BitmapData) : Void
 	{
 		_windowMiddleRightImage = value;
-		draw();
     }
 	
 	/**
@@ -1117,7 +1084,6 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 	public function setWindowMiddleLeftImage(value : BitmapData) : Void
 	{
 		_windowMiddleLeftImage = value;
-		draw();
     }
 	
 	
@@ -1131,7 +1097,6 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 	public function setWindowBottomLeftImage(value : BitmapData) : Void 
 	{
 		_windowBottomLeftImage = value;
-		draw();
     }
 	
 	/**
@@ -1143,7 +1108,6 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 	public function setWindowBottomMiddleImage(value : BitmapData) : Void 
 	{
 		_windowBottomMiddleImage = value;
-		draw();
     }
 	
 	/**
@@ -1155,7 +1119,6 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 	public function setWindowBottomRightImage(value : BitmapData) : Void 
 	{
 		_windowBottomRightImage = value;
-		draw();
     }
 	
 	private function addDrag() : Void
@@ -1211,10 +1174,10 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 		if (_closeButton.visible)   
 			buttonCount++;
 		
-		if (_minButton.visible)     
+		if (_minButton.visible)
 			buttonCount++;
 		
-		if (_maxButton.visible)  
+		if (_maxButton.visible)
 			buttonCount++;
 		
 		_windowTopLeftTexture.x = _windowTopLeft.x = 0;
@@ -1239,10 +1202,10 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 			var temp2X : Float = _windowTopLeft.x + _windowTopLeft.width;
 			
 			if (_windowMiddleLeft.x + _windowMiddleLeft.width < temp2X)         
-			temp2X = _windowMiddleLeft.x + _windowMiddleLeft.width;
+				temp2X = _windowMiddleLeft.x + _windowMiddleLeft.width;
 			
 			if (_windowBottomLeft.x + _windowBottomLeft.width < temp2X) 
-			temp2X = _windowBottomLeft.x + _windowBottomLeft.width;
+				temp2X = _windowBottomLeft.x + _windowBottomLeft.width;
         }
 		
 		if (inWidth > _windowMinWidth) 
@@ -1256,9 +1219,10 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 		_windowTopMiddleTexture.y = _windowTopMiddle.y = _windowTopLeft.y;
 		_windowTopMiddle.width = _windowTopRight.x - _windowTopLeft.width;
 		
+		//_windowTitle.width = _windowTopMiddle.width - _windowTitle.x;
 		_windowTitle.height = _windowTopMiddle.height;
-		_windowTitle.width = _windowTopMiddle.width - _windowTitle.x;
-		_windowTitle.textField.selectable = false;
+		
+		
 		
 		_windowBottomLeftTexture.x = _windowBottomLeft.x = _windowTopLeft.x;
 		
@@ -1290,13 +1254,9 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 		_windowMiddleLeft.height = _windowBottomLeft.y - _windowTopLeft.height;
 		
 		if (inWidth > _windowMinWidth) 
-		{
 			_windowMiddleRightTexture.x = _windowMiddleRight.x = inWidth - _windowMiddleRight.width;
-		}
         else 
-		{
 			_windowMiddleRightTexture.x = _windowMiddleRight.x = _windowMinWidth - _windowMiddleRight.width;
-        }
 		
 		_windowMiddleRightTexture.y = _windowMiddleRight.y = _windowTopRight.y + _windowTopRight.height;
 		_windowMiddleRight.height = _windowBottomRight.y - _windowTopRight.height;
@@ -1340,30 +1300,49 @@ class Window extends BaseUI implements IWindow implements IBaseUI
         } 
 		
 		// Adjust the Title area based on  
-		if ("left" == _labelLocation) 
+		if (_labelLocation == "left") 
 		{  
-			//_windowTitle.align = "left"; 
+			_windowTitle.align = "left"; 
+			
 			if (_buttonLocation == "left") 
-				_windowTitle.x = _windowButtonArea.x + TEXT_OFFSET_X;
+			{
+				_windowTitle.width = _windowTopMiddle.width - _windowButtonArea.width - TEXT_OFFSET_X;
+				_windowTitle.x = _windowButtonArea.x + _windowButtonArea.width + TEXT_OFFSET_X;
+			}
             else if (_iconLocation == "left") 
-				_windowTitle.x = _iconDisplay.x + TEXT_OFFSET_X;
+			{
+				_windowTitle.width = _windowTopMiddle.width - _iconDisplay.width - TEXT_OFFSET_X;
+				_windowTitle.x = _iconDisplay.x + _iconDisplay.width + TEXT_OFFSET_X;
+			}
 				
+			_windowTitle.width = _windowTopMiddle.width - _windowButtonArea.width - TEXT_OFFSET_X;
         }
-        else if ("right" == _labelLocation) 
+        else if (_labelLocation == "right") 
 		{
-			//_windowTitle.align = "right"
-			if (_buttonLocation == "right") 
+			_windowTitle.align = "right";
+			
+			if (_buttonLocation == "right")
+			{
+				_windowTitle.width = _windowTopMiddle.width - _windowButtonArea.width - TEXT_OFFSET_X;
 				_windowTitle.x = _windowButtonArea.width - TEXT_OFFSET_X;
+			}
             else if (_iconLocation == "right")
+			{
+				_windowTitle.width = _windowTopMiddle.width - _iconDisplay.width - TEXT_OFFSET_X;
 				_windowTitle.x = _iconDisplay.width - TEXT_OFFSET_X;
+			}
+				
+			
         }
         else 
 		{
-			_windowTitle.x = Std.int(_windowTopMiddle.width / 2) - TEXT_OFFSET_X;
+			_windowTitle.width = _windowTopMiddle.width;
+			_windowTitle.x = _windowTopLeft.x + _windowTopLeft.width;
         }
 		
-		_windowTitle.y = Std.int((_windowTopMiddle.height / 2) - TEXT_OFFSET_Y); 
 		
+		_windowTitle.y = TEXT_OFFSET_Y; 
+		_windowTitle.draw();
 		
 		// Resise scroll pane
 		sizeInsideWindow(_scrollPane);
@@ -1375,6 +1354,7 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 	 *
 	 * @return An object with the width and height
 	 */ 
+	
 	public function getInsideWindowSize() : Object 
 	{  
 		var returnObj : Object = new Object();
@@ -1580,6 +1560,7 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 	private function windowResizeOver(event : Event) : Void
 	{
 		_resizeWindow = true;
+		//_resizeName = Std.string(cast(event.target, DisplayObject).name);
     }
 	
 	private function windowResizeOut(event : Event) : Void 

@@ -1,6 +1,7 @@
 
 import com.chaos.data.DataProvider;
-import com.chaos.drawing.Draw;
+import com.chaos.ui.ScrollTextContent;
+
 import com.chaos.drawing.icon.ArrowRightIcon;
 import com.chaos.drawing.icon.StopIcon;
 import com.chaos.form.ui.InputField;
@@ -10,6 +11,7 @@ import com.chaos.ui.Button;
 import com.chaos.ui.CheckBoxGroup;
 import com.chaos.ui.ComboBox;
 import com.chaos.ui.TextInput;
+import com.chaos.utils.CompositeManager;
 //import com.chaos.ui.Interface.IButton;
 import com.chaos.ui.data.ComboBoxObjectData;
 import com.chaos.ui.data.ItemPaneObjectData;
@@ -22,7 +24,7 @@ import com.chaos.ui.ListBox;
 import com.chaos.ui.Menu;
 import com.chaos.ui.ProgressBar;
 import com.chaos.ui.ProgressSlider;
-import com.chaos.ui.RadioGroup;
+import com.chaos.ui.RadioButtonGroup;
 import com.chaos.ui.ScrollBar;
 import com.chaos.ui.ScrollContentBase;
 import com.chaos.ui.ScrollPane;
@@ -64,7 +66,7 @@ class UIDemo extends Sprite
     public var progressSlider : ProgressSlider;
     public var toggleButton : ToggleButton;
     public var checkBoxGroup : CheckBoxGroup;
-    public var radioButtonGroup : RadioGroup;
+    public var radioButtonGroup : RadioButtonGroup;
     public var label : Label;
     public var inputBox : TextInput;
     public var alertButton : Button;
@@ -85,7 +87,7 @@ class UIDemo extends Sprite
 		if (null != stage)
 			init();
 		else
-		addEventListener(Event.ADDED_TO_STAGE, init, false, 0, true);
+			addEventListener(Event.ADDED_TO_STAGE, init, false, 0, true);
     }
     
     private function init(e : Event = null) : Void
@@ -93,132 +95,100 @@ class UIDemo extends Sprite
         removeEventListener(Event.ADDED_TO_STAGE, init);
         
         // Standard Button
-        button = new Button("Button", 100, 20);
-        button.x = button.y = 20;
+        button = new Button({"text":"Button", "width":100, "height":20, "x":20, "y":20});
         
         // Button with Right Arrow(Play Icon) and no text
-        iconButton = new Button("Icon", 100, 20);
-        iconButton.x = button.x;
-        iconButton.y = button.y + button.height + 20;
-        iconButton.iconDisplay = true;
-        iconButton.setIcon(new ArrowRightIcon(10, 10));
-        iconButton.showLabel = false;
-        
-        iconTextButton = new Button("Text", 100, 20);
-        iconTextButton.x = iconButton.x;
-        iconTextButton.y = iconButton.y + iconButton.height + OFFSET;
-        iconTextButton.setIcon(new StopIcon(10, 10));
-        iconTextButton.iconDisplay = true;
-        iconTextButton.imageOffSetX = 10;
-        iconTextButton.imageOffSetY = 5;
-        
-        alertButton = new Button("Alert Box", 100, 20);
-        alertButton.x = iconTextButton.x;
-        alertButton.y = iconTextButton.y + iconTextButton.height + OFFSET;
+		iconButton = new Button({"text":"Icon", "width":100, "height":20, "showLabel":false, "x":button.x, "y": (button.y + button.height + 20)});
+        iconButton.setIcon(CompositeManager.displayObjectToBitmap(new ArrowRightIcon({"width":10, "height":10, "baseColor":0xFFFFFF})));
+        iconButton.draw();
+		
+        iconTextButton = new Button({"text":"Text", "width":100, "height":20, "x":iconButton.x, "y":(iconButton.y + iconButton.height + OFFSET), "imageOffSetX":10, "imageOffSetY":5});
+        iconTextButton.setIcon(CompositeManager.displayObjectToBitmap(new StopIcon({"width":10, "height":10})));
+        iconTextButton.draw();
+		
+        alertButton = new Button({"text":"Alert Box", "width": 100, "height":20,"x":iconTextButton.x,"y":(iconTextButton.y + iconTextButton.height + OFFSET)});
         alertButton.addEventListener(MouseEvent.CLICK, onAlertButton, false, 0, true);
 		
         // List
-        list = new ListBox();
-        list.addItem(new ListObjectData("Erick", "E"));
-        list.addItem(new ListObjectData("Nick", "N"));
-        list.addItem(new ListObjectData("Bobby", "B"));
-        list.addItem(new ListObjectData("Danny", "D"));
-        list.addItem(new ListObjectData("Thomas", "T"));
-        
-        list.x = button.x + button.width + OFFSET;
-        list.y = button.y;
+		var listData:Array<Dynamic> = new Array<Dynamic>();
+		listData.push({"text":"Erick", "value":"1"});
+		listData.push({"text":"Nick", "value":"2"});
+		listData.push({"text":"Bobby", "value":"3"});
+		listData.push({"text":"Tim", "value":"4"});
+		listData.push({"text":"Danny", "value":"5"});
+		listData.push({"text":"Andy", "value":"6"});
+		listData.push({"text":"Zack", "value":"7"});
+		
+        list = new ListBox({"width":100, "height":100, "x":(button.x + button.width + OFFSET), "y":button.y, "data":listData});
         
         // ComboBox
-        combo = new ComboBox(100, 20);
-        combo.x = list.x + list.width + OFFSET;
-        combo.y = list.y;
-        
-        //combo.addItem(new ComboBoxObjectData("Windows"));
-        //combo.addItem(new ComboBoxObjectData("MacOS"));
-        //combo.addItem(new ComboBoxObjectData("Linux"));
+		var comboData:Array<Dynamic> = new Array<Dynamic>();
+		comboData.push({"text":"Windows 10", "value":"1"});
+		comboData.push({"text":"MaxOS X", "value":"2"});
+		comboData.push({"text":"iOS", "value":"3"});
+		comboData.push({"text":"Ubuntu Linux", "value":"4"});
+		comboData.push({"text":"Android", "value":"5"});
+		comboData.push({"text":"Haiku OS", "value":"6"});
+		
+        combo = new ComboBox({"width":100, "height":20, "x":(list.x + list.width + OFFSET), "y":list.y, "data":comboData});
         
         // ProgressBar
-        progressBar = new ProgressBar();
-        progressBar.percent = 50;
-        progressBar.x = combo.x;
-        progressBar.y = combo.y + combo.height + OFFSET;
+        progressBar = new ProgressBar({"width":100,"height":20,"percent":50,"x":combo.x,"y":(combo.y + combo.height + OFFSET)});
         
         // ProgressSlider
-        progressSlider = new ProgressSlider();
-        progressSlider.x = progressBar.x;
-        progressSlider.y = progressBar.y + progressBar.height + OFFSET;
+        progressSlider = new ProgressSlider({"width":100,"height":20,"x":progressBar.x,"y":(progressBar.y + progressBar.height + OFFSET)});
         
         // Toggle Button
-        toggleButton = new ToggleButtonLite();
-        toggleButton.x = progressSlider.x;
-        toggleButton.y = progressSlider.y + progressSlider.height + OFFSET;
-        
-        // Looking for shapes so type casting
-        toggleButton.setNormalState(cast(Draw.Square(100, 30, 0xCCCCCC), Shape));
-        toggleButton.setOverState(cast(Draw.Square(100, 30, 0x999999), Shape));
-        toggleButton.setDownState(cast(Draw.Square(100, 30, 0x666666), Shape));
-        toggleButton.setDisableState(cast(Draw.Square(100, 30, 0x000000), Shape));
-        
-        toggleButton.width = 100;
-        toggleButton.height = 30;
+        toggleButton = new ToggleButton({"width":100, "height":30,"x":progressSlider.x,"y":(progressSlider.y + progressSlider.height + OFFSET)});
         
         // Check Box Group
-        checkBoxGroup = new CheckBoxGroup("checkGroup");
-        checkBoxGroup.createCheckBox("Check1", "CheckBox 1");
-        checkBoxGroup.createCheckBox("Check2", "CheckBox 2");
-        checkBoxGroup.createCheckBox("Check3", "CheckBox 3");
-        
-        checkBoxGroup.x = toggleButton.x + toggleButton.width + 20;
-        checkBoxGroup.y = combo.y;
+		var checkBoxData:Array<Dynamic> = new Array<Dynamic>();
+		checkBoxData.push({"name":"Check1", "text":"CheckBox 1"});
+		checkBoxData.push({"name":"Check2", "text":"CheckBox 2"});
+		checkBoxData.push({"name":"Check3", "text":"CheckBox 3"});
+		
+        checkBoxGroup = new CheckBoxGroup({"name":"checkGroup", "width":300, "height":30,"background":false, "x":(toggleButton.x + toggleButton.width + 20), "y":combo.y, "data":checkBoxData});
         
         // Radio Buttion Group
+		var radioButtonData:Array<Dynamic> = new Array<Dynamic>();
+		radioButtonData.push({"name":"Radio1", "text":"Radio 1"});
+		radioButtonData.push({"name":"Radio2", "text":"Radio 2"});
+		radioButtonData.push({"name":"Radio3", "text":"Radio 3"});
+		
+		
         // Use the UIStyleManager class to adjust the radio buton label and dot if need bet
-        radioButtonGroup = new RadioGroup("radioButtonGroup");
-        
-        radioButtonGroup.createRadioButton("Radio1", "Radio 1");
-        radioButtonGroup.createRadioButton("Radio2", "Radio 2");
-        radioButtonGroup.createRadioButton("Radio3", "Radio 3");
-        
-        radioButtonGroup.x = checkBoxGroup.x;
-        radioButtonGroup.y = checkBoxGroup.y + checkBoxGroup.height + 20;
+        radioButtonGroup = new RadioButtonGroup({"name":"radioButtonGroup", "width":300, "height":30, "background":false, "data":radioButtonData, "x":checkBoxGroup.x, "y":(checkBoxGroup.y + checkBoxGroup.height + 20)});
         
         // Label and Tool-Tip
-        label = new Label("Label");
-        label.height = 40;
-        label.x = radioButtonGroup.x;
-        label.y = radioButtonGroup.y + radioButtonGroup.height + OFFSET;
+        label = new Label({"text":"Label", "width":50, "height":20,"x":radioButtonGroup.x,"y":radioButtonGroup.y + radioButtonGroup.height + OFFSET });
         
         
         // Input Box
-        inputBox = new InputField();
-        inputBox.defaultString("Type Here");
-        inputBox.x = label.x + label.width + OFFSET;
-        inputBox.y = label.y;  
+        inputBox = new TextInput({"defaultString":"Type Here", "width":100, "height":20, "x":(label.x + label.width + OFFSET),"y":label.y});
 		
 		// Show button for Windows
-        showWindowButton = new Button("Show Window", 100, 20);
-        showWindowButton.x = inputBox.x + inputBox.width + OFFSET;
-        showWindowButton.y = inputBox.y;
+        showWindowButton = new Button({"text":"Show Window", "width":100, "height":20, "x":(inputBox.x + inputBox.width + OFFSET), "y":inputBox.y});
         showWindowButton.addEventListener(MouseEvent.CLICK, onShowWindowClick, false, 0, true);
         
-        window = new Window(200, 200);
+        window = new Window({"width":200, "height":200, "windowColor": 0x999999, "windowTitleColor": 0x999999, "Label":{"text":"Window"}});
+		window.x = ((stage.stageWidth / 2) - (window.width / 2));
+		window.y = ((stage.stageHeight / 2) - (window.height / 2));
+		//window.textLabel.text = "Window";
 		
-        // Center window on the screen using bitshifting
-        window.x = (stage.stageWidth / 2) - (window.width / 2);
-        window.y = (stage.stageHeight / 2) - (window.height / 2);
-        window.windowFocusColor = window.windowTitleFocusColor = 0x999999;
-        window.addEventListener(WindowEvent.WINDOW_CLOSE_BTN, onHideWindow, false, 0, true);
-        window.addEventListener(WindowEvent.WINDOW_MIN_BTN, onHideWindow, false, 0, true);
+		
+        // Attach events
+        window.closeButton.addEventListener(MouseEvent.CLICK, onHideWindow, false, 0, true);
+        window.minButton.addEventListener(MouseEvent.CLICK, onHideWindow, false, 0, true);
         
+		// Hide Window for button press
         window.visible = false;
         
         // Tab Pane
-        tabPane = new TabPane(300, 200);
-        tabPane.x = alertButton.x;
-        tabPane.y = alertButton.y + alertButton.height + OFFSET;
-        tabPane.addItem("One", new Label("One"));
-        tabPane.addItem("Two", new Label("Two"));
-        tabPane.addItem("Three", new Label("Three"));
+        tabPane = new TabPane({"width":300, "height":200,"x":alertButton.x,"y":(alertButton.y + alertButton.height + OFFSET)});
+        tabPane.addItem("One", new Label({"text":"One", "width":100, "height":20}));
+        tabPane.addItem("Two", new Label({"text":"Two", "width":100, "height":20}));
+		tabPane.addItem("Three", new Label({"text":"Three", "width":100, "height":20}));
+		
         
         // Box for Tool-tip
 		
@@ -227,7 +197,11 @@ class UIDemo extends Sprite
 		UIStyleManager.TOOLTIP_BUBBLE_LOC_Y = -10;
 		
         var toolTipBox : MovieClip = new MovieClip();
-        var toolBox : Shape = cast(Draw.Square(100, 20, 0), Shape);
+        var toolBox : Shape = new Shape();
+		
+		toolBox.graphics.beginFill(0x666666);
+		toolBox.graphics.drawRect(0, 0, 100, 20 );
+		toolBox.graphics.endFill();
         
         ToolTip.followMouse = true;
         ToolTip.attach(toolTipBox, "Look a Tool-tip", 100, 100, 0, 0x666666);		
@@ -247,51 +221,59 @@ class UIDemo extends Sprite
         dummyText.wordWrap = true;
         dummyText.text = GANGSTA_TEXT;
         
-        var scrollContent : ScrollContentBase = new ScrollContentBase(dummyText, scrollBar);
+        var scrollContent : ScrollTextContent = new ScrollTextContent(dummyText, scrollBar);
         
-        scrollPane = new ScrollPane(300, 200);
-        scrollPane.x = tabPane.x + tabPane.width + OFFSET;
-        scrollPane.y = tabPane.y;
+        scrollPane = new ScrollPane({"width":300, "height":200, "x":(tabPane.x + tabPane.width + OFFSET), "y":tabPane.y});
         
         // This time creating bitmap shapes
-        var bitmap1 : DisplayObject = cast(Draw.Square(600, 300, 0xFF0000, 1, true), Bitmap);
-        var bitmap2 : DisplayObject = cast(Draw.Square(600, 300, 0x00FF00, 1, true), Bitmap);
-        var bitmapHolder : MovieClip = new MovieClip();
+        var shape1 : Shape = new Shape(); //cast(Draw.Square(600, 300, 0xFF0000, 1, true), Bitmap);
+        var shape2 : Shape = new Shape(); //cast(Draw.Square(600, 300, 0x00FF00, 1, true), Bitmap);
+		
+		shape1.graphics.beginFill(0xFF0000);
+		shape2.graphics.beginFill(0x00FF00);
+		
+		shape1.graphics.drawRect(0, 0, 600, 300);
+		shape2.graphics.drawRect(0, 0, 600, 300);
+		
+		shape1.graphics.endFill();
+		shape2.graphics.endFill();
+		
+        var shapeHolder : MovieClip = new MovieClip();
         
         // Add them to a bitmap holder and moving the second bitmap down
-        bitmapHolder.addChild(bitmap1);
-        bitmapHolder.addChild(bitmap2);
-        bitmap2.y = bitmap1.y + bitmap1.height;
+        shapeHolder.addChild(shape1);
+        shapeHolder.addChild(shape2);
+        shape1.y = shape2.y + shape1.height;
         
 		
         // This is how you add an item to the scrollPane
-        scrollPane.source = bitmapHolder;
+        scrollPane.source = shapeHolder;
         
-        itemPane = new ItemPane(300, 200);
 		
-        itemPane.addItem(new ItemPaneObjectData("Item 1", "1"));
-        itemPane.addItem(new ItemPaneObjectData("Item 2", "2"));
-        itemPane.addItem(new ItemPaneObjectData("Item 3", "3"));
-        itemPane.addItem(new ItemPaneObjectData("Item 4", "4"));
-        itemPane.addItem(new ItemPaneObjectData("Item 5", "5"));
-        itemPane.itemWidth = 150;
-        itemPane.itemHeight = 100;
-        
-        itemPane.x = scrollPane.x + scrollPane.width + OFFSET;
-        itemPane.y = scrollPane.y;
-        
+		var itemData:Array<Dynamic> = new Array<Dynamic>();
+		itemData.push({"text":"Item 1", "value":"1"});
+		itemData.push({"text":"Item 2", "value":"2"});
+		itemData.push({"text":"Item 3", "value":"3"});
+		itemData.push({"text":"Item 4", "value":"4"});
+		itemData.push({"text":"Item 5", "value":"5"});
+		
+		
+        itemPane = new ItemPane({"width":300, "height":200, "itemWidth":150, "itemHeight":100 , "x": (scrollPane.x + scrollPane.width + OFFSET), "y":scrollPane.y, "data":itemData});
+		
         // Menu System
-        var menuData : DataProvider = new DataProvider();
-        var subMenuData : DataProvider = new DataProvider();
-        subMenuData.addItem(new MenuItemObjectData("Sub Item 1"));
-        subMenuData.addItem(new MenuItemObjectData("Sub Item 2"));
-        subMenuData.addItem(new MenuItemObjectData("Sub Item 3"));
-        
-        menuData.addItem(new MenuItemObjectData("Top Level", "0", subMenuData));
-        menu = new Menu(100, 100, menuData);
-        menu.menuSubDefaultColor = menu.menuDefaultColor = 0xCCCCCC;
-        menu.x = tabPane.x;
-        menu.y = tabPane.y + tabPane.height + OFFSET;
+		var subMenuData:Array<Dynamic> = new Array<Dynamic>();
+		
+		subMenuData.push({"text":"Sub Item 1", "value":"1-1"});
+		subMenuData.push({"text":"Sub Item 2", "value":"1-2"});
+		subMenuData.push({"text":"Sub Item 3", "value":"1-3"});
+		
+		
+		var menuData:Array<Dynamic> = new Array<Dynamic>();
+		menuData.push({"text":"Top Level", "value":"0", "data":subMenuData});
+		
+        var menu:Menu = new Menu({"name":"PeopleMenu", "width":100, "height":40, "border":true, "subBorder":true, "textColor":0xFFFFFF, "subNormalLineColor":0, "x":tabPane.x, "y":(tabPane.y + tabPane.height + OFFSET), "direction":"horizontal", "data":menuData});
+		
+		
         
         ThreadManager.stage = stage;
         Slider.sliderEventMode = Slider.TIMER_MODE;
@@ -317,7 +299,7 @@ class UIDemo extends Sprite
         addChild(dummyText);
         addChild(scrollPane.displayObject);
         
-        addChild(itemPane.displayObject);
+        addChild(itemPane);
         addChild(menu.displayObject);
         addChild(window.displayObject);
     }

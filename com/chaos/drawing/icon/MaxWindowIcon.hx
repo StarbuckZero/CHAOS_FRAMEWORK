@@ -18,9 +18,9 @@ class MaxWindowIcon extends NormalWindowIcon implements IBasicIcon implements IB
 	 * @inheritDoc
 	 */
     
-    public function new(iconWidth : Float = -1, iconHeight : Float = -1)
+    public function new(data:Dynamic = null)
     {
-        super(iconWidth, iconHeight);
+        super(data);
     }
     
     /**

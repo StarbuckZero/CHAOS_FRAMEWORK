@@ -49,16 +49,16 @@ class Label extends BaseUI implements ILabel implements IBaseUI
     public var editable(get, set) : Bool;
 	public var bitmapMode (get, set): Bool;
 	
-	private var _textImage:Shape;
-	private var _textField : TextField;
-	private var _textFormat : TextFormat;
+	private var _textImage:Shape = new Shape();
+	private var _textField : TextField = new TextField();
+	private var _textFormat : TextFormat = new TextFormat();
 	private var _text : String = "";
 	private var _align : String = "center";
 
 	private var _editable : Bool = false;
 	private var _embedFonts : Bool = false;
 	private var _textColor : Int = 0x000000;
-	private var _font : Font;
+	private var _font : Font = new Font();
 	private var _beginIndex : Int = -1;
 	private var _endIndex : Int = -1;
 	private var _background : Bool = UIStyleManager.LABEL_BACKGROUND;
@@ -70,8 +70,8 @@ class Label extends BaseUI implements ILabel implements IBaseUI
 	private var _outlineAlpha : Float = 1;
 	private var _bgAlpha : Float = .2;
 	private var _showIcon : Bool = false;
-	private var _displayIcon : Shape;
-	private var _outline : Shape;
+	private var _displayIcon : Shape = new Shape();
+	private var _outline : Shape = new Shape();
 	private var _bitmapMode : Bool = false;
 	private var _size:Int = 11;
 	private var _bold : Bool = UIStyleManager.LABEL_TEXT_BOLD;
@@ -143,14 +143,6 @@ class Label extends BaseUI implements ILabel implements IBaseUI
 	
 	override public function initialize():Void 
 	{
-		// Init main objects first
-		_textImage = new Shape();
-		_textField = new TextField();
-		_textFormat = new TextFormat();
-		_font = new Font();
-		
-		_displayIcon = new Shape();
-		_outline = new Shape(); 
 		
 		super.initialize();
 		

@@ -82,6 +82,8 @@ class ScrollTextContent extends ScrollContentBase
 			
 		}
 		
+		_scrollbar.draw();
+		
 		super.draw();
 		
 		

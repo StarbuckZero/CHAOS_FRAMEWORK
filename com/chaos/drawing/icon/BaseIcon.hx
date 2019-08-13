@@ -34,8 +34,6 @@ class BaseIcon extends BaseUI implements IBasicIcon implements IBaseUI
     private var _iconArea : Shape;
     private var _image : BitmapData;
     
-    
-    
     private var _showImage : Bool = true;
     
     
@@ -54,19 +52,32 @@ class BaseIcon extends BaseUI implements IBasicIcon implements IBaseUI
 	 * @param	iconHeight The height of the icon
 	 */
     
-    public function new(iconWidth : Float = -1, iconHeight : Float = -1)
+    public function new(data:Dynamic = null)
     {
-        var dataObj:Dynamic = {"width":20, "height":20};
-        
-		
-        if (iconWidth > 0) 
-           Reflect.setField(dataObj, "width", iconWidth);
-        
-        if (iconHeight > 0) 
-			Reflect.setField(dataObj, "height", iconHeight);
-		
-		super(dataObj);
+		super(data);
     }
+	
+	override public function setComponentData(data:Dynamic):Void 
+	{
+		super.setComponentData(data);
+		
+		if (Reflect.hasField(data, "border"))
+			_border = Reflect.field(data, "border");
+		
+		if (Reflect.hasField(data, "thinkness"))
+			_thinkness = Reflect.field(data, "thinkness");
+		
+			
+		if (Reflect.hasField(data, "borderColor"))
+			_borderColor = Reflect.field(data, "borderColor");
+			
+		if (Reflect.hasField(data, "borderAlpha"))
+			_borderAlpha = Reflect.field(data, "borderAlpha");
+			
+		if (Reflect.hasField(data, "baseColor"))
+			_baseColor = Reflect.field(data, "baseColor");
+		
+	}
 	
 	override public function initialize():Void 
 	{
@@ -75,8 +86,20 @@ class BaseIcon extends BaseUI implements IBasicIcon implements IBaseUI
 		super.initialize();
 		
 		addChild(_iconArea);
+	}
+	
+	override public function destroy():Void 
+	{
+		super.destroy();
 		
-
+		_iconArea.graphics.clear();
+		removeChild(_iconArea);
+		
+		if (null != _image)
+			_image.dispose();
+		
+		_iconArea = null;
+		_image = null;
 	}
 	
     

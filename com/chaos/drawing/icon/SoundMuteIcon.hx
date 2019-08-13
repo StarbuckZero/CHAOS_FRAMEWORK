@@ -17,10 +17,9 @@ class SoundMuteIcon extends SoundIcon implements IBasicIcon implements IBaseUI
 	 * @inheritDoc
 	 */
     
-    public function new(iconWidth : Float = -1, iconHeight : Float = -1)
+    public function new(data:Dynamic = null)
     {
-        super(iconWidth, iconHeight);
-        borderThinkness = 2;
+        super(data);
     }
     
     /**

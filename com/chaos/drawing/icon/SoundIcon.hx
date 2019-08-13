@@ -19,10 +19,18 @@ class SoundIcon extends BaseIcon implements IBasicIcon implements IBaseUI
 	 * @inheritDoc
 	 */
     
-    public function new(iconWidth : Float = -1, iconHeight : Float = -1)
+    public function new(data:Dynamic = null)
     {
-        super(iconWidth, iconHeight);
+        super(data);
     }
+	
+	override public function setComponentData(data:Dynamic):Void 
+	{
+		super.setComponentData(data);
+		
+		if (Reflect.hasField(data, "offset"))
+			offset = Reflect.field(data, "offset");
+	}
     
     /**
 	 * @inheritDoc

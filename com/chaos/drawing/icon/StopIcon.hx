@@ -4,8 +4,6 @@ import com.chaos.drawing.icon.classInterface.IBasicIcon;
 import com.chaos.ui.classInterface.IBaseUI;
 
 
-//import com.chaos.drawing.icon.interface.IBasicIcon;
-//import com.chaos.ui.interface.IBaseUI;
 
 /**
  * Stop icon used for media players
@@ -20,9 +18,9 @@ class StopIcon extends BaseIcon implements IBasicIcon implements IBaseUI
 	 * @inheritDoc
 	 */
     
-    public function new(iconWidth : Float = -1, iconHeight : Float = -1)
+    public function new(data:Dynamic = null)
     {
-        super(iconWidth, iconHeight);
+        super(data);
     }
     
     /**

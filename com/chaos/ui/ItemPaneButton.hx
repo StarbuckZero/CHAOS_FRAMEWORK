@@ -121,6 +121,7 @@ class ItemPaneButton extends ToggleButton implements IToggleButton
 		
 		_label.width = _width;
 		_label.height = _label.textField.textHeight;
+		_label.draw();
 		
 		_label.x = UIStyleManager.ITEMPANE_LABEL_OFFSET_X;
 		_label.y = (_height - _label.height) + UIStyleManager.ITEMPANE_LABEL_OFFSET_Y;

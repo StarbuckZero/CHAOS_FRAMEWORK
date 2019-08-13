@@ -22,10 +22,10 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI
 	
 	public var selected(get, set) : Bool;
 
-	public var normalState : Shape;
-	public var overState : Shape;
-	public var downState : Shape;
-	public var disableState : Shape;
+	public var normalState : Shape = new Shape();
+	public var overState : Shape = new Shape();
+	public var downState : Shape = new Shape();
+	public var disableState : Shape = new Shape();
 	
     public var defaultColor(get, set) : Int;
     public var overColor(get, set) : Int;
@@ -56,7 +56,7 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI
 	
 	private var _imageSmooth : Bool = true;
   
-	public function new( data:Dynamic = null)
+	public function new( data:Dynamic = null )
     {
         super(data);
 		
@@ -105,11 +105,6 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI
 	
 	override public function initialize() : Void
 	{
-		// Setup shapes
-		normalState = new Shape();
-		overState = new Shape();
-		downState = new Shape();
-		disableState = new Shape();
 		
 		super.initialize();
 		

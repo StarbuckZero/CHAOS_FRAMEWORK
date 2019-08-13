@@ -148,7 +148,7 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
     private var _buttonHeight : Float = 20;
     
     private var buttonArea : FitContainer;
-    private var subButtonArea : Sprite;
+    private var subButtonArea : Sprite = new Sprite();
     private var menuLevel : Int = 0;
     
     private var _reverse : Bool = false;
@@ -347,8 +347,6 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
 	override public function initialize():Void 
 	{
 		buttonArea = new FitContainer({"width":_width, "height":_height,"direction":_direction});
-		subButtonArea = new Sprite();
-		
 		 
 		super.initialize();
 		

@@ -51,24 +51,23 @@ import com.chaos.ui.UIBitmapManager;
 		private var _loadedAlpha : Float = 1;
 		private var _backgroundNormalColor : Int = 0xCCCCCC;
 		private var _loadColor : Int = 0x666666;
-		private var _border : Bool = true;
-		private var _borderColor : Int = 0x000000;
 		private var _textColor : Int = 0x000000;
 		private var _textLoadedColor : Int = 0xFFFFFF;
-		private var _font : Font;
-		private var _textFormat : TextFormat;
-		private var _textLoadedFormat : TextFormat;
-		private var _thinkness : Float = 1;
 		private var _outlineColor : Int = 0x000000;
+		
+		private var _border : Bool = UIStyleManager.PROGRESSBAR_BORDER;
+		private var _thinkness : Float = 1;
 		private var _outlineAlpha : Float = 1;
 		private var _displayImage : Bool = false;
 		private var _showImage : Bool = true;
 		private var _smoothImage : Bool = true;
-		private var _outline : Shape;
-		private var _backgroundNormal : Shape;
-		private var _loadedBar : Shape;
-		private var _mask : Shape;
-		private var _fontMask : Shape;
+		
+		private var _outline : Shape = new Shape();
+		private var _backgroundNormal : Shape = new Shape();
+		private var _loadedBar : Shape = new Shape();
+		private var _mask : Shape = new Shape();
+		private var _fontMask : Shape = new Shape(); 
+		
 		private var _backgroundImage : BitmapData;
 		private var _loadedBarImage : BitmapData;
 		private var _label : Label;
@@ -80,6 +79,9 @@ import com.chaos.ui.UIBitmapManager;
 		private var _percent : Int = 0;
 		private var _stopWatchAfterComplete : Bool = false;
 		
+		private var _labelData : Dynamic;
+		private var _loadedLabelData : Dynamic;
+		
 	
 	public function new(data:Dynamic = null)
     {
@@ -90,40 +92,84 @@ import com.chaos.ui.UIBitmapManager;
 		addEventListener(Event.REMOVED_FROM_STAGE, onStageRemove, false, 0, true);
     }
 	
+	override public function setComponentData(data:Dynamic):Void 
+	{
+		
+		super.setComponentData(data);
+		
+		if (Reflect.hasField(data, "background"))
+			_background = Reflect.field(data, "background");
+		
+		if (Reflect.hasField(data, "backgroundAlpha"))
+			_backgroundAlpha = Reflect.field(data, "backgroundAlpha");
+			
+		if (Reflect.hasField(data, "loadedAlpha"))
+			_loadedAlpha = Reflect.field(data, "loadedAlpha");
+			
+		if (Reflect.hasField(data, "borderColor"))
+			_outlineColor = Reflect.field(data, "borderColor");
+		
+		if (Reflect.hasField(data, "borderThinkness"))
+			_thinkness = Reflect.field(data, "borderThinkness");
+		
+		if (Reflect.hasField(data, "borderAlpha"))
+			_outlineAlpha = Reflect.field(data, "borderAlpha");
+			
+		if (Reflect.hasField(data, "backgroundColor"))
+			_backgroundNormalColor = Reflect.field(data, "backgroundColor");
+		
+		if (Reflect.hasField(data, "showLabel"))
+			_showLabel = Reflect.field(data, "showLabel");
+		
+		if (Reflect.hasField(data, "loadColor"))
+			_loadColor = Reflect.field(data, "loadColor");
+			
+		if (Reflect.hasField(data, "textColor"))
+			_textColor = Reflect.field(data, "textColor");
+			
+		if (Reflect.hasField(data, "textLoadColor"))
+			_textLoadedColor = Reflect.field(data, "textLoadColor");
+			
+		if (Reflect.hasField(data, "align"))
+			_align = Reflect.field(data, "align");
+			
+		if (Reflect.hasField(data, "percent"))
+			_percent = Reflect.field(data, "percent");
+			
+		if (Reflect.hasField(data, "stopWatchAfterComplete"))
+			_stopWatchAfterComplete = Reflect.field(data, "stopWatchAfterComplete");
+			
+		if (Reflect.hasField(data, "Label"))
+			_labelData = Reflect.field(data, "Label");
+			
+		if (Reflect.hasField(data, "LoadedLabel"))
+			_loadedLabelData = Reflect.field(data, "LoadedLabel");
+			
+		
+	}
+	
 	private function onStageAdd(event : Event) : Void { UIBitmapManager.watchElement(TYPE, this); }
 	private function onStageRemove(event : Event) : Void { UIBitmapManager.stopWatchElement(TYPE, this); }
 	
 	override public function initialize():Void 
 	{
-		// Text Format
-		_textFormat = new TextFormat();
-		_textLoadedFormat = new TextFormat();
 		
-		// Setup core fonts
-		_font = new Font(); 
+		// Add defautls to label	
+		Reflect.setField(_labelData, "width", _width);
+		Reflect.setField(_labelData, "height", _height);
+		Reflect.setField(_labelData, "textColor", _textColor);
 		
-		// Draw border
-		_outline = new Shape();
-		
-		// Setup up loader shapes
-		_backgroundNormal = new Shape();
-		_loadedBar = new Shape();
-		_mask = new Shape();
-		_fontMask = new Shape(); 
-		
-		// Setup percent text
-		var labelData:Dynamic = {"width":_width, "height":_height, "textColor":_textColor};
+		Reflect.setField(_loadedLabelData, "width", _width);
+		Reflect.setField(_loadedLabelData, "height", _height);
+		Reflect.setField(_loadedLabelData, "textColor", _textLoadedColor);
 		
 		// Set label data
-		_label = new Label(labelData);
-		
-		// Change color value
-		Reflect.setField(labelData, "textColor", _textLoadedColor);
-		
-		// Set other label
-		_loadedLabel = new Label(labelData);
+		_label = new Label(_labelData);
+		_loadedLabel = new Label(_loadedLabelData);
 		
 		super.initialize();
+		
+		_labelData = null;
 		
 		// Add to display 
 		addChild(_backgroundNormal);
@@ -138,50 +184,65 @@ import com.chaos.ui.UIBitmapManager;
 	
 	private function initStyle() : Void 
 	{
+		_labelData = {};
+		_loadedLabelData = {};
+		
 		// Set the style
 		if ( -1 != UIStyleManager.PROGRESSBAR_COLOR)
-		_backgroundNormalColor = UIStyleManager.PROGRESSBAR_COLOR;
+			_backgroundNormalColor = UIStyleManager.PROGRESSBAR_COLOR;
 		
 		if ( -1 != UIStyleManager.PROGRESSBAR_COLOR_LOADED)
-		_loadColor = UIStyleManager.PROGRESSBAR_COLOR_LOADED;
-		
-		_border = UIStyleManager.PROGRESSBAR_BORDER;
-		
-		if ( -1 != UIStyleManager.PROGRESSBAR_BORDER_COLOR)
-		_borderColor = UIStyleManager.PROGRESSBAR_BORDER_COLOR;
+			_loadColor = UIStyleManager.PROGRESSBAR_COLOR_LOADED;
 		
 		if ( -1 != UIStyleManager.PROGRESSBAR_TEXT_COLOR)
-		_textColor = UIStyleManager.PROGRESSBAR_TEXT_COLOR;
+			_textColor = UIStyleManager.PROGRESSBAR_TEXT_COLOR;
 		
 		if ( -1 != UIStyleManager.PROGRESSBAR_COLOR_LOADED)
-		_textLoadedColor = UIStyleManager.PROGRESSBAR_COLOR_LOADED;
+			_textLoadedColor = UIStyleManager.PROGRESSBAR_COLOR_LOADED;
 		
 		if ( -1 != UIStyleManager.PROGRESSBAR_BORDER_THINKNESS) 
-		_thinkness = UIStyleManager.PROGRESSBAR_BORDER_THINKNESS;
+			_thinkness = UIStyleManager.PROGRESSBAR_BORDER_THINKNESS;
 		
 		if ( -1 != UIStyleManager.PROGRESSBAR_BORDER_COLOR) 
-		_outlineColor = UIStyleManager.PROGRESSBAR_BORDER_COLOR;
+			_outlineColor = UIStyleManager.PROGRESSBAR_BORDER_COLOR;
 		
 		if ( -1 != UIStyleManager.PROGRESSBAR_BORDER_ALPHA) 
-		_outlineAlpha = UIStyleManager.PROGRESSBAR_BORDER_ALPHA;
+			_outlineAlpha = UIStyleManager.PROGRESSBAR_BORDER_ALPHA;
+		
 		// Set Label Style  
-		if ( -1 != UIStyleManager.PROGRESSBAR_TEXT_SIZE)   
-		_label.size = _loadedLabel.size = UIStyleManager.PROGRESSBAR_TEXT_SIZE;
-		
-		_label.textFormat.italic = _loadedLabel.textFormat.italic = UIStyleManager.PROGRESSBAR_TEXT_ITALIC;
-		
-		_label.textFormat.bold = _loadedLabel.textFormat.bold = UIStyleManager.PROGRESSBAR_TEXT_BOLD;
-		if ("" != UIStyleManager.PROGRESSBAR_TEXT_FONT)   
-		_label.font = _loadedLabel.font = UIStyleManager.PROGRESSBAR_TEXT_FONT;
-		
-		if ("" != UIStyleManager.PROGRESSBAR_TEXT_ALIGN)     
-        _label.align = _loadedLabel.align = UIStyleManager.PROGRESSBAR_TEXT_ALIGN;
-		
-		if (null != UIStyleManager.PROGRESSBAR_TEXT_EMBED)
+		if ( -1 != UIStyleManager.PROGRESSBAR_TEXT_SIZE)  
 		{
-			_label.setEmbedFont(UIStyleManager.PROGRESSBAR_TEXT_EMBED);
-			_loadedLabel.setEmbedFont(UIStyleManager.PROGRESSBAR_TEXT_EMBED);
-        }
+			Reflect.setField(_labelData, "size", UIStyleManager.PROGRESSBAR_TEXT_SIZE);
+			Reflect.setField(_loadedLabelData, "size", UIStyleManager.PROGRESSBAR_TEXT_SIZE);
+		}
+		
+		
+		Reflect.setField(_labelData, "italic", UIStyleManager.PROGRESSBAR_TEXT_ITALIC);
+		Reflect.setField(_labelData, "bold", UIStyleManager.PROGRESSBAR_TEXT_BOLD);
+		
+		Reflect.setField(_loadedLabelData, "italic", UIStyleManager.PROGRESSBAR_TEXT_ITALIC);
+		Reflect.setField(_loadedLabelData, "bold", UIStyleManager.PROGRESSBAR_TEXT_BOLD);
+		
+		
+		if ("" != UIStyleManager.PROGRESSBAR_TEXT_FONT)  
+		{
+			Reflect.setField(_labelData, "font", UIStyleManager.PROGRESSBAR_TEXT_FONT);
+			Reflect.setField(_loadedLabelData, "font", UIStyleManager.PROGRESSBAR_TEXT_FONT);
+		}
+		
+		
+		if ("" != UIStyleManager.PROGRESSBAR_TEXT_ALIGN)  
+		{
+			Reflect.setField(_labelData, "align", UIStyleManager.PROGRESSBAR_TEXT_ALIGN);
+			Reflect.setField(_loadedLabelData, "align", UIStyleManager.PROGRESSBAR_TEXT_ALIGN);
+		}
+        
+		//TODO: Look into embed font with asset manager 
+		//if (null != UIStyleManager.PROGRESSBAR_TEXT_EMBED)
+		//{
+		//	_label.setEmbedFont(UIStyleManager.PROGRESSBAR_TEXT_EMBED);
+		//	_loadedLabel.setEmbedFont(UIStyleManager.PROGRESSBAR_TEXT_EMBED);
+        //}
     }
 	
 	private function initBitmap() : Void 
@@ -218,6 +279,7 @@ import com.chaos.ui.UIBitmapManager;
 		// Clear objects from memory
 		_label = _loadedLabel = null;
 		_backgroundNormal = _loadedBar = _outline = _mask = _fontMask = null;
+		_loadedLabelData = _labelData = null;
 	}
 	
 	/**
@@ -642,6 +704,7 @@ import com.chaos.ui.UIBitmapManager;
 		
 		// Set loading text 
 		_label.text = _loadedLabel.text = Std.string(_percent);
+		_label.draw();
 		
 		// Set Mask area 
 		_loadedBar.mask = _mask;

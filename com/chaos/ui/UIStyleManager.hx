@@ -296,7 +296,7 @@ class UIStyleManager
     
     public static var PROGRESSBAR_BORDER_ALPHA : Float = -1;
     public static var PROGRESSBAR_BORDER : Bool = true;
-    public static var PROGRESSBAR_BORDER_COLOR : Int = -1;
+	public static var PROGRESSBAR_BORDER_COLOR : Int = -1;
     public static var PROGRESSBAR_BORDER_THINKNESS : Float = -1;
     
     public static var PROGRESSBAR_TEXT_EMBED : Font = null;

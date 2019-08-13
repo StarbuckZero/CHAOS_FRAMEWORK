@@ -63,7 +63,7 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 
 	// elements
   
-	private var _trackerColor : Int = 0x999999;
+	private var _trackColor : Int = 0x999999;
 	private var _sliderNormalColor : Int = 0xCCCCCC;
 	private var _sliderOverColor : Int = 0x666666;
 	private var _sliderDownColor : Int = 0x333333;
@@ -73,7 +73,7 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 	private var _mode : String = ScrollBarDirection.VERTICAL;
 	private var _dragging : Bool = false;
 
-	private var _track : Shape;
+	private var _track : Shape = new Shape(); 
 	private var _marker : Button;
 	
 	public var sliderWidthNum : Float = 15;
@@ -82,7 +82,7 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 	private var _sliderOffSet : Float = 0;
 
 	private var _trackerImage : BitmapData;
-	private var _rotateImage : Bool = false;
+	private var _rotateImage : Bool = UIStyleManager.SLIDER_ROTATE_IMAGE;
 
 	private var _threadCallBack:TaskCallBack;
 
@@ -116,7 +116,7 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 	override public function setComponentData(data:Dynamic):Void 
 	{
 		
-		_mode = (Reflect.hasField(data, "sliderDirection")) ? Reflect.field(data, "sliderDirection") : "vertical";
+		_mode = (Reflect.hasField(data, "direction")) ? Reflect.field(data, "direction") : "vertical";
 		_sliderOffSet = SLIDER_OFFSET;
 		
 		if (Reflect.hasField(data, "showTrack")) 
@@ -134,9 +134,6 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 	
 	override public function initialize():Void 
 	{
-		
-		// Base for scroll bar  
-		_track = new Shape(); 
 		
 		// Slider  
 		_marker = new Button({"width":sliderWidthNum, "height":sliderHeightNum, "showLabel":false, "iconDisplay":false, "defaultColor":_sliderNormalColor, "overColor":_sliderOverColor, "downColor":_sliderDownColor,"disableColor":_sliderDisableColor});
@@ -166,7 +163,6 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 		initSkin();
 		initStyle();
 		
-		draw();
     }
 	
 	private function initSkin() : Void
@@ -191,30 +187,30 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 	private function initStyle() : Void 
 	{
 		if ( -1 != UIStyleManager.SLIDER_NORMAL_COLOR)    
-			sliderColor = UIStyleManager.SLIDER_NORMAL_COLOR;
+			_sliderNormalColor = UIStyleManager.SLIDER_NORMAL_COLOR;
 		
 		if ( -1 != UIStyleManager.SLIDER_OVER_COLOR)       
-			sliderOverColor = UIStyleManager.SLIDER_OVER_COLOR;
+			_sliderOverColor = UIStyleManager.SLIDER_OVER_COLOR;
 		
 		if ( -1 != UIStyleManager.SLIDER_DOWN_COLOR)   
-			sliderDownColor = UIStyleManager.SLIDER_DOWN_COLOR;
+			_sliderDownColor = UIStyleManager.SLIDER_DOWN_COLOR;
 		
 		if ( -1 != UIStyleManager.SLIDER_DISABLE_COLOR)      
-			sliderDisableColor = UIStyleManager.SLIDER_DISABLE_COLOR;
+			_sliderDisableColor = UIStyleManager.SLIDER_DISABLE_COLOR;
 		
 		if ( -1 != UIStyleManager.SLIDER_SIZE)        
-			sliderWidth = sliderHeightNum = UIStyleManager.SLIDER_SIZE;
+			sliderWidthNum = sliderHeightNum = UIStyleManager.SLIDER_SIZE;
 		
 		if ( -1 != UIStyleManager.SLIDER_TRACK_SIZE)  
 			_width = _height = UIStyleManager.SLIDER_TRACK_SIZE;
 		
 		if ( -1 != UIStyleManager.SLIDER_TRACK_COLOR)    
-			trackColor = UIStyleManager.SLIDER_TRACK_COLOR;
+			_trackColor = UIStyleManager.SLIDER_TRACK_COLOR;
 		
 		if ( -1 != UIStyleManager.SLIDER_OFFSET)      
 			SLIDER_OFFSET = UIStyleManager.SLIDER_OFFSET; 
 		
-		rotateImage = UIStyleManager.SLIDER_ROTATE_IMAGE;
+		
     } 
 	
 	
@@ -276,7 +272,7 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 	private function set_sliderOffSet(value : Float) : Float
 	{
 		_sliderOffSet = value;
-		//draw();
+		
 		
         return value;
     }
@@ -296,7 +292,7 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 	private function set_rotateImage(value : Bool) : Bool 
 	{
 		_rotateImage = value;
-		//draw();
+		
 		
         return value;
     }
@@ -354,8 +350,6 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 		if (ScrollBarDirection.HORIZONTAL == value || ScrollBarDirection.VERTICAL == value) 
 		_mode = value;
 		
-		// Write the direction of the track and slider
-		draw();
 		
         return value;
     }
@@ -378,7 +372,6 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 	override private function set_enabled(value : Bool) : Bool
 	{
 		super.enabled = _marker.visible = _enabled = value;
-		draw();
 		
         return value;
     }
@@ -388,8 +381,7 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 	 */
 	private function set_trackColor(value : Int) : Int
 	{
-		_trackerColor = value;
-		draw();
+		_trackColor = value;
 		
         return value;
     }
@@ -400,7 +392,7 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 	
 	private function get_trackColor() : Int
 	{
-		return _trackerColor;
+		return _trackColor;
     }
 	
 	/**
@@ -408,7 +400,7 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 	 */
 	private function set_sliderColor(value : Int) : Int
 	{
-		_marker.defaultColor = _sliderNormalColor = value;
+		_sliderNormalColor = value;
         return value;
     } 
 	
@@ -426,7 +418,7 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 	 */ 
 	private function set_sliderOverColor(value : Int) : Int
 	{
-		_marker.overColor = _sliderOverColor = value;
+		_sliderOverColor = value;
         return value;
     }
 	
@@ -445,7 +437,7 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 	
 	private function set_sliderDownColor(value : Int) : Int
 	{
-		_marker.downColor = _sliderDownColor = value;
+		_sliderDownColor = value;
         return value;
     }
 	
@@ -462,7 +454,7 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 	 */
 	private function set_sliderDisableColor(value : Int) : Int
 	{
-		_marker.disableColor = _sliderDisableColor = value;
+		_sliderDisableColor = value;
         return value;
     } 
 	
@@ -490,7 +482,7 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
         else
 			_marker.width = sliderWidthNum;
 		
-		draw();
+		_marker.draw();
 		
         return value;
 		
@@ -517,11 +509,9 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 			_marker.height = sliderHeightNum;
         }
         else 
-		{
 			_marker.height = sliderHeightNum;
-        }
 		
-		draw();
+		_marker.draw();
 		
         return value;
     } 
@@ -549,7 +539,7 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 	{
 		_trackerImage = value;
 		
-		draw();
+
     }
 	
 
@@ -726,12 +716,17 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 				_track.graphics.beginBitmapFill(_trackerImage, ((_rotateImage)) ? Utils.matrixRotate(new Bitmap(_trackerImage), 90) : null, true, _smoothImage);
         }
         else 
-		{
-			_track.graphics.beginFill(_trackerColor, 1);
-        }
+			_track.graphics.beginFill(_trackColor, 1);
 		
 		_track.graphics.drawRect(0, 0, _width, _height);
 		_track.graphics.endFill();
+		
+		
+		_marker.defaultColor = _sliderNormalColor;
+		_marker.overColor = _sliderOverColor;
+		_marker.downColor = _sliderDownColor;
+		_marker.disableColor = _sliderDisableColor;
+		_marker.draw();
 		
 		// This updates the slider bar
 		percent = percentage;

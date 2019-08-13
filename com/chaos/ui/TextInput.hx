@@ -3,15 +3,11 @@ package com.chaos.ui;
 import com.chaos.ui.classInterface.IBaseUI;
 import com.chaos.ui.classInterface.ILabel;
 import com.chaos.ui.classInterface.ITextInput;
-import openfl.display.BitmapData;
-import openfl.display.Sprite;
-import openfl.display.Shape;
-import openfl.display.DisplayObject;
-import openfl.text.Font;
-import openfl.text.TextField;
-import openfl.text.TextFieldType;
-import openfl.text.TextFormatAlign;
 
+import openfl.text.TextFormatAlign;
+import openfl.text.TextFieldType;
+import openfl.display.BitmapData;
+import openfl.display.Shape;
 import openfl.events.Event;
 import openfl.events.MouseEvent;
 import openfl.events.FocusEvent;
@@ -44,10 +40,10 @@ class TextInput extends Label implements ITextInput implements ILabel implements
 	private var _displayImage : Bool = false;
 	private var _smoothImage : Bool = true;
 
-	public var backgroundNormal : Shape;
-	public var backgroundOver : Shape;
-	public var backgroundSelected : Shape;
-	public var backgroundDisable : Shape;
+	public var backgroundNormal : Shape = new Shape();
+	public var backgroundOver : Shape = new Shape();
+	public var backgroundSelected : Shape = new Shape();
+	public var backgroundDisable : Shape = new Shape();
 
 	private var _backgroundImage : BitmapData;
 	private var _backgroundOverImage : BitmapData;
@@ -100,6 +96,11 @@ class TextInput extends Label implements ITextInput implements ILabel implements
 			
 		if (Reflect.hasField(data, "upperCaseFirst"))
 			_upperCaseFirst = Reflect.field(data, "upperCaseFirst");
+			
+		// If input string is empty then set to default text
+		if (_text == "" && _defaultString != "")
+			_text = _defaultString;
+		
 	}
 
 	override function onStageAdd(event : Event) : Void
@@ -122,11 +123,6 @@ class TextInput extends Label implements ITextInput implements ILabel implements
 	override public function initialize():Void 
 	{
 		
-		backgroundNormal = new Shape();
-		backgroundOver = new Shape();
-		backgroundSelected = new Shape();
-		backgroundDisable = new Shape();
-		
 		super.initialize();
 		
 		// Add if offset & align
@@ -135,6 +131,8 @@ class TextInput extends Label implements ITextInput implements ILabel implements
 		textField.border = false;
 		textField.type = TextFieldType.INPUT;
 		textFormat.align = align = TextFormatAlign.LEFT;
+		
+		
 
 		// Set some input defaults
 		enabled = editable = true;

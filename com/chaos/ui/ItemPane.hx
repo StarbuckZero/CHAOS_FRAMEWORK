@@ -719,6 +719,8 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
             if (null != itemData.icon) 
                 itemButton.setIcon(itemData.icon);
 			
+			itemButton.draw();
+			
             _itemHolder.addChild(itemButton);
 			
         }
@@ -730,21 +732,24 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
     {
         
         // NOTE: Turn this into a class file later
-        var i : Int = _itemHolder.numChildren;
+        var i : Int = _itemHolder.numChildren - 1;
         
         while (i > 0)
         {
             
 			var itemButton : ItemPaneButton = cast(_itemHolder.getChildByName(Std.string(i)), ItemPaneButton);
 			
+			itemButton.removeEventListener(ToggleEvent.DOWN_STATE, onItemDownPress);
 			_itemHolder.removeChild(itemButton);
+			
 			itemButton.destroy();
 			itemButton = null;
 			
 			//TODO: Add back in once support for tool-tips is fixed
 			//ToolTip.remove(tempObj);
 			
-			itemButton.removeEventListener(ToggleEvent.DOWN_STATE, onItemDownPress);
+			
+			
 			itemButton = null;
 			
 			i--;
@@ -776,6 +781,7 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
         
         _selectedIndex = Std.parseInt(toggleButton.name);
 		
+		toggleButton.draw();
         dispatchEvent(new Event(Event.CHANGE));
 		
     }
@@ -791,8 +797,11 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
             itemData.selected = false;
             
             // If color label was selected
-            if (-1 != _labelNormalColor) 
+            if ( -1 != _labelNormalColor) 
+			{
                 itemButton.label.textColor = _labelNormalColor;
+				itemButton.draw();
+			}
         }
     }
 }

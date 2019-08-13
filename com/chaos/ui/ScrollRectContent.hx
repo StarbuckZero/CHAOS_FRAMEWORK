@@ -72,6 +72,7 @@ class ScrollRectContent extends ScrollContentBase
 			
 			_scrollbar.x = _content.scrollRect.width - _scrollbar.width;
 			_scrollbar.y = _content.scrollRect.y;
+			
 			_scrollbar.height = _content.scrollRect.height;
 			
 			var barSizeHeight : Int = Std.int((_content.scrollRect.height / 2) - (_scrollbar.buttonHeight / 2));
@@ -103,6 +104,8 @@ class ScrollRectContent extends ScrollContentBase
 					_scrollbar.sliderSize = _sliderSize;
             }			
 		}
+		
+		_scrollbar.draw();
 		
 		super.draw();
 		

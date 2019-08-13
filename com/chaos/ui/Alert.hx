@@ -1063,7 +1063,7 @@ class Alert
 	* @return The alert box that can be added to the stage or DisplayObject of your choice.
 	*/
 
-	public static function create(strMessage : String = "No Message", strTitle : String = "Alert Box", buttonArray : Array<String> = null, alertBoxIcon : DisplayImage = null, alertWindowIcon : BitmapData = null, callBackFunc : Dynamic = null, defaultLabelButton : String = "") : Sprite
+	public static function create(strMessage : String = "No Message", strTitle : String = "Alert Box", buttonArray : Array<String> = null, alertBoxIcon : BitmapData = null, alertWindowIcon : BitmapData = null, callBackFunc : Dynamic = null, defaultLabelButton : String = "") : Sprite
 	{
 
 		// Setup AlertBox Holder
@@ -1181,7 +1181,7 @@ class Alert
 			window.labelLocation = _buttonLocation;
 
 		// To handle to close window
-		//window.addEventListener(WindowEvent.WINDOW_CLOSE_BTN, onButtonClickEvent, false, 0);
+		window.closeButton.addEventListener(MouseEvent.CLICK, onButtonClickEvent, false, 0);
 
 		//if (null != callBackFunc)
 		//window.addEventListener(WindowEvent.WINDOW_CLOSE_BTN, callBackFunc, false, 5, true);
@@ -1196,6 +1196,7 @@ class Alert
 		label.textField.selectable = ALERT_LABEL_TEXT_SELECTABLE;
 		label.x = LABEL_OFFSET_X;
 		label.y = (DEFAULT_HEIGHT / 2) - window.windowTopMiddleSize - LABEL_OFFSET_Y;
+		label.draw();
 
 		holderClip.addChild(label);
 
@@ -1207,50 +1208,28 @@ class Alert
 			scroll.slider.direction = ScrollBarDirection.VERTICAL;
 			holderClip.mouseChildren = true;
 			holderClip.addChild(scroll);
+			scroll.draw();
+			
 			scroll.y = label.y;
 		}
 
 		// Check and Setup Icon if need be
 		if (alertBoxIcon != null)
 		{
-			// If Icon is loaded just draw it if not wait for it to load
-			if (alertBoxIcon.loaded)
-			{
-				var iconImage : Sprite = new Sprite();
-				iconImage.graphics.beginBitmapFill(alertBoxIcon.image.bitmapData, null, true);
-				iconImage.graphics.drawRect(0, 0, alertBoxIcon.image.bitmapData.width, alertBoxIcon.image.bitmapData.height);
-				iconImage.graphics.endFill();
-				iconImage.width = ICON_SIZE_WIDTH;
-				iconImage.height = ICON_SIZE_HEIGHT;
-				iconImage.x = ICON_OFFSET_X;
-				iconImage.y = (DEFAULT_HEIGHT / 2) - window.windowTopMiddleSize - ICON_OFFSET_Y;
-				label.width = DEFAULT_WIDTH - ICON_SIZE_WIDTH - LABEL_OFFSET_X - BUTTON_OFFSET_X;
-				label.x = ICON_SIZE_WIDTH + LABEL_OFFSET_X;
-
-				holderClip.addChild(iconImage);
-
-			}
-			else
-			{
-				// Setup an event so soon as image is done loading
-				alertBoxIcon.onImageComplete = function() : Void
-				{
-					var iconImage : Sprite = new Sprite();
-					iconImage.graphics.beginBitmapFill(alertBoxIcon.image.bitmapData, null, true);
-					iconImage.graphics.drawRect(0, 0, alertBoxIcon.image.bitmapData.width, alertBoxIcon.image.bitmapData.height);
-					iconImage.graphics.endFill();
-					iconImage.width = ICON_SIZE_WIDTH;
-					iconImage.height = ICON_SIZE_HEIGHT;
-					iconImage.x = ICON_OFFSET_X;
-					iconImage.y = (DEFAULT_HEIGHT / 2) - window.windowTopMiddleSize - ICON_OFFSET_Y;
-					label.width = DEFAULT_WIDTH - ICON_SIZE_WIDTH - LABEL_OFFSET_X - BUTTON_OFFSET_X;
-					label.x = ICON_SIZE_WIDTH + LABEL_OFFSET_X;
-					holderClip.addChild(iconImage);
-					alertBoxIcon.onImageComplete = null;
-				};
-
-			}
-
+			var iconImage : Sprite = new Sprite();
+			iconImage.graphics.beginBitmapFill(alertBoxIcon, null, true);
+			iconImage.graphics.drawRect(0, 0, alertBoxIcon.width, alertBoxIcon.height);
+			iconImage.graphics.endFill();
+			
+			iconImage.width = ICON_SIZE_WIDTH;
+			iconImage.height = ICON_SIZE_HEIGHT;
+			
+			iconImage.x = ICON_OFFSET_X;
+			iconImage.y = (DEFAULT_HEIGHT / 2) - window.windowTopMiddleSize - ICON_OFFSET_Y;
+			label.width = DEFAULT_WIDTH - ICON_SIZE_WIDTH - LABEL_OFFSET_X - BUTTON_OFFSET_X;
+			label.x = ICON_SIZE_WIDTH + LABEL_OFFSET_X;
+			
+			holderClip.addChild(iconImage);			
 		}
 
 		// Look into hiding modal block
@@ -1263,7 +1242,7 @@ class Alert
 			// Drop count by 1 if have Modal flag in list
 			var buttonCount : Int = ((hasModal)) ? buttonArray.length - 1 : buttonArray.length;
 
-			for (i in 0...buttonArray.length - 1 + 1)
+			for (i in 0 ... buttonArray.length - 1 + 1)
 			{
 				// Turn off background shape
 				if (Alert.NONMODAL != buttonArray[i])
@@ -1291,6 +1270,7 @@ class Alert
 						window.closeButton.visible = true;
 
 					tempButton.x = ((buttonHolderClip.numChildren == 1)) ? BUTTON_OFFSET_X : tempButton.width + buttonHolderClip.getChildAt(buttonHolderClip.numChildren - 2).x + BUTTON_OFFSET_X;
+					tempButton.draw();
 				}
 			}
 		}
@@ -1308,7 +1288,10 @@ class Alert
 		// Place movieclip in window
 		window.scrollPane.source = holderClip;
 		alertHolder.addChild(window);
-
+		
+		window.draw();
+		window.scrollPane.refreshPane();
+		
 		var alertData:AlertObjectData = new AlertObjectData(window, buttonList, callBackFunc);
 		_alertList.addItem(alertData);
 
@@ -1321,7 +1304,7 @@ class Alert
 		var button:IButton = cast(event.currentTarget, IButton);
 
 		// Start searching array objects
-		for (i in 0... _alertList.length)
+		for (i in 0 ... _alertList.length)
 		{
 
 			var alertObj:AlertObjectData = cast(_alertList.getItemAt(i), AlertObjectData);
@@ -1463,7 +1446,7 @@ class Alert
 
 	private static function createAlertButton(buttonType : String) : Button
 	{
-		var tempButton : Button = new Button();
+		var tempButton : Button = new Button({"width":100,"height":20});
 
 		switch (buttonType)
 		{
@@ -1498,6 +1481,8 @@ class Alert
 				setButtonType("positive", tempButton);
 		}
 
+		tempButton.draw();
+		
 		return tempButton;
 	}
 
@@ -1620,12 +1605,13 @@ class Alert
 		window.stage.align = StageAlign.TOP_LEFT;
 		window.x = (window.stage.stageWidth / 2) - (window.width / 2);
 		window.y = (window.stage.stageHeight / 2) - (window.height / 2);
+		
 	}
 
 	private static function setupTintStageEvent(event : Event) : Void
 	{
 		// Remove old event
-		var backgroundBlock : Shape =cast(event.currentTarget, Shape);
+		var backgroundBlock : Shape = cast(event.currentTarget, Shape);
 
 		backgroundBlock.removeEventListener(Event.ADDED_TO_STAGE, setupTintStageEvent);
 		backgroundBlock.stage.align = StageAlign.TOP_LEFT;

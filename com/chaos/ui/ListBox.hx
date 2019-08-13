@@ -50,7 +50,7 @@ class ListBox extends ScrollPane implements IListBox implements IBaseUI
 	private var _outlineColor : Int = 0x000000;
 	private var _outlineAlpha : Float = 1;
 	private var _list : DataProvider<ListObjectData> = new DataProvider<ListObjectData>();
-	private var _itemList : Sprite;
+	private var _itemList : Sprite = new Sprite();
 	private var _scrollPane : ScrollPane;
 	private var _embedFonts : Bool = true;
 	private var _font : Font = null;
@@ -156,7 +156,6 @@ class ListBox extends ScrollPane implements IListBox implements IBaseUI
 	
 	override public function initialize():Void 
 	{
-		_itemList = new Sprite();
 		
 		super.initialize();
 		
@@ -474,7 +473,7 @@ class ListBox extends ScrollPane implements IListBox implements IBaseUI
 		// Create data object for common use values for when label is created
 		var labelData:Dynamic = {"textColor":_textColor, "background":false, "align":_align, "width":_width - 1};
 		
-		for (i in 0..._list.length)
+		for (i in 0 ... _list.length)
 		{
 			// Setup text field
 			var listData : ListObjectData = _list.getItemAt(i);
@@ -509,6 +508,8 @@ class ListBox extends ScrollPane implements IListBox implements IBaseUI
 				listBoxLabel.textColor = _textSelectedColor;
 				listBoxLabel.backgroundColor = _textSelectedBackground;
 				listBoxLabel.background = true;
+				
+				listBoxLabel.draw();
 			}
 			
 			// Events for text fields
@@ -567,6 +568,7 @@ class ListBox extends ScrollPane implements IListBox implements IBaseUI
 			label.background = false;
 		}
 		
+		label.draw();
 	}
 
 	private function textOverEvent(event : MouseEvent) : Void
@@ -577,7 +579,7 @@ class ListBox extends ScrollPane implements IListBox implements IBaseUI
 		label.backgroundColor = _textOverBackground;
 		label.textColor = _textOverColor;
 		label.background = true;
-		
+		label.draw();
 	}
 
 	private function textSelectedEvent(event : MouseEvent) : Void
@@ -592,7 +594,7 @@ class ListBox extends ScrollPane implements IListBox implements IBaseUI
 		label.textColor = _textSelectedColor;
 		label.backgroundColor = _textSelectedBackground;
 		label.background = true;
-		
+		label.draw();
 	}
 
 	private function textUpEvent(event : MouseEvent) : Void
@@ -606,6 +608,7 @@ class ListBox extends ScrollPane implements IListBox implements IBaseUI
 		_list.getItemAt(_selectIndex).selected = !_list.getItemAt(_selectIndex).selected;
 		
 		label.background = true;
+		label.draw();
 		
 		dispatchEvent(new Event(Event.CHANGE));
 		
@@ -621,6 +624,7 @@ class ListBox extends ScrollPane implements IListBox implements IBaseUI
 			
 			label.textColor = _textColor;
 			label.background = false;
+			label.draw();
 		}
 	}
 }

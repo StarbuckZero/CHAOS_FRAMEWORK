@@ -9,13 +9,10 @@ import com.chaos.ui.classInterface.IToggleButton;
 
 import openfl.display.BitmapData;
 import openfl.display.Shape;
-import openfl.display.Bitmap;
 
 import openfl.events.MouseEvent;
 import openfl.events.Event;
 
-import openfl.text.TextField;
-import openfl.text.TextFormatAlign;
 import openfl.text.TextFormat;
 import openfl.text.TextFieldAutoSize;
 
@@ -65,7 +62,7 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
     private var _imageOffSetY : Int;
     
     private var _label : Label;
-    private var _textFormat : TextFormat;
+    private var _textFormat : TextFormat = new TextFormat();
     
     // Default button colors
     private var _text : String = "";
@@ -77,7 +74,7 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
     
     private var _bgShowImage : Bool = true;
     
-    private var _icon : Shape;
+    private var _icon : Shape = new Shape();
 	
 	private var _mode : String = "press";
 	
@@ -110,23 +107,29 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
 		
 		if (Reflect.hasField(data, "Label"))
 			_labelData = Reflect.field(data, "Label");
+		else
+			_labelData = {"textColor": 0xFFFFFF, "bold":_bold, "italic":_italic};
 			
 		if (Reflect.hasField(data, "showLabel"))
 			_showLabel = Reflect.field(data, "showLabel");
 			
 		if (Reflect.hasField(data, "showIcon"))	
 			_showIcon = Reflect.field(data, "showIcon");
+			
+		if (Reflect.hasField(data, "imageOffSetX"))	
+			_imageOffSetX = Reflect.field(data, "imageOffSetX");
+			
+		if (Reflect.hasField(data, "imageOffSetY"))	
+			_imageOffSetY = Reflect.field(data, "imageOffSetY");
+		
+		
 	}
 
     override public function initialize() : Void
     {
-		if (_labelData == null)
-			_labelData = {"textColor": 0xFFFFFF, "bold":_bold, "italic":_italic};
 		
 		// Init core components first
         _label = new Label(_labelData);
-        _textFormat = new TextFormat();
-        _icon = new Shape();
 		
 		// Now init and add everything 
 		super.initialize();
@@ -217,8 +220,8 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
         if (-1 != UIStyleManager.BUTTON_TEXT_SIZE) 
             _label.size = UIStyleManager.BUTTON_TEXT_SIZE;
         
-        _label.textFormat.italic = UIStyleManager.BUTTON_TEXT_ITALIC;
-        _label.textFormat.bold = UIStyleManager.BUTTON_TEXT_BOLD;
+		_italic = UIStyleManager.BUTTON_TEXT_ITALIC;
+		_bold = UIStyleManager.BUTTON_TEXT_BOLD;
         
         if ("" != UIStyleManager.BUTTON_TEXT_FONT) 
             _textFormat.font = UIStyleManager.BUTTON_TEXT_FONT;
@@ -241,8 +244,6 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
         if (-1 != UIStyleManager.BUTTON_DISABLE_COLOR) 
             _disableColor = UIStyleManager.BUTTON_DISABLE_COLOR;
         
-        _label.x = UIStyleManager.BUTTON_TEXT_OFFSET_X;
-        _label.y = UIStyleManager.BUTTON_TEXT_OFFSET_Y;
         
         // Set default loc of image offset
         _imageOffSetX = UIStyleManager.BUTTON_IMAGE_OFFSET_X;
@@ -542,6 +543,8 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
     
     public function setIcon(image : BitmapData) : Void
     {
+		_showIcon = true;
+		
 		_icon.graphics.clear();
         _icon.graphics.beginBitmapFill(image, null, false, _imageSmooth);
 		_icon.graphics.drawRect(0, 0, image.width, image.height);
@@ -600,7 +603,7 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
         // Hide or Display items
         _icon.visible = _showIcon;
         _label.visible = _showLabel;
-        _label.width = 1;
+        
         
         // Seting label  
         _label.text = _text;
@@ -617,6 +620,8 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
             
             // Set location of text
             _label.width = _width - _icon.width - UIStyleManager.BUTTON_TEXT_OFFSET_X;
+			_label.draw();
+			
             _label.x = _icon.width + UIStyleManager.BUTTON_TEXT_OFFSET_X;
             _label.y = (_height / 2) - (_label.height / 2) + UIStyleManager.BUTTON_TEXT_OFFSET_Y;
             
@@ -625,7 +630,7 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
             
             _icon.x = _imageOffSetX;
             _icon.y = _imageOffSetY;
-			_label.draw();
+			
         }
         else if (_showIcon && !_showLabel) 
         {
@@ -642,9 +647,11 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
             
             // Set location of text
             _label.width = _width - UIStyleManager.BUTTON_TEXT_OFFSET_X;
+			_label.draw();
+			
             _label.x = (_width / 2) - (_label.width / 2) + UIStyleManager.BUTTON_TEXT_OFFSET_X;
             _label.y = (_height / 2) - (_label.textField.textHeight / 2) + UIStyleManager.BUTTON_TEXT_OFFSET_Y;
-			_label.draw();
+			
         }
 		
 		if (_mode.toLowerCase() == PRESS_MODE)
@@ -660,7 +667,8 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
 			else
 				downState.visible = true;
 				
-		}        
+		}       
+		
     }
 	
 	private function mouseUpEvent(event:MouseEvent):Void 

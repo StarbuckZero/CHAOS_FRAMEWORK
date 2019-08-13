@@ -289,6 +289,9 @@ class UIBitmapManager
 
         
         initialize = true;
+		
+		
+		
     }
     
     /**

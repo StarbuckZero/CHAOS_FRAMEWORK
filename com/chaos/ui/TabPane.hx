@@ -37,9 +37,9 @@ class TabPane extends BaseUI implements ITabPane implements IBaseUI
 	public var tabButtonDisableColor(get, set) : Int;
 	public var scrollPane(get, never) : IScrollPane;
 	
-	public var buttonArea : Sprite;
+	public var buttonArea : Sprite = new Sprite();
 	
-	private var _contentList : DataProvider<TabPaneObjectData>;
+	private var _contentList : DataProvider<TabPaneObjectData> = new DataProvider<TabPaneObjectData>();
 	private var _tabButtonHeight : Int = 20;
 	private var _tabButtonNormalColor : Int = 0xCCCCCC;
 	private var _tabButtonOverColor : Int = 0x666666;
@@ -59,6 +59,8 @@ class TabPane extends BaseUI implements ITabPane implements IBaseUI
 	private var _scrollButtonDisableColor : Int = 0x999999;
 
 	private var _selectedIndex : Int = 0;
+	
+	private var _scrollPanelBackgroundImage:BitmapData;
 	
 	private var _scrollPane:ScrollPane;
 	private var _scrollPaneData:Dynamic;
@@ -99,9 +101,8 @@ class TabPane extends BaseUI implements ITabPane implements IBaseUI
 			
 			
 		// Component
-		
 		if (Reflect.hasField(data, "ScrollPane"))
-		_scrollPaneData = Reflect.field(data, "ScrollPane");
+			_scrollPaneData = Reflect.field(data, "ScrollPane");
 			
 	}
 
@@ -110,16 +111,15 @@ class TabPane extends BaseUI implements ITabPane implements IBaseUI
 	
 	override public function initialize():Void 
 	{
-		// setup list
-		_contentList = new DataProvider<TabPaneObjectData>();
-		buttonArea = new Sprite();
+		if (_scrollPaneData == null)
+			_scrollPaneData = {"border":true};
 		
 		_scrollPane = new ScrollPane(_scrollPaneData);
-		_scrollPaneData = null;
+		
 		
 		super.initialize();
 		
-		_scrollPane.border = true;
+		_scrollPaneData = null;
 		
 		addChild(buttonArea);
 		addChild(_scrollPane);
@@ -150,22 +150,22 @@ class TabPane extends BaseUI implements ITabPane implements IBaseUI
 
 	private function initStyle() : Void
 	{
-		
+		_scrollPaneData = {};
 		
 		// Border
 		if ( -1 != UIStyleManager.TABPANE_BACKGROUND)
-			_scrollPane.backgroundColor = UIStyleManager.TABPANE_BACKGROUND;
+			Reflect.setField(_scrollPaneData, "backgroundColor", UIStyleManager.TABPANE_BACKGROUND);
 
-		_scrollPane.border = UIStyleManager.TABPANE_BORDER;
+		Reflect.setField(_scrollPaneData, "border", UIStyleManager.TABPANE_BORDER);
 
 		if ( -1 != UIStyleManager.TABPANE_BORDER_COLOR)
-			_scrollPane.borderColor = UIStyleManager.TABPANE_BORDER_COLOR;
+			Reflect.setField(_scrollPaneData, "borderColor", UIStyleManager.TABPANE_BORDER_COLOR);
 
 		if ( -1 != UIStyleManager.TABPANE_BORDER_ALPHA)
-			_scrollPane.borderAlpha = UIStyleManager.TABPANE_BORDER_ALPHA;
-
+			Reflect.setField(_scrollPaneData, "borderAlpha", UIStyleManager.TABPANE_BORDER_ALPHA);
+			
 		if ( -1 != UIStyleManager.TABPANE_BORDER_THINKNESS)
-			_scrollPane.borderThinkness = UIStyleManager.TABPANE_BORDER_THINKNESS;
+			Reflect.setField(_scrollPaneData, "borderThinkness", UIStyleManager.TABPANE_BORDER_THINKNESS);
 
 		// Buttons
 		if ( -1 != UIStyleManager.TABPANE_BUTTON_NORMAL_COLOR)
@@ -239,7 +239,7 @@ class TabPane extends BaseUI implements ITabPane implements IBaseUI
 	private function set_tabButtonTextColor(value : Int) : Int
 	{
 		_tabButtonTextColor = value;
-		draw();
+		
 		
 		return value;
 	}
@@ -257,7 +257,7 @@ class TabPane extends BaseUI implements ITabPane implements IBaseUI
 	private function set_tabButtonTextSelectedColor(value : Int) : Int
 	{
 		_tabButtonTextSelectedColor = value;
-		draw();
+		
 		return value;
 	}
 
@@ -407,7 +407,6 @@ class TabPane extends BaseUI implements ITabPane implements IBaseUI
 	{
 		_tabButtonOverColor = value;
 
-		draw();
 		return value;
 	}
 
@@ -425,7 +424,6 @@ class TabPane extends BaseUI implements ITabPane implements IBaseUI
 	private function set_tabButtonSelectedColor(value : Int) : Int
 	{
 		_tabButtonSelectedColor = value;
-		draw();
 
 		return value;
 	}
@@ -445,7 +443,6 @@ class TabPane extends BaseUI implements ITabPane implements IBaseUI
 	{
 		_tabButtonDisableColor = value;
 
-		draw();
 		return value;
 	}
 
@@ -626,6 +623,9 @@ class TabPane extends BaseUI implements ITabPane implements IBaseUI
 			// Disable old one
 			oldButton.enabled = true;
 			oldButton.textColor = _tabButtonTextColor;
+			
+			button.draw();
+			oldButton.draw();
 
 			// Update selected index and grab new content
 			_selectedIndex = Std.parseInt(button.name);

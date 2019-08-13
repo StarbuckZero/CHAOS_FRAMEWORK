@@ -604,7 +604,7 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
         var colInfoHolder : Sprite = new Sprite();
         var buttonArea : IAlignmentContainer = new FitContainer();
         var button : IButton = new Button(colName);
-        var arrow : IBasicIcon = new ArrowDownIcon(10, 10);
+        var arrow : IBasicIcon = new ArrowDownIcon({"width":10,"height":10});
         
         Reflect.setField(obj, "col", colInfoHolder);
         Reflect.setField(obj, "element", element);  // Store element  

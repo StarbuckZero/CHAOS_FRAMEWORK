@@ -17,16 +17,16 @@ class ScrollMaskContent extends ScrollContentBase
 {
 	private var _mask:Shape;
 	
-	private var _contentHolder:Sprite;
+	private var _parentClip:Sprite;
 	
 	private var _defaultContextLoc:Point;
 	
 
 
-	public function new(clip:DisplayObject, scroller:IScrollBar, mask:Shape ) 
+	public function new(clip:DisplayObject, scroller:IScrollBar, mask:Shape) 
 	{
 		_mask = mask;
-		_contentHolder = new Sprite();
+		_parentClip = new Sprite();
 		_defaultContextLoc = new Point(clip.x, clip.y);
 		
 		super(clip, scroller);
@@ -40,31 +40,54 @@ class ScrollMaskContent extends ScrollContentBase
 	{
 		super.attachContent(clip, scroller);
 			
+		
 		if (_content.parent != null)
 		{
 			// Place content holder where the content current X and Y location is
-			_contentHolder.x = _defaultContextLoc.x;
-			_contentHolder.y = _defaultContextLoc.y;
+			_mask.x = _parentClip.x = _defaultContextLoc.x;
+			_mask.y = _parentClip.y = _defaultContextLoc.y;
 			
 			// Add mask and content holder to stage
 			_content.parent.addChild(_mask);
-			_content.parent.addChild(_contentHolder);
+			_content.parent.addChild(_parentClip);
 			
 			// Set the location of the content to 0
 			_content.x = _content.y = 0;
 			
 			// Move the content inside the holder
-			_contentHolder.addChild(_content);
+			_parentClip.addChild(_content);
 			
 			// Apply mask to holder
-			if(_contentHolder.mask == null)
-				_contentHolder.mask = _mask;
+			if(_parentClip.mask == null)
+				_parentClip.mask = _mask;
 		}
 		else
-			clip.addEventListener(Event.ADDED, onAddToObject, false, 0, true);
+			_content.addEventListener(Event.ADDED, onAddToObject, false, 0, true);
 		
 		
 	}
+	
+	private function onAddToObject(event:Event):Void 
+	{
+		_content.removeEventListener(Event.ADDED, onAddToObject);
+	
+		// Place content holder where the content current X and Y location is
+		_mask.x = _parentClip.x = _defaultContextLoc.x;
+		_mask.y = _parentClip.y = _defaultContextLoc.y;
+		
+		// Add mask and content holder to stage
+		_content.parent.addChild(_mask);
+		_content.parent.addChild(_parentClip);
+		
+		// Set the location of the content to 0
+		_content.x = _content.y = 0;
+			
+		// Move the content inside the holder
+		_parentClip.addChild(_content);
+		
+		// Apply mask to holder
+		_parentClip.mask = _mask;
+	}	
 	
 	override public function unload():Void 
 	{
@@ -78,40 +101,20 @@ class ScrollMaskContent extends ScrollContentBase
 		if (_content.parent != null)
 			_content.parent.removeChild(_content);
 		
-		if (_contentHolder.parent != null)
-			_contentHolder.parent.removeChild(_contentHolder);
+		if (_parentClip.parent != null)
+			_parentClip.parent.removeChild(_parentClip);
 		
 		
 		if (_mask.parent != null)
 			_mask.parent.removeChild(_mask);
 		
-		_contentHolder.mask = null;
+		_parentClip.mask = null;
 		
 		
 	}
 	
 	
-	private function onAddToObject(event:Event):Void 
-	{
-		_content.removeEventListener(Event.ADDED, onAddToObject);
-	
-		// Place content holder where the content current X and Y location is
-		_mask.x = _contentHolder.x = _defaultContextLoc.x;
-		_mask.y = _contentHolder.y = _defaultContextLoc.y;
-		
-		// Add mask and content holder to stage
-		_content.parent.addChild(_mask);
-		_content.parent.addChild(_contentHolder);
-		
-		// Set the location of the content to 0
-		_content.x = _content.y = 0;
-			
-		// Move the content inside the holder
-		_contentHolder.addChild(_content);
-		
-		// Apply mask to holder
-		_contentHolder.mask = _mask;
-	}
+
 	
 	override public function draw():Void 
 	{
@@ -153,13 +156,15 @@ class ScrollMaskContent extends ScrollContentBase
             }			
 		}
 		
+		_scrollbar.draw();
+		
 		super.draw();
 	}
 	
 	override function updateContent(event:SliderEvent):Void 
 	{
 		super.updateContent(event);
-		
+
 		if (ScrollBarDirection.VERTICAL == _scrollbar.slider.direction) 
 		{
 			var scrollable_v : Float = _content.height - _mask.height - _scrollbar.scrollAmount;

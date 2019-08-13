@@ -22,16 +22,16 @@ class Overlay extends BaseUI implements IOverlay
 
     public static inline var TYPE : String = "Overlay";
     
-    public var topLeftPattern : Shape;
-    public var topMiddlePattern : Shape;
-    public var topRightPattern : Shape;
+    public var topLeftPattern : Shape = new Shape();
+    public var topMiddlePattern : Shape = new Shape();
+    public var topRightPattern : Shape = new Shape();
     
-    public var bottomLeftPattern : Shape;
-    public var bottomMiddlePattern : Shape;
-    public var bottomRightPattern : Shape;
+    public var bottomLeftPattern : Shape = new Shape();
+    public var bottomMiddlePattern : Shape = new Shape();
+    public var bottomRightPattern : Shape = new Shape();
     
-    public var middleLeftPattern : Shape;
-    public var middleRightPattern : Shape;
+    public var middleLeftPattern : Shape = new Shape();
+    public var middleRightPattern : Shape = new Shape();
     
     private var _topLeftImage : BitmapData;
     private var _topMiddleImage : BitmapData;
@@ -80,16 +80,6 @@ class Overlay extends BaseUI implements IOverlay
 	{
         mouseChildren = true;
         
-        topLeftPattern = new Shape();
-        topMiddlePattern = new Shape();
-        topRightPattern = new Shape();
-        
-        bottomLeftPattern = new Shape();
-        bottomMiddlePattern = new Shape();
-        bottomRightPattern = new Shape();
-        
-        middleLeftPattern = new Shape();
-        middleRightPattern = new Shape();
 		
 		super.initialize();
         

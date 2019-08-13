@@ -18,12 +18,10 @@ class NormalWindowIcon extends BaseIcon implements IBasicIcon implements IBaseUI
 	 * @inheritDoc
 	 */
     
-    public function new(iconWidth : Float = -1, iconHeight : Float = -1)
+    public function new(data:Dynamic = null)
     {
-        super(iconWidth, iconHeight);
+        super(data);
         
-        borderColor = 0xFFFFFF;
-        borderThinkness = 2;
     }
     
     /**

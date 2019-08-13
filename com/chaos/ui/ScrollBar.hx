@@ -7,6 +7,7 @@ import com.chaos.ui.classInterface.IButton;
 import com.chaos.ui.classInterface.IScrollBar;
 import com.chaos.ui.classInterface.ISlider;
 import com.chaos.utils.CompositeManager;
+import openfl.display.BitmapData;
 import openfl.events.Event;
 import openfl.events.MouseEvent;
 import com.chaos.ui.ScrollBarDirection;
@@ -52,11 +53,27 @@ class ScrollBar extends BaseUI implements IScrollBar implements IBaseUI
 	private var _showArrowButton : Bool = true;
 	private var _sliderResize : Bool = true;
 	private var _smoothImage : Bool = true;
+	private var _sliderSize : Int = 15;
 	
 	private var _slider : Slider;
 	
+	private var _sliderData : Dynamic;
+	private var _buttonData : Dynamic;
 
+	private var _upIconButtonImage : BitmapData;
+	private var _downIconButtonImage : BitmapData;
 	
+	private var _buttonDefaultImage : BitmapData;
+	private var _buttonOverImage : BitmapData;
+	private var _buttonDownImage : BitmapData;
+	private var _buttonDisableImage : BitmapData;
+	
+	private var _trackImage : BitmapData;
+	
+	private var _sliderButtonDefaultImage : BitmapData;
+	private var _sliderButtonOverImage : BitmapData;
+	private var _sliderButtonDownImage : BitmapData;
+	private var _sliderButtonDisableImage : BitmapData;
 	
 	/**
 	 * Constructor
@@ -69,6 +86,38 @@ class ScrollBar extends BaseUI implements IScrollBar implements IBaseUI
 		addEventListener(Event.ADDED_TO_STAGE, onStageAdd, false, 0, true);
 		addEventListener(Event.REMOVED_FROM_STAGE, onStageRemove, false, 0, true);
     }
+	
+	override public function setComponentData(data:Dynamic):Void 
+	{
+		super.setComponentData(data);
+		
+		if (Reflect.hasField(data, "buttonSize"))
+			_buttonHeight = _buttonWidth = Reflect.field(data,"_buttonWidth");
+		
+		if (Reflect.hasField(data, "showArrowButton"))
+			_showArrowButton = Reflect.field(data, "showArrowButton");
+			
+		if (Reflect.hasField(data, "sliderResize"))
+			_sliderResize = Reflect.field(data, "sliderResize");
+		
+		if (Reflect.hasField(data, "buttonWidth"))
+			_buttonWidth = Reflect.field(data, "buttonWidth");
+			
+		if (Reflect.hasField(data, "buttonHeight"))
+			_buttonHeight = Reflect.field(data, "buttonHeight");
+			
+		if (Reflect.hasField(data, "sliderSize"))
+			_sliderSize = Reflect.field(data, "sliderSize");
+			
+			
+		// Replace if there once skin data has been set
+		if (Reflect.hasField(data, "Slider"))
+			_sliderData = Reflect.field(data, "Slider");
+			
+		if (Reflect.hasField(data, "Button"))
+			_buttonData = Reflect.field(data, "Button");
+			
+	}
 	
 	
 	
@@ -83,25 +132,116 @@ class ScrollBar extends BaseUI implements IScrollBar implements IBaseUI
 	override public function initialize():Void 
 	{
 		
+		// Setup slider
+		_slider = new Slider(_sliderData);
 		
-		_slider = new Slider();
-		_upButton = new Button();
-		_downButton = new Button();
+		// Apply image and remove it
+		if (null != _sliderButtonDefaultImage)
+		{
+			_slider.setSliderImage(_sliderButtonDefaultImage.clone());
+			
+			_sliderButtonDefaultImage.dispose();
+			_sliderButtonDefaultImage = null;
+		}
 		
-		_slider.sliderOffSet = UIStyleManager.SCROLLBAR_SLIDER_OFFSET;
+		if (null != _sliderButtonOverImage)
+		{
+			_slider.setSliderOverImage(_sliderButtonOverImage.clone());
+			
+			_sliderButtonOverImage.dispose();
+			_sliderButtonOverImage = null;
+		}
+		
+		if (null != _sliderButtonDownImage)
+		{
+			_slider.setSliderDownImage(_sliderButtonDownImage.clone());
+			
+			_sliderButtonDownImage.dispose();
+			_sliderButtonDownImage = null;
+		}
+		
+		if (null != _sliderButtonDisableImage)
+		{
+			_slider.setSliderDisableImage(_sliderButtonDisableImage.clone());
+			
+			_sliderButtonDisableImage.dispose();
+			_sliderButtonDisableImage = null;
+		}
+		
+		if (null != _trackImage)
+		{
+			_slider.setTrackImage(_trackImage.clone());		
+			
+			_trackImage.dispose();
+			_trackImage = null;
+		}		
+		
+		
+		_upButton = new Button(_buttonData);
+		_downButton = new Button(_buttonData);
+		
+		// Set button 
+		if (null != _upButton && null != _downButton)
+		{
+			if ( null != _buttonDefaultImage)
+			{
+				_upButton.setDefaultStateImage(_buttonDefaultImage.clone());
+				_downButton.setDefaultStateImage(_buttonDefaultImage.clone());
+				
+				_buttonDefaultImage.dispose();
+				_buttonDefaultImage = null;
+			}
+			
+			if (null != _buttonOverImage)
+			{
+				_upButton.setOverStateImage(_buttonOverImage.clone());
+				_downButton.setOverStateImage(_buttonOverImage.clone());
+				
+				_buttonOverImage.dispose();
+				_buttonOverImage = null;
+			}		
+			
+			
+			if (null != _buttonDownImage)
+			{
+				_upButton.setDownStateImage(_buttonDownImage.clone());
+				_downButton.setDownStateImage(_buttonDownImage.clone());
+				
+				_buttonDownImage.dispose();
+				_buttonDownImage = null;
+			}		
+			
+			if (null != _buttonDisableImage)
+			{
+				_upButton.setDisableStateImage(_buttonDisableImage.clone());
+				_downButton.setDisableStateImage(_buttonDisableImage.clone());
+				
+				_buttonDisableImage.dispose();
+				_buttonDisableImage = null;
+			}
+			
+			if (null != _upIconButtonImage)
+			{
+				_upButton.setIcon(_upIconButtonImage.clone());
+				
+				_upIconButtonImage.dispose();
+				_upIconButtonImage = null;
+			}			
+			
+			if (null != _downIconButtonImage)
+			{
+				_downButton.setIcon(_downIconButtonImage.clone());
+				
+				_downIconButtonImage.dispose();
+				_downIconButtonImage = null;
+			}		
+			
+		}
 		
 		super.initialize();
 		
-		var upArrowIcon : ArrowUpIcon = new ArrowUpIcon(4, 4);
-		var downArrowIcon : ArrowDownIcon = new ArrowDownIcon(4, 4);
-		
-		// Setting Up Arrow  
-		_upButton.showLabel = false;
-		_upButton.iconDisplay = true;  
-		
-		// Setting Down Arrow  
-		_downButton.showLabel = false;
-		_downButton.iconDisplay = true;
+		var upArrowIcon : ArrowUpIcon = new ArrowUpIcon({"width":4, "height":4});
+		var downArrowIcon : ArrowDownIcon = new ArrowDownIcon({"width":4,"height":4});
 		
 		_upButton.setIcon(CompositeManager.displayObjectToBitmap(upArrowIcon, _smoothImage, upArrowIcon.width, upArrowIcon.height));
 		_downButton.setIcon(CompositeManager.displayObjectToBitmap(downArrowIcon,_smoothImage, upArrowIcon.width, upArrowIcon.height));
@@ -109,13 +249,9 @@ class ScrollBar extends BaseUI implements IScrollBar implements IBaseUI
 		_upButton.addEventListener(MouseEvent.MOUSE_DOWN, arrowPressedUp, false, 0, true);
 		_downButton.addEventListener(MouseEvent.MOUSE_DOWN, arrowPressedDown, false, 0, true);
 		
-		// Style UISkin and Style
-		initBitmap();
-		initStyle();
-		
 		addChild(_upButton.displayObject);
 		addChild(_downButton.displayObject);
-		
+		addChild(_slider);
 	}
 	
 	
@@ -124,104 +260,209 @@ class ScrollBar extends BaseUI implements IScrollBar implements IBaseUI
 	{
 		// Set scrollbar button  
 		if (null != UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_BUTTON_NORMAL)) 
-		{
-			_upButton.setDefaultStateImage(UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_BUTTON_NORMAL));
-			_downButton.setDefaultStateImage(UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_BUTTON_NORMAL));
-		}
+			_buttonDefaultImage = UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_BUTTON_NORMAL).clone();
 		
 		
 		if (null != UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_BUTTON_OVER)) 
-		{
-			_upButton.setOverStateImage(UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_BUTTON_OVER));
-			_downButton.setOverStateImage(UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_BUTTON_OVER));
-		}
+			_buttonOverImage = UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_BUTTON_OVER).clone();
 		
 		
 		if (null != UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_BUTTON_DOWN))
-		{
-			_upButton.setDownStateImage(UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_BUTTON_DOWN));
-			_downButton.setDownStateImage(UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_BUTTON_DOWN));
-		}
+			_buttonDownImage = UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_BUTTON_DOWN).clone();
         
 		
 		if (null != UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_BUTTON_DISABLE))
-		{
-			_upButton.setDisableStateImage(UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_BUTTON_DISABLE));
-			_downButton.setDisableStateImage(UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_BUTTON_DISABLE)); 
-		}
+			_buttonDisableImage = UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_BUTTON_DISABLE).clone();
 		
 		
 		// Set Arrow Icons  
-		if (null != UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_UP_ICON)) 
-		_upButton.setIcon(UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_UP_ICON));
+		if (null != UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_UP_ICON))
+			_upIconButtonImage = UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_UP_ICON).clone();
+		
 		
 		if (null != UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_DOWN_ICON)) 
-		_downButton.setIcon(UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_DOWN_ICON));
+			_downIconButtonImage = UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_DOWN_ICON).clone();
+		
 		
 		// Set tracker  
-		if (null != UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_TRACK))  
-		_slider.setTrackImage(UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_TRACK));
+		if (null != UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_TRACK)) 
+			_trackImage = UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_TRACK).clone();
+		
 		
 		// Set Slider  
 		if (null != UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_NORMAL))   
-		_slider.setSliderImage(UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_NORMAL));
+			_sliderButtonDefaultImage = UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_NORMAL).clone();
+		
 		
 		if (null != UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_OVER)) 
-		_slider.setSliderOverImage(UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_OVER));
+			_sliderButtonOverImage = UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_OVER).clone();
 		
-		if (null != UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_DOWN))       
-		_slider.setSliderDownImage(UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_DOWN));
 		
-		//if (null != UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_DISABLE) )
-		//setSliderDisableBitmap( UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_DISABLE) );
+		if (null != UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_DOWN))
+			_sliderButtonDownImage = UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_DOWN).clone();
+		
+		if (null != UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_DISABLE))
+			_sliderButtonDisableImage = UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_DISABLE).clone();
+		
+		
+		// If already there then set and remove BitmapData
+		if (null != _slider)
+		{
+			if (null != _sliderButtonDefaultImage)
+			{
+				_slider.setSliderImage(_sliderButtonDefaultImage.clone());
+				
+				_sliderButtonDefaultImage.dispose();
+				_sliderButtonDefaultImage = null;
+			}
+			
+			if (null != _sliderButtonOverImage)
+			{
+				_slider.setSliderOverImage(_sliderButtonOverImage.clone());
+				
+				_sliderButtonOverImage.dispose();
+				_sliderButtonOverImage = null;
+			}
+			
+			if (null != _sliderButtonDownImage)
+			{
+				_slider.setSliderDownImage(_sliderButtonDownImage.clone());
+				
+				_sliderButtonDownImage.dispose();
+				_sliderButtonDownImage = null;
+			}
+			
+			if (null != _sliderButtonDisableImage)
+			{
+				_slider.setSliderDisableImage(_sliderButtonDisableImage.clone());
+				
+				_sliderButtonDisableImage.dispose();
+				_sliderButtonDisableImage = null;
+			}
+			
+			if (null != _trackImage)
+			{
+				_slider.setTrackImage(_trackImage.clone());		
+				
+				_trackImage.dispose();
+				_trackImage = null;
+			}
+			
+		}
+		
+		// Buttons
+		if (null != _downButton && null != _upButton)
+		{
+			if ( null != _buttonDefaultImage)
+			{
+				_upButton.setDefaultStateImage(_buttonDefaultImage.clone());
+				_downButton.setDefaultStateImage(_buttonDefaultImage.clone());
+				
+				_buttonDefaultImage.dispose();
+				_buttonDefaultImage = null;
+			}
+			
+			if (null != _buttonOverImage)
+			{
+				_upButton.setOverStateImage(_buttonOverImage.clone());
+				_downButton.setOverStateImage(_buttonOverImage.clone());
+				
+				_buttonOverImage.dispose();
+				_buttonOverImage = null;
+			}		
+			
+			
+			if (null != _buttonDownImage)
+			{
+				_upButton.setDownStateImage(_buttonDownImage.clone());
+				_downButton.setDownStateImage(_buttonDownImage.clone());
+				
+				_buttonDownImage.dispose();
+				_buttonDownImage = null;
+			}		
+			
+			if (null != _buttonDisableImage)
+			{
+				_upButton.setDisableStateImage(_buttonDisableImage.clone());
+				_downButton.setDisableStateImage(_buttonDisableImage.clone());
+				
+				_buttonDisableImage.dispose();
+				_buttonDisableImage = null;
+			}
+			
+			if (null != _upIconButtonImage)
+			{
+				_upButton.setIcon(_upIconButtonImage.clone());
+				
+				_upIconButtonImage.dispose();
+				_upIconButtonImage = null;
+			}		
+			
+			if (null != _downIconButtonImage)
+			{
+				_downButton.setIcon(_downIconButtonImage.clone());
+				
+				_downIconButtonImage.dispose();
+				_downIconButtonImage = null;
+			}		
+			
+			
+		}
+
     }
 	
 	private function initStyle() : Void 
 	{
+		_buttonData = {"showLabel":false};
+		_sliderData = {};
+		
 		// Set button colors
 		if ( -1 != UIStyleManager.SCROLLBAR_BUTTON_NORMAL_COLOR) 
-			_downButton.defaultColor = _upButton.defaultColor = UIStyleManager.SCROLLBAR_BUTTON_NORMAL_COLOR;
+			Reflect.setField(_buttonData, "defaultColor", UIStyleManager.SCROLLBAR_BUTTON_NORMAL_COLOR);
 		
 		if ( -1 != UIStyleManager.SCROLLBAR_BUTTON_OVER_COLOR)       
-			_downButton.overColor = _upButton.overColor = UIStyleManager.SCROLLBAR_BUTTON_OVER_COLOR;
+			Reflect.setField(_buttonData, "overColor", UIStyleManager.SCROLLBAR_BUTTON_OVER_COLOR);
 		
 		if ( -1 != UIStyleManager.SCROLLBAR_BUTTON_DOWN_COLOR)     
-			_downButton.downColor = _upButton.downColor =  UIStyleManager.SCROLLBAR_BUTTON_DOWN_COLOR;
+			Reflect.setField(_buttonData, "downColor", UIStyleManager.SCROLLBAR_BUTTON_DOWN_COLOR);
 		
 			
 		if ( -1 != UIStyleManager.SCROLLBAR_BUTTON_DISABLE_COLOR)
-			_downButton.disableColor = _upButton.disableColor =  UIStyleManager.SCROLLBAR_BUTTON_DISABLE_COLOR;
+			Reflect.setField(_buttonData, "disableColor", UIStyleManager.SCROLLBAR_BUTTON_DISABLE_COLOR);
 			
 		// Set Track color 
 		if ( -1 != UIStyleManager.SCROLLBAR_TRACK_COLOR)
-			_slider.trackColor = UIStyleManager.SCROLLBAR_TRACK_COLOR;
+			Reflect.setField(_sliderData, "trackColor", UIStyleManager.SCROLLBAR_TRACK_COLOR);
 		
 		// Set Slider color  
 		if ( -1 != UIStyleManager.SCROLLBAR_SLIDER_NORMAL_COLOR) 
-			_slider.sliderColor = UIStyleManager.SCROLLBAR_SLIDER_NORMAL_COLOR;
+			Reflect.setField(_sliderData, "sliderColor", UIStyleManager.SCROLLBAR_SLIDER_NORMAL_COLOR);
 		
-		if ( -1 != UIStyleManager.SCROLLBAR_SLIDER_OVER_COLOR)       
-			_slider.sliderOverColor = UIStyleManager.SCROLLBAR_SLIDER_OVER_COLOR;
+		if ( -1 != UIStyleManager.SCROLLBAR_SLIDER_OVER_COLOR)
+			Reflect.setField(_sliderData, "sliderOverColor", UIStyleManager.SCROLLBAR_SLIDER_OVER_COLOR);
 		
 		if ( -1 != UIStyleManager.SCROLLBAR_SLIDER_DOWN_COLOR)     
-			_slider.sliderDownColor = UIStyleManager.SCROLLBAR_SLIDER_DOWN_COLOR;
+			Reflect.setField(_sliderData, "sliderDownColor", UIStyleManager.SCROLLBAR_SLIDER_DOWN_COLOR);
 		
-		if (-1 != UIStyleManager.SLIDER_DISABLE_COLOR) 
-			_slider.sliderDisableColor = UIStyleManager.SLIDER_DISABLE_COLOR;
+		if ( -1 != UIStyleManager.SLIDER_DISABLE_COLOR) 
+			Reflect.setField(_sliderData, "sliderDisableColor", UIStyleManager.SLIDER_DISABLE_COLOR);
 		
-		if ( -1 != UIStyleManager.SCROLLBAR_SLIDER_SIZE) 
-			sliderSize = UIStyleManager.SCROLLBAR_SLIDER_SIZE;
+		if ( -1 != UIStyleManager.SCROLLBAR_SLIDER_SIZE)
+			Reflect.setField(_sliderData, "sliderSize", UIStyleManager.SCROLLBAR_SLIDER_SIZE);
 		
 		// Active resize for slider
 		_sliderResize = UIStyleManager.SCROLLBAR_SLIDER_ACTIVE_RESIZE;
 		
-		if ( -1 != UIStyleManager.SCROLLBAR_BUTTON_SIZE)     
-			_buttonWidth = _buttonHeight = UIStyleManager.SCROLLBAR_BUTTON_SIZE;
+		if ( -1 != UIStyleManager.SCROLLBAR_BUTTON_SIZE)
+		{
+			Reflect.setField(_buttonData, "buttonWidth", UIStyleManager.SCROLLBAR_BUTTON_SIZE);
+			Reflect.setField(_buttonData, "buttonHeight", UIStyleManager.SCROLLBAR_BUTTON_SIZE);
+		}
 		
 		if ( -1 != UIStyleManager.SCROLLBAR_SLIDER_OFFSET)      
-			_slider.sliderOffSet = UIStyleManager.SCROLLBAR_SLIDER_OFFSET;
+			Reflect.setField(_sliderData, "sliderOffSet", UIStyleManager.SCROLLBAR_SLIDER_SIZE);
 		
-		_slider.rotateImage = UIStyleManager.SCROLLBAR_ROTATE_IMAGE;
+		Reflect.setField(_sliderData, "rotateImage", UIStyleManager.SCROLLBAR_ROTATE_IMAGE);
     } 
 	
 	private function get_upButton():IButton
@@ -286,8 +527,6 @@ class ScrollBar extends BaseUI implements IScrollBar implements IBaseUI
 		
 		_enabled = _downButton.enabled = _upButton.enabled = super.enabled = value;
 		
-		draw();
-		
 		
 		return value; 
 	} 
@@ -305,8 +544,6 @@ class ScrollBar extends BaseUI implements IScrollBar implements IBaseUI
 	private function set_sliderActiveResize(value : Bool) : Bool 
 	{ 
 		_sliderResize = value;
-		draw();
-		
 		return value; 
 	}
 	
@@ -324,7 +561,6 @@ class ScrollBar extends BaseUI implements IScrollBar implements IBaseUI
 	private function set_showArrowButton(value : Bool) : Bool 
 	{ 
 		_downButton.visible = _upButton.visible = _showArrowButton = value;
-		draw();
 		
 		return value; 
 	} 
@@ -344,7 +580,6 @@ class ScrollBar extends BaseUI implements IScrollBar implements IBaseUI
 	private function set_buttonWidth(value : Int) : Int 
 	{ 
 		_buttonWidth = value; 
-		draw();
 		
 		return value; 
 	} 
@@ -368,7 +603,6 @@ class ScrollBar extends BaseUI implements IScrollBar implements IBaseUI
 	private function set_buttonHeight(value : Int) : Int 
 	{ 
 		_buttonHeight = value;
-		draw();
 		
 		return value;
 		
@@ -386,7 +620,7 @@ class ScrollBar extends BaseUI implements IScrollBar implements IBaseUI
 	 */
 	private function set_sliderSize(value : Float) : Float 
 	{
-		((ScrollBarDirection.VERTICAL == _slider.direction)) ? slider.sliderHeight = value : slider.sliderWidth = value;
+		((ScrollBarDirection.VERTICAL == _slider.direction)) ? _slider.sliderHeight = value : _slider.sliderWidth = value;
 		return value; 
 	}
 	
@@ -454,6 +688,37 @@ class ScrollBar extends BaseUI implements IScrollBar implements IBaseUI
 		_downButton.destroy();
 		_slider.destroy();
 		
+		// Clear Bitmap data
+		if (null != _buttonDefaultImage)
+			_buttonDefaultImage.dispose();
+		
+		if (null != _buttonOverImage)
+			_buttonOverImage.dispose();
+			
+		if (null != _buttonDownImage)
+			_buttonDownImage.dispose();
+		
+		if (null != _buttonDisableImage)
+			_buttonDisableImage.dispose();
+		
+			
+		if (null != _sliderButtonDefaultImage)
+			_sliderButtonDefaultImage.dispose();
+		
+		if (null != _sliderButtonOverImage)
+			_sliderButtonOverImage.dispose();
+		
+		if (null != _sliderButtonDownImage)
+			_sliderButtonDownImage.dispose();
+			
+		if (null != _sliderButtonDisableImage)
+			_sliderButtonDisableImage.dispose();
+			
+		_buttonData = _sliderData = null;
+		
+		_buttonDisableImage = _buttonDownImage = _buttonOverImage = _buttonDefaultImage = null;
+		_sliderButtonDisableImage = _sliderButtonDownImage = _sliderButtonOverImage = _sliderButtonDefaultImage = null;
+		
 		_upButton = null;
 		_downButton = null;
 		_slider = null;
@@ -481,11 +746,11 @@ class ScrollBar extends BaseUI implements IScrollBar implements IBaseUI
 	private function setupSliderVerticalMode() : Void
 	{  
 		// Up Button & Down Button
-		if (null != _upButton && null != _downButton) 
-		{
-			_upButton.width = _downButton.width = _buttonWidth;
-			_upButton.height = _downButton.height = _buttonHeight;
-        } 
+		_upButton.width = _downButton.width = _buttonWidth;
+		_upButton.height = _downButton.height = _buttonHeight;
+		
+		_upButton.draw();
+		_downButton.draw();
 		
 		// Set the slider size
 		_width = _slider.width = _slider.sliderWidthNum = _buttonWidth;
@@ -493,19 +758,21 @@ class ScrollBar extends BaseUI implements IScrollBar implements IBaseUI
 		// Set the size of the track  
 		if (_showArrowButton)
 		{
-			_slider.y = _upButton.y + _upButton.height;
 			_slider.height = _height - (_buttonHeight * 2) + UIStyleManager.SCROLLBAR_OFFSET;
+			_slider.draw();
+			
+			_slider.y = _upButton.y + _upButton.height;
         }
         else 
 		{
-			_slider.y = 0;
 			_slider.height = Std.int(_height) + UIStyleManager.SCROLLBAR_OFFSET;
+			_slider.draw();
+			
+			_slider.y = 0;
         }
 		
-		if (null != _downButton)
-			_downButton.y = (_slider.y +_slider.height) - UIStyleManager.SCROLLBAR_OFFSET;
-			
-		addChild(_slider);
+		_downButton.y = (_slider.y +_slider.height) - UIStyleManager.SCROLLBAR_OFFSET;
+		
     }
 	
 	private function setupSliderHorizontal() : Void
@@ -514,28 +781,37 @@ class ScrollBar extends BaseUI implements IScrollBar implements IBaseUI
 		_upButton.width = _downButton.width = _buttonWidth;
 		_upButton.height = _downButton.height = _buttonHeight;
 		
+		_upButton.draw();
+		_downButton.draw();
+		
 		if (_showArrowButton) 
 			_slider.width = Std.int(_width) - (_buttonWidth * 2) + UIStyleManager.SCROLLBAR_OFFSET;
         else 
 			_slider.width = Std.int(_width);
 		
 		_slider.height = _slider.sliderHeightNum = _buttonHeight; 
+		_slider.draw();
+		
 		_downButton.rotation = 90;
-		_downButton.x = _downButton.width; _downButton.y = 0;
+		
+		_downButton.x = _downButton.width;
+		_downButton.y = 0;
 		
 		if (_showArrowButton) 
 		{
-			_slider.track.x = _upButton.width;
-			_slider.track.y = _upButton.y;
+			_slider.x = _upButton.width;
+			_slider.y = _upButton.y;
         }
         else 
 		{
-			_slider.track.x = 0;
-			_slider.track.y = 0;
+			_slider.x = 0;
+			_slider.y = 0;
         }
 		
 		_upButton.rotation = 90;
 		_upButton.x = _width;
+		
+		
     }
 	
 	// executes when the up arrow is pressed  

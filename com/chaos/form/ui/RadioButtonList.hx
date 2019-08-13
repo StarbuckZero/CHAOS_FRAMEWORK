@@ -4,10 +4,10 @@ package com.chaos.form.ui;
 
 
 import com.chaos.form.ui.classInterface.IFormUI;
-import com.chaos.ui.RadioButton;
+
 import com.chaos.ui.RadioButtonGroup;
 import com.chaos.ui.classInterface.IBaseUI;
-import com.chaos.ui.classInterface.IRadioButton;
+
 import com.chaos.ui.classInterface.IRadioButtonGroup;
 import com.chaos.ui.layout.classInterface.IAlignmentContainer;
 import com.chaos.ui.layout.classInterface.IBaseContainer;
@@ -22,10 +22,16 @@ class RadioButtonList extends RadioButtonGroup implements IFormUI implements IRa
     
     private var id : Int = 0;
     
-    public function new(groupName : String)
+    public function new(data:Dynamic = null)
     {
-        super(groupName);
+        super(data);
     }
+	
+	public function data():Dynamic
+	{
+		return {"id":id, "name":name, "value":getValue()};
+	}
+	
     
     /**
 	 * Clear values
@@ -74,7 +80,7 @@ class RadioButtonList extends RadioButtonGroup implements IFormUI implements IRa
 	 */
     public function getValue() : String
     {
-        return getSelected().name;
+        return (getSelected() != null) ? getSelected().name : "";
     }
     
     /**

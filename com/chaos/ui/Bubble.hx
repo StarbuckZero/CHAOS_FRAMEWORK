@@ -41,7 +41,7 @@ class Bubble extends Overlay implements IBubble implements IOverlay implements I
 
     public static inline var TYPE : String = "Bubble";
     
-    public var contentHolder : Sprite;
+    public var contentHolder : Sprite = new Sprite();
     
     private var _backgroundColor : Int = 0xFFFFFF;
     private var _backgroundAlpha : Float = 1;
@@ -60,16 +60,16 @@ class Bubble extends Overlay implements IBubble implements IOverlay implements I
     
     private var _showTail : Bool = true;
     private var _tailSize : Float = 10;
-    private var _tail : Shape;
+    private var _tail : Shape = new Shape();
     
     private var _tailAutoCenter : Bool = true;
     private var _tailLocation : Float = 40;
     
     private var _tailPlacement : String = "bottom";
     
-    private var _background : Shape;
-    private var _backgroundBorder : Shape;
-    private var _content : Sprite;
+    private var _background : Shape = new Shape();
+    private var _backgroundBorder : Shape = new Shape();
+    private var _content : Sprite = new Sprite();
     
     private var _rounded : Int = 40;
     
@@ -142,16 +142,6 @@ class Bubble extends Overlay implements IBubble implements IOverlay implements I
 	
 	override public function initialize():Void 
 	{
-		
-		
-        contentHolder = new Sprite();
-        
-        _background = new Shape();
-        _tail = new Shape();
-        
-        _backgroundBorder = new Shape();
-        
-        _content = new Sprite();
         
 		super.initialize();
 		
@@ -311,7 +301,7 @@ class Bubble extends Overlay implements IBubble implements IOverlay implements I
     private function set_rounded(value : Int) : Int
     {
         _rounded = value;
-        draw();
+        
         return value;
     }
     
@@ -331,7 +321,7 @@ class Bubble extends Overlay implements IBubble implements IOverlay implements I
     private function set_border(value : Bool) : Bool
     {
         _border = value;
-        draw();
+        
         return value;
     }
     
@@ -351,7 +341,7 @@ class Bubble extends Overlay implements IBubble implements IOverlay implements I
     private function set_borderColor(value : Int) : Int
     {
         _borderColor = value;
-        draw();
+        
         return value;
     }
     
@@ -371,7 +361,7 @@ class Bubble extends Overlay implements IBubble implements IOverlay implements I
     private function set_borderAlpha(value : Float) : Float
     {
         _borderAlpha = value;
-        draw();
+        
         return value;
     }
     
@@ -410,7 +400,7 @@ class Bubble extends Overlay implements IBubble implements IOverlay implements I
     private function set_backgroundColor(value : Int) : Int
     {
         _backgroundColor = value;
-        draw();
+        
         return value;
     }
     
@@ -430,7 +420,7 @@ class Bubble extends Overlay implements IBubble implements IOverlay implements I
     private function set_backgroundAlpha(value : Float) : Float
     {
         _backgroundAlpha = value;
-        draw();
+        
         return value;
     }
     
@@ -450,7 +440,7 @@ class Bubble extends Overlay implements IBubble implements IOverlay implements I
     private function set_showTail(value : Bool) : Bool
     {
         _showTail = value;
-        draw();
+        
         return value;
     }
     
@@ -470,7 +460,7 @@ class Bubble extends Overlay implements IBubble implements IOverlay implements I
     private function set_tailSize(value : Float) : Float
     {
         _tailSize = value;
-        draw();
+        
 		
         return value;
     }
@@ -492,7 +482,6 @@ class Bubble extends Overlay implements IBubble implements IOverlay implements I
     {
         _tailPlacement = value;
         
-        draw();
         return value;
     }
     
@@ -512,7 +501,7 @@ class Bubble extends Overlay implements IBubble implements IOverlay implements I
     private function set_tailLocation(value : Float) : Float
     {
         _tailLocation = value;
-        draw();
+        
         return value;
     }
     
@@ -523,7 +512,6 @@ class Bubble extends Overlay implements IBubble implements IOverlay implements I
     private function set_tailAutoCenter(value : Bool) : Bool
     {
         _tailAutoCenter = value;
-        draw();
         return value;
     }
     
@@ -545,7 +533,6 @@ class Bubble extends Overlay implements IBubble implements IOverlay implements I
     public function setBackgroundImage(value : BitmapData) : Void
     {
         _imageBackground = value;
-        draw();
     }
 
     
