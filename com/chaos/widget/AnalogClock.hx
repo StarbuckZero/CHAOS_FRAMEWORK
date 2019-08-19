@@ -1,46 +1,53 @@
 package com.chaos.widget;
 
 
-import com.chaos.ui.interface.IBaseUI;
-import com.chaos.ui.interface.ILabel;
+import com.chaos.ui.classInterface.IBaseUI;
+import com.chaos.ui.classInterface.ILabel;
 import com.chaos.ui.Label;
 import com.chaos.ui.layout.BaseContainer;
-import com.chaos.ui.layout.Interface.IBaseContainer;
+import com.chaos.ui.layout.classInterface.IBaseContainer;
 import com.chaos.utils.ThreadManager;
-import flash.display.Bitmap;
-import flash.display.Shape;
-import flash.display.Sprite;
+import openfl.display.Bitmap;
+import openfl.display.BitmapData;
+import openfl.display.Shape;
+import openfl.display.Sprite;
 
-import flash.display.MovieClip;
-import flash.events.Event;
-import flash.text.TextFieldAutoSize;
-import flash.text.TextFormat;
+import openfl.display.MovieClip;
+import openfl.events.Event;
+import openfl.text.TextFieldAutoSize;
+import openfl.text.TextFormat;
 
 import com.chaos.media.DisplayImage;
 
 /**
-	 * ...
-	 * @author Erick Feiling
-	 */
+ * AnalogClock Widget
+ * @author Erick Feiling
+ */
 
-class AnalogClock extends BaseContainer implements IBaseContainer implements com.chaos.ui.classInterface.IBaseUI
+class AnalogClock extends BaseContainer implements IBaseContainer implements IBaseUI
 {
     public var innerCircleRadius(get, set) : Int;
+	
     public var lineHourThinkness(get, set) : Float;
     public var lineMinuteThinkness(get, set) : Float;
     public var lineSecondThinkness(get, set) : Float;
+	
     public var lineHourSize(get, set) : Float;
     public var lineMinuteSize(get, set) : Float;
     public var lineSecondSize(get, set) : Float;
+	
     public var showSecondHand(get, set) : Bool;
     public var showMinuteHand(get, set) : Bool;
     public var showHourHand(get, set) : Bool;
+	
     public var secondHandColor(get, set) : Int;
     public var minuteHandColor(get, set) : Int;
     public var hourHandColor(get, set) : Int;
+	
     public var useSystemClock(get, set) : Bool;
     public var clockOuterCircle(get, set) : Bool;
     public var clockInnerCircle(get, set) : Bool;
+	
     public var showNumbers(get, set) : Bool;
 
     /** Default label width */
@@ -66,10 +73,10 @@ class AnalogClock extends BaseContainer implements IBaseContainer implements com
     /** The seconds hand shape */
     public var secHand : Shape = new Shape();
     
-    private var textField_12 : com.chaos.ui.classInterface.ILabel = new Label();
-    private var textField_3 : com.chaos.ui.classInterface.ILabel = new Label();
-    private var textField_6 : com.chaos.ui.classInterface.ILabel = new Label();
-    private var textField_9 : com.chaos.ui.classInterface.ILabel = new Label();
+    private var textField_12 : Label;
+    private var textField_3 : Label;
+    private var textField_6 : Label;
+    private var textField_9 : Label;
     
     private var clockNumberHolder : Sprite = new Sprite();
     
@@ -79,7 +86,7 @@ class AnalogClock extends BaseContainer implements IBaseContainer implements com
     /** This is the shape on the top that covers the clock hands */
     public var clockOver : Shape = new Shape();
     
-    private var dte_currentDate : Date = Date.now();
+    private var _dte_currentDate : Date = Date.now();
     
     private var num_hour : Float;
     
@@ -105,13 +112,13 @@ class AnalogClock extends BaseContainer implements IBaseContainer implements com
     private var _showMinuteHand : Bool = true;
     private var _showHourHand : Bool = true;
     
-    private var innerDisplayImage : DisplayImage = new DisplayImage();
+    private var _innerDisplayImage : BitmapData;
     
-    private var secondHandDisplayImage : DisplayImage = new DisplayImage();
-    private var minuteHandDisplayImage : DisplayImage = new DisplayImage();
-    private var hourHandDisplayImage : DisplayImage = new DisplayImage();
+    private var _secondHandDisplayImage : BitmapData;
+    private var _minuteHandDisplayImage : BitmapData;
+    private var _hourHandDisplayImage : BitmapData;
     
-    private var _innerCircleRadius : Float = 15;
+    private var _innerCircleRadius : Int = 15;
     
     private var _lineHourSize : Float = 100;
     private var _lineMinuteSize : Float = 140;
@@ -121,28 +128,36 @@ class AnalogClock extends BaseContainer implements IBaseContainer implements com
     private var _lineMinuteThinkness : Float = 8;
     private var _lineSecondThinkness : Float = 5;
     
-    public function new()
+    public function new( data:Dynamic = null )
     {
-        super();
-        init();
+        super(data);
         
         addEventListener(Event.ADDED_TO_STAGE, onAddStage, false, 0, true);
         addEventListener(Event.REMOVED_FROM_STAGE, onRemoveStage, false, 0, true);
     }
-    
-    private function init() : Void
-    {
-        textField_12.size = textField_3.size = textField_6.size = textField_9.size = DEFAULT_LABEL_SIZE;
-        textField_12.width = textField_3.width = textField_6.width = textField_9.width = DEFAULT_NUMBER_LABEL_WIDTH;
-        textField_12.height = textField_3.height = textField_6.height = textField_9.height = DEFAULT_NUMBER_LABEL_HEIGHT;
+	
+	override public function initialize():Void 
+	{
+		super.initialize();
+		
+		
+		textField_12 = new Label({"name":"12","border":true ,"text":"12", "size":DEFAULT_LABEL_SIZE, "width":DEFAULT_NUMBER_LABEL_WIDTH, "height":DEFAULT_NUMBER_LABEL_HEIGHT});
+		textField_3 = new Label({"name":"3", "text":"3", "size":DEFAULT_LABEL_SIZE, "width":DEFAULT_NUMBER_LABEL_WIDTH, "height":DEFAULT_NUMBER_LABEL_HEIGHT});
+		textField_6 = new Label({"name":"6", "text":"6", "size":DEFAULT_LABEL_SIZE, "width":DEFAULT_NUMBER_LABEL_WIDTH, "height":DEFAULT_NUMBER_LABEL_HEIGHT});
+		textField_9 = new Label({"name":"9", "text":"9", "size":DEFAULT_LABEL_SIZE, "width":DEFAULT_NUMBER_LABEL_WIDTH, "height":DEFAULT_NUMBER_LABEL_HEIGHT});
+		
+		
+        //textField_12.size = textField_3.size = textField_6.size = textField_9.size = DEFAULT_LABEL_SIZE;
+        //textField_12.width = textField_3.width = textField_6.width = textField_9.width = DEFAULT_NUMBER_LABEL_WIDTH;
+        //textField_12.height = textField_3.height = textField_6.height = textField_9.height = DEFAULT_NUMBER_LABEL_HEIGHT;
         
-        textField_9.textField.autoSize = TextFieldAutoSize.LEFT;
-        textField_3.textField.autoSize = TextFieldAutoSize.RIGHT;
+        //textField_9.textField.autoSize = TextFieldAutoSize.LEFT;
+        //textField_3.textField.autoSize = TextFieldAutoSize.RIGHT;
         
-        textField_12.name = textField_12.text = "12";
-        textField_3.name = textField_3.text = "3";
-        textField_6.name = textField_6.text = "6";
-        textField_9.name = textField_9.text = "9";
+        //textField_12.name = textField_12.text = "12";
+        //textField_3.name = textField_3.text = "3";
+        //textField_6.name = textField_6.text = "6";
+        //textField_9.name = textField_9.text = "9";
         
         contentObject.addChild(clockNumberHolder);
         
@@ -157,173 +172,174 @@ class AnalogClock extends BaseContainer implements IBaseContainer implements com
         contentObject.addChild(secHand);
         contentObject.addChild(minHand);
         
-        contentObject.addChild(clockOver);
-        
-        draw();
-    }
+        contentObject.addChild(clockOver);		
+		
+	}
+    
+  
     
     /**
-		 * The inner circle radius
-		 */
+	 * The inner circle radius
+	 */
     
-    private function set_InnerCircleRadius(value : Int) : Int
+    private function set_innerCircleRadius(value : Int) : Int
     {
         _innerCircleRadius = value;
         return value;
     }
     
     /**
-		 * The circle radius
-		 */
+	 * The circle radius
+	 */
     
-    private function get_InnerCircleRadius() : Int
+    private function get_innerCircleRadius() : Int
     {
         return _innerCircleRadius;
     }
     
     /**
-		 * Set the line over all thinkness
-		 */
+	 * Set the line over all thinkness
+	 */
     
-    private function set_LineHourThinkness(value : Float) : Float
+    private function set_lineHourThinkness(value : Float) : Float
     {
         _lineHourThinkness = value;
-        draw();
         return value;
     }
     
     /**
-		 * The size of the line
-		 */
+	 * The size of the line
+	 */
     
-    private function get_LineHourThinkness() : Float
+    private function get_lineHourThinkness() : Float
     {
         return _lineHourThinkness;
     }
     
     /**
-		 * Set the line over all thinkness
-		 */
+	 * Set the line over all thinkness
+	 */
     
-    private function set_LineMinuteThinkness(value : Float) : Float
+    private function set_lineMinuteThinkness(value : Float) : Float
     {
         _lineMinuteThinkness = value;
-        draw();
         return value;
     }
     
     /**
-		 * The thinkness of the line
-		 */
+	 * The thinkness of the line
+	 */
     
-    private function get_LineMinuteThinkness() : Float
+    private function get_lineMinuteThinkness() : Float
     {
         return _lineMinuteThinkness;
     }
     
     /**
-		 * Set the line over all thinkness
-		 */
+	 * Set the line over all thinkness
+	 */
     
-    private function set_LineSecondThinkness(value : Float) : Float
+    private function set_lineSecondThinkness(value : Float) : Float
     {
         _lineSecondThinkness = value;
-        draw();
+        
         return value;
     }
     
     /**
-		 * The thinkness of the line
-		 */
+	 * The thinkness of the line
+	 */
     
-    private function get_LineSecondThinkness() : Float
+    private function get_lineSecondThinkness() : Float
     {
         return _lineSecondThinkness;
     }
     
     /**
-		 * Set the line over all size
-		 */
+	 * Set the line over all size
+	 */
     
-    private function set_LineHourSize(value : Float) : Float
+    private function set_lineHourSize(value : Float) : Float
     {
         _lineHourSize = value;
-        draw();
+        
         return value;
     }
     
     /**
-		 * The size of the line
-		 */
+	 * The size of the line
+	 */
     
-    private function get_LineHourSize() : Float
+    private function get_lineHourSize() : Float
     {
         return _lineHourSize;
     }
     
     /**
-		 * Set the line over all size
-		 */
+	 * Set the line over all size
+	 */
     
-    private function set_LineMinuteSize(value : Float) : Float
+    private function set_lineMinuteSize(value : Float) : Float
     {
         _lineMinuteSize = value;
-        draw();
+        
         return value;
     }
     
     /**
-		 * The size of the line
-		 */
+	 * The size of the line
+	 */
     
-    private function get_LineMinuteSize() : Float
+    private function get_lineMinuteSize() : Float
     {
         return _lineMinuteSize;
     }
     
     /**
-		 * Set the line over all size
-		 */
+	 * Set the line over all size
+	 */
     
-    private function set_LineSecondSize(value : Float) : Float
+    private function set_lineSecondSize(value : Float) : Float
     {
         _lineSecondSize = value;
-        draw();
+        
         return value;
     }
     
     /**
-		 * The size of the line
-		 */
+	 * The size of the line
+	 */
     
-    private function get_LineSecondSize() : Float
+    private function get_lineSecondSize() : Float
     {
         return _lineSecondSize;
     }
     
     /**
-		 * Show or hide the seconds hand
-		 */
-    private function set_ShowSecondHand(value : Bool) : Bool
+	 * Show or hide the seconds hand
+	 */
+	
+    private function set_showSecondHand(value : Bool) : Bool
     {
         _showSecondHand = value;
-        draw();
+        
         return value;
     }
     
     /**
-		 * True if hand is being displayed and false if not
-		 */
-    private function get_ShowSecondHand() : Bool
+	 * True if hand is being displayed and false if not
+	 */
+	
+    private function get_showSecondHand() : Bool
     {
         return _showSecondHand;
     }
     
     /**
-		 * Show or hide the minute hand
-		 */
+	 * Show or hide the minute hand
+	 */
     
-    private function set_ShowMinuteHand(value : Bool) : Bool
+    private function set_showMinuteHand(value : Bool) : Bool
     {
         _showMinuteHand = value;
         draw();
@@ -331,19 +347,19 @@ class AnalogClock extends BaseContainer implements IBaseContainer implements com
     }
     
     /**
-		 * True if hand is being displayed and false if not
-		 */
+	 * True if hand is being displayed and false if not
+	 */
     
-    private function get_ShowMinuteHand() : Bool
+    private function get_showMinuteHand() : Bool
     {
         return _showMinuteHand;
     }
     
     /**
-		 * Show or hide the hour hand
-		 */
+	 * Show or hide the hour hand
+	 */
     
-    private function set_ShowHourHand(value : Bool) : Bool
+    private function set_showHourHand(value : Bool) : Bool
     {
         _showHourHand = value;
         draw();
@@ -351,78 +367,79 @@ class AnalogClock extends BaseContainer implements IBaseContainer implements com
     }
     
     /**
-		 * True if hand is being displayed and false if not
-		 */
+	 * True if hand is being displayed and false if not
+	 */
     
-    private function get_ShowHourHand() : Bool
+    private function get_showHourHand() : Bool
     {
         return _showHourHand;
     }
     
     /**
-		 * Set the color of the seconds hand
-		 */
+	 * Set the color of the seconds hand
+	 */
     
-    private function set_SecondHandColor(value : Int) : Int
+    private function set_secondHandColor(value : Int) : Int
     {
         _secondHandColor = value;
-        draw();
+        
         return value;
     }
     
     /**
-		 * Return the hand color
-		 */
+	 * Return the hand color
+	 */
     
-    private function get_SecondHandColor() : Int
+    private function get_secondHandColor() : Int
     {
         return _secondHandColor;
     }
     
     /**
-		 * Set the color of the minute hand
-		 */
+	 * Set the color of the minute hand
+	 */
     
-    private function set_MinuteHandColor(value : Int) : Int
+    private function set_minuteHandColor(value : Int) : Int
     {
         _minuteHandColor = value;
-        draw();
+        
         return value;
     }
     
     /**
-		 * Return the hand color
-		 */
+	 * Return the hand color
+	 */
     
-    private function get_MinuteHandColor() : Int
+    private function get_minuteHandColor() : Int
     {
         return _minuteHandColor;
     }
     
     /**
-		 * Set the color of the hour hand
-		 */
+	 * Set the color of the hour hand
+	 */
     
-    private function set_HourHandColor(value : Int) : Int
+    private function set_hourHandColor(value : Int) : Int
     {
         _hourHandColor = value;
-        draw();
+        
         return value;
     }
     
     /**
-		 * Return the hand color
-		 */
+	 * Return the hand color
+	 */
     
-    private function get_HourHandColor() : Int
+    private function get_hourHandColor() : Int
     {
         return _hourHandColor;
     }
     
     /**
-		 * Use the system clock
-		 */
-    private function set_UseSystemClock(value : Bool) : Bool
+	 * Use the system clock
+	 */
+	
+    private function set_useSystemClock(value : Bool) : Bool
     {
         _useSystemClock = value;
         
@@ -436,57 +453,57 @@ class AnalogClock extends BaseContainer implements IBaseContainer implements com
     }
     
     /**
-		 * If true the system clock will be used and if false nothing will update
-		 */
+	 * If true the system clock will be used and if false nothing will update
+	 */
     
-    private function get_UseSystemClock() : Bool
+    private function get_useSystemClock() : Bool
     {
         return _useSystemClock;
     }
     
     /**
-		 * Draws the outer circle of the clock
-		 */
+	 * Draws the outer circle of the clock
+	 */
     
-    private function set_ClockOuterCircle(value : Bool) : Bool
+    private function set_clockOuterCircle(value : Bool) : Bool
     {
         _clockOuterCircle = value;
         return value;
     }
     
     /**
-		 * True if outer circle line will be drawn and false if not
-		 */
+	 * True if outer circle line will be drawn and false if not
+	 */
     
-    private function get_ClockOuterCircle() : Bool
+    private function get_clockOuterCircle() : Bool
     {
         return _clockOuterCircle;
     }
     
     /**
-		 * Draws the inner circle of the clock
-		 */
+	 * Draws the inner circle of the clock
+	 */
     
-    private function set_ClockInnerCircle(value : Bool) : Bool
+    private function set_clockInnerCircle(value : Bool) : Bool
     {
         _clockInnerCircle = value;
         return value;
     }
     
     /**
-		 * True if inner circle line will be drawn and false if not
-		 */
+	 * True if inner circle line will be drawn and false if not
+	 */
     
-    private function get_ClockInnerCircle() : Bool
+    private function get_clockInnerCircle() : Bool
     {
         return _clockInnerCircle;
     }
     
     /**
-		 * Show or hide numbers
-		 */
+	 * Show or hide numbers
+	 */
     
-    private function set_ShowNumbers(value : Bool) : Bool
+    private function set_showNumbers(value : Bool) : Bool
     {
         _showNumbers = value;
         
@@ -511,26 +528,28 @@ class AnalogClock extends BaseContainer implements IBaseContainer implements com
             if (null != textField_9.parent) 
                 clockNumberHolder.removeChild(textField_9.displayObject);
         }
+		
         return value;
     }
     
     /**
-		 * Return true if there numbers are being displayed and false if not
-		 */
+	 * Return true if there numbers are being displayed and false if not
+	 */
     
-    private function get_ShowNumbers() : Bool
+    private function get_showNumbers() : Bool
     {
         return _showNumbers;
     }
     
     /**
-		 * An list with all the number labels,
-		 *
-		 * @return An array with all the labels being used
-		 */
-    public function getLabels() : Array<Dynamic>
+	 * An list with all the number labels,
+	 *
+	 * @return An array with all the labels being used
+	 */
+	
+    public function getLabels() : Array<ILabel>
     {
-        var labelArray : Array<Dynamic> = new Array<Dynamic>();
+        var labelArray : Array<ILabel> = new Array<ILabel>();
         
         labelArray.push(textField_12);
         labelArray.push(textField_3);
@@ -541,170 +560,59 @@ class AnalogClock extends BaseContainer implements IBaseContainer implements com
     }
     
     /**
-		 * Set the display image for the inner circle
-		 * @param	displayImage The display that will be used
-		 */
+	 * Set the image for the inner circle
+	 * @param	image The display that will be used
+	 */
     
-    public function setInnerDisplayImage(displayImage : DisplayImage) : Void
+    public function setInnerImage(image : BitmapData) : Void
     {
-        innerDisplayImage = displayImage;
-        draw();
+        _innerDisplayImage = image;
+    }
+    
+    
+    /**
+	 * Set the image for the second hand
+	 * @param	image The display that will be used
+	 */
+    
+    public function setSecondHandImage(image : BitmapData) : Void
+    {
+        _secondHandDisplayImage = image;
+    }
+    
+    
+    /**
+	 * Set the image for the minute hand
+	 * @param	bitmap The display that will be used
+	 */
+    
+    public function setMinuteHandImage(image : BitmapData) : Void
+    {
+        _minuteHandDisplayImage = image;
     }
     
     /**
-		 * Set the image for the inner circle
-		 * @param	bitmap The display that will be used
-		 */
+	 * Set the image for the hour hand
+	 * @param	bitmap The display that will be used
+	 */
     
-    public function setInnerImage(bitmap : Bitmap) : Void
+    public function setHourHandImage(image : BitmapData) : Void
     {
-        innerDisplayImage.setImage(bitmap);
-        draw();
+        _hourHandDisplayImage = image;
     }
     
     /**
-		 * Set the image for the inner circle using a url location
-		 * @param	url The path to the image file
-		 */
+	 * Set the hands on the display. This will only work if the useSystemClock to false.
+	 *
+	 * @param	hour What the hour hand will be set to
+	 * @param	min What the minute hand will be set to
+	 * @param	sec What the second hand will be set to
+	 */
     
-    public function setInnerURL(url : String) : Void
-    {
-        innerDisplayImage.onImageComplete = function() : Void
-                {
-                    draw();
-                    innerDisplayImage.onImageComplete = null;
-                };
-        
-        innerDisplayImage.load(url);
-    }
-    
-    /**
-		 * Set the display image for the second hand
-		 * @param	displayImage The display that will be used
-		 */
-    
-    public function setSecondHandDisplayImage(displayImage : DisplayImage) : Void
-    {
-        secondHandDisplayImage = displayImage;
-        draw();
-    }
-    
-    /**
-		 * Set the image for the second hand
-		 * @param	bitmap The display that will be used
-		 */
-    
-    public function setSecondHandImage(bitmap : Bitmap) : Void
-    {
-        secondHandDisplayImage.setImage(bitmap);
-        draw();
-    }
-    
-    /**
-		 * Set the image for the second hand using a url location
-		 * @param	url The path to the image file
-		 */
-    
-    public function setSecondHandURL(url : String) : Void
-    {
-        secondHandDisplayImage.onImageComplete = function() : Void
-                {
-                    draw();
-                    secondHandDisplayImage.onImageComplete = null;
-                };
-        secondHandDisplayImage.load(url);
-    }
-    
-    /**
-		 * Set the display image for the minute hand
-		 * @param	displayImage The display that will be used
-		 */
-    
-    public function setMinuteHandDisplayImage(displayImage : DisplayImage) : Void
+    public function setTime(hour : Int, min : Int, sec : Int) : Void
     {
         
-        minuteHandDisplayImage = displayImage;
-        draw();
-    }
-    
-    /**
-		 * Set the image for the minute hand
-		 * @param	bitmap The display that will be used
-		 */
-    
-    public function setMinuteHandImage(bitmap : Bitmap) : Void
-    {
-        minuteHandDisplayImage.setImage(bitmap);
-        draw();
-    }
-    
-    /**
-		 * Set the image for the minute hand using a url location
-		 * @param	url The path to the image file
-		 */
-    
-    public function setMinuteHandURL(url : String) : Void
-    {
-        minuteHandDisplayImage.onImageComplete = function() : Void
-                {
-                    draw();
-                    minuteHandDisplayImage.onImageComplete = null;
-                };
-        
-        minuteHandDisplayImage.load(url);
-    }
-    
-    /**
-		 * Set the display image for the hour hand
-		 * @param	displayImage The display that will be used
-		 */
-    
-    public function setHourHandDisplayImage(displayImage : DisplayImage) : Void
-    {
-        
-        hourHandDisplayImage = displayImage;
-        draw();
-    }
-    
-    /**
-		 * Set the image for the hour hand
-		 * @param	bitmap The display that will be used
-		 */
-    
-    public function setHourHandImage(bitmap : Bitmap) : Void
-    {
-        hourHandDisplayImage.setImage(bitmap);
-        draw();
-    }
-    
-    /**
-		 * Set the image for the hour hand using a url location
-		 * @param	url The path to the image file
-		 */
-    
-    public function setHourHandURL(url : String) : Void
-    {
-        hourHandDisplayImage.onImageComplete = function() : Void
-                {
-                    draw();
-                    hourHandDisplayImage.onImageComplete = null;
-                };
-        
-        hourHandDisplayImage.load(url);
-    }
-    
-    /**
-		 * Set the hands on the display. This will only work if the useSystemClock to false.
-		 *
-		 * @param	hour What the hour hand will be set to
-		 * @param	min What the minute hand will be set to
-		 * @param	sec What the second hand will be set to
-		 */
-    
-    public function setTime(hour : Dynamic = null, min : Dynamic = null, sec : Dynamic = null) : Void
-    {
-        
-        dte_currentDate = new Date(null, null, null, hour, min, sec);
+        _dte_currentDate = new Date(Date.now().getFullYear(), Date.now().getMonth(), Date.now().getDay(), hour, min, sec);
         
         updateHand();
     }
@@ -714,17 +622,19 @@ class AnalogClock extends BaseContainer implements IBaseContainer implements com
         super.draw();
         
         // Update the location of the text fields
-        textField_12.x = (width >> 1) - (textField_12.width >> 1);
-        textField_12.y = NUMBER_LABEL_OFFSET;
+        //textField_12.x = (_width / 2) - (textField_12.width / 2);
+        //textField_12.y = 0;
+        textField_12.y = 0;
+		
+        textField_3.x = _width - textField_3.width - NUMBER_LABEL_OFFSET;
+        textField_3.y = (_height / 2) - (textField_3.height / 2);
         
-        textField_3.x = width - textField_3.width - NUMBER_LABEL_OFFSET;
-        textField_3.y = (height >> 1) - (textField_3.height >> 1);
-        
-        textField_6.x = (width >> 1) - (textField_6.width >> 1);
-        textField_6.y = (height - textField_6.height) - NUMBER_LABEL_OFFSET;
-        
+        //textField_6.x = (_width / 2) - (textField_6.width / 2);
+        //textField_6.y = (_height - textField_6.height) - NUMBER_LABEL_OFFSET;
+        textField_6.y = (_height - textField_6.height) - NUMBER_LABEL_OFFSET;
+		
         textField_9.x = NUMBER_LABEL_OFFSET;
-        textField_9.y = (height >> 1) - (textField_9.height >> 1);
+        textField_9.y = (_height / 2) - (textField_9.height / 2);
         
         // Clear out and draw everything
         clockBase.graphics.clear();
@@ -735,53 +645,59 @@ class AnalogClock extends BaseContainer implements IBaseContainer implements com
         
         // Outer circle
         if (_clockOuterCircle) 
-            clockBase.graphics.drawCircle(width >> 1, height >> 1, (width >> 1) - 10);
+            clockBase.graphics.drawCircle(_width / 2, _height / 2, (_width / 2));
         
-        drawLine(hourHand, _lineHourSize, _lineHourThinkness, _hourHandColor, hourHandDisplayImage.image);
+        drawLine(hourHand, _lineHourSize, _lineHourThinkness, _hourHandColor, _hourHandDisplayImage);
         
-        hourHand.x = width >> 1;
-        hourHand.y = height >> 1;
+        hourHand.x = _width / 2;
+        hourHand.y = _height / 2;
         
         hourHand.visible = _showHourHand;
         
-        drawLine(minHand, _lineMinuteSize, _lineMinuteThinkness, _minuteHandColor, minuteHandDisplayImage.image);
+        drawLine(minHand, _lineMinuteSize, _lineMinuteThinkness, _minuteHandColor, _minuteHandDisplayImage);
         
-        minHand.x = width >> 1;
-        minHand.y = height >> 1;
+        minHand.x = _width / 2;
+        minHand.y = _height / 2;
         
         minHand.visible = _showMinuteHand;
         
-        drawLine(secHand, _lineSecondSize, _lineSecondThinkness, _secondHandColor, secondHandDisplayImage.image);
-        secHand.x = width >> 1;
-        secHand.y = height >> 1;
+        drawLine(secHand, _lineSecondSize, _lineSecondThinkness, _secondHandColor, _secondHandDisplayImage);
+		
+        secHand.x = _width / 2;
+        secHand.y = _height / 2;
         
         secHand.visible = _showHourHand;
         
         // Inner circle
         clockOver.graphics.beginFill(_clockInnerColor, _clockInnerAlpha);
         
-        if (innerDisplayImage.image != null) 
-            clockOver.graphics.beginBitmapFill(innerDisplayImage.image.bitmapData);
+        if (_innerDisplayImage != null) 
+            clockOver.graphics.beginBitmapFill(_innerDisplayImage);
         
         if (_clockInnerCircle) 
-            clockOver.graphics.drawCircle(width >> 1, height >> 1, _innerCircleRadius);
+            clockOver.graphics.drawCircle(_width / 2, _height / 2, _innerCircleRadius);
         
         clockOver.graphics.endFill();
     }
     
-    private function updateClockTimer() : Void
+    private function updateClockTimer( data:Dynamic ) : Void
     {
-        dte_currentDate = Date.now();
+        _dte_currentDate = Date.now();
         
+		draw();
         updateHand();
     }
     
-    private function drawLine(line : Shape, Length : Float, thickness : Float, color : Int = 0x000000, bitmap : Bitmap = null) : Shape
+    private function drawLine(line : Shape, Length : Float, thickness : Float, color : Int = 0x000000, bitmap : BitmapData = null) : Shape
     {
         line.graphics.clear();
         
-        // Even if there isn't a bitmap lineStyle alwaysw have to be set
-        line.graphics.lineStyle(thickness, color);
+        // Even if there isn't a bitmap lineStyle always have to be set
+		if (bitmap != null)
+			line.graphics.lineBitmapStyle(bitmap);
+			
+			
+		line.graphics.lineStyle(thickness, color);
         line.graphics.lineTo(0, Length - Length - Length);
         
         return line;
@@ -789,14 +705,14 @@ class AnalogClock extends BaseContainer implements IBaseContainer implements com
     
     private function updateHand() : Void
     {
-        num_hour = dte_currentDate.hours;
+        num_hour = _dte_currentDate.getHours();
         
         if (num_hour > 12) 
             num_hour -= 12;
         
-        hourHand.rotation = (num_hour + (dte_currentDate.minutes / 60) + (dte_currentDate.seconds / 3600)) * 30;
-        minHand.rotation = (dte_currentDate.minutes + (dte_currentDate.seconds / 60)) * 6;
-        secHand.rotation = dte_currentDate.seconds * 6;
+        hourHand.rotation = (num_hour + (_dte_currentDate.getMinutes() / 60) + (_dte_currentDate.getSeconds() / 3600)) * 30;
+        minHand.rotation = (_dte_currentDate.getMinutes() + (_dte_currentDate.getSeconds() / 60)) * 6;
+        secHand.rotation = _dte_currentDate.getSeconds() * 6;
     }
     
     private function onAddStage(event : Event) : Void
