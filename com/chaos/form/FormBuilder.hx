@@ -1,18 +1,18 @@
 package com.chaos.form;
 
 import com.chaos.form.FormData;
-import com.chaos.form.Layout;
+
 
 import com.chaos.form.classInterface.IFormBuilder;
 import com.chaos.form.ui.classInterface.IFormUI;
 import com.chaos.ui.BaseUI;
-import com.chaos.ui.interface.IBaseUI;
+import com.chaos.ui.classInterface.IBaseUI;
 import com.chaos.ui.layout.AlignmentBaseContainer;
 import com.chaos.ui.layout.GridContainer;
-import com.chaos.ui.layout.Interface.IGridCell;
-import com.chaos.ui.layout.Interface.IGridContainer;
+import com.chaos.ui.layout.classInterface.IGridCell;
+import com.chaos.ui.layout.classInterface.IGridContainer;
 import com.chaos.form.ui.TextLabel;
-import com.chaos.ui.interface.ILabel;
+import com.chaos.ui.classInterface.ILabel;
 import com.chaos.utils.Debug;
 import com.chaos.ui.layout.GridCellLayout;
 import openfl.events.Event;
@@ -27,7 +27,7 @@ import openfl.net.URLRequestMethod;
  * @author Erick Feiling
  */
 
-class FormBuilder extends BaseUI implements IFormBuilder implements com.chaos.ui.classInterface.IBaseUI
+class FormBuilder extends BaseUI implements IFormBuilder implements IBaseUI
 {
     public static inline var TYPE : String = "FormBuilder";
 	
@@ -40,9 +40,9 @@ class FormBuilder extends BaseUI implements IFormBuilder implements com.chaos.ui
     
     public var formObj : URLVariables = new URLVariables();
     
-    public var hiddenObj : Dynamic = new Dynamic();
+    public var hiddenObj : Dynamic = {};
     
-    private var _grid : com.chaos.ui.layout.classInterface.IGridContainer = new GridContainer(0, 2);
+    private var _grid : IGridContainer = new GridContainer(0, 2);
     
     private var _border : Bool = true;
     private var _borderThinkness : Int = 2;
@@ -61,29 +61,30 @@ class FormBuilder extends BaseUI implements IFormBuilder implements com.chaos.ui
 	 * @eventType openfl.events.Event.COMPLETE
 	 */
 	
-    public function new()
+    public function new(data:Dynamic = null )
     {
-        super();
+        super(data);
+		
         addChild(_grid.displayObject);
     }
     
-    override private function get_Width() : Float
+    override private function get_width() : Float
     {
         return _grid.width;
     }
     
-    override private function set_Width(value : Float) : Float
+    override private function set_width(value : Float) : Float
     {
         _grid.width = value;
         return value;
     }
     
-    override private function get_Height() : Float
+    override private function get_height() : Float
     {
         return _grid.height;
     }
     
-    override private function set_Height(value : Float) : Float
+    override private function set_height(value : Float) : Float
     {
         _grid.height = value;
         return value;
@@ -93,7 +94,7 @@ class FormBuilder extends BaseUI implements IFormBuilder implements com.chaos.ui
 	 * The default spacing used for added form elements
 	 */
     
-    private function set_VSpacing(value : Int) : Int
+    private function set_vSpacing(value : Int) : Int
     {
         _vSpacing = value;
         return value;
@@ -103,7 +104,7 @@ class FormBuilder extends BaseUI implements IFormBuilder implements com.chaos.ui
 	 * Return value
 	 */
 	
-    private function get_VSpacing() : Int
+    private function get_vSpacing() : Int
     {
         return _vSpacing;
     }
@@ -112,7 +113,7 @@ class FormBuilder extends BaseUI implements IFormBuilder implements com.chaos.ui
 	 * The default spacing used for added form elements
 	 */
     
-    private function set_HSpacing(value : Int) : Int
+    private function set_hSpacing(value : Int) : Int
     {
         _hSpacing = value;
         return value;
@@ -122,7 +123,7 @@ class FormBuilder extends BaseUI implements IFormBuilder implements com.chaos.ui
 	 * Return value
 	 */
     
-    private function get_HSpacing() : Int
+    private function get_hSpacing() : Int
     {
         return _hSpacing;
     }
@@ -131,7 +132,7 @@ class FormBuilder extends BaseUI implements IFormBuilder implements com.chaos.ui
 	 * If true the border on added form item will have border
 	 */
     
-    private function set_Border(value : Bool) : Bool
+    private function set_border(value : Bool) : Bool
     {
         _border = value;
         return value;
@@ -141,7 +142,7 @@ class FormBuilder extends BaseUI implements IFormBuilder implements com.chaos.ui
 	 * Return true if border will be set by default and false if not
 	 */
     
-    private function get_Border() : Bool
+    private function get_border() : Bool
     {
         return _border;
     }
@@ -150,7 +151,7 @@ class FormBuilder extends BaseUI implements IFormBuilder implements com.chaos.ui
 	 * Set the default border thinkness of added item
 	 */
     
-    private function set_BorderThinkness(value : Int) : Int
+    private function set_borderThinkness(value : Int) : Int
     {
         _borderThinkness = value;
         return value;
@@ -160,7 +161,7 @@ class FormBuilder extends BaseUI implements IFormBuilder implements com.chaos.ui
 	 * Return the border thinkness
 	 */
 	
-    private function get_BorderThinkness() : Int
+    private function get_borderThinkness() : Int
     {
         return _borderThinkness;
     }
@@ -169,7 +170,7 @@ class FormBuilder extends BaseUI implements IFormBuilder implements com.chaos.ui
 	 * Set the url the form data will be sent
 	 */
 	
-    private function set_Url(value : String) : String
+    private function set_url(value : String) : String
     {
         _url = value;
         return value;
@@ -179,7 +180,7 @@ class FormBuilder extends BaseUI implements IFormBuilder implements com.chaos.ui
 	 * Get the url that is being used
 	 */
     
-    private function get_Url() : String
+    private function get_url() : String
     {
         return _url;
     }
@@ -188,7 +189,7 @@ class FormBuilder extends BaseUI implements IFormBuilder implements com.chaos.ui
 	 * Used for sending a "GET" or "POST" command to the server. Use the URLRequestMethod to set this.
 	 */
     
-    private function set_Method(value : String) : String
+    private function set_method(value : String) : String
     {
         _method = value;
         return value;
@@ -198,7 +199,7 @@ class FormBuilder extends BaseUI implements IFormBuilder implements com.chaos.ui
 	 * Return the mode the form is in
 	 */
     
-    private function get_Method() : String
+    private function get_method() : String
     {
         return _method;
     }
@@ -227,7 +228,7 @@ class FormBuilder extends BaseUI implements IFormBuilder implements com.chaos.ui
         // Turn off clipping for combo boxes
         _grid.getCell(0, 0).container.clipping = _grid.getCell(0, 1).container.clipping = false;
         
-        var newLabel : com.chaos.ui.classInterface.ILabel = new TextLabel(labelName);
+        var newLabel : ILabel = new TextLabel(labelName);
         _grid.getCell(0, 0).container.addElement(newLabel);
         
         element.setName(elementName);
@@ -236,9 +237,9 @@ class FormBuilder extends BaseUI implements IFormBuilder implements com.chaos.ui
         _grid.getCell(0, 0).borderThinkness = _borderThinkness;
         
         // Check to see ifitem is a based UI
-        if (Std.is(element, com.chaos.ui.classInterface.IBaseUI)) 
+        if (Std.is(element, IBaseUI)) 
         {
-            var baseElement : com.chaos.ui.classInterface.IBaseUI = (try cast(element, com.chaos.ui.classInterface.IBaseUI) catch(e:Dynamic) null);
+            var baseElement : IBaseUI = (try cast(element, IBaseUI) catch(e:Dynamic) null);
             
             _grid.getCell(0, 1).container.addElement(baseElement);
             
@@ -247,7 +248,7 @@ class FormBuilder extends BaseUI implements IFormBuilder implements com.chaos.ui
         }  
 		
 		// Adjust elements location  
-        for (row in 0..._grid.getRowCount())
+        for (row in 0 ... _grid.getRowCount())
 		{
             if (_grid.getCell(row, 0).container.length > 0) 
             {
@@ -276,7 +277,7 @@ class FormBuilder extends BaseUI implements IFormBuilder implements com.chaos.ui
     
     public function addFormData(dataObj : FormData) : Void
     {
-        hiddenObj[dataObj.getName()] = dataObj;
+        Reflect.setField(hiddenObj, dataObj.getName(), dataObj);
     }
     
     /**
@@ -330,16 +331,13 @@ class FormBuilder extends BaseUI implements IFormBuilder implements com.chaos.ui
     public function setColumnWidthAt(index : Int, colWidth : Int) : Void
     {
         
-        for (row in 0..._grid.getRowCount()){
+        for (row in 0 ... _grid.getRowCount())
+		{
             
             if (_grid.validCell(row, index)) 
-            {
                 _grid.setCellWidth(row, index, colWidth);
-            }
             else 
-            {
                 Debug.print("[FormBuilder::setColumnWidthAt] Fail to update " + row + "x" + index + " width in grid to " + colWidth + ".");
-            }
         }
     }
     
@@ -350,16 +348,14 @@ class FormBuilder extends BaseUI implements IFormBuilder implements com.chaos.ui
     
     public function setCellWidth(colWidth : Int) : Void
     {
-        for (row in 0..._grid.getRowCount()){
-            for (col in 0..._grid.getColumnCount()){
+        for (row in 0 ... _grid.getRowCount())
+		{
+            for (col in 0 ... _grid.getColumnCount())
+			{
                 if (_grid.validCell(row, col)) 
-                {
                     _grid.setCellWidth(row, col, colWidth);
-                }
                 else 
-                {
                     Debug.print("[FormBuilder::setColumnWidth] Fail to update " + row + "x" + col + " width in grid to " + colWidth + ".");
-                }
             }
         }
     }
@@ -376,16 +372,13 @@ class FormBuilder extends BaseUI implements IFormBuilder implements com.chaos.ui
         if (null == _grid) 
             return;
         
-        for (row in 0..._grid.getRowCount()){
+        for (row in 0 ... _grid.getRowCount())
+		{
             
             if (_grid.validCell(row, index)) 
-            {
                 _grid.setCellHeight(row, index, colHeight);
-            }
             else 
-            {
                 Debug.print("[FormBuilder::setColumnHeight] Fail to update " + row + "x" + index + " height in grid to " + colHeight + ".");
-            }
         }
     }
     
@@ -396,14 +389,15 @@ class FormBuilder extends BaseUI implements IFormBuilder implements com.chaos.ui
     public function reset() : Void
     {
         // Get all data from form objects
-        for (row in 0..._grid.getRowCount()){
+        for (row in 0 ... _grid.getRowCount())
+		{
             
             if (_grid.getCell(row, 1).container.length > 0 && null != _grid.getCell(row, 1).container.getElementAtIndex(0) && Std.is(_grid.getCell(row, 1).container.getElementAtIndex(0), IFormUI)) 
             {
                 var itemFormUI : IFormUI = try cast(_grid.getCell(row, 1).container.getElementAtIndex(0), IFormUI) catch(e:Dynamic) null;
                 itemFormUI.clear();
                 
-                formObj[itemFormUI.getName()] = itemFormUI.getValue();
+				Reflect.setField(formObj, itemFormUI.getName(), itemFormUI.getValue());
             }
         }
     }
@@ -422,27 +416,26 @@ class FormBuilder extends BaseUI implements IFormBuilder implements com.chaos.ui
         // Do nothing if URL wasn't set
         if (_url == "") 
         {
-            Debug.print("[FormBuilder::send] URL wasn't sent");
-            return;
-        }  // Get all data from form objects  
+            Debug.print("[FormBuilder::send] URL wasn't set");
+            return {};
+        }
         
         
-        
-        for (row in 0..._grid.getRowCount()){
+          // Get all data from form objects  
+        for (row in 0 ... _grid.getRowCount())
+		{
             
             if (_grid.getCell(row, 1).container.length > 0 && null != _grid.getCell(row, 1).container.getElementAtIndex(0) && Std.is(_grid.getCell(row, 1).container.getElementAtIndex(0), IFormUI)) 
             {
-                var itemFormUI : IFormUI = try cast(_grid.getCell(row, 1).container.getElementAtIndex(0), IFormUI) catch(e:Dynamic) null;
-                formObj[itemFormUI.getName()] = itemFormUI.getValue();
+                var itemFormUI : IFormUI = try cast(_grid.getCell(row, 1).container.getElementAtIndex(0), IFormUI) catch (e:Dynamic) null;
+				Reflect.setField(formObj, itemFormUI.getName(), itemFormUI.getValue());
             }
-        }  // Add hidden data object to formObj  
+        } 
         
         
-        
+        // Add hidden data object to formObj  
         for (index in Reflect.fields(hiddenObj))
-        {
             Reflect.setField(formObj, index, (try cast(Reflect.field(hiddenObj, index), FormData) catch(e:Dynamic) null).getValue());
-        }
         
         var request : URLRequest = new URLRequest();
         request.data = formObj;
