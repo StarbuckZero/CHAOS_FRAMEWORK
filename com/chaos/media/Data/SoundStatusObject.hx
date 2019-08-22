@@ -1,13 +1,14 @@
 package com.chaos.media.data;
+import com.chaos.media.classInterface.ISoundStatus;
 
 
 
 /**
-	 * ...
-	 * @author Erick Feiling
-	 */
+ * ...
+ * @author Erick Feiling
+ */
 
-import com.chaos.media.Interface.ISoundStatus;
+
 
 class SoundStatusObject implements ISoundStatus
 {
@@ -39,79 +40,79 @@ class SoundStatusObject implements ISoundStatus
         _isTracking = soundTracking;
     }
     
-    private function set_Pause(value : Bool) : Bool
+    private function set_pause(value : Bool) : Bool
     {
         _pause = value;
         return value;
     }
     
-    private function get_Pause() : Bool
+    private function get_pause() : Bool
     {
         return _pause;
     }
     
-    private function set_Playing(value : Bool) : Bool
+    private function set_playing(value : Bool) : Bool
     {
         _playing = value;
         return value;
     }
     
-    private function get_Playing() : Bool
+    private function get_playing() : Bool
     {
         return _playing;
     }
     
-    private function set_Stop(value : Bool) : Bool
+    private function set_stop(value : Bool) : Bool
     {
         _stop = value;
         return value;
     }
     
-    private function get_Stop() : Bool
+    private function get_stop() : Bool
     {
         return _stop;
     }
     
-    private function set_Mute(value : Bool) : Bool
+    private function set_mute(value : Bool) : Bool
     {
         _mute = value;
         return value;
     }
     
-    private function get_Mute() : Bool
+    private function get_mute() : Bool
     {
         return _mute;
     }
     
-    private function set_Repeat(value : Bool) : Bool
+    private function set_repeat(value : Bool) : Bool
     {
         _repeat = value;
         return value;
     }
     
-    private function get_Repeat() : Bool
+    private function get_repeat() : Bool
     {
         return _repeat;
     }
     
-    private function set_IsPanning(value : Bool) : Bool
+    private function set_isPanning(value : Bool) : Bool
     {
         _isPanning = value;
         return value;
     }
     
-    private function get_IsPanning() : Bool
+    private function get_isPanning() : Bool
     {
         return _isPanning;
     }
     
-    private function set_IsTracking(value : Bool) : Bool
+    private function set_isTracking(value : Bool) : Bool
     {
         _isTracking = value;
         return value;
     }
     
-    private function get_IsTracking() : Bool
+    private function get_isTracking() : Bool
     {
         return _isTracking;
     }
