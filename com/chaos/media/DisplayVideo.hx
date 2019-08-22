@@ -7,7 +7,7 @@ package com.chaos.media;
  * @author Erick Feiling
  */
 
-import com.chaos.drawing.Draw;
+
 import com.chaos.media.event.DisplayVideoEvent;
 import com.chaos.utils.data.TaskCallBack;
 import haxe.Constraints.Function;
@@ -30,7 +30,7 @@ import openfl.media.Video;
 import openfl.net.NetConnection;
 import openfl.net.NetStream;
 
-class DisplayVideo extends BaseUI implements com.chaos.ui.classInterface.IBaseUI
+class DisplayVideo extends BaseUI implements IBaseUI
 {
     public var videoLoaded(get, never) : Int;
     public var bufferAmount(get, set) : Int;
