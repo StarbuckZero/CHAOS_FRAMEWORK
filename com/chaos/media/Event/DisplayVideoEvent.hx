@@ -4,9 +4,10 @@ package com.chaos.media.event;
 import openfl.events.Event;
 
 /**
-	 * ...
-	 * @author Erick Feiling
-	 */
+ * ...
+ * @author Erick Feiling
+ */
+
 class DisplayVideoEvent extends Event
 {
     /** When meta data is loaded */
