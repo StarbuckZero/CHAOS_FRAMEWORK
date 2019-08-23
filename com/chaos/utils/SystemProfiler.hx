@@ -244,7 +244,6 @@ class SystemProfiler extends Sprite
         // Display event if average change
         if (_level != SystemProfilerEvent.HIGH && coolDownCounter == 0 && _highLevelFPS != -1 && _average >= _highLevelFPS) 
         {
-            trace("HIGH");
             dispatchEvent(new SystemProfilerEvent(SystemProfilerEvent.FPS_HIT, SystemProfilerEvent.HIGH));
             dispatchEvent(new SystemProfilerEvent(SystemProfilerEvent.HIGH, SystemProfilerEvent.HIGH));
             
@@ -253,7 +252,6 @@ class SystemProfiler extends Sprite
         }
         else if (_level != SystemProfilerEvent.MEDIUM && coolDownCounter == 0 && _midLevelFPS != -1 && _average <= _midLevelFPS && _average < (_highLevelFPS - 1)) 
         {
-            trace("MID");
             dispatchEvent(new SystemProfilerEvent(SystemProfilerEvent.FPS_HIT, SystemProfilerEvent.MEDIUM));
             dispatchEvent(new SystemProfilerEvent(SystemProfilerEvent.MEDIUM, SystemProfilerEvent.MEDIUM));
             
@@ -263,7 +261,6 @@ class SystemProfiler extends Sprite
         }
         else if (_level != SystemProfilerEvent.LOW && coolDownCounter == 0 && _lowLevelFPS != -1 && _average <= _lowLevelFPS) 
         {
-            trace("LOW");
             dispatchEvent(new SystemProfilerEvent(SystemProfilerEvent.FPS_HIT, SystemProfilerEvent.LOW));
             dispatchEvent(new SystemProfilerEvent(SystemProfilerEvent.LOW, SystemProfilerEvent.LOW));
             

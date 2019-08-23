@@ -1,23 +1,20 @@
 package com.chaos.ui;
 
-import com.chaos.ui.data.BaseObjectData;
+
 
 import com.chaos.ui.classInterface.IBaseUI;
 import com.chaos.ui.classInterface.ILabel;
 import com.chaos.ui.classInterface.IListBox;
-import com.chaos.ui.data.ItemPaneObjectData;
+
 import com.chaos.ui.data.ListObjectData;
-import com.chaos.utils.CompositeManager;
-import openfl.display.DisplayObject;
-import openfl.text.TextFormat;
+
 import openfl.display.Sprite;
-import openfl.geom.Rectangle;
 import openfl.events.MouseEvent;
 import openfl.events.Event;
-import openfl.display.Bitmap;
+
 import openfl.text.Font;
 import openfl.text.TextFormatAlign;
-import com.chaos.media.DisplayImage;
+
 import com.chaos.ui.Label;
 import com.chaos.ui.ScrollPane;
 import com.chaos.data.DataProvider;
@@ -75,11 +72,8 @@ class ListBox extends ScrollPane implements IListBox implements IBaseUI
 	
 	public function new(data:Dynamic = null)
 	{
-		//listWidth : Int = 100, listHeight : Int = 100, listData : DataProvider<ListObjectData> = null
 		
 		super(data);
-		
-		
 		
 		addEventListener(Event.ADDED_TO_STAGE, onStageAdd, false, 0, true);
 		addEventListener(Event.REMOVED_FROM_STAGE, onStageRemove, false, 0, true);
@@ -488,9 +482,6 @@ class ListBox extends ScrollPane implements IListBox implements IBaseUI
 
 			if ( -1 != UIStyleManager.LIST_TEXT_SIZE)
 				listBoxLabel.size = UIStyleManager.LIST_TEXT_SIZE;
-
-			if (null != listData.icon)
-				listBoxLabel.setDisplayIcon(listData.icon);
 
 			if (null != _font)
 				listBoxLabel.setEmbedFont(_font);

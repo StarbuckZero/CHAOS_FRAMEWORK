@@ -9,7 +9,6 @@ package com.chaos.utils.data;
 
 import com.chaos.utils.Debug;
 import com.chaos.utils.classInterface.ITask;
-import haxe.Constraints.Function;
 import openfl.errors.Error;
 
 class TaskDataObject implements ITask
@@ -18,6 +17,7 @@ class TaskDataObject implements ITask
     public var start(get, never) : Int;
     public var end(get, never) : Int;
     public var index(get, set) : Int;
+    public var data(get, set) : Dynamic;
 
     public static var SAFE_MODE : Bool = true;
     
@@ -25,9 +25,8 @@ class TaskDataObject implements ITask
     private var _start : Int;
     private var _index : Int;
     private var _end : Int;
-    private var _func : Function;
-    private var _callBack : Function;
-    private var _args : Array<Dynamic> = new Array<Dynamic>();
+    private var _func : ITask->Void;
+    private var _data : Dynamic = {};
     
     /**
 	 *
@@ -38,25 +37,19 @@ class TaskDataObject implements ITask
 	 * @param	start Starting point for sub task
 	 * @param	end End point for sub task
 	 * @param	func The function to call when running a task. This will also pass back a TaskDataObject and not a event.
-	 * @param	callBack Function to call once the task is done
-	 * @param	args The paramers to pass with the function. If a start and end value was set then this task object will be passed first.
+	 * @param	data The paramers to pass with the function. If a start and end value was set then this task object will be passed first.
 	 *
 	 */
     
-    public function new(id : String = "default", start : Int = 0, end : Int = 0, func : Function = null, callBack : Function = null, args:Array<Dynamic> = null)
+    public function new(id : String = "", start : Int = 0, end : Int = 0, func : ITask->Void = null, data:Dynamic = null)
     {
         _id = id;
+		
         _start = _index = start;
         _end = end;
-        _callBack = callBack;
         _func = func;
+        _data = data;
         
-        _args = args;
-		
-        
-		
-        if (_start != _end) 
-            _args.unshift(this);
     }
     
     private function set_id(value : String) : String
@@ -90,16 +83,28 @@ class TaskDataObject implements ITask
     {
         return _index;
     }
+	
+	private function set_data( value:Dynamic ):Dynamic
+	{
+		_data = value;
+		
+		return _data;
+	}
+	
+	private function get_data():Dynamic
+	{
+		return _data;
+	}
+	
     
     public function clear() : Void
     {
-        _id = "cleared";
+        _id = "";
         _start = 0;
         _index = 0;
         _end = 0;
-        _callBack = null;
         _func = null;
-        _args = new Array<Dynamic>();
+        _data = null;
     }
     
     public function run() : Void
@@ -110,8 +115,9 @@ class TaskDataObject implements ITask
             {
                 try
                 {
-					
-					Reflect.callMethod(this, _func, _args);
+					Reflect.setField(_data, "task", this);
+					_func(this);
+					//Reflect.callMethod(this, _func, _args);
                 }
                 catch (error : Error)
                 {
@@ -120,28 +126,29 @@ class TaskDataObject implements ITask
             }
             else 
             {
-                Reflect.callMethod(this, _func, _args);
+				_func(this);
+                //Reflect.callMethod(this, _func, _args);
             }
         }
         
-        if (null != _callBack && _index == _end) 
-        {
-            if (SAFE_MODE) 
-            {
-                try
-                {
-                    _callBack(this);
-                }
-                catch (error : Error)
-                {
-                    Debug.print("[TaskDataObject]" + error);
-                }
-            }
-            else 
-            {
-                _callBack(this);
-            }
-        }
+        //if (_index == _end) 
+        //{
+        //    if (SAFE_MODE) 
+        //    {
+        //        try
+        //        {
+        //            _callBack(this);
+        //        }
+        //        catch (error : Error)
+        //        {
+        //            Debug.print("[TaskDataObject]" + error);
+        //        }
+        //    }
+        //    else 
+        //    {
+        //        _callBack(this);
+        //    }
+        //}
     }
 }
 

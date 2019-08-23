@@ -1,11 +1,13 @@
 package com.chaos.media;
 
 
-import com.chaos.media.Interface.IPanorama;
-import com.chaos.ui.interface.IBaseUI;
+import com.chaos.media.classInterface.IPanorama;
+import com.chaos.ui.classInterface.IBaseUI;
 import com.chaos.ui.BaseUI;
 import com.chaos.utils.Debug;
 import com.chaos.utils.Utils;
+import openfl.display.Bitmap;
+import openfl.display.BitmapData;
 import openfl.display.DisplayObject;
 import openfl.display.Shape;
 import openfl.display.Sprite;
@@ -20,7 +22,7 @@ import openfl.geom.Rectangle;
  * @author Erick Feiling
  */
 
-class Panorama extends BaseUI implements IPanorama implements com.chaos.ui.classInterface.IBaseUI
+class Panorama extends BaseUI implements IPanorama implements IBaseUI
 {
     public var spacing(get, set) : Int;
     public var lag(get, set) : Int;
@@ -51,14 +53,11 @@ class Panorama extends BaseUI implements IPanorama implements com.chaos.ui.class
     private var _blockSpace : Int = 0;
     
     private var _margin : Int = 0;
-    private var _spacing : Float = 0;
+    private var _spacing : Int = 0;
     
     private var _forceMode : Bool = false;
     private var _lock : Bool = false;
     private var _lag : Int = 10;
-    
-    private var _width : Float = 0;
-    private var _height : Float = 0;
     
     private var _maskReady : Bool = false;
     private var _maskWidth : Float = -1;
@@ -81,45 +80,51 @@ class Panorama extends BaseUI implements IPanorama implements com.chaos.ui.class
     private var zoomNum : Int = 1;
     private var zoomEnable : Bool = false;
     
-    // Area for images/swf
-    private var slider : Sprite;
-    private var forcePoint : Point;
-    private var panHolder : Sprite;
+    // Area for images
+    private var slider : Sprite = new Sprite();
+    private var forcePoint : Point = new Point(); // Used for force mode
+    private var panHolder : Sprite = new Sprite();
     
     private var _source : DisplayObject;
     
     // Hit area
-    private var left_mc : Shape;
-    private var right_mc : Shape;
-    private var upper_mc : Shape;
-    private var lower_mc : Shape;
+    private var left_mc : Shape = new Shape();
+    private var right_mc : Shape = new Shape();
+    private var upper_mc : Shape = new Shape();
+    private var lower_mc : Shape = new Shape();
     
     // For 360 Pan
-    private var img1 : Sprite;
-    private var img2 : Sprite;
-    private var img3 : Sprite;
+    private var img1 : Sprite = new Sprite();
+    private var img2 : Sprite = new Sprite();
+    private var img3 : Sprite = new Sprite();
     
-    public function new(velocity : Int = 10, w : Float = 800, h : Float = 600, margin : Int = 0, spacing : Int = 0, panMode : String = "normal")
+    public function new(data:Dynamic = null)
     {
-        super();
-        //addChild(drawRectangle(w, h));
-        
-        super();
-        
-        _velocity = velocity;
-        _width = w;
-        _height = h;
-        _spacing = spacing;
-        _mode = panMode;
-        
-        initSlider(_velocity, _width, _height, _margin, _spacing, _mode);
+        super(data);
     }
+	
+	override public function setComponentData(data:Dynamic):Void 
+	{
+		super.setComponentData(data);
+		
+		if (Reflect.field(data, "velocity"))
+			_velocity = Reflect.field(data,"velocity");
+		
+		if (Reflect.field(data, "spacing"))
+			_spacing = Reflect.field(data,"spacing");
+			
+		if (Reflect.field(data, "mode"))
+			_mode = Reflect.field(data,"mode");
+		
+		initSlider(_velocity,  _margin, _spacing, _mode);
+		
+	}
     
     /**
 	 * The margin or hit area for when in forceMode
 	 */
     
-    private function set_Spacing(value : Int) : Int
+    private function set_spacing(value : Int) : Int
     {
         _spacing = value;
         return value;
@@ -129,7 +134,7 @@ class Panorama extends BaseUI implements IPanorama implements com.chaos.ui.class
 	 * Return the hit area size
 	 */
     
-    private function get_Spacing() : Int
+    private function get_spacing() : Int
     {
         return _spacing;
     }
@@ -138,7 +143,7 @@ class Panorama extends BaseUI implements IPanorama implements com.chaos.ui.class
 	 * The higher the number the slower panorama moves
 	 */
 	
-    private function set_Lag(value : Int) : Int
+    private function set_lag(value : Int) : Int
     {
         _lag = value;
         return value;
@@ -148,7 +153,7 @@ class Panorama extends BaseUI implements IPanorama implements com.chaos.ui.class
 	 * Return the amount of lag apply to the panorama
 	 */
     
-    private function get_Lag() : Int
+    private function get_lag() : Int
     {
         return _lag;
     }
@@ -157,7 +162,7 @@ class Panorama extends BaseUI implements IPanorama implements com.chaos.ui.class
 	 * Making it so user can zoom in and out
 	 */
     
-    private function set_EnableZoom(value : Bool) : Bool
+    private function set_enableZoom(value : Bool) : Bool
     {
         zoomEnable = value;
         return value;
@@ -167,7 +172,7 @@ class Panorama extends BaseUI implements IPanorama implements com.chaos.ui.class
 	 * If true zooming is supported
 	 */
     
-    private function get_EnableZoom() : Bool
+    private function get_enableZoom() : Bool
     {
         return zoomEnable;
     }
@@ -176,7 +181,7 @@ class Panorama extends BaseUI implements IPanorama implements com.chaos.ui.class
 	 * This is enabled then the image scrolling is based on a point set on the stage
 	 */
     
-    private function set_ForceMode(value : Bool) : Bool
+    private function set_forceMode(value : Bool) : Bool
     {
         _forceMode = value;
         return value;
@@ -186,7 +191,7 @@ class Panorama extends BaseUI implements IPanorama implements com.chaos.ui.class
 	 * Return true mode is enabled
 	 */
     
-    private function get_ForceMode() : Bool
+    private function get_forceMode() : Bool
     {
         return _forceMode;
     }
@@ -195,7 +200,7 @@ class Panorama extends BaseUI implements IPanorama implements com.chaos.ui.class
 	 * Lock the whole panorama from moving
 	 */
     
-    private function set_Lock(value : Bool) : Bool
+    private function set_lock(value : Bool) : Bool
     {
         _lock = value;
         return value;
@@ -205,7 +210,7 @@ class Panorama extends BaseUI implements IPanorama implements com.chaos.ui.class
 	 * Returns true of false if panorama is locked or enabled
 	 */
     
-    private function get_Lock() : Bool
+    private function get_lock() : Bool
     {
         return _lock;
     }
@@ -214,7 +219,7 @@ class Panorama extends BaseUI implements IPanorama implements com.chaos.ui.class
 	 * If false will only move on the x axis
 	 */
     
-    private function set_EnableX(value : Bool) : Bool
+    private function set_enableX(value : Bool) : Bool
     {
         _xLock = value;
         return value;
@@ -224,7 +229,7 @@ class Panorama extends BaseUI implements IPanorama implements com.chaos.ui.class
 	 * Return true if the x axis is enabled and false if not
 	 */
     
-    private function get_EnableX() : Bool
+    private function get_enableX() : Bool
     {
         return _xLock;
     }
@@ -233,7 +238,7 @@ class Panorama extends BaseUI implements IPanorama implements com.chaos.ui.class
 	 * If false will only move on the y axis
 	 */
     
-    private function set_EnableY(value : Bool) : Bool
+    private function set_enableY(value : Bool) : Bool
     {
         _yLock = value;
         return value;
@@ -243,7 +248,7 @@ class Panorama extends BaseUI implements IPanorama implements com.chaos.ui.class
 	 * Return true if the y axis is enabled and false if not
 	 */
     
-    private function get_EnableY() : Bool
+    private function get_enableY() : Bool
     {
         return _yLock;
     }
@@ -252,7 +257,7 @@ class Panorama extends BaseUI implements IPanorama implements com.chaos.ui.class
 	 * Set the block spacing which display arrow once over
 	 */
     
-    private function set_BlockSpace(value : Int) : Int
+    private function set_blockSpace(value : Int) : Int
     {
         _blockSpace = value;
         return value;
@@ -262,7 +267,7 @@ class Panorama extends BaseUI implements IPanorama implements com.chaos.ui.class
 	 * The block size
 	 */
     
-    private function get_BlockSpace() : Int
+    private function get_blockSpace() : Int
     {
         return _blockSpace;
     }
@@ -271,7 +276,7 @@ class Panorama extends BaseUI implements IPanorama implements com.chaos.ui.class
 	 * The mode being used, which is 360 and normal mode
 	 */
     
-    private function get_Mode() : String
+    private function get_mode() : String
     {
         return _mode;
     }
@@ -280,7 +285,7 @@ class Panorama extends BaseUI implements IPanorama implements com.chaos.ui.class
 	 * Set the display object that will be used
 	 */
     
-    private function set_Source(value : DisplayObject) : DisplayObject
+    private function set_source(value : DisplayObject) : DisplayObject
     {
         // Remove old display object
         if (null != _source || null == value) 
@@ -301,7 +306,7 @@ class Panorama extends BaseUI implements IPanorama implements com.chaos.ui.class
 	 * Return the display object being used
 	 */
     
-    private function get_Source() : DisplayObject
+    private function get_source() : DisplayObject
     {
         return _source;
     }
@@ -319,9 +324,6 @@ class Panorama extends BaseUI implements IPanorama implements com.chaos.ui.class
             return;
 			
 		// The new size of
-        
-        
-        
         _maskWidth = maskWidth;
         _maskHeight = maskHeight;
         
@@ -362,7 +364,6 @@ class Panorama extends BaseUI implements IPanorama implements com.chaos.ui.class
         var displayImage : DisplayImage = new DisplayImage();
         
         displayImage.addEventListener(Event.COMPLETE, onPanImageLoad, false, 0, true);
-        
         displayImage.load(fileURL);
     }
     
@@ -379,8 +380,56 @@ class Panorama extends BaseUI implements IPanorama implements com.chaos.ui.class
     {
         _pointX = locX;
         _pointY = locY;
+		
         recalculateTargetForPanning();
     }
+	
+	
+	public function setImage( image:BitmapData ) : Void
+	{
+		var bitmap:Bitmap = new Bitmap(image);
+        _source = bitmap;
+        
+        // Set the mask
+        if (!_maskReady && _maskWidth != -1 && _maskHeight != -1) 
+            setMask(_maskWidth, _maskHeight);
+        
+        
+        // Remove old display object  
+        if (null == _source) 
+        {
+            if (null != _source.parent) 
+                _source.parent.removeChild(_source);
+        }
+        
+        if (_mode == MODE_NOMRAL) 
+        {
+            panHolder.addChild(_source);
+        }
+        else if (_mode == MODE_360) 
+        {
+            // See if item is image first
+            if (null != bitmap.bitmapData) 
+            {
+                img1.graphics.beginBitmapFill(bitmap.bitmapData, null, false, false);
+                img1.graphics.drawRect(0, 0, bitmap.bitmapData.width, bitmap.bitmapData.height);
+                img1.graphics.endFill();
+                
+                img2.graphics.beginBitmapFill(bitmap.bitmapData, null, false, false);
+                img2.graphics.drawRect(0, 0, bitmap.bitmapData.width, bitmap.bitmapData.height);
+                img2.graphics.endFill();
+                
+                img3.graphics.beginBitmapFill(bitmap.bitmapData, null, false, false);
+                img3.graphics.drawRect(0, 0, bitmap.bitmapData.width, bitmap.bitmapData.height);
+                img3.graphics.endFill();
+            }
+        }
+        else 
+        {
+            panHolder.addChild(_source);
+        }
+		
+	}
     
     
     private function onPanImageLoad(event : Event) : Void
@@ -391,10 +440,10 @@ class Panorama extends BaseUI implements IPanorama implements com.chaos.ui.class
         
         // Set the mask
         if (!_maskReady && _maskWidth != -1 && _maskHeight != -1) 
-            setMask(_maskWidth, _maskHeight)  // Remove old display object  ;
+            setMask(_maskWidth, _maskHeight);
         
         
-        
+        // Remove old display object  
         if (null == _source) 
         {
             if (null != _source.parent) 
@@ -410,15 +459,15 @@ class Panorama extends BaseUI implements IPanorama implements com.chaos.ui.class
             // See if item is image first
             if (null != displayImage.image) 
             {
-                img1.graphics.beginBitmapFill(displayImage.image.bitmapData, null, false, false);
+                img1.graphics.beginBitmapFill(displayImage.image, null, false, false);
                 img1.graphics.drawRect(0, 0, displayImage.image.width, displayImage.image.height);
                 img1.graphics.endFill();
                 
-                img2.graphics.beginBitmapFill(displayImage.image.bitmapData, null, false, false);
+                img2.graphics.beginBitmapFill(displayImage.image, null, false, false);
                 img2.graphics.drawRect(0, 0, displayImage.image.width, displayImage.image.height);
                 img2.graphics.endFill();
                 
-                img3.graphics.beginBitmapFill(displayImage.image.bitmapData, null, false, false);
+                img3.graphics.beginBitmapFill(displayImage.image, null, false, false);
                 img3.graphics.drawRect(0, 0, displayImage.image.width, displayImage.image.height);
                 img3.graphics.endFill();
             }
@@ -429,20 +478,14 @@ class Panorama extends BaseUI implements IPanorama implements com.chaos.ui.class
         }
     }
     
-    private function initSlider(velocity : Int, w : Float, h : Float, margin : Int, spacing : Int, mode : String = "normal") : Void
+    private function initSlider(velocity : Int,  margin : Int, spacing : Int, mode : String = "normal") : Void
     {
         _velocity = velocity;
         
-        _width = w;
-        _height = h;
-        
         _mode = mode;
-        
-        // Used for force mode
-        forcePoint = new Point();
+
         
         // Slider for holding image
-        slider = new Sprite();
         slider.name = "slider";
         
         // Mask for VR area
@@ -450,17 +493,11 @@ class Panorama extends BaseUI implements IPanorama implements com.chaos.ui.class
         vr_mask.name = "vr_mask";
         mask = vr_mask;
         
-        panHolder = new Sprite();
         panHolder.name = "panHolder";
         
         // Images use for 360 VR
-        img1 = new Sprite();
         img1.name = "image1";
-        
-        img2 = new Sprite();
         img2.name = "image2";
-        
-        img3 = new Sprite();
         img3.name = "image3";
         
         panHolder.addChild(img1);
@@ -470,10 +507,10 @@ class Panorama extends BaseUI implements IPanorama implements com.chaos.ui.class
         _margin = _blockSpace = margin;
         _spacing = spacing;
         
-        left_mc = drawRectangle(_width >> 1 - _blockSpace, _height);
-        right_mc = drawRectangle(_width >> 1 - _blockSpace, _height);
-        upper_mc = drawRectangle(_width, _width >> 1 - _blockSpace);
-        lower_mc = drawRectangle(_width, _width >> 1 - _blockSpace);
+        left_mc = drawRectangle(_width / 2 - _blockSpace, _height);
+        right_mc = drawRectangle(_width / 2 - _blockSpace, _height);
+        upper_mc = drawRectangle(_width, _width / 2 - _blockSpace);
+        lower_mc = drawRectangle(_width, _width / 2 - _blockSpace);
         
         // Start up timer for slider
         addEventListener(Event.ENTER_FRAME, updateSlider, false, 0, true);
@@ -504,32 +541,22 @@ class Panorama extends BaseUI implements IPanorama implements com.chaos.ui.class
         
         if (_lock == false) 
         {
-            if (_mode.toLocaleLowerCase() == MODE_NOMRAL) 
+            if (_mode.toLowerCase() == MODE_NOMRAL) 
             {
-                if (_forceMode == true) 
-                {
+                if (_forceMode) 
                     vrForceMove();
-                }
                 else 
-                {
                     vrMouseMove();
-                }
             }
-            else if (_mode.toLocaleLowerCase() == MODE_360) 
+            else if (_mode.toLowerCase() == MODE_360) 
             {
-                if (_forceMode == true) 
-                {
+                if (_forceMode) 
                     vrForceMove();
-                }
                 else 
-                {
                     vr360Mode();
-                }
             }
             else 
-            {
-                trace(_mode + " is not a mode!");
-            }
+                Debug.print("[Panorama::updateSlider] " + _mode + " is not a mode!");
         }
     }
     
@@ -556,10 +583,10 @@ class Panorama extends BaseUI implements IPanorama implements com.chaos.ui.class
         
         
         if (!_xLock) 
-            slider.x = Math.round(slider.x + (root.mouseX - (_width >> 1)) / -_lag);
+            slider.x = Math.round(slider.x + (root.mouseX - (_width / 2)) / - _lag);
         
         if (!_yLock) 
-            slider.y = Math.round(slider.y + (root.mouseY - (_height >> 1)) / -_lag);
+            slider.y = Math.round(slider.y + (root.mouseY - (_height / 2)) / - _lag);
         
         if (slider.x <= maxRight) 
             slider.x = maxRight;
@@ -578,20 +605,20 @@ class Panorama extends BaseUI implements IPanorama implements com.chaos.ui.class
     {
         // Most be on stage
         if (null == root) 
-            return  // Set the  ;
+            return;
         
         
-        
+         // Set the  
         maxUp = 0;
         maxDown = img1.height * -1 + _height;
         maxRight = img1.width * -1;
         maxLeft = img1.width;
         
         if (_xLock == false) 
-            img1.x = Math.round(img1.x + (slider.mouseX - (_width >> 1)) / -_lag);
+            img1.x = Math.round(img1.x + (slider.mouseX - (_width / 2)) / -_lag);
         
         if (_yLock == false) 
-            img1.y = Math.round(img1.y + (slider.mouseY - (_height >> 1)) / -_lag);
+            img1.y = Math.round(img1.y + (slider.mouseY - (_height / 2)) / -_lag);
         
         img2.x = img1.x + img1.width;
         img3.x = img1.x - img1.width;
@@ -669,15 +696,16 @@ class Panorama extends BaseUI implements IPanorama implements com.chaos.ui.class
         
         maxUp = 0;
         maxLeft = 0;
+		
         if (_maskReady) 
         {
-            maxDown = as3hx.Compat.parseInt(_maskHeight * -1 + _height);
-            maxRight = as3hx.Compat.parseInt(_maskWidth * -1 + _width);
+            maxDown = Std.int(_maskHeight * -1 + _height);
+            maxRight = Std.int(_maskWidth * -1 + _width);
         }
         else 
         {
-            maxDown = as3hx.Compat.parseInt(_source.height * -1 + _height);
-            maxRight = as3hx.Compat.parseInt(_source.width * -1 + _width);
+            maxDown = Std.int(_source.height * -1 + _height);
+            maxRight = Std.int(_source.width * -1 + _width);
         }
         
         if (forcePoint.x < (_width * 0.2)) 
@@ -696,13 +724,14 @@ class Panorama extends BaseUI implements IPanorama implements com.chaos.ui.class
             _lock = false;
             _targetY = Math.min(maxUp, _source.y + (_height / 2) - forcePoint.y);
         }
-        else if (forcePoint.y > (_height * 0.8)) {
+        else if (forcePoint.y > (_height * 0.8)) 
+		{
             _lock = false;
             _targetY = Math.max(maxDown, _source.y + _height / 2 - forcePoint.y);
         }
     }
     
-    private function drawRectangle(w : Int, h : Int) : Shape
+    private function drawRectangle(w : Float, h : Float) : Shape
     {
         var newRect : Shape = new Shape();
         

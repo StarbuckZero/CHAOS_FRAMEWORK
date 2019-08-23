@@ -31,7 +31,7 @@ class Label extends BaseUI implements ILabel implements IBaseUI
 	/** The type of UI Element */
 	public static inline var TYPE : String = "Label";
 	
-    public var showIcon(get, set) : Bool;
+    
     public var textField(get, never) : TextField;
     public var textFormat(get, set) : TextFormat;
     public var text(get, set) : String;
@@ -69,8 +69,8 @@ class Label extends BaseUI implements ILabel implements IBaseUI
 	private var _outlineColor : Int = 0x000000;
 	private var _outlineAlpha : Float = 1;
 	private var _bgAlpha : Float = .2;
-	private var _showIcon : Bool = false;
-	private var _displayIcon : Shape = new Shape();
+	
+	
 	private var _outline : Shape = new Shape();
 	private var _bitmapMode : Bool = false;
 	private var _size:Int = 11;
@@ -176,7 +176,7 @@ class Label extends BaseUI implements ILabel implements IBaseUI
 		
 		// Add to display
 		addChild(_outline);
-		addChild(_displayIcon);
+		
 		
 		// Create as bitmap image or display the label for real
 		if (_bitmapMode)
@@ -198,11 +198,11 @@ class Label extends BaseUI implements ILabel implements IBaseUI
 		// Clear out lines
 		_outline.graphics.clear();
 		_textImage.graphics.clear();
-		_displayIcon.graphics.clear();
+		
 		
 		// Remove items
 		removeChild(_outline);
-		removeChild(_displayIcon);
+		
 		
 		if (_textField.parent != null)
 			removeChild(_textField);
@@ -302,23 +302,7 @@ class Label extends BaseUI implements ILabel implements IBaseUI
 		
 	} 
 	 
-	 /**
-	 * Show the icon if there is one
-	 */
-	 
-	 private function set_showIcon(value : Bool) : Bool
-	 {
-		_showIcon = value;
-		
-		
-		return value;
-	 }
-		 
-	/**
-	 * Return true if the icon is being shown and false if not
-	 */  
 	
-	private function get_showIcon() : Bool { return _showIcon; }
 	
 	/**
 	 * Return the text field that is being used
@@ -685,21 +669,7 @@ class Label extends BaseUI implements ILabel implements IBaseUI
 	}
 		
 	
-	/**
-	 * Set the icon to be used in the label
-	 *
-	 * @param	value The icon you want to use for the label
-	 */
-	
-	public function setDisplayIcon(value : BitmapData) : Void 
-	{
-		_displayIcon.graphics.clear();
-		
-		_displayIcon.graphics.beginBitmapFill(value, null, false, false);
-		_displayIcon.graphics.drawRect(0, 0, value.width, value.height);
-		_displayIcon.graphics.endFill();
-		
-	}
+
 	
 
 	
@@ -711,19 +681,9 @@ class Label extends BaseUI implements ILabel implements IBaseUI
 	{
 		super.draw();
 		
-		// Adjust if icon  
-		if (null != _displayIcon && _showIcon) 
-		{
-			_textField.width = _width - _displayIcon.width;
-			_textField.x = _displayIcon.width;
-			_displayIcon.y = (_textField.height / 2) - (_displayIcon.height / 2);
-		}
-		else 
-		{
-			_textField.width = _width;
-			_textField.x = 0;
-			_textField.y = 0;
-		}
+		_textField.width = _width;
+		_textField.x = 0;
+		_textField.y = 0;
 		
 		// First turn off all the stuff that would be turned on if nomral TextField  
 		_textField.selectable = ((_enabled && _editable)) ? true : false;

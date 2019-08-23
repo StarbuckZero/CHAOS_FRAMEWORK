@@ -13,11 +13,11 @@ import com.chaos.ui.classInterface.IBaseUI;
 import com.chaos.ui.layout.classInterface.IBaseContainer;
 import openfl.display.BitmapData;
 
-import openfl.display.Bitmap;
+
 import openfl.display.DisplayObject;
 import openfl.display.Shape;
 import openfl.display.Sprite;
-import openfl.events.Event;
+
 
 class BaseContainer extends BaseUI implements IBaseContainer implements IBaseUI
 {

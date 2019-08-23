@@ -10,9 +10,7 @@ package com.chaos.utils;
 import com.chaos.data.DataProvider;
 import com.chaos.utils.classInterface.ITask;
 import com.chaos.utils.TaskManager;
-import com.chaos.utils.data.TaskCallBack;
 import haxe.Constraints.Function;
-
 import openfl.display.DisplayObject;
 import openfl.display.Stage;
 import openfl.events.Event;
@@ -33,7 +31,7 @@ import com.chaos.utils.Debug;
     
     private static var _stage : Stage = null;
 	
-    private static var eventCollection : DataProvider<TaskCallBack> = new DataProvider<TaskCallBack>();
+    private static var eventCollection : DataProvider<Dynamic->Void> = new DataProvider<Dynamic->Void>();
     private static var taskCollection : Dictionary<String,TaskManager> = new Dictionary<String,TaskManager>(true);
     
     /**
@@ -75,7 +73,7 @@ import com.chaos.utils.Debug;
 	 * @param	func The function you want to add event list
 	 */
     
-    public static function addEventTimer(func : TaskCallBack) : Void
+    public static function addEventTimer(func : Dynamic->Void ) : Void
     {
         // If value passed in wasn't null then setup event
         if (null == _stage) 
@@ -96,7 +94,7 @@ import com.chaos.utils.Debug;
 	 * @param	func The function you want to remove.
 	 */
     
-    public static function removeEventTimer(func : TaskCallBack) : Void
+    public static function removeEventTimer(func : Dynamic->Void) : Void
     {
         
         // If value passed in wasn't null then setup event
@@ -258,10 +256,13 @@ import com.chaos.utils.Debug;
         for (i in 0...eventCollection.length)
 		{
 			
-			var taskCallBack:TaskCallBack = cast(eventCollection.getItemAt(i), TaskCallBack);
+			var taskCallBack:Dynamic->Void = eventCollection.getItemAt(i);
 			
 			if (taskCallBack != null)
-				Reflect.callMethod(taskCallBack.mainClass, Reflect.field(taskCallBack.mainClass, taskCallBack.functionName),[]);
+				taskCallBack(null);
+			
+			//if (taskCallBack != null)
+			//	Reflect.callMethod(taskCallBack.mainClass, Reflect.field(taskCallBack.mainClass, taskCallBack.functionName),[]);
 			
         }
     }

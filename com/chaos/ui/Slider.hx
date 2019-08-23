@@ -5,7 +5,6 @@ import com.chaos.ui.classInterface.IButton;
 import com.chaos.ui.classInterface.ISlider;
 import com.chaos.utils.ThreadManager;
 import com.chaos.utils.Utils;
-import com.chaos.utils.data.TaskCallBack;
 import openfl.display.BitmapData;
 import openfl.display.Shape;
 import openfl.events.MouseEvent;
@@ -84,7 +83,7 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 	private var _trackerImage : BitmapData;
 	private var _rotateImage : Bool = UIStyleManager.SLIDER_ROTATE_IMAGE;
 
-	private var _threadCallBack:TaskCallBack;
+	
 
 	// percentage  
 	private var percentage : Float = 0; 
@@ -141,8 +140,6 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 		super.initialize();
 		
 		_marker.addEventListener(MouseEvent.MOUSE_DOWN, markerPress, false, 0, true);
-		
-		_threadCallBack = new TaskCallBack(this, "updatePercent");
 		
 		
 		if (ScrollBarDirection.VERTICAL == _mode) 
@@ -616,7 +613,7 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 			stage.removeEventListener(MouseEvent.MOUSE_MOVE, updatePercent);
 			stage.removeEventListener(MouseEvent.MOUSE_UP, stopSliding);
 			
-			ThreadManager.removeEventTimer(_threadCallBack);
+			ThreadManager.removeEventTimer(updatePercent);
         }
     }
 	
@@ -631,7 +628,7 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 		stage.removeEventListener(MouseEvent.MOUSE_UP, stopSliding);
 		
 		
-		ThreadManager.removeEventTimer(_threadCallBack);
+		ThreadManager.removeEventTimer(updatePercent);
     } 
 	
 	// updates the data to reflect the visuals
@@ -660,7 +657,7 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 			_marker.startDrag(false, new Rectangle(_track.x, _sliderOffSet, (_width - sliderWidthNum), 0));
 		
 		if (_eventMode == TIMER_MODE)
-			ThreadManager.addEventTimer(_threadCallBack);
+			ThreadManager.addEventTimer(updatePercent);
         else
 			stage.addEventListener(MouseEvent.MOUSE_MOVE, updatePercent, false, 0, true);
 		
@@ -682,7 +679,7 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 			stage.removeEventListener(MouseEvent.MOUSE_MOVE, updatePercent);
 			stage.removeEventListener(MouseEvent.MOUSE_UP, stopSliding);
 			
-			ThreadManager.removeEventTimer(_threadCallBack);
+			ThreadManager.removeEventTimer(updatePercent);
         }
 		
 		// Drawing

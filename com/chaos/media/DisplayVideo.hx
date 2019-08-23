@@ -9,10 +9,11 @@ package com.chaos.media;
 
 
 import com.chaos.media.event.DisplayVideoEvent;
-import com.chaos.utils.data.TaskCallBack;
 import haxe.Constraints.Function;
 import openfl.Assets;
+import openfl.display.BitmapData;
 import openfl.display.DisplayObject;
+import openfl.display.Shape;
 import openfl.display.Sprite;
 import com.chaos.ui.BaseUI;
 import com.chaos.ui.classInterface.IBaseUI;
@@ -32,33 +33,39 @@ import openfl.net.NetStream;
 
 class DisplayVideo extends BaseUI implements IBaseUI
 {
+	public static inline var TYPE : String = "DisplayVideo";
     public var videoLoaded(get, never) : Int;
     public var bufferAmount(get, set) : Int;
     public var video(get, never) : Video;
     public var isPlaying(get, never) : Bool;
     public var connection(get, never) : NetConnection;
     public var netStream(get, never) : NetStream;
-
-    public static inline var TYPE : String = "DisplayVideo";
+	public var backgroundColor(get, set) : Int;
+	public var backgroundAlpha(get, set) : Float;
+	
+    
     
     private var _videoURL : String = "";
-    private var _connection : NetConnection;
+    private var _connection : NetConnection = new NetConnection();
     private var _stream : NetStream;
     
     private var _bufferAmount : Int = 30;
     private var _isPlaying : Bool = false;
     
     private var _videoLoaded : Int = 0;
-    private var _video : Video;
-    private var _background : DisplayObject;
+    private var _video : Video  = new Video();
+    private var _background : Shape = new Shape();
     
-    private var _metaData : Object;
+    private var _metaData : Dynamic = {};
     
-    private var _callBack : Function = null;
+    private var _callBack : Dynamic->Void = null;
 	
-	private var _taskCallBack:TaskCallBack;
     
     private var _autoStart : Bool = false;
+	
+	private var _backgroundColor : Int = 0x000000;
+	private var _backgroundAlpha : Float = 1;
+	private var _backgroundImage : BitmapData;
 	
 	private var _timeOut:Int = 0;
 	private var _timeOutMax:Int = 10;
@@ -74,21 +81,51 @@ class DisplayVideo extends BaseUI implements IBaseUI
 	 * @eventType com.chaos.media.Event.DisplayVideoEvent.VIDEO_COMPLETE
 	 * @eventType com.chaos.media.Event.DisplayVideoEvent.DisplayVideoEvent.VIDEO_METADATA
 	 */
-    public function new()
+	
+    public function new(data:Dynamic = null)
     {
-        super();
-        
-        _video = new Video();
-        _background = Draw.Square(10, 10, 0xFFFFFF);
-        _connection = new NetConnection();
-        _connection.addEventListener(NetStatusEvent.NET_STATUS, netStatusHandler);
-        _connection.addEventListener(SecurityErrorEvent.SECURITY_ERROR, securityErrorHandler);
+		
+        super(data);
 		
         addEventListener(Event.ADDED_TO_STAGE, onStageAdd, false, 0, true);
+        //_background = Draw.Square(10, 10, 0xFFFFFF);
+    }
+	
+	override public function setComponentData(data:Dynamic):Void 
+	{
+		super.setComponentData(data);
+		
+		if (Reflect.hasField(data, "backgroundColor"))
+			_backgroundColor = Reflect.field(data, "backgroundColor");
+			
+		if (Reflect.hasField(data, "backgroundAlpha"))
+			_backgroundAlpha = Reflect.field(data, "backgroundAlpha");
+		
+		if (Reflect.hasField(data, "backgroundImage"))
+			_backgroundImage = Reflect.field(data, "backgroundImage");
+			
+		if (Reflect.hasField(data, "autoStart"))
+			_autoStart = Reflect.field(data, "autoStart");
+			
+		if (Reflect.hasField(data, "bufferAmount"))
+			_bufferAmount = Reflect.field(data, "bufferAmount");
+		
+		if (Reflect.hasField(data, "url"))
+			_videoURL = Reflect.field(data, "url");
+		
+	}
+	
+	override public function initialize():Void 
+	{
+		super.initialize();
+		
+        _connection.addEventListener(NetStatusEvent.NET_STATUS, netStatusHandler);
+        _connection.addEventListener(SecurityErrorEvent.SECURITY_ERROR, securityErrorHandler);
         
         addChild(_background);
         addChild(_video);
-    }
+		
+	}
     
     private function onStageAdd(event : Event) : Void
     {
@@ -97,48 +134,50 @@ class DisplayVideo extends BaseUI implements IBaseUI
     }
     
 	
-    /**
-	 * @inheritDoc
-	 */
 	
-    #if flash @:setter(width) 
-    private function set_width(value : Float) : Void
-    {
-       _video.width = _background.width = value;
-    }
-	#else
-	override private function set_width(value : Float) : Float
+	override public function draw():Void 
 	{
-        _video.width = _background.width = value;
-        return value;
+		super.draw();
+		
+		_background.graphics.clear();
+		
+		if (_backgroundImage != null)
+			_background.graphics.beginBitmapFill(_backgroundImage);
+		else
+			_background.graphics.beginFill(_backgroundColor, _backgroundAlpha);
+		
+		_background.graphics.drawRect(0, 0, _width, _height);
+		_background.graphics.endFill();
+		_video.width = _width;
+		_video.height = _height;
+		
 	}
-	#end
+	
+	private function set_backgroundColor( value:Int ) : Int
+	{
+		_backgroundColor = value;
+		
+		return value;
+	}
+	
+	private function get_backgroundColor() : Int
+	{
+		return _backgroundColor;
+	}
 	
 	
-    #if flash @:getter(width) #else override #end
-    private function get_width() : Float
-    {
-        return _video.width;
-    }
+	private function set_backgroundAlpha( value:Float ) : Float
+	{
+		_backgroundAlpha = value;
+		
+		return value;
+	}
 	
-	#if flash @:setter(height) 
-    private function set_height(value : Float) : Void
-    {
-        _video.height = _background.height = value;
-    }	
-	#else
-    override private function set_height(value : Float) : Float
-    {
-        _video.height = _background.height = value;
-        return value;
-    }
-    #end
+	private function get_backgroundAlpha() : Float
+	{
+		return _backgroundAlpha;
+	}
 	
-	#if flash @:getter(height) #else override #end
-    private function get_height() : Float
-    {
-        return _video.height;
-    }
     
     /**
 	 * The amount of the video loaded from 0 to 100 percent
@@ -191,7 +230,7 @@ class DisplayVideo extends BaseUI implements IBaseUI
 	 *  Things on the object duration, width, height and framerate
 	 */
     
-    private function get_metaData() : Object
+    private function get_metaData() : Dynamic
     {
         return _metaData;
     }
@@ -213,6 +252,15 @@ class DisplayVideo extends BaseUI implements IBaseUI
     {
         return _stream;
     }
+	
+	/**
+	 * Set background image to be used
+	 * @param	value The image that will be displayed
+	 */
+	public function setBackgroundImage( value:BitmapData):Void
+	{
+		_backgroundImage = value;
+	}
     
     /**
 	 * Plays a video from the server
@@ -221,7 +269,7 @@ class DisplayVideo extends BaseUI implements IBaseUI
 	 *
 	 */
     
-    public function load(value : String, autoStart : Bool = false, callBack : Function = null) : Void
+    public function load(value : String, autoStart : Bool = false, callBack : Dynamic->Void = null) : Void
     {
         _videoURL = value;
         _autoStart = autoStart;
@@ -302,7 +350,7 @@ class DisplayVideo extends BaseUI implements IBaseUI
                 
                 // Call back
                 if (null != _callBack) 
-					Reflect.callMethod(this, _callBack, [status]);
+					_callBack(status);
                 
                 _callBack = null;
             
@@ -350,13 +398,13 @@ class DisplayVideo extends BaseUI implements IBaseUI
         {
             // Call back
             if (null != _callBack) 
-                _callBack(event);
+                _callBack("connectStream");
             
+			
             _callBack = null;
         }
         
-		_taskCallBack = new TaskCallBack(this, "videoBuffer");
-        ThreadManager.addEventTimer(_taskCallBack);
+        ThreadManager.addEventTimer(videoBuffer);
         
         addChild(_video);
     }
@@ -372,7 +420,6 @@ class DisplayVideo extends BaseUI implements IBaseUI
 	private function onPlayStatus(meta:Object) : Void
 	{
 		
-		trace("onPlayStatus");
 		handleVideoStatus(Reflect.field(meta, "code"));
 	}
     
@@ -387,7 +434,7 @@ class DisplayVideo extends BaseUI implements IBaseUI
         
     }
     
-    private function videoBuffer() : Void
+    private function videoBuffer( status:Dynamic ) : Void
     {
         if (null == _stream) 
             return;
@@ -402,8 +449,7 @@ class DisplayVideo extends BaseUI implements IBaseUI
         
         if (_stream.bytesLoaded == _stream.bytesTotal && _stream.bytesTotal > 0 || _timeOut == _timeOutMax) 
         {
-			if(_taskCallBack != null)
-				ThreadManager.removeEventTimer(_taskCallBack);
+			ThreadManager.removeEventTimer(videoBuffer);
 			
             dispatchEvent(new DisplayVideoEvent(DisplayVideoEvent.VIDEO_COMPLETE));
 			

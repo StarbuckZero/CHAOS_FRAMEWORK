@@ -12,9 +12,6 @@ interface ITask
 {
     
     /** The id for the task*/
-    
-    
-    /** Return the id */
     var id(get, set) : String;    
     
     /** Start point for sub task */
@@ -24,11 +21,10 @@ interface ITask
     var end(get, never) : Int;    
     
     /** The current index value */
-    
-    
-    /** The current index value */
     var index(get, set) : Int;
-
+	
+	/** Extra data that is being stored **/
+	var data(get, set) : Dynamic;
     
     /** Runs function*/
     function run() : Void;
