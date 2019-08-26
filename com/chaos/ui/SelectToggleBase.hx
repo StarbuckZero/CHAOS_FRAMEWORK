@@ -45,6 +45,9 @@ class SelectToggleBase extends ToggleButton implements IToggleButton implements 
 	
 	
 
+	/**
+	 * @inheritDoc
+	 */
 	public function new(data:Dynamic=null) 
 	{
 		super(data);
@@ -64,6 +67,9 @@ class SelectToggleBase extends ToggleButton implements IToggleButton implements 
 		
 	}
 	
+	/**
+	 * @inheritDoc
+	 */
 	
 	override public function setComponentData(data:Dynamic):Void 
 	{
@@ -101,6 +107,10 @@ class SelectToggleBase extends ToggleButton implements IToggleButton implements 
 		Reflect.setField(_labelData, "height", _height);
 	}
 	
+	/**
+	 * @inheritDoc
+	 */
+	
 	override public function initialize():Void 
 	{
 		// Setup label
@@ -129,6 +139,10 @@ class SelectToggleBase extends ToggleButton implements IToggleButton implements 
 	
 	}	
 	
+	/**
+	 * @inheritDoc
+	 */
+	
 	override public function reskin() : Void
 	{
 		initSkin();
@@ -137,7 +151,10 @@ class SelectToggleBase extends ToggleButton implements IToggleButton implements 
 		super.reskin();
 	}	
 	
-
+	
+	/**
+	 * @inheritDoc
+	 */
 	
 	override public function destroy():Void 
 	{
@@ -251,7 +268,9 @@ class SelectToggleBase extends ToggleButton implements IToggleButton implements 
 		_selectedDisableStateImage = value;
 	}	
 	
-	
+	/**
+	 * @inheritDoc
+	 */
 	override public function draw():Void 
 	{
 		// Figure to use bitmap or normal mode
@@ -307,14 +326,16 @@ class SelectToggleBase extends ToggleButton implements IToggleButton implements 
 		
 		
 	}
-	
+	/**
+	 * @inheritDoc
+	 */
 	override public function drawButtonState(square:Shape, color:Int = 0xFFFFFF, image:BitmapData = null):Void 
 	{
 		
 		square.graphics.clear();
 		
 		if (null != image) 
-			square.graphics.beginBitmapFill(image, null, _tileImage, _imageSmooth);
+			square.graphics.beginBitmapFill(image, null, _tileImage, _smoothImage);
 		else 
 		{
 			square.graphics.lineStyle(_lineSize, color, _lineAlpha);

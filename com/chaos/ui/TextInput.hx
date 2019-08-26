@@ -38,7 +38,6 @@ class TextInput extends Label implements ITextInput implements ILabel implements
 	
 	private var _showImage : Bool = true;
 	private var _displayImage : Bool = false;
-	private var _smoothImage : Bool = true;
 
 	public var backgroundNormal : Shape = new Shape();
 	public var backgroundOver : Shape = new Shape();
@@ -58,6 +57,9 @@ class TextInput extends Label implements ITextInput implements ILabel implements
 	private var _defaultString : String = "";
 	private var _upperCaseFirst : Bool = false;
 
+	/**
+	 * @inheritDoc
+	 */
 	public function new(data:Dynamic = null)
 	{
 		super(data);
@@ -66,6 +68,9 @@ class TextInput extends Label implements ITextInput implements ILabel implements
 		addEventListener(Event.REMOVED_FROM_STAGE, onStageRemove, false, 0, true);
 	}
 	
+	/**
+	 * @inheritDoc
+	 */
 	override public function setComponentData(data:Dynamic):Void 
 	{
 		super.setComponentData(data);
@@ -120,6 +125,9 @@ class TextInput extends Label implements ITextInput implements ILabel implements
 			stage.removeEventListener(MouseEvent.MOUSE_DOWN, onInputCheck);
 	}
 	
+	/**
+	 * @inheritDoc
+	 */
 	override public function initialize():Void 
 	{
 		
@@ -159,6 +167,9 @@ class TextInput extends Label implements ITextInput implements ILabel implements
 		
 	}
 	
+	/**
+	 * @inheritDoc
+	 */
 	override public function destroy():Void 
 	{
 		super.destroy();

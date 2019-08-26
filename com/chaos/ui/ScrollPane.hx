@@ -65,7 +65,9 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 	private var _bgDisplayImage : Bool = false;
 	
 	
-	
+	/**
+	 * @inheritDoc
+	 */
 	public function new(data:Dynamic = null)
     {
 		super(data);
@@ -84,7 +86,10 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 	{
 		UIBitmapManager.stopWatchElement(TYPE, this);
 	}
-
+	
+	/**
+	 * @inheritDoc
+	 */
 	override function setComponentData(data:Dynamic) 
 	{
 		super.setComponentData(data);
@@ -115,7 +120,9 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 
 	}
 	
-	
+	/**
+	 * @inheritDoc
+	 */
 	override public function initialize():Void 
 	{
 		_scrollBarH = new ScrollBar();
@@ -149,6 +156,10 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 		
 	}
 	
+	/**
+	 * @inheritDoc
+	 */
+	
 	override public function destroy():Void 
 	{
 		super.destroy();
@@ -173,6 +184,9 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 		
 	}
 	
+	/**
+	 * @inheritDoc
+	 */
 	override public function reskin():Void 
 	{
 		super.reskin();

@@ -21,7 +21,10 @@ class ScrollMaskContent extends ScrollContentBase
 	
 	private var _defaultContextLoc:Point;
 	
-
+	
+	/**
+	 * @inheritDoc
+	 */
 
 	public function new(clip:DisplayObject, scroller:IScrollBar, mask:Shape) 
 	{
@@ -34,7 +37,9 @@ class ScrollMaskContent extends ScrollContentBase
 		
 	}
 	
-
+	/**
+	 * @inheritDoc
+	 */
 	
 	override public function attachContent(clip:DisplayObject, scroller:IScrollBar):Void 
 	{

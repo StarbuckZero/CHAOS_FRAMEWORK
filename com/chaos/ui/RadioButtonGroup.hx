@@ -28,7 +28,7 @@ class RadioButtonGroup extends HorizontalContainer implements IRadioButtonGroup 
     private var _list : Array<IRadioButton>;
     
     /**
-	 * Once a name is passed in the container will create and add them to the display
+	 * @inheritDoc
 	 */
     
     public function new(data:Dynamic = null)
@@ -36,6 +36,9 @@ class RadioButtonGroup extends HorizontalContainer implements IRadioButtonGroup 
         super(data);       
     }
 	
+	/**
+	 * @inheritDoc
+	 */
 	override public function setComponentData(data:Dynamic):Void 
 	{
 		super.setComponentData(data);

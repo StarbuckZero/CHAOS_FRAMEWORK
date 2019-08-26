@@ -96,21 +96,18 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
     private var _size : Int = -1;
     
     /**
-	 * A list of display objects
-	 *
-	 * @param	paneWidth The width of the pane
-	 * @param	paneHeight The height of the pane
-	 * @param	itemData A list of data
-	 *
-	 * @eventType openfl.events.Event.CHANGE
+	 * @inheritDoc
 	 */
 	
     public function new(data:Dynamic = null)
     {
-        // Init scroll pane
+        
         super(data);
     }
 	
+	/**
+	 * @inheritDoc
+	 */
 	override function setComponentData(data:Dynamic) 
 	{
 		super.setComponentData(data);
@@ -188,6 +185,9 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
 			
 	}
 	
+	/**
+	 * @inheritDoc
+	 */
 	override public function initialize():Void 
 	{
 		_itemHolder = new Sprite();
@@ -201,6 +201,10 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
 		
 	}
     
+	/**
+	 * @inheritDoc
+	 */
+	
     override public function reskin() : Void
     {
         super.reskin();

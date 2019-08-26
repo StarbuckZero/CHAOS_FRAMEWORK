@@ -25,11 +25,18 @@ class ItemPaneButton extends ToggleButton implements IToggleButton
 	private var _itemLocX : Int = 0;
 	private var _itemLocY : Int = 0;
 	
+	/**
+	 * @inheritDoc
+	 */
 	public function new(data:Dynamic=null) 
 	{
 		super(data);
 		
 	}
+	
+	/**
+	 * @inheritDoc
+	 */
 	
 	override public function setComponentData(data:Dynamic):Void 
 	{
@@ -46,6 +53,10 @@ class ItemPaneButton extends ToggleButton implements IToggleButton
 			
 	}
 	
+	
+	/**
+	 * @inheritDoc
+	 */
 	override public function destroy():Void 
 	{
 		super.destroy();
@@ -62,6 +73,9 @@ class ItemPaneButton extends ToggleButton implements IToggleButton
 		
 	}
 	
+	/**
+	 * @inheritDoc
+	 */
 	override public function initialize():Void 
 	{
 		_label = new Label(_labelData);
@@ -115,6 +129,9 @@ class ItemPaneButton extends ToggleButton implements IToggleButton
 		
 	}
 	
+	/**
+	 * @inheritDoc
+	 */
 	override public function draw():Void 
 	{
 		super.draw();

@@ -32,7 +32,7 @@ class ProgressSlider extends ProgressBar implements IProgressSlider implements I
 	private var _sliderData : Dynamic;
 	
     /**
-	 * A slider that can be used to keep try of objects that are loading
+	 *@inheritDoc
 	 */
     
     public function new(data:Dynamic = null)
@@ -46,6 +46,9 @@ class ProgressSlider extends ProgressBar implements IProgressSlider implements I
        
     }
 	
+	/**
+	 * @inheritDoc
+	 */
 	override public function setComponentData(data:Dynamic):Void 
 	{
 		super.setComponentData(data);
@@ -54,18 +57,11 @@ class ProgressSlider extends ProgressBar implements IProgressSlider implements I
 			_sliderData = Reflect.field(data, "Slider");
 	}
     
-    /**
+
+	
+	/**
 	 * @inheritDoc
 	 */
-    
-    override public function reskin() : Void
-    {
-        super.reskin();
-        
-        initBitmap();
-        initStyle();
-    }
-	
 	override public function initialize():Void 
 	{
 		Reflect.setField(_sliderData, "width", _width);
@@ -118,7 +114,22 @@ class ProgressSlider extends ProgressBar implements IProgressSlider implements I
 		
 		_sliderData = null;
 	}
+	
+    /**
+	 * @inheritDoc
+	 */
     
+    override public function reskin() : Void
+    {
+        super.reskin();
+        
+        initBitmap();
+        initStyle();
+    }
+    
+	/**
+	 * @inheritDoc
+	 */
 	override public function destroy():Void 
 	{
 		super.destroy();

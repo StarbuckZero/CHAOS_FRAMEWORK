@@ -26,7 +26,9 @@ import openfl.events.MouseEvent;
 
 
 /**
- * Creates an menu system
+ * Creates a menu based on a list of MenuItemObjectData
+ * 
+ * @example var menu = new Menu(menuDataList, Menu.HORIZONTAL)
  * 
  * @author Erick Feiling
  */
@@ -65,7 +67,6 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
     public var textSubDisableColor(get, set) : Int;
     public var borderThinkness(get, set) : Float;
     public var subBorderThinkness(get, set) : Float;
-    public var smoothImage(get, set) : Bool;
     public var showSubMenuIcon(get, set) : Bool;
 
     
@@ -158,11 +159,7 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
 	private var _direction : String;
     
     /**
-	 * Creates a menu based on a list of MenuItemObjectData
-	 * @param	menuList A list of menu items that will be created. The first level is the only thing that will be create at first.
-	 * @param	direction The direction the menu is going to be going which is either horizontal or vertical
-	 * 
-	 * @example var menu = new Menu(menuDataList, Menu.HORIZONTAL)
+	 * @inheritDoc
 	 */
     
     public function new(data:Dynamic = null)
@@ -175,6 +172,10 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
         addEventListener(Event.ADDED_TO_STAGE, onStageAdd, false, 0, true);
         addEventListener(Event.REMOVED_FROM_STAGE, onStageRemove, false, 0, true);
     }
+	
+	/**
+	 * @inheritDoc
+	 */
 	
 	override public function setComponentData(data:Dynamic):Void 
 	{
@@ -344,6 +345,9 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
 		return children;
 	}
 	
+	/**
+	 * @inheritDoc
+	 */
 	override public function initialize():Void 
 	{
 		buttonArea = new FitContainer({"width":_width, "height":_height,"direction":_direction});
@@ -358,6 +362,9 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
 		build();
 	}
 	
+	/**
+	 * @inheritDoc
+	 */
 	override public function destroy():Void 
 	{
 		super.destroy();
@@ -374,6 +381,9 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
 		removeSubMenu();
 	}
 	
+	/**
+	 * @inheritDoc
+	 */
     override public function reskin() : Void
     {
         super.reskin();
@@ -1326,24 +1336,7 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
         
     }	
 	
-    /**
-	 * Turn on and off image smoothing
-	 */
-    
-    private function set_smoothImage(value : Bool) : Bool
-    {
-        _smoothImage = value;
-        return value;
-    }
-    
-    /**
-	 * Return true if smoothing is on and false if not
-	 */
-	
-    private function get_smoothImage() : Bool
-    {
-        return _smoothImage;
-    }
+
     
     
 

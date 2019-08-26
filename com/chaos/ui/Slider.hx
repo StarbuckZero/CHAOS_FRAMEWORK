@@ -5,12 +5,12 @@ import com.chaos.ui.classInterface.IButton;
 import com.chaos.ui.classInterface.ISlider;
 import com.chaos.utils.ThreadManager;
 import com.chaos.utils.Utils;
+import openfl.display.Bitmap;
 import openfl.display.BitmapData;
 import openfl.display.Shape;
 import openfl.events.MouseEvent;
 import openfl.geom.Rectangle;
 import openfl.events.Event;
-import openfl.display.Bitmap;
 import com.chaos.ui.Button;
 import com.chaos.ui.event.SliderEvent;
 import com.chaos.ui.ScrollBarDirection;
@@ -67,7 +67,6 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 	private var _sliderOverColor : Int = 0x666666;
 	private var _sliderDownColor : Int = 0x333333;
 	private var _sliderDisableColor : Int = 0x999999;
-	private var _smoothImage : Bool = true;
 	private var _showImage : Bool = true;
 	private var _mode : String = ScrollBarDirection.VERTICAL;
 	private var _dragging : Bool = false;
@@ -89,7 +88,7 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 	private var percentage : Float = 0; 
   
 	/**
-	 * Constructor
+	 * @inheritDoc
 	 */
 	
 	public function new (data:Dynamic = null)
@@ -112,6 +111,9 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 		
     }
 	
+	/**
+	 * @inheritDoc
+	 */
 	override public function setComponentData(data:Dynamic):Void 
 	{
 		
@@ -152,6 +154,10 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 		
 	}
 
+	
+	/**
+	 * @inheritDoc
+	 */
 	
 	override public function reskin() : Void
 	{

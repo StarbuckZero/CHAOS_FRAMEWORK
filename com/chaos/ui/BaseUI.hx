@@ -18,9 +18,25 @@ import openfl.display.Sprite;
 class BaseUI extends Sprite implements IBaseUI
 {
 	
+	/**
+	 * Calls draw function every time component width or height is adjusted
+	 */
 	public var drawOnResize(get, set) : Bool;
 	
+	/**
+	 * Turns on or off image smoothing, which gives the image a nice anti aliasing effect
+	 */
+	
+	public var imageSmoothing(get, set) : Bool;
+	
+	/**
+	 * Enable or Disable component
+	 */
     public var enabled(get, set) : Bool;
+	
+	/**
+	 * This display object
+	 */
     public var displayObject(get, never) : DisplayObject;
 
     private var _width : Float = 0;
@@ -29,7 +45,12 @@ class BaseUI extends Sprite implements IBaseUI
     private var _enabled : Bool = true;
 	private var _drawOnResize:Bool = false;
     
+	private var _smoothImage : Bool = true;
     
+	/**
+	 * UI Component 
+	 * @param	data The proprieties that you want to set on component.
+	 */
     public function new( data:Dynamic = null )
     {
         super();
@@ -196,6 +217,26 @@ class BaseUI extends Sprite implements IBaseUI
 	private function get_drawOnResize():Bool
 	{
 		return _drawOnResize;
+	}
+	
+	/**
+	 * Turn on or off smoothing for image
+	 */
+	
+	private function set_imageSmoothing( value:Bool ) : Bool
+	{
+		_smoothImage = value;
+		
+		return value;
+	}
+	
+	/**
+	 * Turn on or off smoothing for image
+	 */
+	
+	private function get_imageSmoothing() : Bool
+	{
+		return _smoothImage;
 	}
 	
 	

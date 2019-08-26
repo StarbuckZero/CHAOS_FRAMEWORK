@@ -119,6 +119,33 @@ class Panorama extends BaseUI implements IPanorama implements IBaseUI
 		initSlider(_velocity,  _margin, _spacing, _mode);
 		
 	}
+	
+	override public function destroy():Void 
+	{
+		super.destroy();
+		
+        removeEventListener(Event.ENTER_FRAME, updateSlider);
+        removeEventListener(MouseEvent.MOUSE_OVER, onMouseOver);
+        removeEventListener(MouseEvent.MOUSE_OUT, onMouseOut);
+		
+		
+        // Remove old display object  
+        if (null == _source) 
+        {
+            if (null != _source.parent) 
+                _source.parent.removeChild(_source);
+        }
+		
+        panHolder.removeChild(img1);
+        panHolder.removeChild(img2);
+        panHolder.removeChild(img3);		
+		
+        
+		
+        //removeChild(vr_mask);
+        removeChild(slider);
+        slider.addChild(panHolder);		
+	}
     
     /**
 	 * The margin or hit area for when in forceMode
@@ -299,6 +326,7 @@ class Panorama extends BaseUI implements IPanorama implements IBaseUI
         
         if (value != null) 
             panHolder.addChild(value);
+			
         return value;
     }
     
@@ -354,7 +382,7 @@ class Panorama extends BaseUI implements IPanorama implements IBaseUI
     }
     
     /**
-	 * Loads an image or swf file
+	 * Loads an image file
 	 *
 	 * @param	fileURL The file that will be used
 	 */
@@ -411,14 +439,17 @@ class Panorama extends BaseUI implements IPanorama implements IBaseUI
             // See if item is image first
             if (null != bitmap.bitmapData) 
             {
+				img1.graphics.clear();
                 img1.graphics.beginBitmapFill(bitmap.bitmapData, null, false, false);
                 img1.graphics.drawRect(0, 0, bitmap.bitmapData.width, bitmap.bitmapData.height);
                 img1.graphics.endFill();
                 
+				img2.graphics.clear();
                 img2.graphics.beginBitmapFill(bitmap.bitmapData, null, false, false);
                 img2.graphics.drawRect(0, 0, bitmap.bitmapData.width, bitmap.bitmapData.height);
                 img2.graphics.endFill();
                 
+				img3.graphics.clear();
                 img3.graphics.beginBitmapFill(bitmap.bitmapData, null, false, false);
                 img3.graphics.drawRect(0, 0, bitmap.bitmapData.width, bitmap.bitmapData.height);
                 img3.graphics.endFill();

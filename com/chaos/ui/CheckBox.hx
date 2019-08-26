@@ -26,10 +26,10 @@ class CheckBox extends SelectToggleBase implements ICheckBox implements IBaseUI
 	
 	
 	private var _style:String = STYLE_CHECKMARK;
-
+	
+	
 	/**
-	 * Creates new check box
-	 * @param	labelText The label name
+	 * @inheritDoc
 	 */
 
 	public function new(data:Dynamic = null)
@@ -127,6 +127,10 @@ class CheckBox extends SelectToggleBase implements ICheckBox implements IBaseUI
 	{
 		return _style;
 	}
+	
+	/**
+	 * @inheritDoc
+	 */
 
 	override public function draw():Void 
 	{

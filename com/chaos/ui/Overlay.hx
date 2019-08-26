@@ -44,7 +44,6 @@ class Overlay extends BaseUI implements IOverlay
     private var _middleLeftImage : BitmapData;
     private var _middleRightImage : BitmapData;
     
-    private var _smoothImage : Bool = true;
     private var _showImage : Bool = true;
     
     private var _tileTopCenterImage : Bool = false;
@@ -52,10 +51,13 @@ class Overlay extends BaseUI implements IOverlay
     private var _tileBottomCenterImage : Bool = false;
     
     
+	/**
+	 * @inheritDoc
+	 */
     
     public function new(data:Dynamic = null)
     {
-		// defaultWidth : Float = 100, defaultHeight : Float = 100
+		
         
         super(data);
         

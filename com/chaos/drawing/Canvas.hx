@@ -23,6 +23,10 @@ class Canvas extends BaseContainer implements IBaseContainer implements IBaseUI
 		super(data);
 	}
 	
+	/**
+	 * @inheritDoc
+	 */
+	
 	override public function setComponentData(data:Dynamic):Void 
 	{
 		super.setComponentData(data);

@@ -65,15 +65,21 @@ class TabPane extends BaseUI implements ITabPane implements IBaseUI
 	private var _scrollPane:ScrollPane;
 	private var _scrollPaneData:Dynamic;
 
+	
+	/**
+	 * @inheritDoc
+	 */
 	public function new(data:Dynamic = null)
 	{
-		// paneWidth : Int = 400, paneHeight : Int = 300
 		super(data);
 
 		addEventListener(Event.ADDED_TO_STAGE, onStageAdd, false, 0, true);
 		addEventListener(Event.REMOVED_FROM_STAGE, onStageRemove, false, 0, true);
 	}
 	
+	/**
+	 * @inheritDoc
+	 */
 	override public function setComponentData(data:Dynamic):Void 
 	{
 		super.setComponentData(data);
@@ -109,6 +115,9 @@ class TabPane extends BaseUI implements ITabPane implements IBaseUI
 	private function onStageAdd(event : Event) : Void { UIBitmapManager.watchElement(TYPE, this); }
 	private function onStageRemove(event : Event) : Void { UIBitmapManager.stopWatchElement(TYPE, this); }
 	
+	/**
+	 * @inheritDoc
+	 */
 	override public function initialize():Void 
 	{
 		if (_scrollPaneData == null)
@@ -188,6 +197,10 @@ class TabPane extends BaseUI implements ITabPane implements IBaseUI
 			_tabButtonSelectedColor = UIStyleManager.TABPANE_BUTTON_SELECTED_COLOR;
 
 	}
+	
+	/**
+	 * @inheritDoc
+	 */
 	
 	override public function destroy():Void 
 	{

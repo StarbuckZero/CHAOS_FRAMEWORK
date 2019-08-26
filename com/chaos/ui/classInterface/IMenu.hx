@@ -6,9 +6,9 @@ import com.chaos.ui.layout.classInterface.IFitContainer;
 import openfl.display.BitmapData;
 
 /**
-	 * Interface for menu system
-	 * @author Erick Feiling
-	 */
+ * Interface for menu system
+ * @author Erick Feiling
+ */
 
 interface IMenu extends IBaseContainer
 {
@@ -234,12 +234,7 @@ interface IMenu extends IBaseContainer
 	 */
     
     var subBorderThinkness(get, set) : Float;    
-    
-    /**
-	 * Turn on and off image smoothing
-	 */
-
-    var smoothImage(get, set) : Bool;    
+      
 	
     /**
 	 * Show or hide the Sub menu icon
@@ -259,8 +254,6 @@ interface IMenu extends IBaseContainer
 	 */
 	
     function removeSubMenu() : Void;
-    
-
     
     
     /**

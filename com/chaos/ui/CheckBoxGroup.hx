@@ -26,8 +26,7 @@ class CheckBoxGroup extends HorizontalContainer implements ICheckBoxGroup implem
 	private var _list:Array<ICheckBox>;
     
     /**
-	 * Creates a container 
-	 * @eventType openfl.events.Event.CHANGE
+	 * @inheritDoc
 	 */
     
     public function new(data:Dynamic = null)
@@ -36,6 +35,9 @@ class CheckBoxGroup extends HorizontalContainer implements ICheckBoxGroup implem
 		
     }
 	
+	/**
+	 * @inheritDoc
+	 */
 	override public function setComponentData(data:Dynamic):Void 
 	{
 		super.setComponentData(data);
@@ -61,6 +63,9 @@ class CheckBoxGroup extends HorizontalContainer implements ICheckBoxGroup implem
 		
 	}
 	
+	/**
+	 * @inheritDoc
+	 */
 	override public function destroy():Void 
 	{
 		super.destroy();

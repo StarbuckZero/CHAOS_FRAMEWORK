@@ -34,11 +34,19 @@ class DisplayAnimation extends BaseUI implements IBaseUI
 	private var _animation:Array<BitmapData> = new Array<BitmapData>();
 	
 
+	/**
+	 * 
+	 * @inheritDoc
+	 */
+	
 	public function new(data:Dynamic = null) 
 	{
 		super(data);
 	}
 	
+	/**
+	 * @inheritDoc
+	 */
 	override public function setComponentData(data:Dynamic):Void 
 	{
 		super.setComponentData(data);
@@ -54,6 +62,10 @@ class DisplayAnimation extends BaseUI implements IBaseUI
 			
 	}
 	
+	/**
+	 * @inheritDoc
+	 */
+	
 	override public function initialize() : Void 
 	{
 		super.initialize();
@@ -66,6 +78,9 @@ class DisplayAnimation extends BaseUI implements IBaseUI
 		
 	}	
 	
+	/**
+	 * @inheritDoc
+	 */
 	override public function destroy():Void 
 	{
 		super.destroy();

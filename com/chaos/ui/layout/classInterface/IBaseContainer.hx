@@ -15,12 +15,6 @@ import com.chaos.ui.classInterface.IBaseUI;
 interface IBaseContainer extends IBaseUI
 {
     
-    /**
-	 * Turns on or off image smoothing
-	 */
-
-    
-    var imageSmoothing(get, set) : Bool;    
     
     /**
 	 * The content layer

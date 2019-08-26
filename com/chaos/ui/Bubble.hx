@@ -75,6 +75,9 @@ class Bubble extends Overlay implements IBubble implements IOverlay implements I
     
     private var _useMask : Bool = false;
     
+	/**
+	 * @inheritDoc
+	 */
     public function new(data:Dynamic = null)
     {
         
@@ -96,6 +99,9 @@ class Bubble extends Overlay implements IBubble implements IOverlay implements I
         UIBitmapManager.stopWatchElement(TYPE, this);
     }
 	
+	/**
+	 * @inheritDoc
+	 */
 	override public function setComponentData(data:Dynamic):Void 
 	{
 		super.setComponentData(data);
@@ -140,6 +146,9 @@ class Bubble extends Overlay implements IBubble implements IOverlay implements I
 		
 	}
 	
+	/**
+	 * @inheritDoc
+	 */
 	override public function initialize():Void 
 	{
         
@@ -154,6 +163,9 @@ class Bubble extends Overlay implements IBubble implements IOverlay implements I
 		
 	}
 	
+	/**
+	 * @inheritDoc
+	 */
 	override public function destroy():Void 
 	{
 		super.destroy();

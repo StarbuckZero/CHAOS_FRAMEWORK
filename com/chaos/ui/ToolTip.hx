@@ -31,11 +31,11 @@ import openfl.events.MouseEvent;
 
 import openfl.text.TextFieldAutoSize;
 
-	/**
-	 * Shows a tool-tip on top of a on the stage DisplayObject
-	 *
-	 * @author Erick Feiling
-	 */
+/**
+ * Shows a tool-tip on top of a on the stage DisplayObject
+ *
+ * @author Erick Feiling
+ */
 
 class ToolTip
 {

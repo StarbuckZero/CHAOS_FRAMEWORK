@@ -52,7 +52,6 @@ class ScrollBar extends BaseUI implements IScrollBar implements IBaseUI
 	private var _buttonWidth : Int = 15;
 	private var _showArrowButton : Bool = true;
 	private var _sliderResize : Bool = true;
-	private var _smoothImage : Bool = true;
 	private var _sliderSize : Int = 15;
 	
 	private var _slider : Slider;
@@ -76,7 +75,7 @@ class ScrollBar extends BaseUI implements IScrollBar implements IBaseUI
 	private var _sliderButtonDisableImage : BitmapData;
 	
 	/**
-	 * Constructor
+	 * @inheritDoc
 	 */
 	
 	public function new(data:Dynamic = null)
@@ -87,6 +86,9 @@ class ScrollBar extends BaseUI implements IScrollBar implements IBaseUI
 		addEventListener(Event.REMOVED_FROM_STAGE, onStageRemove, false, 0, true);
     }
 	
+	/**
+	 * @inheritDoc
+	 */
 	override public function setComponentData(data:Dynamic):Void 
 	{
 		super.setComponentData(data);

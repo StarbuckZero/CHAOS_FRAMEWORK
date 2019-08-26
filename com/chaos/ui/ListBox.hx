@@ -63,11 +63,7 @@ class ListBox extends ScrollPane implements IListBox implements IBaseUI
 
 
 	/**
-	 * Creates a ListBox on the fly
-	 *
-	 * @param	data pass in data list plus width, height and etc.
-	 *
-	 * @eventType openfl.events.Event.CHANGE
+	 * @inheritDoc
 	 */
 	
 	public function new(data:Dynamic = null)
@@ -80,6 +76,9 @@ class ListBox extends ScrollPane implements IListBox implements IBaseUI
 
 	}
 	
+	/**
+	 * @inheritDoc
+	 */
 	override public function setComponentData(data:Dynamic):Void 
 	{
 		super.setComponentData(data);
@@ -147,7 +146,9 @@ class ListBox extends ScrollPane implements IListBox implements IBaseUI
 	}
 
 
-	
+	/**
+	 * @inheritDoc
+	 */
 	override public function initialize():Void 
 	{
 		
@@ -157,6 +158,9 @@ class ListBox extends ScrollPane implements IListBox implements IBaseUI
 		mode = ScrollPolicy.AUTO; 
 	}
 	
+	/**
+	 * @inheritDoc
+	 */
 	override public function destroy():Void 
 	{
 		super.destroy();

@@ -145,7 +145,6 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 	private var _sliderButtonDisableImage : BitmapData;
 	
 	private var _showImage : Bool = true;
-	private var _smoothImage : Bool = true;
 
 	private var _clickLabelArea : Bool = true;
 
@@ -166,9 +165,7 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 	private var _iconBorderColor:Int = 0xFFFFFF;
 
 	/**
-	 * Creates a drop down list
-	 * @param	data Object with the list values. ex: {"data":{"text":"Item 1", "value":"1"}}
-	 *
+	 * @inheritDoc
 	 */
 
 	public function new(data = null)
@@ -181,6 +178,9 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 
 	}
 	
+	/**
+	 * @inheritDoc
+	 */
 	override public function setComponentData(data:Dynamic):Void 
 	{
 		super.setComponentData(data);
@@ -211,6 +211,9 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 
 	private function onStageRemove(event : Event) : Void { UIBitmapManager.stopWatchElement(TYPE, this); stage.removeEventListener(MouseEvent.MOUSE_DOWN, stageClick); }
 
+	/**
+	 * @inheritDoc
+	 */
 	override public function initialize():Void 
 	{
 		_selectLabel = new Label(_labelData);
@@ -280,7 +283,7 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 		}
 		else
 		{
-			_dropButton.setIcon(CompositeManager.displayObjectToBitmap(_dropDownIcon.displayObject));
+			_dropButton.setIcon(CompositeManager.displayObjectToBitmap(_dropDownIcon.displayObject, _smoothImage));
 		}
 		
 		
@@ -296,6 +299,9 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 		addChild(_dropDownLabelHolder);
 	}
 	
+	/**
+	 * @inheritDoc
+	 */
 	override public function destroy():Void 
 	{
 		super.destroy();

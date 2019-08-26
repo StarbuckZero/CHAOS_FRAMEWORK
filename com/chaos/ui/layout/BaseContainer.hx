@@ -24,7 +24,6 @@ class BaseContainer extends BaseUI implements IBaseContainer implements IBaseUI
 	
     public var content(get, never) : DisplayObject;
     public var showImage(get, set) : Bool;
-    public var imageSmoothing(get, set) : Bool;
     public var background(get, set) : Bool;
     public var backgroundColor(get, set) : Int;
     public var backgroundAlpha(get, set) : Float;
@@ -45,15 +44,22 @@ class BaseContainer extends BaseUI implements IBaseContainer implements IBaseUI
     private var _backgroundColor : Int = 0xCCCCCC;
     private var _background : Bool = true;
     
-    private var _smoothImage : Bool = true;
+    
     private var _showImage : Bool = true;
     
+	/**
+	 * 
+	 * @inheritDoc
+	 */
     public function new(data:Dynamic = null)
     {
         super(data);
         
     }
 	
+	/**
+	 * @inheritDoc
+	 */
 	override public function initialize():Void 
 	{
         contentHolder = new Sprite();
@@ -71,6 +77,9 @@ class BaseContainer extends BaseUI implements IBaseContainer implements IBaseUI
 		
 	}
 	
+	/**
+	 * @inheritDoc
+	 */
 	override public function setComponentData(data:Dynamic):Void 
 	{
 		super.setComponentData(data);
@@ -85,6 +94,9 @@ class BaseContainer extends BaseUI implements IBaseContainer implements IBaseUI
 			_background = Reflect.field(data, "background");
 	}
 	
+	/**
+	 * @inheritDoc
+	 */
 	override public function destroy():Void 
 	{
 		super.destroy();
@@ -134,25 +146,7 @@ class BaseContainer extends BaseUI implements IBaseContainer implements IBaseUI
         return _showImage;
     }
     
-    /**
-	 * Turns on or off image smoothing
-	 */
-    
-    private function set_imageSmoothing(value : Bool) : Bool
-    {
-        _smoothImage = value;
-        return value;
-    }
-    
-    /**
-	 * Return the image being used
-	 */
-    
-    private function get_imageSmoothing() : Bool
-    {
-        return _smoothImage;
-    }
-    
+
     /**
 	 * Hide or show the background
 	 */

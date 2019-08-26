@@ -7,6 +7,8 @@ import openfl.display.StageScaleMode;
 import openfl.display.StageAlign;
 import openfl.events.Event;
 import openfl.utils.Dictionary;
+
+
 class StageAlignmentManager
 {
     public static var stageObj(get, never) : Stage;
@@ -28,7 +30,7 @@ class StageAlignmentManager
 	private static var _stageH : Int;
 	private static var _minW : Int;
 	private static var _minH : Int;
-	private static var _registeredObjects : Dictionary; 
+	private static var _registeredObjects : Dynamic; 
 	
 	/**
 	 * Inital call, sets stage and minimum stage size
@@ -47,7 +49,7 @@ class StageAlignmentManager
 		_minH = minH;
 		_stage.scaleMode = StageScaleMode.NO_SCALE;
 		_stage.align = StageAlign.TOP_LEFT;
-		_registeredObjects = new Dictionary();
+		_registeredObjects = {};
 		_stage.addEventListener(Event.RESIZE, onStageResize);
     }
 	

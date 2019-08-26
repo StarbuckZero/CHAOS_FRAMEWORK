@@ -14,6 +14,9 @@ class ScrollTextContent extends ScrollContentBase
 {
 	private var _textField:TextField;
 
+	/**
+	 * @inheritDoc
+	 */
 	public function new(textField:TextField, scroller:IScrollBar) 
 	{
 		_textField = textField;
@@ -23,6 +26,9 @@ class ScrollTextContent extends ScrollContentBase
 		
 	}
 	
+	/**
+	 * @inheritDoc
+	 */
 	override public function unload():Void 
 	{
 		super.unload();
@@ -32,6 +38,9 @@ class ScrollTextContent extends ScrollContentBase
 		
 	}
 	
+	/**
+	 * @inheritDoc
+	 */
 	
 	override public function update():Void 
 	{
@@ -44,6 +53,9 @@ class ScrollTextContent extends ScrollContentBase
 		contentHeight = _textField.textHeight;
 	}
 	
+	/**
+	 * @inheritDoc
+	 */
 	override public function draw():Void 
 	{
 		
@@ -89,6 +101,9 @@ class ScrollTextContent extends ScrollContentBase
 		
 	}
 	
+	/**
+	 * @inheritDoc
+	 */
 	override private function updateContent(event:SliderEvent):Void 
 	{
 		super.updateContent(event);

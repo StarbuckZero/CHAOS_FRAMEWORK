@@ -91,6 +91,25 @@ class DisplayVideo extends BaseUI implements IBaseUI
         //_background = Draw.Square(10, 10, 0xFFFFFF);
     }
 	
+	
+	/**
+	 * @inheritDoc
+	 */
+	override public function initialize():Void 
+	{
+		super.initialize();
+		
+        _connection.addEventListener(NetStatusEvent.NET_STATUS, netStatusHandler);
+        _connection.addEventListener(SecurityErrorEvent.SECURITY_ERROR, securityErrorHandler);
+        
+        addChild(_background);
+        addChild(_video);
+		
+	}
+	
+	/**
+	 * @inheritDoc
+	 */
 	override public function setComponentData(data:Dynamic):Void 
 	{
 		super.setComponentData(data);
@@ -115,17 +134,7 @@ class DisplayVideo extends BaseUI implements IBaseUI
 		
 	}
 	
-	override public function initialize():Void 
-	{
-		super.initialize();
-		
-        _connection.addEventListener(NetStatusEvent.NET_STATUS, netStatusHandler);
-        _connection.addEventListener(SecurityErrorEvent.SECURITY_ERROR, securityErrorHandler);
-        
-        addChild(_background);
-        addChild(_video);
-		
-	}
+
     
     private function onStageAdd(event : Event) : Void
     {
@@ -134,6 +143,9 @@ class DisplayVideo extends BaseUI implements IBaseUI
     }
     
 	
+	/**
+	 * @inheritDoc
+	 */
 	
 	override public function draw():Void 
 	{

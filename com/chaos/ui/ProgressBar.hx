@@ -60,7 +60,6 @@ import com.chaos.ui.UIBitmapManager;
 		private var _outlineAlpha : Float = 1;
 		private var _displayImage : Bool = false;
 		private var _showImage : Bool = true;
-		private var _smoothImage : Bool = true;
 		
 		private var _outline : Shape = new Shape();
 		private var _backgroundNormal : Shape = new Shape();

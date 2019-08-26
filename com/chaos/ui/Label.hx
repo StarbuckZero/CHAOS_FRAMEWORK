@@ -78,6 +78,9 @@ class Label extends BaseUI implements ILabel implements IBaseUI
 	private var _italic : Bool = UIStyleManager.LABEL_TEXT_ITALIC;
 	private var _fontName : String = "";
 	
+	/**
+	 * @inheritDoc
+	 */
 	public function new(data:Dynamic = null)
 	{
 		super(data);
@@ -87,6 +90,10 @@ class Label extends BaseUI implements ILabel implements IBaseUI
 		
 		
 	}
+	
+	/**
+	 * @inheritDoc
+	 */
 	
 	override public function setComponentData(data:Dynamic):Void 
 	{
@@ -141,6 +148,9 @@ class Label extends BaseUI implements ILabel implements IBaseUI
 			_bitmapMode = Reflect.field(data, "bitmapMode");
 	}
 	
+	/**
+	 * @inheritDoc
+	 */
 	override public function initialize():Void 
 	{
 		
@@ -186,6 +196,9 @@ class Label extends BaseUI implements ILabel implements IBaseUI
 
 	}
 	
+	/**
+	 * @inheritDoc
+	 */
 	override public function destroy():Void 
 	{
 		super.destroy();
@@ -659,7 +672,6 @@ class Label extends BaseUI implements ILabel implements IBaseUI
 	
 	
 	/**
-	 *
 	 * @return Return if the label is enabled or disable
 	 */
 	
@@ -675,8 +687,8 @@ class Label extends BaseUI implements ILabel implements IBaseUI
 	
 	/**
 	 * This setup and draw the label on the screen
-	 *
 	 */ 
+	
 	override public function draw() : Void
 	{
 		super.draw();
@@ -717,7 +729,7 @@ class Label extends BaseUI implements ILabel implements IBaseUI
 		
 		if (_bitmapMode)
 		{
-			_textImage.graphics.beginBitmapFill(CompositeManager.displayObjectToBitmap(_textField, true), null, false, false);
+			_textImage.graphics.beginBitmapFill(CompositeManager.displayObjectToBitmap(_textField, true), null, false, _smoothImage);
 			_textImage.graphics.drawRect(0, 0, _textField.width, _textField.height);
 			_textImage.graphics.endFill();
 		}

@@ -12,6 +12,10 @@ import openfl.display.BitmapData;
 import openfl.display.Shape;
 import openfl.events.Event;
 
+/**
+ * Creates new radio button
+ * @author Erick Feiling
+ */
 class RadioButton extends SelectToggleBase implements IRadioButton implements IBaseUI
 {
 
@@ -26,8 +30,7 @@ class RadioButton extends SelectToggleBase implements IRadioButton implements IB
 	private var _dotSize : Int = 1;
 
 	/**
-	 * Creates new radio button
-	 * @param	data object with all the properies you want to set
+	 * @inheritDoc
 	 */
 
 	public function new(data:Dynamic = null)
@@ -38,6 +41,9 @@ class RadioButton extends SelectToggleBase implements IRadioButton implements IB
 		addEventListener(Event.REMOVED_FROM_STAGE, onStageRemove, false, 0, true);
 	}
 	
+	/**
+	 * @inheritDoc
+	 */
 	override public function setComponentData(data:Dynamic):Void 
 	{
 		super.setComponentData(data);
@@ -166,6 +172,9 @@ class RadioButton extends SelectToggleBase implements IRadioButton implements IB
 		return _groupName;
     }
 	
+	/**
+	 * @inheritDoc
+	 */
 	override public function draw():Void 
 	{
 		super.draw();
@@ -179,6 +188,9 @@ class RadioButton extends SelectToggleBase implements IRadioButton implements IB
 	}
 
 	
+	/**
+	 * @inheritDoc
+	 */
 	override public function drawButtonState(square:Shape, color:Int = 0xFFFFFF, image:BitmapData = null):Void 
 	{
 		super.drawButtonState(square, color, image);

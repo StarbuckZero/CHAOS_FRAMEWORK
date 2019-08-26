@@ -19,7 +19,7 @@ import openfl.display.Shape;
 
 
 /**
- * A button that is used for a menu system.
+ * A button that is used for the menu system.
  * @author Erick Feiling
  */
 
@@ -88,7 +88,7 @@ class MenuItem extends Button implements IMenuItem implements IToggleButton impl
     private var _open : Bool = false;
     
     /**
-	 * A display object that is used for the menu system.
+	 * @inheritDoc
 	 */
     
     public function new( data:Dynamic = null)
@@ -98,6 +98,9 @@ class MenuItem extends Button implements IMenuItem implements IToggleButton impl
         
     }
 	
+	/**
+	 * @inheritDoc
+	 */
 	override public function setComponentData(data:Dynamic):Void 
 	{
 		super.setComponentData(data);
@@ -132,6 +135,10 @@ class MenuItem extends Button implements IMenuItem implements IToggleButton impl
 		
 	}
     
+	/**
+	 * @inheritDoc
+	 */
+	
     override public function initialize() : Void
     {
 		_subMenuIconHolder = new Sprite();
@@ -144,6 +151,9 @@ class MenuItem extends Button implements IMenuItem implements IToggleButton impl
         
     }
 	
+	/**
+	 * @inheritDoc
+	 */
 	override public function destroy():Void 
 	{
 		super.destroy();
@@ -508,20 +518,15 @@ class MenuItem extends Button implements IMenuItem implements IToggleButton impl
     
     public function setSubMenuIcon(image : BitmapData) : Void
     {
-        
         _subMenuDisplayImage = image;
         
-        //// Remove old icon out of display list
-        //if (_subMenuIcon.parent != null) 
-        //    _subMenuIconHolder.removeChild(_subMenuIcon.displayObject);
-        //
-        //_subMenuIconHolder.addChild(_subMenuDisplayImage);
     }
 
     
 	
-	//TODO: Update draw function later
-	
+	/**
+	 * @inheritDoc
+	 */
     override public function draw() : Void
     {
 		super.draw();
@@ -538,20 +543,7 @@ class MenuItem extends Button implements IMenuItem implements IToggleButton impl
 			overState.graphics.drawRect(0, 0, _width, _height);
 			downState.graphics.drawRect(0, 0, _width, _height);
 			disableState.graphics.drawRect(0, 0, _width, _height);
-			
-			
 		}
-		
-		
-		
-		
-        
-        
-        //_baseNormal.graphics.clear();
-        //_baseOver.graphics.clear();
-        //_baseDown.graphics.clear();
-        //_baseDisable.graphics.clear();
-        //_label.y = 0;
 		
 	}
     

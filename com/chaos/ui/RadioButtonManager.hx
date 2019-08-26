@@ -5,6 +5,9 @@ import com.chaos.ui.classInterface.IRadioButton;
 import openfl.utils.Dictionary;
 import openfl.utils.Object;
 
+/**
+ * Creates a group  of radio buttons
+ */
 class RadioButtonManager
 {
 	private static var _groupArray : Dictionary<String,DataProvider<IRadioButton>> = new Dictionary<String,DataProvider<IRadioButton>>(true);

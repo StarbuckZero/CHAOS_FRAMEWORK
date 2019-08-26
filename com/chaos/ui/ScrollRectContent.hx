@@ -14,12 +14,20 @@ class ScrollRectContent extends ScrollContentBase
 
 	private var _scrollRect : Rectangle;
 	
+	/**
+	 * @inheritDoc
+	 * @param scrollRect The scroll record that will be used
+	 */
 	public function new(clip:DisplayObject, scroller:IScrollBar, scrollRect:Rectangle) 
 	{
 		_scrollRect = scrollRect;
 		
 		super(clip, scroller);
 	}
+	
+	/**
+	 * @inheritDoc
+	 */
 	
 	override public function attachContent(clip:DisplayObject, scroller:IScrollBar):Void
 	{
@@ -41,7 +49,9 @@ class ScrollRectContent extends ScrollContentBase
 		
 		
 	}
-	
+	/**
+	 * @inheritDoc
+	 */
 	override public function unload():Void 
 	{
 		super.unload();
@@ -49,6 +59,9 @@ class ScrollRectContent extends ScrollContentBase
 		_content.scrollRect = null;
 	}
 	
+	/**
+	 * @inheritDoc
+	 */
 	override public function update():Void 
 	{
 		super.update();
@@ -64,6 +77,9 @@ class ScrollRectContent extends ScrollContentBase
 			_content.scrollRect = new Rectangle(_scrollRect.x, _scrollRect.y, _scrollRect.width + _scrollbar.buttonWidth, _scrollRect.height);
 	}
 	
+	/**
+	 * @inheritDoc
+	 */
 	override public function draw():Void 
 	{
 		
@@ -111,6 +127,10 @@ class ScrollRectContent extends ScrollContentBase
 		
 		
 	}
+	
+	/**
+	 * @inheritDoc
+	 */
 	
 	override private function updateContent(event:SliderEvent):Void 
 	{

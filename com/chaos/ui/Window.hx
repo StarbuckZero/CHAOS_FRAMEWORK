@@ -145,7 +145,6 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 	private var _labelLocation : String = "center";
 	
 	
-	private var _smoothImage : Bool = true;
 	private var _showImage : Bool = true;
 	private var _resizeName : String = ""; 
 	

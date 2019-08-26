@@ -34,6 +34,11 @@ class ScrollContentBase
 	private var contentHeight : Float;
 	private var contentWidth : Float;
 	
+	/**
+	 * Attach scrollbar to object
+	 * @param	clip The DisplayObject
+	 * @param	scroller The scrollbar
+	 */
 	public function new(clip : DisplayObject, scroller : IScrollBar)
     {
 		if (clip == null || scroller == null)

@@ -60,6 +60,19 @@ class DisplayImage extends BaseUI implements IBaseUI
 		graphics.clear();
 	}
 	
+	/**
+	 * @inheritDoc
+	 */
+	override public function initialize():Void 
+	{
+		super.initialize();
+		
+		load(_url);
+	}	
+	
+	/**
+	 * @inheritDoc
+	 */
 	override public function setComponentData(data:Dynamic):Void 
 	{
 		super.setComponentData(data);
@@ -72,13 +85,10 @@ class DisplayImage extends BaseUI implements IBaseUI
 		
 	}
 	
-	override public function initialize():Void 
-	{
-		super.initialize();
-		
-		load(_url);
-	}
-	
+
+	/**
+	 * @inheritDoc
+	 */
 	
 	override public function destroy():Void 
 	{
@@ -141,6 +151,9 @@ class DisplayImage extends BaseUI implements IBaseUI
 		
     }
 	
+	/**
+	 * @inheritDoc
+	 */
 	override public function draw():Void 
 	{
 		super.draw();

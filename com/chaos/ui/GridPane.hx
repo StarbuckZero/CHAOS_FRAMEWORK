@@ -40,14 +40,14 @@ import openfl.display.Bitmap;
 import openfl.display.DisplayObject;
 import openfl.display.Sprite;
 
-	/**
-	 * Creates a grid that use Form UI Elements. The grid use basic Objects that is displayed
-	 * in the grid based on the value when the column is created.
-	 * @author Erick Feiling
-	 *
-	 * @eventType com.chaos.ui.Event.GridPaneEvent.CHANGE
-	 * @eventType com.chaos.ui.Event.GridPaneEvent.SELECT
-	 */
+/**
+ * Creates a grid that use Form UI Elements. The grid use basic Objects that is displayed
+ * in the grid based on the value when the column is created.
+ * @author Erick Feiling
+ *
+ * @eventType com.chaos.ui.Event.GridPaneEvent.CHANGE
+ * @eventType com.chaos.ui.Event.GridPaneEvent.SELECT
+ */
 
 class GridPane extends ScrollPane implements IGridPane implements IScrollPane implements IBaseContainer implements IBaseUI
 {
@@ -112,22 +112,18 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
     private var _columnButtonDownColor : Int = 0x333333;
     
     /**
-	 * Creates a grid pane
-	 *
-	 * @param	gridWidth The width of the pane
-	 * @param	gridHeight The height of the pane
-	 * @param	dataList List of Objects that will be used to build the grid
+	 * @inheritDoc
 	 */
 	
     public function new(data:Dynamic = null)
     {
-		
-		//gridWidth : Int = 400, gridHeight : Int = 300, dataList : DataProvider<Object> = null
-		
         super(data);
         
     }
 	
+	/**
+	 * @inheritDoc
+	 */
 	override public function setComponentData(data:Dynamic):Void 
 	{
 		super.setComponentData(data);
@@ -140,6 +136,9 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
 		
 	}
 	
+	/**
+	 * @inheritDoc
+	 */
 	override public function initialize():Void 
 	{
 		super.initialize();
@@ -156,7 +155,10 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
 		
 	}
     
-
+	
+	/**
+	 * @inheritDoc
+	 */
     
     override public function reskin() : Void
     {

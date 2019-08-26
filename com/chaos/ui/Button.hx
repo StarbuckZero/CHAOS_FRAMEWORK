@@ -84,7 +84,7 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
     /**
 	 * Push Button
 	 *
-	 * @param	data The data object with all the values. Use text, width and height 
+	 * @inheritDoc
 	 */
     
     public function new(data:Dynamic = null)
@@ -98,6 +98,10 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
 		addEventListener(MouseEvent.MOUSE_UP, mouseUpEvent, false, 1, true);
     }
 	
+	/**
+	 * @inheritDoc
+	 * 
+	 */
 	override public function setComponentData(data:Dynamic):Void 
 	{
 		super.setComponentData(data);
@@ -124,6 +128,10 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
 		
 		
 	}
+	
+	/**
+	 * @inheritDoc
+	 */
 
     override public function initialize() : Void
     {
@@ -146,6 +154,9 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
 		
     }
 	
+	/**
+	 * @inheritDoc
+	 */
 	override public function destroy():Void 
 	{
 		super.destroy();
@@ -546,7 +557,7 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
 		_showIcon = true;
 		
 		_icon.graphics.clear();
-        _icon.graphics.beginBitmapFill(image, null, false, _imageSmooth);
+        _icon.graphics.beginBitmapFill(image, null, false, _smoothImage);
 		_icon.graphics.drawRect(0, 0, image.width, image.height);
 		_icon.graphics.endFill();
     }

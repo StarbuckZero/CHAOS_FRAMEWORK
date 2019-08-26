@@ -1,12 +1,13 @@
 package com.chaos.ui;
 
-	/**
-	 * These values are used for the scrollbars on the ScrollPane, TabPane and Window Class.
-	 *
-	 *  @author Erick Feiling
-	 *  @date 11-14-09
-	 *
-	 */
+/**
+ * These values are used for the scrollbars on the ScrollPane, TabPane and Window Class.
+ *
+ *  @author Erick Feiling
+ *  @date 11-14-09
+ *
+ */
+
 class ScrollPolicy 
 {
 	/** The AUTO setting turn on and off the scrollbar based on the size of the content  */ 

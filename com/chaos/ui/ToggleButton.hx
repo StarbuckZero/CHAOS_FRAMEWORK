@@ -54,7 +54,9 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI
 	private var _selected : Bool = false;
 	private var _tileImage:Bool = false;
 	
-	private var _imageSmooth : Bool = true;
+	/**
+	 * @inheritDoc
+	 */
   
 	public function new( data:Dynamic = null )
     {
@@ -73,6 +75,10 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI
 		mouseChildren = false;
 		
     }
+	
+	/**
+	 * @inheritDoc
+	 */
 	
 	override public function setComponentData(data:Dynamic):Void 
 	{
@@ -103,6 +109,10 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI
 			
 	}
 	
+	/**
+	 * @inheritDoc
+	 */
+	
 	override public function initialize() : Void
 	{
 		
@@ -114,6 +124,10 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI
 		addChild(disableState);
 
     }
+	
+	/**
+	 * @inheritDoc
+	 */
 	
 	override public function destroy():Void 
 	{
@@ -448,12 +462,19 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI
 		
     }
 	
+	/**
+	 * Draws shape that could be textured
+	 * @param	square The shape that will be used
+	 * @param	color The color of the shape if no image being passed
+	 * @param	image The image
+	 */
+	
 	public function drawButtonState(square:Shape,  color:Int = 0xFFFFFF, image:BitmapData = null):Void
 	{
 		square.graphics.clear();
 		
 		if (null != image) 
-			square.graphics.beginBitmapFill(image, null, _tileImage, _imageSmooth);
+			square.graphics.beginBitmapFill(image, null, _tileImage, _smoothImage);
 		else 
 			square.graphics.beginFill(color, _bgAlpha);
 		
