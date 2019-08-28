@@ -3,16 +3,10 @@ package com.chaos.ui;
 import com.chaos.ui.classInterface.IScrollBar;
 
 import openfl.display.DisplayObject;
-import openfl.text.TextField;
-import openfl.geom.Rectangle;
-import com.chaos.ui.ScrollBarDirection;
 import com.chaos.ui.event.SliderEvent; 
 
-/* Attach scrollbar content
-*
-*  @author Erick Feiling
-*  @date 11-15-09  
-*  
+/**
+ * Attach scrollbar content
 */ 
 
 class ScrollContentBase
@@ -141,16 +135,12 @@ class ScrollContentBase
 		
 	
 	/**
-	*
 	* @return Returns the DisplayObject has been linked
-	*
 	*/
 	private function get_content() : Dynamic { return _content; }  
 	
 	/**
-	*
 	* @return Returns the ScrollBar that is being used
-	*
 	*/
 	
 	private function get_scrollbar() : IScrollBar { return _scrollbar; }
@@ -158,8 +148,8 @@ class ScrollContentBase
 	
 	/**
 	* Deattach and unlink everything being used.
-	* 
 	*/
+	
 	public function unload() : Void
 	{
 		// Do nothing if content is not actived  
@@ -179,8 +169,8 @@ class ScrollContentBase
 	
 	/**
 	* Updated ScrollRect and ScrollBar Direction.
-	* 
 	*/
+	
 	public function update() : Void
 	{
 		if (!_active)

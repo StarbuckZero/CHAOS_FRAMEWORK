@@ -7,7 +7,7 @@ package com.chaos.ui.layout;
  * @author Erick Feiling
  */
 
-import com.chaos.media.DisplayImage;
+
 import com.chaos.ui.BaseUI;
 import com.chaos.ui.classInterface.IBaseUI;
 import com.chaos.ui.layout.classInterface.IBaseContainer;
@@ -48,8 +48,8 @@ class BaseContainer extends BaseUI implements IBaseContainer implements IBaseUI
     private var _showImage : Bool = true;
     
 	/**
-	 * 
-	 * @inheritDoc
+	 * UI Component 
+	 * @param	data The proprieties that you want to set on component.
 	 */
     public function new(data:Dynamic = null)
     {
@@ -58,8 +58,9 @@ class BaseContainer extends BaseUI implements IBaseContainer implements IBaseUI
     }
 	
 	/**
-	 * @inheritDoc
+	 * initialize all importain objects
 	 */
+	
 	override public function initialize():Void 
 	{
         contentHolder = new Sprite();
@@ -78,8 +79,10 @@ class BaseContainer extends BaseUI implements IBaseContainer implements IBaseUI
 	}
 	
 	/**
-	 * @inheritDoc
+	 * Set properties based on object
+	 * @param	data object with supported types
 	 */
+	
 	override public function setComponentData(data:Dynamic):Void 
 	{
 		super.setComponentData(data);
@@ -95,8 +98,9 @@ class BaseContainer extends BaseUI implements IBaseContainer implements IBaseUI
 	}
 	
 	/**
-	 * @inheritDoc
+	 * Unload Component
 	 */
+	
 	override public function destroy():Void 
 	{
 		super.destroy();

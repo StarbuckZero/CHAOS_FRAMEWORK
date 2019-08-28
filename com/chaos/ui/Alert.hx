@@ -19,6 +19,9 @@ import openfl.events.Event;
 import openfl.events.MouseEvent;
 import openfl.text.TextFormatAlign;
 
+/**
+ * AlertBox system that blocks whatever that is in the background
+ */
 class Alert
 {
 	public static var positiveButtonOverColor(get, set) : Int;

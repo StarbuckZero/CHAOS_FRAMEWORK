@@ -151,9 +151,10 @@ class DisplayImage extends BaseUI implements IBaseUI
 		
     }
 	
-	/**
-	 * @inheritDoc
+    /**
+	 * Draw image if drawOffStage is true or on stage
 	 */
+	
 	override public function draw():Void 
 	{
 		super.draw();

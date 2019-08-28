@@ -396,7 +396,7 @@ class GridContainer extends BaseContainer implements IGridContainer implements I
     }
     
     /**
-	 * @inheritDoc
+	 * Update the all cells
 	 */
     
     override public function draw() : Void
@@ -408,7 +408,7 @@ class GridContainer extends BaseContainer implements IGridContainer implements I
         
         
         // Create data list  
-        for (row in 0...rowCount)
+        for (row in 0 ... rowCount)
 		{
             // Get row
             var rowData : DataProvider<IGridCell> = _list.getItemAt(row);

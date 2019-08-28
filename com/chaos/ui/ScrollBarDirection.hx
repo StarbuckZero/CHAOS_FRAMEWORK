@@ -1,10 +1,10 @@
 package com.chaos.ui;
 
-/*
+/**
  *
  * The direction you want the scrollbar to face. Use this with the scrollbar class to set the direction you want the scrollbar to be turned on.
- *
- *  @author Erick Feiling
+ *	<br><br>
+ *  @author Erick Feiling<br>
  *  @date 11-14-09
  *
  */

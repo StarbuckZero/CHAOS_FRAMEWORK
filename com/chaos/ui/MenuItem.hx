@@ -19,27 +19,99 @@ import openfl.display.Shape;
 
 
 /**
- * A button that is used for the menu system.
- * @author Erick Feiling
+ * A button that is used for the menu system
  */
 
 class MenuItem extends Button implements IMenuItem implements IToggleButton implements IButton implements IBaseUI
 {
+	
+    /**
+	 * Set the menu to being open or closed on roll over
+	 */	
     public var open(get, set) : Bool;
+	
+    /**
+	 * Set the button has a parent
+	 */
+	
     public var hasParent(get, set) : Bool;
+	
+    /**
+	 * Set the button has a sub menu
+	 */
+	
     public var hasChildren(get, set) : Bool;
+	
+    /**
+	 * Set the parent menu
+	 */
+	
     public var parentMenuItem(get, set) : IMenuItem;
     
+    /**
+	 * Border color for normal button state
+	 */
+	
     public var normalBorderColor(get, set) : Int;
+	
+    /**
+	 * Border color for over button state
+	 */
+	
     public var overBorderColor(get, set) : Int;
+	
+    /**
+	 * Border color for down button state
+	 */
+	
     public var downBorderColor(get, set) : Int;
+	
+    /**
+	 * Border color for disable button state
+	 */
+	
     public var disableBorderColor(get, set) : Int;
+	
+    /**
+	 * Set the border menu button alpha
+	 */
+	
 	public var lineAlpha(get, set) : Float;
+	
+    /**
+	 * Set the label over state color
+	 */
+	
     public var textOverColor(get, set) : Int;
+	
+    /**
+	 * Set the label selected state
+	 */
+	
     public var textSelectedColor(get, set) : Int;
+	
+    /**
+	 * Set the label disable color
+	 */
+	
     public var textDisableColor(get, set) : Int;
+	
+    /**
+	 * Show or hide border around button
+	 */
+	
     public var border(get, set) : Bool;
+	
+    /**
+	 * Border thinkness
+	 */
+	
     public var borderThinkness(get, set) : Float;
+	
+    /**
+	 * Show or hide the Sub menu icon
+	 */
+    	
     public var showSubMenuIcon(get, set) : Bool;
     
 
@@ -87,20 +159,23 @@ class MenuItem extends Button implements IMenuItem implements IToggleButton impl
     
     private var _open : Bool = false;
     
-    /**
-	 * @inheritDoc
+	/**
+	 * MenuItem 
+	 * @param	data The proprieties that you want to set on component.
 	 */
     
     public function new( data:Dynamic = null)
     {
-		// text : String, width : Float = 100, height : Float = 20, icon : BitmapData = null, subMenuIcon : BitmapData = null
+		
         super(data);
         
     }
 	
 	/**
-	 * @inheritDoc
+	 * Set properties based on object
+	 * @param	data object with supported types
 	 */
+	
 	override public function setComponentData(data:Dynamic):Void 
 	{
 		super.setComponentData(data);
@@ -136,7 +211,7 @@ class MenuItem extends Button implements IMenuItem implements IToggleButton impl
 	}
     
 	/**
-	 * @inheritDoc
+	 * initialize all importain objects
 	 */
 	
     override public function initialize() : Void
@@ -152,8 +227,9 @@ class MenuItem extends Button implements IMenuItem implements IToggleButton impl
     }
 	
 	/**
-	 * @inheritDoc
+	 * Unload Component
 	 */
+	
 	override public function destroy():Void 
 	{
 		super.destroy();

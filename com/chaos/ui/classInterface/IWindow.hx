@@ -11,6 +11,11 @@ import openfl.utils.Object;
 interface IWindow extends IBaseUI
 {
 	
+	/**
+	 * The scroll pane being used
+	 */
+	
+	var scrollPane(get, never):IScrollPane;	
 	
 	/**
 	 * Return the closeButton
@@ -29,13 +34,6 @@ interface IWindow extends IBaseUI
 	 */
 	
 	var maxButton(get, never):IButton;
-	
-	
-	/**
-	 * The scroll pane being used
-	 */
-	
-	var scrollPane(get, never):IScrollPane;
 	
 	
 	/**

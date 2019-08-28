@@ -24,10 +24,6 @@ import com.chaos.ui.Label;
 
 /**
  *  Normal push button with or without an icon
- *
- *  @author Erick Feiling
- *  @date 5-21-19
- * 
  */
 
 class Button extends ToggleButton implements IButton implements IToggleButton implements IBaseUI
@@ -39,24 +35,87 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
 	private static inline var PRESS_MODE:String = "press";
 	private static inline var TOGGLE_MODE:String = "toggle";
 	
+	
+    /**
+	 * The offset of the image icon location on the X axis
+	 */ 
+	
     public var imageOffSetX(get, set) : Int;
+	
+	/**
+	 * The offset of the image icon location on the Y axis
+	 */
+	
     public var imageOffSetY(get, set) : Int;
 	
+	/**
+	 * Set the text on the button
+	 */
+	
     public var text(get, set) : String;
+	
+	 /**
+	 * Return the label that is being used in the button
+	 */	
 	public var label(get, never) : ILabel;
+	
+	/**
+	 * Show or hide the label on button
+	 */
 	
     public var showLabel(get, set) : Bool;
 	
-    public var textFont(get, set) : String;
-    public var textItalic(get, set) : Bool;
-    public var textBold(get, set) : Bool;
-    public var textSize(get, set) : Int;
-    public var textColor(get, set) : Int;
-    public var textAlign(get, set) : String;
+	/**
+	 * Change button to "press" or "toggle" state. Set to press by default.
+	 */
+	
     public var mode(get, set) : String;
 	
+	 /**
+	 * Set or return the font being used
+	 */	
+	 
+    public var textFont(get, set) : String;
+	
+	 /**
+	 * Set to true if you want to boldface the text and false if not.
+	 */ 
+	 
+	public var textBold(get, set) : Bool;
+	
+	 /**
+	 * Set to true if you want to italicize  the text and false if not.
+	 */ 
+	 
+    public var textItalic(get, set) : Bool;
+    
+	 /**
+	 * Set the font size of the button
+	 */
+	 
+    public var textSize(get, set) : Int;
+	
+	 /**
+	 * Set the label color
+	 */
+	 
+    public var textColor(get, set) : Int;
+	
+	 /**
+	 * Set the label text alignment, use the Adobe TextFormatAlign class to set the label.
+	 *
+	 * @see openfl.text.TextFormatAlign
+	 */
+	 
+    public var textAlign(get, set) : String;
+	
+	 /**
+	 * Set this if you want to display the icon
+	 */   
+	 
     public var iconDisplay(get, set) : Bool;
-    public var tileImage(get, set) : Bool;
+    
+	
     
     private var _imageOffSetX : Int;
     private var _imageOffSetY : Int;
@@ -81,10 +140,9 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
 	private var _bold : Bool = UIStyleManager.BUTTON_TEXT_BOLD;
 	private var _italic : Bool = UIStyleManager.BUTTON_TEXT_ITALIC;
 	
-    /**
-	 * Push Button
-	 *
-	 * @inheritDoc
+	/**
+	 * UI Button 
+	 * @param	data The proprieties that you want to set on component.
 	 */
     
     public function new(data:Dynamic = null)
@@ -99,9 +157,10 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
     }
 	
 	/**
-	 * @inheritDoc
-	 * 
+	 * Set properties based on object
+	 * @param	data object with supported types
 	 */
+	
 	override public function setComponentData(data:Dynamic):Void 
 	{
 		super.setComponentData(data);
@@ -130,7 +189,7 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
 	}
 	
 	/**
-	 * @inheritDoc
+	 * initialize all importain objects
 	 */
 
     override public function initialize() : Void
@@ -155,8 +214,9 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
     }
 	
 	/**
-	 * @inheritDoc
+	 * Unload Component
 	 */
+	
 	override public function destroy():Void 
 	{
 		super.destroy();
@@ -182,8 +242,8 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
 		
 	}	
     
-	/**
-	 * @inheritDoc
+    /**
+	 * Reload all bitmap images and UI Styles
 	 */
     
     override public function reskin() : Void
@@ -604,7 +664,6 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
     
     /**
 	 * This setup and draw the button on the screen
-	 *
 	 */
     
     override public function draw() : Void

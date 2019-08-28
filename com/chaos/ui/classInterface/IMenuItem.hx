@@ -84,8 +84,6 @@ interface IMenuItem extends IButton
     /**
 	 * Set the label over state color
 	 */
-    
-    
 
     
     var textOverColor(get, set) : Int;    

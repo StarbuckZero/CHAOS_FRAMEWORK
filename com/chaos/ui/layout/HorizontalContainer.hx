@@ -18,17 +18,24 @@ import com.chaos.ui.layout.classInterface.IAlignmentContainer;
 
 class HorizontalContainer extends AlignmentBaseContainer implements IBaseContainer implements IAlignmentContainer implements IBaseUI
 {
+	/**
+	 * UI Component 
+	 * @param	data The proprieties that you want to set on component.
+	 */	
     
     public function new(data:Dynamic = null)
     {
         super(data);
     }
     
+	
     /**
-	 * @inheritDoc
+	 * Adds more then one item to the object to the list
 	 *
+	 * @param	list A list of UI Elements
+	 * 
 	 * @eventType ContainerEvent.UPDATE
-	 */
+	 */	 
     
     override public function addElementList(list : Array<Dynamic>) : Void
     {
@@ -38,11 +45,14 @@ class HorizontalContainer extends AlignmentBaseContainer implements IBaseContain
         dispatchEvent(new ContainerEvent(ContainerEvent.UPDATE));
     }
     
+	
     /**
-	 * @inheritDoc
+	 * Remove an UI element from the container
 	 *
+	 * @param	object The object you want to remove
+	 * 
 	 * @eventType ContainerEvent.UPDATE
-	 */
+	 */	 
     
     override public function addElement(object : IBaseUI) : Void
     {
@@ -52,11 +62,14 @@ class HorizontalContainer extends AlignmentBaseContainer implements IBaseContain
         dispatchEvent(new ContainerEvent(ContainerEvent.UPDATE));
     }
     
+	
     /**
-	 * @inheritDoc
+	 * Remove an UI element from the container
 	 *
+	 * @param	object The object you want to remove
+	 * 
 	 * @eventType ContainerEvent.UPDATE
-	 */
+	 */	 
     
     override public function removeElement(object : IBaseUI) : Void
     {
@@ -67,7 +80,7 @@ class HorizontalContainer extends AlignmentBaseContainer implements IBaseContain
     }
     
     /**
-	 * @inheritDoc
+	 * Update layout
 	 *
 	 * @eventType ContainerEvent.UPDATE
 	 */
@@ -80,9 +93,10 @@ class HorizontalContainer extends AlignmentBaseContainer implements IBaseContain
         dispatchEvent(new ContainerEvent(ContainerEvent.UPDATE));
     }
 	
-	/**
-	* @inheritDoc
-	*/
+    /**
+	 * Adjust the location of all UI elements 
+	 */	
+	
     override public function updateAlignment() : Void
     {
         

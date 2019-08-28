@@ -23,7 +23,7 @@ class ArrowUpIcon extends BaseIcon implements IBaseUI implements IBasicIcon
     }
     
     /**
-	 * @inheritDoc
+	 * Update the UI class
 	 */
     
     override public function draw() : Void

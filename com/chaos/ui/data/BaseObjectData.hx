@@ -16,6 +16,12 @@ class BaseObjectData
     private var _text : String = "";
     private var _value : String = "";
     
+	/**
+	 * Store text and string base value
+	 * @param	newText Text that will be displayed
+	 * @param	newVal Sting that can be whatever you want
+	 */
+	
     public function new(newText : String = "", newVal : String = "")
     {
         _text = newText;

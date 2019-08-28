@@ -20,6 +20,13 @@ class AlertObjectData
 	private var _buttonList:Array<IButton> = null;
 	private var _callBack:Dynamic = null;
 	
+	/**
+	 * Data object for keeping track of alert boxes
+	 * 
+	 * @param	newWindow New Window
+	 * @param	newButton The buttons being used
+	 * @param	callBackFunc fucntion that will be called once user click button
+	 */
 	public function new( newWindow:IWindow, newButton:Array<IButton>, callBackFunc:Function = null )
 	{
 		_window = newWindow;

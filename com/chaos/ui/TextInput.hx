@@ -23,14 +23,54 @@ class TextInput extends Label implements ITextInput implements ILabel implements
 	/** The type of UI Element */
 	public static inline var TYPE : String = "TextInput";
 
+    /**
+	 * Will upper case first letter on FOCUS_OUT event
+	 */
+	
 	public var upperCaseFirst(get, set) : Bool;
-	public var textOverColor(get, set) : Int;
-	public var textSelectedColor(get, set) : Int;
-	public var textDisableColor(get, set) : Int;
-	public var backgroundOverColor(get, set) : Int;
-	public var backgroundSelectedColor(get, set) : Int;
-	public var backgroundDisableColor(get, set) : Int;
+	
+	
+	/**
+	 * The alpha of the text input roll over and down state. Use this if you only set the default bitmap image, this will tint the text input.
+	 */
+	
 	public var bitmapAlpha(get, set) : Float;
+
+	/**
+	 * The color that will be used for the text input in this state
+	 */
+	
+	public var textOverColor(get, set) : Int;
+	
+	/**
+	 * The color that will be used for the text input in this state
+	 */
+	
+	public var textSelectedColor(get, set) : Int;
+	
+	/**
+	 * The color that will be used for the text input in this state
+	 */
+	
+	public var textDisableColor(get, set) : Int;
+	
+	/**
+	 * The color of the text input background over state
+	 */  
+	
+	public var backgroundOverColor(get, set) : Int;
+	
+	/**
+	 * The color of the text input background down state
+	 */
+	
+	public var backgroundSelectedColor(get, set) : Int;
+	
+	/**
+	 * The color of the text input background disable state
+	 */
+	
+	public var backgroundDisableColor(get, set) : Int;
 
 	private var _textOverColor : Int = 0x000000;
 	private var _textSelectedColor : Int = 0x000000;
@@ -58,7 +98,8 @@ class TextInput extends Label implements ITextInput implements ILabel implements
 	private var _upperCaseFirst : Bool = false;
 
 	/**
-	 * @inheritDoc
+	 * UI TextInput 
+	 * @param	data The proprieties that you want to set on component.
 	 */
 	public function new(data:Dynamic = null)
 	{
@@ -69,8 +110,10 @@ class TextInput extends Label implements ITextInput implements ILabel implements
 	}
 	
 	/**
-	 * @inheritDoc
+	 * Set properties based on object
+	 * @param	data object with supported types
 	 */
+	
 	override public function setComponentData(data:Dynamic):Void 
 	{
 		super.setComponentData(data);
@@ -126,8 +169,9 @@ class TextInput extends Label implements ITextInput implements ILabel implements
 	}
 	
 	/**
-	 * @inheritDoc
+	 * initialize all importain objects
 	 */
+	
 	override public function initialize():Void 
 	{
 		
@@ -168,8 +212,9 @@ class TextInput extends Label implements ITextInput implements ILabel implements
 	}
 	
 	/**
-	 * @inheritDoc
+	 * Unload Component
 	 */
+	
 	override public function destroy():Void 
 	{
 		super.destroy();
@@ -278,8 +323,8 @@ class TextInput extends Label implements ITextInput implements ILabel implements
 		
 	}
 
-	/**
-	 * @inheritDoc
+    /**
+	 * Reload all bitmap images and UI Styles
 	 */
 
 	override public function reskin() : Void

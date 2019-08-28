@@ -17,9 +17,6 @@ import com.chaos.ui.UIBitmapManager;
 
 /**
  *  A list of containers for displaying content based on what button is pressed
- *
- *  @author Erick Feiling
- *  @date 11-19-09
  */
 
 class TabPane extends BaseUI implements ITabPane implements IBaseUI
@@ -28,14 +25,53 @@ class TabPane extends BaseUI implements ITabPane implements IBaseUI
 	/** The type of UI Element */
 	public static inline var TYPE : String = "TabPane";
 	
-	public var tabButtonTextColor(get, set) : Int;
-	public var tabButtonTextSelectedColor(get, set) : Int;
-	public var selectedIndex(get, set) : Int;
-	public var tabButtonColor(get, set) : Int;
-	public var tabButtonOverColor(get, set) : Int;
-	public var tabButtonSelectedColor(get, set) : Int;
-	public var tabButtonDisableColor(get, set) : Int;
+	/**
+	 * Return ScrollPane that content is loaded in for each tab
+	 */
+	
 	public var scrollPane(get, never) : IScrollPane;
+	
+    /**
+	 * Switch the TabPane to the section as if the button was pressed. This will remove whatever content that is currenly being used and replace it with new data.
+	 */	
+	public var selectedIndex(get, set) : Int;
+
+	/**
+	 * Set the color of the TabPane button text field color
+	 */
+	
+	public var tabButtonTextColor(get, set) : Int;
+	
+	/**
+	 * Set the color of the TabPane button text field color in it's selected state
+	 */
+	
+	public var tabButtonTextSelectedColor(get, set) : Int;
+	
+	/**
+	 * Set the color of the tab button over state
+	 */
+	
+	public var tabButtonColor(get, set) : Int;
+	
+	/**
+	 * Set the color of the tab button selected state
+	 */
+	
+	public var tabButtonOverColor(get, set) : Int;
+	
+	/**
+	 * Set the color of the tab button selected state
+	 */	
+	
+	public var tabButtonSelectedColor(get, set) : Int;
+	
+	/**
+	 * Set the color of the tab button disabled state
+	 */	
+	
+	public var tabButtonDisableColor(get, set) : Int;
+	
 	
 	public var buttonArea : Sprite = new Sprite();
 	
@@ -67,8 +103,10 @@ class TabPane extends BaseUI implements ITabPane implements IBaseUI
 
 	
 	/**
-	 * @inheritDoc
+	 * UI TabPane 
+	 * @param	data The proprieties that you want to set on component.
 	 */
+	
 	public function new(data:Dynamic = null)
 	{
 		super(data);
@@ -78,8 +116,10 @@ class TabPane extends BaseUI implements ITabPane implements IBaseUI
 	}
 	
 	/**
-	 * @inheritDoc
+	 * Set properties based on object
+	 * @param	data object with supported types
 	 */
+	
 	override public function setComponentData(data:Dynamic):Void 
 	{
 		super.setComponentData(data);
@@ -116,8 +156,9 @@ class TabPane extends BaseUI implements ITabPane implements IBaseUI
 	private function onStageRemove(event : Event) : Void { UIBitmapManager.stopWatchElement(TYPE, this); }
 	
 	/**
-	 * @inheritDoc
+	 * initialize all importain objects
 	 */
+	
 	override public function initialize():Void 
 	{
 		if (_scrollPaneData == null)
@@ -199,7 +240,7 @@ class TabPane extends BaseUI implements ITabPane implements IBaseUI
 	}
 	
 	/**
-	 * @inheritDoc
+	 * Unload Component
 	 */
 	
 	override public function destroy():Void 

@@ -17,6 +17,10 @@ import openfl.events.Event;
 
 class ProgressSlider extends ProgressBar implements IProgressSlider implements IProgressBar implements IBaseUI
 {
+	/**
+	 * Return the slider
+	 */
+	
     public var slider(get, never) : ISlider;
 
     
@@ -31,8 +35,9 @@ class ProgressSlider extends ProgressBar implements IProgressSlider implements I
 	
 	private var _sliderData : Dynamic;
 	
-    /**
-	 *@inheritDoc
+	/**
+	 * ProgressSlider
+	 * @param	data The proprieties that you want to set on component.
 	 */
     
     public function new(data:Dynamic = null)
@@ -47,8 +52,10 @@ class ProgressSlider extends ProgressBar implements IProgressSlider implements I
     }
 	
 	/**
-	 * @inheritDoc
+	 * Set properties based on object
+	 * @param	data object with supported types
 	 */
+	
 	override public function setComponentData(data:Dynamic):Void 
 	{
 		super.setComponentData(data);
@@ -60,7 +67,7 @@ class ProgressSlider extends ProgressBar implements IProgressSlider implements I
 
 	
 	/**
-	 * @inheritDoc
+	 * initialize all importain objects
 	 */
 	override public function initialize():Void 
 	{
@@ -116,7 +123,7 @@ class ProgressSlider extends ProgressBar implements IProgressSlider implements I
 	}
 	
     /**
-	 * @inheritDoc
+	 * Reload all bitmap images and UI Styles
 	 */
     
     override public function reskin() : Void
@@ -128,8 +135,9 @@ class ProgressSlider extends ProgressBar implements IProgressSlider implements I
     }
     
 	/**
-	 * @inheritDoc
+	 * Unload Component
 	 */
+	
 	override public function destroy():Void 
 	{
 		super.destroy();

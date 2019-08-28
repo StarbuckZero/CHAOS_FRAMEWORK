@@ -20,8 +20,8 @@ import com.chaos.ui.BaseUI;
 /**
  *  Creates a Label for develop to place text on the stage or in another display object.
  *  This is a nice wrapper around Text Field which handles a lot of things.
- *
- *  @author Erick Feiling
+ *	<br><br>
+ *  @author Erick Feiling<br>
  *  @date 11-5-09
  */
 
@@ -32,21 +32,101 @@ class Label extends BaseUI implements ILabel implements IBaseUI
 	public static inline var TYPE : String = "Label";
 	
     
+	/**
+	 * Return the text field that is being used
+	 */	
+	
     public var textField(get, never) : TextField;
+	
+	/**
+	* Set the text format
+	*/	
+	
     public var textFormat(get, set) : TextFormat;
+	
+	/**
+	* Set the label text
+	*/	
+	
     public var text(get, set) : String;
+	
+	/**
+	* Set the alignment of the label text
+	*/
+	
     public var align(get, set) : String;
+	
+
+	/**
+	* Contains the HTML representation of the label
+	*/	
+	
     public var htmlText(get, set) : String;
+	
+	/**
+	* Specifies whether the label has a border. If true, the label has a border. If false, the label has no border.
+	*/
+	
     public var border(get, set) : Bool;
+	
+	/**
+	* The color of the label border.
+	*/
+	
     public var borderColor(get, set) : Int;
+	
+	/**
+	* Set the alpha between 1 to 0
+	*/
+	
     public var borderAlpha(get, set) : Float;
+	
+	/**
+	* The color of the label background
+	*/
+	
     public var backgroundColor(get, set) : Int;
+	
+	/**
+	* Border thinkness
+	*/
+	
     public var borderThinkness(get, set) : Float;
+	
+	/**
+	* Specifies whether the label has a background fill. If true, the label has a background fill. If false, the label has no background fill.
+	*/
+	
     public var background(get, set) : Bool;
+	
+	/**
+	* The color of the text in a label, in hexadecimal format
+	*/
+	
     public var textColor(get, set) : Int;
+	
+	/**
+	* The size of the text
+	*/
+	
     public var size(get, set) : Dynamic;
-    public var font(get, set) : String;
+	
+	/**
+	* The font you want to set the label to
+	*/
+	
+	public var font(get, set) : String;
+	
+	/**
+	* Set if the label text is editable
+	*/
+	
     public var editable(get, set) : Bool;
+	
+	/**
+	 * Convert label to bitmap
+	 */
+	
 	public var bitmapMode (get, set): Bool;
 	
 	private var _textImage:Shape = new Shape();
@@ -79,8 +159,10 @@ class Label extends BaseUI implements ILabel implements IBaseUI
 	private var _fontName : String = "";
 	
 	/**
-	 * @inheritDoc
+	 * UI Label 
+	 * @param	data The proprieties that you want to set on component.
 	 */
+	
 	public function new(data:Dynamic = null)
 	{
 		super(data);
@@ -92,7 +174,8 @@ class Label extends BaseUI implements ILabel implements IBaseUI
 	}
 	
 	/**
-	 * @inheritDoc
+	 * Set properties based on object
+	 * @param	data object with supported types
 	 */
 	
 	override public function setComponentData(data:Dynamic):Void 
@@ -149,8 +232,9 @@ class Label extends BaseUI implements ILabel implements IBaseUI
 	}
 	
 	/**
-	 * @inheritDoc
+	 * initialize all importain objects
 	 */
+	
 	override public function initialize():Void 
 	{
 		
@@ -197,8 +281,9 @@ class Label extends BaseUI implements ILabel implements IBaseUI
 	}
 	
 	/**
-	 * @inheritDoc
+	 * Unload Component
 	 */
+	
 	override public function destroy():Void 
 	{
 		super.destroy();
@@ -303,8 +388,8 @@ class Label extends BaseUI implements ILabel implements IBaseUI
 	}
 	
 	
-	/**
-	 * @inheritDoc
+    /**
+	 * Reload all bitmap images and UI Styles
 	 */
 	override public function reskin() : Void 
 	{

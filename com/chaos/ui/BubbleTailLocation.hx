@@ -3,11 +3,11 @@ package com.chaos.ui;
 
 
 /**
-	 * Used to set the Bubble class
-	 *
-	 * @author Erick Feiling
-	 *
-	 */
+ * Used to set the Bubble class
+ *
+ * @author Erick Feiling
+ *
+ */
 
 class BubbleTailLocation
 {

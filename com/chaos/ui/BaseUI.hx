@@ -51,6 +51,7 @@ class BaseUI extends Sprite implements IBaseUI
 	 * UI Component 
 	 * @param	data The proprieties that you want to set on component.
 	 */
+	
     public function new( data:Dynamic = null )
     {
         super();
@@ -109,6 +110,7 @@ class BaseUI extends Sprite implements IBaseUI
     /**
 	 * Reload all bitmap images and UI Styles
 	 */
+	
     public function reskin() : Void
     {
         // Style and set all bitmap data objects here

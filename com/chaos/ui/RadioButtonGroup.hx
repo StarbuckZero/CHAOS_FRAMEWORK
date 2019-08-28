@@ -17,7 +17,7 @@ import openfl.events.MouseEvent;
 
 /**
  * Container that is made for and creating radio buttons. All buttons will be created started from the left.
- *
+ * <br><br>
  * @author Erick Feiling
  */
 
@@ -27,9 +27,10 @@ class RadioButtonGroup extends HorizontalContainer implements IRadioButtonGroup 
     private var _group : String = "";
     private var _list : Array<IRadioButton>;
     
-    /**
-	 * @inheritDoc
-	 */
+	/**
+	 * RadioButtonGroup
+	 * @param	data The proprieties that you want to set on component.
+	 */	
     
     public function new(data:Dynamic = null)
     {
@@ -37,8 +38,10 @@ class RadioButtonGroup extends HorizontalContainer implements IRadioButtonGroup 
     }
 	
 	/**
-	 * @inheritDoc
+	 * Set properties based on object
+	 * @param	data object with supported types
 	 */
+	
 	override public function setComponentData(data:Dynamic):Void 
 	{
 		super.setComponentData(data);

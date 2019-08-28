@@ -35,16 +35,30 @@ class AlignmentBaseContainer extends BaseContainer implements IBaseUI implements
     
     private var _clipping : Bool = true;
     
+	/**
+	 * UI Component 
+	 * @param	data The proprieties that you want to set on component.
+	 */
+	
     public function new(data:Dynamic = null)
     {
         super(data);
     }
+	
+	/**
+	 * initialize all importain objects
+	 */
 	
 	override public function initialize():Void 
 	{
 		super.initialize();
 		
 	}
+	
+	/**
+	 * Set properties based on object
+	 * @param	data object with supported types
+	 */
 	
 	override public function setComponentData(data:Dynamic):Void 
 	{
@@ -66,6 +80,10 @@ class AlignmentBaseContainer extends BaseContainer implements IBaseUI implements
 			_clipping = Reflect.field(data, "clipping");
 			
 	}
+	
+	/**
+	 * Unload Component
+	 */
 	
 	override public function destroy():Void 
 	{
@@ -333,7 +351,7 @@ class AlignmentBaseContainer extends BaseContainer implements IBaseUI implements
     }
     
     /**
-	 * @inheritDoc
+	 * Update the UI class
 	 */
     
     override public function draw() : Void

@@ -6,14 +6,20 @@ import openfl.display.BitmapData;
 import openfl.display.Shape;
 
 /**
- * ...
- * @author Erick Feiling
+ * Button used for ItemPane
  */
 
 class ItemPaneButton extends ToggleButton implements IToggleButton 
 {
 
+	/**
+	 * Label used on button
+	 */
 	public var label(get, never) : ILabel;
+	
+	/**
+	 * Show or hide label
+	 */
 	public var showLabel(get, set) : Bool;
 	
 	private var _labelData:Dynamic = null;
@@ -26,8 +32,10 @@ class ItemPaneButton extends ToggleButton implements IToggleButton
 	private var _itemLocY : Int = 0;
 	
 	/**
-	 * @inheritDoc
+	 * ItemPane Button 
+	 * @param	data The proprieties that you want to set on component.
 	 */
+	
 	public function new(data:Dynamic=null) 
 	{
 		super(data);
@@ -35,7 +43,8 @@ class ItemPaneButton extends ToggleButton implements IToggleButton
 	}
 	
 	/**
-	 * @inheritDoc
+	 * Set properties based on object
+	 * @param	data object with supported types
 	 */
 	
 	override public function setComponentData(data:Dynamic):Void 
@@ -55,8 +64,10 @@ class ItemPaneButton extends ToggleButton implements IToggleButton
 	
 	
 	/**
-	 * @inheritDoc
+	 * Set properties based on object
+	 * @param	data object with supported types
 	 */
+	
 	override public function destroy():Void 
 	{
 		super.destroy();
@@ -74,7 +85,7 @@ class ItemPaneButton extends ToggleButton implements IToggleButton
 	}
 	
 	/**
-	 * @inheritDoc
+	 * Setup button core components
 	 */
 	override public function initialize():Void 
 	{
@@ -130,7 +141,7 @@ class ItemPaneButton extends ToggleButton implements IToggleButton
 	}
 	
 	/**
-	 * @inheritDoc
+	 * Update ItemPane button
 	 */
 	override public function draw():Void 
 	{

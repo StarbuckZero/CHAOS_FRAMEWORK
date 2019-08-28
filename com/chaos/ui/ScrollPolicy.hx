@@ -2,7 +2,7 @@ package com.chaos.ui;
 
 /**
  * These values are used for the scrollbars on the ScrollPane, TabPane and Window Class.
- *
+ *	<br><br>
  *  @author Erick Feiling
  *  @date 11-14-09
  *

@@ -228,6 +228,10 @@ class GridCell extends BaseUI implements IBaseUI implements IGridCell
         return _container;
     }
     
+    /**
+	 * Update the cell
+	 */
+	
     override public function draw() : Void
     {
         super.draw();

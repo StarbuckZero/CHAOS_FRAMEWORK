@@ -19,13 +19,20 @@ import com.chaos.ui.layout.classInterface.IBaseContainer;
 class VerticalContainer extends AlignmentBaseContainer implements IBaseContainer implements IAlignmentContainer implements IBaseUI
 {
     
+	/**
+	 * UI Component 
+	 * @param	data The proprieties that you want to set on component.
+	 */
+	
     public function new(data:Dynamic = null)
     {
         super(data);
     }
     
     /**
-	 * @inheritDoc
+	 * Adds more then one item to the object to the list
+	 *
+	 * @param	list A list of UI Elements
 	 */
     
     override public function addElementList(list : Array<Dynamic>) : Void
@@ -37,7 +44,9 @@ class VerticalContainer extends AlignmentBaseContainer implements IBaseContainer
     }
     
     /**
-	 * @inheritDoc
+	 * Add an UI element to the container
+	 *
+	 * @param	object The object you want to add
 	 */
     
     override public function addElement(object : IBaseUI) : Void
@@ -48,6 +57,12 @@ class VerticalContainer extends AlignmentBaseContainer implements IBaseContainer
         dispatchEvent(new ContainerEvent(ContainerEvent.UPDATE));
     }
     
+    /**
+	 * Remove an UI element from the container
+	 *
+	 * @param	object The object you want to remove
+	 */
+	
     override public function removeElement(object : IBaseUI) : Void
     {
         super.removeElement(object);
@@ -57,7 +72,7 @@ class VerticalContainer extends AlignmentBaseContainer implements IBaseContainer
     }
     
     /**
-	 * @inheritDoc
+	 * Update the UI class
 	 */
     
     override public function draw() : Void
@@ -70,8 +85,8 @@ class VerticalContainer extends AlignmentBaseContainer implements IBaseContainer
 	
 	
     /**
-	 * @inheritDoc
-	 */
+	 * Adjust the location of all UI elements 
+	 */	
 	
     override public function updateAlignment() : Void
     {

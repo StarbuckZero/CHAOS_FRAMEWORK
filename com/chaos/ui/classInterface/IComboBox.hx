@@ -26,11 +26,7 @@ interface IComboBox extends IBaseUI
 	 */
 	var selectedIndex(get, never) : Int;
 
-	/**
-	 * Replace the current data provider
-	 */
 
-	var dataProvider(get, set) : DataProvider<ComboBoxObjectData>;
 	/**
 	 * Set the track size of the scrollbar
 	 */
@@ -48,6 +44,12 @@ interface IComboBox extends IBaseUI
 	 */
 
 	var clickLabelArea(get, set) : Bool;
+	
+	/**
+	 * Replace the current data provider
+	 */
+
+	var dataProvider(get, set) : DataProvider<ComboBoxObjectData>;	
 
 	/**
 	 * Set the text for the main label on the combo box. This will be replace
@@ -92,7 +94,7 @@ interface IComboBox extends IBaseUI
 	var textOverBackground(get, set) : Int;
 
 	/**
-	 * The color of the combo box border thinkness
+	 * The combo box border thinkness
 	 */
 
 	var borderThinkness(get, set) : Float;

@@ -24,19 +24,89 @@ import openfl.events.Event;
 
 class Bubble extends Overlay implements IBubble implements IOverlay implements IBaseUI
 {
+	
+	/**
+	 * If true this will apply a mask content layer
+	 */	
     public var useMask(get, set) : Bool;
+	
+    /**
+	 * This is the content DisplayObject. You can add DisplayObject into this content area.
+	 */	
+	
     public var content(get, never) : Sprite;
+	
+	
+	/**
+	 * How rounded the edges of the bubble will be
+	 */
+	
     public var rounded(get, set) : Int;
+	
+	/**
+	 * Toggle on and off border
+	 */
+	
     public var border(get, set) : Bool;
+	
+	/**
+	 * The border color
+	 */	
+	
     public var borderColor(get, set) : Int;
+	
+	/**
+	 * Set the alpha between 1 to 0. For example 0.4
+	 */
+	
     public var borderAlpha(get, set) : Float;
+	
+	/**
+	 * The border thinkness
+	 */
+	
     public var borderThinkness(get, set) : Float;
+	
+	/**
+	 * The background color of the bubble
+	 */
+	
     public var backgroundColor(get, set) : Int;
+	
+	/**
+	 * The background alpha
+	 */
+	
     public var backgroundAlpha(get, set) : Float;
+	
+	/**
+	 * Show the tail of the bubble
+	 */
+	
     public var showTail(get, set) : Bool;
+	
+	/**
+	 * The size of the tail
+	 */
+	
     public var tailSize(get, set) : Float;
+	
+	/**
+	 * Set the placement of the tail which could be "top", "bottom", "left" or "right"
+	 */
+	
     public var tailPlacement(get, set) : String;
+	
+	/**
+	 * The tail location, this only works if the tailAutoCenter is false
+	 */
+	
     public var tailLocation(never, set) : Float;
+	
+	/**
+	 * Set to true if you want the tail to be auto center on the bubble
+	 */
+	
     public var tailAutoCenter(get, set) : Bool;
 
     public static inline var TYPE : String = "Bubble";
@@ -51,10 +121,7 @@ class Bubble extends Overlay implements IBubble implements IOverlay implements I
     private var _border : Bool = true;
     private var _borderColor : Int = 0x000000;
     private var _borderAlpha : Float = 1;
-    
-    //private var _showImage : Bool = true;
-    //private var _smoothImage : Bool = true;
-    
+
     private var _imageBackground : BitmapData;
     
     
@@ -76,12 +143,13 @@ class Bubble extends Overlay implements IBubble implements IOverlay implements I
     private var _useMask : Bool = false;
     
 	/**
-	 * @inheritDoc
+	 * UI Component 
+	 * @param	data The proprieties that you want to set on component.
 	 */
+	
     public function new(data:Dynamic = null)
     {
         
-		// defaultWidth : Float = 100, defaultHeight : Float = 100
         super(data);
         
         

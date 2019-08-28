@@ -6,7 +6,8 @@ import openfl.display.DisplayObject;
 import openfl.geom.Rectangle;
 
 /**
- * Apply scroll effect using scrollRect 
+ * Apply scroll effect using scrollRect
+ * <br><br>
  * @author Erick Feiling
  */
 class ScrollRectContent extends ScrollContentBase 
@@ -15,8 +16,14 @@ class ScrollRectContent extends ScrollContentBase
 	private var _scrollRect : Rectangle;
 	
 	/**
-	 * @inheritDoc
-	 * @param scrollRect The scroll record that will be used
+	 * Attach scrollbar to object
+	 * 
+	 * @param	clip The DisplayObject
+	 * @param	scroller The scrollbar
+	 * @param 	scrollRect The scroll record that will be used
+	 * 
+	* @see com.chaos.ui.ScrollBar
+	* @see openfl.geom.Rectangle
 	 */
 	public function new(clip:DisplayObject, scroller:IScrollBar, scrollRect:Rectangle) 
 	{
@@ -26,8 +33,12 @@ class ScrollRectContent extends ScrollContentBase
 	}
 	
 	/**
-	 * @inheritDoc
-	 */
+	* Links a DisplayObject
+	* 
+	* @param clip The DisplayObject or MovieClip
+	* @param scroller The scrollbar that will be attached to the object being passed in
+	* 
+	*/
 	
 	override public function attachContent(clip:DisplayObject, scroller:IScrollBar):Void
 	{

@@ -39,15 +39,36 @@ import openfl.text.TextFieldAutoSize;
 
 class ToolTip
 {
-    public static var delay(get, set) : Int;
-    public static var followMouse(get, set) : Bool;
-    public static var displayObject(get, never) : Bubble;
-    public static var label(get, never) : Label;
-    public static var displayArea(get, set) : DisplayObject;
-
+	
     
     /** The type of UI Element */
     public static inline var TYPE : String = "ToolTip";
+	
+	/**
+	 * The amount of time in seconds before tool-tip show up
+	 */
+    public static var delay(get, set) : Int;
+	
+	/**
+	 * Follow user mouse
+	 */
+    public static var followMouse(get, set) : Bool;
+	
+	/**
+	 * The tool-tip bubble
+	 */
+    public static var displayObject(get, never) : Bubble;
+	
+	/**
+	 * Label being used for text
+	 */
+    public static var label(get, never) : Label;
+	
+	/**
+	 * The area for the tool-tip content
+	 */
+    public static var displayArea(get, set) : DisplayObject;
+
     
     private static var _followMouse : Bool = true;
     

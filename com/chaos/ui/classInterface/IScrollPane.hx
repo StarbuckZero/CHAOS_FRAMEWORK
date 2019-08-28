@@ -2,8 +2,8 @@ package com.chaos.ui.classInterface;
 
 import com.chaos.ui.classInterface.IScrollBar;
 import com.chaos.ui.layout.classInterface.IBaseContainer;
-import openfl.display.Bitmap;
 import openfl.display.DisplayObject;
+
 
 
 interface IScrollPane extends IBaseContainer
@@ -13,6 +13,7 @@ interface IScrollPane extends IBaseContainer
     /**
 	 * Returns the bottom horizontal scrollbar being used
 	 */
+	
 	var scrollBarH(get, never) : IScrollBar;      
 	
 	/**

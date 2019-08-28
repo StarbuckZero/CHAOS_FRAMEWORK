@@ -22,7 +22,7 @@ class CloseIcon extends BaseIcon implements IBasicIcon
     }
     
     /**
-	 * @inheritDoc
+	 * Update the UI class
 	 */
     
     override public function draw() : Void

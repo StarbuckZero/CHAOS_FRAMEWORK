@@ -35,38 +35,202 @@ import openfl.events.MouseEvent;
 
 class Menu extends BaseContainer implements IBaseContainer implements IMenu implements IBaseUI
 {
+    /**
+	 * Return a container with the menu top level buttons
+	 */
+	
     public var buttonContainer(get, never) : IFitContainer;
+	
+    /**
+	 * Flip what side the drop down menu is done.
+	 */	
+	
     public var reverse(get, set) : Bool;
+	
+    /**
+	 * Set the default menu icon color
+	 */
+	
     public var menuDefaultColor(get, set) : Int;
+	
+    /**
+	 * Set the default menu color
+	 */
+	
     public var menuSubDefaultColor(get, set) : Int;
+	
+    /**
+	 * Set the over menu icon color
+	 */
+	
     public var menuOverColor(get, set) : Int;
+	
+    /**
+	 * Set the over sub menu color
+	 */
+	
     public var menuSubOverColor(get, set) : Int;
+	
+    /**
+	 * Set the down menu icon color
+	 */
+	
     public var menuDownColor(get, set) : Int;
+	
+    /**
+	 * Set the down sub menu color
+	 */
+	
     public var menuSubDownColor(get, set) : Int;
+	
+    /**
+	 * Set the disable menu icon color
+	 */
+	
     public var menuDisableColor(get, set) : Int;
+	
+    /**
+	 * Set the disable sub menu color
+	 */
+	
     public var menuSubDisableColor(get, set) : Int;
+	
+    /**
+	 * Border color for normal button state
+	 */
+	
     public var normalBorderColor(get, set) : Int;
+	
+    /**
+	 * Border color for sub-normal button state
+	 */
+	
     public var normalSubBorderColor(get, set) : Int;
+	
+    /**
+	 * Border color for over button state
+	 */
+	
     public var overBorderColor(get, set) : Int;
+	
+    /**
+	 * Border color for over sub button state
+	 */
+	
     public var overSubBorderColor(get, set) : Int;
+	
+    /**
+	 * Border color for down button state
+	 */
+	
     public var downBorderColor(get, set) : Int;
+	
+    /**
+	 * Border color for down sub button state
+	 */
+	
     public var downSubBorderColor(get, set) : Int;
+	
+    /**
+	 * Border color for disable button state
+	 */
+	
     public var disableBorderColor(get, set) : Int;
+	
+    /**
+	 * Border color for disable sub button state
+	 */
+	
     public var disableSubBorderColor(get, set) : Int;
+	
+    /**
+	 * Set the inner menu button alpha
+	 */
+	
     public var fillAlpha(get, set) : Float;
+	
+    /**
+	 * Set the inner menu sub button alpha
+	 */
+	
     public var subAlpha(get, set) : Float;
+	
+    /**
+	 * Set the border menu button alpha
+	 */
+	
     public var lineAlpha(get, set) : Float;
+	
+    /**
+	 * Set the border sub menu button alpha
+	 */
+	
     public var subLineAlpha(get, set) : Float;
+	
+    /**
+	 * Set the label text color
+	 */
+	
     public var textColor(get, set) : Int;
+	
+    /**
+	 * Set the label sub text color
+	 */
+	
     public var subTextColor(get, set) : Int;
+	
+    /**
+	 * Set the label over state color
+	 */
+	
     public var textOverColor(get, set) : Int;
+	
+    /**
+	 * Set the sub label over state color
+	 */
+	
     public var textSubOverColor(get, set) : Int;
+	
+    /**
+	 * Set the label selected state
+	 */
+	
     public var textSelectedColor(get, set) : Int;
+	
+    /**
+	 * Set the label selected state
+	 */
+	
     public var textSubSelectedColor(get, set) : Int;
+	
+    /**
+	 * Set the label disable color
+	 */
+	
     public var textDisableColor(get, set) : Int;
+	
+    /**
+	 * Set the sub button label disable color
+	 */
+	
     public var textSubDisableColor(get, set) : Int;
+	
+    /**
+	 * Border thinkness
+	 */
+	
     public var borderThinkness(get, set) : Float;
+	
+    /**
+	 * Border thinkness
+	 */
+	
     public var subBorderThinkness(get, set) : Float;
+	
+    /**
+	 * Show or hide the Sub menu icon
+	 */
+	
     public var showSubMenuIcon(get, set) : Bool;
 
     
@@ -158,23 +322,22 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
 	
 	private var _direction : String;
     
-    /**
-	 * @inheritDoc
+	/**
+	 * UI Menu 
+	 * @param	data The proprieties that you want to set on component.
 	 */
     
     public function new(data:Dynamic = null)
     {
-		// menuWidth : Int = 100, menuHeight : Int = 100, menuList : DataProvider<MenuItemObjectData> = null, direction : String = "horizontal"
         super(data);
 		
-		
-
         addEventListener(Event.ADDED_TO_STAGE, onStageAdd, false, 0, true);
         addEventListener(Event.REMOVED_FROM_STAGE, onStageRemove, false, 0, true);
     }
 	
 	/**
-	 * @inheritDoc
+	 * Set properties based on object
+	 * @param	data object with supported types
 	 */
 	
 	override public function setComponentData(data:Dynamic):Void 
@@ -346,8 +509,9 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
 	}
 	
 	/**
-	 * @inheritDoc
+	 * initialize all importain objects
 	 */
+	
 	override public function initialize():Void 
 	{
 		buttonArea = new FitContainer({"width":_width, "height":_height,"direction":_direction});
@@ -363,8 +527,9 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
 	}
 	
 	/**
-	 * @inheritDoc
+	 * Unload Component
 	 */
+	
 	override public function destroy():Void 
 	{
 		super.destroy();
@@ -381,9 +546,10 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
 		removeSubMenu();
 	}
 	
-	/**
-	 * @inheritDoc
+    /**
+	 * Reload all bitmap images and UI Styles
 	 */
+	
     override public function reskin() : Void
     {
         super.reskin();
@@ -546,35 +712,6 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
             setSubIcon(UIBitmapManager.getUIElement(Menu.TYPE, UIBitmapManager.MENU_SUB_BUTTON_ICON));
     }
     
-
-    
-	#if flash @:setter(width) 
-    override private function set_width(value : Float) : Void
-    {
-        _width = buttonArea.width = value;
-    }
-    #else
-    override private function set_width(value : Float) : Float
-    {
-		
-        _width = buttonArea.width = value;
-        return value;
-    }
-	#end
-	
-	#if flash @:setter(height) 
-    override private function set_height(value : Float) : Void
-    {
-        _height = buttonArea.height = value;
-    }
-	#else
-    override private function set_height(value : Float) : Float
-    {
-        _height = buttonArea.height = value;
-        return value;
-    }	
-    #end
-	
     
     /**
 	 * Return a container with the menu top level buttons
@@ -1364,12 +1501,16 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
     
 
     
-
+    /**
+	 * Draw the container
+	 */
     
     override public function draw() : Void
     {
         super.draw();
-        
+        buttonArea.width = _width;
+        buttonArea.height = _width;
+		
         updateButtons(_list);
     }
     

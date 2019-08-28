@@ -48,6 +48,8 @@ interface IScrollBar extends IBaseUI
 	 */
 	
 	var buttonWidth(get, set) : Int;      
+	
+	
 	/**
 	 * Set the size of the button used on the scrollbar
 	 */

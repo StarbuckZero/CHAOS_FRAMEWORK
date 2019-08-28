@@ -7,10 +7,10 @@ import com.chaos.ui.layout.VerticalContainer;
 import com.chaos.ui.layout.FitContainer;
 
 /**
-	 * Used to set a layout for the GridCell class
-	 *
-	 * @author Erick Feiling
-	 */
+ * Used to set a layout for the GridCell class
+ *
+ * @author Erick Feiling
+ */
 
 class GridCellLayout
 {

@@ -5,38 +5,22 @@ import com.chaos.ui.classInterface.IBaseUI;
 import com.chaos.ui.classInterface.IItemPane;
 import com.chaos.ui.classInterface.IScrollPane;
 import com.chaos.ui.classInterface.IToggleButton;
-import flash.display.BitmapData;
-import openfl.errors.Error;
-import openfl.text.TextFieldAutoSize;
 
+import com.chaos.data.DataProvider;
+import com.chaos.ui.UIStyleManager;
+import com.chaos.ui.UIBitmapManager;
+import com.chaos.ui.data.ItemPaneObjectData;
+import com.chaos.ui.event.ToggleEvent;
+import com.chaos.ui.ScrollPane;
 
-import openfl.display.Bitmap;
-
+import openfl.display.BitmapData;
 import openfl.events.Event;
-
 import openfl.display.Sprite;
-import openfl.display.Shape;
-
 import openfl.text.Font;
 
 
-import com.chaos.data.DataProvider;
-
-import com.chaos.ui.UIStyleManager;
-import com.chaos.ui.UIBitmapManager;
-
-import com.chaos.ui.data.ItemPaneObjectData;
-
-import com.chaos.ui.event.ToggleEvent;
-
-import com.chaos.ui.ScrollPane;
-
-
-
-
-
 /**
- * A list of display objects.
+ * A list of elements that support different items being viewed as images. 
  *
  * @author Erick Feiling
  */
@@ -47,16 +31,70 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
     /** The type of UI Element */
     public static inline var TYPE : String = "ItemPane";
 	
+    /**
+	 * Set the width of the item block size
+	 */
+	
     public var itemWidth(get, set) : Int;
+	
+    /**
+	 * Set the height of the item block size
+	 */
+	
     public var itemHeight(get, set) : Int;
+	
+    /**
+	 * Show or hide the label on button
+	 */
+	
     public var showLabel(get, set) : Bool;
+	
+    /**
+	 * The item normal state color
+	 */
+	
     public var itemNormalColor(get, set) : Int;
+	
+    /**
+	 * The item over state color
+	 */
+	
     public var itemOverColor(get, set) : Int;
+	
+    /**
+	 * The item selected state color
+	 */
+	
     public var itemSelectedColor(get, set) : Int;
+	
+    /**
+	 * The item disable state color
+	 */
+	
     public var itemDisableColor(get, set) : Int;
+	
+    /**
+	 * The user can select more than one item on the item pane
+	 */
+	
     public var allowMultipleSelection(get, set) : Bool;
+	
+    /**
+	 * Set the X location of the item
+	 */
+	
     public var itemLocX(get, set) : Int;
+	
+    /**
+	 * Set the Y location of the item
+	 */
+	
     public var itemLocY(get, set) : Int;
+	
+    /**
+	 * Replace the current data provider and rebuild the item pane
+	 */
+	
     public var dataProvider(get, set) : DataProvider<ItemPaneObjectData>;
     
     private var _list : DataProvider<ItemPaneObjectData> = new DataProvider<ItemPaneObjectData>();
@@ -95,8 +133,9 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
     private var _italic : Bool = false;
     private var _size : Int = -1;
     
-    /**
-	 * @inheritDoc
+	/**
+	 * UI TabPane 
+	 * @param	data The proprieties that you want to set on component.
 	 */
 	
     public function new(data:Dynamic = null)
@@ -106,8 +145,10 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
     }
 	
 	/**
-	 * @inheritDoc
+	 * Set properties based on object
+	 * @param	data object with supported types
 	 */
+	
 	override function setComponentData(data:Dynamic) 
 	{
 		super.setComponentData(data);
@@ -614,9 +655,9 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
         
     }
     
-    /**
-	 * @inheritDoc
-	 */
+	/**
+	* Draw the TabPane and all the UI classes it's using
+	*/
     
     override public function draw() : Void
     {
@@ -636,7 +677,7 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
         
         var _lastRowNum : Int = 0;
         
-		//TODO: Turn into while loop
+		
         for (i in 0... _list.length)
 		{
            

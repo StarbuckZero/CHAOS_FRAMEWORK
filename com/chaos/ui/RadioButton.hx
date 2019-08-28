@@ -22,7 +22,14 @@ class RadioButton extends SelectToggleBase implements IRadioButton implements IB
 	/** The type of UI Element */
 	public static inline var TYPE : String = "RadioButton";
 
+	/**
+	 * Name of group this button will be linked to
+	 */
 	public var groupName(get, set) : String;
+	
+	/**
+	 * Side of dot
+	 */
 	public var dotSize(get, set) : Int;
 	
 	private var _groupName : String = "default";
@@ -30,7 +37,8 @@ class RadioButton extends SelectToggleBase implements IRadioButton implements IB
 	private var _dotSize : Int = 1;
 
 	/**
-	 * @inheritDoc
+	 * UI Radio Button 
+	 * @param	data The proprieties that you want to set on component.
 	 */
 
 	public function new(data:Dynamic = null)
@@ -42,8 +50,10 @@ class RadioButton extends SelectToggleBase implements IRadioButton implements IB
 	}
 	
 	/**
-	 * @inheritDoc
+	 * Set properties based on object
+	 * @param	data object with supported types
 	 */
+	
 	override public function setComponentData(data:Dynamic):Void 
 	{
 		super.setComponentData(data);
@@ -172,9 +182,10 @@ class RadioButton extends SelectToggleBase implements IRadioButton implements IB
 		return _groupName;
     }
 	
-	/**
-	 * @inheritDoc
+    /**
+	 * Draw the container
 	 */
+	
 	override public function draw():Void 
 	{
 		super.draw();
@@ -189,8 +200,12 @@ class RadioButton extends SelectToggleBase implements IRadioButton implements IB
 
 	
 	/**
-	 * @inheritDoc
+	 * Draws shape that could be textured
+	 * @param	square The shape that will be used
+	 * @param	color The color of the shape if no image being passed
+	 * @param	image The image
 	 */
+	
 	override public function drawButtonState(square:Shape, color:Int = 0xFFFFFF, image:BitmapData = null):Void 
 	{
 		super.drawButtonState(square, color, image);

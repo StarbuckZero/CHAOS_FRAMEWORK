@@ -78,8 +78,9 @@ class FitContainer extends AlignmentBaseContainer implements IFitContainer imple
     }
     
     /**
-	 * @inheritDoc
+	 * Resize all UI Objects
 	 */
+
     
     override public function draw() : Void
     {

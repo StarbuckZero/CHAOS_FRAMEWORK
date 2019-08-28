@@ -25,9 +25,10 @@ class CheckBoxGroup extends HorizontalContainer implements ICheckBoxGroup implem
 {
 	private var _list:Array<ICheckBox>;
     
-    /**
-	 * @inheritDoc
-	 */
+	/**
+	 * UI Component 
+	 * @param	data The proprieties that you want to set on component.
+	 */	
     
     public function new(data:Dynamic = null)
     {
@@ -36,8 +37,10 @@ class CheckBoxGroup extends HorizontalContainer implements ICheckBoxGroup implem
     }
 	
 	/**
-	 * @inheritDoc
+	 * Set properties based on object
+	 * @param	data object with supported types
 	 */
+	
 	override public function setComponentData(data:Dynamic):Void 
 	{
 		super.setComponentData(data);
@@ -64,8 +67,9 @@ class CheckBoxGroup extends HorizontalContainer implements ICheckBoxGroup implem
 	}
 	
 	/**
-	 * @inheritDoc
+	 * Unload Component
 	 */
+	
 	override public function destroy():Void 
 	{
 		super.destroy();
@@ -138,6 +142,10 @@ class CheckBoxGroup extends HorizontalContainer implements ICheckBoxGroup implem
         
         return checkboxArray;
     }
+	
+    /**
+	 * Update the UI class
+	 */
 	
 	override public function draw():Void 
 	{

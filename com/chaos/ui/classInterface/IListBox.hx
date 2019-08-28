@@ -1,8 +1,6 @@
 package com.chaos.ui.classInterface;
 
 import com.chaos.ui.data.ListObjectData;
-import openfl.display.Bitmap;
-import openfl.display.DisplayObject;
 import openfl.text.Font;
 
 import com.chaos.data.DataProvider;
@@ -49,6 +47,7 @@ interface IListBox extends IScrollPane
 	/**
 	 * The selected text background
 	 */
+	
 	var textSelectedBackground(get, set) : Int;  
 	
 	/**

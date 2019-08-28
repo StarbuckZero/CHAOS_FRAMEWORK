@@ -34,14 +34,57 @@ class ListBox extends ScrollPane implements IListBox implements IBaseUI
 	/** The type of UI Element */
 	public static inline var TYPE : String = "ListBox";
 
+    /**
+	 * Outline color
+	 */
+	
 	public var outlineColor(get, set) : Int;
+	
+    /**
+	 * Outline alpha
+	 */
+	
 	public var outlineAlpha(get, set) : Float;
+	
+	/**
+	 * The default label color
+	 */	
 	public var textColor(get, set) : Int;
+	
+	/**
+	 * Set the roll over state
+	 */
+	
 	public var textOverColor(get, set) : Int;
+	
+	/**
+	 * Set the selected of the label
+	 */
+	
 	public var textSelectedColor(get, set) : Int;
+	
+	/**
+	 * The selected text background
+	 */
+	
 	public var textSelectedBackground(get, set) : Int;
+	
+	/**
+	 * The user can select more then one item on the list
+	 */
+	
 	public var allowMultipleSelection(get, set) : Bool;
+	
+    /**
+	 * Set the align on all the labels
+	 */
+	
 	public var textAlign(get, set) : String;
+	
+	/**
+	 * Replace the current data provider
+	 */ 
+	
 	public var dataProvider(get, set) : DataProvider<ListObjectData>;
 	
 	private var _outlineColor : Int = 0x000000;
@@ -63,7 +106,8 @@ class ListBox extends ScrollPane implements IListBox implements IBaseUI
 
 
 	/**
-	 * @inheritDoc
+	 * UI LixBox 
+	 * @param	data The proprieties that you want to set on component.
 	 */
 	
 	public function new(data:Dynamic = null)
@@ -77,8 +121,10 @@ class ListBox extends ScrollPane implements IListBox implements IBaseUI
 	}
 	
 	/**
-	 * @inheritDoc
+	 * Set properties based on object
+	 * @param	data object with supported types
 	 */
+	
 	override public function setComponentData(data:Dynamic):Void 
 	{
 		super.setComponentData(data);
@@ -147,8 +193,9 @@ class ListBox extends ScrollPane implements IListBox implements IBaseUI
 
 
 	/**
-	 * @inheritDoc
+	 * initialize all importain objects
 	 */
+	
 	override public function initialize():Void 
 	{
 		
@@ -159,8 +206,9 @@ class ListBox extends ScrollPane implements IListBox implements IBaseUI
 	}
 	
 	/**
-	 * @inheritDoc
+	 * Unload Component
 	 */
+	
 	override public function destroy():Void 
 	{
 		super.destroy();
@@ -204,7 +252,7 @@ class ListBox extends ScrollPane implements IListBox implements IBaseUI
 	}
 
 	/**
-	 * @inheritDoc
+	 * Reload all bitmap images and UI Styles
 	 */
 
 	override public function reskin() : Void 

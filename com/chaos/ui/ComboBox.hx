@@ -48,30 +48,130 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 	/** The type of UI Element */
 	public static inline var TYPE : String = "ComboBox";
 	
+	/**
+	 * Drop Down Button
+	 */
 	
 	public var dropButton(get, never):IButton;
+	
+	/**
+	 * ScrollBar
+	 */
+	
 	public var scrollbar(get, never):IScrollBar;
 	
 	
+	/**
+	 * Current selected item
+	 */
+	
 	public var selectedIndex(get, never) : Int;
+	
+	/**
+	 * Set the track size of the scrollbar
+	 */
+	
 	public var trackSize(get, set) : Int;
+	
+	/**
+	 * Set the size of the button used on the combo box. The width is based on the height of the combox box.
+	 */
+	
 	public var buttonWidth(get, set) : Int;
+	
+	/**
+	 * Make it so the label can be clicked to show items much like dropdown
+	 */
+	
 	public var clickLabelArea(get, set) : Bool;
+	
+	/**
+	 * Replace the current data provider
+	 */
+	
 	public var dataProvider(get, set) : DataProvider<ComboBoxObjectData>;
+	
+
+	/**
+	 * Set the text for the main label on the combo box. This will be replace
+	 */
+	
 	public var text(get, set) : String;
+	
+	/**
+	 * Returns text label used on the combo box selected item area
+	 */
+	
 	public var label(get, never) : ILabel;
+	
+	/**
+	 * The color of the text in a label, in hexadecimal format.
+	 */
+	
 	public var textColor(get, set) : Int;
+	
+	/**
+	 * The color of the text in a label for it's roll over state
+	 */
+	
 	public var textOverColor(get, set) : Int;
+	
+	/**
+	 * The color of the text in a label for it's down state
+	 */
+	
 	public var textDownColor(get, set) : Int;
+	
+	/**
+	 * The color of the text roll over background
+	 */
+	
 	public var backgroundColor(get, set) : Int;
+	
+	/**
+	 * The color of the text roll over background
+	 */
+	
 	public var textOverBackground(get, set) : Int;
+	
+	/**
+	 * The color of the combo box border
+	 */
+
+	 
 	public var borderColor(get, set) : Int;
+	
+	/**
+	 * The border alpha being used around the combo box
+	 */
+	
 	public var borderAlpha(get, set) : Float;
+	
+	/**
+	 * The combo box border thinkness
+	 */
+	
 	public var borderThinkness(get, set) : Float;
+	
+	
+	/**
+	 * Returns the number of objects being used in combox box
+	 */
+	
 	public var length(get, never) : Int;
+	
+	/**
+	 * The number of items that will be display once the user click the drop down button
+	 */
+	
 	public var rowCount(get, set) : Int;
+	
+	
 	public var itemBuffer(get, set) : Int;
 	
+	/**
+	 * Set spacing for
+	 */	
 	
 	public var dropDownPadding(get, set) : Int;
 
@@ -165,7 +265,8 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 	private var _iconBorderColor:Int = 0xFFFFFF;
 
 	/**
-	 * @inheritDoc
+	 * UI ComboBox 
+	 * @param	data The proprieties that you want to set on component.
 	 */
 
 	public function new(data = null)
@@ -179,8 +280,10 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 	}
 	
 	/**
-	 * @inheritDoc
+	 * Set properties based on object
+	 * @param	data object with supported types
 	 */
+	
 	override public function setComponentData(data:Dynamic):Void 
 	{
 		super.setComponentData(data);
@@ -212,8 +315,9 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 	private function onStageRemove(event : Event) : Void { UIBitmapManager.stopWatchElement(TYPE, this); stage.removeEventListener(MouseEvent.MOUSE_DOWN, stageClick); }
 
 	/**
-	 * @inheritDoc
+	 * initialize all importain objects
 	 */
+	
 	override public function initialize():Void 
 	{
 		_selectLabel = new Label(_labelData);
@@ -300,8 +404,9 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 	}
 	
 	/**
-	 * @inheritDoc
+	 * Unload Component
 	 */
+	
 	override public function destroy():Void 
 	{
 		super.destroy();

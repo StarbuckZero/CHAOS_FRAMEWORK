@@ -7,15 +7,15 @@ import openfl.text.TextField;
 
 /**
  * For scrolling text with scrollbar
- * @author Erick Feiling
- * 
  */
 class ScrollTextContent extends ScrollContentBase 
 {
 	private var _textField:TextField;
 
 	/**
-	 * @inheritDoc
+	 * Attach scrollbar to TextField
+	 * @param	textField The TextField
+	 * @param	scroller The scrollbar
 	 */
 	public function new(textField:TextField, scroller:IScrollBar) 
 	{
@@ -27,8 +27,9 @@ class ScrollTextContent extends ScrollContentBase
 	}
 	
 	/**
-	 * @inheritDoc
-	 */
+	* Deattach and unlink everything being used.
+	*/
+	
 	override public function unload():Void 
 	{
 		super.unload();
@@ -39,8 +40,8 @@ class ScrollTextContent extends ScrollContentBase
 	}
 	
 	/**
-	 * @inheritDoc
-	 */
+	* Updated ScrollRect and ScrollBar Direction.
+	*/
 	
 	override public function update():Void 
 	{
@@ -54,8 +55,9 @@ class ScrollTextContent extends ScrollContentBase
 	}
 	
 	/**
-	 * @inheritDoc
-	 */
+	* Draw all elements being used on
+	*/ 
+	
 	override public function draw():Void 
 	{
 		

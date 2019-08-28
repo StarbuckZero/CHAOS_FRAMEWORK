@@ -20,21 +20,58 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI
 	public static inline var TYPE : String = "ToggleButton";
 
 	
+    /**
+	 * Set if you want the button to be selected or not
+	 */
+	
 	public var selected(get, set) : Bool;
 
+	 /**
+	 * The button normal state color
+	 */ 
+	 
+    public var defaultColor(get, set) : Int;
+	
+	 /**
+	 * The button over state color
+	 */   
+	 
+    public var overColor(get, set) : Int;
+	
+	 /**
+	 * The button down state color
+	 */ 
+	 
+    public var downColor(get, set) : Int;
+	
+	 /**
+	 * The button disable state color
+	 */   
+	 
+    public var disableColor(get, set) : Int;
+	
+	 /**
+	 * Set how rounded the button is
+	 */ 
+	 
+    public var roundEdge(get, set) : Int;
+	
+	 /**
+	 * The alpha of the button roll over and down state. Use this if you only set the default bitmap image, this will tint the button.
+	 */
+	 
+    public var bitmapAlpha(get, set) : Float;
+	
+	 /**
+	  * Title the image that is being used
+	  */
+	 
+	public var tileImage(get, set) : Bool;
+	
 	public var normalState : Shape = new Shape();
 	public var overState : Shape = new Shape();
 	public var downState : Shape = new Shape();
 	public var disableState : Shape = new Shape();
-	
-    public var defaultColor(get, set) : Int;
-    public var overColor(get, set) : Int;
-    public var downColor(get, set) : Int;
-    public var disableColor(get, set) : Int;
-	
-    public var roundEdge(get, set) : Int;
-	
-    public var bitmapAlpha(get, set) : Float;
 	
 	
     private var _defaultColor : Int = 0xCCCCCC;
@@ -55,7 +92,8 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI
 	private var _tileImage:Bool = false;
 	
 	/**
-	 * @inheritDoc
+	 * UI Toggle Button 
+	 * @param	data The proprieties that you want to set on component.
 	 */
   
 	public function new( data:Dynamic = null )
@@ -77,7 +115,8 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI
     }
 	
 	/**
-	 * @inheritDoc
+	 * Set properties based on object
+	 * @param	data object with supported types
 	 */
 	
 	override public function setComponentData(data:Dynamic):Void 
@@ -110,7 +149,7 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI
 	}
 	
 	/**
-	 * @inheritDoc
+	 * initialize all importain objects
 	 */
 	
 	override public function initialize() : Void
@@ -126,7 +165,7 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI
     }
 	
 	/**
-	 * @inheritDoc
+	 * Unload Component
 	 */
 	
 	override public function destroy():Void 

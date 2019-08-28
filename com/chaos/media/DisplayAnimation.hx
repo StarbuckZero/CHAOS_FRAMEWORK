@@ -253,8 +253,8 @@ class DisplayAnimation extends BaseUI implements IBaseUI
 		draw();
 	}
 	
-	/**
-	 * @inheritDoc
+    /**
+	 * Draw frame
 	 */
 	
 	override public function draw():Void 
@@ -271,7 +271,6 @@ class DisplayAnimation extends BaseUI implements IBaseUI
 				_shape.graphics.beginBitmapFill(image, null, false);
 				_shape.graphics.drawRect(0, 0, _width, _height);
 				_shape.graphics.endFill();
-
 			}
 			else
 			{

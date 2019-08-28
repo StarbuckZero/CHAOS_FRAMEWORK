@@ -61,8 +61,6 @@ interface IProgressBar extends com.chaos.ui.classInterface.IBaseUI
 	var textLoadColor(get, set) : Int;      
 	/**
 	 * Set the alignment of the label text
-	 *
-	 * @param value The text that you want to set on the label
 	 */
 	var align(get, set) : String;   
 	/**

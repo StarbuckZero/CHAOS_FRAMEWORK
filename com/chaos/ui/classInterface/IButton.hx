@@ -22,23 +22,24 @@ interface IButton extends IToggleButton
 	
 	var text(get, set) : String;     
 	
+	 /**
+	 * Return the label that is being used in the button
+	 */
+	 
+	 var label(get, never) : ILabel;   
+	 
+	/**
+	 * Show or hide the label on button
+	 */
+	
+	 var showLabel(never, set) : Bool;	 
+	 
 	/**
 	 * Change button to "press" or "toggle" state. Set to press by default.
 	 */
 	
 	var mode(get, set) : String;     
-	
-	/**
-	 * Show or hide the label on button
-	 */
-	
-	 var showLabel(never, set) : Bool;      
-	 
-	 /**
-	 * Return the label that is being used in the button
-	 */
-	 
-	 var label(get, never) : ILabel;     
+	   
 	 
 	 /**
 	 * Set or return the font being used

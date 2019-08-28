@@ -15,12 +15,8 @@ import com.chaos.ui.Slider;
 
 import com.chaos.ui.Button;
 
-/*
+/**
  * A scrollbar that could be attached to display objects or text field
- *
- *  @author Erick Feiling
- *  @date 11-13-09
- *
  */
 
 class ScrollBar extends BaseUI implements IScrollBar implements IBaseUI
@@ -29,19 +25,66 @@ class ScrollBar extends BaseUI implements IScrollBar implements IBaseUI
 	/** The type of UI Element */
 	public static inline var TYPE : String = "ScrollBar"; 
 	
-    public var scrollAmount(get, set) : Float;
-    public var sliderActiveResize(get, set) : Bool;
-    public var showArrowButton(get, set) : Bool;
-	public var slider(get, never) : ISlider;
-	
-    public var buttonWidth(get, set) : Int;
-    public var buttonHeight(get, set) : Int;
-	
-    public var sliderSize(get, set) : Float;
-    public var trackSize(get, set) : Float;
+	/**
+	 * Up Button for scrollbar
+	 */
 	
 	public var upButton(get, never) : IButton;
+	
+	/**
+	 * Down Button for scrollbar
+	 */
+		
 	public var downButton(get, never) : IButton;
+
+	/**
+	 * The slider bar that is being used in scrollbar
+	 */
+	
+	public var slider(get, never) : ISlider;
+	
+	/**
+	 * The amount in percent wise to when it comes to scroll amount
+	 */
+	
+    public var scrollAmount(get, set) : Float;
+	
+	/**
+	 * Set if the slider will resize itself based on the content size
+	 */
+	
+    public var sliderActiveResize(get, set) : Bool;
+	
+	/**
+	 * If you want to use the scrollbar arrow buttons or not
+	 */
+	
+    public var showArrowButton(get, set) : Bool;
+	
+	/**
+	 * Set the size of the button used on the scrollbar
+	 */
+	
+    public var buttonWidth(get, set) : Int;
+	
+	/**
+	 * Set the size of the button used on the scrollbar
+	 */
+	
+    public var buttonHeight(get, set) : Int;
+	
+	/**
+	 * Set the slider size based on the direction. If ScrollBarDirection.VERTICAL being used it adjust the height and if ScrollBarDirection.HORIZONTAL it adjust the width.
+	 */  
+	
+    public var sliderSize(get, set) : Float;
+	
+	/**
+	 * Set the track size of the scrollbar
+	 */
+	
+    public var trackSize(get, set) : Float;
+	
 	
 	
 	// elements  
@@ -75,7 +118,8 @@ class ScrollBar extends BaseUI implements IScrollBar implements IBaseUI
 	private var _sliderButtonDisableImage : BitmapData;
 	
 	/**
-	 * @inheritDoc
+	 * UI ScrollBar 
+	 * @param	data The proprieties that you want to set on component.
 	 */
 	
 	public function new(data:Dynamic = null)
@@ -87,8 +131,10 @@ class ScrollBar extends BaseUI implements IScrollBar implements IBaseUI
     }
 	
 	/**
-	 * @inheritDoc
+	 * Set properties based on object
+	 * @param	data object with supported types
 	 */
+	
 	override public function setComponentData(data:Dynamic):Void 
 	{
 		super.setComponentData(data);
@@ -482,8 +528,8 @@ class ScrollBar extends BaseUI implements IScrollBar implements IBaseUI
 		return _slider;
 	}
 	
-	/**
-	 * @inheritDoc
+    /**
+	 * Reload all bitmap images and UI Styles
 	 */
 	
 	override public function reskin() : Void 
@@ -729,8 +775,8 @@ class ScrollBar extends BaseUI implements IScrollBar implements IBaseUI
 	
 	/**
 	 * Draw the element on the stage
-	 *
 	 */
+	
 	override public function draw() : Void
 	{
 		

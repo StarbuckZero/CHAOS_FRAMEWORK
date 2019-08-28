@@ -18,11 +18,8 @@ import com.chaos.ui.ScrollBarDirection;
 import com.chaos.ui.UIStyleManager;
 import com.chaos.ui.UIBitmapManager;
 
-/* A simple slider with track
- *
- *  @author Erick Feiling
- *  @date 11-13-09
- *
+/**
+ * A simple slider with track
  */
 
 class Slider extends BaseUI implements ISlider implements IBaseUI
@@ -33,21 +30,93 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 	
 	public static var sliderEventMode(get, set) : String;
 
-	public var showTrack(get, set) : Bool;
-	public var sliderOffSet(get, set) : Float;
-	public var rotateImage(get, set) : Bool;
-	public var percent(get, set) : Float;
-	public var direction(get, set) : String;
-	public var trackColor(get, set) : Int;
-	public var sliderColor(get, set) : Int;
-	public var sliderOverColor(get, set) : Int;
-	public var sliderDownColor(get, set) : Int;
-	public var sliderDisableColor(get, set) : Int;
-	public var sliderWidth(get, set) : Float;
-	public var sliderHeight(get, set) : Float;
+    /**
+	 * The shape used for the track
+	 */ 
 	
 	public var track(get, never) : Shape;
+	
+    /**
+	 * This will rotate the image by 90
+	 */ 
+	
 	public var marker(get, never) : IButton;
+	
+    /**
+	 * This will rotate the image by 90
+	 */ 	
+	
+	public var rotateImage(get, set) : Bool;
+	
+	/**
+	 * Hides or show the track for the slider bar
+	 */ 
+	
+	public var showTrack(get, set) : Bool;
+	
+	/**
+	 * Slider offset
+	 */ 
+	
+	public var sliderOffSet(get, set) : Float;
+	
+	/**
+	 * The percent is represented as a value between 0 and 1.
+	 */
+	
+	public var percent(get, set) : Float;
+	
+	/**
+	 * Set the direction of the slider, this use the same static class to set the direction just like the scrollbar classe. ScrollBarDirection.HORIZONTAL or ScrollBarDirection.VERTICAL
+	 *
+	 * @see com.chaos.ui.ScrollBarDirection;
+	 */
+	
+	public var direction(get, set) : String;
+	
+	/**
+	 * Set the color of the track
+	 */
+	
+	public var trackColor(get, set) : Int;
+	
+	/**
+	 * Set the color of the slider
+	 */
+	
+	public var sliderColor(get, set) : Int;
+	
+	/**
+	 * Set the color of the slider over state
+	 */
+	
+	public var sliderOverColor(get, set) : Int;
+	
+	/**
+	 * Set the color of the slider down state
+	 */
+	
+	public var sliderDownColor(get, set) : Int;
+	
+	/**
+	 * Set the color of the slider disabled state
+	 */
+	
+	public var sliderDisableColor(get, set) : Int;
+	
+	
+	/**
+	 * Set the slider width
+	 */
+	
+	public var sliderWidth(get, set) : Float;
+	
+	/**
+	 * Set the slider height
+	 */
+	
+	public var sliderHeight(get, set) : Float;
+	
 	
 
 	public static var SLIDER_OFFSET : Float = 0; 
@@ -88,7 +157,8 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 	private var percentage : Float = 0; 
   
 	/**
-	 * @inheritDoc
+	 * UI Slider 
+	 * @param	data The proprieties that you want to set on component.
 	 */
 	
 	public function new (data:Dynamic = null)
@@ -112,8 +182,10 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
     }
 	
 	/**
-	 * @inheritDoc
+	 * Set properties based on object
+	 * @param	data object with supported types
 	 */
+	
 	override public function setComponentData(data:Dynamic):Void 
 	{
 		
@@ -155,8 +227,8 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 	}
 
 	
-	/**
-	 * @inheritDoc
+    /**
+	 * Reload all bitmap images and UI Styles
 	 */
 	
 	override public function reskin() : Void
@@ -670,6 +742,10 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 		stage.addEventListener(MouseEvent.MOUSE_UP, stopSliding, false, 0, true);
     }
 	
+	/**
+	 * Unload Component
+	 */	
+	
 	override public function destroy():Void 
 	{
 		super.destroy();
@@ -703,8 +779,8 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 	
 	/**
 	 * Draw the element on the stage
-	 *
 	 */ 
+	
 	override public function draw() : Void
 	{
 		super.draw();

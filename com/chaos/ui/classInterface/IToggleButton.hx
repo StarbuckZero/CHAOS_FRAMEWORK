@@ -42,6 +42,11 @@ interface IToggleButton extends IBaseUI
 	 
 	 var bitmapAlpha(get, set) : Float;   
 	 
+	 /**
+	  * Title the image that is being used
+	  */
+	 var tileImage(get, set) : Bool;
+	 
     /**
 	 * Set if you want the button to be selected or not
 	 */

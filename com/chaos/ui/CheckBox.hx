@@ -12,12 +12,17 @@ import openfl.display.BitmapData;
 import openfl.display.Shape;
 import openfl.events.Event;
 
+/**
+ * Creates a checkbox
+ */
+
 class CheckBox extends SelectToggleBase implements ICheckBox implements IBaseUI
 {
 
 	/** The type of UI Element */
 	public static inline var TYPE : String = "CheckBox";
 
+	/** X or checkmark to be used in default draw mode **/
 	public var style(get, set) : String;
 	
 	private static inline var STYLE_X:String = "x";
@@ -29,7 +34,8 @@ class CheckBox extends SelectToggleBase implements ICheckBox implements IBaseUI
 	
 	
 	/**
-	 * @inheritDoc
+	 * UI Component 
+	 * @param	data The proprieties that you want to set on component.
 	 */
 
 	public function new(data:Dynamic = null)
@@ -39,6 +45,11 @@ class CheckBox extends SelectToggleBase implements ICheckBox implements IBaseUI
 		addEventListener(Event.ADDED_TO_STAGE, onStageAdd, false, 0, true);
 		addEventListener(Event.REMOVED_FROM_STAGE, onStageRemove, false, 0, true);
 	}
+	
+	/**
+	 * Set properties based on object
+	 * @param	data object with supported types
+	 */
 	
 	override public function setComponentData(data:Dynamic):Void 
 	{
@@ -128,10 +139,10 @@ class CheckBox extends SelectToggleBase implements ICheckBox implements IBaseUI
 		return _style;
 	}
 	
-	/**
-	 * @inheritDoc
+    /**
+	 * Update the UI class
 	 */
-
+	
 	override public function draw():Void 
 	{
 		super.draw();
@@ -149,6 +160,13 @@ class CheckBox extends SelectToggleBase implements ICheckBox implements IBaseUI
 		disableState.y = downState.y = overState.y = normalState.y = (_height / 2) - (_buttonSize / 2);
 	}
 
+	
+	/**
+	 * Draws shape that could be textured
+	 * @param	square The shape that will be used
+	 * @param	color The color of the shape if no image being passed
+	 * @param	image The image
+	 */
 	
 	override public function drawButtonState(square:Shape, color:Int = 0xFFFFFF, image:BitmapData = null):Void 
 	{

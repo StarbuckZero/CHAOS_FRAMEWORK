@@ -11,7 +11,6 @@ import openfl.geom.Point;
 
 /**
  * Scroll content in mask
- * @author Erick Feiling
  */
 class ScrollMaskContent extends ScrollContentBase 
 {
@@ -23,7 +22,9 @@ class ScrollMaskContent extends ScrollContentBase
 	
 	
 	/**
-	 * @inheritDoc
+	 * Attach scrollbar to object
+	 * @param	clip The DisplayObject
+	 * @param	scroller The scrollbar
 	 */
 
 	public function new(clip:DisplayObject, scroller:IScrollBar, mask:Shape) 

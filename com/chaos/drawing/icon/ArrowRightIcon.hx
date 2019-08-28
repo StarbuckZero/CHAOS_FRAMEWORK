@@ -24,7 +24,7 @@ class ArrowRightIcon extends BaseIcon implements IBasicIcon implements IBaseUI
     }
     
     /**
-	 * @inheritDoc
+	 * Update the UI class
 	 */
     
     override public function draw() : Void

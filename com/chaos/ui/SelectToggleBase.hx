@@ -15,12 +15,30 @@ import openfl.text.TextFieldAutoSize;
  */
 class SelectToggleBase extends ToggleButton implements IToggleButton implements IBaseUI 
 {
+	/**
+	 * Return label
+	 */
 
 	public var label(get, never) : ILabel;
+	
+	/**
+	 * Is text selectable as well
+	 */
 	public var textSelectable(get, set) : Bool;
+	
+	/**
+	 * Button Size
+	 */
 	public var buttonSize(get, set) : Int;
 	
+	/**
+	 * Line Alpha
+	 */
 	public var lineAlpha(get, set) : Float;
+	
+	/**
+	 * Line size
+	 */
 	public var lineSize(get, set) : Float;
 	
 	private var _label : Label;
@@ -46,7 +64,8 @@ class SelectToggleBase extends ToggleButton implements IToggleButton implements 
 	
 
 	/**
-	 * @inheritDoc
+	 * UI Select Toggle Button 
+	 * @param	data The proprieties that you want to set on component.
 	 */
 	public function new(data:Dynamic=null) 
 	{
@@ -68,7 +87,8 @@ class SelectToggleBase extends ToggleButton implements IToggleButton implements 
 	}
 	
 	/**
-	 * @inheritDoc
+	 * Set properties based on object
+	 * @param	data object with supported types
 	 */
 	
 	override public function setComponentData(data:Dynamic):Void 
@@ -268,9 +288,10 @@ class SelectToggleBase extends ToggleButton implements IToggleButton implements 
 		_selectedDisableStateImage = value;
 	}	
 	
-	/**
-	 * @inheritDoc
+    /**
+	 * Draw the container
 	 */
+	
 	override public function draw():Void 
 	{
 		// Figure to use bitmap or normal mode
@@ -326,9 +347,14 @@ class SelectToggleBase extends ToggleButton implements IToggleButton implements 
 		
 		
 	}
+	
 	/**
-	 * @inheritDoc
+	 * Draws shape that could be textured
+	 * @param	square The shape that will be used
+	 * @param	color The color of the shape if no image being passed
+	 * @param	image The image
 	 */
+	
 	override public function drawButtonState(square:Shape, color:Int = 0xFFFFFF, image:BitmapData = null):Void 
 	{
 		

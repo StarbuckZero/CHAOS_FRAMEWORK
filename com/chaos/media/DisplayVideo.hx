@@ -143,8 +143,8 @@ class DisplayVideo extends BaseUI implements IBaseUI
     }
     
 	
-	/**
-	 * @inheritDoc
+    /**
+	 * Update the UI class
 	 */
 	
 	override public function draw():Void 

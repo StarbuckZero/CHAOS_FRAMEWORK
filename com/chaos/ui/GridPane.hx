@@ -30,23 +30,19 @@ import com.chaos.drawing.icon.ArrowDownIcon;
 import com.chaos.ui.event.GridPaneEvent;
 import com.chaos.utils.Validator;
 import openfl.events.Event;
-import openfl.geom.Matrix;
-import openfl.geom.Transform;
+
+
 
 import openfl.events.MouseEvent;
 import openfl.events.FocusEvent;
 
-import openfl.display.Bitmap;
-import openfl.display.DisplayObject;
+
+
 import openfl.display.Sprite;
 
 /**
  * Creates a grid that use Form UI Elements. The grid use basic Objects that is displayed
  * in the grid based on the value when the column is created.
- * @author Erick Feiling
- *
- * @eventType com.chaos.ui.Event.GridPaneEvent.CHANGE
- * @eventType com.chaos.ui.Event.GridPaneEvent.SELECT
  */
 
 class GridPane extends ScrollPane implements IGridPane implements IScrollPane implements IBaseContainer implements IBaseUI
@@ -111,8 +107,9 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
     private var _columnButtonOverColor : Int = 0x666666;
     private var _columnButtonDownColor : Int = 0x333333;
     
-    /**
-	 * @inheritDoc
+	/**
+	 * UI Grid 
+	 * @param	data The proprieties that you want to set on component.
 	 */
 	
     public function new(data:Dynamic = null)
@@ -122,8 +119,10 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
     }
 	
 	/**
-	 * @inheritDoc
+	 * Set properties based on object
+	 * @param	data object with supported types
 	 */
+	
 	override public function setComponentData(data:Dynamic):Void 
 	{
 		super.setComponentData(data);
@@ -137,8 +136,9 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
 	}
 	
 	/**
-	 * @inheritDoc
+	 * initialize all importain objects
 	 */
+	
 	override public function initialize():Void 
 	{
 		super.initialize();
@@ -157,7 +157,7 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
     
 	
 	/**
-	 * @inheritDoc
+	 * Reload all bitmap images and UI Styles
 	 */
     
     override public function reskin() : Void
@@ -970,7 +970,7 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
     
     
     /**
-	 * @inheritDoc
+	 * Update the UI Grid
 	 */
     
     override public function draw() : Void
@@ -982,7 +982,7 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
         
         _grid.width = width;
         
-        for (i in 0...column.length)
+        for (i in 0 ... column.length)
 		{
             // Get holder and button area
             var colInfoHolder : Sprite = cast(column.getItemAt(i).col,Sprite);

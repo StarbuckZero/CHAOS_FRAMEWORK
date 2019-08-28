@@ -16,8 +16,13 @@ import openfl.display.Shape;
 
 class Overlay extends BaseUI implements IOverlay
 {
+	/** Tile the top center image **/
     public var tileTopCenterImage(get, set) : Bool;
+	
+	/** Tile the middle image **/
     public var tileMiddleImage(get, set) : Bool;
+	
+	/** Tile the bottom image **/
     public var tileBottomCenterImage(get, set) : Bool;
 
     public static inline var TYPE : String = "Overlay";
@@ -52,17 +57,19 @@ class Overlay extends BaseUI implements IOverlay
     
     
 	/**
-	 * @inheritDoc
+	 * UI Overlay 
+	 * @param	data The proprieties that you want to set on component.
 	 */
     
     public function new(data:Dynamic = null)
     {
-		
-        
         super(data);
-        
-        
     }
+	
+	/**
+	 * Set properties based on object
+	 * @param	data object with supported types
+	 */
 	
 	override public function setComponentData(data:Dynamic):Void 
 	{
@@ -77,6 +84,10 @@ class Overlay extends BaseUI implements IOverlay
 		if (Reflect.hasField(data, "tileBottomCenterImage"))
 			_tileBottomCenterImage = Reflect.field(data, "tileBottomCenterImage");
 	}
+	
+	/**
+	 * initialize all importain objects
+	 */
 	
 	override public function initialize():Void 
 	{
@@ -99,6 +110,10 @@ class Overlay extends BaseUI implements IOverlay
         addChild(bottomRightPattern);
 		
 	}
+	
+	/**
+	 * Unload Component
+	 */
 	
 	override public function destroy():Void 
 	{

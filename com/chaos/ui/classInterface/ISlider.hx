@@ -9,7 +9,7 @@ interface ISlider extends IBaseUI
 	
 	
     /**
-	 * This will rotate the image by 90
+	 * The shape used for the track
 	 */ 
 	
 	var track(get, never) : Shape;     
@@ -69,6 +69,7 @@ interface ISlider extends IBaseUI
 	 */
 	
 	var sliderOverColor(get, set) : Int;      
+	
 	/**
 	 * Set the color of the slider down state
 	 */

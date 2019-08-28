@@ -82,8 +82,6 @@ interface IItemPane extends IScrollPane
 	 * Set the Y location of the item
 	 */
     
-
-    
     var itemLocY(get, set) : Int;    
     
     /**

@@ -1,7 +1,7 @@
 package com.chaos.ui.classInterface;
 
 /**
- * ...
+ * Interface for Bubble 
  * @author Erick Feiling
  */
 
@@ -91,10 +91,8 @@ interface IBubble extends IOverlay
 
 	var tailAutoCenter(get, set) : Bool;
 
-	/**
-	 * Set the background image
-	 *
-	 * @param	value The bitmap that will be used
+    /**
+	 * This is the content DisplayObject. You can add DisplayObject into this content area.
 	 */
 
 	var content(get, never) : Sprite;

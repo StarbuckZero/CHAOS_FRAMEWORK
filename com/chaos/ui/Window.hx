@@ -36,28 +36,126 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 	/** The type of UI Element */ 
 	public static inline var TYPE : String = "Window";
 	
+	/**
+	 * The scroll pane being used
+	 */
+	
     public var scrollPane(get, never) : IScrollPane;
     
-    public var textLabel(get, never) : ILabel;
-    public var windowMinWidth(get, set) : Int;
-    public var windowMinHeight(get, set) : Int;
-    public var resize(get, set) : Bool;
+	/**
+	 * Close Button
+	 */
 	
     public var closeButton(get, never) : IButton;
+	
+	/**
+	 * Min Button 
+	 */
+	
     public var minButton(get, never) : IButton;
+	
+	/**
+	 * Max Button
+	 */
+	
     public var maxButton(get, never) : IButton;
 	
+	/**
+	 * Text label being used
+	 */
+	
+    public var textLabel(get, never) : ILabel;
+	
+	/**
+	 * Set the minimize width of the of the Window over all size
+	 */
+	
+    public var windowMinWidth(get, set) : Int;
+	
+	/**
+	 * Set the minimize height of the of the Window over all size
+	 */
+	
+    public var windowMinHeight(get, set) : Int;
+	
+	/**
+	 * Set if the window is resizable or not.
+	 */
+	
+    public var resize(get, set) : Bool;
+	
+	/**
+	 * Set the color of the window title area once the user select
+	 */
+	
     public var windowTitleColor(get, set) : Int;
+	
+	/**
+	 * Set the color of the window
+	 */
+	
     public var windowColor(get, set) : Int;
+	
+	/**
+	 * Set the size of the top right area of the window
+	 */
+	
     public var windowTopRightSize(get, set) : Int;
+	
+	/**
+	 * Set the top center block on the window.
+	 */
+	
     public var windowTopMiddleSize(get, set) : Int;
+	
+	/**
+	 * Set the size of the top left area of the window
+	 */
+	
     public var windowTopLeftSize(get, set) : Int;
+	
+	/**
+	 * Set the center block on the left and right side of the window
+	 */
+	
     public var windowMiddleSize(get, set) : Int;
+	
+	/**
+	 * Set the size of the bottom right area of the window
+	 */
+	
     public var windowBottomRightSize(get, set) : Int;
+	
+	/**
+	 * Set the size of the bottom middle area of the window
+	 */
+	
     public var windowBottomMiddleSize(get, set) : Int;
+	
+	/**
+	 * Set the size of the bottom left area of the window
+	 */
+	
     public var windowBottomLeftSize(get, set) : Int;
+	
+	/**
+	 * Set where the window icon will be placed. The icon can only be placed on the left or right side. If there are buttons on the side selected they'll be shift to the other side of the window.
+	 * For example if you set the window icon to the left side the buttons will be displayed on the right side.
+	 */
+	
     public var iconLocation(get, set) : String;
+	
+	/**
+	 * Set where to place the label on the window. The default is center but can be placed left or right as well.
+	 */
+	
     public var labelLocation(get, set) : String;
+	
+	/**
+	 * Set where the buttons will be placed. The button(s) can only be placed on the left or right side. If there is a icon on the side selected it will be shift to the other side of the window.
+	 * For example if you set the window icon to the left side the buttons will be displayed on the right side. Can only passed "left" or "right" as a value.
+	 */
+	
     public var buttonLocation(get, set) : String;
 	
 	public static var WINDOW_DEFAULT_WIDTH : Int = 320;

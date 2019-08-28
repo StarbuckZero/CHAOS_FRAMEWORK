@@ -7,6 +7,12 @@ import openfl.display.DisplayObject;
 
 interface ITabPane
 {
+	/**
+	 * Return ScrollPane that content is loaded in for each tab
+	 */
+	
+	var scrollPane(get, never) : IScrollPane;
+	
     /**
 	 * Switch the TabPane to the section as if the button was pressed. This will remove whatever content that is currenly being used and replace it with new data.
 	 */
@@ -17,7 +23,8 @@ interface ITabPane
 	 * Set the color of the TabPane button text field color
 	 */
 	
-	var tabButtonTextColor(get, set) : Int;      
+	var tabButtonTextColor(get, set) : Int;     
+	
 	/**
 	 * Set the color of the TabPane button text field color in it's selected state
 	 */
@@ -28,17 +35,20 @@ interface ITabPane
 	 * Set the color of the tab button
 	 */
 	
-	var tabButtonColor(get, set) : Int;      
+	var tabButtonColor(get, set) : Int;  
+    
 	/**
 	 * Set the color of the tab button over state
 	 */
 
-	var tabButtonOverColor(get, set) : Int;      
+	var tabButtonOverColor(get, set) : Int;  
+    
 	/**
 	 * Set the color of the tab button selected state
 	 */
 	
 	var tabButtonSelectedColor(get, set) : Int;      
+	
 	/**
 	 * Set the color of the tab button disabled state
 	 */
