@@ -7,8 +7,7 @@ import com.chaos.ui.classInterface.IBaseUI;
 import com.chaos.ui.classInterface.ILabel;
 
 /**
- * ...
- * @author Erick Feiling
+ * Label made for Form
  */
 
 class TextLabel extends Label implements ILabel implements IBaseUI implements IFormUI
@@ -16,15 +15,15 @@ class TextLabel extends Label implements ILabel implements IBaseUI implements IF
     
     private var id : Int = 0;
     
-    public function new(labelText : String = "")
+    public function new(data:Dynamic = null)
     {
-        super(labelText);
+        super(data);
 		
     }
 	
 	public function data():Dynamic
 	{
-		return _text;
+		return {"name":name, "id":id, "value":getValue(), "type":"label"};
 	}
     
     /**

@@ -2,14 +2,12 @@ package com.chaos.form.ui;
 
 
 import com.chaos.form.ui.classInterface.IFormUI;
-import com.chaos.ui.interface.IBaseUI;
-import com.chaos.ui.interface.IListBox;
+import com.chaos.ui.classInterface.IBaseUI;
+import com.chaos.ui.classInterface.IListBox;
 import com.chaos.ui.ListBox;
-import com.chaos.data.DataProvider;
 
 /**
  * A selected box is pretty much a list but with support for forms
- * @author Erick Feiling
  */
 
 class Select extends ListBox implements IListBox implements IBaseUI implements IFormUI
@@ -17,10 +15,25 @@ class Select extends ListBox implements IListBox implements IBaseUI implements I
     
     private var id : Int = 0;
     
-    public function new(listWidth : Int = 100, listHeight : Int = 100, listData : DataProvider = null)
+    public function new(data:Dynamic = null)
     {
-        super(listWidth, listHeight, listData);
+        super(data);
     }
+	
+	override public function setComponentData(data:Dynamic):Void 
+	{
+		super.setComponentData(data);
+		
+		if (Reflect.hasField(data, "id"))
+			id = Reflect.field(data, "id");
+		
+	}
+	
+	public function data():Dynamic
+	{
+		return return {"name":name, "id":id, "value":getValue(), "type":"label"};
+	
+	}
     
     /**
 	 * Get the type of form object

@@ -1,7 +1,6 @@
 package com.chaos.drawing;
 
 
-import com.chaos.media.DisplayAnimation;
 import com.chaos.media.DisplayImage;
 import com.chaos.media.DisplayVideo;
 import com.chaos.ui.BaseUI;
@@ -13,7 +12,6 @@ import openfl.display.BitmapData;
 
 /**
  * A place to draw shapes and load media objects.
- * @author Erick Feiling
  */
 class Canvas extends BaseContainer implements IBaseContainer implements IBaseUI 
 {
@@ -24,7 +22,8 @@ class Canvas extends BaseContainer implements IBaseContainer implements IBaseUI
 	}
 	
 	/**
-	 * @inheritDoc
+	 * Set properties based on object
+	 * @param	data object with supported types
 	 */
 	
 	override public function setComponentData(data:Dynamic):Void 
@@ -443,6 +442,181 @@ class Canvas extends BaseContainer implements IBaseContainer implements IBaseUI
 	{
 		addToLayer(layerName, element);	
 	}
+	
+	/**
+	 * Draw Helix
+	 * @param	shapeName The name of the shape
+	 * @param	layerName The name of the layer
+	 * @param	locX The location on X axis in canvas
+	 * @param	locY The location on Y axis in canvas
+	 * @param	radius How round the object will be
+	 * @param	x the helix x
+	 * @param	y the helix y
+	 * @param	styleMaker add a little extra flair
+	 * @param	color The color
+	 * @param	thickness The thinkess of the lines
+	 * @param	alpha The alpha from 0 to 1
+	 * @param	image An image to fill the object with
+	 * @param	tile the image that is being used
+	 */
+	
+	public function addHelix(shapeName:String, layerName:String, locX:Int, locY:Int, x:Float, radius:Float , y:Float, styleMaker : Float, color : Int, thickness : Int, alpha : Float = 1, image : BitmapData = null, tileImage : Bool = true) : Void
+	{
+		var helix : BaseUI = new BaseUI({"name":shapeName, "x":locX, "y":locY});
+		
+		helix.graphics.clear();
+		
+		helix.graphics.moveTo(x + radius, y);
+		helix.graphics.lineStyle(thickness, color);
+		
+		if (image != null)
+			helix.graphics.beginBitmapFill(image, null, tileImage);
+		else
+			helix.graphics.beginFill(color, alpha);
+		
+		var style : Float = Math.tan(styleMaker * Math.PI / 180);
+		var angle : Float = 45;
+
+		while (angle <= 360)
+		{
+			var endX : Float = radius * Math.cos(angle * Math.PI / 180);
+			var endY : Float = radius * Math.sin(angle * Math.PI / 180);
+			var cX : Float = endX + radius * style * Math.cos(angle - 90 * Math.PI / 180);
+			var cY : Float = endY + radius * style * Math.sin(angle - 90 * Math.PI / 180);
+			
+			helix.graphics.curveTo(cX + x, cY + y, endX + x, endY + y);
+			angle += 45;
+		}
+		
+		helix.graphics.endFill();
+		
+		addToLayer(layerName, helix);
+	}
+	
+	/**
+	 * Draw non filled in Helix 
+	 * @param	shapeName The name of the shape
+	 * @param	layerName The name of the layer
+	 * @param	locX The location on X axis in canvas
+	 * @param	locY The location on Y axis in canvas
+	 * @param	radius How round the object will be
+	 * @param	x the helix x
+	 * @param	y the helix y
+	 * @param	styleMaker add a little extra flair
+	 * @param	color The color
+	 * @param	thickness The thinkess of the lines
+	 * @param	alpha The alpha from 0 to 1
+	 */
+	
+	public function addHelixOutline(shapeName:String, layerName:String, locX:Int, locY:Int, x:Float, radius:Float , y:Float, styleMaker : Float, color : Int, thickness : Int, alpha : Float = 1) : Void
+	{
+		var helix : BaseUI = new BaseUI({"name":shapeName, "x":locX, "y":locY});
+		
+		helix.graphics.clear();
+		
+		helix.graphics.moveTo(x + radius, y);
+		helix.graphics.lineStyle(thickness, color);
+		
+		helix.graphics.beginFill(color, alpha);
+		
+		var style : Float = Math.tan(styleMaker * Math.PI / 180);
+		var angle : Float = 45;
+
+		while (angle <= 360)
+		{
+			var endX : Float = radius * Math.cos(angle * Math.PI / 180);
+			var endY : Float = radius * Math.sin(angle * Math.PI / 180);
+			var cX : Float = endX + radius * style * Math.cos(angle - 90 * Math.PI / 180);
+			var cY : Float = endY + radius * style * Math.sin(angle - 90 * Math.PI / 180);
+			
+			helix.graphics.curveTo(cX + x, cY + y, endX + x, endY + y);
+			angle += 45;
+		}
+		
+		helix.graphics.endFill();
+		
+		addToLayer(layerName, helix);
+	}	
+	
+	/**
+	 * Draw filled in Hexagon
+	 * @param	shapeName The name of the shape
+	 * @param	layerName The name of the layer
+	 * @param	locX The location on X axis in canvas
+	 * @param	locY The location on Y axis in canvas
+	 * @param	radius How round the object will be
+	 * @param	startX The start x location of object
+	 * @param	startY The start y location of object
+	 * @param	color The color
+	 * @param	thickness The thinkess of the lines
+	 * @param	alpha The alpha from 0 to 1
+	 * @param	image An image to fill the object with
+	 * @param	tile the image that is being used
+	 */
+
+	public function addHexagon(shapeName:String, layerName:String, locX:Int, locY:Int, radius:Float, startX:Float, startY:Float, color:Int, thickness:Int, alpha:Float = 1, image : BitmapData = null, tileImage : Bool = true) : Void
+	{
+		var hexagon : BaseUI = new BaseUI({"name":shapeName, "x":locX, "y":locY});
+		
+		var sideC : Float = radius;
+		var sideA : Float = 0.5 * sideC;
+		var sideB : Float = Math.sqrt(radius * radius - 0.5 * radius * 0.5 * radius);
+
+		hexagon.graphics.lineStyle(thickness, color, alpha);
+		
+		if (image != null)
+			hexagon.graphics.beginBitmapFill(image, null, tileImage, _smoothImage);
+		else
+			hexagon.graphics.beginFill(color, alpha);
+		
+		hexagon.graphics.moveTo(startX, startY);
+		hexagon.graphics.lineTo(startX, sideC + startY);
+		hexagon.graphics.lineTo(sideB + startX, startY + sideA + sideC);
+
+		// bottom point
+		hexagon.graphics.lineTo(2 * sideB + startX, startY + sideC);
+		hexagon.graphics.lineTo(2 * sideB + startX, startY);
+		hexagon.graphics.lineTo(sideB + startX, startY - sideA);
+		hexagon.graphics.lineTo(startX, startY);
+		
+		addToLayer(layerName, hexagon);
+	}		
+	
+	/**
+	 * Draw Hexagon 
+	 * @param	shapeName The name of the shape
+	 * @param	layerName The name of the layer
+	 * @param	locX The location on X axis in canvas
+	 * @param	locY The location on Y axis in canvas
+	 * @param	radius How round the object will be
+	 * @param	startX The start x location of object
+	 * @param	startY The start y location of object
+	 * @param	color The color
+	 * @param	thickness The thinkess of the lines
+	 * @param	alpha The alpha from 0 to 1
+	 */
+
+	public function addHexagonOutline(shapeName:String, layerName:String, locX:Int, locY:Int, radius:Float, startX:Float, startY:Float, color:Int, thickness:Int, alpha:Float = 1) : Void
+	{
+		var hexagon : BaseUI = new BaseUI({"name":shapeName, "x":locX, "y":locY});
+		
+		var sideC : Float = radius;
+		var sideA : Float = 0.5 * sideC;
+		var sideB : Float = Math.sqrt(radius * radius - 0.5 * radius * 0.5 * radius);
+
+		hexagon.graphics.lineStyle(thickness, color, alpha);
+		hexagon.graphics.moveTo(startX, startY);
+		hexagon.graphics.lineTo(startX, sideC + startY);
+		hexagon.graphics.lineTo(sideB + startX, startY + sideA + sideC);
+
+		// bottom point
+		hexagon.graphics.lineTo(2 * sideB + startX, startY + sideC);
+		hexagon.graphics.lineTo(2 * sideB + startX, startY);
+		hexagon.graphics.lineTo(sideB + startX, startY - sideA);
+		hexagon.graphics.lineTo(startX, startY);
+		
+		addToLayer(layerName, hexagon);
+	}	
  
     /**
 	 * Draw a square

@@ -14,7 +14,6 @@ import com.chaos.ui.layout.classInterface.IBaseContainer;
 
 /**
  * A list of radio buttons
- * @author Erick Feiling
  */
 
 class RadioButtonList extends RadioButtonGroup implements IFormUI implements IRadioButtonGroup implements IAlignmentContainer implements IBaseContainer implements IBaseUI

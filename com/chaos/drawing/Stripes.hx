@@ -1,104 +1,131 @@
 package com.chaos.drawing;
 
 
+import com.chaos.ui.BaseUI;
 import openfl.display.Bitmap;
 import openfl.display.BitmapData;
 import openfl.geom.Matrix;
 import openfl.display.Shape;
-import openfl.display.Sprite;
 
-class Stripes extends Sprite
+
+/**
+ * Create a image with stripe pattern
+ */
+
+class Stripes extends BaseUI
 {
-    public var sHeight(never, set) : Int;
-    public var sWidth(never, set) : Int;
 
-    private var stripeMatrix : Matrix;
-    private var stripeShape : Shape;
+    private var stripeMatrix : Matrix = new Matrix();
+    private var stripeShape : Shape = new Shape();
     private var stripeBMD : BitmapData;
     private var stripeBM : Bitmap;
-    private var _sWidth : Int;
-    private var _sHeight : Int;
     
-    public function new(f_width : Int, f_height : Int)
+    public function new(data:Dynamic = null )
     {
-        super();
-        _sWidth = f_width;
-        _sHeight = f_height;
-        stripeMatrix = new Matrix();
-        stripeShape = new Shape();
-        stripeBMD = new BitmapData(f_width, f_height, true, 0);
-        stripeBM = new Bitmap(stripeBMD);
-        addChild(stripeBM);
+        super(data);
+		
     }
+	
+	override public function initialize():Void 
+	{
+		super.initialize();
+		
+        stripeBMD = new BitmapData(Std.int(_width), Std.int(_height), true, 0);
+        stripeBM = new Bitmap(stripeBMD);
+		
+        addChild(stripeBM);
+		
+	}
+	
+	override public function destroy():Void 
+	{
+		super.destroy();
+		
+		stripeShape.graphics.clear();
+		stripeBMD.dispose();
+		removeChild(stripeBM);
+	}
     
-    public function drawStripes(f_direction : String, f_separation : Int, f_width : Int = 1, f_color : Int = 0xffffff, f_alpha : Float = 1) : Void
+    public function drawStripes(direction : String, separation : Int, lineWidth : Int = 1, color : Int = 0xffffff, alpha : Float = 1) : Void
     {
         stripeShape.graphics.clear();
-        var f_height : Float = stripeBM.height;
-        switch (f_direction)
+		
+        var lineHeight : Float = stripeBM.height;
+		
+        switch (direction)
         {
             case "up", "left", "forward":
-                stripeShape.graphics.beginFill(f_color, f_alpha);
-                stripeShape.graphics.moveTo(0, f_height);
-                stripeShape.graphics.lineTo(f_width, f_height);
-                stripeShape.graphics.lineTo(f_height + f_width, 0);
-                stripeShape.graphics.lineTo(f_height, 0);
-                stripeShape.graphics.lineTo(0, f_height);
+                stripeShape.graphics.beginFill(color, alpha);
+                stripeShape.graphics.moveTo(0, lineHeight);
+                stripeShape.graphics.lineTo(lineWidth, lineHeight);
+                stripeShape.graphics.lineTo(lineHeight + lineWidth, 0);
+                stripeShape.graphics.lineTo(lineHeight, 0);
+                stripeShape.graphics.lineTo(0, lineHeight);
                 stripeShape.graphics.endFill();
             case "down", "right", "back":
-                stripeShape.graphics.beginFill(f_color, f_alpha);
-                stripeShape.graphics.moveTo(f_width, 0);
+                stripeShape.graphics.beginFill(color, alpha);
+                stripeShape.graphics.moveTo(lineWidth, 0);
                 stripeShape.graphics.lineTo(0, 0);
-                stripeShape.graphics.lineTo(f_height, f_height);
-                stripeShape.graphics.lineTo(f_height + f_width, f_height);
-                stripeShape.graphics.lineTo(f_width, 0);
+                stripeShape.graphics.lineTo(lineHeight, lineHeight);
+                stripeShape.graphics.lineTo(lineHeight + lineWidth, lineHeight);
+                stripeShape.graphics.lineTo(lineWidth, 0);
                 stripeShape.graphics.endFill();
             case "vertical":
-                stripeShape.graphics.beginFill(f_color, f_alpha);
-                stripeShape.graphics.drawRect(0, 0, f_width, f_height);
+                stripeShape.graphics.beginFill(color, alpha);
+                stripeShape.graphics.drawRect(0, 0, lineWidth, lineHeight);
                 stripeShape.graphics.endFill();
             case "horizontal":
-                stripeShape.graphics.beginFill(f_color, f_alpha);
-                stripeShape.graphics.drawRect(0, 0, stripeBM.width, f_width);
+                stripeShape.graphics.beginFill(color, alpha);
+                stripeShape.graphics.drawRect(0, 0, stripeBM.width, lineWidth);
                 stripeShape.graphics.endFill();
         }
+		
         stripeBMD.lock();
 		
 		var i : Int = -stripeBMD.height;
+		
         while (i < stripeBMD.width + stripeBMD.height)
 		{
-            if (f_direction == "horizontal") 
-            {
+            if (direction == "horizontal") 
                 stripeMatrix.ty = i;
-            }
             else 
-            {
                 stripeMatrix.tx = i;
-            }
+				
             stripeBMD.draw(stripeShape, stripeMatrix);
-            i += f_separation + f_width;
+            i += separation + lineWidth;
         }
+		
         stripeBMD.unlock();
     }
     
     public function clear() : Void
     {
         stripeBMD.dispose();
-        stripeBMD = new BitmapData(_sWidth, _sHeight, true, 0);
+        stripeBMD = new BitmapData(Std.int(_width), Std.int(_height), true, 0);
         stripeBM.bitmapData = stripeBMD;
     }
+	
+	
+	//@:setter(width)
+	override function set_width(value:Float):Float 
+	{
+		clear();
+		
+		super.set_width(value);
+		
+		return value;
+	}
+	
+	
+	//@:setter(height)
+	override function set_height(value:Float):Float 
+	{
+		clear();
+		
+		super.set_height(value);
+		
+		return value;
+	}	
     
-    private function set_sHeight(value : Int) : Int
-    {
-        _sHeight = value;
-        clear();
-        return value;
-    }
-    
-    private function set_sWidth(value : Int) : Int
-    {
-        _sWidth = value;
-        clear();
-        return value;
-    }
+	
 }

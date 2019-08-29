@@ -5,23 +5,25 @@ import com.chaos.form.ui.classInterface.IFormUI;
 import com.chaos.ui.ComboBox;
 import com.chaos.ui.classInterface.IBaseUI;
 import com.chaos.ui.classInterface.IComboBox;
-import com.chaos.data.DataProvider;
+
 
 /**
-	 * Pretty much the ComboBox but with support for forms
-	 * @author Erick Feiling
-	 */
+ * Pretty much the ComboBox but with support for forms
+ * @author Erick Feiling
+ */
+
 class DropDownMenu extends ComboBox implements IComboBox implements IBaseUI implements IFormUI
 {
     
-    public function new(comboWidth : Int = -1, comboHeight : Int = -1, comboList : DataProvider<Dynamic> = null)
+    public function new(data:Dynamic = null)
     {
-        super(comboWidth, comboHeight, comboList);
+		// comboWidth : Int = -1, comboHeight : Int = -1, comboList : DataProvider<Dynamic> = null
+        super(data);
     }
     
     /**
-		 * Clear values
-		 */
+	 * Clear values
+	 */
     
     public function clear() : Void
     {
@@ -29,10 +31,10 @@ class DropDownMenu extends ComboBox implements IComboBox implements IBaseUI impl
     }
     
     /**
-		 * Get the type of form object
-		 *
-		 * @return The type of form object as a string
-		 */
+	 * Get the type of form object
+	 *
+	 * @return The type of form object as a string
+	 */
     
     public function getElementType() : String
     {
@@ -40,10 +42,10 @@ class DropDownMenu extends ComboBox implements IComboBox implements IBaseUI impl
     }
     
     /**
-		 * Get the id
-		 *
-		 * @return A int value
-		 */
+	 * Get the id
+	 *
+	 * @return A int value
+	 */
     
     public function getId() : Int
     {
@@ -51,10 +53,10 @@ class DropDownMenu extends ComboBox implements IComboBox implements IBaseUI impl
     }
     
     /**
-		 * Set the id of the element
-		 *
-		 * @param	value The id number
-		 */
+	 * Set the id of the element
+	 *
+	 * @param	value The id number
+	 */
     
     public function setId(value : Int) : Void
     {
@@ -63,10 +65,10 @@ class DropDownMenu extends ComboBox implements IComboBox implements IBaseUI impl
     }
     
     /**
-		 * Return the value that has been stored
-		 *
-		 * @return A string value from object
-		 */
+	 * Return the value that has been stored
+	 *
+	 * @return A string value from object
+	 */
     
     public function getValue() : String
     {
@@ -74,20 +76,21 @@ class DropDownMenu extends ComboBox implements IComboBox implements IBaseUI impl
     }
     
     /**
-		 * Set the value being used
-		 *
-		 * @param	value What you want to see the value to
-		 */
+	 * Set the value being used
+	 *
+	 * @param	value What you want to see the value to
+	 */
+	
     public function setValue(value : String) : Void
     {
         text = value;
     }
     
     /**
-		 * Return the name
-		 *
-		 * @return The name that is used
-		 */
+	 * Return the name
+	 *
+	 * @return The name that is used
+	 */
     
     public function getName() : String
     {
@@ -95,10 +98,11 @@ class DropDownMenu extends ComboBox implements IComboBox implements IBaseUI impl
     }
     
     /**
-		 * Set the name
-		 *
-		 * @param	value The name
-		 */
+	 * Set the name
+	 *
+	 * @param	value The name
+	 */
+	
     public function setName(value : String) : Void
     {
         name = value;

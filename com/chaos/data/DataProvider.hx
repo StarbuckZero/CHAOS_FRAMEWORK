@@ -3,11 +3,7 @@ package com.chaos.data;
 
 
 /**
-*
-*  @author: Erick Feiling
-*  @date: June 12 2008
-*  @description: For holding a collection of objects.
-*
+* For holding a collection of objects.
 */
 
 
