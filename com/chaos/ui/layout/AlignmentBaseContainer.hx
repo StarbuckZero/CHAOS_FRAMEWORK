@@ -20,11 +20,43 @@ import flash.geom.Rectangle;
 
 class AlignmentBaseContainer extends BaseContainer implements IBaseUI implements IAlignmentContainer implements IBaseContainer
 {
+	
+    /**
+	 * For making it so the content can overlap or bleed outside the container
+	 */
+	
     public var clipping(get, set) : Bool;
+	
+    /**
+	 * Return the total number of elements being stored
+	 */
+	
     public var length(get, never) : Int;
+	
+    /**
+	 * Specifies the space between the cell wall and the cell content
+	 */
+	
     public var padding(get, set) : Int;
+	
+    /**
+	 * Set the Horizontal or right to left margin between object
+	 */
+	
     public var spacingH(get, set) : Int;
+	
+    /**
+	 * Set the Vertical or top to bottom spacing between object
+	 */
+	
     public var spacingV(get, set) : Int;
+	
+    /**
+	 * Set the alignment mode
+	 *
+	 * @see com.chaos.ui.layout.ContainerAlignPolicy
+	 */
+	
     public var align(get, set) : String;
 
     
@@ -279,7 +311,6 @@ class AlignmentBaseContainer extends BaseContainer implements IBaseUI implements
 	
     /**
 	 * Adjust the location of all UI elements 
-	 *
 	 */	
 	
 	public function updateAlignment():Void

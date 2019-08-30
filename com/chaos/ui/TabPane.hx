@@ -334,7 +334,7 @@ class TabPane extends BaseUI implements ITabPane implements IBaseUI
 		super.enabled = value;
 
 		// Disable or enable all buttons
-		for (i in 0..._contentList.length)
+		for (i in 0 ... _contentList.length)
 			cast(buttonArea.getChildByName(Std.string(i)), IButton).enabled = value;
 
 		
@@ -361,7 +361,6 @@ class TabPane extends BaseUI implements ITabPane implements IBaseUI
 
 		tabButton.text = value;
 		tabButton.addEventListener(MouseEvent.CLICK, tabPress);
-
 
 		buttonArea.addChild(tabButton);
 		_contentList.addItem(tempObject);

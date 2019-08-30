@@ -266,6 +266,103 @@ class Canvas extends BaseContainer implements IBaseContainer implements IBaseUI
 						
 					addCircle(objectName, layerName, locX, locY, radius, color, shapeAlpha, image, tile);
 				}
+				else if (Reflect.hasField(canvasData, "Helix"))
+				{
+					obj = Reflect.field(canvasData, "Helix");
+					
+					var radius:Int = 0;
+					
+					var helX:Float = 0;
+					var helY:Float = 0;
+					var styleMarker:Float = 0;
+					
+					if (Reflect.hasField(obj, "layerName"))
+						layerName = Reflect.field(obj, "layerName");
+					
+					if (Reflect.hasField(obj, "name"))
+						objectName = Reflect.field(obj, "name");
+					
+					if (Reflect.hasField(obj, "radius"))
+						radius = Reflect.field(obj, "radius");
+						
+					if (Reflect.hasField(obj, "X"))
+						locX = Reflect.field(obj, "x");
+					
+					if (Reflect.hasField(obj, "Y"))
+						locY = Reflect.field(obj, "y");
+						
+					if (Reflect.hasField(obj, "objectX"))
+						helX = Reflect.field(obj, "x");
+					
+					if (Reflect.hasField(obj, "objectY"))
+						helY = Reflect.field(obj, "y");
+						
+					if (Reflect.hasField(obj, "color"))
+						color = Reflect.field(obj, "color");
+						
+					if (Reflect.hasField(obj, "thinkness"))
+						thinkness = Reflect.field(obj, "thinkness");	
+						
+					if (Reflect.hasField(obj, "alpha"))
+						shapeAlpha = Reflect.field(obj, "alpha");
+						
+					if (Reflect.hasField(obj, "image"))
+						image = Reflect.field(obj, "image");
+						
+					if (Reflect.hasField(obj, "tile"))
+						tile = Reflect.field(obj, "tile");
+						
+					addHelix(objectName, layerName, locX, locY, radius, helX, helY, styleMarker, color, thinkness, shapeAlpha, image, tile);
+				}
+				
+				else if (Reflect.hasField(canvasData, "HelixOutline"))
+				{
+					obj = Reflect.field(canvasData, "HelixOutline");
+					
+					var radius:Int = 0;
+					
+					var helX:Float = 0;
+					var helY:Float = 0;
+					var styleMarker:Float = 0;
+					
+					if (Reflect.hasField(obj, "layerName"))
+						layerName = Reflect.field(obj, "layerName");
+					
+					if (Reflect.hasField(obj, "name"))
+						objectName = Reflect.field(obj, "name");
+					
+					if (Reflect.hasField(obj, "radius"))
+						radius = Reflect.field(obj, "radius");
+						
+					if (Reflect.hasField(obj, "x"))
+						locX = Reflect.field(obj, "x");
+					
+					if (Reflect.hasField(obj, "y"))
+						locY = Reflect.field(obj, "y");
+						
+					if (Reflect.hasField(obj, "objectX"))
+						helX = Reflect.field(obj, "x");
+					
+					if (Reflect.hasField(obj, "objectY"))
+						helY = Reflect.field(obj, "y");
+						
+					if (Reflect.hasField(obj, "color"))
+						color = Reflect.field(obj, "color");
+						
+					if (Reflect.hasField(obj, "thinkness"))
+						thinkness = Reflect.field(obj, "thinkness");	
+						
+					if (Reflect.hasField(obj, "alpha"))
+						shapeAlpha = Reflect.field(obj, "alpha");
+						
+					if (Reflect.hasField(obj, "image"))
+						image = Reflect.field(obj, "image");
+						
+					if (Reflect.hasField(obj, "tile"))
+						tile = Reflect.field(obj, "tile");
+						
+					addHelixOutline(objectName, layerName, locX, locY, radius, helX, helY, styleMarker, color, thinkness, shapeAlpha);
+				}
 				else if (Reflect.hasField(canvasData, "Line"))
 				{
 					var startX:Int = 0;
@@ -460,7 +557,7 @@ class Canvas extends BaseContainer implements IBaseContainer implements IBaseUI
 	 * @param	tile the image that is being used
 	 */
 	
-	public function addHelix(shapeName:String, layerName:String, locX:Int, locY:Int, x:Float, radius:Float , y:Float, styleMaker : Float, color : Int, thickness : Int, alpha : Float = 1, image : BitmapData = null, tileImage : Bool = true) : Void
+	public function addHelix(shapeName:String, layerName:String, locX:Int, locY:Int, radius:Float, x:Float, y:Float, styleMaker : Float, color : Int, thickness : Int, alpha : Float = 1, image : BitmapData = null, tileImage : Bool = true) : Void
 	{
 		var helix : BaseUI = new BaseUI({"name":shapeName, "x":locX, "y":locY});
 		
@@ -508,7 +605,7 @@ class Canvas extends BaseContainer implements IBaseContainer implements IBaseUI
 	 * @param	alpha The alpha from 0 to 1
 	 */
 	
-	public function addHelixOutline(shapeName:String, layerName:String, locX:Int, locY:Int, x:Float, radius:Float , y:Float, styleMaker : Float, color : Int, thickness : Int, alpha : Float = 1) : Void
+	public function addHelixOutline(shapeName:String, layerName:String, locX:Int, locY:Int, radius:Float, x:Float,  y:Float, styleMaker : Float, color : Int, thickness : Int, alpha : Float = 1) : Void
 	{
 		var helix : BaseUI = new BaseUI({"name":shapeName, "x":locX, "y":locY});
 		

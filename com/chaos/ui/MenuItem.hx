@@ -141,7 +141,7 @@ class MenuItem extends Button implements IMenuItem implements IToggleButton impl
     
     
     private var _subMenuIconHolder : Sprite;
-    private var _subMenuIcon : Shape;// = new ArrowRightIcon(5, 5);
+    private var _subMenuIcon : Shape;
     
     private var _subMenuDisplayImage : BitmapData;
     
@@ -600,9 +600,10 @@ class MenuItem extends Button implements IMenuItem implements IToggleButton impl
 
     
 	
-	/**
-	 * @inheritDoc
+    /**
+	 * This setup and draw the button on the screen
 	 */
+	
     override public function draw() : Void
     {
 		super.draw();

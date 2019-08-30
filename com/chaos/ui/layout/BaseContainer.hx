@@ -95,6 +95,12 @@ class BaseContainer extends BaseUI implements IBaseContainer implements IBaseUI
 			
 		if (Reflect.hasField(data, "background"))
 			_background = Reflect.field(data, "background");
+			
+		if (Reflect.hasField(data, "content"))
+			contentObject = Reflect.field(data, "content");
+			
+		if (Reflect.hasField(data, "backgroundImage"))
+			_imageBackground = Reflect.field(data, "backgroundImage");
 	}
 	
 	/**
