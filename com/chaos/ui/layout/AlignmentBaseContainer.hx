@@ -154,7 +154,7 @@ class AlignmentBaseContainer extends BaseContainer implements IBaseUI implements
     
     private function get_length() : Int
     {
-        return contentObject.numChildren;
+        return _content.numChildren;
     }
     
     /**
@@ -250,7 +250,7 @@ class AlignmentBaseContainer extends BaseContainer implements IBaseUI implements
         for (i in 0 ... list.length)
 		{
             if (null != list[i] && Std.is(list[i], IBaseUI)) 
-                contentObject.addChild(cast(list[i], IBaseUI).displayObject);
+                _content.addChild(cast(list[i], IBaseUI).displayObject);
             else 
                 Debug.print("[AlignmentBaseContainer::addElementList] Fail to add item at index " + i);
         }
@@ -264,7 +264,7 @@ class AlignmentBaseContainer extends BaseContainer implements IBaseUI implements
     
     public function addElement(object : IBaseUI) : Void
     {
-        contentObject.addChild(object.displayObject);
+        _content.addChild(object.displayObject);
     }
     
     /**
@@ -278,7 +278,7 @@ class AlignmentBaseContainer extends BaseContainer implements IBaseUI implements
     {
         try
         {
-            return try cast(contentObject.getChildAt(value), IBaseUI) catch(e:Dynamic) null;
+            return try cast(_content.getChildAt(value), IBaseUI) catch(e:Dynamic) null;
         } 
 		catch (error : Error)
         {
@@ -299,7 +299,7 @@ class AlignmentBaseContainer extends BaseContainer implements IBaseUI implements
     {
         try
         {
-            return try cast(contentObject.getChildByName(value), IBaseUI) catch(e:Dynamic) null;
+            return try cast(_content.getChildByName(value), IBaseUI) catch(e:Dynamic) null;
         }
         catch (error : Error)
         {
@@ -329,14 +329,14 @@ class AlignmentBaseContainer extends BaseContainer implements IBaseUI implements
         var temp : Array<Dynamic> = new Array<Dynamic>();
         
         // Remove all old items and add them back again
-        for (i in 0...contentObject.numChildren)
+        for (i in 0..._content.numChildren)
 		{
             var currentObject : IBaseUI = null;
             
             try
             {
-                currentObject = cast(contentObject.getChildAt(i), IBaseUI);
-                contentObject.removeChild(currentObject.displayObject);
+                currentObject = cast(_content.getChildAt(i), IBaseUI);
+                _content.removeChild(currentObject.displayObject);
             }            
 			catch (error : Error)
             {
@@ -352,7 +352,7 @@ class AlignmentBaseContainer extends BaseContainer implements IBaseUI implements
         
         // Add it back  
         for (a in 0...temp.length)
-            contentObject.addChild(temp[a]);
+            _content.addChild(temp[a]);
     }
     
     /**
@@ -363,12 +363,12 @@ class AlignmentBaseContainer extends BaseContainer implements IBaseUI implements
     {
         var currentObject : IBaseUI;
         
-        for (i in 0 ... contentObject.numChildren)
+        for (i in 0 ... _content.numChildren)
 		{
             try
             {
-                currentObject = cast(contentObject.getChildAt(i), IBaseUI);
-                contentObject.removeChild(currentObject.displayObject);
+                currentObject = cast(_content.getChildAt(i), IBaseUI);
+                _content.removeChild(currentObject.displayObject);
 				
 				currentObject.destroy();
 				currentObject = null;

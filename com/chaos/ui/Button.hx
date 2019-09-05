@@ -184,8 +184,9 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
 			
 		if (Reflect.hasField(data, "imageOffSetY"))	
 			_imageOffSetY = Reflect.field(data, "imageOffSetY");
-		
-		
+			
+		if (Reflect.hasField(data, "mode"))	
+			_mode = Reflect.field(data, "mode");
 	}
 	
 	/**
@@ -728,16 +729,25 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
 		{
 			
 			normalState.visible = true;
-			disableState.visible = overState.visible = downState.visible = false;
+			overState.visible = downState.visible = false;
 		}
 		else
 		{
-			if(_selected)
-				normalState.visible = true;
-			else
+			
+			// Toggle Seleect state
+			if (_selected)
+			{
 				downState.visible = true;
-				
-		}       
+				overState.visible = normalState.visible = false;
+			}
+			else
+			{
+				normalState.visible = true;
+				overState.visible = downState.visible = false;
+			}
+			
+		}
+		
 		
     }
 	

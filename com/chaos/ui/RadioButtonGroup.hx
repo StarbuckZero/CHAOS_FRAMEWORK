@@ -101,8 +101,8 @@ class RadioButtonGroup extends HorizontalContainer implements IRadioButtonGroup 
     {
 		
 		// Remove out of display if there
-		if (contentObject != null && contentObject.parent != null)
-			contentObject.removeChild(radio.displayObject);
+		if (_content != null && _content.parent != null)
+			_content.removeChild(radio.displayObject);
 			
 			
 		radio.removeEventListener(MouseEvent.CLICK, onChange);

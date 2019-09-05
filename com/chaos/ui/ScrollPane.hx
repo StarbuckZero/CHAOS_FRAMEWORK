@@ -212,8 +212,8 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 		removeChild(_scrollBarV.displayObject);
 
 		// See if some content is already loaded
-		if (contentObject.numChildren > 0)
-			contentObject.removeChildAt(0);
+		if (_content.numChildren > 0)
+			_content.removeChildAt(0);
 
 		_scrollBarH.destroy();
 		_scrollBarV.destroy();
@@ -379,7 +379,7 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 	 * The content clip that hoses the data that was loaded.
 	 */
 
-	override private function get_content() : DisplayObject { return ((contentObject.numChildren > 0)) ? contentObject.getChildAt(0) : null; }
+	override private function get_content() : DisplayObject { return ((_content.numChildren > 0)) ? _content.getChildAt(0) : null; }
 
 	/**
 	* Places a DisplayObject in the ScrollPane
@@ -395,10 +395,10 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 		_contentSizeBox.graphics.endFill();
 
 		// See if some content is already loaded
-		if (contentObject.numChildren > 0)
-			contentObject.removeChildAt(0);
+		if (_content.numChildren > 0)
+			_content.removeChildAt(0);
 
-		contentObject.addChild(value);
+		_content.addChild(value);
 
 		// Update scroll pane
 		update();
@@ -411,7 +411,7 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 	*/
 	private function get_source() : DisplayObject
 	{
-		return ((contentObject.numChildren > 0)) ? contentObject.getChildAt(0) : null;
+		return ((_content.numChildren > 0)) ? _content.getChildAt(0) : null;
 	}
 
 	/**
@@ -422,7 +422,7 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 	{
 
 		// Pull content out of display clip
-		var tempClip : DisplayObject = contentObject.getChildAt(0);
+		var tempClip : DisplayObject = _content.getChildAt(0);
 
 		if (tempClip != null)
 		{
@@ -460,20 +460,20 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 			_scrollRectH = new Rectangle(UIStyleManager.SCROLLPANE_CONTENT_OFFSET_X, UIStyleManager.SCROLLPANE_CONTENT_OFFSET_Y, _width, _height - shapeBlock.height);
 			_scrollRectV = new Rectangle(UIStyleManager.SCROLLPANE_CONTENT_OFFSET_X, UIStyleManager.SCROLLPANE_CONTENT_OFFSET_Y, _width, _height - shapeBlock.height);
 
-			_scrollContentH = new ScrollRectContent(contentObject, _scrollBarH, _scrollRectH);
-			_scrollContentV = new ScrollRectContent(contentObject, _scrollBarV, _scrollRectV);
+			_scrollContentH = new ScrollRectContent(_content, _scrollBarH, _scrollRectH);
+			_scrollContentV = new ScrollRectContent(_content, _scrollBarV, _scrollRectV);
 
 		}
 		else if (_scrollContentType == MASK_MODE)
 		{
-			_scrollContentH = new ScrollMaskContent(contentObject, _scrollBarH, _scrollMask);
-			_scrollContentV = new ScrollMaskContent(contentObject, _scrollBarV, _scrollMask);
+			_scrollContentH = new ScrollMaskContent(_content, _scrollBarH, _scrollMask);
+			_scrollContentV = new ScrollMaskContent(_content, _scrollBarV, _scrollMask);
 		}
 
 		_scrollBarH.slider.percent = 0;
 		_scrollBarV.slider.percent = 0;
 
-		contentObject.visible = _scrollContentLoaded = true;
+		_content.visible = _scrollContentLoaded = true;
 
 		updatePolicy(_mode);
 	}
@@ -497,7 +497,7 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 		shapeBlock.graphics.endFill();
 
 		_mask.graphics.clear();
-		this.mask = contentObject.mask = null;
+		this.mask = _content.mask = null;
 
 		// Scroll mask if mode is enabled
 		_scrollMask.graphics.clear();
@@ -559,7 +559,7 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 	private function updatePolicy(value : String = "auto") : Void
 	{
 		// If nothing was setup then leave
-		if (contentObject.numChildren == 0)
+		if (_content.numChildren == 0)
 			return;
 
 		// Figure out what to do with the
@@ -637,8 +637,8 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 			_scrollBarV.draw();
 			_scrollBarH.draw();
 
-			_scrollBarH.visible = (contentObject.numChildren == 0) ? false : true;
-			_scrollBarV.visible = (contentObject.numChildren == 0) ? false : true;
+			_scrollBarH.visible = (_content.numChildren == 0) ? false : true;
+			_scrollBarV.visible = (_content.numChildren == 0) ? false : true;
 
 			// Check to see width of the content loaded width greather
 			if (_contentSizeBox.width > _width)

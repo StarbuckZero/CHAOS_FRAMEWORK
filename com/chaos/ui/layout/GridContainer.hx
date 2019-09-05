@@ -71,7 +71,7 @@ class GridContainer extends BaseContainer implements IGridContainer implements I
 			{
                 // Create cell
                 var cell : IGridCell = new GridCell(Std.int(_width / rowCount), Std.int(_height / columnCount));
-                contentObject.addChild(cell.displayObject);
+                _content.addChild(cell.displayObject);
 				
                 cell.x = cell.width * col;
                 cell.y = cell.height * row;
@@ -231,7 +231,7 @@ class GridContainer extends BaseContainer implements IGridContainer implements I
 		{
             var cell : IGridCell = new GridCell(Std.int(width / rowCount), Std.int(height / columnCount));
             
-            contentObject.addChild(cell.displayObject);
+            _content.addChild(cell.displayObject);
             
             newRow.addItem(cell);
         }
@@ -261,7 +261,7 @@ class GridContainer extends BaseContainer implements IGridContainer implements I
         for (col in 0...columnCount)
 		{
             var cell : IGridCell = oldRow.getItemAt(col);
-            contentObject.removeChild(cell.displayObject);
+            _content.removeChild(cell.displayObject);
         }  
         
         // Remove the row  
@@ -294,7 +294,7 @@ class GridContainer extends BaseContainer implements IGridContainer implements I
             var cell : IGridCell = new GridCell(Std.int(width / rowCount), Std.int(height / columnCount));
             
             // Add to the display
-            contentObject.addChild(cell.displayObject);
+            _content.addChild(cell.displayObject);
             
             // At column at the given index
             rowData.addItemAt(cell, index);
@@ -327,7 +327,7 @@ class GridContainer extends BaseContainer implements IGridContainer implements I
             
             
             // Remove from the display  
-            contentObject.removeChild(cell.displayObject);
+            _content.removeChild(cell.displayObject);
             
             // Remove column at the given index
             rowData.removeItemAt(index);
@@ -421,7 +421,7 @@ class GridContainer extends BaseContainer implements IGridContainer implements I
                 cell.addEventListener(MouseEvent.MOUSE_OVER, moveToFront, false, 0, true);
                 
                 // Re add to the display for order
-                contentObject.addChild(cell.displayObject);
+                _content.addChild(cell.displayObject);
                 
                 // Force resize based on with and height
                 cell.width = ((_cellWidth >= -1)) ? Std.int(width / columnCount) : _cellWidth;
@@ -440,7 +440,7 @@ class GridContainer extends BaseContainer implements IGridContainer implements I
     private function moveToFront(event : MouseEvent) : Void
     {
         if (_alwaysOnTop) 
-            contentObject.setChildIndex(cast(event.currentTarget, DisplayObject), contentObject.numChildren - 1);
+            _content.setChildIndex(cast(event.currentTarget, DisplayObject), _content.numChildren - 1);
     }
 }
 

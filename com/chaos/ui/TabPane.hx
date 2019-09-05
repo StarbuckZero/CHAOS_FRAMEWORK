@@ -356,7 +356,7 @@ class TabPane extends BaseUI implements ITabPane implements IBaseUI
 	public function addItem(value : String, content : DisplayObject) : Dynamic
 	{
 		// Create new button & scroll pane
-		var tabButton : Button = new Button();
+		var tabButton : Button = new Button({"disableColor":_tabButtonTextSelectedColor});
 		var tempObject : TabPaneObjectData = new TabPaneObjectData(content, -1, value, value);
 
 		tabButton.text = value;
@@ -672,6 +672,7 @@ class TabPane extends BaseUI implements ITabPane implements IBaseUI
 			// Current Button
 			button.enabled = false;
 			button.textColor = _tabButtonSelectedColor;
+			button.disableColor = _tabButtonDisableColor;
 
 			// Disable old one
 			oldButton.enabled = true;

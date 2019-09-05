@@ -110,8 +110,8 @@ class CheckBoxGroup extends HorizontalContainer implements ICheckBoxGroup implem
     public function removeCheckBox(checkbox : ICheckBox) : Void
     {
 		// Remove out of display if there
-		if (contentObject != null && contentObject.parent != null)
-			contentObject.removeChild(checkbox.displayObject);
+		if (_content != null && _content.parent != null)
+			_content.removeChild(checkbox.displayObject);
 			
 			
 		checkbox.removeEventListener(MouseEvent.CLICK, onChange);

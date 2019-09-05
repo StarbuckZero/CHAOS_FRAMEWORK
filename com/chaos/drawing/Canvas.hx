@@ -433,8 +433,8 @@ class Canvas extends BaseContainer implements IBaseContainer implements IBaseUI
 	
 	public function addLayer( layerName:String ) : Void
 	{
-		if (contentObject.getChildByName(layerName) == null)
-			contentObject.addChild(new BaseUI({"name":layerName}));
+		if (_content.getChildByName(layerName) == null)
+			_content.addChild(new BaseUI({"name":layerName}));
 	}
 	
 	/**
@@ -444,8 +444,8 @@ class Canvas extends BaseContainer implements IBaseContainer implements IBaseUI
 	
 	public function removeLayer( layerName:String ) : Void
 	{
-		if (contentObject.getChildByName(layerName) != null)
-			contentObject.removeChild(contentObject.getChildByName(layerName));
+		if (_content.getChildByName(layerName) != null)
+			_content.removeChild(_content.getChildByName(layerName));
 	}
 	
 	/**
@@ -456,7 +456,7 @@ class Canvas extends BaseContainer implements IBaseContainer implements IBaseUI
 	
 	public function getLayer(layerName:String) : BaseUI
 	{
-		var layer:BaseUI = cast(contentObject.getChildByName(layerName), BaseUI);
+		var layer:BaseUI = cast(_content.getChildByName(layerName), BaseUI);
 		
 		// Check for layer
 		if (layer != null)
@@ -476,7 +476,7 @@ class Canvas extends BaseContainer implements IBaseContainer implements IBaseUI
 	
 	public function getElement(elementName:String, layerName:String) : BaseUI
 	{
-		var layer:BaseUI = cast(contentObject.getChildByName(layerName), BaseUI);
+		var layer:BaseUI = cast(_content.getChildByName(layerName), BaseUI);
 		
 		if (layer != null)
 		{
@@ -885,8 +885,8 @@ class Canvas extends BaseContainer implements IBaseContainer implements IBaseUI
 	
 	private function addToLayer(layerName:String, element:BaseUI ):Void
 	{
-		if (contentObject.getChildByName(layerName) != null)
-			cast(contentObject.getChildByName(layerName), BaseUI).addChild(element);
+		if (_content.getChildByName(layerName) != null)
+			cast(_content.getChildByName(layerName), BaseUI).addChild(element);
 	}
 	
 }

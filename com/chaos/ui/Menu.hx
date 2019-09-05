@@ -520,8 +520,8 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
 		
         // Make it so you can see drop down button
         buttonArea.clipping = false;
-        contentObject.addChild(subButtonArea);
-        contentObject.addChild(buttonArea);
+        _content.addChild(subButtonArea);
+        _content.addChild(buttonArea);
         
 		build();
 	}
@@ -538,8 +538,8 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
         removeEventListener(Event.ADDED_TO_STAGE, onStageAdd);
         removeEventListener(Event.REMOVED_FROM_STAGE, onStageRemove);
 		
-        contentObject.removeChild(subButtonArea);
-        contentObject.removeChild(buttonArea.displayObject);
+        _content.removeChild(subButtonArea);
+        _content.removeChild(buttonArea.displayObject);
 		
 		
 		buttonArea.destroy();

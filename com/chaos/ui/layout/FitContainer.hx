@@ -128,22 +128,22 @@ class FitContainer extends AlignmentBaseContainer implements IFitContainer imple
 
 		if (_mode == FitContainerDirection.HORIZONTAL || _mode == FitContainerDirection.VERTICAL)
 		{
-			for (i in 0...contentObject.numChildren)
+			for (i in 0..._content.numChildren)
 			{
-				var element : IBaseUI = try cast(contentObject.getChildAt(i), IBaseUI) catch (e:Dynamic) null;
+				var element : IBaseUI = try cast(_content.getChildAt(i), IBaseUI) catch (e:Dynamic) null;
 
 				if (_mode == FitContainerDirection.HORIZONTAL)
 				{
-					element.width = Std.int(width / contentObject.numChildren);
+					element.width = Std.int(width / _content.numChildren);
 					element.height = height;
-					element.x = contentObject.getChildAt(i).width * i;
+					element.x = _content.getChildAt(i).width * i;
 					element.y = 0;
 				}
 				else if (_mode == FitContainerDirection.VERTICAL)
 				{
 					element.width = width;
-					element.height = Std.int(height / contentObject.numChildren);
-					element.y = contentObject.getChildAt(i).height * i;
+					element.height = Std.int(height / _content.numChildren);
+					element.y = _content.getChildAt(i).height * i;
 					element.x = 0;
 				}
 

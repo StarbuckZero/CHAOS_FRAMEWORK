@@ -30,13 +30,13 @@ class BaseContainer extends BaseUI implements IBaseContainer implements IBaseUI
 
     
     /** This could be used for holding other DisplayObjects */
-    public var contentHolder : Sprite;
+    public var contentHolder : Sprite = new Sprite();
     
     /** The background shape */
-    public var backgroundShape : Shape;
+    public var backgroundShape : Shape = new Shape();
     
     /** This is used for the content getting property */
-    public var contentObject : Sprite;
+    public var _content : Sprite = new Sprite();
     
     
     private var _imageBackground : BitmapData = null;
@@ -63,15 +63,11 @@ class BaseContainer extends BaseUI implements IBaseContainer implements IBaseUI
 	
 	override public function initialize():Void 
 	{
-        contentHolder = new Sprite();
         
-        backgroundShape = new Shape();
-        contentObject = new Sprite();
-		
 		super.initialize();
 		
         addChild(backgroundShape);
-        addChild(contentObject);
+        addChild(_content);
         
         addChild(contentHolder);
         
@@ -97,7 +93,7 @@ class BaseContainer extends BaseUI implements IBaseContainer implements IBaseUI
 			_background = Reflect.field(data, "background");
 			
 		if (Reflect.hasField(data, "content"))
-			contentObject = Reflect.field(data, "content");
+			_content = Reflect.field(data, "content");
 			
 		if (Reflect.hasField(data, "backgroundImage"))
 			_imageBackground = Reflect.field(data, "backgroundImage");
@@ -114,7 +110,7 @@ class BaseContainer extends BaseUI implements IBaseContainer implements IBaseUI
 		backgroundShape.graphics.clear();
 		
         removeChild(backgroundShape);
-        removeChild(contentObject);
+        removeChild(_content);
         
         removeChild(contentHolder);
 		
@@ -122,7 +118,7 @@ class BaseContainer extends BaseUI implements IBaseContainer implements IBaseUI
 			_imageBackground.dispose();
 		
 		backgroundShape = null;
-		contentObject = null;
+		_content = null;
 		contentHolder = null;
 		
 	}
@@ -134,7 +130,7 @@ class BaseContainer extends BaseUI implements IBaseContainer implements IBaseUI
     
     private function get_content() : DisplayObject
     {
-        return contentObject;
+        return _content;
     }
     
     /**
@@ -247,7 +243,7 @@ class BaseContainer extends BaseUI implements IBaseContainer implements IBaseUI
 		
         backgroundShape.graphics.clear();
         
-		if(_showImage && null != _imageBackground)
+		if(null != _imageBackground)
 			backgroundShape.graphics.beginBitmapFill(_imageBackground, null, true, _smoothImage);
 		else 
 			backgroundShape.graphics.beginFill(_backgroundColor, _backgroundAlpha);

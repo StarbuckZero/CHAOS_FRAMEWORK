@@ -30,9 +30,9 @@ class CheckBoxList extends CheckBoxGroup implements IFormUI implements com.chaos
 	 */
     public function clear() : Void
     {
-        for (i in 0...contentObject.numChildren){
-            if (Std.is(contentObject.getChildAt(i), CheckBox)) 
-                (try cast(contentObject.getChildAt(i), com.chaos.ui.classInterface.ICheckBox) catch(e:Dynamic) null).selected = false;
+        for (i in 0..._content.numChildren){
+            if (Std.is(_content.getChildAt(i), CheckBox)) 
+                (try cast(_content.getChildAt(i), com.chaos.ui.classInterface.ICheckBox) catch(e:Dynamic) null).selected = false;
         }
     }
     
@@ -94,23 +94,23 @@ class CheckBoxList extends CheckBoxGroup implements IFormUI implements com.chaos
             var checkBoxList : Array<Dynamic> = value.split(",");
             
             // Search based on broken down array list
-            for (i in 0 ... contentObject.numChildren)
+            for (i in 0 ... _content.numChildren)
 			{
                 for (j in 0 ... checkBoxList.length)
 				{
                     // Search for radio button by name
-                    if (Std.is(contentObject.getChildAt(i), CheckBox) && cast(contentObject.getChildAt(i), ICheckBox).name == checkBoxList[j]) 
-                        cast(contentObject.getChildAt(i), com.chaos.ui.classInterface.ICheckBox).selected = true;
+                    if (Std.is(_content.getChildAt(i), CheckBox) && cast(_content.getChildAt(i), ICheckBox).name == checkBoxList[j]) 
+                        cast(_content.getChildAt(i), com.chaos.ui.classInterface.ICheckBox).selected = true;
                 }
             }
         }
         else 
         {
-            for (i in 0 ... contentObject.numChildren)
+            for (i in 0 ... _content.numChildren)
 			{
                 // Search for radio button by name
-                if (Std.is(contentObject.getChildAt(i), CheckBox) && cast(contentObject.getChildAt(i), ICheckBox).name == value) 
-                    cast(contentObject.getChildAt(i), ICheckBox).selected = true;
+                if (Std.is(_content.getChildAt(i), CheckBox) && cast(_content.getChildAt(i), ICheckBox).name == value) 
+                    cast(_content.getChildAt(i), ICheckBox).selected = true;
             }
         }
     }

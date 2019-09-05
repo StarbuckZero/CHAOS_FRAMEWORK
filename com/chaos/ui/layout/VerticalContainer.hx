@@ -91,13 +91,13 @@ class VerticalContainer extends AlignmentBaseContainer implements IBaseContainer
     override public function updateAlignment() : Void
     {
         
-        for (i in 0 ... contentObject.numChildren)
+        for (i in 0 ... _content.numChildren)
 		{
-            var alignObj : IBaseUI = try cast(contentObject.getChildAt(i), IBaseUI) catch(e:Dynamic) null;
+            var alignObj : IBaseUI = try cast(_content.getChildAt(i), IBaseUI) catch(e:Dynamic) null;
             
 			
             // Set y
-            alignObj.y = (i == 0) ? padding : (contentObject.getChildAt(i - 1).y + contentObject.getChildAt(i - 1).height) + spacingV;
+            alignObj.y = (i == 0) ? padding : (_content.getChildAt(i - 1).y + _content.getChildAt(i - 1).height) + spacingV;
             
             // Set the x based on alignment
             if (align == ContainerAlignPolicy.CENTER) 
@@ -105,15 +105,15 @@ class VerticalContainer extends AlignmentBaseContainer implements IBaseContainer
                 alignObj.x = (width / 2) - (alignObj.width / 2);
                 
 				// First center  
-                if (i > 0 && alignObj.x != contentObject.getChildAt(i - 1).x) 
-                    alignObj.x = contentObject.getChildAt(i - 1).x;
+                if (i > 0 && alignObj.x != _content.getChildAt(i - 1).x) 
+                    alignObj.x = _content.getChildAt(i - 1).x;
             }
             else if (align == ContainerAlignPolicy.LEFT) 
             {
                 alignObj.x = padding;  // Move to left  
                 
-                if (i > 0 && alignObj.x != contentObject.getChildAt(i - 1).x) 
-                    alignObj.x = contentObject.getChildAt(i - 1).x;
+                if (i > 0 && alignObj.x != _content.getChildAt(i - 1).x) 
+                    alignObj.x = _content.getChildAt(i - 1).x;
             }
             else if (align == ContainerAlignPolicy.RIGHT)  // If greather than height then move objects
             {
@@ -133,10 +133,10 @@ class VerticalContainer extends AlignmentBaseContainer implements IBaseContainer
                 else if (align == ContainerAlignPolicy.CENTER) 
                 {
                     // Now swift everything up based on width
-                    var a : Int = contentObject.numChildren - 1;
+                    var a : Int = _content.numChildren - 1;
                     while (a >= i){
                         // Move everything back
-                        contentObject.getChildAt(a).x -= contentObject.getChildAt(a).width + spacingH;
+                        _content.getChildAt(a).x -= _content.getChildAt(a).width + spacingH;
                         --a;
                     }
                 }
@@ -146,7 +146,7 @@ class VerticalContainer extends AlignmentBaseContainer implements IBaseContainer
                     for (j in 0...i)
 					{
                         // Move everything back
-                        contentObject.getChildAt(j).x -= contentObject.getChildAt(j).width + spacingH;
+                        _content.getChildAt(j).x -= _content.getChildAt(j).width + spacingH;
                     }
                 }
             }

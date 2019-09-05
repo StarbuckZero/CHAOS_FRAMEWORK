@@ -375,7 +375,7 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI
 
 	
 	/**
-	 * This is for setting an shape for the button default stage
+	 * This is for setting an shape for the button default state
 	 *
 	 * @param value Set the shape that you want to use
 	 *
@@ -458,12 +458,8 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI
 				removeEventListener(MouseEvent.MOUSE_DOWN, mouseDownEvent);
 				
 				disableState.visible = true;
+				normalState.visible = downState.visible = overState.visible = false;
 				
-				// Hide state
-				if (_selected)
-					downState.visible = false;
-				else
-					normalState.visible = false;
             }
         }
 		
@@ -489,14 +485,19 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI
 		// Toggle Seleect state
 		if (_selected)
 		{
+			
 			downState.visible = true;
-			disableState.visible = normalState.visible = false;
+			overState.visible = disableState.visible = normalState.visible = false;
 		}
 		else
 		{
 			normalState.visible = true;
-			disableState.visible = downState.visible = false;
+			overState.visible = disableState.visible = downState.visible = false;
 		}		
+		
+		
+		if (!_enabled)
+			disableState.visible = true;
 		
 		
     }
