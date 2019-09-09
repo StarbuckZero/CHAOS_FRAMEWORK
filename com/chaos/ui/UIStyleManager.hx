@@ -3,7 +3,7 @@ package com.chaos.ui;
 
 
 import openfl.text.Font;
-import openfl.text.TextFormatAlign;
+
 
 /**
  * Setting the UI colors, fonts, font sizes and etc.
@@ -13,6 +13,20 @@ import openfl.text.TextFormatAlign;
 
 class UIStyleManager
 {
+	
+    public static var ACCORDION_BUTTON_NORMAL_COLOR : Int = -1;
+    public static var ACCORDION_BUTTON_OVER_COLOR : Int = -1;
+    public static var ACCORDION_BUTTON_SELECTED_COLOR : Int = -1;
+    public static var ACCORDION_BUTTON_DISABLE_COLOR : Int = -1;
+	
+	public static var ACCORDION_BUTTON_TEXT_COLOR : Int = -1;
+	public static var ACCORDION_BUTTON_SELECTED_TEXT_COLOR : Int = -1;
+	
+	public static var ACCORDION_BACKGROUND_COLOR : Int = -1;
+	
+    public static var ACCORDION_TEXT_EMBED : Font = null;
+    public static var ACCORDION_TEXT_FONT : String = "";
+	
     public static var ALERT_BACKGROUND_COLOR : Int = -1;
     
     public static var ALERT_TITLE_TEXT_EMBED : Font = null;

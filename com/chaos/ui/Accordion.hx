@@ -1,5 +1,6 @@
 package com.chaos.ui;
 
+import com.chaos.ui.classInterface.IAccordion;
 import com.chaos.ui.classInterface.IBaseUI;
 import com.chaos.ui.classInterface.IButton;
 import com.chaos.ui.data.AccordionObjectData;
@@ -7,6 +8,7 @@ import com.chaos.ui.layout.BaseContainer;
 import com.chaos.ui.layout.classInterface.IBaseContainer;
 import openfl.display.BitmapData;
 import openfl.display.DisplayObject;
+import openfl.events.Event;
 import openfl.events.MouseEvent;
 
 /**
@@ -15,7 +17,7 @@ import openfl.events.MouseEvent;
  * @author Erick Feiling
  */
 
-class Accordion extends BaseContainer implements IBaseContainer implements IBaseUI 
+class Accordion extends BaseContainer implements IBaseContainer implements IAccordion implements IBaseUI 
 {
 	
 	/** The type of UI Element */
@@ -55,7 +57,14 @@ class Accordion extends BaseContainer implements IBaseContainer implements IBase
 	/**
 	 * Selected state text color
 	 */
+	
 	public var buttonTextSelectedColor(get, set) : Int;
+	
+	/**
+	 * Adjust the height of the button
+	 */
+	
+	public var buttonSize(get, set) : Int;
 	
 	private var _buttonNormalColor : Int = 0xCCCCCC;
 	private var _buttonOverColor : Int = 0x666666;
@@ -70,7 +79,6 @@ class Accordion extends BaseContainer implements IBaseContainer implements IBase
 	private var _buttonDisableImage : BitmapData;
 	private var _buttonDownImage : BitmapData;
 	
-	
 	private var _buttonSize : Int = 20;
 
 	private var _selectedSection:String = "";
@@ -81,7 +89,20 @@ class Accordion extends BaseContainer implements IBaseContainer implements IBase
 	public function new(data:Dynamic = null) 
 	{
 		super(data);
+		
+		addEventListener(Event.ADDED_TO_STAGE, onStageAdd, false, 0, true);
+		addEventListener(Event.REMOVED_FROM_STAGE, onStageRemove, false, 0, true); 		
 	}
+	
+	private function onStageAdd(event : Event) : Void 
+	{
+		UIBitmapManager.watchElement(TYPE, this);
+	}
+	
+	private function onStageRemove(event : Event) : Void
+	{
+		UIBitmapManager.stopWatchElement(TYPE, this);
+    }	
 	
 	override public function setComponentData(data:Dynamic):Void 
 	{
@@ -107,6 +128,9 @@ class Accordion extends BaseContainer implements IBaseContainer implements IBase
 	{
 		super.destroy();
 		
+		removeEventListener(Event.ADDED_TO_STAGE, onStageAdd);
+		removeEventListener(Event.REMOVED_FROM_STAGE, onStageRemove);
+		
 		// Remove all 
 		for (i in 0 ... _section.length)
 		{
@@ -118,6 +142,7 @@ class Accordion extends BaseContainer implements IBaseContainer implements IBase
 			
 			_section[i].container.destroy();
 			_section[i].button.destroy();
+			
 		}
 		
 		
@@ -218,6 +243,18 @@ class Accordion extends BaseContainer implements IBaseContainer implements IBase
 		return _buttonTextSelectedColor;
 	}
 	
+	private function set_buttonSize( value:Int ):Int
+	{
+		_buttonSize = value;
+		
+		return value;
+	}
+	
+	private function get_buttonSize() : Int
+	{
+		return _buttonSize;
+	}
+	
 	/**
 	 * This set the image for the over state
 	 *
@@ -260,12 +297,21 @@ class Accordion extends BaseContainer implements IBaseContainer implements IBase
 		_buttonDisableImage = value;
 	}
 
+	/**
+	 * Add section
+	 * @param	sectionName The name of the section
+	 * @param	title The text that will show up on the button for the section
+	 * @param	content The DisplayObject you want to use
+	 * @param	icon The icon that will be displayed on the button
+	 */
 	
-	public function addSection(sectionName:String, title:String, content:DisplayObject):Void
+	public function addSection(sectionName:String, title:String, content:DisplayObject, icon:BitmapData = null):Void
 	{
 		
 		var container:BaseContainer = new BaseContainer({"name": sectionName + "_container", "content":content});
-		var button:Button =  new Button({"name": sectionName + "_button", "text":title, "mode":"toggle"});
+		var button:Button =  new Button({"name": sectionName + "_button",
+		"textColor":_buttonTextColor, "defaultColor":_buttonNormalColor, "overColor":_buttonOverColor,"downColor":_buttonSelectedColor,"disableColor":_buttonDisableColor,
+		"text":title, "mode":"toggle"});
 		
 		button.addEventListener(MouseEvent.CLICK, onButtonClick, false, 0, true);
 		
@@ -306,6 +352,7 @@ class Accordion extends BaseContainer implements IBaseContainer implements IBase
 			var container:IBaseContainer = _section[i].container;
 			
 			container.visible = button.selected = false;
+			button.textColor = _buttonTextColor;
 			button.y = i * _buttonSize;
 			container.y = button.y + button.height;
 			
@@ -371,6 +418,14 @@ class Accordion extends BaseContainer implements IBaseContainer implements IBase
 		
 	}
 	
+	override public function reskin():Void 
+	{
+		super.reskin();
+		
+		//TODO: Add reskin stuff here
+		
+	}
+	
 	
 	
 	
@@ -391,6 +446,11 @@ class Accordion extends BaseContainer implements IBaseContainer implements IBase
 			button.height = _buttonSize;
 			button.y = i * _buttonSize;
 			
+			button.defaultColor = _buttonNormalColor;
+			button.overColor = _buttonOverColor;
+			button.downColor = _buttonSelectedColor;
+			button.disableColor = _buttonDisableColor;
+			
 			container.y = button.y + button.height;
 			
 			// Check to see if it's open or not
@@ -408,8 +468,10 @@ class Accordion extends BaseContainer implements IBaseContainer implements IBase
 		// Get button name so can open menu
 		var button:IButton = cast(event.currentTarget, IButton);
 		
+		
 		open(button.name.substr(0, button.name.lastIndexOf("_button")));
 		button.selected = true;
+		button.textColor = _buttonTextSelectedColor;
 		button.draw();
 		
 	}

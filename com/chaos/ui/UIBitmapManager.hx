@@ -18,6 +18,13 @@ import com.chaos.utils.Debug;
 class UIBitmapManager
 {
     
+    public static inline var ACCORDION_BUTTON_NORMAL : String = "accordion_button_normal";
+    public static inline var ACCORDION_BUTTON_OVER : String = "accordion_button_over";
+    public static inline var ACCORDION_BUTTON_SELECTED : String = "accordion_button_down";
+    public static inline var ACCORDION_BUTTON_DISABLE : String = "accordion_button_disable";
+	
+    public static inline var ACCORDION_BACKGROUND : String = "accordion_background";
+	
     public static inline var ALERT_BACKGROUND : String = "alert_background";
     
     public static inline var ALERT_TOP_LEFT : String = "alert_top_left";
