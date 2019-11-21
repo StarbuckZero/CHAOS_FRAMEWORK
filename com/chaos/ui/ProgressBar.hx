@@ -214,9 +214,13 @@ class ProgressBar extends BaseUI implements IProgressBar implements IBaseUI
 
 		if (Reflect.hasField(data, "Label"))
 			_labelData = Reflect.field(data, "Label");
+		else
+			_labelData = {};
 
 		if (Reflect.hasField(data, "LoadedLabel"))
 			_loadedLabelData = Reflect.field(data, "LoadedLabel");
+		else
+			_loadedLabelData = {};
 
 	}
 
@@ -246,6 +250,7 @@ class ProgressBar extends BaseUI implements IProgressBar implements IBaseUI
 		super.initialize();
 
 		_labelData = null;
+		_loadedLabelData = null;
 
 		// Add to display
 		addChild(_backgroundNormal);
@@ -260,8 +265,11 @@ class ProgressBar extends BaseUI implements IProgressBar implements IBaseUI
 
 	private function initStyle() : Void
 	{
-		_labelData = {};
-		_loadedLabelData = {};
+		if(_labelData != null)
+			_labelData = {};
+
+		if(_loadedLabelData != null)
+			_loadedLabelData = {};
 
 		// Set the style
 		if ( -1 != UIStyleManager.PROGRESSBAR_COLOR)

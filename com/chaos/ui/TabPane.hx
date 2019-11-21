@@ -72,6 +72,10 @@ class TabPane extends BaseUI implements ITabPane implements IBaseUI
 	
 	public var tabButtonDisableColor(get, set) : Int;
 	
+	/**
+	* Set the height of the button. 
+	**/
+	public var tabButtonHeight(get,set) : Int;
 	
 	public var buttonArea : Sprite = new Sprite();
 	
@@ -507,6 +511,17 @@ class TabPane extends BaseUI implements ITabPane implements IBaseUI
 	private function get_tabButtonDisableColor() : Int
 	{
 		return _tabButtonDisableColor;
+	}
+
+	private function set_tabButtonHeight(value : Int) : Int
+	{
+		_tabButtonHeight = value;
+		return value;
+	}
+
+	private function get_tabButtonHeight() : Int
+	{
+		return _tabButtonHeight;
 	}
 
 	/**
