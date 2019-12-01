@@ -124,7 +124,7 @@ class UIDemo extends Sprite
         // ComboBox
 		var comboData:Array<Dynamic> = new Array<Dynamic>();
 		comboData.push({"text":"Windows 10", "value":"1"});
-		comboData.push({"text":"MaxOS X", "value":"2"});
+		comboData.push({"text":"MacOS X", "value":"2"});
 		comboData.push({"text":"iOS", "value":"3"});
 		comboData.push({"text":"Ubuntu Linux", "value":"4"});
 		comboData.push({"text":"Android", "value":"5"});

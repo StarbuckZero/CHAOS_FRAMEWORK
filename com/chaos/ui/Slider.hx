@@ -715,10 +715,13 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 		if (null != event)
 			event.updateAfterEvent();
 		
-		if (ScrollBarDirection.VERTICAL == _mode)
-			percentage = Math.round((_marker.y - _track.y) / (_track.height - _marker.height) * 100) / 100;
-        else 
-			percentage = Math.round((_marker.x - _track.x) / (_track.width - _marker.width) * 100) / 100;
+		if(null != _marker && null != _track)
+		{
+			if (ScrollBarDirection.VERTICAL == _mode)
+				percentage = Math.round((_marker.y - _track.y) / (_track.height - _marker.height) * 100) / 100;
+			else 
+				percentage = Math.round((_marker.x - _track.x) / (_track.width - _marker.width) * 100) / 100;
+		}
 		
 		dispatchEvent(new SliderEvent(SliderEvent.CHANGE, percentage));
     } 
@@ -733,6 +736,7 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 			_marker.startDrag(false, new Rectangle(_sliderOffSet, _track.y, 0, (_height - sliderHeightNum)))
         else
 			_marker.startDrag(false, new Rectangle(_track.x, _sliderOffSet, (_width - sliderWidthNum), 0));
+		
 		
 		if (_eventMode == TIMER_MODE)
 			ThreadManager.addEventTimer(updatePercent);

@@ -185,7 +185,7 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
 		if (Reflect.hasField(data, "imageOffSetY"))	
 			_imageOffSetY = Reflect.field(data, "imageOffSetY");
 			
-		if (Reflect.hasField(data, "mode"))	
+		if (Reflect.hasField(data, "mode"))
 			_mode = Reflect.field(data, "mode");
 	}
 	
@@ -203,7 +203,6 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
 		super.initialize();
         
         _label.visible = _showLabel;
-        
         
         mouseChildren = false;
         
