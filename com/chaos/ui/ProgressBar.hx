@@ -265,10 +265,10 @@ class ProgressBar extends BaseUI implements IProgressBar implements IBaseUI
 
 	private function initStyle() : Void
 	{
-		if(_labelData != null)
+		if(_labelData == null)
 			_labelData = {};
 
-		if(_loadedLabelData != null)
+		if(_loadedLabelData == null)
 			_loadedLabelData = {};
 
 		// Set the style

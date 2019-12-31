@@ -183,7 +183,7 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 		_scrollBarH.visible = false;
 		_scrollBarV.visible = false;
 
-		//addChild(_contentSizeBox);
+		addChild(_contentSizeBox);
 
 		addChild(shapeBlock);
 		addChild(_outline);

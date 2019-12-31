@@ -169,9 +169,10 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
 			_text = Reflect.field(data, "text");
 		
 		if (Reflect.hasField(data, "Label"))
-			_labelData = Reflect.field(data, "Label");
+            _labelData = Reflect.field(data, "Label");
 		else
-			_labelData = {"textColor": 0xFFFFFF, "bold":_bold, "italic":_italic};
+            _labelData = {"textColor": 0xFFFFFF, "bold":_bold, "italic":_italic};
+			
 			
 		if (Reflect.hasField(data, "showLabel"))
 			_showLabel = Reflect.field(data, "showLabel");

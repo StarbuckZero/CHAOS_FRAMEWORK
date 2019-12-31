@@ -88,7 +88,7 @@ class SoundManager implements ISoundManager
 	 * Places an mp3 into the Sound Manager and set it as the current selected object
 	 *
 	 * @param strName The name of the sound object.
-	 * @param url The location of the mp3 file
+	 * @param url The location of the sound file
 	 * @param autoStart Once the sound file is loaded into memory to play it or not.
 	 *
 	 */ 
@@ -105,13 +105,13 @@ class SoundManager implements ISoundManager
 		// Add in events <- Should remove listeners once done loading  
 		tempSound.addEventListener(Event.COMPLETE, soundLoaded);  
 		
-		// Finished Loading MP3 
+		// Finished Loading sound 
 		tempSound.addEventListener(Event.OPEN, onSoundOpen);  
 		
 		// Once sound open  
 		tempSound.addEventListener(IOErrorEvent.IO_ERROR, ioErrorHandler); 
 		
-		// If MP3 can't load
+		// If sound can't load
 		tempSound.addEventListener(ProgressEvent.PROGRESS, progressHandler); 
 		
 		// As the MP3 loads  
@@ -1156,33 +1156,50 @@ class SoundManager implements ISoundManager
 		if (strName == "")
 			return "";
 		
-		// Check to see if string has .mp3
+		// Check to see if string has .mp3, ogg, wav
 		if (strName.indexOf(".mp3") != -1)
 			return strName.substring(0, strName.indexOf(".mp3")).toLowerCase();
+		else if (strName.indexOf(".ogg") != -1)
+			return strName.substring(0, strName.indexOf(".ogg")).toLowerCase();
+		else if (strName.indexOf(".wav") != -1)
+			return strName.substring(0, strName.indexOf(".wav")).toLowerCase();
 		
 		return strName.toLowerCase();
     }
 	
 	private function urlNameClean(strURL : String) : String
 	{
-		
 		strURL = StringTools.htmlUnescape(strURL).toLowerCase();
-		var i:Int = strURL.length;
 		
-		// Loop backwards until forward slash is found  var i : Int = strURL.length;
-        while (i >= 0)
-		{
-			if (strURL.charAt(i) == "/") 
-			{
-				strURL = strURL.substring((i + 1), strURL.indexOf(".mp3"));
-				break;
-            }
-			
-            i--;
-        }
+		// Loop backwards until forward slash is found 
+		if(strURL.indexOf(".mp3") != -1)
+			strURL = cleanFileType(strURL,".mp3");
+		else if(strURL.indexOf(".ogg") != -1)
+			strURL = cleanFileType(strURL,".ogg");
+		else if(strURL.indexOf(".wav") != -1)
+			strURL = cleanFileType(strURL,".wav");
+
 		
 		return convertName(strURL);
     }
+
+	private function cleanFileType(fileURL:String, mineType:String) : String
+	{
+		var i:Int = fileURL.length;
+		
+		while (i >= 0)
+		{
+			if (fileURL.charAt(i) == "/") 
+			{
+				fileURL = fileURL.substring((i + 1), fileURL.indexOf(mineType));
+				break;
+			}
+			
+			i--;
+		}
+
+		return fileURL;			
+	}
 	
 	private function setChannelVolume(volInt : Int, volSoundChannel : SoundChannel) : Bool	
 	{

@@ -3,7 +3,7 @@ package com.chaos.ui.classInterface;
 
 import openfl.display.BitmapData;
 import openfl.display.DisplayObject;
-
+import com.chaos.ui.data.TabPaneObjectData; 
 
 interface ITabPane
 {
@@ -92,6 +92,21 @@ interface ITabPane
 	 */
 	
 	function removeItemAt(value : Int) : Dynamic;  
+
+	/**
+	* Get selected item
+	*/
+
+	function getSelectedItem() : TabPaneObjectData;
+
+	/**
+	* Get the TabDataObject based on value passed in
+	* @param value  The index of item you want
+	*
+	* @return Object with the content that is being stored
+	*/
+
+	function getItemAt( value : Int ) : TabPaneObjectData;
 
 
 	/**

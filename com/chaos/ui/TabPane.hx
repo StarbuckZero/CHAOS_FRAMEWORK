@@ -416,6 +416,36 @@ class TabPane extends BaseUI implements ITabPane implements IBaseUI
 
 		return tempObj;
 	}
+
+	/**
+	* Get selected item
+	*/
+
+	public function getSelectedItem() : TabPaneObjectData 
+	{
+		if(_selectedIndex >= 0)
+			return _contentList.getItemAt(_selectedIndex);
+		else 
+			return null;
+	}
+
+	/**
+	* Get the TabDataObject based on value passed in
+	* @param value  The index of item you want
+	*
+	* @return Object with the content that is being stored
+	*/
+
+	public function getItemAt( value : Int ) : TabPaneObjectData
+	{
+		if (value <= _contentList.length - 1 && value >= 0)
+			return _contentList.getItemAt(value);
+
+		return null;
+	}
+
+	
+
 	/**
 	 * Switch the TabPane to the section as if the button was pressed. This will remove whatever content that is currenly being used and replace it with new data.
 	 */
@@ -701,6 +731,7 @@ class TabPane extends BaseUI implements ITabPane implements IBaseUI
 			contentLoad(cast(_contentList.getItemAt(Std.parseInt(button.name)).content, DisplayObject));
 
 			dispatchEvent(new Event(Event.CHANGE));
+			
 		}
 	}
 

@@ -140,16 +140,7 @@ class BaseUI extends Sprite implements IBaseUI
 	 * @inheritDoc
 	 */
 	
-    #if flash @:setter(width)
-    private function set_width(value : Float) : Void
-    {
-        _width = value;
-        
-		if (_drawOnResize)
-		draw();
-		
-    }
-	#else
+
 	override private function set_width(value : Float) : Float
 	{
         _width = value;
@@ -160,14 +151,14 @@ class BaseUI extends Sprite implements IBaseUI
 		
 		return value;
 	}
-	#end
+
 	
     /**
 	 * @inheritDoc
 	 */
 	
-    #if flash @:getter(width) #else override #end
-    private function get_width() : Float
+
+    override private function get_width() : Float
     {
         return _width;
     }
@@ -177,16 +168,7 @@ class BaseUI extends Sprite implements IBaseUI
 	 * @inheritDoc
 	 */
 	
-    #if flash @:setter(height)
-    private function set_height(value : Float) : Void
-    {
-		if (_drawOnResize)
-		draw();
-		
-        _height = value;
-        
-    }
-	#else  
+
     override private function set_height(value : Float) : Float
     {
 		if (_drawOnResize)
@@ -197,14 +179,14 @@ class BaseUI extends Sprite implements IBaseUI
 		
         return value;
     }	
-	#end
+	
 	
     /**
 	 * @inheritDoc
 	 */
 	
-    #if flash @:getter(height) #else override #end
-    private function get_height() : Float
+
+    override private function get_height() : Float
     {
         return _height;
     }
