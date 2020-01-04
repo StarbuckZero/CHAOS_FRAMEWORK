@@ -602,9 +602,9 @@ class TabPane extends BaseUI implements ITabPane implements IBaseUI
 	/**
 	 * Return the TabPane buton being used.
 	 *
-	 * @param value Set the image based on a Bitmap being pass
+	 * @param value The button you want starting from 0
 	 *
-	 * @return Return button being on TabPane
+	 * @return Return button
 	 */
 
 	public function getTabButton(value : Int = -1) : IButton
