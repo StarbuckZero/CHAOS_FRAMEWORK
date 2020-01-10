@@ -1,4 +1,5 @@
 
+import com.chaos.ui.Accordion;
 import com.chaos.data.DataProvider;
 import com.chaos.ui.ScrollTextContent;
 
@@ -77,6 +78,7 @@ class UIDemo extends Sprite
     public var scrollPane :ScrollPane;
     public var itemPane : ItemPane;
     public var menu : Menu;
+    public var accordion:Accordion;
 	
 	public var alertBox:Sprite;
     
@@ -272,9 +274,19 @@ class UIDemo extends Sprite
 		menuData.push({"text":"Top Level", "value":"0", "data":subMenuData});
 		
         var menu:Menu = new Menu({"name":"PeopleMenu", "width":100, "height":40, "border":true, "subBorder":true, "textColor":0xFFFFFF, "subNormalLineColor":0, "x":tabPane.x, "y":(tabPane.y + tabPane.height + OFFSET), "direction":"horizontal", "data":menuData});
-		
-		
         
+
+		var accordionLabel1:Label = new Label({"text":"Section 1","width":100,"height":20});
+		var accordionLabel2:Label = new Label({"text":"Section 2","width":100,"height":20});
+		var accordionLabel3:Label = new Label({"text":"Section 3","width":100,"height":20});
+
+        var sectionArray:Array<Dynamic> = [{"name":"Section1","text":"Section 1","content":accordionLabel1},{"name":"Section2","text":"Section 2","content":accordionLabel2},{"name":"Section3","text":"Section 3","content":accordionLabel3}];
+        
+        accordion  = new Accordion({"width":300,"height":160,"data":sectionArray,"x":menu.x + menu.width + OFFSET, "y":(menu.y )});
+
+        addChild(accordion);
+
+
         ThreadManager.stage = stage;
         Slider.sliderEventMode = Slider.TIMER_MODE;
         
