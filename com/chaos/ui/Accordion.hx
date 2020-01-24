@@ -155,7 +155,7 @@ class Accordion extends BaseContainer implements IBaseContainer implements IAcco
 			_buttonNormalColor = UIStyleManager.ACCORDION_BUTTON_NORMAL_COLOR;
 
 		if (-1 != UIStyleManager.ACCORDION_BUTTON_OVER_COLOR)
-			_buttonNormalColor = UIStyleManager.ACCORDION_BUTTON_OVER_COLOR;
+			_buttonOverColor = UIStyleManager.ACCORDION_BUTTON_OVER_COLOR;
 
 		if (-1 != UIStyleManager.ACCORDION_BUTTON_SELECTED_COLOR)
 			_buttonSelectedColor = UIStyleManager.ACCORDION_BUTTON_SELECTED_COLOR;

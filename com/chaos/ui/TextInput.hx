@@ -286,7 +286,7 @@ class TextInput extends Label implements ITextInput implements ILabel implements
 			borderThinkness = UIStyleManager.INPUT_BORDER_THINKNESS;
 
 		if ( -1 != UIStyleManager.INPUT_TEXT_COLOR)
-			textColor = UIStyleManager.INPUT_TEXT_COLOR;
+			_textColor = UIStyleManager.INPUT_TEXT_COLOR;
 
 		if ( -1 != UIStyleManager.INPUT_TEXT_OVER_COLOR)
 			_textOverColor = UIStyleManager.INPUT_TEXT_OVER_COLOR;
@@ -588,6 +588,9 @@ class TextInput extends Label implements ITextInput implements ILabel implements
 	override public function draw() : Void
 	{
 		super.draw();
+
+		// Set default color
+		textFormat.color = textField.textColor = _textColor;
 
 		// Turn off background because using shape
 		textField.background = false;

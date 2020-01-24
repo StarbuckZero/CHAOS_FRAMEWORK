@@ -126,7 +126,7 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
     // Default button colors
     private var _text : String = "";
 	
-	private var _labelData:Dynamic = null;
+	private var _labelData:Dynamic = {};
     
     private var _showLabel : Bool = true;
     private var _showIcon : Bool = false;
@@ -254,9 +254,13 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
         initBitmap();
         initStyle();
     }
+
     
-    private function initBitmap() : Void
+    
+    override private function initBitmap() : Void
     {
+        super.initBitmap();
+
         // Set skining if in UIBitmapManager
         if (null != UIBitmapManager.getUIElement(Button.TYPE, UIBitmapManager.BUTTON_NORMAL)) 
             setDefaultStateImage(UIBitmapManager.getUIElement(Button.TYPE, UIBitmapManager.BUTTON_NORMAL));
@@ -271,8 +275,9 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
             setDisableStateImage(UIBitmapManager.getUIElement(Button.TYPE, UIBitmapManager.BUTTON_DISABLE));
     }
     
-    private function initStyle() : Void
+    override private function initStyle() : Void
     {
+        super.initStyle();
         
         // First set style default
         if (UIStyleManager.BUTTON_WIDTH > 0 && UIStyleManager.BUTTON_WIDTH != width) 
@@ -287,10 +292,10 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
         
         // Set Button Label because on UIStyleManager
         if (-1 != UIStyleManager.BUTTON_TEXT_COLOR) 
-            _label.textColor = UIStyleManager.BUTTON_TEXT_COLOR;
+            Reflect.setField(_labelData,"textColor",UIStyleManager.BUTTON_TEXT_COLOR);
         
         if (-1 != UIStyleManager.BUTTON_TEXT_SIZE) 
-            _label.size = UIStyleManager.BUTTON_TEXT_SIZE;
+            Reflect.setField(_labelData,"size",UIStyleManager.BUTTON_TEXT_SIZE);
         
 		_italic = UIStyleManager.BUTTON_TEXT_ITALIC;
 		_bold = UIStyleManager.BUTTON_TEXT_BOLD;
@@ -299,10 +304,10 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
             _textFormat.font = UIStyleManager.BUTTON_TEXT_FONT;
         
         if ("" != UIStyleManager.BUTTON_TEXT_ALIGN) 
-            _label.align = UIStyleManager.BUTTON_TEXT_ALIGN;
+            Reflect.setField(_labelData,"align",UIStyleManager.BUTTON_TEXT_ALIGN);
         
         if (null != UIStyleManager.BUTTON_TEXT_EMBED) 
-            _label.setEmbedFont(UIStyleManager.BUTTON_TEXT_EMBED);
+            Reflect.setField(_labelData,"embedFont",UIStyleManager.BUTTON_TEXT_EMBED);
         
         if (-1 != UIStyleManager.BUTTON_NORMAL_COLOR) 
             _defaultColor = UIStyleManager.BUTTON_NORMAL_COLOR;

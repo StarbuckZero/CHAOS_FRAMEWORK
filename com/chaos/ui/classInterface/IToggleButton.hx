@@ -29,6 +29,36 @@ interface IToggleButton extends IBaseUI
 	 */   
 	 
 	 var disableColor(get, set) : Int; 
+
+	/**
+	 * Border color for normal button state
+	 */
+	 var normalBorderColor(get, set):Int;
+
+	 /**
+	  * Border color for over button state
+	  */
+	 var overBorderColor(get, set):Int;
+ 
+	 /**
+	  * Border color for down button state
+	  */
+	 var downBorderColor(get, set):Int;
+ 
+	 /**
+	  * Border color for disable button state
+	  */
+	 var disableBorderColor(get, set):Int;
+ 
+	 /**
+	  * Set the border menu button alpha
+	  */
+	 var borderAlpha(get, set):Float;
+ 
+	 /**
+	  * Border thinkness
+	  */
+	 var borderThinkness(get, set):Float;	 
 	 
 	 /**
 	 * Set how rounded the button is

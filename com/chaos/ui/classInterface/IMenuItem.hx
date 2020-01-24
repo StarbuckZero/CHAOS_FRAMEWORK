@@ -48,8 +48,6 @@ interface IMenuItem extends IButton
 	 * Border color for over button state
 	 */
     
-
-    
     var overBorderColor(get, set) : Int;    
     
     /**
@@ -71,7 +69,7 @@ interface IMenuItem extends IButton
 	 */
 
     
-    var lineAlpha(get, set) : Float;    
+	var borderAlpha(get, set) : Float;	
     
     /**
 	 * Set the label text color

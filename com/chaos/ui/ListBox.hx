@@ -239,6 +239,9 @@ class ListBox extends ScrollPane implements IListBox implements IBaseUI
 		if ( -1 != UIStyleManager.LIST_TEXT_OVER_COLOR)
 			_textOverColor = UIStyleManager.LIST_TEXT_OVER_COLOR;
 
+		if( -1 != UIStyleManager.LIST_TEXT_OVER_BACKGROUND_COLOR)
+			_textOverBackground = UIStyleManager.LIST_TEXT_OVER_BACKGROUND_COLOR;
+
 		if ( -1 != UIStyleManager.LIST_TEXT_SELECTED_COLOR)
 			_textSelectedColor = UIStyleManager.LIST_TEXT_SELECTED_COLOR;
 

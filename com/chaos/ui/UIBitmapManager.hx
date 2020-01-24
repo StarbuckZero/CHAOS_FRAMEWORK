@@ -158,6 +158,11 @@ class UIBitmapManager {
 	public static inline var TEXTINPUT_SELECTED:String = "textinput_selected";
 	public static inline var TEXTINPUT_DISABLE:String = "textinput_disable";
 
+	public static inline var TOGGLE_BUTTON_NORMAL:String = "togglebutton_normal";
+	public static inline var TOGGLE_BUTTON_OVER:String = "togglebutton_over";
+	public static inline var TOGGLE_BUTTON_DOWN:String = "togglebutton_down";
+	public static inline var TOGGLE_BUTTON_DISABLE:String = "togglebutton_disable";
+
 	public static inline var TOOLTIP_BACKGROUND:String = "tooltip_background";
 
 	public static inline var TOOLTIP_OVERLAY_TOP_LEFT:String = "tooltip_overlay_top_left";
@@ -321,11 +326,23 @@ class UIBitmapManager {
 	 * @param	UITypeElement
 	 */
 	public static function updateUIElement(UITypeElement:String):Void {
+		
+		if(watchList == null)
+			return;
+		
 		var uiList:DataProvider<IBaseUI> = Reflect.field(watchList, UITypeElement);
 
 		for (i in 0...uiList.length) {
 			cast(uiList.getItemAt(i), IBaseUI).reskin();
 			cast(uiList.getItemAt(i), IBaseUI).draw();
+		}
+	}
+
+	public static function updateAllUIElement() {
+		
+		for(i in 0 ... componentNameList.length)
+		{
+			updateUIElement(componentNameList[i]);
 		}
 	}
 
@@ -424,16 +441,6 @@ class UIBitmapManager {
 	 * @return an array filled with names
 	 */
 	public static function getUIElementNameList():Array<String> {
-		// Make sure everything is setup
-		if (!initialized)
-			initializeManager();
-
-		var nameList:Array<String> = new Array<String>();
-
-		for (index in Reflect.fields(skinTheme)) {
-			nameList.push(index);
-		}
-
-		return nameList;
+		return componentNameList;
 	}
 }

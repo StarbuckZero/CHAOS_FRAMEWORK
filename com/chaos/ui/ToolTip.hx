@@ -111,7 +111,6 @@ class ToolTip
         _timer.addEventListener(TimerEvent.TIMER, onShowBubble);
         
         initSkin();
-        initStyle();
         
         _init = true;
     }
@@ -166,20 +165,6 @@ class ToolTip
         _bubble.setBottomImage(bottomLeftImage, bottomMiddleImage, bottomRightImage);
     }
     
-    private static function initStyle() : Void
-    {
-        if (-1 != UIStyleManager.TOOLTIP_LABEL_TEXT_COLOR) 
-            _label.textColor = UIStyleManager.TOOLTIP_LABEL_TEXT_COLOR;
-        
-        if (null != UIStyleManager.TOOLTIP_LABEL_TEXT_EMBED) 
-            _label.setEmbedFont(UIStyleManager.TOOLTIP_LABEL_TEXT_EMBED);
-        
-        if ("" != UIStyleManager.TOOLTIP_LABEL_TEXT_FONT) 
-            _label.font = UIStyleManager.TOOLTIP_LABEL_TEXT_FONT;
-        
-        if (-1 != UIStyleManager.TOOLTIP_LABEL_TEXT_SIZE) 
-            _label.size = UIStyleManager.TOOLTIP_LABEL_TEXT_SIZE;
-    }
     
     /**
 	 * The amount of time it takes before before showing the ToolTip in milliseconds
@@ -299,6 +284,19 @@ class ToolTip
         if (!_init) 
             init();
         
+
+        if (-1 != UIStyleManager.TOOLTIP_LABEL_TEXT_COLOR && -1 == textColor) 
+            textColor = UIStyleManager.TOOLTIP_LABEL_TEXT_COLOR;
+
+        if(-1 != UIStyleManager.TOOLTIP_BACKGROUND_NORMAL_COLOR && -1 == backgroundColor)
+            backgroundColor = UIStyleManager.TOOLTIP_BACKGROUND_NORMAL_COLOR;
+
+        if(-1 != UIStyleManager.TOOLTIP_BORDER_COLOR && -1 == borderColor)
+            borderColor = UIStyleManager.TOOLTIP_BORDER_COLOR;
+        
+        if(!border)
+            border = UIStyleManager.TOOLTIP_BORDER;
+
         _list.addItem(new ToolTipData(displayObj, text, tipWidth, tipHeight, textColor, backgroundColor, border, borderColor));
         
         displayObj.addEventListener(MouseEvent.MOUSE_OUT, onRollOut);
@@ -354,8 +352,8 @@ class ToolTip
         if (-1 != textColor) 
             _label.textColor = textColor;
         
-        if (-1 != borderColor) 
-            _label.borderColor = borderColor;
+         if (-1 != borderColor) 
+             _label.borderColor = borderColor;
         
         if (-1 != borderColor) 
             _bubble.borderColor = borderColor;
@@ -374,6 +372,7 @@ class ToolTip
         
         if (_bubble.showTail) 
             _bubble.y -= _bubble.tailSize;
+        
         
 		_label.draw();
 		_bubble.draw();
@@ -467,21 +466,20 @@ class ToolTip
         else if (_label.textField.textWidth < _defaultWidth) 
             _label.width = _defaultWidth;
         
+        // If width is being set but height is not
         if (-1 != dataObj.height) 
             _label.height = dataObj.height
-        // If width is being set but height is not
-        else if (_label.textField.textHeight < _defaultHeight) 
+        else if (_label.textField.textHeight < _defaultHeight)
             _label.height = _defaultHeight;
         
         
-        
+        // If the height is being set but the width is not
         if (dataObj.width > 0 && dataObj.height <= -1) 
         {
             _label.textField.autoSize = TextFieldAutoSize.LEFT;
             _label.textField.wordWrap = false;
             _label.textField.multiline = true;
         }
-        // If the height is being set but the width is not
         else if (dataObj.height > 0 && dataObj.width <= -1) 
         {
             // Have to turn off auto size off
@@ -489,8 +487,7 @@ class ToolTip
             _label.textField.wordWrap = false;
             _label.textField.multiline = true;
         }
-        // If both is not being set
-        else if (dataObj.width <= -1 && dataObj.height <= -1) 
+        else if (dataObj.width <= -1 && dataObj.height <= -1)  // If both is not being set
         {
             _label.textField.autoSize = TextFieldAutoSize.LEFT;
             
@@ -501,10 +498,10 @@ class ToolTip
         _bubble.width = ((_label.textField.textWidth <= _defaultWidth)) ? _defaultWidth + UIStyleManager.TOOLTIP_LABEL_PADDING : _label.width + UIStyleManager.TOOLTIP_LABEL_PADDING;
         _bubble.height = _label.height + UIStyleManager.TOOLTIP_LABEL_PADDING;
         
-        if (-1 == dataObj.textColor) 
+        if (-1 != dataObj.textColor) 
             _label.textColor = dataObj.textColor;
         
-        if (-1 == dataObj.borderColor) 
+        if (-1 != dataObj.borderColor) 
             _label.borderColor = dataObj.borderColor;
         
         _bubble.border = dataObj.border;
@@ -517,7 +514,6 @@ class ToolTip
         
         if (_bubble.showTail) 
             _bubble.y -= _bubble.tailSize;
-			
 			
 		_label.draw();
 		_bubble.draw();

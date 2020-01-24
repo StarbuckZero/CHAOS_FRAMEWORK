@@ -304,7 +304,7 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
     private var _subMenuDisplayImage : BitmapData;
     
     private var _alpha : Float = 1;
-    private var _lineAlpha : Float = 1;
+    private var _borderAlpha : Float = 1;
     
     private var _subAlpha : Float = 1;
     private var _subLineAlpha : Float = 1;
@@ -471,8 +471,8 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
 		if (Reflect.hasField(data, "subBorder"))
 			_subBorder = Reflect.field(data, "subBorder");
 			
-		if (Reflect.hasField(data, "lineAlpha"))
-			_lineAlpha = Reflect.field(data, "lineAlpha");
+		if (Reflect.hasField(data, "borderAlpha"))
+			_borderAlpha = Reflect.field(data, "borderAlpha");
 			
 		// Reverse the direction of the sub menu buttons
 		if (Reflect.hasField(data, "reverse"))
@@ -597,7 +597,7 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
             _disableLineColor = UIStyleManager.MENU_BORDER_DISABLE_COLOR;
         
         if (UIStyleManager.MENU_BORDER_ALPHA != -1) 
-            _lineAlpha = UIStyleManager.MENU_BORDER_ALPHA;
+            _borderAlpha = UIStyleManager.MENU_BORDER_ALPHA;
         
         if (UIStyleManager.MENU_BORDER_THINKNESS != -1) 
             _thinkness = UIStyleManager.MENU_BORDER_THINKNESS;
@@ -647,7 +647,7 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
             _disableLineColor = UIStyleManager.MENU_SUB_BORDER_DISABLE_COLOR;
         
         if (UIStyleManager.MENU_SUB_BORDER_ALPHA != -1) 
-            _lineAlpha = UIStyleManager.MENU_BORDER_ALPHA;
+            _borderAlpha = UIStyleManager.MENU_BORDER_ALPHA;
         
         if (UIStyleManager.MENU_SUB_BORDER_THINKNESS != -1) 
             _subThinkness = UIStyleManager.MENU_SUB_BORDER_THINKNESS;
@@ -656,16 +656,16 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
         
         // Sub Menu Text
         if (UIStyleManager.MENU_SUB_LABEL_TEXT_NORMAL_COLOR != -1) 
-            _textColor = UIStyleManager.MENU_SUB_LABEL_TEXT_NORMAL_COLOR;
+            _subTextColor = UIStyleManager.MENU_SUB_LABEL_TEXT_NORMAL_COLOR;
         
         if (UIStyleManager.MENU_SUB_LABEL_TEXT_OVER_COLOR != -1) 
-            _textOverColor = UIStyleManager.MENU_SUB_LABEL_TEXT_OVER_COLOR;
+            _subTextOverColor = UIStyleManager.MENU_SUB_LABEL_TEXT_OVER_COLOR;
         
         if (UIStyleManager.MENU_SUB_LABEL_TEXT_DOWN_COLOR != -1) 
-            _textSelectedColor = UIStyleManager.MENU_SUB_LABEL_TEXT_DOWN_COLOR;
+            _subTextSelectedColor = UIStyleManager.MENU_SUB_LABEL_TEXT_DOWN_COLOR;
         
         if (UIStyleManager.MENU_SUB_LABEL_TEXT_DISABLE_COLOR != -1) 
-            _textDisableColor = UIStyleManager.MENU_SUB_LABEL_TEXT_DISABLE_COLOR;
+            _subTextDisableColor = UIStyleManager.MENU_SUB_LABEL_TEXT_DISABLE_COLOR;
     }
     
     private function initBitmap() : Void
@@ -1678,7 +1678,7 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
                 menu.addEventListener(MouseEvent.CLICK, onClick, false, 5, true);
                 
                 styleSubMenuButton(menu);
-				menu.draw();
+				
             }
         }
         
@@ -1839,6 +1839,7 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
     private function styleMenuButton(menu : IMenuItem) : Void
     {
         //TODO: Look into moving this into object that builds the butto later
+        
         menu.textColor = _textColor;
         menu.textOverColor = _textOverColor;
         menu.textSelectedColor = _textSelectedColor;
@@ -1850,7 +1851,7 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
         menu.disableColor = _disableFillColor;
         
         //menu.fillAlpha = _alpha;
-        menu.lineAlpha = _lineAlpha;
+        menu.borderAlpha = _borderAlpha;
         menu.border = _border;
         menu.borderThinkness = _thinkness;
         
@@ -1885,7 +1886,7 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
     
     private function styleSubMenuButton(menu : IMenuItem) : Void
     {
-		//TODO: Look into moving this into object that builds the butto later
+        //TODO: Look into moving this into object that builds the butto later
         menu.textColor = _subTextColor;
         menu.textOverColor = _subTextOverColor;
         menu.textSelectedColor = _subTextSelectedColor;
@@ -1898,7 +1899,7 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
         menu.disableColor = _subMenuDisableColor;
         
         //menu.fillAlpha = _subAlpha;
-        menu.lineAlpha = _subLineAlpha;
+        menu.borderAlpha = _subLineAlpha;
         menu.border = _subBorder;
         menu.borderThinkness = _subThinkness;
         

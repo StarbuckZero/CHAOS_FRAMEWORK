@@ -168,7 +168,7 @@ class CheckBox extends SelectToggleBase implements ICheckBox implements IBaseUI
 	 * @param	image The image
 	 */
 	
-	override public function drawButtonState(square:Shape, color:Int = 0xFFFFFF, image:BitmapData = null):Void 
+	override public function drawButtonState(square:Shape, color:Int = 0xFFFFFF, borderColor:Int = 0x000000, image:BitmapData = null):Void 
 	{
 		super.drawButtonState(square, color, image);
 		

@@ -274,6 +274,11 @@ class ScrollBar extends BaseUI implements IScrollBar implements IBaseUI
 				
 				_upIconButtonImage.dispose();
 				_upIconButtonImage = null;
+			}
+			else 
+			{
+				var upArrowIcon : ArrowUpIcon = new ArrowUpIcon({"width":4, "height":4});
+				_upButton.setIcon(CompositeManager.displayObjectToBitmap(upArrowIcon, _smoothImage, upArrowIcon.width, upArrowIcon.height));
 			}			
 			
 			if (null != _downIconButtonImage)
@@ -282,17 +287,16 @@ class ScrollBar extends BaseUI implements IScrollBar implements IBaseUI
 				
 				_downIconButtonImage.dispose();
 				_downIconButtonImage = null;
-			}		
+			}
+			else
+			{
+				var downArrowIcon : ArrowDownIcon = new ArrowDownIcon({"width":4,"height":4});
+				_downButton.setIcon(CompositeManager.displayObjectToBitmap(downArrowIcon,_smoothImage, downArrowIcon.width, downArrowIcon.height));
+			}	
 			
 		}
 		
 		super.initialize();
-		
-		var upArrowIcon : ArrowUpIcon = new ArrowUpIcon({"width":4, "height":4});
-		var downArrowIcon : ArrowDownIcon = new ArrowDownIcon({"width":4,"height":4});
-		
-		_upButton.setIcon(CompositeManager.displayObjectToBitmap(upArrowIcon, _smoothImage, upArrowIcon.width, upArrowIcon.height));
-		_downButton.setIcon(CompositeManager.displayObjectToBitmap(downArrowIcon,_smoothImage, upArrowIcon.width, upArrowIcon.height));
 		
 		_upButton.addEventListener(MouseEvent.MOUSE_DOWN, arrowPressedUp, false, 0, true);
 		_downButton.addEventListener(MouseEvent.MOUSE_DOWN, arrowPressedDown, false, 0, true);

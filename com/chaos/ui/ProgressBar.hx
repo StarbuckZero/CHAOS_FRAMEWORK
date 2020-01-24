@@ -281,8 +281,8 @@ class ProgressBar extends BaseUI implements IProgressBar implements IBaseUI
 		if ( -1 != UIStyleManager.PROGRESSBAR_TEXT_COLOR)
 			_textColor = UIStyleManager.PROGRESSBAR_TEXT_COLOR;
 
-		if ( -1 != UIStyleManager.PROGRESSBAR_COLOR_LOADED)
-			_textLoadedColor = UIStyleManager.PROGRESSBAR_COLOR_LOADED;
+		if ( -1 != UIStyleManager.PROGRESSBAR_TEXT_LOADED_COLOR)
+			_textLoadedColor = UIStyleManager.PROGRESSBAR_TEXT_LOADED_COLOR;
 
 		if ( -1 != UIStyleManager.PROGRESSBAR_BORDER_THINKNESS)
 			_thinkness = UIStyleManager.PROGRESSBAR_BORDER_THINKNESS;
@@ -769,6 +769,7 @@ class ProgressBar extends BaseUI implements IProgressBar implements IBaseUI
 		// Set loading text
 		_label.text = _loadedLabel.text = Std.string(_percent);
 		_label.draw();
+		_loadedLabel.draw();
 
 		// Set Mask area
 		_loadedBar.mask = _mask;

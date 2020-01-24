@@ -238,8 +238,8 @@ class TabPane extends BaseUI implements ITabPane implements IBaseUI
 		if (-1 != UIStyleManager.TABPANE_BUTTON_TEXT_COLOR)
 			_tabButtonTextColor = UIStyleManager.TABPANE_BUTTON_TEXT_COLOR;
 
-		if ( -1 != UIStyleManager.TABPANE_BUTTON_SELECTED_COLOR)
-			_tabButtonSelectedColor = UIStyleManager.TABPANE_BUTTON_SELECTED_COLOR;
+		if ( -1 != UIStyleManager.TABPANE_BUTTON_TEXT_COLOR_SELECTED)
+			_tabButtonTextSelectedColor = UIStyleManager.TABPANE_BUTTON_TEXT_COLOR_SELECTED;
 
 	}
 	
@@ -259,6 +259,9 @@ class TabPane extends BaseUI implements ITabPane implements IBaseUI
 			var button:Button = cast(buttonArea.getChildByName(Std.string(i)), Button);
 			
 			button.removeEventListener(MouseEvent.CLICK, tabPress);
+			button.removeEventListener(MouseEvent.MOUSE_UP, onMouseUp);
+			button.removeEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
+
 			buttonArea.removeChild(button);
 			
 			button.destroy();
@@ -365,6 +368,8 @@ class TabPane extends BaseUI implements ITabPane implements IBaseUI
 
 		tabButton.text = value;
 		tabButton.addEventListener(MouseEvent.CLICK, tabPress);
+		tabButton.addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
+		tabButton.addEventListener(MouseEvent.MOUSE_UP, onMouseUp);
 
 		buttonArea.addChild(tabButton);
 		_contentList.addItem(tempObject);
@@ -734,5 +739,30 @@ class TabPane extends BaseUI implements ITabPane implements IBaseUI
 			
 		}
 	}
+
+	private function onMouseDown(event : MouseEvent) : Void {
+
+		var button:Button =  cast(event.currentTarget, Button);
+
+		if(button.enabled)
+		{
+			button.textColor = _tabButtonTextSelectedColor;
+			button.draw();
+		}
+	}
+
+	private function onMouseUp(event : MouseEvent) : Void {
+		
+		var button:Button =  cast(event.currentTarget, Button);
+
+		if(button.enabled)
+		{
+			button.textColor = _tabButtonTextColor;
+			button.draw();
+		}
+
+	}
+
+
 
 }

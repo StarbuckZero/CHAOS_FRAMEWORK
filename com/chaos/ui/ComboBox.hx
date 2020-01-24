@@ -526,8 +526,8 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 		if ( -1 != UIStyleManager.COMBO_BORDER_COLOR)
 			_outlineColor = UIStyleManager.COMBO_BORDER_COLOR;
 
-		if ( -1 != UIStyleManager.COMBO_BORDER_COLOR)
-			_backgroundColor = UIStyleManager.COMBO_BORDER_COLOR;
+		if ( -1 != UIStyleManager.COMBO_BACKGROUND_COLOR)
+			_backgroundColor = UIStyleManager.COMBO_BACKGROUND_COLOR;
 
 		if ( -1 != UIStyleManager.COMBO_BORDER_ALPHA)
 			_outlineAlpha = UIStyleManager.COMBO_BORDER_ALPHA;
@@ -538,12 +538,12 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 		if ( -1 != UIStyleManager.COMBO_TEXT_COLOR)
 			_textColor = UIStyleManager.COMBO_TEXT_COLOR;
 
-		if ( -1 != UIStyleManager.COMBO_TEXT_NORMAL_BACKGROUND_COLOR)
-			_backgroundColor = UIStyleManager.COMBO_TEXT_NORMAL_BACKGROUND_COLOR;
+		//if ( -1 != UIStyleManager.COMBO_TEXT_NORMAL_BACKGROUND_COLOR)
+		//	_backgroundColor = UIStyleManager.COMBO_TEXT_NORMAL_BACKGROUND_COLOR;
 
 	}
 
-	private function initDropDownButton() : Void
+	private function initBitmpDropDownButton() : Void
 	{
 
 		if (null != UIBitmapManager.getUIElement(ComboBox.TYPE, UIBitmapManager.COMBO_BACKGROUND))
@@ -617,7 +617,7 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 		}
 	}
 
-	private function initScrollBar() : Void
+	private function initBitmapScrollBar() : Void
 	{
 		
 		
@@ -790,7 +790,6 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 		if ( -1 != UIStyleManager.COMBO_TEXT_DOWN_BACKGROUND_COLOR)
 			_textDownBackground = UIStyleManager.COMBO_TEXT_DOWN_BACKGROUND_COLOR;
 
-		
 			
 		// Drop Down Button
 		_buttonData = {};
@@ -846,9 +845,11 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 		
 		initBorder();
 		initComboBoxStyle();
-		initDropDownButton();
+		
 		initLabel();
-		initScrollBar();
+
+		initBitmpDropDownButton();
+		initBitmapScrollBar();
 
 	}
 	
@@ -1353,6 +1354,7 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 		label.textColor = _textColor;
 		label.backgroundColor = _backgroundColor;
 		label.background = true;
+		label.draw();
 	}
 
 	private function textOverEvent(event : MouseEvent) : Void
@@ -1366,6 +1368,7 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 		label.textColor = _textOverColor;
 		label.backgroundColor = _textOverBackground;
 		label.background = true;
+		label.draw();
 	}
 
 	private function textDownEvent(event : MouseEvent) : Void
@@ -1376,6 +1379,7 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 		label.textColor = _textDownColor;
 		label.backgroundColor = _textDownBackground;
 		label.background = true;
+		label.draw();
 	}
 
 	private function textUpEvent(event : MouseEvent) : Void
@@ -1556,7 +1560,7 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 		
 		
 		// This will be used to create the label
-		var labelData:Dynamic = {"width": (_scrollbar.visible)  ? _width + SCROLLBAR_OFFSET + _scrollbar.width - _buttonWidth : _width, "height": _height + SCROLLBAR_OFFSET, "textColor": _textColor, "bitmapMode":true, "background":true};
+		var labelData:Dynamic = {"width": (_scrollbar.visible)  ? _width + SCROLLBAR_OFFSET + _scrollbar.width - _buttonWidth : _width, "height": _height + SCROLLBAR_OFFSET, "textColor": _textColor, "backgroundColor":_backgroundColor,"bitmapMode":true, "background":true};
 		
 		// Create labels
 		for (i in 0 ... labelCount)

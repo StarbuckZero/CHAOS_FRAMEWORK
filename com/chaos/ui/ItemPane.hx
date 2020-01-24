@@ -817,6 +817,7 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
             
             if (null != _list.getItemAt(_selectedIndex)) 
                 _list.getItemAt(_selectedIndex).selected = toggleButton.selected = true;
+
         }
         else 
         {
@@ -825,7 +826,7 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
         }
         
         _selectedIndex = Std.parseInt(toggleButton.name);
-		
+        
 		toggleButton.draw();
         dispatchEvent(new Event(Event.CHANGE));
 		

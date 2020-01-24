@@ -415,8 +415,7 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 		_closeButton = new Button(_closeButtonData);
 		_minButton = new Button(_minButtonData);
 		_maxButton = new Button(_maxButtonData);
-		
-		
+
 		// Clear objects
 		_maxButtonData = _minButtonData = _closeButtonData = _labelData = _scrollPanelData = null;
 		
@@ -614,7 +613,7 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 			
 		if (_maxButtonData == null)
 			_maxButtonData = {"name":WindowEvent.WINDOW_MAX_BTN, "showLabel":false, "defaultColor":DEFAULT_MAX_BTN_COLOR};
-			
+
 			
 		if ( -1 != UIStyleManager.WINDOW_BACKGROUND_COLOR) 
 			Reflect.setField(_scrollPanelData, "backgroundColor", UIStyleManager.WINDOW_BACKGROUND_COLOR);
@@ -659,6 +658,7 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 		// Min Button
 		if ( -1 != UIStyleManager.WINDOW_MIN_NORMAL_COLOR)
 			Reflect.setField(_minButtonData, "defaultColor", UIStyleManager.WINDOW_MIN_NORMAL_COLOR);
+	
 		
 		if ( -1 != UIStyleManager.WINDOW_MIN_OVER_COLOR)      
 			Reflect.setField(_minButtonData, "overColor", UIStyleManager.WINDOW_MIN_OVER_COLOR);
@@ -677,7 +677,7 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 		if ( -1 != UIStyleManager.WINDOW_MAX_OVER_COLOR)  
 			Reflect.setField(_maxButtonData, "overColor", UIStyleManager.WINDOW_MAX_OVER_COLOR);
 		
-		
+
 		if ( -1 != UIStyleManager.WINDOW_MAX_DOWN_COLOR)        
 			Reflect.setField(_maxButtonData, "downColor", UIStyleManager.WINDOW_MAX_DOWN_COLOR);
 		
@@ -696,6 +696,18 @@ class Window extends BaseUI implements IWindow implements IBaseUI
         
 		if ( -1 != UIStyleManager.WINDOW_CLOSE_DISABLE_COLOR)      
 			Reflect.setField(_closeButtonData, "disableColor", UIStyleManager.WINDOW_CLOSE_DISABLE_COLOR);
+
+		// Set min button data
+		if(_minButton != null)
+			_minButton.setComponentData(_minButtonData);
+
+		// Set max button data
+		if(_maxButton != null)
+			_maxButton.setComponentData(_maxButtonData);
+		
+		// Set close button data
+		if(_closeButton != null)
+			_closeButton.setComponentData(_closeButtonData);
     }
 	
 	/* Properties */  

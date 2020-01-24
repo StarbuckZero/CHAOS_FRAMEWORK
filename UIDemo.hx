@@ -172,7 +172,7 @@ class UIDemo extends Sprite
         showWindowButton = new Button({"text":"Show Window", "width":100, "height":20, "x":(inputBox.x + inputBox.width + OFFSET), "y":inputBox.y});
         showWindowButton.addEventListener(MouseEvent.CLICK, onShowWindowClick, false, 0, true);
         
-        window = new Window({"width":200, "height":200, "windowColor": 0x999999, "windowTitleColor": 0x999999, "Label":{"text":"Window"}});
+        window = new Window({"width":200, "height":200,  "Label":{"text":"Window"}});
 		window.x = ((stage.stageWidth / 2) - (window.width / 2));
 		window.y = ((stage.stageHeight / 2) - (window.height / 2));
 		//window.textLabel.text = "Window";
@@ -189,7 +189,7 @@ class UIDemo extends Sprite
         tabPane = new TabPane({"width":300, "height":200,"x":alertButton.x,"y":(alertButton.y + alertButton.height + OFFSET)});
         tabPane.addItem("One", new Label({"text":"One", "width":100, "height":20}));
         tabPane.addItem("Two", new Label({"text":"Two", "width":100, "height":20}));
-		tabPane.addItem("Three", new Label({"text":"Three", "width":100, "height":20}));
+        tabPane.addItem("Three", new Label({"text":"Three", "width":100, "height":20}));
 		
         
         // Box for Tool-tip
@@ -206,7 +206,7 @@ class UIDemo extends Sprite
 		toolBox.graphics.endFill();
         
         ToolTip.followMouse = true;
-        ToolTip.attach(toolTipBox, "Look a Tool-tip", 100, 100, 0, 0x666666);		
+        ToolTip.attach(toolTipBox, "Look a Tool-tip", 100, 100);
 		
         toolTipBox.x = showWindowButton.x + showWindowButton.width + OFFSET;
         toolTipBox.y = showWindowButton.y;
@@ -273,7 +273,7 @@ class UIDemo extends Sprite
 		var menuData:Array<Dynamic> = new Array<Dynamic>();
 		menuData.push({"text":"Top Level", "value":"0", "data":subMenuData});
 		
-        var menu:Menu = new Menu({"name":"PeopleMenu", "width":100, "height":40, "border":true, "subBorder":true, "textColor":0xFFFFFF, "subNormalLineColor":0, "x":tabPane.x, "y":(tabPane.y + tabPane.height + OFFSET), "direction":"horizontal", "data":menuData});
+        var menu:Menu = new Menu({"name":"PeopleMenu", "width":100, "height":40, "border":true, "subBorder":true, "x":tabPane.x, "y":(tabPane.y + tabPane.height + OFFSET), "direction":"horizontal", "data":menuData});
         
 
 		var accordionLabel1:Label = new Label({"text":"Section 1","width":100,"height":20});
@@ -283,8 +283,6 @@ class UIDemo extends Sprite
         var sectionArray:Array<Dynamic> = [{"name":"Section1","text":"Section 1","content":accordionLabel1},{"name":"Section2","text":"Section 2","content":accordionLabel2},{"name":"Section3","text":"Section 3","content":accordionLabel3}];
         
         accordion  = new Accordion({"width":300,"height":160,"data":sectionArray,"x":menu.x + menu.width + OFFSET, "y":(menu.y )});
-
-        addChild(accordion);
 
 
         ThreadManager.stage = stage;
@@ -313,7 +311,9 @@ class UIDemo extends Sprite
         
         addChild(itemPane);
         addChild(menu.displayObject);
+        addChild(accordion);
         addChild(window.displayObject);
+        
     }
     
     private function onHideWindow(event : WindowEvent) : Void

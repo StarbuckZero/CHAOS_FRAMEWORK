@@ -94,6 +94,7 @@ class UIStyleManager
     public static var BUTTON_TEXT_EMBED : Font = null;
     public static var BUTTON_TEXT_FONT : String = "";
     public static var BUTTON_TEXT_COLOR : Int = -1;
+    public static var BUTTON_TEXT_DISABLE_COLOR : Int = -1;
     public static var BUTTON_TEXT_SIZE : Int = -1;
     
     public static var BUTTON_TEXT_BOLD : Bool = false;
@@ -201,6 +202,7 @@ class UIStyleManager
     public static var COMBO_BORDER_ALPHA : Float = -1;
     public static var COMBO_BORDER : Bool = true;
     public static var COMBO_BORDER_COLOR : Int = -1;
+    public static var COMBO_BACKGROUND_COLOR : Int = -1;
     public static var COMBO_BORDER_THINKNESS : Float = -1;
     
 	public static var COMBO_DROPDOWN_PADDING : Int = -1;
@@ -256,6 +258,7 @@ class UIStyleManager
     
     public static var LIST_TEXT_NORMAL_COLOR : Int = -1;
     public static var LIST_TEXT_OVER_COLOR : Int = -1;
+    public static var LIST_TEXT_OVER_BACKGROUND_COLOR : Int = -1;
     public static var LIST_TEXT_SELECTED_COLOR : Int = -1;
     
     public static var LIST_TEXT_SELECTED_BACKGROUND_COLOR : Int = -1;
@@ -426,6 +429,7 @@ class UIStyleManager
     public static var ITEMPANE_TEXT_EMBED : Font = null;
     public static var ITEMPANE_TEXT_FONT : String = "";
     public static var ITEMPANE_TEXT_COLOR : Int = -1;
+    public static var ITEMPANE_TEXT_SELECTED_COLOR : Int = -1;
     
     public static var ITEMPANE_TEXT_BOLD : Bool = false;
     public static var ITEMPANE_TEXT_ITALIC : Bool = false;
@@ -477,6 +481,21 @@ class UIStyleManager
     public static var TABPANE_BORDER : Bool = true;
     public static var TABPANE_BORDER_COLOR : Int = -1;
     public static var TABPANE_BORDER_THINKNESS : Float = -1;
+
+    public static var TOGGLE_BUTTON_BORDER : Bool = false;
+    public static var TOGGLE_BUTTON_BORDER_ALPHA : Float = -1;
+    
+    public static var TOGGLE_BUTTON_BORDER_NORMAL_COLOR : Int = -1;
+    public static var TOGGLE_BUTTON_BORDER_OVER_COLOR : Int = -1;
+    public static var TOGGLE_BUTTON_BORDER_DISABLE_COLOR : Int = -1;
+    public static var TOGGLE_BUTTON_BORDER_SELECTED_COLOR : Int = -1;
+
+    public static var TOGGLE_BUTTON_BORDER_THINKNESS : Float = -1;
+
+    public static var TOGGLE_BUTTON_NORMAL_COLOR : Int = -1;
+    public static var TOGGLE_BUTTON_OVER_COLOR : Int = -1;
+    public static var TOGGLE_BUTTON_DISABLE_COLOR : Int = -1;
+    public static var TOGGLE_BUTTON_SELECTED_COLOR : Int = -1;
     
     public static var TOOLTIP_BACKGROUND_NORMAL_COLOR : Int = -1;
     public static var TOOLTIP_BACKGROUND_ALPHA : Float = 1;
@@ -539,6 +558,10 @@ class UIStyleManager
 	
     public static var MENU_BACKGROUND_COLOR : Int = -1;
     public static var MENU_BACKGROUND_ALPHA : Float = -1;
+
+    public static var ICON_BORDER : Bool = false;
+    public static var ICON_COLOR : Int = -1;
+    public static var ICON_BORDER_COLOR : Int = -1;
     
     public static var MENU_NORMAL_COLOR : Int = -1;
     public static var MENU_OVER_COLOR : Int = -1;

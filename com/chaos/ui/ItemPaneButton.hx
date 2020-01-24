@@ -1,5 +1,6 @@
 package com.chaos.ui;
 
+import openfl.events.MouseEvent;
 import com.chaos.ui.classInterface.ILabel;
 import com.chaos.ui.classInterface.IToggleButton;
 import openfl.display.BitmapData;
@@ -27,6 +28,10 @@ class ItemPaneButton extends ToggleButton implements IToggleButton
 	private var _label : Label;
 	private var _icon : Shape;
 	private var _item : Shape;
+
+	private var _defaultTextColor : Int = 0x000000;
+	private var _selectedTextColor : Int = 0x000000;
+	 
 	
 	private var _itemLocX : Int = 0;
 	private var _itemLocY : Int = 0;
@@ -40,6 +45,17 @@ class ItemPaneButton extends ToggleButton implements IToggleButton
 	{
 		super(data);
 		
+	}
+
+	override function reskin() {
+		super.reskin();
+
+		if(-1 != UIStyleManager.ITEMPANE_TEXT_COLOR)
+			_defaultTextColor = UIStyleManager.ITEMPANE_TEXT_COLOR;
+		
+		if(-1 != UIStyleManager.ITEMPANE_TEXT_SELECTED_COLOR)
+			_selectedTextColor = UIStyleManager.ITEMPANE_TEXT_SELECTED_COLOR;
+
 	}
 	
 	/**
@@ -74,6 +90,9 @@ class ItemPaneButton extends ToggleButton implements IToggleButton
 		
 		removeChild(_label);
 		
+		removeEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
+		removeEventListener(MouseEvent.MOUSE_UP, onMouseUp);
+
 		_label.destroy();
 		_label = null;
 		
@@ -93,6 +112,9 @@ class ItemPaneButton extends ToggleButton implements IToggleButton
 		_icon = new Shape();
 		_item = new Shape();
 		
+		addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown, false, 0, true);
+		addEventListener(MouseEvent.MOUSE_UP, onMouseUp, false, 0, true);
+
 		super.initialize();
 		
 		_labelData = null;
@@ -159,7 +181,36 @@ class ItemPaneButton extends ToggleButton implements IToggleButton
 		
 		_item.x = _itemLocX;
 		_item.y = _itemLocY;
+
 		
 	}
+
+	private function onMouseUp(event:MouseEvent) {
+		
+		if(_enabled)
+		{
+			if(_selected)
+				label.textColor = _selectedTextColor;
+			else 
+				label.textColor = _defaultTextColor;
+
+			_label.draw();
+		}
+			
+	}
+
+	private function onMouseDown(event:MouseEvent) {
+
+		if(_enabled)
+		{
+			label.textColor = _selectedTextColor;
+			_label.draw();
+		}
+
+	}
+
+	
+
+
 	
 }

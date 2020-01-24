@@ -47,36 +47,6 @@ class MenuItem extends Button implements IMenuItem implements IToggleButton impl
 	 */
 	
     public var parentMenuItem(get, set) : IMenuItem;
-    
-    /**
-	 * Border color for normal button state
-	 */
-	
-    public var normalBorderColor(get, set) : Int;
-	
-    /**
-	 * Border color for over button state
-	 */
-	
-    public var overBorderColor(get, set) : Int;
-	
-    /**
-	 * Border color for down button state
-	 */
-	
-    public var downBorderColor(get, set) : Int;
-	
-    /**
-	 * Border color for disable button state
-	 */
-	
-    public var disableBorderColor(get, set) : Int;
-	
-    /**
-	 * Set the border menu button alpha
-	 */
-	
-	public var lineAlpha(get, set) : Float;
 	
     /**
 	 * Set the label over state color
@@ -103,12 +73,6 @@ class MenuItem extends Button implements IMenuItem implements IToggleButton impl
     public var border(get, set) : Bool;
 	
     /**
-	 * Border thinkness
-	 */
-	
-    public var borderThinkness(get, set) : Float;
-	
-    /**
 	 * Show or hide the Sub menu icon
 	 */
     	
@@ -126,11 +90,6 @@ class MenuItem extends Button implements IMenuItem implements IToggleButton impl
     
     private static inline var DEFAULT_WIDTH : Float = 20;
     private static inline var DEFAULT_HEIGHT : Float = 20;
-    
-    private var _normalLineColor : Int = 0x000000;
-    private var _overLineColor : Int = 0x666666;
-    private var _downLineColor : Int = 0x000000;
-    private var _disableLineColor : Int = 0xCCCCCC;
 	
     private var _textColor : Int = 0x000000;
     private var _textOverColor : Int = 0xFFFFFF;
@@ -145,7 +104,7 @@ class MenuItem extends Button implements IMenuItem implements IToggleButton impl
     
     private var _subMenuDisplayImage : BitmapData;
     
-    private var _border : Bool = false;
+    
     private var _thinkness : Float = 1;
     
     
@@ -180,20 +139,6 @@ class MenuItem extends Button implements IMenuItem implements IToggleButton impl
 	{
 		super.setComponentData(data);
 		
-		// Border Lines 
-		if (Reflect.hasField(data, "normalLineColor"))
-		_normalLineColor = Reflect.field(data,"normalLineColor");
-		
-		if (Reflect.hasField(data, "overLineColor"))
-		_overLineColor = Reflect.field(data,"overLineColor");
-
-		if (Reflect.hasField(data, "downLineColor"))
-		_downLineColor = Reflect.field(data,"downLineColor");
-		
-		if (Reflect.hasField(data, "disableLineColor"))
-		_disableLineColor = Reflect.field(data,"disableLineColor");
-		
-		
 		// Text Label
 		if (Reflect.hasField(data, "textColor"))
 		_textColor = Reflect.field(data, "textColor");
@@ -220,6 +165,8 @@ class MenuItem extends Button implements IMenuItem implements IToggleButton impl
 		
 		super.initialize();
         
+        addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown,false,0,true);
+        addEventListener(MouseEvent.MOUSE_UP, onMouseUp,false,0,true);
         addEventListener(MouseEvent.MOUSE_OVER, onMenuOver, false, 0, true);
         addEventListener(MouseEvent.MOUSE_OUT, onMenuOut, false, 0, true);
         addEventListener(MouseEvent.CLICK, onMenuClick, false, 0, true);
@@ -233,7 +180,9 @@ class MenuItem extends Button implements IMenuItem implements IToggleButton impl
 	override public function destroy():Void 
 	{
 		super.destroy();
-		
+        
+        removeEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
+        removeEventListener(MouseEvent.MOUSE_UP, onMouseUp);
         removeEventListener(MouseEvent.MOUSE_OVER, onMenuOver);
         removeEventListener(MouseEvent.MOUSE_OUT, onMenuOut);
         removeEventListener(MouseEvent.CLICK, onMenuClick);
@@ -319,86 +268,6 @@ class MenuItem extends Button implements IMenuItem implements IToggleButton impl
         
         super.enabled = value;
         return value;
-    }
-   
-    
-    /**
-	 * Border color for normal button state
-	 */
-    
-    private function set_normalBorderColor(value : Int) : Int
-    {
-        _normalLineColor = value;
-        
-        return value;
-    }
-    
-    /**
-	 * Return the color
-	 */
-    private function get_normalBorderColor() : Int
-    {
-        return _normalLineColor;
-    }
-    
-    /**
-	 * Border color for over button state
-	 */
-    
-    private function set_overBorderColor(value : Int) : Int
-    {
-        _overLineColor = value;
-        
-        return value;
-    }
-    
-    /**
-	 * Return the color
-	 */
-    
-    private function get_overBorderColor() : Int
-    {
-        return _overLineColor;
-    }
-    
-    /**
-	 * Border color for down button state
-	 */
-    
-    private function set_downBorderColor(value : Int) : Int
-    {
-        _downLineColor = value;
-        
-        return value;
-    }
-    
-    /**
-	 * Return the color
-	 */
-	
-    private function get_downBorderColor() : Int
-    {
-        return _downLineColor;
-    }
-    
-    /**
-	 * Border color for disable button state
-	 */
-    
-    private function set_disableBorderColor(value : Int) : Int
-    {
-        _disableLineColor = value;
-        
-        return value;
-    }
-    
-    /**
-	 * Return the color
-	 */
-	
-    private function get_disableBorderColor() : Int
-    {
-        return _disableLineColor;
     }
 	
     /**
@@ -510,46 +379,6 @@ class MenuItem extends Button implements IMenuItem implements IToggleButton impl
     {
         return _textDisableColor;
     }
-
-    
-    /**
-	 * Show or hide border around button
-	 */
-    
-    private function set_border(value : Bool) : Bool
-    {
-        _border = value;
-        
-        return value;
-    }
-    
-    /**
-	 * Return true if border is being shown and false if not
-	 */
-	
-    private function get_border() : Bool
-    {
-        return _border;
-    }
-    
-    /**
-	 * Border thinkness
-	 */
-	
-    private function set_borderThinkness(value : Float) : Float
-    {
-        _thinkness = value;
-        return value;
-    }
-    
-    /**
-	 * Return thinkness
-	 */
-    
-    private function get_borderThinkness() : Float
-    {
-        return _thinkness;
-    }
     
     /**
 	 * Show or hide the Sub menu icon
@@ -607,7 +436,8 @@ class MenuItem extends Button implements IMenuItem implements IToggleButton impl
     override public function draw() : Void
     {
 		super.draw();
-		
+        
+        /*
         if (_border) 
 		{
 			
@@ -620,7 +450,8 @@ class MenuItem extends Button implements IMenuItem implements IToggleButton impl
 			overState.graphics.drawRect(0, 0, _width, _height);
 			downState.graphics.drawRect(0, 0, _width, _height);
 			disableState.graphics.drawRect(0, 0, _width, _height);
-		}
+        }
+        */
 		
 	}
     
@@ -643,6 +474,21 @@ class MenuItem extends Button implements IMenuItem implements IToggleButton impl
             _label.textColor = _textSelectedColor;
         else 
             _label.textColor = _textColor;
+
+        _label.draw();
+    }
+
+    private function onMouseDown(event : MouseEvent) 
+    {
+        _label.textColor = _textSelectedColor;
+        _label.draw();
+    }
+
+    private function onMouseUp(event : MouseEvent)
+    {
+        _label.textColor = _textColor;
+        _label.draw();
+        
     }
 
 }

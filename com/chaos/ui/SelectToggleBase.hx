@@ -149,7 +149,7 @@ class SelectToggleBase extends ToggleButton implements IToggleButton implements 
 		super.initialize();
 	}
 	
-	private function initStyle() : Void
+	override private function initStyle() : Void
 	{
 
 	}
@@ -244,16 +244,16 @@ class SelectToggleBase extends ToggleButton implements IToggleButton implements 
 		return _label;
 	}
 	
-	private function set_lineAlpha( value:Float ) : Float
-	{
+	private function set_lineAlpha( value:Float ) : Float {
 		_lineAlpha = value;
+
 		return value;
 	}
-	
-	private function get_lineAlpha() : Float
-	{
+
+	private function get_lineAlpha() : Float {
 		return _lineAlpha;
 	}
+	
 	
 	private function set_lineSize( value:Float ) : Float
 	{
@@ -300,10 +300,10 @@ class SelectToggleBase extends ToggleButton implements IToggleButton implements 
 			downState.visible = true;
 			disableState.visible = normalState.visible = false;
 			
-			drawButtonState(normalState, _defaultColor, _selectedDefaultStateImage);
-			drawButtonState(overState, _overColor, _selectedOverStateImage);
-			drawButtonState(downState, _downColor, _selectedDownStateImage);
-			drawButtonState(disableState, _disableColor, _selectedDisableStateImage);		
+			drawButtonState(normalState, _defaultColor, _normalBorderColor, _selectedDefaultStateImage);
+			drawButtonState(overState, _overColor, _overBorderColor, _selectedOverStateImage);
+			drawButtonState(downState, _downColor, _downBorderColor, _selectedDownStateImage);
+			drawButtonState(disableState, _disableColor, _disableColor, _selectedDisableStateImage);		
 		}
 		else
 		{
@@ -354,8 +354,8 @@ class SelectToggleBase extends ToggleButton implements IToggleButton implements 
 	 * @param	color The color of the shape if no image being passed
 	 * @param	image The image
 	 */
-	
-	override public function drawButtonState(square:Shape, color:Int = 0xFFFFFF, image:BitmapData = null):Void 
+
+	override public function drawButtonState(square:Shape, color:Int = 0xFFFFFF, borderColor:Int = 0x000000, image:BitmapData = null):Void 
 	{
 		
 		square.graphics.clear();

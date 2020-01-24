@@ -1,6 +1,7 @@
 package com.chaos.drawing.icon;
 
 
+import com.chaos.ui.UIStyleManager;
 import com.chaos.drawing.icon.classInterface.IBasicIcon;
 import com.chaos.ui.BaseUI;
 
@@ -100,7 +101,19 @@ class BaseIcon extends BaseUI implements IBasicIcon implements IBaseUI
 		
 		_iconArea = null;
 		_image = null;
-	}
+    }
+    
+    override function reskin() {
+        super.reskin();
+
+        if(-1 != UIStyleManager.ICON_COLOR)
+            _baseColor = UIStyleManager.ICON_COLOR;
+
+        if(-1 != UIStyleManager.ICON_BORDER_COLOR)
+            _borderColor = UIStyleManager.ICON_BORDER_COLOR;
+
+        _border = UIStyleManager.ICON_BORDER;
+    }
 	
     
 
