@@ -124,6 +124,8 @@ class UIBitmapManager {
 
 	public static inline var SCROLLBAR_UP_ICON:String = "scrollbar_up_icon";
 	public static inline var SCROLLBAR_DOWN_ICON:String = "scrollbar_down_icon";
+	public static inline var SCROLLBAR_RIGHT_ICON:String = "scrollbar_right_icon";
+	public static inline var SCROLLBAR_LEFT_ICON:String = "scrollbar_left_icon";
 
 	public static inline var SCROLLBAR_SLIDER_BUTTON_NORMAL:String = "scrollbar_slider_button_normal";
 	public static inline var SCROLLBAR_SLIDER_BUTTON_OVER:String = "scrollbar_slider_button_over";
@@ -237,9 +239,10 @@ class UIBitmapManager {
 	public static inline var WINDOW_BOTTOM_PATTERN_OVERLAY:String = "window_bottom_pattern_overlay";
 
 	private static var initialized:Bool = false;
-	private static var skinTheme:Dynamic;
 
+	private static var skinTheme:Dynamic;
 	private static var watchList:Dynamic;
+	private static var customRender:Dynamic;
 
     /** Components that will be used for skinning **/
 	private static var componentNameList:Array<String> = [
@@ -281,6 +284,9 @@ class UIBitmapManager {
         for( i in 0 ... componentNameList.length)
             Reflect.setField(watchList, componentNameList[i], new DataProvider<IBaseUI>());
 
+		// Custom bitmap calls
+		customRender = {};
+		
 		initialized = true;
 	}
 
@@ -398,8 +404,13 @@ class UIBitmapManager {
 		if (!initialized)
 			initializeManager();
 
-		return ((null == Reflect.field(Reflect.field(skinTheme, UITypeElement),
+		var bitmapData:BitmapData = ((null == Reflect.field(Reflect.field(skinTheme, UITypeElement),
 			style))) ? null : Reflect.field(Reflect.field(skinTheme, UITypeElement), style);
+
+		if(null != bitmapData)
+			return bitmapData.clone();
+
+		return null;
 	}
 
 	/**
@@ -410,15 +421,14 @@ class UIBitmapManager {
 	 *
 	 * @return Returns a DisplayObject or null
 	 *
-	 * @example UIBitmapManager.getUIElement(CheckBox.TYPE, UIBitmapManager.CHECK_BUTTON_NORMAL );
+	 * @example UIBitmapManager.getUIElementMask(CheckBox.TYPE, UIBitmapManager.CHECK_BUTTON_NORMAL );
 	 */
 	public static function getUIElementMask(UITypeElement:String, style:String):DisplayObject {
 		// Make sure everything is setup
 		if (!initialized)
 			initializeManager();
 
-		return ((null == Reflect.field(Reflect.field(skinTheme, UITypeElement),
-			style))) ? null : Reflect.field(Reflect.field(skinTheme, UITypeElement), style);
+		return ((null == Reflect.field(Reflect.field(skinTheme, UITypeElement), style))) ? null : Reflect.field(Reflect.field(skinTheme, UITypeElement), style);
 	}
 
 	/**
@@ -433,6 +443,8 @@ class UIBitmapManager {
 		// Make sure everything is setup
 		if (!initialized)
 			initializeManager();
+
+		//Reflect.deleteField(Reflect.field(skinTheme, UIElement), type);
 	}
 
 	/**
@@ -442,5 +454,63 @@ class UIBitmapManager {
 	 */
 	public static function getUIElementNameList():Array<String> {
 		return componentNameList;
+	}
+
+	/**
+	* Check to see if it has a custom render
+	* @param	UIElement The type of UI Element
+	*
+	* @return Will return true if custom render was found
+	**/
+	public static function hasCustomRenderTexture(UIElement:String) : Bool {
+		// Make sure everything is setup
+		if (!initialized)
+			initializeManager();
+
+		return Reflect.hasField(customRender,UIElement);
+		
+	}
+
+	/**
+	* Add custom function call that will be used in component when going to
+	**/
+
+	public static function addCustomRenderTexture(UIElement:String, cr:Dynamic->BitmapData ) : Void {
+		
+		// Make sure everything is setup
+		if (!initialized)
+			initializeManager();
+
+		Reflect.setField(customRender, UIElement, cr);
+	}
+
+	/**
+	* Remove CustomRender
+	* @param	UIElement The type of UI Element	
+	**/
+	public static function removeCustomRenderTexture(UIElement:String) : Void {
+
+		// Make sure everything is setup
+		if (!initialized)
+			initializeManager();
+
+		Reflect.deleteField(customRender, UIElement);
+	}
+
+	/**
+	* Runs custom function that is set by a theme to be used for base level objects.
+	* @param	UIElement The type of UI Element
+	*
+	* @return Will return true if custom render was found
+	**/
+
+	public static function runCustomRender(UIElement:String, data:Dynamic) : BitmapData {
+
+		// Make sure everything is setup
+		if (!initialized)
+			initializeManager();
+
+		var cr:Dynamic->BitmapData = Reflect.field(customRender,UIElement);
+		return cr(data);
 	}
 }

@@ -285,6 +285,7 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 		if ( -1 != UIStyleManager.SLIDER_OFFSET)      
 			SLIDER_OFFSET = UIStyleManager.SLIDER_OFFSET; 
 		
+		_useCustomRender = UIStyleManager.SLIDER_USE_CUSTOM_RENDER;
 		
     } 
 	
@@ -789,6 +790,19 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 	{
 		super.draw();
 		
+		if(_useCustomRender && UIBitmapManager.hasCustomRenderTexture(Slider.TYPE) && _width > 0 && _height > 0)  {
+
+			_trackerImage = UIBitmapManager.runCustomRender(Slider.TYPE,{"width":_width,"height":_height,"direction":_mode,"state":"default"});
+
+			_marker.useCustomRender = false;
+			_marker.setDefaultStateImage(UIBitmapManager.runCustomRender(Slider.TYPE,{"width":_marker.width,"height":_marker.height,"direction":_mode,"state":"default"}));
+			_marker.setOverStateImage(UIBitmapManager.runCustomRender(Slider.TYPE,{"width":_marker.width,"height":_marker.height,"direction":_mode,"state":"over"}));
+			_marker.setDownStateImage(UIBitmapManager.runCustomRender(Slider.TYPE,{"width":_marker.width,"height":_marker.height,"direction":_mode,"state":"down"}));
+			_marker.setDisableStateImage(UIBitmapManager.runCustomRender(Slider.TYPE,{"width":_marker.width,"height":_marker.height,"direction":_mode,"state":"disable"}));
+
+		}
+
+
 		_track.graphics.clear();
 		
 		if (_trackerImage != null && _showImage) 

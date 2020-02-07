@@ -318,6 +318,8 @@ class ProgressBar extends BaseUI implements IProgressBar implements IBaseUI
 			Reflect.setField(_loadedLabelData, "align", UIStyleManager.PROGRESSBAR_TEXT_ALIGN);
 		}
 
+		_useCustomRender = UIStyleManager.PROGRESSBAR_USE_CUSTOM_RENDER;
+
 		//TODO: Look into embed font with asset manager
 		//if (null != UIStyleManager.PROGRESSBAR_TEXT_EMBED)
 		//{
@@ -720,6 +722,13 @@ class ProgressBar extends BaseUI implements IProgressBar implements IBaseUI
 
 	override public function draw() : Void
 	{
+
+		 if(_useCustomRender && UIBitmapManager.hasCustomRenderTexture(ProgressBar.TYPE) && _width > 0 && _height > 0)
+		 {
+			_backgroundImage = UIBitmapManager.runCustomRender(ProgressBar.TYPE,{"width":_width,"height":_height,"state":"default"});
+			_loadedBarImage = UIBitmapManager.runCustomRender(ProgressBar.TYPE,{"width":_width,"height":_height,"state":"loaded"});
+		}
+
 		// Get ready to draw background and border
 		_outline.graphics.clear();
 		_backgroundNormal.graphics.clear();

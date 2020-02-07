@@ -176,6 +176,7 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI {
 
 		if (Reflect.hasField(data, "backgroundAlpha"))
 			_roundEdge = Reflect.field(data, "backgroundAlpha");
+		
 	}
 
 	/**
@@ -200,9 +201,6 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI {
 		removeEventListener(MouseEvent.MOUSE_OVER, mouseOverEvent);
 		removeEventListener(MouseEvent.MOUSE_OUT, mouseOutEvent);
 		removeEventListener(MouseEvent.MOUSE_DOWN, mouseDownEvent);
-
-		removeEventListener(Event.ADDED_TO_STAGE, onStageAdd);
-		removeEventListener(Event.REMOVED_FROM_STAGE, onStageRemove);
 
 		normalState.graphics.clear();
 		overState.graphics.clear();
@@ -267,6 +265,11 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI {
 
 		if (-1 != UIStyleManager.TOGGLE_BUTTON_DISABLE_COLOR)
 			_disableColor = UIStyleManager.TOGGLE_BUTTON_DISABLE_COLOR;
+
+		
+		_useCustomRender = UIStyleManager.TOGGLE_BUTTON_USE_CUSTOM_RENDER;
+
+		_tileImage = UIStyleManager.TOGGLE_TILE_IMAGE;
 
 		_border = UIStyleManager.TOGGLE_BUTTON_BORDER;
 	}
@@ -600,6 +603,15 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI {
 	 * This setup and draw the toogle button on the screen
 	 */
 	override public function draw():Void {
+
+		// Check to see if Custom Texture will need to be used first
+        if(_useCustomRender && UIBitmapManager.hasCustomRenderTexture(ToggleButton.TYPE) && _width > 0 && _height > 0) {
+            _defaultStateImage = UIBitmapManager.runCustomRender(ToggleButton.TYPE,{"width":_width,"height":_height,"state":"default"});
+            _overStateImage = UIBitmapManager.runCustomRender(ToggleButton.TYPE,{"width":_width,"height":_height,"state":"over"});
+            _downStateImage = UIBitmapManager.runCustomRender(ToggleButton.TYPE,{"width":_width,"height":_height,"state":"down"});
+            _disableStateImage = UIBitmapManager.runCustomRender(ToggleButton.TYPE,{"width":_width,"height":_height,"state":"disable"});
+		}   
+				
 		// Figure to use bitmap or normal mode
 		drawButtonState(normalState, _defaultColor, _normalBorderColor, _defaultStateImage);
 		drawButtonState(overState, _overColor, _overBorderColor, _overStateImage);
@@ -637,7 +649,7 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI {
 			square.graphics.beginFill(color, _bgAlpha);
 
 		if (image != null)
-			square.graphics.drawRoundRect(0, 0, image.width, image.height, _roundEdge);
+			square.graphics.drawRoundRect(0, 0, _width, _height, _roundEdge);
 		else
 			square.graphics.drawRoundRect(0, 0, _width, _height, _roundEdge);
 

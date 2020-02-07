@@ -35,11 +35,13 @@ class Theme {
 
     public function new(data:Dynamic = null) {
 
-        if(null != data)
-            initialize(data);
+        if(null == data)
+            data = {};
+        
+        initialize(data);
     }
 
-    private function initialize(data:Dynamic):Void {
+    private function initialize(data:Dynamic = null):Void {
 
         // Set all the base level details
         if(Reflect.hasField(data,"primaryColor"))

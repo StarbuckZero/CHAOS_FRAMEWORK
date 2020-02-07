@@ -222,9 +222,6 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
 	{
 		super.destroy();
 		
-		// Event
-		removeEventListener(Event.ADDED_TO_STAGE, onStageAdd);
-		removeEventListener(Event.REMOVED_FROM_STAGE, onStageRemove);
 		
 		// Unload label
 		removeChild(_label);
@@ -321,6 +318,10 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
         if (-1 != UIStyleManager.BUTTON_DISABLE_COLOR) 
             _disableColor = UIStyleManager.BUTTON_DISABLE_COLOR;
         
+
+        _useCustomRender = UIStyleManager.BUTTON_USE_CUSTOM_RENDER;
+
+        _tileImage = UIStyleManager.BUTTON_TILE_IMAGE;
         
         // Set default loc of image offset
         _imageOffSetX = UIStyleManager.BUTTON_IMAGE_OFFSET_X;
@@ -664,9 +665,6 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
     {
         return _showIcon;
     }
-	
-
-
     
     /**
 	 * This setup and draw the button on the screen
@@ -674,6 +672,15 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
     
     override public function draw() : Void
     {
+        // Check to see if Custom Texture will need to be used first
+        if(_useCustomRender && UIBitmapManager.hasCustomRenderTexture(Button.TYPE) && _width > 0 && _height > 0) {
+            _defaultStateImage = UIBitmapManager.runCustomRender(Button.TYPE,{"width":_width,"height":_height,"state":"default"});
+            _overStateImage = UIBitmapManager.runCustomRender(Button.TYPE,{"width":_width,"height":_height,"state":"over"});
+            _downStateImage = UIBitmapManager.runCustomRender(Button.TYPE,{"width":_width,"height":_height,"state":"down"});
+            _disableStateImage = UIBitmapManager.runCustomRender(Button.TYPE,{"width":_width,"height":_height,"state":"down"});
+        }        
+
+
         super.draw();
         
         // Hide or Display items

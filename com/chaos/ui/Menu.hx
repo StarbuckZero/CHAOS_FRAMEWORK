@@ -534,10 +534,6 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
 	{
 		super.destroy();
 		
-		// Events
-        removeEventListener(Event.ADDED_TO_STAGE, onStageAdd);
-        removeEventListener(Event.REMOVED_FROM_STAGE, onStageRemove);
-		
         _content.removeChild(subButtonArea);
         _content.removeChild(buttonArea.displayObject);
 		

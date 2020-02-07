@@ -1,5 +1,7 @@
 package com.chaos.ui;
 
+import com.chaos.drawing.icon.ArrowRightIcon;
+import com.chaos.drawing.icon.ArrowLeftIcon;
 import com.chaos.drawing.icon.ArrowDownIcon;
 import com.chaos.drawing.icon.ArrowUpIcon;
 import com.chaos.ui.classInterface.IBaseUI;
@@ -104,6 +106,10 @@ class ScrollBar extends BaseUI implements IScrollBar implements IBaseUI
 
 	private var _upIconButtonImage : BitmapData;
 	private var _downIconButtonImage : BitmapData;
+
+	private var _leftIconButtonImage : BitmapData;
+	private var _rightIconButtonImage : BitmapData;
+
 	
 	private var _buttonDefaultImage : BitmapData;
 	private var _buttonOverImage : BitmapData;
@@ -218,85 +224,42 @@ class ScrollBar extends BaseUI implements IScrollBar implements IBaseUI
 		
 		if (null != _trackImage)
 		{
-			_slider.setTrackImage(_trackImage.clone());		
-			
-			_trackImage.dispose();
-			_trackImage = null;
+			_slider.setTrackImage(_trackImage.clone());
 		}		
-		
 		
 		_upButton = new Button(_buttonData);
 		_downButton = new Button(_buttonData);
+
+
 		
-		// Set button 
-		if (null != _upButton && null != _downButton)
-		{
-			if ( null != _buttonDefaultImage)
-			{
-				_upButton.setDefaultStateImage(_buttonDefaultImage.clone());
-				_downButton.setDefaultStateImage(_buttonDefaultImage.clone());
-				
-				_buttonDefaultImage.dispose();
-				_buttonDefaultImage = null;
-			}
-			
-			if (null != _buttonOverImage)
-			{
-				_upButton.setOverStateImage(_buttonOverImage.clone());
-				_downButton.setOverStateImage(_buttonOverImage.clone());
-				
-				_buttonOverImage.dispose();
-				_buttonOverImage = null;
-			}		
-			
-			
-			if (null != _buttonDownImage)
-			{
-				_upButton.setDownStateImage(_buttonDownImage.clone());
-				_downButton.setDownStateImage(_buttonDownImage.clone());
-				
-				_buttonDownImage.dispose();
-				_buttonDownImage = null;
-			}		
-			
-			if (null != _buttonDisableImage)
-			{
-				_upButton.setDisableStateImage(_buttonDisableImage.clone());
-				_downButton.setDisableStateImage(_buttonDisableImage.clone());
-				
-				_buttonDisableImage.dispose();
-				_buttonDisableImage = null;
-			}
-			
-			if (null != _upIconButtonImage)
-			{
-				_upButton.setIcon(_upIconButtonImage.clone());
-				
-				_upIconButtonImage.dispose();
-				_upIconButtonImage = null;
-			}
-			else 
-			{
-				var upArrowIcon : ArrowUpIcon = new ArrowUpIcon({"width":4, "height":4});
-				_upButton.setIcon(CompositeManager.displayObjectToBitmap(upArrowIcon, _smoothImage, upArrowIcon.width, upArrowIcon.height));
-			}			
-			
-			if (null != _downIconButtonImage)
-			{
-				_downButton.setIcon(_downIconButtonImage.clone());
-				
-				_downIconButtonImage.dispose();
-				_downIconButtonImage = null;
-			}
-			else
-			{
-				var downArrowIcon : ArrowDownIcon = new ArrowDownIcon({"width":4,"height":4});
-				_downButton.setIcon(CompositeManager.displayObjectToBitmap(downArrowIcon,_smoothImage, downArrowIcon.width, downArrowIcon.height));
-			}	
-			
-		}
 		
 		super.initialize();
+
+		// Set button 
+		if ( null != _buttonDefaultImage)
+		{
+			_upButton.setDefaultStateImage(_buttonDefaultImage.clone());
+			_downButton.setDefaultStateImage(_buttonDefaultImage.clone());
+		}
+			
+		if (null != _buttonOverImage)
+		{
+			_upButton.setOverStateImage(_buttonOverImage.clone());
+			_downButton.setOverStateImage(_buttonOverImage.clone());
+		}
+		
+		
+		if (null != _buttonDownImage)
+		{
+			_upButton.setDownStateImage(_buttonDownImage.clone());
+			_downButton.setDownStateImage(_buttonDownImage.clone());
+		}
+		
+		if (null != _buttonDisableImage)
+		{
+			_upButton.setDisableStateImage(_buttonDisableImage.clone());
+			_downButton.setDisableStateImage(_buttonDisableImage.clone());
+		}
 		
 		_upButton.addEventListener(MouseEvent.MOUSE_DOWN, arrowPressedUp, false, 0, true);
 		_downButton.addEventListener(MouseEvent.MOUSE_DOWN, arrowPressedDown, false, 0, true);
@@ -314,15 +277,12 @@ class ScrollBar extends BaseUI implements IScrollBar implements IBaseUI
 		if (null != UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_BUTTON_NORMAL)) 
 			_buttonDefaultImage = UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_BUTTON_NORMAL).clone();
 		
-		
 		if (null != UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_BUTTON_OVER)) 
 			_buttonOverImage = UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_BUTTON_OVER).clone();
-		
 		
 		if (null != UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_BUTTON_DOWN))
 			_buttonDownImage = UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_BUTTON_DOWN).clone();
         
-		
 		if (null != UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_BUTTON_DISABLE))
 			_buttonDisableImage = UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_BUTTON_DISABLE).clone();
 		
@@ -331,9 +291,14 @@ class ScrollBar extends BaseUI implements IScrollBar implements IBaseUI
 		if (null != UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_UP_ICON))
 			_upIconButtonImage = UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_UP_ICON).clone();
 		
-		
 		if (null != UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_DOWN_ICON)) 
 			_downIconButtonImage = UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_DOWN_ICON).clone();
+
+		if (null != UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_RIGHT_ICON)) 
+			_rightIconButtonImage = UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_RIGHT_ICON).clone();
+
+		if (null != UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_LEFT_ICON))
+			_leftIconButtonImage = UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_LEFT_ICON).clone();
 		
 		
 		// Set tracker  
@@ -357,15 +322,14 @@ class ScrollBar extends BaseUI implements IScrollBar implements IBaseUI
 			_sliderButtonDisableImage = UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_DISABLE).clone();
 		
 		
+		_useCustomRender = UIStyleManager.SCROLLBAR_BUTTON_USE_CUSTOM_RENDER;
+		
 		// If already there then set and remove BitmapData
 		if (null != _slider)
 		{
 			if (null != _sliderButtonDefaultImage)
 			{
 				_slider.setSliderImage(_sliderButtonDefaultImage.clone());
-				
-				_sliderButtonDefaultImage.dispose();
-				_sliderButtonDefaultImage = null;
 			}
 			
 			if (null != _sliderButtonOverImage)
@@ -409,18 +373,12 @@ class ScrollBar extends BaseUI implements IScrollBar implements IBaseUI
 			{
 				_upButton.setDefaultStateImage(_buttonDefaultImage.clone());
 				_downButton.setDefaultStateImage(_buttonDefaultImage.clone());
-				
-				_buttonDefaultImage.dispose();
-				_buttonDefaultImage = null;
 			}
 			
 			if (null != _buttonOverImage)
 			{
 				_upButton.setOverStateImage(_buttonOverImage.clone());
 				_downButton.setOverStateImage(_buttonOverImage.clone());
-				
-				_buttonOverImage.dispose();
-				_buttonOverImage = null;
 			}		
 			
 			
@@ -428,35 +386,19 @@ class ScrollBar extends BaseUI implements IScrollBar implements IBaseUI
 			{
 				_upButton.setDownStateImage(_buttonDownImage.clone());
 				_downButton.setDownStateImage(_buttonDownImage.clone());
-				
-				_buttonDownImage.dispose();
-				_buttonDownImage = null;
 			}		
 			
 			if (null != _buttonDisableImage)
 			{
 				_upButton.setDisableStateImage(_buttonDisableImage.clone());
 				_downButton.setDisableStateImage(_buttonDisableImage.clone());
-				
-				_buttonDisableImage.dispose();
-				_buttonDisableImage = null;
 			}
 			
 			if (null != _upIconButtonImage)
-			{
 				_upButton.setIcon(_upIconButtonImage.clone());
-				
-				_upIconButtonImage.dispose();
-				_upIconButtonImage = null;
-			}		
 			
 			if (null != _downIconButtonImage)
-			{
 				_downButton.setIcon(_downIconButtonImage.clone());
-				
-				_downIconButtonImage.dispose();
-				_downIconButtonImage = null;
-			}		
 			
 			
 		}
@@ -504,6 +446,8 @@ class ScrollBar extends BaseUI implements IScrollBar implements IBaseUI
 		
 		// Active resize for slider
 		_sliderResize = UIStyleManager.SCROLLBAR_SLIDER_ACTIVE_RESIZE;
+
+		_useCustomRender = UIStyleManager.SCROLLBAR_BUTTON_USE_CUSTOM_RENDER;
 		
 		if ( -1 != UIStyleManager.SCROLLBAR_BUTTON_SIZE)
 		{
@@ -724,10 +668,6 @@ class ScrollBar extends BaseUI implements IScrollBar implements IBaseUI
 	{
 		super.destroy();
 		
-		// Events
-		_upButton.removeEventListener(MouseEvent.MOUSE_DOWN, arrowPressedUp);
-		_downButton.removeEventListener(MouseEvent.MOUSE_DOWN, arrowPressedDown);
-		
 		removeEventListener(Event.ADDED_TO_STAGE, onStageAdd);
 		removeEventListener(Event.REMOVED_FROM_STAGE, onStageRemove);
 		
@@ -753,6 +693,17 @@ class ScrollBar extends BaseUI implements IScrollBar implements IBaseUI
 		if (null != _buttonDisableImage)
 			_buttonDisableImage.dispose();
 		
+		if (null != _upIconButtonImage)
+			_upIconButtonImage.dispose();
+
+		if (null != _downIconButtonImage)
+			_downIconButtonImage.dispose();
+
+		if(null != _rightIconButtonImage)
+			_rightIconButtonImage.dispose();
+
+		if(null != _leftIconButtonImage)
+			_leftIconButtonImage.dispose();
 			
 		if (null != _sliderButtonDefaultImage)
 			_sliderButtonDefaultImage.dispose();
@@ -766,10 +717,15 @@ class ScrollBar extends BaseUI implements IScrollBar implements IBaseUI
 		if (null != _sliderButtonDisableImage)
 			_sliderButtonDisableImage.dispose();
 			
-		_buttonData = _sliderData = null;
+		if(null != _trackImage)
+			_trackImage.dispose();
 		
+
+		_buttonData = _sliderData = null;
+				
 		_buttonDisableImage = _buttonDownImage = _buttonOverImage = _buttonDefaultImage = null;
-		_sliderButtonDisableImage = _sliderButtonDownImage = _sliderButtonOverImage = _sliderButtonDefaultImage = null;
+		_trackImage = _sliderButtonDisableImage = _sliderButtonDownImage = _sliderButtonOverImage = _sliderButtonDefaultImage = null;
+		_leftIconButtonImage =_rightIconButtonImage = _downIconButtonImage = _upIconButtonImage = null;
 		
 		_upButton = null;
 		_downButton = null;
@@ -785,7 +741,8 @@ class ScrollBar extends BaseUI implements IScrollBar implements IBaseUI
 	{
 		
 		super.draw();
-		
+
+
 		// Setup the scrollbar
 		if (ScrollBarDirection.VERTICAL == _slider.direction) 
 			setupSliderVerticalMode();
@@ -801,6 +758,42 @@ class ScrollBar extends BaseUI implements IScrollBar implements IBaseUI
 		_upButton.width = _downButton.width = _buttonWidth;
 		_upButton.height = _downButton.height = _buttonHeight;
 		
+		if(_useCustomRender && UIBitmapManager.hasCustomRenderTexture(ScrollBar.TYPE) && _width > 0 && _height > 0)
+		{
+			_upButton.useCustomRender = _downButton.useCustomRender = false;
+
+			_upButton.setDefaultStateImage(UIBitmapManager.runCustomRender(ScrollBar.TYPE,{"width":_upButton.width,"height":_upButton.height,"direction":"vertical","state":"default"}));
+			_upButton.setOverStateImage(UIBitmapManager.runCustomRender(ScrollBar.TYPE,{"width":_upButton.width,"height":_upButton.height,"direction":"vertical","state":"over"}));
+			_upButton.setDownStateImage(UIBitmapManager.runCustomRender(ScrollBar.TYPE,{"width":_upButton.width,"height":_upButton.height,"direction":"vertical","state":"down"}));
+			_upButton.setDisableStateImage(UIBitmapManager.runCustomRender(ScrollBar.TYPE,{"width":_upButton.width,"height":_upButton.height,"direction":"vertical","state":"disable"}));
+
+			_downButton.setDefaultStateImage(UIBitmapManager.runCustomRender(ScrollBar.TYPE,{"width":_downButton.width,"height":_downButton.height,"direction":"vertical","state":"default"}));
+			_downButton.setOverStateImage(UIBitmapManager.runCustomRender(ScrollBar.TYPE,{"width":_downButton.width,"height":_downButton.height,"direction":"vertical","state":"over"}));
+			_downButton.setDownStateImage(UIBitmapManager.runCustomRender(ScrollBar.TYPE,{"width":_downButton.width,"height":_downButton.height,"direction":"vertical","state":"down"}));
+			_downButton.setDisableStateImage(UIBitmapManager.runCustomRender(ScrollBar.TYPE,{"width":_downButton.width,"height":_downButton.height,"direction":"vertical","state":"disable"}));
+		}
+
+			
+		if (null != _upIconButtonImage)
+		{
+			_upButton.setIcon(_upIconButtonImage.clone());
+		}
+		else 
+		{
+			var upArrowIcon : ArrowUpIcon = new ArrowUpIcon({"width":4, "height":4});
+			_upButton.setIcon(CompositeManager.displayObjectToBitmap(upArrowIcon, _smoothImage, upArrowIcon.width, upArrowIcon.height));
+		}			
+		
+		if (null != _downIconButtonImage)
+		{
+			_downButton.setIcon(_downIconButtonImage.clone());
+		}
+		else
+		{
+			var downArrowIcon : ArrowDownIcon = new ArrowDownIcon({"width":4,"height":4});
+			_downButton.setIcon(CompositeManager.displayObjectToBitmap(downArrowIcon,_smoothImage, downArrowIcon.width, downArrowIcon.height));
+		}	
+
 		_upButton.draw();
 		_downButton.draw();
 		
@@ -811,6 +804,18 @@ class ScrollBar extends BaseUI implements IScrollBar implements IBaseUI
 		if (_showArrowButton)
 		{
 			_slider.height = _height - (_buttonHeight * 2) + UIStyleManager.SCROLLBAR_OFFSET;
+
+			if(UIStyleManager.SCROLLBAR_BUTTON_USE_CUSTOM_RENDER && UIBitmapManager.hasCustomRenderTexture(ScrollBar.TYPE) && _width > 0 && _height > 0) {
+
+				_slider.marker.useCustomRender = false;
+
+				_slider.marker.setDefaultStateImage(UIBitmapManager.runCustomRender(ScrollBar.TYPE,{"width":_slider.marker.width,"height":_slider.marker.height,"direction":"vertical","state":"default"}));
+				_slider.marker.setOverStateImage(UIBitmapManager.runCustomRender(ScrollBar.TYPE,{"width":_slider.marker.width,"height":_slider.marker.height,"direction":"vertical","state":"over"}));
+				_slider.marker.setDownStateImage(UIBitmapManager.runCustomRender(ScrollBar.TYPE,{"width":_slider.marker.width,"height":_slider.marker.height,"direction":"vertical","state":"down"}));
+				_slider.marker.setDisableStateImage(UIBitmapManager.runCustomRender(ScrollBar.TYPE,{"width":_slider.marker.width,"height":_slider.marker.height,"direction":"vertical","state":"disable"}));
+	
+			}
+
 			_slider.draw();
 			
 			_slider.y = _upButton.y + _upButton.height;
@@ -818,6 +823,18 @@ class ScrollBar extends BaseUI implements IScrollBar implements IBaseUI
         else 
 		{
 			_slider.height = Std.int(_height) + UIStyleManager.SCROLLBAR_OFFSET;
+
+			if(UIStyleManager.SCROLLBAR_BUTTON_USE_CUSTOM_RENDER && UIBitmapManager.hasCustomRenderTexture(ScrollBar.TYPE) && _width > 0 && _height > 0) {
+
+				_slider.marker.useCustomRender = false;
+
+				_slider.marker.setDefaultStateImage(UIBitmapManager.runCustomRender(ScrollBar.TYPE,{"width":_slider.marker.width,"height":_slider.marker.height,"direction":"vertical","state":"default"}));
+				_slider.marker.setOverStateImage(UIBitmapManager.runCustomRender(ScrollBar.TYPE,{"width":_slider.marker.width,"height":_slider.marker.height,"direction":"vertical","state":"over"}));
+				_slider.marker.setDownStateImage(UIBitmapManager.runCustomRender(ScrollBar.TYPE,{"width":_slider.marker.width,"height":_slider.marker.height,"direction":"vertical","state":"down"}));
+				_slider.marker.setDisableStateImage(UIBitmapManager.runCustomRender(ScrollBar.TYPE,{"width":_slider.marker.width,"height":_slider.marker.height,"direction":"vertical","state":"disable"}));
+	
+			}
+
 			_slider.draw();
 			
 			_slider.y = 0;
@@ -833,6 +850,47 @@ class ScrollBar extends BaseUI implements IScrollBar implements IBaseUI
 		_upButton.width = _downButton.width = _buttonWidth;
 		_upButton.height = _downButton.height = _buttonHeight;
 		
+		_height = _buttonHeight;
+
+		
+		if(_useCustomRender && UIBitmapManager.hasCustomRenderTexture(ScrollBar.TYPE) && _width > 0 && _height > 0) 
+		{
+
+			_upButton.useCustomRender = _downButton.useCustomRender = false;
+			
+			_upButton.setDefaultStateImage(UIBitmapManager.runCustomRender(ScrollBar.TYPE,{"width":_upButton.width,"height":_upButton.height,"direction":"horizontal","state":"default"}));
+			_upButton.setOverStateImage(UIBitmapManager.runCustomRender(ScrollBar.TYPE,{"width":_upButton.width,"height":_upButton.height,"direction":"horizontal","state":"over"}));
+			_upButton.setDownStateImage(UIBitmapManager.runCustomRender(ScrollBar.TYPE,{"width":_upButton.width,"height":_upButton.height,"direction":"horizontal","state":"down"}));
+			_upButton.setDisableStateImage(UIBitmapManager.runCustomRender(ScrollBar.TYPE,{"width":_upButton.width,"height":_upButton.height,"direction":"horizontal","state":"disable"}));
+
+			_downButton.setDefaultStateImage(UIBitmapManager.runCustomRender(ScrollBar.TYPE,{"width":_downButton.width,"height":_downButton.height,"direction":"horizontal","state":"default"}));
+			_downButton.setOverStateImage(UIBitmapManager.runCustomRender(ScrollBar.TYPE,{"width":_downButton.width,"height":_downButton.height,"direction":"horizontal","state":"over"}));
+			_downButton.setDownStateImage(UIBitmapManager.runCustomRender(ScrollBar.TYPE,{"width":_downButton.width,"height":_downButton.height,"direction":"horizontal","state":"down"}));
+			_downButton.setDisableStateImage(UIBitmapManager.runCustomRender(ScrollBar.TYPE,{"width":_downButton.width,"height":_downButton.height,"direction":"horizontal","state":"disable"}));
+
+
+		}
+
+		if (null != _rightIconButtonImage)
+		{
+			_upButton.setIcon(_rightIconButtonImage.clone());
+		}
+		else 
+		{
+			var rightArrowIcon : ArrowRightIcon = new ArrowRightIcon({"width":4, "height":4});
+			_upButton.setIcon(CompositeManager.displayObjectToBitmap(rightArrowIcon, _smoothImage, rightArrowIcon.width, rightArrowIcon.height));
+		}			
+		
+		if (null != _leftIconButtonImage)
+		{
+			_downButton.setIcon(_leftIconButtonImage.clone());
+		}
+		else
+		{
+			var leftArrowIcon : ArrowLeftIcon = new ArrowLeftIcon({"width":4,"height":4});
+			_downButton.setIcon(CompositeManager.displayObjectToBitmap(leftArrowIcon,_smoothImage, leftArrowIcon.width, leftArrowIcon.height));
+		}	
+
 		_upButton.draw();
 		_downButton.draw();
 		
@@ -841,12 +899,23 @@ class ScrollBar extends BaseUI implements IScrollBar implements IBaseUI
         else 
 			_slider.width = Std.int(_width);
 		
-		_slider.height = _slider.sliderHeightNum = _buttonHeight; 
+		_slider.height = _slider.sliderHeightNum = _buttonHeight;
+
+		if(_useCustomRender && UIBitmapManager.hasCustomRenderTexture(ScrollBar.TYPE) && _width > 0 && _height > 0)  {
+
+			_slider.marker.useCustomRender = false;
+
+			_slider.marker.setDefaultStateImage(UIBitmapManager.runCustomRender(ScrollBar.TYPE,{"width":_slider.marker.width,"height":_slider.marker.height,"direction":"horizontal","state":"default"}));
+			_slider.marker.setOverStateImage(UIBitmapManager.runCustomRender(ScrollBar.TYPE,{"width":_slider.marker.width,"height":_slider.marker.height,"direction":"horizontal","state":"over"}));
+			_slider.marker.setDownStateImage(UIBitmapManager.runCustomRender(ScrollBar.TYPE,{"width":_slider.marker.width,"height":_slider.marker.height,"direction":"horizontal","state":"down"}));
+			_slider.marker.setDisableStateImage(UIBitmapManager.runCustomRender(ScrollBar.TYPE,{"width":_slider.marker.width,"height":_slider.marker.height,"direction":"horizontal","state":"disable"}));
+
+			_slider.setTrackImage(UIBitmapManager.runCustomRender(ScrollBar.TYPE,{"width":_slider.track.width,"height":_slider.track.height,"direction":"horizontal","state":"track"}));
+		}
+
 		_slider.draw();
 		
-		_downButton.rotation = 90;
-		
-		_downButton.x = _downButton.width;
+		_downButton.x = 0;
 		_downButton.y = 0;
 		
 		if (_showArrowButton) 
@@ -859,9 +928,8 @@ class ScrollBar extends BaseUI implements IScrollBar implements IBaseUI
 			_slider.x = 0;
 			_slider.y = 0;
         }
-		
-		_upButton.rotation = 90;
-		_upButton.x = _width;
+
+		_upButton.x = _slider.width + _upButton.width;
 		
 		
     }

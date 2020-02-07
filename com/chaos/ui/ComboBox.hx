@@ -415,8 +415,6 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 		_dropButton.removeEventListener(MouseEvent.CLICK, toggleList);
 		_dropDownHotspot.removeEventListener(MouseEvent.CLICK, toggleList);
 		
-		removeEventListener(Event.ADDED_TO_STAGE, onStageAdd);
-		removeEventListener(Event.REMOVED_FROM_STAGE, onStageRemove);
 		
 		// If open remove and destory 
 		if (_listOpen)
@@ -1387,7 +1385,7 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 
 		var listDataObject:ComboBoxObjectData = null;
 		var currentLabel:Label = cast(event.currentTarget, Label);
-
+		
 		for (i in 0 ... _list.length)
 		{
 			if (currentLabel.name == Std.string(_list.getItemAt(i).id))
@@ -1408,11 +1406,12 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 
 		// Clear all selected items
 		clearSelected();
+		
 
 		// Get the selected item
 		if (listDataObject != null)
 			listDataObject.selected = true;
-			
+		
 		dispatchEvent(new ComboBoxEvent(ComboBoxEvent.CHANGE));
 		
 		draw();

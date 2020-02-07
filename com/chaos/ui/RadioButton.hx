@@ -94,6 +94,7 @@ class RadioButton extends SelectToggleBase implements IRadioButton implements IB
 		
 		if (!Reflect.hasField(_labelData, "italic"))
 			Reflect.setField(_labelData, "italic", UIStyleManager.RADIOBUTTON_TEXT_ITALIC);
+
 	}
 	
 	
@@ -141,6 +142,8 @@ class RadioButton extends SelectToggleBase implements IRadioButton implements IB
 			
 		if (-1 != UIStyleManager.RADIOBUTTON_DOT)
 			_dotSize = UIStyleManager.RADIOBUTTON_DOT;
+
+		_useCustomRender = UIStyleManager.RADIOBUTTON_USE_CUSTOM_RENDER;
 	}
 	
 	private function set_dotSize( value:Int ) : Int
@@ -188,8 +191,24 @@ class RadioButton extends SelectToggleBase implements IRadioButton implements IB
 	
 	override public function draw():Void 
 	{
+
+        if(_useCustomRender && UIBitmapManager.hasCustomRenderTexture(RadioButton.TYPE) && _width > 0 && _height > 0) {
+
+            _defaultStateImage = UIBitmapManager.runCustomRender(RadioButton.TYPE,{"width":_buttonSize,"height":_buttonSize,"state":"default"});
+            _overStateImage = UIBitmapManager.runCustomRender(RadioButton.TYPE,{"width":_buttonSize,"height":_buttonSize,"state":"over"});
+            _downStateImage = UIBitmapManager.runCustomRender(RadioButton.TYPE,{"width":_buttonSize,"height":_buttonSize,"state":"selected"});
+			_disableStateImage = UIBitmapManager.runCustomRender(RadioButton.TYPE,{"width":_buttonSize,"height":_buttonSize,"state":"disable"});
+			
+            _selectedDefaultStateImage = UIBitmapManager.runCustomRender(RadioButton.TYPE,{"width":_buttonSize,"height":_buttonSize,"state":"default"});
+            _selectedOverStateImage = UIBitmapManager.runCustomRender(RadioButton.TYPE,{"width":_buttonSize,"height":_buttonSize,"state":"over"});
+            _selectedDownStateImage = UIBitmapManager.runCustomRender(RadioButton.TYPE,{"width":_buttonSize,"height":_buttonSize,"state":"selected"});
+			_selectedDisableStateImage = UIBitmapManager.runCustomRender(RadioButton.TYPE,{"width":_buttonSize,"height":_buttonSize,"state":"disable"});
+			
+		} 
+
 		super.draw();
 		
+
 		// Center Shapes
 		_label.draw();
 		_label.x = _buttonSize + UIStyleManager.RADIOBUTTON_LABEL_OFFSET_X;

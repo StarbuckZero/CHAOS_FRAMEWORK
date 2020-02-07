@@ -251,9 +251,6 @@ class TabPane extends BaseUI implements ITabPane implements IBaseUI
 	{
 		super.destroy();
 		
-		removeEventListener(Event.ADDED_TO_STAGE, onStageAdd);
-		removeEventListener(Event.REMOVED_FROM_STAGE, onStageRemove);
-		
 		for (i in 0 ... buttonArea.numChildren)
 		{
 			var button:Button = cast(buttonArea.getChildByName(Std.string(i)), Button);
@@ -631,14 +628,13 @@ class TabPane extends BaseUI implements ITabPane implements IBaseUI
 			return;
 
 		super.draw();
-
 		// Create and resize buttons
 		for (i in 0 ... buttonArea.numChildren)
 		{
 
 			// Setting up buttons
 			var button:Button = cast(buttonArea.getChildAt(i), Button);
-			
+
 			// Update all the i
 			_contentList.getItemAt(i).id = i;
 			
@@ -648,6 +644,17 @@ class TabPane extends BaseUI implements ITabPane implements IBaseUI
 			button.x = button.width * i;
 			button.y = 0;
 			
+			// Check to see if Custom Texture will need to be used first
+			if(_useCustomRender && UIBitmapManager.hasCustomRenderTexture(TabPane.TYPE) && button.width > 0 && button.height > 0) {
+
+				button.useCustomRender = false;
+				
+				_tabButtonDefaultImage = UIBitmapManager.runCustomRender(TabPane.TYPE,{"width":button.width,"height":button.height,"state":"default"});
+				_tabButtonOverImage = UIBitmapManager.runCustomRender(TabPane.TYPE,{"width":button.width,"height":button.height,"state":"over"});
+				_tabButtonDownImage = UIBitmapManager.runCustomRender(TabPane.TYPE,{"width":button.width,"height":button.height,"state":"down"});
+				_tabButtonDisableImage = UIBitmapManager.runCustomRender(TabPane.TYPE,{"width":button.width,"height":button.height,"state":"disable"});				
+			}  
+
 			button.textColor = _tabButtonTextColor;
 			button.defaultColor = _tabButtonNormalColor;
 			button.overColor = _tabButtonOverColor;

@@ -179,6 +179,7 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 		shapeBlock.graphics.clear();
 		_outline.graphics.clear();
 
+
 		removeChild(_contentSizeBox);
 
 		removeChild(shapeBlock);
@@ -433,6 +434,11 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 	 * Draw the ScrollPane and all the UI classes it's using
 	 */
 	override public function draw():Void {
+
+		if(_useCustomRender && UIBitmapManager.hasCustomRenderTexture(ScrollPane.TYPE) && _width > 0 && _height > 0)  {
+			setBackgroundImage(UIBitmapManager.runCustomRender(ScrollPane.TYPE,{"width":_width,"height":_height}););
+		}		
+
 		// Draw background image
 		super.draw();
 

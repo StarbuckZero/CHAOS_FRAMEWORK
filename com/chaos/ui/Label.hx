@@ -251,10 +251,6 @@ class Label extends BaseUI implements ILabel implements IBaseUI {
 	override public function destroy():Void {
 		super.destroy();
 
-		// Event
-		removeEventListener(Event.ADDED_TO_STAGE, onStageAdd);
-		removeEventListener(Event.REMOVED_FROM_STAGE, onStageRemove);
-
 		// Clear out lines
 		_outline.graphics.clear();
 		_textImage.graphics.clear();

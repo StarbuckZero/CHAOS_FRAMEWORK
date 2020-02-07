@@ -81,7 +81,7 @@ interface IToggleButton extends IBaseUI
 	 * Set if you want the button to be selected or not
 	 */
 	
-	var selected(get, set) : Bool;     
+	var selected(get, set) : Bool;  
 	
 	/**
 	 * This is for setting an image to the button default state. It is best to set an image that can be tile.

@@ -14,6 +14,10 @@ interface IBaseUI
 	var name(get, set):String;
 	#end	
 	
+	/*
+	* Use custom render created by theme. 
+	*/	
+	var useCustomRender(get,set):Bool;	
 	
 	/**
 	 * True if the object is enabled and false if not

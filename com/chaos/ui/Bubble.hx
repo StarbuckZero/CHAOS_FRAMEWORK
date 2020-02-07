@@ -238,8 +238,6 @@ class Bubble extends Overlay implements IBubble implements IOverlay implements I
 	{
 		super.destroy();
 		
-        removeEventListener(Event.ADDED_TO_STAGE, onStageAdd);
-        removeEventListener(Event.REMOVED_FROM_STAGE, onStageRemove);
 		
 		_background.graphics.clear();
 		_tail.graphics.clear();

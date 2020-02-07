@@ -22,7 +22,9 @@ class UIStyleManager
 	public static var ACCORDION_BUTTON_TEXT_COLOR : Int = -1;
 	public static var ACCORDION_BUTTON_SELECTED_TEXT_COLOR : Int = -1;
 	
-	public static var ACCORDION_BACKGROUND_COLOR : Int = -1;
+    public static var ACCORDION_BACKGROUND_COLOR : Int = -1;
+    
+    public static var ACCORDION_USE_CUSTOM_RENDER : Bool = false;
 	
     public static var ACCORDION_TEXT_EMBED : Font = null;
     public static var ACCORDION_TEXT_FONT : String = "";
@@ -90,6 +92,10 @@ class UIStyleManager
     public static var BUTTON_OVER_COLOR : Int = -1;
     public static var BUTTON_DOWN_COLOR : Int = -1;
     public static var BUTTON_DISABLE_COLOR : Int = -1;
+
+    public static var BUTTON_TILE_IMAGE : Bool = false;
+
+    public static var BUTTON_USE_CUSTOM_RENDER : Bool = false;
     
     public static var BUTTON_TEXT_EMBED : Font = null;
     public static var BUTTON_TEXT_FONT : String = "";
@@ -150,6 +156,8 @@ class UIStyleManager
     public static var CHECKBOX_TEXT_SIZE : Int = -1;
     
     public static var CHECKBOX_TEXT_ALIGN : String = "";
+
+    public static var CHECKBOX_USE_CUSTOM_RENDER : Bool = false;
     
     /** The over all size of checkbox */
     public static var CHECKBOX_SIZE : Int = -1;
@@ -172,6 +180,8 @@ class UIStyleManager
     public static var RADIOBUTTON_TEXT_SIZE : Int = -1;
     
     public static var RADIOBUTTON_TEXT_ALIGN : String = "";
+
+    public static var RADIOBUTTON_USE_CUSTOM_RENDER : Bool = false;
     
     /** The radio button over all size */
     public static var RADIOBUTTON_SIZE : Int = -1;
@@ -325,6 +335,8 @@ class UIStyleManager
     public static var PROGRESSBAR_TEXT_BOLD : Bool = false;
     public static var PROGRESSBAR_TEXT_ITALIC : Bool = false;
     public static var PROGRESSBAR_TEXT_SIZE : Int = -1;
+
+    public static var PROGRESSBAR_USE_CUSTOM_RENDER : Bool = false;
     
     public static var PROGRESSBAR_COLOR : Int = -1;
     public static var PROGRESSBAR_COLOR_LOADED : Int = -1;
@@ -364,6 +376,8 @@ class UIStyleManager
     public static var SCROLLBAR_ROTATE_IMAGE : Bool = false;
     public static var SCROLLBAR_SLIDER_OFFSET : Float = -1;
     
+    public static var SCROLLBAR_BUTTON_USE_CUSTOM_RENDER : Bool = false;
+
     public static var SCROLLBAR_BUTTON_NORMAL_COLOR : Int = -1;
     public static var SCROLLBAR_BUTTON_OVER_COLOR : Int = -1;
     public static var SCROLLBAR_BUTTON_DOWN_COLOR : Int = -1;
@@ -393,6 +407,8 @@ class UIStyleManager
     public static var SLIDER_TRACK_SIZE : Int = -1;
     
     public static var SLIDER_ROTATE_IMAGE : Bool = false;
+
+    public static var SLIDER_USE_CUSTOM_RENDER : Bool = false;
     
     public static var SLIDER_OFFSET : Int = -1;
     
@@ -499,6 +515,10 @@ class UIStyleManager
     
     public static var TOOLTIP_BACKGROUND_NORMAL_COLOR : Int = -1;
     public static var TOOLTIP_BACKGROUND_ALPHA : Float = 1;
+
+    public static var TOGGLE_BUTTON_USE_CUSTOM_RENDER : Bool = false;
+
+    public static var TOGGLE_TILE_IMAGE : Bool = false;
     
     public static var TOOLTIP_BORDER_ALPHA : Float = -1;
     public static var TOOLTIP_BORDER : Bool = true;

@@ -37,7 +37,13 @@ class BaseUI extends Sprite implements IBaseUI
 	/**
 	 * This display object
 	 */
-    public var displayObject(get, never) : DisplayObject;
+	public var displayObject(get, never) : DisplayObject;
+	
+	/*
+	* Use custom render created by theme. 
+	*/
+	public var useCustomRender(get,set):Bool;
+
 
     private var _width : Float = 0;
     private var _height : Float = 0;
@@ -46,6 +52,8 @@ class BaseUI extends Sprite implements IBaseUI
 	private var _drawOnResize:Bool = false;
     
 	private var _smoothImage : Bool = true;
+
+	private var _useCustomRender:Bool = false;
     
 	/**
 	 * UI Component 
@@ -86,6 +94,9 @@ class BaseUI extends Sprite implements IBaseUI
 			
 		if (Reflect.hasField(data, "enabled"))
 			_enabled = Reflect.field(data, "enabled");
+
+		if (Reflect.hasField(data, "useCustomRender"))
+			_useCustomRender = Reflect.field(data, "useCustomRender");		
 			
 		if (Reflect.hasField(data, "x"))
 			x = Reflect.field(data, "x");
@@ -133,8 +144,7 @@ class BaseUI extends Sprite implements IBaseUI
 	public function destroy():Void
 	{
 		// Remove events and clear graphics here
-	}
-	
+	}	
     
     /**
 	 * @inheritDoc
@@ -233,7 +243,20 @@ class BaseUI extends Sprite implements IBaseUI
     function get_enabled() : Bool
     {
         return _enabled;
-    }
+	}
+	
+	private function set_useCustomRender(value:Bool):Bool {
+
+		_useCustomRender = value;
+
+		return value;
+	}
+
+	private function get_useCustomRender():Bool {
+
+		return _useCustomRender;
+		
+	}	
     
     
     /**

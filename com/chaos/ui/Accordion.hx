@@ -111,8 +111,6 @@ class Accordion extends BaseContainer implements IBaseContainer implements IAcco
 	override public function destroy():Void {
 		super.destroy();
 
-		removeEventListener(Event.ADDED_TO_STAGE, onStageAdd);
-		removeEventListener(Event.REMOVED_FROM_STAGE, onStageRemove);
 
 		// Remove all
 		for (i in 0..._section.length) {
@@ -171,6 +169,8 @@ class Accordion extends BaseContainer implements IBaseContainer implements IAcco
 
 		if (-1 != UIStyleManager.ACCORDION_BACKGROUND_COLOR)
 			_backgroundColor = UIStyleManager.ACCORDION_BACKGROUND_COLOR;
+
+		_useCustomRender = UIStyleManager.ACCORDION_USE_CUSTOM_RENDER;
 		
 	}
 
@@ -415,10 +415,20 @@ class Accordion extends BaseContainer implements IBaseContainer implements IAcco
 	override public function draw():Void {
 		super.draw();
 
+		if(UIStyleManager.ACCORDION_USE_CUSTOM_RENDER && UIBitmapManager.hasCustomRenderTexture(Accordion.TYPE) && _width > 0 && _height > 0)
+		{
+			_buttonDefaultImage = UIBitmapManager.runCustomRender(Accordion.TYPE,{"width":_width,"height":_buttonSize,"state":"default"});
+			_buttonOverImage = UIBitmapManager.runCustomRender(Accordion.TYPE,{"width":_width,"height":_buttonSize,"state":"over"});
+			_buttonDownImage = UIBitmapManager.runCustomRender(Accordion.TYPE,{"width":_width,"height":_buttonSize,"state":"down"});
+			_buttonDisableImage = UIBitmapManager.runCustomRender(Accordion.TYPE,{"width":_width,"height":_buttonSize,"state":"disable"});
+		}	
+		
+
 		for (i in 0..._section.length) {
 			var button:IButton = _section[i].button;
 			var container:IBaseContainer = _section[i].container;
-
+			button.useCustomRender = false;
+			
 			container.width = button.width = _width;
 			button.height = _buttonSize;
 			button.y = i * _buttonSize;
@@ -427,6 +437,18 @@ class Accordion extends BaseContainer implements IBaseContainer implements IAcco
 			button.overColor = _buttonOverColor;
 			button.downColor = _buttonSelectedColor;
 			button.disableColor = _buttonDisableColor;
+
+			if(null != _buttonDefaultImage)
+				button.setDefaultStateImage(_buttonDefaultImage);
+
+			if(null != _buttonOverImage)
+				button.setOverStateImage(_buttonOverImage);
+
+			if(null != _buttonDownImage)
+				button.setDownStateImage(_buttonDownImage);
+
+			if(null != _buttonDisableImage)
+				button.setDisableStateImage(_buttonDisableImage);
 
 			container.y = button.y + button.height;
 
