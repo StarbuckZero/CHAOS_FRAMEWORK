@@ -418,6 +418,8 @@ class UIStyleManager
     public static var SCROLLPANE_BORDER : Bool = false;
     public static var SCROLLPANE_BORDER_COLOR : Int = -1;
     public static var SCROLLPANE_BORDER_THINKNESS : Float = -1;
+
+    public static var SCROLLPANE_USE_CUSTOM_RENDER : Bool = false;
     
     public static var SCROLLPANE_CONTENT_OFFSET_X : Float = 0;
     public static var SCROLLPANE_CONTENT_OFFSET_Y : Float = 0;

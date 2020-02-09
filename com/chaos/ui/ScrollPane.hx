@@ -222,6 +222,8 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 
 		if (-1 != UIStyleManager.SCROLLPANE_BORDER_ALPHA)
 			_thinkness = UIStyleManager.SCROLLPANE_BORDER_THINKNESS;
+
+		_useCustomRender = UIStyleManager.SCROLLPANE_USE_CUSTOM_RENDER;
 	}
 
 	/**

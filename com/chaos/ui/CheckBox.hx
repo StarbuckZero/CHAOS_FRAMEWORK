@@ -149,15 +149,15 @@ class CheckBox extends SelectToggleBase implements ICheckBox implements IBaseUI
 
         if(_useCustomRender && UIBitmapManager.hasCustomRenderTexture(CheckBox.TYPE) && _width > 0 && _height > 0) {
 
-            _defaultStateImage = UIBitmapManager.runCustomRender(CheckBox.TYPE,{"width":_buttonSize,"height":_buttonSize,"state":"default"});
-            _overStateImage = UIBitmapManager.runCustomRender(CheckBox.TYPE,{"width":_buttonSize,"height":_buttonSize,"state":"over"});
-            _downStateImage = UIBitmapManager.runCustomRender(CheckBox.TYPE,{"width":_buttonSize,"height":_buttonSize,"state":"selected"});
-			_disableStateImage = UIBitmapManager.runCustomRender(CheckBox.TYPE,{"width":_buttonSize,"height":_buttonSize,"state":"disable"});
+            _defaultStateImage = UIBitmapManager.runCustomRender(CheckBox.TYPE,{"width":_buttonSize,"height":_buttonSize,"state":"default","style":_style});
+            _overStateImage = UIBitmapManager.runCustomRender(CheckBox.TYPE,{"width":_buttonSize,"height":_buttonSize,"state":"over","style":_style});
+            _downStateImage = UIBitmapManager.runCustomRender(CheckBox.TYPE,{"width":_buttonSize,"height":_buttonSize,"state":"selected","style":_style});
+			_disableStateImage = UIBitmapManager.runCustomRender(CheckBox.TYPE,{"width":_buttonSize,"height":_buttonSize,"state":"disable","style":_style});
 			
-            _selectedDefaultStateImage = UIBitmapManager.runCustomRender(CheckBox.TYPE,{"width":_buttonSize,"height":_buttonSize,"state":"default"});
-            _selectedOverStateImage = UIBitmapManager.runCustomRender(CheckBox.TYPE,{"width":_buttonSize,"height":_buttonSize,"state":"over"});
-            _selectedDownStateImage = UIBitmapManager.runCustomRender(CheckBox.TYPE,{"width":_buttonSize,"height":_buttonSize,"state":"selected"});
-			_selectedDisableStateImage = UIBitmapManager.runCustomRender(CheckBox.TYPE,{"width":_buttonSize,"height":_buttonSize,"state":"disable"});
+            _selectedDefaultStateImage = UIBitmapManager.runCustomRender(CheckBox.TYPE,{"width":_buttonSize,"height":_buttonSize,"state":"default","style":_style});
+            _selectedOverStateImage = UIBitmapManager.runCustomRender(CheckBox.TYPE,{"width":_buttonSize,"height":_buttonSize,"state":"over","style":_style});
+            _selectedDownStateImage = UIBitmapManager.runCustomRender(CheckBox.TYPE,{"width":_buttonSize,"height":_buttonSize,"state":"selected","style":_style});
+			_selectedDisableStateImage = UIBitmapManager.runCustomRender(CheckBox.TYPE,{"width":_buttonSize,"height":_buttonSize,"state":"disable","style":_style});
 			
 		} 
 

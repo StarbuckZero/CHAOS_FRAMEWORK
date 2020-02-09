@@ -413,7 +413,6 @@ class Accordion extends BaseContainer implements IBaseContainer implements IAcco
 	 * Draw the container
 	 */
 	override public function draw():Void {
-		super.draw();
 
 		if(UIStyleManager.ACCORDION_USE_CUSTOM_RENDER && UIBitmapManager.hasCustomRenderTexture(Accordion.TYPE) && _width > 0 && _height > 0)
 		{
@@ -421,8 +420,11 @@ class Accordion extends BaseContainer implements IBaseContainer implements IAcco
 			_buttonOverImage = UIBitmapManager.runCustomRender(Accordion.TYPE,{"width":_width,"height":_buttonSize,"state":"over"});
 			_buttonDownImage = UIBitmapManager.runCustomRender(Accordion.TYPE,{"width":_width,"height":_buttonSize,"state":"down"});
 			_buttonDisableImage = UIBitmapManager.runCustomRender(Accordion.TYPE,{"width":_width,"height":_buttonSize,"state":"disable"});
+			
+			_imageBackground = UIBitmapManager.runCustomRender(Accordion.TYPE,{"width":_width,"height":_height,"state":"background"});
 		}	
-		
+			
+		super.draw();
 
 		for (i in 0..._section.length) {
 			var button:IButton = _section[i].button;
