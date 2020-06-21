@@ -4,9 +4,9 @@ package com.chaos.ui.layout.classInterface;
 import com.chaos.ui.classInterface.IBaseUI;
 
 /**
-	 * Interface for grid cell
-	 * @author Erick Feiling
-	 */
+* Interface for grid cell
+* @author Erick Feiling
+*/
 
 interface IGridCell extends IBaseUI
 {

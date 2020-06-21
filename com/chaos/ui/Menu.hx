@@ -219,12 +219,6 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
 	 * Border thinkness
 	 */
 	
-    public var borderThinkness(get, set) : Float;
-	
-    /**
-	 * Border thinkness
-	 */
-	
     public var subBorderThinkness(get, set) : Float;
 	
     /**
@@ -288,7 +282,6 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
     private var _subTextSelectedColor : Int = 0x999999;
     private var _subTextDisableColor : Int = 0xCCCCCC;
     
-    private var _border : Bool = UIStyleManager.MENU_BORDER;
     private var _thinkness : Float = 1;
     
     private var _subBorder : Bool = UIStyleManager.MENU_SUB_BORDER;
@@ -304,7 +297,6 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
     private var _subMenuDisplayImage : BitmapData;
     
     private var _alpha : Float = 1;
-    private var _borderAlpha : Float = 1;
     
     private var _subAlpha : Float = 1;
     private var _subLineAlpha : Float = 1;
@@ -662,6 +654,8 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
         
         if (UIStyleManager.MENU_SUB_LABEL_TEXT_DISABLE_COLOR != -1) 
             _subTextDisableColor = UIStyleManager.MENU_SUB_LABEL_TEXT_DISABLE_COLOR;
+
+        _border =  UIStyleManager.MENU_BORDER;
     }
     
     private function initBitmap() : Void
@@ -1309,25 +1303,6 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
         return _subTextDisableColor;
     }
     
-    /**
-	 * Border thinkness
-	 */
-    
-    private function set_borderThinkness(value : Float) : Float
-    {
-        _thinkness = value;
-        
-        return value;
-    }
-    
-    /**
-	 * Return thinkness
-	 */
-    
-    private function get_borderThinkness() : Float
-    {
-        return _thinkness;
-    }
     
     /**
 	 * Border thinkness

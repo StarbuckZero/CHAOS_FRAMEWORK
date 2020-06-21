@@ -397,13 +397,13 @@ class ProgressBar extends BaseUI implements IProgressBar implements IBaseUI
 	 * Returns the label being used in ProgressBar
 	 */
 
-	private function get_label() : Label { return _label; }
+	private function get_label() : ILabel { return _label; }
 
 	/**
 	 * Returns the loaded label being used in the ProgressBar
 	 */
 
-	private function get_loadedLabel() : Label { return _loadedLabel; }
+	private function get_loadedLabel() : ILabel { return _loadedLabel; }
 
 	/**
 	 * Toggle on and off border

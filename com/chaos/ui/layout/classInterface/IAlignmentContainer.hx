@@ -69,7 +69,7 @@ interface IAlignmentContainer extends IBaseContainer
 	 * @param	list A list of UI Elements
 	 */
     
-    function addElementList(list : Array<Dynamic>) : Void;
+    function addElementList(list : Array<IBaseUI>) : Void;
 	
     /**
 	 * Return the object inside the container

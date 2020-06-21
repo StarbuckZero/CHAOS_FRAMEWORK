@@ -117,7 +117,6 @@ class DataProvider<T>
 	
 	public function getItemIndex(item : T) : Int
 	{
-		
 		return Lambda.indexOf(_dataArray, item);
     }
 	

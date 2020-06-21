@@ -310,7 +310,7 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
             _borderAlpha = UIStyleManager.ITEMPANE_ITEM_BORDER_ALPHA;
         
         if (-1 != UIStyleManager.ITEMPANE_ITEM_BORDER_THINKNESS) 
-            _thinkness = UIStyleManager.ITEMPANE_ITEM_BORDER_THINKNESS;  
+            _borderThinkness = UIStyleManager.ITEMPANE_ITEM_BORDER_THINKNESS;  
         
         
         // Item Colors

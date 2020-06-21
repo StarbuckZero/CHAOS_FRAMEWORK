@@ -29,25 +29,6 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 	 */
 	public var scrollBarV(get, never):IScrollBar;
 
-	/**
-	 * Border thinkness
-	 */
-	public var borderThinkness(get, set):Float;
-
-	/**
-	 * Toggle on and off border
-	 */
-	public var border(get, set):Bool;
-
-	/**
-	 * The ScrollPane border color
-	 */
-	public var borderColor(get, set):Int;
-
-	/**
-	 * Specifies the border alpha. Set the alpha between 1 to 0.
-	 */
-	public var borderAlpha(get, set):Float;
 
 	/**
 	 * Places a DisplayObject in the ScrollPane
@@ -82,10 +63,7 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 	// This is used for the real size
 	private var _outline:Shape;
 
-	private var _border:Bool = false;
-	private var _thinkness:Float = 1;
-	private var _borderColor:Int = 0x000000;
-	private var _borderAlpha:Float = 1;
+
 	private var _bgDisplayImage:Bool = false;
 
 	/**
@@ -120,7 +98,7 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 			_border = UIStyleManager.SCROLLPANE_BORDER;
 
 		if (Reflect.hasField(data, "thinkness"))
-			_thinkness = Reflect.field(data, "thinkness");
+			_borderThinkness = Reflect.field(data, "thinkness");
 
 		if (Reflect.hasField(data, "borderColor"))
 			_borderColor = Reflect.field(data, "borderColor");
@@ -221,26 +199,11 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 			_borderAlpha = UIStyleManager.SCROLLPANE_BORDER_ALPHA;
 
 		if (-1 != UIStyleManager.SCROLLPANE_BORDER_ALPHA)
-			_thinkness = UIStyleManager.SCROLLPANE_BORDER_THINKNESS;
+			_borderThinkness = UIStyleManager.SCROLLPANE_BORDER_THINKNESS;
 
 		_useCustomRender = UIStyleManager.SCROLLPANE_USE_CUSTOM_RENDER;
 	}
 
-	/**
-	 * Border thinkness
-	 */
-	private function set_borderThinkness(value:Float):Float {
-		_thinkness = value;
-
-		return value;
-	}
-
-	/**
-	 * Return the size of the border
-	 */
-	private function get_borderThinkness():Float {
-		return _thinkness;
-	}
 
 	/**
 	 * Set the color of the ScrollPane background
@@ -260,54 +223,6 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 	 */
 	override private function get_backgroundColor():Int {
 		return super.backgroundColor;
-	}
-
-	/**
-	 * Toggle on and off border
-	 */
-	private function set_border(value:Bool):Bool {
-		_border = value;
-
-		return value;
-	}
-
-	/**
-	 * Returns true if the border is on and false if not
-	 */
-	private function get_border():Bool {
-		return _border;
-	}
-
-	/**
-	 * The ScrollPane border color
-	 */
-	private function set_borderColor(value:Int):Int {
-		_borderColor = value;
-
-		return value;
-	}
-
-	/**
-	 * Returns the color
-	 */
-	private function get_borderColor():Int {
-		return _borderColor;
-	}
-
-	/**
-	 * Specifies the border alpha. Set the alpha between 1 to 0.
-	 */
-	private function set_borderAlpha(value:Float):Float {
-		_borderAlpha = value;
-
-		return value;
-	}
-
-	/**
-	 * Returns the boarder alpha
-	 */
-	private function get_borderAlpha():Float {
-		return _borderAlpha;
 	}
 
 	/**
@@ -477,7 +392,7 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 
 		// Setup for border if need be
 		if (_border) {
-			_outline.graphics.lineStyle(_thinkness, _borderColor, _borderAlpha);
+			_outline.graphics.lineStyle(_borderThinkness, _borderColor, _borderAlpha);
 			_outline.graphics.drawRect(0, 0, _width, _height);
 			_outline.graphics.endFill();
 		}

@@ -78,7 +78,7 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
     
     private var gridData : DataProvider<Dynamic> = new DataProvider<Dynamic>();
     
-    private var _grid : IGridContainer = new GridContainer(1, 0);
+    private var _grid : IGridContainer = new GridContainer({"row":1,"column": 0});
     
     private var _selectedRow : Int = 0;
     private var _selectedCol : Int = 0;

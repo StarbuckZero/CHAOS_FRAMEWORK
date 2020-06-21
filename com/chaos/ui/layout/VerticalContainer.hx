@@ -35,7 +35,7 @@ class VerticalContainer extends AlignmentBaseContainer implements IBaseContainer
 	 * @param	list A list of UI Elements
 	 */
     
-    override public function addElementList(list : Array<Dynamic>) : Void
+    override public function addElementList(list : Array<IBaseUI>) : Void
     {
         super.addElementList(list);
         

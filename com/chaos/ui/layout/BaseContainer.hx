@@ -37,13 +37,37 @@ class BaseContainer extends BaseUI implements IBaseContainer implements IBaseUI
     
     /** This is used for the content getting property */
     public var _content : Sprite = new Sprite();
+
+	/**
+	 * Toggle on and off border
+	 */
+     public var border(get, set):Bool;
+
+     /**
+      * The ScrollPane border color
+      */
+     public var borderColor(get, set):Int;
+ 
+     /**
+      * Specifies the border alpha. Set the alpha between 1 to 0.
+      */
+     public var borderAlpha(get, set):Float;
+
+	/**
+	 * Border thinkness
+	 */
+     public var borderThinkness(get, set):Float;     
     
     
     private var _imageBackground : BitmapData = null;
     private var _backgroundAlpha : Float = 1;
     private var _backgroundColor : Int = 0xCCCCCC;
     private var _background : Bool = true;
-    
+
+	private var _borderThinkness:Float = 1;    
+	private var _border:Bool = false;
+	private var _borderColor:Int = 0x000000;
+	private var _borderAlpha:Float = 1;    
     
     private var _showImage : Bool = true;
     
@@ -215,6 +239,71 @@ class BaseContainer extends BaseUI implements IBaseContainer implements IBaseUI
     {
         return _backgroundAlpha;
     }
+
+	/**
+	 * Toggle on and off border
+	 */
+     private function set_border(value:Bool):Bool {
+		_border = value;
+
+		return value;
+	}
+
+	/**
+	 * Returns true if the border is on and false if not
+	 */
+	private function get_border():Bool {
+		return _border;
+	}
+
+	/**
+	 * Border thinkness
+	 */
+     private function set_borderThinkness(value:Float):Float {
+		_borderThinkness = value;
+
+		return value;
+	}
+
+	/**
+	 * Return the size of the border
+	 */
+	private function get_borderThinkness():Float {
+		return _borderThinkness;
+	}
+
+
+	/**
+	 * The ScrollPane border color
+	 */
+	private function set_borderColor(value:Int):Int {
+		_borderColor = value;
+
+		return value;
+	}
+
+	/**
+	 * Returns the color
+	 */
+	private function get_borderColor():Int {
+		return _borderColor;
+	}
+
+	/**
+	 * Specifies the border alpha. Set the alpha between 1 to 0.
+	 */
+	private function set_borderAlpha(value:Float):Float {
+		_borderAlpha = value;
+
+		return value;
+	}
+
+	/**
+	 * Returns the boarder alpha
+	 */
+	private function get_borderAlpha():Float {
+		return _borderAlpha;
+	}    
     
     /**
 	 * Set the background image

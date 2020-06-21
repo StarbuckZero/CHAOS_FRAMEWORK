@@ -32,7 +32,7 @@ import com.chaos.utils.Debug;
     private static var _stage : Stage = null;
 	
     private static var eventCollection : DataProvider<Dynamic->Void> = new DataProvider<Dynamic->Void>();
-    private static var taskCollection : Dictionary<String,TaskManager> = new Dictionary<String,TaskManager>(true);
+    private static var taskCollection : Dynamic = {};
     
     /**
 	 * Used for background task and a main place to store events for the framework. This keeps all ENTER_FRAME events in one place for the framework.
@@ -40,7 +40,7 @@ import com.chaos.utils.Debug;
     
     public function new()
     {
-        
+
     }
     
     /**
@@ -129,9 +129,9 @@ import com.chaos.utils.Debug;
 	 */
     
     public static function createTaskManager(id : String, disObj : DisplayObject = null, threadType : String = "timer", processMode : String = "queue") : TaskManager
-    {
-        if (null == Reflect.field(taskCollection, id)) 
-            Reflect.setField(taskCollection, id, new TaskManager(disObj, threadType, processMode));
+    {   
+        if (!Reflect.hasField(taskCollection, id)) 
+            Reflect.setField(taskCollection,id,new TaskManager(disObj, threadType, processMode));
         
         return Reflect.field(taskCollection, id);
     }
@@ -240,7 +240,7 @@ import com.chaos.utils.Debug;
     {
         var taskManager:TaskManager = Reflect.field(taskCollection, id);
 		
-        if (null == taskManager) 
+        if (null == taskManager)
         {
             Debug.print("[ThreadManager::getTaskManager] Could find " + id);
 			

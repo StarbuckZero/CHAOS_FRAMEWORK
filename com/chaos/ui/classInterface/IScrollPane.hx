@@ -39,32 +39,6 @@ interface IScrollPane extends IBaseContainer
 
 	var mode(get, set) : String;      
 	
-    
-	
-	/**
-	 * Toggle on and off border
-	 */   
-	
-	var border(get, set) : Bool;      
-	
-	/**
-	 * The ScrollPane border color
-	 */
-	
-	var borderColor(get, set) : Int;      
-	
-	/**
-	 * Specifies the border alpha. Set the alpha between 1 to 0.
-	 */
-	
-	var borderAlpha(get, set) : Float;      
-	
-	/**
-	 * Border thinkness
-	 */ 
-	
-	var borderThinkness(get, set) : Float;      
-	
 	
 	/**
 	 * Reload the content that is inside the ScrollPane

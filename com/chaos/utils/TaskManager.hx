@@ -60,7 +60,7 @@ class TaskManager
 	 * @param	processMode This could be set to "queue" (First In – First Out) remove task from the bottom or "stack" (First In – Last Out) remove task from the top
 	 */
     
-    public function new(displayObj : DisplayObject, threadType : String = "timer", processMode : String = "queue")
+    public function new(displayObj : DisplayObject = null, threadType : String = "timer", processMode : String = "queue")
     {
         
         dispatch = new EventDispatcher();

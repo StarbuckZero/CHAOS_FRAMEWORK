@@ -245,7 +245,7 @@ class AlignmentBaseContainer extends BaseContainer implements IBaseUI implements
 	 * @param	list A list of UI Elements
 	 */
     
-    public function addElementList(list : Array<Dynamic>) : Void
+    public function addElementList(list : Array<IBaseUI>) : Void
     {
         for (i in 0 ... list.length)
 		{
