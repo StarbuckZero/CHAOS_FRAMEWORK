@@ -131,7 +131,7 @@ import com.chaos.utils.Debug;
     public static function createTaskManager(id : String, disObj : DisplayObject = null, threadType : String = "timer", processMode : String = "queue") : TaskManager
     {   
         if (!Reflect.hasField(taskCollection, id)) 
-            Reflect.setField(taskCollection,id,new TaskManager(disObj, threadType, processMode));
+            Reflect.setField(taskCollection,id, new TaskManager(disObj, threadType, processMode));
         
         return Reflect.field(taskCollection, id);
     }

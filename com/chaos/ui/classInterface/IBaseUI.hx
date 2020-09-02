@@ -1,6 +1,6 @@
 package com.chaos.ui.classInterface;
 
-
+import motion.actuators.GenericActuator;
 import openfl.display.DisplayObject;
 import openfl.display.DisplayObjectContainer;
 
@@ -24,6 +24,18 @@ interface IBaseUI
 	 */
 	 
 	var enabled(get, set) : Bool;
+
+	/*
+	* Use custom render created by theme. 
+	*/
+
+	var defaultTweenDuration(get,set):Float;		
+
+	/**
+	 * Turns on or off image smoothing, which gives the image a nice anti aliasing effect
+	 */
+	
+	var imageSmoothing(get, set) : Bool;	
 
 	 
 	#if flash
@@ -84,9 +96,37 @@ interface IBaseUI
 	 */  
 	 var displayObject(get, never) : DisplayObject;
 	
-	 function addEventListener(type : String, listener : Dynamic->Void, useCapture : Bool = false, priority : Int = 0, useWeakReference : Bool = false) : Void;
-	 function removeEventListener(type : String, listener : Dynamic->Void, useCapture : Bool = false) : Void;
-	 function hasEventListener(type : String) : Bool; 
+	function addEventListener(type : String, listener : Dynamic->Void, useCapture : Bool = false, priority : Int = 0, useWeakReference : Bool = false) : Void;
+	function removeEventListener(type : String, listener : Dynamic->Void, useCapture : Bool = false) : Void;
+	function hasEventListener(type : String) : Bool; 
+
+	/**
+	* Apply a tween to this UI component or one of the display objects. Pass in duration of the tween or the default will be used.
+	*
+	* @param	data object with properties that will be used to adjust component or child DisplayObject.
+	*/
+
+	function animateTo( data:Dynamic ) : GenericActuator<DisplayObject>;
+
+	/**
+	* Pause the animation 
+	*  @param	data object with the name of the object child object. If nothing is passed then the current object will be paused.
+	**/
+
+	function pauseAnimate( data:Dynamic = null ) : Void;
+	/**
+	* Resume the animation if it was paused
+	*  @param	data object with the name of the object child object. If nothing is passed then the current object will be resume from being paused.
+	**/
+
+	function resumeAnimate( data:Dynamic = null ) : Void;
+
+	/**
+	* Stop the animation
+	*  @param	data object with the name of the object child object. If nothing is passed then the current object animation will stop.
+	**/
+
+	function stopAnimate( data:Dynamic = null ) : Void;
 		
 	/**
 	 * Unload Component

@@ -1,5 +1,9 @@
 package com.chaos.mobile.ui;
 
+import motion.actuators.GenericActuator;
+import openfl.events.Event;
+import openfl.display.DisplayObject;
+import openfl.display.Sprite;
 import com.chaos.mobile.ui.data.MobileMenuObjectData;
 import openfl.events.MouseEvent;
 import openfl.display.BitmapData;
@@ -7,10 +11,14 @@ import com.chaos.ui.classInterface.IBaseUI;
 import com.chaos.ui.layout.classInterface.IBaseContainer;
 import com.chaos.ui.layout.HorizontalContainer;
 import com.chaos.mobile.ui.layout.DragContainer;
+import com.chaos.ui.layout.BaseContainer;
 import com.chaos.data.DataProvider;
 import com.chaos.mobile.ui.data.NavigationMenuObjectData;
 import com.chaos.mobile.ui.classInterface.INavigationMenu;
 import com.chaos.mobile.ui.classInterface.IDragContainer;
+import com.chaos.ui.BaseUI;
+import com.chaos.mobile.ui.event.NavigationMenuEvent;
+
 
 
 /**
@@ -19,7 +27,7 @@ import com.chaos.mobile.ui.classInterface.IDragContainer;
  * @author Erick Feiling
  */
 
-class NavigationMenu extends DragContainer implements INavigationMenu implements IDragContainer implements IBaseContainer implements IBaseUI   {
+class NavigationMenu extends BaseContainer implements INavigationMenu implements IBaseContainer implements IBaseUI   {
 
 	/**
 	* Replace the current data provider
@@ -33,14 +41,46 @@ class NavigationMenu extends DragContainer implements INavigationMenu implements
 
 	public var alwaysDisplaySubMenuIcon(get, set):Bool;
 
-    private var _titleArea:HorizontalContainer;
-	private var _showTitleArea:Bool = true;
+	/**
+	* Adjust the sliding animation of the buttons in menu
+	**/
+
+	public var menuAnimationSpeed(get, set):Float;
+
+	/**
+	 * Border color for normal button state
+	 */
+	 public var buttonBorderColor(get, set):Int;	
+
+	/**
+	 * Set the border menu button alpha
+	 */
+	 public var buttonBorderAlpha(get, set):Float;
+
+	 /**
+	  * Border thinkness on menu buttons
+	  */
+
+	public var buttonBorderThinkness(get, set):Float;
+
+	 /**
+	  * Border menu
+	  */
+
+	public var buttonBorder(get, set):Bool;
 
 	private var _alwaysDisplaySubMenuIcon:Bool = false;
 	
 	private var _list : DataProvider<NavigationMenuObjectData> = new DataProvider<NavigationMenuObjectData>();
-	private var _buttonHeight:Int = 40;
-	private var _menuButtonList:Array<NavigationMenuItem> = new Array<NavigationMenuItem>();
+	private var _animationPlaying : Bool = false;
+	private var _menuAnimationSpeed : Float = .5;
+	private var _mask:Sprite;
+
+	private var _buttonHeight : Int = 40;	
+	private var _buttonBorder:Bool = true;
+	private var _buttonBorderAlpha:Float = 1;
+	private var _buttonBorderThinkness:Float = 1;	
+	private var _buttonBorderColor:Int = 0;
 
 	/**
 	 * UI Component
@@ -54,15 +94,30 @@ class NavigationMenu extends DragContainer implements INavigationMenu implements
 	
 	override function setComponentData(data:Dynamic) {
 		super.setComponentData(data);
+		
+		if (Reflect.hasField(data, "menuAnimationSpeed"))
+			_menuAnimationSpeed = Reflect.field(data, "menuAnimationSpeed");
 
+		if (Reflect.hasField(data, "buttonBorder"))
+			_buttonBorder = Reflect.field(data, "buttonBorder");
+
+		if (Reflect.hasField(data, "buttonBorderAlpha"))
+			_buttonBorderAlpha = Reflect.field(data, "buttonBorderAlpha");
+
+		if (Reflect.hasField(data, "buttonBorderThinkness"))
+			_buttonBorderThinkness = Reflect.field(data, "buttonBorderThinkness");
+
+		if (Reflect.hasField(data, "buttonBorderColor"))
+			_buttonBorderColor = Reflect.field(data, "buttonBorderColor");
+
+		if (Reflect.hasField(data, "buttonHeight"))
+			_buttonHeight = Reflect.field(data, "buttonHeight");
 
 		if (Reflect.hasField(data, "data"))
 		{
 			var dataMenu:Array<Dynamic> = Reflect.field(data, "data");
 			_list =  createDataList(dataMenu);
 		}
-
-		buildMenu(_list);
 	}
 
 	private function createDataList( dataArray:Array<Dynamic> ):DataProvider<NavigationMenuObjectData> {
@@ -88,16 +143,142 @@ class NavigationMenu extends DragContainer implements INavigationMenu implements
 
 	}
 
-		
-
 	override function initialize() {
 		super.initialize();
 
-		_lockX = true;
+		_mask = new Sprite();
 
-		buildMenu(_list);
+		mask = _mask;
+		addChild(_mask);
+
+		if(_list != null && _list.length > 0)
+			buildMenu(_list);
+	}
+
+    /**
+    * Let Nav Menu know that a menu button was clicked.
+    * @param	navButton The button that was clicked
+    */
+
+	public function menuButtonClicked( navButton:NavigationMenuItem ) : Void {
+
+		dispatchEvent(new NavigationMenuEvent(NavigationMenuEvent.SELECTED, navButton));
+	}
+
+    /**
+    * Go to the sub menu
+    * @param	data The buttons that will be created for the new sub menu being created
+	*/
+	
+	public function goToSubMenu(data:DataProvider<NavigationMenuObjectData>) : Void
+	{
+		
+		if(!_animationPlaying)
+		{
+			// Build Sub Menu
+			buildMenu(data);
+			
+			// Shift forward after build there
+			shiftButtonsForward();
+		}
+
+	}
+
+	public function goToPrevious() : Void
+	{
+		if(!_animationPlaying)
+			shiftButtonsBack();		
 	}
 	
+	override function draw() {
+		super.draw();
+
+		_mask.graphics.clear();
+		_mask.graphics.beginFill(0);
+		_mask.graphics.drawRect(0,0,_width,_height);
+		_mask.graphics.endFill();
+
+		//TODO: Rebuild list again if need be
+	}
+
+
+	/**
+	 * Show or hide border around button
+	 */
+	 private function set_buttonBorder(value:Bool):Bool {
+		_buttonBorder = value;
+
+		return value;
+	}
+
+	/**
+	 * Return true if border is being shown and false if not
+	 */
+	private function get_buttonBorder():Bool {
+		return _buttonBorder;
+	}
+
+	/**
+	 * Border color for menu button
+	 */
+	 private function set_butonBorderColor(value:Int):Int {
+		_buttonBorderColor = value;
+
+		return value;
+	}
+
+	/**
+	 * Return the color
+	 */
+	private function get_buttonBorderColor():Int {
+		return _buttonBorderColor;
+	}	
+
+	/**
+	 * Border thinkness
+	 */
+	 private function set_buttonBorderThinkness(value:Float):Float {
+		_buttonBorderThinkness = value;
+		return value;
+	}
+
+	/**
+	 * Return thinkness
+	 */
+	private function get_buttonBorderThinkness():Float {
+		return _buttonBorderThinkness;
+	}
+
+	private function set_buttonBorderAlpha(value:Float):Float {
+		_buttonBorderAlpha = value;
+		return value;
+	}
+
+	private function get_buttonBorderAlpha():Float {
+		return _buttonBorderAlpha;
+	}	
+
+	/**
+	 * The button normal state color
+	 */
+	 private function set_buttonBorderColor(value:Int):Int {
+		_buttonBorderColor = value;
+
+		return value;
+	}
+
+	private function get_menuAnimationSpeed():Float {
+		
+		return _menuAnimationSpeed;
+	}
+	
+	private function set_menuAnimationSpeed(value:Float):Float 
+	{	
+		_menuAnimationSpeed = value;
+
+		return value;
+	}
+
 	private function set_alwaysDisplaySubMenuIcon(value:Bool):Bool 
 	{
 		_alwaysDisplaySubMenuIcon = value;
@@ -120,27 +301,62 @@ class NavigationMenu extends DragContainer implements INavigationMenu implements
 		return _list;
 	}
 	
-	override function onStartTracking(event:MouseEvent):Void {
-		super.onStartTracking(event);
+
+	private function shiftButtonsForward () : Void
+	{		
+		if(!_animationPlaying)
+		{
+			_animationPlaying = true;
+
+			var nextMenu:DragContainer = cast(_content.getChildByName("menu_" + (_content.numChildren - 1)), DragContainer); // Newly added menu
+			var currentMenu:DragContainer = cast(_content.getChildByName("menu_" + (_content.numChildren - 2)), DragContainer); // The current menu
+			
+			currentMenu.animateTo({"x": (currentMenu.x - _width),"duration":_menuAnimationSpeed});
+			nextMenu.animateTo({"x": (nextMenu.x - _width),"duration":_menuAnimationSpeed,"onComplete":onForwardAnimationComplete});	
+		}
+
 	}
 
-	override function onStopTracking(event:MouseEvent):Void {
-		super.onStopTracking(event);
+	private function shiftButtonsBack() : Void
+	{
+		if(_content.numChildren >= 2 && !_animationPlaying)
+		{
+			_animationPlaying = true;
+
+			var currentMenu:BaseUI = cast(_content.getChildByName("menu_" + (_content.numChildren - 1)), BaseUI); // The current menu
+			currentMenu.animateTo({"x": (currentMenu.x + _width),"duration":_menuAnimationSpeed});
+	
+			var prevMenu:BaseUI = cast(_content.getChildByName("menu_" + (_content.numChildren - 2)), BaseUI); // Newly added menu
+			prevMenu.animateTo({"x": (prevMenu.x + _width),"duration":_menuAnimationSpeed, "onComplete":onBackAnimationComplete});			
+		}
+		
+	}
+
+	private function onForwardAnimationComplete() : Void 
+	{
+		_animationPlaying = false;
+	}
+
+	private function onBackAnimationComplete() : Void
+	{
+		_animationPlaying = false;
+		clearRemove(_content.numChildren -1);		
 	}
 
 	private function buildMenu( list:DataProvider<NavigationMenuObjectData> ):Void {
 
-		//TODO: Update function to create menu based on object passed in
+		var buttonHolder:Sprite = new Sprite();
+		buttonHolder.name = "buttonHolder";
 
-		// remove old menu
-		clearRemove();
-
+		var menuLevelContainer:DragContainer = new DragContainer({"name":"menu_" + _content.numChildren,"content":buttonHolder,"lockX":true,"x": (_content.numChildren > 0) ? _width : 0,"width": _width, "height": _height});
+				
 		// Build Menu for list
 		for(i in 0 ... list.length) {
 			
 			var data:NavigationMenuObjectData = list.getItemAt(i);
 			
-			var dataObj:Dynamic = {"text": data.text,"width": _width, "height": _buttonHeight, "NavigationMenu": this};
+			var dataObj:Dynamic = {"name":"button_" + i + "_" + _content.numChildren,"text": data.text,"width": _width, "height": _buttonHeight,
+			 					  "DragContainer": menuLevelContainer,"NavigationMenu": this,"border":_buttonBorder,"borderColor":_buttonBorderColor,"borderAlpha":_borderAlpha};
 
 			// Add sub menu
 			if(data.childObject != null)
@@ -149,24 +365,33 @@ class NavigationMenu extends DragContainer implements INavigationMenu implements
 			var navItem:NavigationMenuItem = new NavigationMenuItem(dataObj);
 			navItem.y = _buttonHeight * i;
 
-			_content.addChild(navItem);
-			_menuButtonList.push(navItem);
-		}
-	}
-
-	private function clearRemove():Void {
-
-		//TODO: Update to remove items based on Sprite passed in
-		for(i in 0 ... _menuButtonList.length)
-		{
-			_menuButtonList[i].destroy();
-			_content.removeChild(_menuButtonList[i]);
+			buttonHolder.addChild(navItem);
 		}
 
-		_menuButtonList = new Array<NavigationMenuItem>();
-	}
+		_content.addChild(menuLevelContainer);
 		
+	}
 
+
+	
+	private function clearRemove( menuLevel:Int ):Void {
+
+		var menuLevelContainer:DragContainer = cast(_content.getChildByName("menu_" + menuLevel), DragContainer);
+		var buttonHolder:Sprite = cast(menuLevelContainer.content, Sprite);
+		
+		if(buttonHolder != null)
+		{
+			for(i in 0 ... buttonHolder.numChildren - 1)
+			{
+				var navItem:NavigationMenuItem = cast(buttonHolder.getChildByName("button_" + i + "_" + menuLevel),NavigationMenuItem);
+				navItem.destroy();
+			}
+
+			_content.removeChild(menuLevelContainer);
+
+		}
+		
+	}
 	
 }
  

@@ -1,5 +1,6 @@
 package com.chaos.mobile.ui.layout;
 
+import com.chaos.mobile.ui.classInterface.IDragContainer;
 import openfl.geom.Point;
 import openfl.events.MouseEvent;
 import openfl.events.Event;
@@ -13,7 +14,7 @@ import com.chaos.ui.layout.classInterface.IBaseContainer;
  *
  * @author Erick Feiling
  */
-class DragContainer extends BaseContainer implements IBaseUI implements IBaseContainer {
+class DragContainer extends BaseContainer implements IDragContainer implements IBaseContainer implements IBaseUI {
 
 	public var lockX(get, set):Bool;
 	public var lockY(get, set):Bool;
@@ -58,6 +59,13 @@ class DragContainer extends BaseContainer implements IBaseUI implements IBaseCon
 
 	override function setComponentData(data:Dynamic) {
 		super.setComponentData(data);
+
+
+		if(Reflect.hasField(data,"lockX"))
+			_lockX = Reflect.field(data,"lockX");
+
+		if(Reflect.hasField(data,"lockY"))
+			_lockY = Reflect.field(data,"lockY");		
 	}
 
 	override function initialize() {
@@ -147,7 +155,7 @@ class DragContainer extends BaseContainer implements IBaseUI implements IBaseCon
 	private function trackMovement(event:Event = null):Void {
 
 		// If click an drag left it's moving right
-		if(!_lockX) {
+		if(!_lockX && _content.width > _width) {
 
 			if(this.mouseX < (_defaultMousePos.x - _offSet )) {
 
@@ -179,7 +187,7 @@ class DragContainer extends BaseContainer implements IBaseUI implements IBaseCon
 
 
 		// If click an drag up it's moving down
-		if(!_lockY) {
+		if(!_lockY && _content.height > _height) {
 
 			if(this.mouseY < (_defaultMousePos.y - _offSet )) {
 				

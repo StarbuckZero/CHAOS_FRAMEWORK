@@ -176,7 +176,9 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI {
 
 		if (Reflect.hasField(data, "backgroundAlpha"))
 			_roundEdge = Reflect.field(data, "backgroundAlpha");
-		
+
+		if (Reflect.hasField(data, "border"))
+			_border = Reflect.field(data, "border");
 	}
 
 	/**

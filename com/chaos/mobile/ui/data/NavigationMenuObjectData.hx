@@ -39,7 +39,7 @@ class NavigationMenuObjectData extends MobileMenuObjectData
         _childObject = value;
 
         return _childObject;
-    }    
+    }
 
 }
 

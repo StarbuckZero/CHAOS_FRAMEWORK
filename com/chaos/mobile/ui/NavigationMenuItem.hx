@@ -11,11 +11,14 @@ import com.chaos.ui.ToggleButton;
 import com.chaos.ui.classInterface.IBaseUI;
 import com.chaos.ui.classInterface.IToggleButton;
 import com.chaos.mobile.ui.classInterface.INavigationMenu;
+import com.chaos.mobile.ui.classInterface.IDragContainer;
 import com.chaos.data.DataProvider;
 
 class NavigationMenuItem extends ToggleButton implements IBaseUI implements IToggleButton {
 
+    public var dragContainer(get, never):IDragContainer;
     public var navigationMenu(get, never):INavigationMenu;
+
     public var arrow(get, set):DisplayObject;
 
     public var showArrow(get, set):Bool;
@@ -32,7 +35,9 @@ class NavigationMenuItem extends ToggleButton implements IBaseUI implements ITog
 
     private var _labelData:Dynamic;
 
-    private var _navMenu:INavigationMenu;
+    private var _dragContainer:IDragContainer;
+    private var _navigationMenu:INavigationMenu;
+
     private var _arrow:DisplayObject;
 
     private var _childObject:DataProvider<NavigationMenuObjectData>;
@@ -50,6 +55,9 @@ class NavigationMenuItem extends ToggleButton implements IBaseUI implements ITog
 
         super.setComponentData(data);
 
+        _dragContainer = Reflect.field(data,"DragContainer");
+        _navigationMenu = Reflect.field(data,"NavigationMenu");
+
         if (Reflect.hasField(data,"icon"))
             setIcon(Reflect.field(data,"icon"));
 
@@ -63,9 +71,6 @@ class NavigationMenuItem extends ToggleButton implements IBaseUI implements ITog
 
         if(Reflect.hasField(data, "arrow"))
             _arrow = Reflect.field(data,"arrow");
-
-        if(Reflect.hasField(data, "NavigationMenu"))
-            _navMenu = Reflect.field(data,"NavigationMenu");
 
         if(Reflect.hasField(data, "children"))
             _childObject = Reflect.field(data,"children");
@@ -85,7 +90,7 @@ class NavigationMenuItem extends ToggleButton implements IBaseUI implements ITog
         arrow.y = (_height / 2) - (arrow.height / 2);
 
         
-        if(_navMenu.alwaysDisplaySubMenuIcon)
+        if(_navigationMenu.alwaysDisplaySubMenuIcon)
             arrow.visible = true;
         else
             arrow.visible = (_childObject != null);
@@ -118,7 +123,6 @@ class NavigationMenuItem extends ToggleButton implements IBaseUI implements ITog
         return _childObject;
     }
 
-
     private function set_arrowColor( value:Int ):Int {
         _arrowColor = value;
         return _arrowColor;
@@ -128,11 +132,18 @@ class NavigationMenuItem extends ToggleButton implements IBaseUI implements ITog
         return _arrowColor;
     }    
     
-    private function get_navigationMenu():INavigationMenu {
+    private function get_dragContainer():IDragContainer {
         
-        return _navMenu;
+        return _dragContainer;
     }
 
+    private function get_navigationMenu():INavigationMenu {
+        
+        return _navigationMenu;
+    }
+
+
+    
     private function set_showArrow(value:Bool):Bool {
 
         _showArrow = value;
@@ -157,23 +168,22 @@ class NavigationMenuItem extends ToggleButton implements IBaseUI implements ITog
 
     override function mouseDownEvent(event:MouseEvent) {
 
-          if(!_navMenu.isMoving)
-            trace("Click Event");
+           if(!_dragContainer.isMoving && _childObject != null)
+            _navigationMenu.goToSubMenu(_childObject);
     }
 
     override function mouseOverEvent(event:MouseEvent) {
 
-        if(!_navMenu.isMoving)
-            super.mouseOverEvent(event);
+         if(!_dragContainer.isMoving)
+             super.mouseOverEvent(event);
     }
     
 
     
     private function mouseUpEvent(event:MouseEvent) {
 
-        if(!_navMenu.hasMoved)
-            trace("mouseUpEvent");
-        
+        if(!_dragContainer.hasMoved)
+            _navigationMenu.menuButtonClicked(this);
     }
   
 
@@ -203,10 +213,14 @@ class NavigationMenuItem extends ToggleButton implements IBaseUI implements ITog
 
         square.graphics.endFill();        
         
-        // Drawing line at the bottom of the button
-        square.graphics.lineStyle(_borderThinkness, borderColor, _borderAlpha);
-        square.graphics.moveTo(0,_height - _borderThinkness);
-        square.graphics.lineTo(_width,_height - _borderThinkness);
+        // Drawing border at the bottom of the button
+        if(_border)
+        {
+            square.graphics.lineStyle(_borderThinkness, borderColor, _borderAlpha);
+            square.graphics.lineTo(0,_height - _borderThinkness);
+            square.graphics.lineTo(_width,_height - _borderThinkness);
+            square.graphics.lineTo(_width,0);                
+        }
 
     }
 
