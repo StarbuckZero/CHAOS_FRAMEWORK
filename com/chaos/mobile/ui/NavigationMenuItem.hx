@@ -185,43 +185,5 @@ class NavigationMenuItem extends ToggleButton implements IBaseUI implements ITog
         if(!_dragContainer.hasMoved)
             _navigationMenu.menuButtonClicked(this);
     }
-  
-
-    override function drawButtonState(square:Shape, color:Int = 0xFFFFFF, borderColor:Int = 0x000000, ?image:BitmapData = null) {
-
-        // Center on the left
-        _icon.y = (_height / 2) - (_icon.height / 2);
-
-        // Update label size
-        _label.width = _width - _icon.width;
-        _label.height = _label.textField.textHeight;
-        _label.x = _icon.x + _icon.width;
-        _label.y = (_height / 2) - (_label.height / 2);
-
-        square.graphics.clear();
-        
-        // Draw shape
-		if (null != image)
-			square.graphics.beginBitmapFill(image, null, _tileImage, _smoothImage);
-		else
-			square.graphics.beginFill(color, _bgAlpha);
-
-		if (image != null)
-			square.graphics.drawRoundRect(0, 0, _width, _height, _roundEdge);
-		else
-			square.graphics.drawRoundRect(0, 0, _width, _height, _roundEdge);
-
-        square.graphics.endFill();        
-        
-        // Drawing border at the bottom of the button
-        if(_border)
-        {
-            square.graphics.lineStyle(_borderThinkness, borderColor, _borderAlpha);
-            square.graphics.lineTo(0,_height - _borderThinkness);
-            square.graphics.lineTo(_width,_height - _borderThinkness);
-            square.graphics.lineTo(_width,0);                
-        }
-
-    }
 
 }

@@ -28,8 +28,6 @@ class CheckBox extends SelectToggleBase implements ICheckBox implements IBaseUI
 	private static inline var STYLE_X:String = "x";
 	private static inline var STYLE_CHECKMARK:String = "checkmark";
 	
-	
-	
 	private var _style:String = STYLE_CHECKMARK;
 	
 	
@@ -80,13 +78,10 @@ class CheckBox extends SelectToggleBase implements ICheckBox implements IBaseUI
 		if (!Reflect.hasField(_labelData, "italic"))
 			Reflect.setField(_labelData, "italic", UIStyleManager.CHECKBOX_TEXT_ITALIC);
 	}
-	
-	
 
 	override function onStageAdd(event : Event) : Void { UIBitmapManager.watchElement(TYPE, this); }
 	override function onStageRemove(event : Event) : Void { UIBitmapManager.stopWatchElement(TYPE, this); }
-
-
+	
 	override private function initSkin() : Void
 	{
 		// Skin element
@@ -159,7 +154,7 @@ class CheckBox extends SelectToggleBase implements ICheckBox implements IBaseUI
             _selectedDownStateImage = UIBitmapManager.runCustomRender(CheckBox.TYPE,{"width":_buttonSize,"height":_buttonSize,"state":"selected","style":_style});
 			_selectedDisableStateImage = UIBitmapManager.runCustomRender(CheckBox.TYPE,{"width":_buttonSize,"height":_buttonSize,"state":"disable","style":_style});
 			
-		} 
+		}
 
 		super.draw();
 		
@@ -184,31 +179,38 @@ class CheckBox extends SelectToggleBase implements ICheckBox implements IBaseUI
 	 * @param	image The image
 	 */
 	
-	override public function drawButtonState(square:Shape, color:Int = 0xFFFFFF, borderColor:Int = 0x000000, image:BitmapData = null):Void 
+	override public function drawButtonState(base:ButtonBase, color:Int = 0xFFFFFF, borderColor:Int = 0x000000, image:BitmapData = null):Void 
 	{
-		super.drawButtonState(square, color, image);
 		
-		if (image == null)
+		if (image != null)
 		{
+			super.drawButtonState(base, color, image);
+		}
+		else
+		{
+			base.shapeBase.graphics.clear();
+			base.shapeBase.graphics.lineStyle(_lineSize, color, _lineAlpha);
+			base.shapeBase.graphics.drawRect(0,0,_buttonSize,_buttonSize);
+
 			// Draw X if selected
 			if (_selected)
 			{
-				square.graphics.lineStyle(_lineSize, color, _lineAlpha);
-				
+				base.shapeBase.graphics.moveTo(0, 0);
 				if (_style == STYLE_X)
 				{
-					square.graphics.lineTo(_buttonSize, _buttonSize);
-					square.graphics.moveTo(_buttonSize, 0);
-					square.graphics.lineTo(0, _buttonSize);
+					base.shapeBase.graphics.lineTo(_buttonSize, _buttonSize);
+					base.shapeBase.graphics.moveTo(_buttonSize, 0);
+					base.shapeBase.graphics.lineTo(0, _buttonSize);
 				}
 				else if (_style == STYLE_CHECKMARK)
 				{
-					square.graphics.moveTo(0, (_buttonSize / 2));
-					square.graphics.lineTo(_buttonSize / 2, _buttonSize);
-					square.graphics.lineTo(_buttonSize - 1, 0);
+					base.shapeBase.graphics.moveTo(0, (_buttonSize / 2));
+					base.shapeBase.graphics.lineTo(_buttonSize / 2, _buttonSize);
+					base.shapeBase.graphics.lineTo(_buttonSize - 1, 0);
 				}
 			}
 		}
+
 	}
 	
 	override function mouseDownEvent(event:MouseEvent):Void 

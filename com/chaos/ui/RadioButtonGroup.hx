@@ -140,8 +140,8 @@ class RadioButtonGroup extends HorizontalContainer implements IRadioButtonGroup 
 		super.draw();
 		
 		// Add the checkboxes into the display
-		addElementList(_list);
-	}	
+		addElementList( _list );
+	}
     
     /**
 	 * Remove all items out of group

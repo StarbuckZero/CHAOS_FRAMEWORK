@@ -299,7 +299,7 @@ class SelectToggleBase extends ToggleButton implements IToggleButton implements 
 		{
 			downState.visible = true;
 			disableState.visible = normalState.visible = false;
-			
+						
 			drawButtonState(normalState, _defaultColor, _normalBorderColor, _selectedDefaultStateImage);
 			drawButtonState(overState, _overColor, _overBorderColor, _selectedOverStateImage);
 			drawButtonState(downState, _downColor, _downBorderColor, _selectedDownStateImage);
@@ -308,7 +308,7 @@ class SelectToggleBase extends ToggleButton implements IToggleButton implements 
 		else
 		{
 			normalState.visible = true;
-			disableState.visible = downState.visible = false;
+			disableState.visible = downState.visible = false;				
 			
 			drawButtonState(normalState, _defaultColor, _defaultStateImage);
 			drawButtonState(overState, _overColor, _overStateImage);
@@ -355,24 +355,13 @@ class SelectToggleBase extends ToggleButton implements IToggleButton implements 
 	 * @param	image The image
 	 */
 
-	override public function drawButtonState(square:Shape, color:Int = 0xFFFFFF, borderColor:Int = 0x000000, image:BitmapData = null):Void 
+	override public function drawButtonState(base:ButtonBase, color:Int = 0xFFFFFF, borderColor:Int = 0x000000, image:BitmapData = null):Void 
 	{
-		
-		square.graphics.clear();
-		
-		if (null != image) 
-			square.graphics.beginBitmapFill(image, null, _tileImage, _smoothImage);
-		else 
-		{
-			square.graphics.lineStyle(_lineSize, color, _lineAlpha);
-		}
-		
-		if (image != null)
-			square.graphics.drawRoundRect(0, 0, image.width, image.height, _roundEdge);
-		else
-			square.graphics.drawRoundRect(0, 0, _buttonSize, _buttonSize, _roundEdge);
-		
-		square.graphics.endFill();
+
+		base.setComponentData({"border":_border,"lineThinkness":_borderThinkness,"lineAlpha":_borderAlpha, "lineColor":borderColor,
+		 "baseAlpha":_bgAlpha,"tileImage":_tileImage,"image":image,"baseColor":color,"width":_buttonSize,"height":_buttonSize});
+
+		 base.draw();
 		
 	}
 	

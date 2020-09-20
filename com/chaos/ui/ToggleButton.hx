@@ -6,6 +6,7 @@ import openfl.display.BitmapData;
 import openfl.events.MouseEvent;
 import openfl.events.Event;
 import openfl.display.Shape;
+import com.chaos.ui.ButtonBase;
 
 /**
  * Creates a simple toggle button it doesn't use a label or icon
@@ -86,10 +87,10 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI {
 	 */
 	public var tileImage(get, set):Bool;
 
-	public var normalState:Shape = new Shape();
-	public var overState:Shape = new Shape();
-	public var downState:Shape = new Shape();
-	public var disableState:Shape = new Shape();
+	public var normalState:ButtonBase;
+	public var overState:ButtonBase;
+	public var downState:ButtonBase;
+	public var disableState:ButtonBase;
 
 	private var _defaultColor:Int = 0xCCCCCC;
 	private var _overColor:Int = 0x666666;
@@ -175,7 +176,7 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI {
 			_roundEdge = Reflect.field(data, "roundEdge");
 
 		if (Reflect.hasField(data, "backgroundAlpha"))
-			_roundEdge = Reflect.field(data, "backgroundAlpha");
+			_bgAlpha = Reflect.field(data, "backgroundAlpha");
 
 		if (Reflect.hasField(data, "border"))
 			_border = Reflect.field(data, "border");
@@ -187,6 +188,12 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI {
 	override public function initialize():Void {
 		super.initialize();
 
+		
+		normalState = new ButtonBase();
+		overState = new ButtonBase();
+		downState = new ButtonBase();
+		disableState = new ButtonBase();
+		
 		addChild(normalState);
 		addChild(overState);
 		addChild(downState);
@@ -613,7 +620,7 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI {
             _downStateImage = UIBitmapManager.runCustomRender(ToggleButton.TYPE,{"width":_width,"height":_height,"state":"down"});
             _disableStateImage = UIBitmapManager.runCustomRender(ToggleButton.TYPE,{"width":_width,"height":_height,"state":"disable"});
 		}   
-				
+
 		// Figure to use bitmap or normal mode
 		drawButtonState(normalState, _defaultColor, _normalBorderColor, _defaultStateImage);
 		drawButtonState(overState, _overColor, _overBorderColor, _overStateImage);
@@ -639,23 +646,12 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI {
 	 * @param	color The color of the shape if no image being passed
 	 * @param	image The image
 	 */
-	public function drawButtonState(square:Shape, color:Int = 0xFFFFFF, borderColor:Int = 0x000000, image:BitmapData = null):Void {
-		square.graphics.clear();
+	public function drawButtonState(base:ButtonBase, color:Int = 0xFFFFFF, borderColor:Int = 0x000000, image:BitmapData = null):Void {
 
-		if (_border)
-			square.graphics.lineStyle(_borderThinkness, borderColor, _borderAlpha);
+		base.setComponentData({"border":_border,"lineThinkness":_borderThinkness,"lineAlpha":_borderAlpha, "lineColor":borderColor,
+		"baseAlpha":_bgAlpha,"tileImage":_tileImage,"image":image,"baseColor":color,"width":_width,"height":_height});
 
-		if (null != image)
-			square.graphics.beginBitmapFill(image, null, _tileImage, _smoothImage);
-		else
-			square.graphics.beginFill(color, _bgAlpha);
-
-		if (image != null)
-			square.graphics.drawRoundRect(0, 0, _width, _height, _roundEdge);
-		else
-			square.graphics.drawRoundRect(0, 0, _width, _height, _roundEdge);
-
-		square.graphics.endFill();
+		base.draw();
 	}
 
 	private function mouseOutEvent(event:MouseEvent):Void {

@@ -119,6 +119,7 @@ class BaseUI extends Sprite implements IBaseUI
 			
 		if (Reflect.hasField(data, "name"))
 			name = Reflect.field(data, "name");
+
 	}
 	
 	/**

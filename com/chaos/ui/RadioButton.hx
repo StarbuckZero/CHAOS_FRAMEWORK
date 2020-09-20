@@ -207,7 +207,6 @@ class RadioButton extends SelectToggleBase implements IRadioButton implements IB
 		} 
 
 		super.draw();
-		
 
 		// Center Shapes
 		_label.draw();
@@ -225,27 +224,31 @@ class RadioButton extends SelectToggleBase implements IRadioButton implements IB
 	 * @param	image The image
 	 */
 	
-	override public function drawButtonState(square:Shape, color:Int = 0xFFFFFF, borderColor:Int = 0x000000, image:BitmapData = null):Void 
+	override public function drawButtonState(base:ButtonBase, color:Int = 0xFFFFFF, borderColor:Int = 0x000000, image:BitmapData = null):Void 
 	{
-		super.drawButtonState(square, color, image);
-		
-		if (image == null)
+		if (image != null)
 		{
-			square.graphics.clear();
-			square.graphics.lineStyle(_lineSize, color, _lineAlpha);
-			square.graphics.beginFill(color, 0);
-			square.graphics.drawCircle(0,0, _buttonSize / 2);
-			square.graphics.endFill(); 
+			super.drawButtonState(base, color, image);
+		}
+		else
+		{
+			base.shapeBase.graphics.clear();
+			
+			base.shapeBase.graphics.lineStyle(_lineSize, color, _lineAlpha);
+			base.shapeBase.graphics.beginFill(color, 0);
+			base.shapeBase.graphics.drawCircle(0,0, _buttonSize / 2);
+			base.shapeBase.graphics.endFill(); 
 			
 			// Draw dot if selected  
 			if (_selected) 
 			{
-				square.graphics.lineStyle(_lineSize, color, _lineAlpha);
-				square.graphics.beginFill(color, _bgAlpha);
-				square.graphics.drawCircle(0, 0, _dotSize);
-				square.graphics.endFill();
-			}
+				base.shapeBase.graphics.lineStyle(_lineSize, color, _lineAlpha);
+				base.shapeBase.graphics.beginFill(color, _bgAlpha);
+				base.shapeBase.graphics.drawCircle(0, 0, _dotSize);
+				base.shapeBase.graphics.endFill();
+			}			
 		}
+
 	}
 	
 	override function mouseDownEvent(event:MouseEvent):Void 

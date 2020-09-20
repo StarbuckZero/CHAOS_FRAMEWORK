@@ -37,7 +37,7 @@ class HorizontalContainer extends AlignmentBaseContainer implements IBaseContain
 	 * @eventType ContainerEvent.UPDATE
 	 */	 
     
-    override public function addElementList(list : Array<IBaseUI>) : Void
+    override public function addElementList(list : Array<Dynamic>) : Void
     {
         super.addElementList(list);
         
