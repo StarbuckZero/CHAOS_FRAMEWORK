@@ -58,6 +58,12 @@ interface IAccordion extends IBaseContainer
 	 */
 	
 	var buttonSize(get, set) : Int;	
+
+	/**
+	 * The animation speed of moving between sections
+	 */
+
+	var animationSpeed(get, set):Float;		
 	
 	/**
 	 * This set the image for the over state

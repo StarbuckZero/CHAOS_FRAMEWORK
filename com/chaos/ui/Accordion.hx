@@ -16,7 +16,7 @@ import openfl.events.MouseEvent;
  *
  * @author Erick Feiling
  */
-class Accordion extends BaseContainer implements IBaseContainer implements IAccordion implements IBaseUI {
+class Accordion extends BaseContainer implements IAccordion implements IBaseContainer implements IBaseUI {
 	/** The type of UI Element */
 	public static inline var TYPE:String = "Accordion";
 
@@ -60,6 +60,11 @@ class Accordion extends BaseContainer implements IBaseContainer implements IAcco
 	 */
 	public var buttonSize(get, set):Int;
 
+	/**
+	 * The animation speed of moving between sections
+	 */
+	 public var animationSpeed(get, set):Float;	
+
 	private var _buttonNormalColor:Int = 0xCCCCCC;
 	private var _buttonOverColor:Int = 0x666666;
 	private var _buttonSelectedColor:Int = 0x333333;
@@ -75,7 +80,12 @@ class Accordion extends BaseContainer implements IBaseContainer implements IAcco
 
 	private var _buttonSize:Int = 20;
 
+	private var _animationSpeed:Float = 0;
+
 	private var _selectedSection:String = "";
+
+	private var _currentSelected:AccordionObjectData;
+	private var _lastSelected:AccordionObjectData;
 
 	private var _section:Array<AccordionObjectData> = new Array<AccordionObjectData>();
 
@@ -267,6 +277,16 @@ class Accordion extends BaseContainer implements IBaseContainer implements IAcco
 		return _buttonSize;
 	}
 
+	private function set_animationSpeed(value:Float):Float {
+		_animationSpeed = value;
+
+		return value;
+	}
+
+	private function get_animationSpeed():Float {
+		return _animationSpeed;
+	}	
+
 	/**
 	 * This set the image for the over state
 	 *
@@ -328,8 +348,9 @@ class Accordion extends BaseContainer implements IBaseContainer implements IAcco
 		// Hide it will be shown if selected later
 		container.visible = false;
 
-		_content.addChild(button);
 		_content.addChild(container);
+		_content.addChild(button);
+
 	}
 
 	/**
@@ -356,8 +377,12 @@ class Accordion extends BaseContainer implements IBaseContainer implements IAcco
 
 			container.visible = button.selected = false;
 			button.textColor = _buttonTextColor;
-			button.y = i * _buttonSize;
-			container.y = button.y + button.height;
+			container.y = button.y + button.height;	
+
+			if(_animationSpeed > 0)
+				button.animateTo({"duration":_animationSpeed,"y":i * _buttonSize});
+			else
+				button.y = i * _buttonSize;
 
 			button.draw();
 		}
@@ -368,42 +393,63 @@ class Accordion extends BaseContainer implements IBaseContainer implements IAcco
 	 * @param	sectionName The name of the section
 	 */
 	public function open(sectionName:String):Void {
-		closeAll();
 
-		// Start off as -1
 		var index:Int = -1;
-		var founded:Bool = false;
-
+	
 		// Figure out what button to open based on section passed in
-		for (i in 0..._section.length) {
+		for (i in 0 ... _section.length) {
+
+			// Get the current section
+			var section:AccordionObjectData = _section[i];
+
+			// If the name match then open else close
 			if (_section[i].name == sectionName) {
+
 				// Take the current
 				index = i;
-				founded = true;
-
-				// Get the current section
-				var section:AccordionObjectData = _section[i];
 
 				// Resize container based on how many sections below
 				section.container.height = _height - (_buttonSize * _section.length);
-				section.container.visible = true;
-
 				section.container.draw();
-				section.button.draw();
+
+				// If the first item then  
+				if(_animationSpeed > 0)
+					section.button.animateTo({"duration":_animationSpeed,"y":(section.container.y - section.button.height)}).onComplete(onSectionComplete,[section]);
+				else
+				{
+					section.button.y = section.container.y + section.container.height;
+					section.container.visible = true;
+				}
+					
 			}
+			else
+			{
+				section.container.height = 0;
+				
+				section.button.selected = section.container.visible = false;
+				section.button.draw();
 
-			// Once flag is set start shifting everything else down
-			if (founded) {
-				// Get current item
-				var currentSection:AccordionObjectData = _section[i];
-				var selectedSection:AccordionObjectData = _section[index];
+				// If already see if items need to be shifted up or down
+				if(index != -1)
+				{
+					// Grab whatever the last item was
+					var selectedSection:AccordionObjectData = _section[index];
 
-				// Check to see if buttons need to be shifted below contianer
-				if (i == (index + 1)) {
-					currentSection.button.y = selectedSection.container.y + selectedSection.container.height;
-				} else if (i > 0) {
-					var lastSection:AccordionObjectData = _section[i - 1];
-					currentSection.button.y = lastSection.button.y + lastSection.button.height;
+					// If true that means it's open so shift down based on height
+					if(_animationSpeed > 0)
+					{
+						section.button.animateTo({"duration":_animationSpeed,"y":(selectedSection.container.y + selectedSection.container.height) + (_buttonSize * (i - (1 + index)) )});
+					}
+					else
+						section.button.y = selectedSection.container.y + selectedSection.container.height + (_buttonSize * (i - (1 + index)));
+				}
+				else
+				{
+					if(_animationSpeed > 0)
+						section.button.animateTo({"duration":_animationSpeed,"y":i * _buttonSize});
+					else
+
+						section.button.y = i * _buttonSize;
 				}
 			}
 		}
@@ -468,5 +514,10 @@ class Accordion extends BaseContainer implements IBaseContainer implements IAcco
 		button.selected = true;
 		button.textColor = _buttonTextSelectedColor;
 		button.draw();
+	}
+
+	private function onSectionComplete(section:Dynamic):Void {
+
+		cast(section,AccordionObjectData).container.visible = true;
 	}
 }
