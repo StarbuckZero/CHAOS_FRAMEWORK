@@ -417,7 +417,7 @@ class Accordion extends BaseContainer implements IAccordion implements IBaseCont
 					section.button.animateTo({"duration":_animationSpeed,"y":(section.container.y - section.button.height)}).onComplete(onSectionComplete,[section]);
 				else
 				{
-					section.button.y = section.container.y + section.container.height;
+					section.button.y = section.container.y - section.button.height;
 					section.container.visible = true;
 				}
 					
