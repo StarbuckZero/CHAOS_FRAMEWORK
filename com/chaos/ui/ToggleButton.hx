@@ -87,6 +87,18 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI {
 	 */
 	public var tileImage(get, set):Bool;
 
+	/**
+	 * Well do a cross fade effect on over and disable states
+	 */
+	public var stateFadeSpeed(get, set):Float;
+
+	/**
+	 * This will make sure down state fade in on click
+	 */
+
+	public var fadeToDownState(get, set):Bool;
+	
+
 	public var normalState:ButtonBase;
 	public var overState:ButtonBase;
 	public var downState:ButtonBase;
@@ -116,6 +128,8 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI {
 	private var _disableBorderColor:Int = 0x000000;
 	private var _borderAlpha:Float = 1;
 	private var _borderThinkness:Float = 1;
+	private var _stateFadeSpeed:Float = 0;
+	private var _fadeToDownState:Bool = false;
 
 	/**
 	 * UI Toggle Button
@@ -180,6 +194,13 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI {
 
 		if (Reflect.hasField(data, "border"))
 			_border = Reflect.field(data, "border");
+
+		if (Reflect.hasField(data, "stateFadeSpeed"))
+			_stateFadeSpeed = Reflect.field(data, "stateFadeSpeed");
+
+		if (Reflect.hasField(data, "fadeToDownState"))
+			_fadeToDownState = Reflect.field(data, "fadeToDownState");		
+		
 	}
 
 	/**
@@ -193,10 +214,11 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI {
 		overState = new ButtonBase();
 		downState = new ButtonBase();
 		disableState = new ButtonBase();
+
 		
+		addChild(downState);
 		addChild(normalState);
 		addChild(overState);
-		addChild(downState);
 		addChild(disableState);
 	}
 
@@ -533,6 +555,38 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI {
 	}
 
 	/**
+	 * The fade up speed of over and disable state
+	 */
+	 private function set_stateFadeSpeed(value:Float):Float {
+		_stateFadeSpeed = value;
+
+		return value;
+	}
+
+	/**
+	 *  Return the current speed of fade rate
+	 */
+	private function get_stateFadeSpeed():Float {
+		return _stateFadeSpeed;
+	}
+
+	/**
+	 * The fade up speed of over and disable state
+	 */
+	 private function set_fadeToDownState(value:Bool):Bool {
+		_fadeToDownState = value;
+
+		return value;
+	}
+
+	/**
+	 *  Return the current speed of fade rate
+	 */
+	private function get_fadeToDownState():Bool {
+		return _fadeToDownState;
+	}	
+
+	/**
 	 * This is for setting an shape for the button default state
 	 *
 	 * @param value Set the shape that you want to use
@@ -579,7 +633,9 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI {
 	 *
 	 */
 	override private function set_enabled(value:Bool):Bool {
+
 		if (_enabled != value) {
+
 			if (value) {
 				// Add events
 				if (!hasEventListener(MouseEvent.MOUSE_OUT))
@@ -591,15 +647,24 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI {
 				if (!hasEventListener(MouseEvent.MOUSE_DOWN))
 					addEventListener(MouseEvent.MOUSE_DOWN, mouseDownEvent, false, 0, true);
 
-				disableState.visible = false;
+				if(_stateFadeSpeed > 0)
+					disableState.animateTo({"duration":_stateFadeSpeed,"alpha":0});
+				else
+					disableState.alpha = 0;
+				
 			} else {
 				// Remove Events
 				removeEventListener(MouseEvent.MOUSE_OUT, mouseOutEvent);
 				removeEventListener(MouseEvent.MOUSE_OVER, mouseOverEvent);
 				removeEventListener(MouseEvent.MOUSE_DOWN, mouseDownEvent);
 
-				disableState.visible = true;
-				normalState.visible = downState.visible = overState.visible = false;
+				if(_stateFadeSpeed > 0)
+					disableState.animateTo({"duration":_stateFadeSpeed,"alpha":1});
+				else
+				{
+					normalState.alpha = downState.alpha = overState.alpha = 0;
+					disableState.alpha = 1;
+				}
 			}
 		}
 
@@ -629,15 +694,39 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI {
 
 		// Toggle Seleect state
 		if (_selected) {
-			downState.visible = true;
-			overState.visible = disableState.visible = normalState.visible = false;
+			
+			if(_stateFadeSpeed > 0)
+			{
+				downState.animateTo({"duration":_stateFadeSpeed,"alpha":1});
+				normalState.animateTo({"duration":_stateFadeSpeed,"alpha":0});
+			}
+			else 
+			{
+				downState.alpha = 1;
+				disableState.alpha = overState.alpha = normalState.alpha = 0;
+			}
+
 		} else {
-			normalState.visible = true;
-			overState.visible = disableState.visible = downState.visible = false;
+
+			if(_stateFadeSpeed > 0)
+			{
+				normalState.animateTo({"duration":_stateFadeSpeed,"alpha":1});
+				downState.animateTo({"duration":_stateFadeSpeed,"alpha":0});
+			}
+			else
+			{
+				normalState.alpha = 1;
+				disableState.alpha = overState.alpha = downState.alpha = 0;	
+			}
 		}
 
 		if (!_enabled)
-			disableState.visible = true;
+		{
+			if(_stateFadeSpeed > 0)
+				disableState.animateTo({"duration":_stateFadeSpeed,"alpha":1});
+			else
+				disableState.alpha = 1;
+		}
 	}
 
 	/**
@@ -655,35 +744,71 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI {
 	}
 
 	private function mouseOutEvent(event:MouseEvent):Void {
-		overState.visible = false;
 
-		if (_selected) {
-			downState.visible = true;
-			normalState.visible = disableState.visible = false;
-		} else {
-			normalState.visible = true;
-			downState.visible = disableState.visible = false;
+		if(_stateFadeSpeed > 0)
+		{
+			if (_selected)
+				downState.alpha = 1;
+			else
+				normalState.alpha = 1;
+
+			overState.animateTo({"duration":_stateFadeSpeed,"alpha":0});
 		}
+		else
+		{
+			overState.alpha = 0;
+
+			if (_selected) {
+				downState.alpha = 1;
+				normalState.alpha = disableState.alpha = 0;
+			} else {
+				normalState.alpha = 1;
+				downState.alpha = disableState.alpha = 0;
+			}
+		}
+
+
 	}
 
 	private function mouseOverEvent(event:MouseEvent):Void {
-		// Check to set toggle
-		overState.visible = true;
 
-		disableState.visible = downState.visible = normalState.visible = false;
+		// Check to set toggle
+		if(_stateFadeSpeed > 0)
+		{
+			overState.animateTo({"duration":_stateFadeSpeed,"alpha":1});
+		}
+		else
+		{
+			overState.alpha = 1;
+			disableState.alpha = downState.alpha = normalState.alpha = 0;
+		}
 	}
 
 	private function mouseDownEvent(event:MouseEvent):Void {
 		// Toggle selected stage
 		_selected = !_selected;
 
-		// Toggle Seleect state
-		if (_selected) {
-			downState.visible = true;
-			overState.visible = disableState.visible = normalState.visible = false;
-		} else {
-			normalState.visible = true;
-			overState.visible = disableState.visible = downState.visible = false;
+		if(_stateFadeSpeed > 0 && _fadeToDownState)
+		{
+			disableState.alpha = overState.alpha = 0;
+
+			if (_selected) {
+				downState.animateTo({"duration":_stateFadeSpeed,"alpha":1});
+				normalState.animateTo({"duration":_stateFadeSpeed,"alpha":0});
+			} else {
+				normalState.animateTo({"duration":_stateFadeSpeed,"alpha":1});
+				downState.animateTo({"duration":_stateFadeSpeed,"alpha":0});
+			}
+		}
+		else
+		{
+			if (_selected) {
+				downState.alpha = 1;
+				disableState.alpha = overState.alpha = normalState.alpha = 0;
+			} else {
+				normalState.alpha = 1;
+				disableState.alpha = overState.alpha = downState.alpha = 0;
+			}
 		}
 	}
 }

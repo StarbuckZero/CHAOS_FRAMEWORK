@@ -16,9 +16,9 @@ import com.chaos.ui.Border;
 
  class ButtonBase extends Border implements IButtonBase implements IBorder implements IBaseUI
  {
-	/**
-	 * Color for button state
-     */
+    /**
+    * Color for button state
+    */
      
      public var baseColor(get, set):Int;
  
@@ -34,28 +34,29 @@ import com.chaos.ui.Border;
           
      public var image(get, set):BitmapData;
 
-	/**
-	 * Title the image that is being used
-     */
+    /**
+    * Title the image that is being used
+    */
      
      public var tileImage(get, set):Bool;
 
-	/**
-	 * Border for button
-     */
+    /**
+    * Border for button
+    */
      
      public var border(get, set):Bool;        
 
-	/**
-	 * Set how rounded the button is
-	 */
+    /**
+    * Set how rounded the button is
+    */
+    
      public var roundEdge(get, set):Int;
 
      public var shapeBase:Shape = new Shape();
 
      private var _roundEdge:Int = 0;
      private var _border:Bool = false;
-     private var _baseColor:Int = 0x000000;
+     private var _baseColor:Int = 0xCCCCCC;
      private var _baseAlpha:Float = 1;
      private var _image:BitmapData = null;
      private var _tileImage:Bool = false;
@@ -68,20 +69,9 @@ import com.chaos.ui.Border;
      
      public function new( data:Dynamic = null )
      {
-         super();
-         
-         // Make sure all style and bitmap skinning is set first
-         reskin();
-         
-         // If object passed in then start setting defaults
-         if (null != data)
-             setComponentData(data);
-         
-         // Init component parts
-         initialize();
-         
-         // Draw and texture object
-         draw();
+
+        super(data);
+
      }  
 
      override function setComponentData(data:Dynamic) {
@@ -100,7 +90,10 @@ import com.chaos.ui.Border;
             _tileImage = Reflect.field(data, "tileImage");
 
           if (Reflect.hasField(data, "border"))
-            _border = Reflect.field(data, "border");          
+            _border = Reflect.field(data, "border");
+          
+          if (Reflect.hasField(data, "roundEdge"))
+            _roundEdge = Reflect.field(data, "roundEdge");
      }
 
      override function initialize() {

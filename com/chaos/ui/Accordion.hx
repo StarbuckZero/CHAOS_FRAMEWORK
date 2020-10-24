@@ -420,7 +420,7 @@ class Accordion extends BaseContainer implements IAccordion implements IBaseCont
 					section.button.y = section.container.y - section.button.height;
 					section.container.visible = true;
 				}
-					
+				
 			}
 			else
 			{

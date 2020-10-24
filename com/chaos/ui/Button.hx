@@ -678,8 +678,7 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
             _overStateImage = UIBitmapManager.runCustomRender(Button.TYPE,{"width":_width,"height":_height,"state":"over"});
             _downStateImage = UIBitmapManager.runCustomRender(Button.TYPE,{"width":_width,"height":_height,"state":"down"});
             _disableStateImage = UIBitmapManager.runCustomRender(Button.TYPE,{"width":_width,"height":_height,"state":"down"});
-        }        
-
+        }
 
         super.draw();
         
@@ -739,9 +738,8 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
 		
 		if (_mode.toLowerCase() == PRESS_MODE)
 		{
-			
-			normalState.visible = true;
-			overState.visible = downState.visible = false;
+			normalState.alpha = 1;
+			overState.alpha = downState.alpha = 0;
 		}
 		else
 		{
@@ -749,24 +747,33 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
 			// Toggle Seleect state
 			if (_selected)
 			{
-				downState.visible = true;
-				overState.visible = normalState.visible = false;
+				downState.alpha = 1;
+				disableState.alpha = overState.alpha = normalState.alpha = 0;
 			}
 			else
 			{
-				normalState.visible = true;
-				overState.visible = downState.visible = false;
+				normalState.alpha = 1;
+				disableState.alpha = overState.alpha = downState.alpha = 0;
 			}
 			
-		}
-		
-		
+        }
+        
     }
 	
 	private function mouseUpEvent(event:MouseEvent):Void 
 	{
-		normalState.visible = true;
-		disableState.visible = overState.visible = downState.visible = false;
+        if (_stateFadeSpeed > 0)
+        {
+            overState.alpha = 0;
+
+            normalState.animateTo({"duration":_stateFadeSpeed,"alpha":1});
+            downState.animateTo({"duration":_stateFadeSpeed,"alpha":1});
+        }
+        else
+        {
+            normalState.alpha = 1;
+            disableState.alpha = overState.alpha = downState.alpha = 0;
+        }
 	}	
 	
 	override function mouseDownEvent(event:MouseEvent):Void 
@@ -776,9 +783,21 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
 			super.mouseDownEvent(event);
 		else
 		{
-			// Or Just show down state on mouse down
-			downState.visible = true;	
-			disableState.visible = overState.visible = normalState.visible = false;
+            
+            if (_stateFadeSpeed > 0 && _fadeToDownState)
+            {                
+                downState.stopAnimate();
+                downState.alpha = 1;
+
+                normalState.animateTo({"duration":_stateFadeSpeed,"alpha":0});
+                overState.animateTo({"duration":_stateFadeSpeed,"alpha":0});
+            }
+            else
+            {
+                // Or Just show down state on mouse down
+                downState.alpha = 1;
+                disableState.alpha = overState.alpha = normalState.alpha = 0;
+            }
 		}
 	}
 	

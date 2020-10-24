@@ -35,6 +35,7 @@ import com.chaos.ui.ToggleButton;
 import com.chaos.ui.ToolTip;
 import com.chaos.ui.UIStyleManager;
 import com.chaos.ui.Window;
+import com.chaos.mobile.ui.Card;
 import com.chaos.utils.ThreadManager;
 import openfl.display.Bitmap;
 import openfl.display.DisplayObject;
@@ -45,6 +46,7 @@ import openfl.events.Event;
 import openfl.events.MouseEvent;
 import openfl.geom.Rectangle;
 import openfl.text.TextField;
+
 
 /**
  * ...
@@ -80,7 +82,9 @@ class UIDemo extends Sprite
     public var menu : Menu;
     public var accordion:Accordion;
 	
-	public var alertBox:Sprite;
+    public var alertBox:Sprite;
+    
+    public var card:Card;
     
     public function new()
     {
@@ -284,6 +288,9 @@ class UIDemo extends Sprite
         
         accordion  = new Accordion({"width":300,"height":160,"data":sectionArray,"x":menu.x + menu.width + OFFSET, "y":(menu.y )});
 
+        var cardlabel:Label = new Label({"text":"Card", "width":100, "height":40,"textColor":0x000000,"y": 20 });
+        card = new Card({"width":100,"height":60,"x":accordion.x + accordion.width + OFFSET,"y": accordion.y,"roundEdge":10,"content":cardlabel});
+
 
         ThreadManager.stage = stage;
         Slider.sliderEventMode = Slider.TIMER_MODE;
@@ -313,6 +320,7 @@ class UIDemo extends Sprite
         addChild(menu.displayObject);
         addChild(accordion);
         addChild(window.displayObject);
+        addChild(card);
         
     }
     

@@ -82,6 +82,18 @@ interface IToggleButton extends IBaseUI
 	 */
 	
 	var selected(get, set) : Bool;  
+
+    /**
+	 * Well do a cross fade effect on over and disable states
+	 */
+	
+	 var stateFadeSpeed(get, set) : Float;
+
+	/**
+	 * This will make sure down state fade in on click
+	 */
+	 
+	 var fadeToDownState(get, set):Bool;
 	
 	/**
 	 * This is for setting an image to the button default state. It is best to set an image that can be tile.
