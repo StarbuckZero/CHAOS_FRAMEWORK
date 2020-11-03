@@ -226,7 +226,7 @@ class Label extends BaseUI implements ILabel implements IBaseUI {
 		if (_fontName != "")
 			_textFormat.font = _fontName;
 
-		// Setup height
+		// Setup width
 		_textField.width = _width;
 
 		// First figure out if auto resize is being used
