@@ -52,7 +52,10 @@ class Breadcrumb extends BaseContainer implements IBreadcrumb implements IBaseCo
 	
     override public function destroy():Void 
     {
-        super.destroy();        
+        super.destroy();
+
+        // Just remove all items
+        jumpToLevel(0);
     }      
 
     /**
@@ -107,9 +110,18 @@ class Breadcrumb extends BaseContainer implements IBreadcrumb implements IBaseCo
 
             var crumbHolder:Sprite = cast(_content.getChildByName("level_" + _level), Sprite);
             var separator:Label = cast(_content.getChildByName("separator_" + _level), Label);
+            var crumb:Crumb = cast(crumbHolder.getChildByName("crumb_" + _level), Crumb);
+            
+            // Do clean up
+            if(separator != null)
+            {
+                separator.destroy();
+                _content.removeChild(separator);
+            }
 
+            crumb.destroy();
             _content.removeChild(crumbHolder);
-            _content.removeChild(separator);
+            
         }
     } 
 

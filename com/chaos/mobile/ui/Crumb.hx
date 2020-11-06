@@ -16,6 +16,7 @@ class Crumb extends BaseUI implements IBaseUI
     private var _labelSpacing:Int = 0;
 
     private var _text:String;
+    private var _iconShape:Shape;
 
 	/**
 	 * UI Component 
@@ -25,8 +26,30 @@ class Crumb extends BaseUI implements IBaseUI
     public function new(data:Dynamic = null)
     {
         super(data);
-    }    
+    }
 
+	/**
+	 * Unload Component
+	 */
+	
+    override public function destroy():Void 
+    {
+        super.destroy();
+
+        // Remove label
+        _label.destroy();
+        removeChild(_label);
+        
+        if(_icon != null)
+            _icon.dispose();
+
+        if(_iconShape != null)
+        {
+            _iconShape.graphics.clear();
+            removeChild(_iconShape);
+        }
+            
+    }
 
 	/**
 	 * Set properties based on object
@@ -68,13 +91,13 @@ class Crumb extends BaseUI implements IBaseUI
         // Setup Icon if needed
         if(_icon != null)
         {
-            var iconShape:Shape = new Shape();
-            iconShape.graphics.beginBitmapFill(_icon);
-            iconShape.graphics.drawRect(0,0, _icon.width, _icon.height);
-            iconShape.graphics.endFill();
-            iconShape.name = "icon";
+            _iconShape = new Shape();
+            _iconShape.graphics.beginBitmapFill(_icon);
+            _iconShape.graphics.drawRect(0,0, _icon.width, _icon.height);
+            _iconShape.graphics.endFill();
+            _iconShape.name = "icon";
 
-            addChild(iconShape);
+            addChild(_iconShape);
         }        
         
         addChild(_label);
