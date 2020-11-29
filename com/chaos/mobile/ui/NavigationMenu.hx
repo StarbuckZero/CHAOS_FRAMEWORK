@@ -143,7 +143,7 @@ class NavigationMenu extends BaseContainer implements INavigationMenu implements
 
 	}
 
-	override function initialize() {
+	override function initialize() : Void {
 		super.initialize();
 
 		_mask = new Sprite();
@@ -155,12 +155,23 @@ class NavigationMenu extends BaseContainer implements INavigationMenu implements
 			buildMenu(_list);
 	}
 
+	/**
+	 * Unload Component
+	 */
+	
+    override public function destroy():Void 
+    {
+		super.destroy();
+		
+		//TODO: Might want to destory the buttons in this menu later tbh
+    }  	
+
     /**
     * Let Nav Menu know that a menu button was clicked.
     * @param	navButton The button that was clicked
     */
 
-	public function menuButtonClicked( navButton:NavigationMenuItem ) : Void {
+	public function menuButtonClicked( navButton : NavigationMenuItem ) : Void {
 
 		dispatchEvent(new NavigationMenuEvent(NavigationMenuEvent.SELECTED, navButton));
 	}
@@ -170,7 +181,7 @@ class NavigationMenu extends BaseContainer implements INavigationMenu implements
     * @param	data The buttons that will be created for the new sub menu being created
 	*/
 	
-	public function goToSubMenu(data:DataProvider<NavigationMenuObjectData>) : Void
+	public function goToSubMenu(data : DataProvider<NavigationMenuObjectData>) : Void
 	{
 		
 		if(!_animationPlaying)
@@ -205,7 +216,7 @@ class NavigationMenu extends BaseContainer implements INavigationMenu implements
 	/**
 	 * Show or hide border around button
 	 */
-	 private function set_buttonBorder(value:Bool):Bool {
+	 private function set_buttonBorder(value : Bool) : Bool {
 		_buttonBorder = value;
 
 		return value;
@@ -214,14 +225,14 @@ class NavigationMenu extends BaseContainer implements INavigationMenu implements
 	/**
 	 * Return true if border is being shown and false if not
 	 */
-	private function get_buttonBorder():Bool {
+	private function get_buttonBorder() : Bool {
 		return _buttonBorder;
 	}
 
 	/**
 	 * Border color for menu button
 	 */
-	 private function set_butonBorderColor(value:Int):Int {
+	 private function set_butonBorderColor(value : Int) : Int {
 		_buttonBorderColor = value;
 
 		return value;
@@ -230,14 +241,14 @@ class NavigationMenu extends BaseContainer implements INavigationMenu implements
 	/**
 	 * Return the color
 	 */
-	private function get_buttonBorderColor():Int {
+	private function get_buttonBorderColor() : Int {
 		return _buttonBorderColor;
 	}	
 
 	/**
 	 * Border thinkness
 	 */
-	 private function set_buttonBorderThinkness(value:Float):Float {
+	 private function set_buttonBorderThinkness(value : Float) : Float {
 		_buttonBorderThinkness = value;
 		return value;
 	}
@@ -245,59 +256,59 @@ class NavigationMenu extends BaseContainer implements INavigationMenu implements
 	/**
 	 * Return thinkness
 	 */
-	private function get_buttonBorderThinkness():Float {
+	private function get_buttonBorderThinkness() : Float {
 		return _buttonBorderThinkness;
 	}
 
-	private function set_buttonBorderAlpha(value:Float):Float {
+	private function set_buttonBorderAlpha(value : Float) : Float {
 		_buttonBorderAlpha = value;
 		return value;
 	}
 
-	private function get_buttonBorderAlpha():Float {
+	private function get_buttonBorderAlpha() : Float {
 		return _buttonBorderAlpha;
 	}	
 
 	/**
 	 * The button normal state color
 	 */
-	 private function set_buttonBorderColor(value:Int):Int {
+	 private function set_buttonBorderColor(value : Int) : Int {
 		_buttonBorderColor = value;
 
 		return value;
 	}
 
-	private function get_menuAnimationSpeed():Float {
+	private function get_menuAnimationSpeed() : Float {
 		
 		return _menuAnimationSpeed;
 	}
 	
-	private function set_menuAnimationSpeed(value:Float):Float 
+	private function set_menuAnimationSpeed(value : Float):Float 
 	{	
 		_menuAnimationSpeed = value;
 
 		return value;
 	}
 
-	private function set_alwaysDisplaySubMenuIcon(value:Bool):Bool 
+	private function set_alwaysDisplaySubMenuIcon(value : Bool) : Bool 
 	{
 		_alwaysDisplaySubMenuIcon = value;
 
 		return _alwaysDisplaySubMenuIcon;
 	}
 	
-	private function get_alwaysDisplaySubMenuIcon():Bool 
+	private function get_alwaysDisplaySubMenuIcon() : Bool 
 	{
 		return _alwaysDisplaySubMenuIcon;
 	}
 	
-	private function set_dataProvider(value:DataProvider<NavigationMenuObjectData>):DataProvider<NavigationMenuObjectData> {
+	private function set_dataProvider(value:DataProvider<NavigationMenuObjectData>) : DataProvider<NavigationMenuObjectData> {
 
 		_list = value;
 		return _list;	
 	}
 
-	private function get_dataProvider():DataProvider<NavigationMenuObjectData> {
+	private function get_dataProvider() : DataProvider<NavigationMenuObjectData> {
 		return _list;
 	}
 	
@@ -343,7 +354,7 @@ class NavigationMenu extends BaseContainer implements INavigationMenu implements
 		clearRemove(_content.numChildren -1);		
 	}
 
-	private function buildMenu( list:DataProvider<NavigationMenuObjectData> ):Void {
+	private function buildMenu( list:DataProvider<NavigationMenuObjectData> ) : Void {
 
 		var buttonHolder:Sprite = new Sprite();
 		buttonHolder.name = "buttonHolder";
@@ -374,7 +385,7 @@ class NavigationMenu extends BaseContainer implements INavigationMenu implements
 
 
 	
-	private function clearRemove( menuLevel:Int ):Void {
+	private function clearRemove( menuLevel:Int ) : Void {
 
 		var menuLevelContainer:DragContainer = cast(_content.getChildByName("menu_" + menuLevel), DragContainer);
 		var buttonHolder:Sprite = cast(menuLevelContainer.content, Sprite);

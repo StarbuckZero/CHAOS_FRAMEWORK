@@ -20,11 +20,11 @@ class NavigationMenuObjectData extends MobileMenuObjectData
      * Store text and string base value
 	 * @param	newText Text that will be displayed
      * @param	newVal Sting that can be whatever you want
-     * @param   icon The menu used for child objects
+     * @param   icon image being used for nav button
      * @param   childObj list of menu data objects
 	 */
 	
-    public function new(newText : String = "", newVal : String = "", childObj :DataProvider<NavigationMenuObjectData> = null, icon:BitmapData = null)
+    public function new(newText : String = "", newVal : String = "", childObj : DataProvider<NavigationMenuObjectData> = null, icon : BitmapData = null)
     {
         super(newText, newVal, icon);
 

@@ -597,7 +597,7 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI {
 	}
 
 	/**
-	 * This is for setting an shape for the button over stage
+	 * This is for setting an shape for the button over state
 	 *
 	 * @param value Set the shape that you want to use
 	 *
@@ -607,7 +607,7 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI {
 	}
 
 	/**
-	 * This is for setting an shape for the button down stage
+	 * This is for setting an shape for the button down state
 	 *
 	 * @param value Set the shape that you want to use
 	 *
@@ -617,7 +617,7 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI {
 	}
 
 	/**
-	 * This is for setting an shape for the button down stage
+	 * This is for setting an shape for the button down state
 	 *
 	 * @param value Set the shape that you want to use
 	 *
