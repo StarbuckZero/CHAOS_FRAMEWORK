@@ -36,7 +36,7 @@ class BaseContainer extends BaseUI implements IBaseContainer implements IBaseUI
     public var backgroundShape : Shape = new Shape();
     
     /** This is used for the content getting property */
-    public var _content : Sprite = new Sprite();
+    private var _content : Sprite = new Sprite();
 
 	/**
 	 * Toggle on and off border

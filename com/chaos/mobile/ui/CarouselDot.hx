@@ -12,19 +12,19 @@ class CarouselDot extends BaseUI implements IBaseUI
 	 * Default state Color
      */
      
-    public var defaultColor(get, set):Int;
+    public var defaultColor(get, set) : Int;
 
 	/**
 	 * Selected state Color
      */
      
-    public var selectedColor(get, set):Int; 
+    public var selectedColor(get, set) : Int; 
     
 	/**
 	 * Set if you want the button to be selected or not
      */
      
-	public var selected(get, set):Bool;    
+	public var selected(get, set) : Bool;    
 
     private var _dot : Shape = new Shape();
 
@@ -43,7 +43,7 @@ class CarouselDot extends BaseUI implements IBaseUI
 	 * @param	data The proprieties that you want to set on component.
 	 */
     
-    public function new(data:Dynamic = null)
+    public function new( data : Dynamic = null)
     {
         super(data);
     }
@@ -54,7 +54,7 @@ class CarouselDot extends BaseUI implements IBaseUI
 	 * @param	data object with supported types
 	 */
 	
-    override public function setComponentData(data:Dynamic):Void 
+    override public function setComponentData( data : Dynamic) : Void 
     {
         super.setComponentData(data);
 
@@ -94,7 +94,7 @@ class CarouselDot extends BaseUI implements IBaseUI
 	 * Unload Component
 	 */
 	
-    override public function destroy():Void 
+    override public function destroy() : Void 
     {
         super.destroy();
 
@@ -110,30 +110,30 @@ class CarouselDot extends BaseUI implements IBaseUI
         removeChild(_dot);
     }      
 
-    private function set_defaultColor(value:Int):Int {
+    private function set_defaultColor(value : Int) : Int {
 		_defaultColor = value;
 
 		return value;
 	}
 
-	private function get_defaultColor():Int {
+	private function get_defaultColor() : Int {
 		return _defaultColor;
 	}    
 
-    private function set_selectedColor(value:Int):Int {
+    private function set_selectedColor( value : Int) : Int {
 		_selectedColor = value;
 
 		return value;
 	}
 
-	private function get_selectedColor():Int {
+	private function get_selectedColor() : Int {
 		return _selectedColor;
     }  
 
 	/**
 	 * Set if you want the button to be selected or not
 	 */
-     private function set_selected(value:Bool):Bool {
+     private function set_selected( value : Bool ) : Bool {
 		_selected = value;
 
 		return value;
@@ -142,7 +142,7 @@ class CarouselDot extends BaseUI implements IBaseUI
 	/**
 	 * Return if the button is on it's selected state
 	 */
-	private function get_selected():Bool {
+	private function get_selected() : Bool {
 		return _selected;
     }    
     
@@ -153,7 +153,7 @@ class CarouselDot extends BaseUI implements IBaseUI
 	 *
      */
      
-     public function setDefaultStateImage(value:BitmapData):Void {
+     public function setDefaultStateImage(value : BitmapData):Void {
 		_defaultImage = value;
 	}    
     
@@ -163,7 +163,7 @@ class CarouselDot extends BaseUI implements IBaseUI
 	 * @param value Set the shape that you want to use
 	 *
 	 */
-     public function setSelectedStateImage(value:BitmapData):Void {
+     public function setSelectedStateImage(value : BitmapData):Void {
 		_selectedImage = value;
 	}
 

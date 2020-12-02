@@ -159,8 +159,19 @@ class BaseUI extends Sprite implements IBaseUI
 	public function animateTo( data:Dynamic ) : GenericActuator<DisplayObject>
 	{
 		// See if it can find object
-		var displayObj:DisplayObject = Reflect.hasField(data,"obj") ? this.getChildByName(Reflect.field(data,"obj")) : this;
+		var displayObj:DisplayObject = this;
 		var duration: Float = Reflect.hasField(data,"duration") ? Reflect.field(data,"duration") : _defaultTweenDuration;
+
+		if(Reflect.hasField(data,"obj")) {
+
+			var obj:Dynamic = Reflect.field(data,"obj");
+
+			if(Std.is(obj, String) && this.getChildByName(obj) != null)
+				displayObj = this.getChildByName(obj);
+			else 
+				trace("[BaseUI::animateTo] Couldn't find " + obj + " going to default to using current " + this.name);
+		}
+
 
 		var tween:GenericActuator<DisplayObject> = Actuate.tween (displayObj, duration, data);
 

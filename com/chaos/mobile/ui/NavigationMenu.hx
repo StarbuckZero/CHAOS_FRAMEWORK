@@ -45,31 +45,31 @@ class NavigationMenu extends BaseContainer implements INavigationMenu implements
 	* Adjust the sliding animation of the buttons in menu
 	**/
 
-	public var menuAnimationSpeed(get, set):Float;
+	public var menuAnimationSpeed(get, set) : Float;
 
 	/**
 	 * Border color for normal button state
 	 */
-	 public var buttonBorderColor(get, set):Int;	
+	 public var buttonBorderColor(get, set) : Int;	
 
 	/**
 	 * Set the border menu button alpha
 	 */
-	 public var buttonBorderAlpha(get, set):Float;
+	 public var buttonBorderAlpha(get, set) : Float;
 
 	 /**
 	  * Border thinkness on menu buttons
 	  */
 
-	public var buttonBorderThinkness(get, set):Float;
+	public var buttonBorderThinkness(get, set) : Float;
 
 	 /**
 	  * Border menu
 	  */
 
-	public var buttonBorder(get, set):Bool;
+	public var buttonBorder(get, set) : Bool;
 
-	private var _alwaysDisplaySubMenuIcon:Bool = false;
+	private var _alwaysDisplaySubMenuIcon : Bool = false;
 	
 	private var _list : DataProvider<NavigationMenuObjectData> = new DataProvider<NavigationMenuObjectData>();
 	private var _animationPlaying : Bool = false;
@@ -77,22 +77,22 @@ class NavigationMenu extends BaseContainer implements INavigationMenu implements
 	private var _mask:Sprite;
 
 	private var _buttonHeight : Int = 40;	
-	private var _buttonBorder:Bool = true;
-	private var _buttonBorderAlpha:Float = 1;
-	private var _buttonBorderThinkness:Float = 1;	
-	private var _buttonBorderColor:Int = 0;
+	private var _buttonBorder : Bool = true;
+	private var _buttonBorderAlpha : Float = 1;
+	private var _buttonBorderThinkness : Float = 1;	
+	private var _buttonBorderColor : Int = 0;
 
 	/**
 	 * UI Component
 	 * @param	data The proprieties that you want to set on component.
 	 */
 
-	public function new(data:Dynamic = null) {
+	public function new( data : Dynamic = null ) {
 		super(data);
 	}
 
 	
-	override function setComponentData(data:Dynamic) {
+	override function setComponentData( data : Dynamic ) {
 		super.setComponentData(data);
 		
 		if (Reflect.hasField(data, "menuAnimationSpeed"))
@@ -120,7 +120,7 @@ class NavigationMenu extends BaseContainer implements INavigationMenu implements
 		}
 	}
 
-	private function createDataList( dataArray:Array<Dynamic> ):DataProvider<NavigationMenuObjectData> {
+	private function createDataList( dataArray : Array<Dynamic> ) : DataProvider<NavigationMenuObjectData> {
 
 		var newList:DataProvider<NavigationMenuObjectData> = new DataProvider<NavigationMenuObjectData>();
 
@@ -159,7 +159,7 @@ class NavigationMenu extends BaseContainer implements INavigationMenu implements
 	 * Unload Component
 	 */
 	
-    override public function destroy():Void 
+    override public function destroy() : Void 
     {
 		super.destroy();
 		
@@ -181,7 +181,7 @@ class NavigationMenu extends BaseContainer implements INavigationMenu implements
     * @param	data The buttons that will be created for the new sub menu being created
 	*/
 	
-	public function goToSubMenu(data : DataProvider<NavigationMenuObjectData>) : Void
+	public function goToSubMenu( data : DataProvider<NavigationMenuObjectData> ) : Void
 	{
 		
 		if(!_animationPlaying)
@@ -201,7 +201,7 @@ class NavigationMenu extends BaseContainer implements INavigationMenu implements
 			shiftButtonsBack();		
 	}
 	
-	override function draw() {
+	override function draw() : Void {
 		super.draw();
 
 		_mask.graphics.clear();
@@ -216,7 +216,7 @@ class NavigationMenu extends BaseContainer implements INavigationMenu implements
 	/**
 	 * Show or hide border around button
 	 */
-	 private function set_buttonBorder(value : Bool) : Bool {
+	 private function set_buttonBorder( value : Bool ) : Bool {
 		_buttonBorder = value;
 
 		return value;
@@ -232,7 +232,7 @@ class NavigationMenu extends BaseContainer implements INavigationMenu implements
 	/**
 	 * Border color for menu button
 	 */
-	 private function set_butonBorderColor(value : Int) : Int {
+	 private function set_butonBorderColor( value : Int ) : Int {
 		_buttonBorderColor = value;
 
 		return value;
@@ -248,7 +248,7 @@ class NavigationMenu extends BaseContainer implements INavigationMenu implements
 	/**
 	 * Border thinkness
 	 */
-	 private function set_buttonBorderThinkness(value : Float) : Float {
+	 private function set_buttonBorderThinkness( value : Float ) : Float {
 		_buttonBorderThinkness = value;
 		return value;
 	}
@@ -260,7 +260,7 @@ class NavigationMenu extends BaseContainer implements INavigationMenu implements
 		return _buttonBorderThinkness;
 	}
 
-	private function set_buttonBorderAlpha(value : Float) : Float {
+	private function set_buttonBorderAlpha( value : Float ) : Float {
 		_buttonBorderAlpha = value;
 		return value;
 	}
@@ -272,7 +272,7 @@ class NavigationMenu extends BaseContainer implements INavigationMenu implements
 	/**
 	 * The button normal state color
 	 */
-	 private function set_buttonBorderColor(value : Int) : Int {
+	 private function set_buttonBorderColor( value : Int ) : Int {
 		_buttonBorderColor = value;
 
 		return value;
@@ -283,14 +283,14 @@ class NavigationMenu extends BaseContainer implements INavigationMenu implements
 		return _menuAnimationSpeed;
 	}
 	
-	private function set_menuAnimationSpeed(value : Float):Float 
+	private function set_menuAnimationSpeed( value : Float ):Float 
 	{	
 		_menuAnimationSpeed = value;
 
 		return value;
 	}
 
-	private function set_alwaysDisplaySubMenuIcon(value : Bool) : Bool 
+	private function set_alwaysDisplaySubMenuIcon( value : Bool ) : Bool 
 	{
 		_alwaysDisplaySubMenuIcon = value;
 
@@ -354,7 +354,7 @@ class NavigationMenu extends BaseContainer implements INavigationMenu implements
 		clearRemove(_content.numChildren -1);		
 	}
 
-	private function buildMenu( list:DataProvider<NavigationMenuObjectData> ) : Void {
+	private function buildMenu( list : DataProvider<NavigationMenuObjectData> ) : Void {
 
 		var buttonHolder:Sprite = new Sprite();
 		buttonHolder.name = "buttonHolder";
@@ -385,7 +385,7 @@ class NavigationMenu extends BaseContainer implements INavigationMenu implements
 
 
 	
-	private function clearRemove( menuLevel:Int ) : Void {
+	private function clearRemove( menuLevel : Int ) : Void {
 
 		var menuLevelContainer:DragContainer = cast(_content.getChildByName("menu_" + menuLevel), DragContainer);
 		var buttonHolder:Sprite = cast(menuLevelContainer.content, Sprite);

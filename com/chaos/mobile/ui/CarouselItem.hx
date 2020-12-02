@@ -11,7 +11,7 @@ class Carousel extends BaseContainer implements IBaseContainer implements IBaseU
 	 * @param	data The proprieties that you want to set on component.
 	 */
     
-    public function new(data:Dynamic = null)
+    public function new( data : Dynamic = null)
     {
         super(data);
     }
@@ -21,7 +21,7 @@ class Carousel extends BaseContainer implements IBaseContainer implements IBaseU
 	 * @param	data object with supported types
 	 */
 	
-    override public function setComponentData(data:Dynamic):Void 
+    override public function setComponentData( data : Dynamic ) : Void 
     {
         super.setComponentData(data);
 
@@ -40,7 +40,7 @@ class Carousel extends BaseContainer implements IBaseContainer implements IBaseU
 	 * Unload Component
 	 */
 	
-    override public function destroy():Void 
+    override public function destroy() : Void 
     {
         super.destroy();
     }     

@@ -12,9 +12,9 @@ import com.chaos.data.DataProvider;
 class NavigationMenuObjectData extends MobileMenuObjectData
 {
 
-    public var childObject(get, set):DataProvider<NavigationMenuObjectData>;
+    public var childObject(get, set) : DataProvider<NavigationMenuObjectData>;
     
-    private var _childObject:DataProvider<NavigationMenuObjectData>;
+    private var _childObject : DataProvider<NavigationMenuObjectData>;
    
 	/**
      * Store text and string base value
@@ -31,11 +31,11 @@ class NavigationMenuObjectData extends MobileMenuObjectData
         _childObject = childObj;
     }
 
-    private function get_childObject():DataProvider<NavigationMenuObjectData> {
+    private function get_childObject() : DataProvider<NavigationMenuObjectData> {
         return _childObject;
     }
     
-    private function set_childObject(value:DataProvider<NavigationMenuObjectData>):DataProvider<NavigationMenuObjectData> {
+    private function set_childObject(value : DataProvider<NavigationMenuObjectData>) : DataProvider<NavigationMenuObjectData> {
         _childObject = value;
 
         return _childObject;
