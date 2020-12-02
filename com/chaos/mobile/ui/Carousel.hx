@@ -79,6 +79,11 @@ class Carousel extends BaseContainer implements IBaseContainer implements IBaseU
         // Make it so content is lined up to the to the right and adjust the size of the content area
         _carouselContentArea.width = itemContent.x = _width * _carouselContentArea.numChildren;
 
+        // Add event to dot
+        dot.addEventListener(MouseEvent.MOUSE_DOWN, onDotClickEvent, false, 0, true);
+
+        // Add event to content
+        itemContent.addEventListener(MouseEvent.MOUSE_DOWN, onContentClickEvent, false, 0, true);
 
         _dotArea.addElement(dot);
         _carouselContentArea.addChild(itemContent);
@@ -121,8 +126,6 @@ class Carousel extends BaseContainer implements IBaseContainer implements IBaseU
 
         _dotContainer = new VerticalContainer({"name":"dotContainer","width":_width,"align":"center","background":false});
         _dotArea = new HorizontalContainer({"name":"dotArea","width":_width,"height": 20,"align":"center","background":false});
-
-        _dotArea.addEventListener(MouseEvent.MOUSE_DOWN, onClickEvent, false, 0, true);
 
         _content.addChild(_carouselContentArea);
         _content.addChild(_dotContainer);
@@ -169,8 +172,6 @@ class Carousel extends BaseContainer implements IBaseContainer implements IBaseU
         _mask.graphics.endFill();
 
     }
-
-    
 
     private function addItemsFromList( dataArray : Array<Dynamic> ): DataProvider<CarouselObjectData>
     {
@@ -234,31 +235,33 @@ class Carousel extends BaseContainer implements IBaseContainer implements IBaseU
         return newList;
     } 
 
-    private function onClickEvent(event:MouseEvent) : Void {
+    private function onDotClickEvent( event : MouseEvent ) : Void {
 
-        if(Std.is(event.target,CarouselDot)) {
+        var currentDot : CarouselDot = cast(event.currentTarget, CarouselDot);
+        var dotName : String = currentDot.name;
+        var index : Int = Std.parseInt(dotName.substring(dotName.indexOf("_") + 1));
+        var lastDot : CarouselDot = cast(_dotArea.getElementAtIndex(_selectedIndex), CarouselDot);
 
-            var currentDot : CarouselDot = cast(event.target, CarouselDot);
-            var dotName : String = currentDot.name;
-            var index : Int = Std.parseInt(dotName.substring(dotName.indexOf("_") + 1));
-            var lastDot : CarouselDot = cast(_dotArea.getElementAtIndex(_selectedIndex), CarouselDot);
+        // Shift or animate items
+        if(_animationSpeed > 0)
+            _carouselContentArea.animateTo({"x": -(_width * index), "duration":_animationSpeed});
+        else
+            _carouselContentArea.x = -(_width * index);
 
-            // Shift or animate items
-            if(_animationSpeed > 0)
-                _carouselContentArea.animateTo({"x": -(_width * index), "duration":_animationSpeed});
-            else
-                _carouselContentArea.x = -(_width * index);
+        // Unselect last dot and select current one
+        lastDot.selected = false;
+        currentDot.selected = true;
 
-            // Unselect last dot and select current one
-            lastDot.selected = false;
-            currentDot.selected = true;
+        lastDot.draw();
+        currentDot.draw();
 
-            lastDot.draw();
-            currentDot.draw();
+        // Update selected index
+        _selectedIndex = index;
+    }
 
-            // Update selected index
-            _selectedIndex = index;
-        }
+    private function onContentClickEvent( event : MouseEvent) : Void {
+        
+        //trace(event.currentTarget);
     }
     
 }
