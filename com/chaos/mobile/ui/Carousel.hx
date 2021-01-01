@@ -1,5 +1,7 @@
 package com.chaos.mobile.ui;
 
+import openfl.geom.Point;
+import openfl.geom.Rectangle;
 import openfl.display.Shape;
 import openfl.events.MouseEvent;
 import com.chaos.ui.layout.HorizontalContainer;
@@ -20,7 +22,14 @@ class Carousel extends BaseContainer implements IBaseContainer implements IBaseU
 
     public var dotContainer(get, never) : VerticalContainer;
     public var animationSpeed(get, set) : Float;
- 
+    public var selectedIndex(get, never) : Int;
+
+ 	/**
+	 * Adjust the line thickness used to draw the dot
+     */ 
+
+    public var dotLineThickness(get, set) : Float;
+
     private var _list : DataProvider<CarouselObjectData> = new DataProvider<CarouselObjectData>();
 
     private var _dotSize : Int = 6;
@@ -35,10 +44,13 @@ class Carousel extends BaseContainer implements IBaseContainer implements IBaseU
     private var _dotArea : HorizontalContainer;
     private var _dotContainer : VerticalContainer;
     private var _selectFirstItemByDefault : Bool = true;
+    private var _dotLineThickness : Float = 1;
+
+    private var _unselectedDotFill : Bool = false;
 
     private var _animationSpeed : Float = .2;
 
-    private var _mask : Shape = new Shape();
+    private var _mask : Sprite = new Sprite();
     
 	/**
 	 * UI Component 
@@ -49,6 +61,23 @@ class Carousel extends BaseContainer implements IBaseContainer implements IBaseU
     {
         super(data);
     }
+
+	/**
+	 * Unload Component
+	 */
+	
+    override public function destroy():Void 
+    {
+        super.destroy();
+
+        _carouselContentArea.destroy();
+        _dotContainer.destroy();
+        _dotArea.destroy();
+        
+        _mask.graphics.clear();
+        removeChild(_mask);
+    }    
+
 
     public function addItem( item : CarouselObjectData ):Void
     {
@@ -70,7 +99,7 @@ class Carousel extends BaseContainer implements IBaseContainer implements IBaseU
         // Create Dot
         var dot:CarouselDot = new CarouselDot({"name":"doc_" + _carouselContentArea.numChildren, "selected": item.selected, 
         "dotSize": _dotSize, "defaultColor": item.defaultColor, "selectedColor": item.selectedColor, 
-        "defaultIcon": item.defaultIcon,"selectedIcon": item.selectedIcon});
+        "defaultIcon": item.defaultIcon,"selectedIcon": item.selectedIcon, "unselectedDotFill":_unselectedDotFill,"dotLineThickness":_dotLineThickness});
 
         // Set the current index
         if(item.selected)
@@ -83,7 +112,8 @@ class Carousel extends BaseContainer implements IBaseContainer implements IBaseU
         dot.addEventListener(MouseEvent.MOUSE_DOWN, onDotClickEvent, false, 0, true);
 
         // Add event to content
-        itemContent.addEventListener(MouseEvent.MOUSE_DOWN, onContentClickEvent, false, 0, true);
+        itemContent.addEventListener(MouseEvent.MOUSE_DOWN, onContentMouseDownEvent, false, 0, true);
+        itemContent.addEventListener(MouseEvent.MOUSE_UP,onContentMouseUpEvent, false, 0, true);
 
         _dotArea.addElement(dot);
         _carouselContentArea.addChild(itemContent);
@@ -102,6 +132,59 @@ class Carousel extends BaseContainer implements IBaseContainer implements IBaseU
         _dotArea.draw();
     }
 
+    /**'
+    * Force the carousel to move to item
+    * @param index the item you want to jump to
+    **/
+    public function jumpToItem( index : Int ) {
+        
+        if(index > _list.length -1 || index < 0)
+            return;
+
+        // Remove unselect last dot and select current one
+        var currentDot : CarouselDot = cast(_dotArea.getElementAtIndex(index), CarouselDot);
+        var lastDot : CarouselDot = cast(_dotArea.getElementAtIndex(_selectedIndex), CarouselDot);
+
+        lastDot.selected = false;
+        lastDot.draw();
+
+        currentDot.selected = true;
+        currentDot.draw();
+
+        // Shift or animate items
+        if(_animationSpeed > 0)
+            _carouselContentArea.animateTo({"x": -(_width * index), "duration":_animationSpeed});
+        else
+            _carouselContentArea.x = -(_width * index);
+
+        _selectedIndex = index;
+
+    }
+    
+    
+    private function get_selectedIndex() : Int {
+        return _selectedIndex;
+    }
+
+    private function get_unselectedDotFill() : Bool {
+        return _unselectedDotFill;
+    }
+    
+    private function set_unselectedDotFill(value : Bool) : Bool {
+        _unselectedDotFill = value;
+        return value;
+    }    
+    
+    private function get_dotLineThickness() : Float {
+        return _dotLineThickness;
+    }
+    
+    private function set_dotLineThickness(value : Float) : Float {
+        
+        _dotLineThickness = value;
+        return value;
+    }       
+
 	/**
 	 * Set properties based on object
 	 * @param	data object with supported types
@@ -111,9 +194,16 @@ class Carousel extends BaseContainer implements IBaseContainer implements IBaseU
     {
         super.setComponentData(data);
 
+        // Dot Thickness
+		if (Reflect.hasField(data, "dotLineThickness"))
+            _dotLineThickness = Reflect.field(data, "dotLineThickness");        
+
+		if (Reflect.hasField(data, "unselectedDotFill"))
+            _unselectedDotFill = Reflect.field(data, "unselectedDotFill");        
+
         // Turn Dynamic object into CarouselObjectData
 		if (Reflect.hasField(data, "data"))
-			_list = addItemsFromList(Reflect.field(data, "data"));        
+			_list = addItemsFromList(Reflect.field(data, "data"));
     }
 
     override function initialize() {
@@ -121,6 +211,7 @@ class Carousel extends BaseContainer implements IBaseContainer implements IBaseU
         super.initialize();
 
         mask = _mask;
+        addChild(_mask);
 
         _carouselContentArea = new BaseUI({"name":"contentArea","width":_width,"height":_height});
 
@@ -138,15 +229,6 @@ class Carousel extends BaseContainer implements IBaseContainer implements IBaseU
                 addItem(_list.getItemAt(i));                
         }
     }    
-
-	/**
-	 * Unload Component
-	 */
-	
-    override public function destroy():Void 
-    {
-        super.destroy();
-    }
 
     private function get_dotContainer() : VerticalContainer {
         return _dotContainer;
@@ -242,11 +324,7 @@ class Carousel extends BaseContainer implements IBaseContainer implements IBaseU
         var index : Int = Std.parseInt(dotName.substring(dotName.indexOf("_") + 1));
         var lastDot : CarouselDot = cast(_dotArea.getElementAtIndex(_selectedIndex), CarouselDot);
 
-        // Shift or animate items
-        if(_animationSpeed > 0)
-            _carouselContentArea.animateTo({"x": -(_width * index), "duration":_animationSpeed});
-        else
-            _carouselContentArea.x = -(_width * index);
+        jumpToItem(index);
 
         // Unselect last dot and select current one
         lastDot.selected = false;
@@ -259,9 +337,60 @@ class Carousel extends BaseContainer implements IBaseContainer implements IBaseU
         _selectedIndex = index;
     }
 
-    private function onContentClickEvent( event : MouseEvent) : Void {
+    private function onContentMouseDownEvent( event : MouseEvent) : Void {
         
-        //trace(event.currentTarget);
+        var content:Sprite = cast(event.currentTarget,Sprite);
+
+        // If first item then can't move left and last item can't move right
+        if(_selectedIndex >= _list.length - 1) {
+            _carouselContentArea.startDrag(false, new Rectangle(0,0,-_width * (_selectedIndex),0));
+        }
+        else {
+            _carouselContentArea.startDrag(false, new Rectangle(0,0,-_width * (_selectedIndex + 1),0));
+        }
+            
+    }
+
+    private function onContentMouseUpEvent( event : MouseEvent) : Void {
+        
+        var content:Sprite = cast(event.currentTarget,Sprite);
+        _carouselContentArea.stopDrag();
+
+        // For last item
+        if(_selectedIndex >= _list.length - 1) {
+
+            // Finish moving the item to the left or right then update the index
+            if( (_width - _carouselContentArea.x - (_width * _selectedIndex)) <= (_width / 4) ) {
+                jumpToItem(_selectedIndex - 1);
+            }
+            else {
+                jumpToItem(_selectedIndex);
+            }
+                
+        } else if(_selectedIndex == 0) { /// For first Item
+
+            
+            if( (_width + _carouselContentArea.x + (_width * _selectedIndex)) >= (_width / 4) ) {
+                jumpToItem(_selectedIndex);
+            }
+            else {
+                jumpToItem(_selectedIndex + 1);
+            }
+        } 
+        else  { // For items in the middle
+
+            
+            if((_width - _carouselContentArea.x - (_width * _selectedIndex)) <= (_width / 4)) {
+                jumpToItem(_selectedIndex - 1);
+            }
+            else if( (_width + _carouselContentArea.x + (_width * _selectedIndex)) <= (_width / 4) ) {
+                jumpToItem(_selectedIndex + 1);
+            }
+            else {
+                jumpToItem(_selectedIndex);
+            }    
+        }
+            
     }
     
 }

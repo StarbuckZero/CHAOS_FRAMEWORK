@@ -21,22 +21,36 @@ class CarouselDot extends BaseUI implements IBaseUI
     public var selectedColor(get, set) : Int; 
     
 	/**
-	 * Set if you want the button to be selected or not
+	 * Set if you want the dot to be selected or not
      */
      
-	public var selected(get, set) : Bool;    
+    public var selected(get, set) : Bool;    
+    
+	/**
+	 * Set if you want the fill in the dot
+     */    
+
+    public var unselectedDotFill(get, set) : Bool;
+
+	/**
+	 * Adjust the line thickness used to draw the dot
+     */ 
+
+    public var dotLineThickness(get, set) : Float;
 
     private var _dot : Shape = new Shape();
 
     private var _dotSize : Int = 20;
+    private var _dotLineThickness : Float = 1;
 
     private var _selected:Bool = false;
 	private var _defaultColor : Int = 0xCCCCCC;
-	private var _selectedColor : Int = 0x999999;
+    private var _selectedColor : Int = 0x999999;
+    
+    private var _unselectedDotFill : Bool = false;
 
     private var _defaultImage : BitmapData;
     private var _selectedImage : BitmapData;
-
 
 	/**
 	 * UI Component 
@@ -79,7 +93,15 @@ class CarouselDot extends BaseUI implements IBaseUI
 
         // Selected color
 		if (Reflect.hasField(data, "selectedColor"))
-            _selectedColor = Reflect.field(data, "selectedColor");             
+            _selectedColor = Reflect.field(data, "selectedColor"); 
+        
+        // Fill Dot
+		if (Reflect.hasField(data, "unselectedDotFill"))
+            _unselectedDotFill = Reflect.field(data, "unselectedDotFill");
+
+        // Dot Thickness
+		if (Reflect.hasField(data, "dotLineThickness"))
+            _dotLineThickness = Reflect.field(data, "dotLineThickness");
     }
 
     override function initialize() {
@@ -130,6 +152,25 @@ class CarouselDot extends BaseUI implements IBaseUI
 		return _selectedColor;
     }  
 
+    private function get_unselectedDotFill() : Bool {
+        return _unselectedDotFill;
+    }
+    
+    private function set_unselectedDotFill(value : Bool) : Bool {
+        _unselectedDotFill = value;
+        return value;
+    }
+
+    private function get_dotLineThickness() : Float {
+        return _dotLineThickness;
+    }
+    
+    private function set_dotLineThickness(value : Float) : Float {
+        
+        _dotLineThickness = value;
+        return value;
+    }    
+
 	/**
 	 * Set if you want the button to be selected or not
 	 */
@@ -170,6 +211,8 @@ class CarouselDot extends BaseUI implements IBaseUI
     override function draw() {
         super.draw();
 
+        _dot.graphics.clear();
+
         // Both images have to be set in order to be used all together
         if(_defaultImage != null && _selectedImage != null)
         {
@@ -197,7 +240,12 @@ class CarouselDot extends BaseUI implements IBaseUI
             }
             else
             {
-				_dot.graphics.beginFill(_defaultColor);
+                
+                _dot.graphics.beginFill(_defaultColor, (_unselectedDotFill) ? 1 : 0);
+
+                if(!_unselectedDotFill)
+                    _dot.graphics.lineStyle(_dotLineThickness,_defaultColor);
+
 				_dot.graphics.drawCircle(_dotSize, _dotSize , _dotSize);
 				_dot.graphics.endFill();                
             }
