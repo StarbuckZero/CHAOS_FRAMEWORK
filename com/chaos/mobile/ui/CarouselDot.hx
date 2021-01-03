@@ -12,6 +12,12 @@ class CarouselDot extends BaseUI implements IBaseUI
 	 * Default state Color
      */
      
+     public var dotSize(get, set) : Int;
+
+	/**
+	 * Default state Color
+     */
+     
     public var defaultColor(get, set) : Int;
 
 	/**
@@ -79,11 +85,11 @@ class CarouselDot extends BaseUI implements IBaseUI
 		if (Reflect.hasField(data, "defaultImage"))
             _defaultImage = Reflect.field(data, "defaultImage");
         
-        // Selected  Image state
+        // Selected Image state
 		if (Reflect.hasField(data, "selectedImage"))
             _selectedImage = Reflect.field(data, "selectedImage");
         
-        // Selected  Image state
+        // Dot size
 		if (Reflect.hasField(data, "dotSize"))
             _dotSize = Reflect.field(data, "dotSize");
         
@@ -132,6 +138,16 @@ class CarouselDot extends BaseUI implements IBaseUI
         removeChild(_dot);
     }      
 
+    private function set_dotSize(value : Int) : Int {
+		_dotSize = value;
+
+		return value;
+	}
+
+	private function get_dotSize() : Int {
+		return _dotSize;
+    }
+        
     private function set_defaultColor(value : Int) : Int {
 		_defaultColor = value;
 

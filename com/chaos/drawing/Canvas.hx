@@ -1,6 +1,7 @@
 package com.chaos.drawing;
 
 
+import openfl.display.GradientType;
 import com.chaos.media.DisplayImage;
 import com.chaos.media.DisplayVideo;
 import com.chaos.ui.BaseUI;
@@ -115,14 +116,48 @@ class Canvas extends BaseContainer implements IBaseContainer implements IBaseUI
 					if (Reflect.hasField(obj, "alpha"))
 						shapeAlpha = Reflect.field(obj, "alpha");
 						
-					if (Reflect.hasField(obj, "image"))
-						image = Reflect.field(obj, "image");
-						
-					if (Reflect.hasField(obj, "tile"))
-						tile = Reflect.field(obj, "tile");
+
 						
 					addSquare(objectName, layerName, locX, locY, shapeWidth, shapeHeight, color, shapeAlpha, image, tile);
 				}
+				else if (Reflect.hasField(canvasData, "GradientSquare"))
+				{
+					
+					obj = Reflect.field(canvasData, "GradientSquare");
+
+					var ratios : Array<Int> = [0,0];
+					var alphas : Array<Float> = [0,0];
+					var colors : Array<Int> = [0,0];
+					
+					if (Reflect.hasField(obj, "layerName"))
+						layerName = Reflect.field(obj, "layerName");
+					
+					if (Reflect.hasField(obj, "name"))
+						objectName = Reflect.field(obj, "name");
+					
+					if (Reflect.hasField(obj, "width"))
+						shapeWidth = Reflect.field(obj, "height");
+					
+					if (Reflect.hasField(obj, "height"))
+						shapeHeight = Reflect.field(obj, "height");
+						
+					if (Reflect.hasField(obj, "x"))
+						locX = Reflect.field(obj, "x");
+					
+					if (Reflect.hasField(obj, "y"))
+						locY = Reflect.field(obj, "y");
+					
+					if (Reflect.hasField(obj, "colors"))
+						colors = Reflect.field(obj, "colors");
+						
+					if (Reflect.hasField(obj, "alphas"))
+						alphas = Reflect.field(obj, "alphas");
+						
+					if (Reflect.hasField(obj, "ratios"))
+						ratios = Reflect.field(obj, "ratios");
+						
+					addGradientSquare(objectName, layerName, locX, locY, shapeWidth, shapeHeight, colors, alphas, ratios);
+				}				
 				else if (Reflect.hasField(canvasData, "RoundSquare"))
 				{
 					var roundEdge:Int = 0;
@@ -739,12 +774,37 @@ class Canvas extends BaseContainer implements IBaseContainer implements IBaseUI
             square.graphics.beginBitmapFill(image, null, tileImage, _smoothImage);
         else 
             square.graphics.beginFill(color, alpha);
-        
+
         square.graphics.drawRect(0, 0, shapeWidth, shapeHeight);
         square.graphics.endFill();
         
 		addToLayer(layerName, square);
-    }
+	}
+	
+    /**
+	 * Draw a gradient filled square
+	 *
+	 * @param	shapeName The name of the shape
+	 * @param	layerName The name of the layer
+	 * @param	locX The location on X axis
+	 * @param	locY The location on Y axis
+	 * @param	shapeWidth The width of the object
+	 * @param	shapeHeight The height of the object
+	 * @param	colors Array of colors that will be used
+	 * @param	alphas Array of alphas 
+	 * @param	ratios Array of alphas 
+	 */
+
+	public function addGradientSquare( shapeName:String, layerName:String, locX:Int, locY:Int, shapeWidth : Int, shapeHeight : Int, type : String = "linear", colors : Array<Int> = [0xFFFFFFF,0x000000], alphas : Array<Float> = [1,1], ratios : Array<Int> = [0, 255]) : Void
+	{
+        var square : BaseUI = new BaseUI({"name":shapeName, "x":locX, "y":locY});
+        
+        square.graphics.beginGradientFill( type.toLowerCase() == "linear" ? GradientType.LINEAR : GradientType.RADIAL, colors, alphas, ratios);
+        square.graphics.drawRect(0, 0, shapeWidth, shapeHeight);
+        square.graphics.endFill();
+        
+		addToLayer(layerName, square);
+	}	
     
     /**
 	 * Draw a rounded square
@@ -818,7 +878,7 @@ class Canvas extends BaseContainer implements IBaseContainer implements IBaseUI
 	 * @param	image An image to fill the object with
 	 * @param	tileImage Repeact image with tile effect
 	 */
-	
+	 
 	public function addCircle(shapeName:String, layerName:String, locX:Int, locY:Int, radius:Float, color : Int, alpha : Float = 1, image : BitmapData = null, tileImage : Bool = true) : Void
 	{
 		var circle : BaseUI = new BaseUI({"name":shapeName, "x":locX, "y":locY});
