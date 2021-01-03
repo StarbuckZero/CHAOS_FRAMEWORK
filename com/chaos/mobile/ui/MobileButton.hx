@@ -66,9 +66,9 @@ class MobileButton extends Button implements IBaseUI
 		if (Reflect.hasField(data, "dotColor"))
             _dotColor = Reflect.field(data, "dotColor");
 
-        // Dot color
+        // Animation speed
 		if (Reflect.hasField(data, "animationSpeed"))
-            _animationSpeed = Reflect.field(data, "animationSpeed");        
+            _animationSpeed = Reflect.field(data, "animationSpeed");
         
     }
 
