@@ -69,13 +69,38 @@ class NavigationMenu extends BaseContainer implements INavigationMenu implements
 
 	public var buttonBorder(get, set) : Bool;
 
+	/**
+	 * The button normal state color
+	 */
+	public var defaultColor(get, set):Int;
+
+	/**
+	 * The button over state color
+	 */
+	public var overColor(get, set):Int;
+
+	/**
+	 * The button down state color
+	 */
+	public var downColor(get, set):Int;
+
+	/**
+	 * The button disable state color
+	 */
+	public var disableColor(get, set):Int;	
+
 	private var _alwaysDisplaySubMenuIcon : Bool = false;
 	
 	private var _list : DataProvider<NavigationMenuObjectData> = new DataProvider<NavigationMenuObjectData>();
 	private var _animationPlaying : Bool = false;
 	private var _menuAnimationSpeed : Float = .5;
-	private var _mask:Sprite;
+	private var _mask : Sprite;
 
+	private var _defaultColor:Int = -1;
+	private var _overColor:Int = -1;
+	private var _downColor:Int = -1;
+	private var _disableColor:Int = -1;
+		
 	private var _buttonHeight : Int = 40;	
 	private var _buttonBorder : Bool = true;
 	private var _buttonBorderAlpha : Float = 1;
@@ -112,6 +137,19 @@ class NavigationMenu extends BaseContainer implements INavigationMenu implements
 
 		if (Reflect.hasField(data, "buttonHeight"))
 			_buttonHeight = Reflect.field(data, "buttonHeight");
+
+		// Base Colors
+		if (Reflect.hasField(data, "defaultColor"))
+			_defaultColor = Reflect.field(data, "defaultColor");
+
+		if (Reflect.hasField(data, "overColor"))
+			_overColor = Reflect.field(data, "overColor");
+
+		if (Reflect.hasField(data, "downColor"))
+			_downColor = Reflect.field(data, "downColor");
+
+		if (Reflect.hasField(data, "disableColor"))
+			_disableColor = Reflect.field(data, "disableColor");		
 
 		if (Reflect.hasField(data, "data"))
 		{
@@ -211,7 +249,69 @@ class NavigationMenu extends BaseContainer implements INavigationMenu implements
 
 		//TODO: Rebuild list again if need be
 	}
+	/**
+	 * The button normal state color
+	 */
+	 private function set_defaultColor(value:Int):Int {
+		_defaultColor = value;
 
+		return value;
+	}
+
+	/**
+	 * Return the normal state button color
+	 */
+	private function get_defaultColor():Int {
+		return _defaultColor;
+	}
+
+	/**
+	 * The button over state color
+	 */
+	private function set_overColor(value:Int):Int {
+		_overColor = value;
+
+		return value;
+	}
+
+	/**
+	 * Return the button over state color
+	 */
+	private function get_overColor():Int {
+		return _overColor;
+	}
+
+	/**
+	 * The button down state color
+	 */
+	private function set_downColor(value:Int):Int {
+		_downColor = value;
+
+		return value;
+	}
+
+	/**
+	 * Return the button down state color
+	 */
+	private function get_downColor():Int {
+		return _downColor;
+	}
+
+	/**
+	 * The button disable state color
+	 */
+	private function set_disableColor(value:Int):Int {
+		_disableColor = value;
+
+		return value;
+	}
+
+	/**
+	 * Return the button disable state color
+	 */
+	private function get_disableColor():Int {
+		return _disableColor;
+	}
 
 	/**
 	 * Show or hide border around button
@@ -368,6 +468,32 @@ class NavigationMenu extends BaseContainer implements INavigationMenu implements
 			
 			var dataObj:Dynamic = {"name":"button_" + i + "_" + _content.numChildren,"text": data.text,"width": _width, "height": _buttonHeight,
 			 					  "DragContainer": menuLevelContainer,"NavigationMenu": this,"border":_buttonBorder,"borderColor":_buttonBorderColor,"borderAlpha":_borderAlpha};
+
+			// Set defaults
+			if(_defaultColor != -1)
+				Reflect.setField(dataObj, "defaultColor", _defaultColor);
+
+			if(_overColor != -1)
+				Reflect.setField(dataObj, "overColor", _overColor);
+
+			if(_downColor != -1)
+				Reflect.setField(dataObj, "downColor", _downColor);
+
+			if(_disableColor != -1)
+				Reflect.setField(dataObj, "disableColor", _disableColor);
+
+			// Base Colors
+			if (Reflect.hasField(data, "defaultColor"))
+				Reflect.setField(dataObj, "defaultColor", Reflect.field(data,"defaultColor"));
+
+			if (Reflect.hasField(data, "overColor"))
+				Reflect.setField(dataObj, "overColor", Reflect.field(data,"overColor"));
+
+			if (Reflect.hasField(data, "downColor"))
+				Reflect.setField(dataObj, "downColor", Reflect.field(data,"downColor"));
+
+			if (Reflect.hasField(data, "disableColor"))
+				Reflect.setField(dataObj, "disableColor", Reflect.field(data,"disableColor"));	
 
 			// Add sub menu
 			if(data.childObject != null)

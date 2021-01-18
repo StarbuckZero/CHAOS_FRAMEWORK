@@ -114,6 +114,7 @@ class Carousel extends BaseContainer implements IBaseContainer implements IBaseU
         // Add event to content
         itemContent.addEventListener(MouseEvent.MOUSE_DOWN, onContentMouseDownEvent, false, 0, true);
         itemContent.addEventListener(MouseEvent.MOUSE_UP,onContentMouseUpEvent, false, 0, true);
+        itemContent.addEventListener(MouseEvent.RELEASE_OUTSIDE,onContentMouseUpEvent, false, 0, true);
 
         _dotArea.addElement(dot);
         _carouselContentArea.addChild(itemContent);

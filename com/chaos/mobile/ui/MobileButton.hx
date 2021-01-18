@@ -5,6 +5,7 @@ import com.chaos.ui.BaseUI;
 import com.chaos.ui.classInterface.IBaseUI;
 
 import openfl.events.MouseEvent;
+import openfl.display.Sprite;
 
 /**
  * Mobile push button with added effect
@@ -28,10 +29,19 @@ class MobileButton extends Button implements IBaseUI
      
      public var dotSize(get, set) : Int;    
 
+	/**
+	 * Show animation of where user touched or clicked button
+     */
+     
+     public var touchAnimation(get, set) : Bool;    
+
     private var _dot : BaseUI;
+    private var _mask : Sprite;
     private var _dotColor : Int = 0xFFFFFF;
     private var _dotSize : Int = 5;
     private var _animationSpeed : Float = .5;
+    private var _touchAnimation : Bool = true;
+    
 
 	/**
 	 * UI Component 
@@ -49,9 +59,14 @@ class MobileButton extends Button implements IBaseUI
 
         super.initialize();
 
+        _mask = new Sprite();
+
         _dot = new BaseUI({"x":(_width / 2),"y": (_height / 2)});
         _dot.alpha = 0;
 
+        mask = _mask;
+        
+		addChild(_mask);
         addChild(_dot);
     }    
 
@@ -69,7 +84,20 @@ class MobileButton extends Button implements IBaseUI
         // Animation speed
 		if (Reflect.hasField(data, "animationSpeed"))
             _animationSpeed = Reflect.field(data, "animationSpeed");
-        
+
+        // Touch animation
+		if (Reflect.hasField(data, "touchAnimation"))
+            _touchAnimation = Reflect.field(data, "touchAnimation");
+    }
+
+    private function set_touchAnimation(value : Bool) : Bool {
+		_touchAnimation = value;
+
+		return value;
+	}
+
+	private function get_touchAnimation() : Bool {
+		return _touchAnimation;
     }
 
     private function set_dotSize(value : Int) : Int {
@@ -99,6 +127,12 @@ class MobileButton extends Button implements IBaseUI
     override public function destroy():Void 
     {
         super.destroy();
+
+        _mask.graphics.clear();
+        _dot.graphics.clear();
+
+        removeChild(_mask);
+        removeChild(_dot);
     }
 
     override function draw() {
@@ -106,11 +140,19 @@ class MobileButton extends Button implements IBaseUI
 
         _dot.graphics.beginFill(_dotColor);
         _dot.graphics.drawCircle(0, 0, _dotSize);
-        _dot.graphics.endFill();        
+        _dot.graphics.endFill();   
+        
+		_mask.graphics.clear();
+		_mask.graphics.beginFill(0);
+		_mask.graphics.drawRect(0,0,_width,_height);
+		_mask.graphics.endFill();        
     }
     
     private function mobileUpEvent( event : MouseEvent ) : Void {
 
+        if(!_touchAnimation) 
+            return;
+        
         _dot.scaleY =_dot.scaleX = 0;
         _dot.alpha = 1;
         _dot.visible = true;
