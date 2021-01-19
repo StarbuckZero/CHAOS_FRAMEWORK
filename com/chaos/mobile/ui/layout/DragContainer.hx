@@ -31,22 +31,22 @@ class DragContainer extends BaseContainer implements IDragContainer implements I
         
     public var hasMoved(get, never):Bool;    	
 
-	private var _mask:Sprite;
+	private var _mask : Sprite;
 
-	private var _defaultMousePos:Point;
+	private var _defaultMousePos : Point;
 
 	private var _velocity : Int = 0;
 	private var _lag : Int = 10;
-	private var _offSet:Float = 10;
-	private var _target:Point;
+	private var _offSet : Float = 10;
+	private var _target : Point;
 
-	private var _lockX:Bool = false;
-	private var _lockY:Bool = false;
+	private var _lockX : Bool = false;
+	private var _lockY : Bool = false;
 
-	private var _isMoving:Bool = false;
-	private var _hasMoved:Bool = false;
+	private var _isMoving : Bool = false;
+	private var _hasMoved : Bool = false;
 
-	private var _contentBlock:Sprite;
+	private var _contentBlock : Sprite;
 
 	/**
 	 * UI Component

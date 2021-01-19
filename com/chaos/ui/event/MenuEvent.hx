@@ -29,10 +29,10 @@ class MenuEvent extends Event
     
     public static inline var MENU_BUTTON_CLICK : String = "menu_button_click";
     
-    public var menuItem : com.chaos.ui.classInterface.IMenuItem;
+    public var menuItem : IMenuItem;
     public var holder : Sprite;
     
-    public function new(type : String, menuItem : com.chaos.ui.classInterface.IMenuItem, holder : Sprite = null, bubbles : Bool = false, cancelable : Bool = false)
+    public function new(type : String, menuItem : IMenuItem, holder : Sprite = null, bubbles : Bool = false, cancelable : Bool = false)
     {
         this.menuItem = menuItem;
         this.holder = holder;
