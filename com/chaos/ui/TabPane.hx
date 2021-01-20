@@ -685,9 +685,6 @@ class TabPane extends BaseUI implements ITabPane implements IBaseUI
 
 			if (null != UIStyleManager.TABPANE_BUTTON_TEXT_EMBED)
 				button.label.setEmbedFont(UIStyleManager.TABPANE_BUTTON_TEXT_EMBED);
-
-			if ( -1 != UIStyleManager.TABPANE_BUTTON_TINT_ALPHA)
-				button.label.borderAlpha = UIStyleManager.TABPANE_BUTTON_TINT_ALPHA;
 				
 			button.draw();
 

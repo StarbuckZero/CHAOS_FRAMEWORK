@@ -276,15 +276,6 @@ class TextInput extends Label implements ITextInput implements ILabel implements
 	{
 		super.initStyle();
 
-		if ( -1 != UIStyleManager.INPUT_BORDER_COLOR)
-			borderColor = UIStyleManager.INPUT_BORDER_COLOR;
-
-		if ( -1 != UIStyleManager.INPUT_BORDER_ALPHA)
-			borderAlpha = UIStyleManager.INPUT_BORDER_ALPHA;
-
-		if ( -1 != UIStyleManager.INPUT_BORDER_THINKNESS)
-			borderThinkness = UIStyleManager.INPUT_BORDER_THINKNESS;
-
 		if ( -1 != UIStyleManager.INPUT_TEXT_COLOR)
 			_textColor = UIStyleManager.INPUT_TEXT_COLOR;
 
@@ -658,7 +649,7 @@ class TextInput extends Label implements ITextInput implements ILabel implements
 		}
 
 		// Draw box if either background or border is on
-		if (border || background)
+		if (background)
 		{
 			backgroundNormal.graphics.drawRect(0, 0, width, height);
 			backgroundOver.graphics.drawRect(0, 0, width, height);

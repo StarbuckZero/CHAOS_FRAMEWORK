@@ -63,9 +63,9 @@ class NavigationMenu extends BaseContainer implements INavigationMenu implements
 
 	public var buttonBorderThinkness(get, set) : Float;
 
-	 /**
-	  * Border menu
-	  */
+	/**
+	* Border menu
+	*/
 
 	public var buttonBorder(get, set) : Bool;
 
@@ -508,8 +508,6 @@ class NavigationMenu extends BaseContainer implements INavigationMenu implements
 		_content.addChild(menuLevelContainer);
 		
 	}
-
-
 	
 	private function clearRemove( menuLevel : Int ) : Void {
 

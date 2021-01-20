@@ -31,24 +31,6 @@ interface ILabel extends IBaseUI
 	var htmlText(get, set) : String;
 
 	/**
-	* Specifies whether the label has a border. If true, the label has a border. If false, the label has no border.
-	*/
-
-	var border(get, set) : Bool;
-
-	/**
-	* The color of the label border.
-	*/
-
-	var borderColor(get, set) : Int;
-
-	/**
-	* Border thinkness
-	*/
-
-	var borderThinkness(get, set) : Float;
-
-	/**
 	* The color of the label background
 	*/
 
@@ -65,12 +47,6 @@ interface ILabel extends IBaseUI
 	*/
 
 	var background(get, set) : Bool;
-
-	/**
-	* Set the alpha between 1 to 0
-	*/
-
-	var borderAlpha(get, set) : Float;
 
 	/**
 	* The color of the text in a label, in hexadecimal format

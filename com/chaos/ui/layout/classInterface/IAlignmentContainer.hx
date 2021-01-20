@@ -63,52 +63,5 @@ interface IAlignmentContainer extends IBaseContainer
 	
 	function updateAlignment():Void;
     
-    /**
-	 * Adds more then one item to the object to the list
-	 *
-	 * @param	list A list of UI Elements
-	 */
-    
-    function addElementList(list : Array<IBaseUI>) : Void;
-	
-    /**
-	 * Return the object inside the container
-	 *
-	 * @param	value The index of the object inside the container
-	 * @return The object that is stored in the container
-	 */
-    
-    function getElementAtIndex(value : Int) : IBaseUI;
-    
-    /**
-	 * Return the object inside the container based on the name passed
-	 *
-	 * @param	value The name of the object
-	 * @return The object that is stored in the container
-	 */
-    
-    function getElementByName(value : String) : IBaseUI;
-    
-    /**
-	 * Add an UI element to the container
-	 *
-	 * @param	object The object you want to add
-	 */
-    
-    function addElement(object : IBaseUI) : Void;
-    
-    /**
-	 * Remove an UI element from the container
-	 *
-	 * @param	object The object you want to remove
-	 */
-    
-    function removeElement(object : IBaseUI) : Void;
-    
-    /**
-	 * Remove all items that are stored
-	 */
-    
-    function removeAll() : Void;
 }
 

@@ -66,7 +66,25 @@ class MobileButtonList extends DragContainer implements IBaseUI
     override function destroy() {
         super.destroy();
 
+        
+        _list.removeAll();
+        _list = null;
+    }
 
+    public function getSelected() : BaseObjectData {
+        
+        if(_selectedIndex == -1)
+            return null;
+
+        return _list.getItemAt(_selectedIndex);
+    }
+
+    public function getSelectedButton() : MobileButton {
+
+        if(_selectedIndex == -1)
+            return null;
+
+        return cast(_content.getChildByName("button_" + _selectedIndex), MobileButton);
     }
 
     private function createDataList( dataArray : Array<Dynamic> ) : Void {
@@ -122,7 +140,7 @@ class MobileButtonList extends DragContainer implements IBaseUI
 
         _selectedIndex = Std.parseInt(button.name.substr(button.name.indexOf("_") + 1));
 
-        dispatchEvent(new MobileButtonListEvent(MobileButtonListEvent.CHANGE));
+        dispatchEvent(new MobileButtonListEvent(MobileButtonListEvent.CHANGE, button));
 
     }
 }

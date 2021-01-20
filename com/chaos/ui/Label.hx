@@ -54,21 +54,6 @@ class Label extends BaseUI implements ILabel implements IBaseUI {
 	public var htmlText(get, set):String;
 
 	/**
-	 * Specifies whether the label has a border. If true, the label has a border. If false, the label has no border.
-	 */
-	public var border(get, set):Bool;
-
-	/**
-	 * The color of the label border.
-	 */
-	public var borderColor(get, set):Int;
-
-	/**
-	 * Set the alpha between 1 to 0
-	 */
-	public var borderAlpha(get, set):Float;
-
-	/**
 	 * The color of the label background
 	 */
 	public var backgroundColor(get, set):Int;
@@ -76,7 +61,7 @@ class Label extends BaseUI implements ILabel implements IBaseUI {
 	/**
 	 * Border thinkness
 	 */
-	public var borderThinkness(get, set):Float;
+	// public var borderThinkness(get, set):Float;
 
 	/**
 	 * Specifies whether the label has a background fill. If true, the label has a background fill. If false, the label has no background fill.
@@ -301,13 +286,11 @@ class Label extends BaseUI implements ILabel implements IBaseUI {
 		if (null != UIStyleManager.LABEL_TEXT_EMBED)
 			setEmbedFont(UIStyleManager.LABEL_TEXT_EMBED);
 
-		// _background = UIStyleManager.LABEL_BACKGROUND;
-		// _border = UIStyleManager.LABEL_BORDER;
+		 _background = UIStyleManager.LABEL_BACKGROUND;
 
 		if ("" != UIStyleManager.LABEL_TEXT_FONT)
 			_fontName = UIStyleManager.LABEL_TEXT_FONT;
 
-		// _textField.setTextFormat(_textFormat);
 	}
 
 	private function set_bitmapMode(value:Bool):Bool {

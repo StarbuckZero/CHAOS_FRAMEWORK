@@ -10,7 +10,7 @@ import openfl.errors.Error;
 import com.chaos.utils.Debug;
 
 
-import flash.geom.Rectangle;
+import openfl.geom.Rectangle;
 
 /**
  * The base layer the alignment container
@@ -120,8 +120,6 @@ class AlignmentBaseContainer extends BaseContainer implements IBaseUI implements
 	override public function destroy():Void 
 	{
 		super.destroy();
-		
-		removeAll();
 		
 		contentHolder.scrollRect = null;
 	}
@@ -238,76 +236,6 @@ class AlignmentBaseContainer extends BaseContainer implements IBaseUI implements
     {
         return _align;
     }
-    
-    /**
-	 * Adds more then one item to the object to the list
-	 *
-	 * @param	list A list of UI Elements
-	 */
-    
-    public function addElementList(list : Array<Dynamic>) : Void
-    {
-        for (i in 0 ... list.length)
-		{
-            if (null != list[i] && Std.is(list[i], IBaseUI)) 
-                _content.addChild(cast(list[i], IBaseUI).displayObject);
-            else 
-                Debug.print("[AlignmentBaseContainer::addElementList] Fail to add item at index " + i);
-        }
-    }
-    
-    /**
-	 * Add an UI element to the container
-	 *
-	 * @param	object The object you want to add
-	 */
-    
-    public function addElement(object : IBaseUI) : Void
-    {
-        _content.addChild(object.displayObject);
-    }
-    
-    /**
-	 * Return the object inside the container
-	 *
-	 * @param	value The index of the object inside the container
-	 * @return The object that is stored in the container
-	 */
-    
-    public function getElementAtIndex(value : Int) : IBaseUI
-    {
-        try
-        {
-            return try cast(_content.getChildAt(value), IBaseUI) catch(e:Dynamic) null;
-        } 
-		catch (error : Error)
-        {
-            Debug.print("[AlignmentBaseContainer::getElementAtIndex] Can't get item at index " + value + " returning null.");
-        }
-        
-        return null;
-    }
-    
-    /**
-	 * Return the object inside the container based on the name passed
-	 *
-	 * @param	value The name of the object
-	 * @return The object that is stored in the container
-	 */
-    
-    public function getElementByName(value : String) : IBaseUI
-    {
-        try
-        {
-            return try cast(_content.getChildByName(value), IBaseUI) catch(e:Dynamic) null;
-        }
-        catch (error : Error)
-        {
-            Debug.print("[AlignmentBaseContainer::getElementByName] Can't find item" + value + " returning null.");
-        }
-        
-        return null;
-    }
 	
     /**
 	 * Adjust the location of all UI elements 
@@ -317,69 +245,6 @@ class AlignmentBaseContainer extends BaseContainer implements IBaseUI implements
 	{
 		// align elemcts 
 	}
-    
-    /**
-	 * Remove an UI element from the container
-	 *
-	 * @param	object The object you want to remove
-	 */
-    
-    public function removeElement(object : IBaseUI) : Void
-    {
-        var temp : Array<Dynamic> = new Array<Dynamic>();
-        
-        // Remove all old items and add them back again
-        for (i in 0..._content.numChildren)
-		{
-            var currentObject : IBaseUI = null;
-            
-            try
-            {
-                currentObject = cast(_content.getChildAt(i), IBaseUI);
-                _content.removeChild(currentObject.displayObject);
-            }            
-			catch (error : Error)
-            {
-                trace("[AlignmentBaseContainer] Couldn't remove item");
-            }  
-            
-            
-            // Only grab the items that are needed  
-            if (object != currentObject) 
-                temp.push(currentObject);
-        }  
-        
-        
-        // Add it back  
-        for (a in 0...temp.length)
-            _content.addChild(temp[a]);
-    }
-    
-    /**
-	 * Remove all elements that are stored
-	 */
-    
-    public function removeAll() : Void
-    {
-        var currentObject : IBaseUI;
-        
-        for (i in 0 ... _content.numChildren)
-		{
-            try
-            {
-                currentObject = cast(_content.getChildAt(i), IBaseUI);
-                _content.removeChild(currentObject.displayObject);
-				
-				currentObject.destroy();
-				currentObject = null;
-				
-            } 
-			catch (error : Error)
-            {
-                trace("[AlignmentBaseContainer] Couldn't remove item");
-            }
-        }
-    }
     
     /**
 	 * Update the UI class

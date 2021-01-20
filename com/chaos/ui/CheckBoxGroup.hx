@@ -73,8 +73,6 @@ class CheckBoxGroup extends HorizontalContainer implements ICheckBoxGroup implem
 	override public function destroy():Void 
 	{
 		super.destroy();
-		
-		removeAll();
 	}
     
     

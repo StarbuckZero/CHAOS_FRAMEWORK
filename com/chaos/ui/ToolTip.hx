@@ -352,9 +352,6 @@ class ToolTip
         if (-1 != textColor) 
             _label.textColor = textColor;
         
-         if (-1 != borderColor) 
-             _label.borderColor = borderColor;
-        
         if (-1 != borderColor) 
             _bubble.borderColor = borderColor;
         
@@ -501,8 +498,8 @@ class ToolTip
         if (-1 != dataObj.textColor) 
             _label.textColor = dataObj.textColor;
         
-        if (-1 != dataObj.borderColor) 
-            _label.borderColor = dataObj.borderColor;
+        // if (-1 != dataObj.borderColor) 
+        //     _label.borderColor = dataObj.borderColor;
         
         _bubble.border = dataObj.border;
         _label.x = (_bubble.width / 2) - (_label.width / 2);
