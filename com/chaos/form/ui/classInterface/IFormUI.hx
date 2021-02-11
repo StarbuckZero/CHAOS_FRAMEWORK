@@ -8,7 +8,7 @@ import com.chaos.ui.classInterface.IBaseUI;
  * @author Erick Feiling
  */
 
-interface IFormUI extends IBaseUI
+interface IFormUI 
 {
 	
 	/**

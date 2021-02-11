@@ -1,6 +1,6 @@
 package com.chaos.ui;
 
-import nme.errors.Error;
+import openfl.errors.Error;
 
 
 
@@ -40,11 +40,11 @@ class WindowManager extends Sprite
         super();
 		
 		// Set defaults for unfocus and focus colors
-		if ( -1 != UIStyleManager.WINDOW_TITLE_AREA_COLOR)   
-			_windowTitleFocusColor = UIStyleManager.WINDOW_TITLE_AREA_COLOR;
+		// if ( -1 != UIStyleManager.WINDOW_TITLE_AREA_COLOR)   
+		// 	_windowTitleFocusColor = UIStyleManager.WINDOW_TITLE_AREA_COLOR;
 		
-		if ( -1 != UIStyleManager.WINDOW_FOCUS_COLOR)  
-			_windowFocusColor = UIStyleManager.WINDOW_FOCUS_COLOR;
+		// if ( -1 != UIStyleManager.WINDOW_FOCUS_COLOR)  
+		// 	_windowFocusColor = UIStyleManager.WINDOW_FOCUS_COLOR;
 		
 		if ( -1 != UIStyleManager.WINDOW_TITLE_AREA_UNFOCUS_COLOR)
 			_windowTitleUnFocusColor = UIStyleManager.WINDOW_TITLE_AREA_UNFOCUS_COLOR;
@@ -68,7 +68,9 @@ class WindowManager extends Sprite
         if (!window.hasEventListener(MouseEvent.MOUSE_DOWN)) 
             window.addEventListener(MouseEvent.MOUSE_DOWN, moveForward, false, 0, true);
         
-        return super.addChild(window);
+		addChild(window);
+
+        return window;
 		
 	}
 	
@@ -76,7 +78,9 @@ class WindowManager extends Sprite
 	{
         window.removeEventListener(MouseEvent.MOUSE_DOWN, moveForward);
         
-        return super.removeChild(window);		
+		removeChild(window);
+
+        return window;
 	}
 	
 	/**
@@ -139,7 +143,7 @@ class WindowManager extends Sprite
 	
 	private function set_windowFocusColor(value : Int) : Int 
 	{
-		_windowFocusColor = value;
+		// _windowFocusColor = value;
 		
         return value;
     }
@@ -150,7 +154,8 @@ class WindowManager extends Sprite
 	
 	private function get_windowFocusColor() : Int
 	{
-		return _windowFocusColor;
+		// return _windowFocusColor;
+		return 0;
     }	
 	
 	/**
@@ -158,7 +163,7 @@ class WindowManager extends Sprite
 	 */
 	private function set_windowTitleFocusColor(value : Int) : Int 
 	{
-		_windowTitleFocusColor = value;
+		// _windowTitleFocusColor = value;
 		
         return value;
 	}
@@ -169,7 +174,8 @@ class WindowManager extends Sprite
 	
 	private function get_windowTitleFocusColor() : Int
 	{
-		return _windowTitleFocusColor;
+		// return _windowTitleFocusColor;
+		return 0;
     }	
 	
 	

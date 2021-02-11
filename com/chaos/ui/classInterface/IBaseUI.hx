@@ -146,4 +146,11 @@ interface IBaseUI
 	 */
 	
 	 function reskin() : Void;
+
+	/**
+	 * Set properties based on object
+	 * @param	data object with supported types
+	 */
+	 	 
+	 function setComponentData(data:Dynamic):Void;
 }

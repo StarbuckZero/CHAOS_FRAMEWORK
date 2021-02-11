@@ -130,7 +130,11 @@ class DisplayVideo extends BaseUI implements IBaseUI
 			_bufferAmount = Reflect.field(data, "bufferAmount");
 		
 		if (Reflect.hasField(data, "url"))
-			_videoURL = Reflect.field(data, "url");
+            _videoURL = Reflect.field(data, "url");
+        
+
+        if(_videoURL != "")
+           load(_videoURL, _autoStart); 
 		
 	}
 	

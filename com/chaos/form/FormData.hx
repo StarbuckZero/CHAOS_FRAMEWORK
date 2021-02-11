@@ -11,22 +11,31 @@ import com.chaos.form.ui.classInterface.IFormUI;
 
 class FormData implements IFormUI
 {
-    private var id : Int = 0;
-    private var name : String = "";
-    private var value : String = "";
+    
+    private var _id : Int = 0;
+    private var _name : String = "";
+    private var _value : String = "";
     
     public function new(formName : String, dataString : String = "")
     {
-        name = formName;
-        value = dataString;
+        _name = formName;
+        _value = dataString;
     }
     
+	/**
+	 * Data 
+	 */
+	 
+    public function data():Dynamic {
+        return {"id":_id,"name":_name,"value":_value};
+    }
+
     /**
 	 * Clear values
 	 */
     public function clear() : Void
     {
-        value = "";
+        _value = "";
     }
     
     /**
@@ -46,7 +55,7 @@ class FormData implements IFormUI
 	 */
     public function getId() : Int
     {
-        return id;
+        return _id;
     }
     
     /**
@@ -57,7 +66,7 @@ class FormData implements IFormUI
     
     public function setId(value : Int) : Void
     {
-        id = value;
+        _id = value;
     }
     
     /**
@@ -67,7 +76,7 @@ class FormData implements IFormUI
 	 */
     public function getValue() : String
     {
-        return value;
+        return _value;
     }
     
     /**
@@ -77,7 +86,7 @@ class FormData implements IFormUI
 	 */
     public function setValue(value : String) : Void
     {
-        this.value = value;
+        _value = value;
     }
     
     /**
@@ -88,7 +97,7 @@ class FormData implements IFormUI
     
     public function getName() : String
     {
-        return name;
+        return _name;
     }
     
     /**
@@ -98,7 +107,7 @@ class FormData implements IFormUI
 	 */
     public function setName(value : String) : Void
     {
-        name = value;
+        _name = value;
     }
 }
 

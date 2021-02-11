@@ -78,7 +78,7 @@ class Panorama extends BaseUI implements IPanorama implements IBaseUI
     private var maxLeft : Float = 0;
     private var zoomCurrentNum : Int = 0;
     private var zoomNum : Int = 1;
-    private var zoomEnable : Bool = false;
+    private var _enableZoom : Bool = false;
     
     // Area for images
     private var slider : Sprite = new Sprite();
@@ -107,14 +107,44 @@ class Panorama extends BaseUI implements IPanorama implements IBaseUI
 	{
 		super.setComponentData(data);
 		
-		if (Reflect.field(data, "velocity"))
+		if (Reflect.hasField(data, "velocity"))
 			_velocity = Reflect.field(data,"velocity");
 		
-		if (Reflect.field(data, "spacing"))
+		if (Reflect.hasField(data, "spacing"))
 			_spacing = Reflect.field(data,"spacing");
 			
-		if (Reflect.field(data, "mode"))
-			_mode = Reflect.field(data,"mode");
+		if (Reflect.hasField(data, "mode"))
+            _mode = Reflect.field(data,"mode");
+        
+        if (Reflect.hasField(data, "blockSpace"))
+            _blockSpace = Reflect.field(data,"blockSpace");
+
+        if (Reflect.hasField(data, "enableX"))
+            _xLock = Reflect.field(data,"enableX");
+
+        if (Reflect.hasField(data, "enableY"))
+            _yLock = Reflect.field(data,"enableY");
+
+        if (Reflect.hasField(data, "enableZoom"))
+            _enableZoom = Reflect.field(data,"enableZoom");
+
+        if (Reflect.hasField(data, "forceMode"))
+            _forceMode = Reflect.field(data,"forceMode");
+
+        if (Reflect.hasField(data, "lag"))
+            _lag = Reflect.field(data,"lag");
+
+        if (Reflect.hasField(data, "lock"))
+            _lock = Reflect.field(data,"lock");
+
+        if (Reflect.hasField(data, "source"))
+            _source = Reflect.field(data,"source");
+
+        if (Reflect.hasField(data, "image"))
+            setImage(Reflect.field(data,"image"));
+
+        if (Reflect.hasField(data,"forcePointX") && Reflect.hasField(data,"forcePointY"))
+            setForcePoint(Reflect.field(data,"forcePointX"), Reflect.field(data,"forcePointY"));
 		
 		initSlider(_velocity,  _margin, _spacing, _mode);
 		
@@ -191,7 +221,7 @@ class Panorama extends BaseUI implements IPanorama implements IBaseUI
     
     private function set_enableZoom(value : Bool) : Bool
     {
-        zoomEnable = value;
+        _enableZoom = value;
         return value;
     }
     
@@ -201,7 +231,7 @@ class Panorama extends BaseUI implements IPanorama implements IBaseUI
     
     private function get_enableZoom() : Bool
     {
-        return zoomEnable;
+        return _enableZoom;
     }
     
     /**

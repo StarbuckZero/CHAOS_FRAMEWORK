@@ -273,7 +273,7 @@ class UIBitmapManager {
 
 	private static function initializeManager():Void {
         skinTheme = {};
-        
+         
         // Setting up to store bitmaps for all components
         for( i in 0 ... componentNameList.length)
             Reflect.setField(skinTheme, componentNameList[i], {});

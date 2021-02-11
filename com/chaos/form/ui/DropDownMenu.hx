@@ -21,6 +21,14 @@ class DropDownMenu extends ComboBox implements IComboBox implements IBaseUI impl
         super(data);
     }
     
+	/**
+	 * Data 
+	 */
+	 
+     public function data():Dynamic {
+        return {"id":getSelected().id,"name":name,"value":text};
+    }
+
     /**
 	 * Clear values
 	 */

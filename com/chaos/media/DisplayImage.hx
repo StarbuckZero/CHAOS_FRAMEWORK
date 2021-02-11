@@ -83,6 +83,9 @@ class DisplayImage extends BaseUI implements IBaseUI
 		if (Reflect.hasField(data, "drawOffStage"))
 			_drawOffStage =  Reflect.field(data, "drawOffStage");
 		
+		if (Reflect.hasField(data, "image"))
+			_image =  Reflect.field(data, "image");		
+		
 	}
 	
 

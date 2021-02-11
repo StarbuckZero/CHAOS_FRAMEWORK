@@ -42,7 +42,7 @@ class FormBuilder extends BaseUI implements IFormBuilder implements IBaseUI
     
     public var hiddenObj : Dynamic = {};
     
-    private var _grid : IGridContainer = new GridContainer(0, 2);
+    private var _grid : IGridContainer = new GridContainer({"row":0, "column":2});
     
     private var _border : Bool = true;
     private var _borderThinkness : Int = 2;

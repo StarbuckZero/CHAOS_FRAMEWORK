@@ -2,18 +2,22 @@ package com.chaos.ui;
 
 import com.chaos.ui.classInterface.IBaseUI;
 import com.chaos.ui.classInterface.IToggleButton;
+import com.chaos.ui.ButtonBase;
+
 import openfl.display.BitmapData;
 import openfl.events.MouseEvent;
 import openfl.events.Event;
 import openfl.display.Shape;
-import com.chaos.ui.ButtonBase;
+
 
 /**
  * Creates a simple toggle button it doesn't use a label or icon
  *
  * @author Erick Feiling
  */
+
 class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI {
+
 	/** The type of UI Element */
 	public static inline var TYPE:String = "ToggleButton";
 

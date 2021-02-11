@@ -45,6 +45,9 @@ class RadioButtonGroup extends HorizontalContainer implements IRadioButtonGroup 
 	override public function setComponentData(data:Dynamic):Void 
 	{
 		super.setComponentData(data);
+
+		if(Reflect.hasField(data,"group"))
+			_group = Reflect.field(data,"group");
 		
 		if (Reflect.hasField(data, "data"))
 		{

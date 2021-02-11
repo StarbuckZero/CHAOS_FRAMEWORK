@@ -17,7 +17,7 @@ class TaskDataObject implements ITask
     public var start(get, never) : Int;
     public var end(get, never) : Int;
     public var index(get, set) : Int;
-    public var data(get, set) : Dynamic;
+    public var data(get, set) : Array<Dynamic>;
 
     public static var SAFE_MODE : Bool = true;
     
@@ -26,7 +26,7 @@ class TaskDataObject implements ITask
     private var _index : Int;
     private var _end : Int;
     private var _func : ITask->Void;
-    private var _data : Dynamic = {};
+    private var _data : Array<Dynamic> = new Array<Dynamic>();
     
     /**
 	 *
@@ -41,7 +41,7 @@ class TaskDataObject implements ITask
 	 *
 	 */
     
-    public function new(id : String = "", start : Int = 0, end : Int = 0, func : ITask->Void = null, data:Dynamic = null)
+    public function new(id : String = "", start : Int = 0, end : Int = 0, func : ITask->Void = null, data:Array<Dynamic> = null)
     {
         _id = id;
 		
@@ -84,14 +84,14 @@ class TaskDataObject implements ITask
         return _index;
     }
 	
-	private function set_data( value:Dynamic ):Dynamic
+	private function set_data( value:Dynamic ):Array<Dynamic>
 	{
 		_data = value;
 		
 		return _data;
 	}
 	
-	private function get_data():Dynamic
+	private function get_data():Array<Dynamic>
 	{
 		return _data;
 	}

@@ -5,7 +5,7 @@ import openfl.display.BitmapData;
 import openfl.display.DisplayObject;
 import com.chaos.ui.data.TabPaneObjectData; 
 
-interface ITabPane
+interface ITabPane extends IBaseUI
 {
 	/**
 	 * Return ScrollPane that content is loaded in for each tab

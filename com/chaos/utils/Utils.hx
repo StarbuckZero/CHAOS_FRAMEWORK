@@ -1,22 +1,22 @@
 package com.chaos.utils;
 
 
-import flash.display.DisplayObjectContainer;
-import flash.display.DisplayObject;
-import flash.display.MovieClip;
-import flash.display.Sprite;
-import flash.geom.Point;
+import openfl.display.DisplayObjectContainer;
+import openfl.display.DisplayObject;
+import openfl.display.MovieClip;
+import openfl.display.Sprite;
+import openfl.geom.Point;
 import openfl.utils.Object;
 
-import flash.events.MouseEvent;
+import openfl.events.MouseEvent;
 
-import flash.system.Capabilities;
+import openfl.system.Capabilities;
 
-import flash.geom.Rectangle;
-import flash.geom.ColorTransform;
-import flash.geom.Matrix;
+import openfl.geom.Rectangle;
+import openfl.geom.ColorTransform;
+import openfl.geom.Matrix;
 
-import flash.net.URLRequest;
+import openfl.net.URLRequest;
 
 /**
  *

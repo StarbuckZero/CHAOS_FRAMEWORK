@@ -37,11 +37,6 @@ class Debug
 		// For normal console
         trace(text);
         
-		#if flash
-		// For any outside source
-        if (ExternalInterface.available) 
-            ExternalInterface.call(LOCAL_CONNECTION, text);
-		#end
     }
     
     /**

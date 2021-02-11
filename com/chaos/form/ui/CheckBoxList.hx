@@ -6,8 +6,8 @@ import com.chaos.ui.CheckBoxGroup;
 import com.chaos.ui.CheckBox;
 import com.chaos.ui.classInterface.IBaseUI;
 import com.chaos.ui.classInterface.ICheckBoxGroup;
-import com.chaos.ui.layout.Interface.IAlignmentContainer;
-import com.chaos.ui.layout.Interface.IBaseContainer;
+import com.chaos.ui.layout.classInterface.IAlignmentContainer;
+import com.chaos.ui.layout.classInterface.IBaseContainer;
 import com.chaos.ui.classInterface.ICheckBox;
 import com.chaos.utils.Debug;
 
@@ -23,6 +23,14 @@ class CheckBoxList extends CheckBoxGroup implements IFormUI implements com.chaos
     public function new(checkBoxName : String)
     {
         super(checkBoxName);
+    }
+    
+	/**
+	 * Data 
+	 */
+	 
+    public function data():Dynamic {
+        return {"id":id,"name":name,"value":id};
     }
     
     /**

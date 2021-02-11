@@ -24,7 +24,7 @@ interface ITask
     var index(get, set) : Int;
 	
 	/** Extra data that is being stored **/
-	var data(get, set) : Dynamic;
+	var data(get, set) : Array<Dynamic>;
     
     /** Runs function*/
     function run() : Void;

@@ -324,7 +324,7 @@ class SoundManager implements ISoundManager
 		
 		// Start timer for fade
 		currentSoundObj.muteVolume = -1;
-		currentSoundObj.volTask = new TaskDataObject(strName, startVolume, fadeToNum, fadeVolTimer, {"soundData":currentSoundObj} );
+		currentSoundObj.volTask = new TaskDataObject(strName, startVolume, fadeToNum, fadeVolTimer, [{"soundData":currentSoundObj}] );
 		
 		ThreadManager.setTimerRate(TASKNAME, fadeRate);
 		ThreadManager.addTask(TASKNAME, currentSoundObj.volTask);
@@ -1331,7 +1331,7 @@ class SoundManager implements ISoundManager
 	private function fadeVolTimer(task:ITask) : Void	
 	{
 		
-		var soundData:SoundData = cast(Reflect.field(task.data, "soundData"), SoundData);
+		var soundData:SoundData = cast(Reflect.field(task.data[0], "soundData"), SoundData);
 		
 
 		
