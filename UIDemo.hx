@@ -232,8 +232,8 @@ class UIDemo extends Sprite
         scrollPane = new ScrollPane({"width":300, "height":200, "x":(tabPane.x + tabPane.width + OFFSET), "y":tabPane.y});
         
         // This time creating bitmap shapes
-        var shape1 : Shape = new Shape(); //cast(Draw.Square(600, 300, 0xFF0000, 1, true), Bitmap);
-        var shape2 : Shape = new Shape(); //cast(Draw.Square(600, 300, 0x00FF00, 1, true), Bitmap);
+        var shape1 : Shape = new Shape();
+        var shape2 : Shape = new Shape();
 		
 		shape1.graphics.beginFill(0xFF0000);
 		shape2.graphics.beginFill(0x00FF00);

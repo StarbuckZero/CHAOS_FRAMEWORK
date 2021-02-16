@@ -114,7 +114,7 @@ class Label extends BaseUI implements ILabel implements IBaseUI {
 	private var _outlineAlpha:Float = 1;
 	private var _bgAlpha:Float = .2;
 
-	private var _outline:Shape = new Shape();
+	private var _outline:Border;
 	private var _bitmapMode:Bool = false;
 	private var _size:Int = 11;
 	private var _bold:Bool = false;
@@ -219,6 +219,8 @@ class Label extends BaseUI implements ILabel implements IBaseUI {
 		else
 			_height = _textField.height;
 
+		_outline = new Border({"lineColor":_borderColor,"lineThinkness":_thinkness,"lineAlpha":_outlineAlpha,"width":_width,"height":_height});
+		
 		// Add to display
 		addChild(_outline);
 
@@ -647,19 +649,22 @@ class Label extends BaseUI implements ILabel implements IBaseUI {
 		_textField.text = _text;
 
 		// Get ready to draw background and border
-		_outline.graphics.clear();
+		_outline.visible = _border;
+
+		if(_border)
+		{
+			_outline.width = _width;
+			_outline.height = _height;
+			
+			_outline.draw();
+		}
+			
 
 		// First figure out if auto resize is being used
 		if (_textField.autoSize == TextFieldAutoSize.NONE)
 			_textField.height = _height;
 		else
 			_height = _textField.height;
-
-		// Setup for border if need be
-		if (_border) {
-			_outline.graphics.lineStyle(_thinkness, _outlineColor, _outlineAlpha);
-			_outline.graphics.drawRect(0, 0, _width, _height);
-		}
 
 		_textImage.graphics.clear();
 

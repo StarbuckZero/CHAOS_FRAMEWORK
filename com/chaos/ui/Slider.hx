@@ -149,7 +149,7 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 	private var _sliderOffSet : Float = 0;
 
 	private var _trackerImage : BitmapData;
-	private var _rotateImage : Bool = false;//UIStyleManager.SLIDER_ROTATE_IMAGE;
+	private var _rotateImage : Bool = false;
 
 	
 
@@ -170,15 +170,11 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 		
 		super(data);
 		
-		
 		addEventListener(Event.ADDED_TO_STAGE, onStageAdd, false, 0, true);
 		addEventListener(Event.REMOVED_FROM_STAGE, onStageRemove, false, 0, true);
 		
 		addEventListener(Event.ADDED_TO_STAGE, stageInit, false, 0, true);
 		addEventListener(Event.REMOVED_FROM_STAGE, removeStageListener, false, 0, true);
-		
-		
-		
     }
 	
 	/**
@@ -288,7 +284,7 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 		if (UIStyleManager.hasStyle(UIStyleManager.SLIDER_OFFSET))
 			_useCustomRender = UIStyleManager.getStyle(UIStyleManager.SLIDER_USE_CUSTOM_RENDER);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.SLIDER_OFFSET))
+		if (UIStyleManager.hasStyle(UIStyleManager.SLIDER_ROTATE_IMAGE))
 			_rotateImage = UIStyleManager.getStyle(UIStyleManager.SLIDER_ROTATE_IMAGE);
 		
     } 

@@ -151,6 +151,7 @@ class Theme {
         // LABEL
         UIStyleManager.setStyle(UIStyleManager.LABEL_TEXT_COLOR , _primaryTextColor);
         UIStyleManager.setStyle(UIStyleManager.LABEL_BORDER_COLOR , _secondaryColor);
+        UIStyleManager.setStyle(UIStyleManager.LABEL_BORDER , false);
 
         // LISTBOX
         UIStyleManager.setStyle(UIStyleManager.LIST_BORDER_COLOR , _secondaryColor);
