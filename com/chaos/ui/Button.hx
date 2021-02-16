@@ -137,8 +137,8 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
 	
 	private var _mode : String = "press";
 	
-	private var _bold : Bool = UIStyleManager.BUTTON_TEXT_BOLD;
-	private var _italic : Bool = UIStyleManager.BUTTON_TEXT_ITALIC;
+	private var _bold : Bool = false; 
+	private var _italic : Bool = false;
 	
 	/**
 	 * UI Button 
@@ -259,16 +259,16 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
         super.initBitmap();
 
         // Set skining if in UIBitmapManager
-        if (null != UIBitmapManager.getUIElement(Button.TYPE, UIBitmapManager.BUTTON_NORMAL)) 
+        if (UIBitmapManager.hasUIElement(Button.TYPE, UIBitmapManager.BUTTON_NORMAL)) 
             setDefaultStateImage(UIBitmapManager.getUIElement(Button.TYPE, UIBitmapManager.BUTTON_NORMAL));
         
-        if (null != UIBitmapManager.getUIElement(Button.TYPE, UIBitmapManager.BUTTON_OVER)) 
+        if (UIBitmapManager.hasUIElement(Button.TYPE, UIBitmapManager.BUTTON_OVER)) 
             setOverStateImage(UIBitmapManager.getUIElement(Button.TYPE, UIBitmapManager.BUTTON_OVER));
         
-        if (null != UIBitmapManager.getUIElement(Button.TYPE, UIBitmapManager.BUTTON_DOWN)) 
+        if (UIBitmapManager.hasUIElement(Button.TYPE, UIBitmapManager.BUTTON_DOWN)) 
             setDownStateImage(UIBitmapManager.getUIElement(Button.TYPE, UIBitmapManager.BUTTON_DOWN));
         
-        if (null != UIBitmapManager.getUIElement(Button.TYPE, UIBitmapManager.BUTTON_DISABLE)) 
+        if (UIBitmapManager.hasUIElement(Button.TYPE, UIBitmapManager.BUTTON_DISABLE)) 
             setDisableStateImage(UIBitmapManager.getUIElement(Button.TYPE, UIBitmapManager.BUTTON_DISABLE));
     }
     
@@ -277,55 +277,63 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
         super.initStyle();
         
         // First set style default
-        if (UIStyleManager.BUTTON_WIDTH > 0 && UIStyleManager.BUTTON_WIDTH != width) 
-            _width = UIStyleManager.BUTTON_WIDTH;
+        if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_WIDTH) && UIStyleManager.getStyle(UIStyleManager.BUTTON_WIDTH) != _width) 
+            _width = UIStyleManager.getStyle(UIStyleManager.BUTTON_WIDTH);
         
-        if (UIStyleManager.BUTTON_HEIGHT > 0 && UIStyleManager.BUTTON_HEIGHT != height) 
-            _height = UIStyleManager.BUTTON_HEIGHT;  
+        if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_HEIGHT) && UIStyleManager.getStyle(UIStyleManager.BUTTON_WIDTH) != _height) 
+            _height = UIStyleManager.getStyle(UIStyleManager.BUTTON_WIDTH);  
         
         // Set the default round edge
-        if (-1 != UIStyleManager.BUTTON_ROUND_NUM) 
-            _roundEdge = UIStyleManager.BUTTON_ROUND_NUM;  
+        if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_ROUND_NUM)) 
+            _roundEdge = UIStyleManager.getStyle(UIStyleManager.BUTTON_ROUND_NUM);
         
         // Set Button Label because on UIStyleManager
-        if (-1 != UIStyleManager.BUTTON_TEXT_COLOR) 
+        if (UIStyleManager.hasStyle( UIStyleManager.BUTTON_TEXT_COLOR)) 
             Reflect.setField(_labelData,"textColor",UIStyleManager.BUTTON_TEXT_COLOR);
         
-        if (-1 != UIStyleManager.BUTTON_TEXT_SIZE) 
+        if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_TEXT_SIZE))
             Reflect.setField(_labelData,"size",UIStyleManager.BUTTON_TEXT_SIZE);
         
-		_italic = UIStyleManager.BUTTON_TEXT_ITALIC;
-		_bold = UIStyleManager.BUTTON_TEXT_BOLD;
+        if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_TEXT_ITALIC))
+		    _italic = UIStyleManager.getStyle(UIStyleManager.BUTTON_TEXT_ITALIC);
+
+        if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_TEXT_BOLD))
+		    _bold = UIStyleManager.getStyle(UIStyleManager.BUTTON_TEXT_BOLD);
         
-        if ("" != UIStyleManager.BUTTON_TEXT_FONT) 
+        if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_TEXT_FONT)) 
             _textFormat.font = UIStyleManager.BUTTON_TEXT_FONT;
         
-        if ("" != UIStyleManager.BUTTON_TEXT_ALIGN) 
+        if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_TEXT_ALIGN))
             Reflect.setField(_labelData,"align",UIStyleManager.BUTTON_TEXT_ALIGN);
         
         if (null != UIStyleManager.BUTTON_TEXT_EMBED) 
             Reflect.setField(_labelData,"embedFont",UIStyleManager.BUTTON_TEXT_EMBED);
         
-        if (-1 != UIStyleManager.BUTTON_NORMAL_COLOR) 
-            _defaultColor = UIStyleManager.BUTTON_NORMAL_COLOR;
+        if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_NORMAL_COLOR)) 
+            _defaultColor = UIStyleManager.getStyle(UIStyleManager.BUTTON_NORMAL_COLOR);
         
-        if (-1 != UIStyleManager.BUTTON_OVER_COLOR) 
-            _overColor = UIStyleManager.BUTTON_OVER_COLOR;
+        if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_OVER_COLOR))
+            _overColor = UIStyleManager.getStyle(UIStyleManager.BUTTON_OVER_COLOR);
         
-        if (-1 != UIStyleManager.BUTTON_DOWN_COLOR) 
-            _downColor = UIStyleManager.BUTTON_DOWN_COLOR;
+        if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_DOWN_COLOR))
+            _downColor = UIStyleManager.getStyle(UIStyleManager.BUTTON_DOWN_COLOR);
         
-        if (-1 != UIStyleManager.BUTTON_DISABLE_COLOR) 
-            _disableColor = UIStyleManager.BUTTON_DISABLE_COLOR;
+        if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_DISABLE_COLOR))
+            _disableColor = UIStyleManager.getStyle(UIStyleManager.BUTTON_DISABLE_COLOR);
         
 
-        _useCustomRender = UIStyleManager.BUTTON_USE_CUSTOM_RENDER;
+        if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_USE_CUSTOM_RENDER))
+            _useCustomRender = UIStyleManager.getStyle(UIStyleManager.BUTTON_USE_CUSTOM_RENDER);
 
-        _tileImage = UIStyleManager.BUTTON_TILE_IMAGE;
+        if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_TILE_IMAGE))
+            _tileImage = UIStyleManager.getStyle(UIStyleManager.BUTTON_TILE_IMAGE);
         
         // Set default loc of image offset
-        _imageOffSetX = UIStyleManager.BUTTON_IMAGE_OFFSET_X;
-        _imageOffSetY = UIStyleManager.BUTTON_IMAGE_OFFSET_Y;
+        if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_IMAGE_OFFSET_X))
+            _imageOffSetX = UIStyleManager.getStyle(UIStyleManager.BUTTON_IMAGE_OFFSET_X);
+
+        if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_IMAGE_OFFSET_Y))
+            _imageOffSetY = UIStyleManager.getStyle(UIStyleManager.BUTTON_IMAGE_OFFSET_Y);
     }
     
     /**
@@ -686,7 +694,6 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
         _icon.visible = _showIcon;
         _label.visible = _showLabel;
         
-        
         // Seting label  
         _label.text = _text;
         _label.textField.multiline = true;
@@ -695,17 +702,21 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
         // Set location of icon
         _icon.x = _imageOffSetX;
         _icon.y = _imageOffSetY;
-        
+
+        // Button Offset
+        var buttonOffSetX : Int = UIStyleManager.hasStyle(UIStyleManager.BUTTON_TEXT_OFFSET_X) ? UIStyleManager.getStyle(UIStyleManager.BUTTON_TEXT_OFFSET_X) : 0;
+        var buttonOffSetY : Int = UIStyleManager.hasStyle(UIStyleManager.BUTTON_TEXT_OFFSET_Y) ? UIStyleManager.getStyle(UIStyleManager.BUTTON_TEXT_OFFSET_Y) : 0;
+    
         // Setting loc of items
         if (_showIcon && _showLabel) 
         {
-            
+
             // Set location of text
-            _label.width = _width - _icon.width - UIStyleManager.BUTTON_TEXT_OFFSET_X;
+            _label.width = _width - _icon.width - buttonOffSetX;
 			_label.draw();
 			
-            _label.x = _icon.width + UIStyleManager.BUTTON_TEXT_OFFSET_X;
-            _label.y = (_height / 2) - (_label.height / 2) + UIStyleManager.BUTTON_TEXT_OFFSET_Y;
+            _label.x = _icon.width + buttonOffSetX;
+            _label.y = (_height / 2) - (_label.height / 2) + buttonOffSetY;
             
             // Set this first and then use offset later
             _icon.y = _label.y;
@@ -728,11 +739,11 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
         {
             
             // Set location of text
-            _label.width = _width - UIStyleManager.BUTTON_TEXT_OFFSET_X;
+            _label.width = _width - buttonOffSetX;
 			_label.draw();
 			
-            _label.x = (_width / 2) - (_label.width / 2) + UIStyleManager.BUTTON_TEXT_OFFSET_X;
-            _label.y = (_height / 2) - (_label.textField.textHeight / 2) + UIStyleManager.BUTTON_TEXT_OFFSET_Y;
+            _label.x = (_width / 2) - (_label.width / 2) + buttonOffSetX;
+            _label.y = (_height / 2) - (_label.textField.textHeight / 2) + _imageOffSetY;
 			
         }
 		

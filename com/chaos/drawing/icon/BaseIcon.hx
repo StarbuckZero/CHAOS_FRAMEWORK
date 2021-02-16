@@ -106,13 +106,14 @@ class BaseIcon extends BaseUI implements IBasicIcon implements IBaseUI
     override function reskin() {
         super.reskin();
 
-        if(-1 != UIStyleManager.ICON_COLOR)
-            _baseColor = UIStyleManager.ICON_COLOR;
+        if(UIStyleManager.hasStyle(UIStyleManager.ICON_COLOR))
+            _baseColor = UIStyleManager.getStyle(UIStyleManager.ICON_COLOR);
 
-        if(-1 != UIStyleManager.ICON_BORDER_COLOR)
-            _borderColor = UIStyleManager.ICON_BORDER_COLOR;
+        if(UIStyleManager.hasStyle(UIStyleManager.ICON_BORDER_COLOR))
+            _borderColor = UIStyleManager.getStyle(UIStyleManager.ICON_BORDER_COLOR);
 
-        _border = UIStyleManager.ICON_BORDER;
+        if(UIStyleManager.hasStyle(UIStyleManager.ICON_BORDER_COLOR))
+            _border = UIStyleManager.getStyle(UIStyleManager.ICON_BORDER);
     }
 	
     

@@ -56,27 +56,28 @@ class CheckBox extends SelectToggleBase implements ICheckBox implements IBaseUI
 		// Go with what's in data object first, UI style second
 		if (Reflect.hasField(data, "textColor"))
 			Reflect.setField(_labelData, "textColor", Reflect.field(data, "textColor") );
-		else if ( -1 != UIStyleManager.CHECKBOX_TEXT_COLOR)
+
+		else if (UIStyleManager.hasStyle(UIStyleManager.CHECKBOX_TEXT_COLOR))
 			Reflect.setField(_labelData, "textColor", UIStyleManager.CHECKBOX_TEXT_COLOR);
 		
 		// Go with what's in data object first, UI style second
 		if (Reflect.hasField(data, "size"))
 			Reflect.setField(_labelData, "size", Reflect.field(data, "size"));
-		else if ( -1 != UIStyleManager.CHECKBOX_TEXT_SIZE)
+		else if (UIStyleManager.hasStyle(UIStyleManager.CHECKBOX_TEXT_SIZE))
 			Reflect.setField(_labelData, "size", UIStyleManager.CHECKBOX_TEXT_SIZE);
 		
 		if (Reflect.hasField(data, "style"))
 			_style = Reflect.field(data, "style");
 		
-		if (""  != UIStyleManager.CHECKBOX_TEXT_ALIGN)
-			Reflect.setField(_labelData, "align", UIStyleManager.CHECKBOX_TEXT_ALIGN);
+		if (UIStyleManager.hasStyle(UIStyleManager.CHECKBOX_TEXT_ALIGN))
+			Reflect.setField(_labelData, "align", UIStyleManager.getStyle(UIStyleManager.CHECKBOX_TEXT_ALIGN));
 		
 		// If not found then go with default
-		if (!Reflect.hasField(_labelData, "bold"))
-			Reflect.setField(_labelData, "bold", UIStyleManager.CHECKBOX_TEXT_BOLD);
+		if (!Reflect.hasField(_labelData, "bold") && !UIStyleManager.hasStyle(UIStyleManager.CHECKBOX_TEXT_BOLD))
+			Reflect.setField(_labelData, "bold", false);
 		
-		if (!Reflect.hasField(_labelData, "italic"))
-			Reflect.setField(_labelData, "italic", UIStyleManager.CHECKBOX_TEXT_ITALIC);
+		if (!Reflect.hasField(_labelData, "italic") && !UIStyleManager.hasStyle(UIStyleManager.CHECKBOX_TEXT_ITALIC))
+			Reflect.setField(_labelData, "italic", false);
 	}
 
 	override function onStageAdd(event : Event) : Void { UIBitmapManager.watchElement(TYPE, this); }
@@ -85,41 +86,42 @@ class CheckBox extends SelectToggleBase implements ICheckBox implements IBaseUI
 	override private function initSkin() : Void
 	{
 		// Skin element
-		if (null != UIBitmapManager.getUIElement(CheckBox.TYPE, UIBitmapManager.CHECKBOX_NORMAL))
+		if (UIBitmapManager.hasUIElement(CheckBox.TYPE, UIBitmapManager.CHECKBOX_NORMAL))
 			setDefaultStateImage(UIBitmapManager.getUIElement(CheckBox.TYPE, UIBitmapManager.CHECKBOX_NORMAL));
 
-		if (null != UIBitmapManager.getUIElement(CheckBox.TYPE, UIBitmapManager.CHECKBOX_OVER))
+		if (UIBitmapManager.hasUIElement(CheckBox.TYPE, UIBitmapManager.CHECKBOX_OVER))
 			setOverStateImage(UIBitmapManager.getUIElement(CheckBox.TYPE, UIBitmapManager.CHECKBOX_OVER));
 
-		if (null != UIBitmapManager.getUIElement(CheckBox.TYPE, UIBitmapManager.CHECKBOX_DOWN))
+		if (UIBitmapManager.hasUIElement(CheckBox.TYPE, UIBitmapManager.CHECKBOX_DOWN))
 			setDownStateImage(UIBitmapManager.getUIElement(CheckBox.TYPE, UIBitmapManager.CHECKBOX_DOWN));
 
-		if (null != UIBitmapManager.getUIElement(CheckBox.TYPE, UIBitmapManager.CHECKBOX_DISABLE))
+		if (UIBitmapManager.hasUIElement(CheckBox.TYPE, UIBitmapManager.CHECKBOX_DISABLE))
 			setDisableStateImage(UIBitmapManager.getUIElement(CheckBox.TYPE, UIBitmapManager.CHECKBOX_DISABLE));
 	}
 
 	override private function initStyle() : Void
 	{
 		// Color
-		if ( -1 != UIStyleManager.CHECKBOX_NORMAL_COLOR)
-			_defaultColor = UIStyleManager.CHECKBOX_NORMAL_COLOR;
+		if (UIStyleManager.hasStyle(UIStyleManager.CHECKBOX_NORMAL_COLOR))
+			_defaultColor = UIStyleManager.getStyle(UIStyleManager.CHECKBOX_NORMAL_COLOR);
 
-		if ( -1 != UIStyleManager.CHECKBOX_OVER_COLOR)
-			_overColor = UIStyleManager.CHECKBOX_OVER_COLOR;
+		if (UIStyleManager.hasStyle(UIStyleManager.CHECKBOX_OVER_COLOR))
+			_overColor = UIStyleManager.getStyle(UIStyleManager.CHECKBOX_OVER_COLOR);
 
-		if ( -1 != UIStyleManager.CHECKBOX_DOWN_COLOR)
-			_downColor = UIStyleManager.CHECKBOX_DOWN_COLOR;
+		if (UIStyleManager.hasStyle(UIStyleManager.CHECKBOX_DOWN_COLOR))
+			_downColor = UIStyleManager.getStyle(UIStyleManager.CHECKBOX_DOWN_COLOR);
 
-		if ( -1 != UIStyleManager.CHECKBOX_DISABLE_COLOR)
-			_disableColor = UIStyleManager.CHECKBOX_DISABLE_COLOR;
+		if (UIStyleManager.hasStyle(UIStyleManager.CHECKBOX_DISABLE_COLOR))
+			_disableColor = UIStyleManager.getStyle(UIStyleManager.CHECKBOX_DISABLE_COLOR);
 			
-		if ( -1 != UIStyleManager.CHECKBOX_DISABLE_COLOR)
-			_disableColor = UIStyleManager.CHECKBOX_DISABLE_COLOR;
+		if (UIStyleManager.hasStyle(UIStyleManager.CHECKBOX_DISABLE_COLOR))
+			_disableColor = UIStyleManager.getStyle(UIStyleManager.CHECKBOX_DISABLE_COLOR);
 			
-		if (-1 != UIStyleManager.CHECKBOX_SIZE)
-			_buttonSize = UIStyleManager.CHECKBOX_SIZE;
+		if (UIStyleManager.hasStyle(UIStyleManager.CHECKBOX_SIZE))
+			_buttonSize = UIStyleManager.getStyle(UIStyleManager.CHECKBOX_SIZE);
 		
-		_useCustomRender = UIStyleManager.CHECKBOX_USE_CUSTOM_RENDER;
+		if (UIStyleManager.hasStyle(UIStyleManager.CHECKBOX_SIZE))
+			_useCustomRender = UIStyleManager.getStyle(UIStyleManager.CHECKBOX_USE_CUSTOM_RENDER);
 		
 	}
 	
@@ -141,6 +143,8 @@ class CheckBox extends SelectToggleBase implements ICheckBox implements IBaseUI
 	
 	override public function draw():Void 
 	{
+		var radioButtonOffSetX : Int = UIStyleManager.hasStyle(UIStyleManager.RADIOBUTTON_LABEL_OFFSET_X) ? UIStyleManager.getStyle(UIStyleManager.RADIOBUTTON_LABEL_OFFSET_X) : 0;
+		var radioButtonOffSetY : Int = UIStyleManager.hasStyle(UIStyleManager.RADIOBUTTON_LABEL_OFFSET_Y) ? UIStyleManager.getStyle(UIStyleManager.RADIOBUTTON_LABEL_OFFSET_Y) : 0;
 
         if(_useCustomRender && UIBitmapManager.hasCustomRenderTexture(CheckBox.TYPE) && _width > 0 && _height > 0) {
 
@@ -160,13 +164,13 @@ class CheckBox extends SelectToggleBase implements ICheckBox implements IBaseUI
 		
 		// Update label size
 		_label.text = _text;
-		_label.width = _width - _buttonSize - UIStyleManager.RADIOBUTTON_LABEL_OFFSET_X;
+		_label.width = _width - _buttonSize - radioButtonOffSetX;
 		_label.height = _height;
 		
 		// Center Shapes
 		_label.draw();
-		_label.x = _buttonSize + UIStyleManager.CHECKBOX_LABEL_OFFSET_X;
-		_label.y = (_height / 2) - (_label.height / 2) + UIStyleManager.CHECKBOX_LABEL_OFFSET_Y;
+		_label.x = _buttonSize + radioButtonOffSetX;
+		_label.y = (_height / 2) - (_label.height / 2) + radioButtonOffSetY;
 		
 		disableState.y = downState.y = overState.y = normalState.y = (_height / 2) - (_buttonSize / 2);
 	}

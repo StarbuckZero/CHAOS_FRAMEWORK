@@ -60,6 +60,11 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 	private var _contentSizeBox:Shape;
 	private var _mask:Shape;
 
+	private var _offsetX:Int = 0;
+	private var _offsetY:Int = 0;
+	private var _contentOffsetX:Int = 0;
+	private var _contentOffsetY:Int = 0;
+
 	// This is used for the real size
 	private var _outline:Shape;
 
@@ -94,8 +99,6 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 
 		if (Reflect.hasField(data, "border"))
 			_border = Reflect.field(data, "border");
-		else
-			_border = UIStyleManager.SCROLLPANE_BORDER;
 
 		if (Reflect.hasField(data, "thinkness"))
 			_borderThinkness = Reflect.field(data, "thinkness");
@@ -184,24 +187,42 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 	}
 
 	private function initUISkin():Void {
-		if (null != UIBitmapManager.getUIElement(ScrollPane.TYPE, UIBitmapManager.SCROLLPANE_BACKGROUND))
+		if (UIBitmapManager.hasUIElement(ScrollPane.TYPE, UIBitmapManager.SCROLLPANE_BACKGROUND))
 			setBackgroundImage(UIBitmapManager.getUIElement(ScrollPane.TYPE, UIBitmapManager.SCROLLPANE_BACKGROUND));
 	}
 
 	private function initStyle():Void {
-		if (-1 != UIStyleManager.SCROLLPANE_BACKGROUND)
-			_backgroundColor = UIStyleManager.SCROLLPANE_BACKGROUND;
+		if (UIStyleManager.hasStyle(UIStyleManager.SCROLLPANE_BACKGROUND))
+			_backgroundColor = UIStyleManager.getStyle(UIStyleManager.SCROLLPANE_BACKGROUND);
 
-		if (-1 != UIStyleManager.SCROLLPANE_BORDER_COLOR)
-			_borderColor = UIStyleManager.SCROLLPANE_BORDER_COLOR;
+		if (UIStyleManager.hasStyle(UIStyleManager.SCROLLPANE_BORDER_COLOR))
+			_borderColor = UIStyleManager.getStyle(UIStyleManager.SCROLLPANE_BORDER_COLOR);
 
-		if (-1 != UIStyleManager.SCROLLPANE_BORDER_ALPHA)
-			_borderAlpha = UIStyleManager.SCROLLPANE_BORDER_ALPHA;
+		if (UIStyleManager.hasStyle(UIStyleManager.SCROLLPANE_BORDER_ALPHA))
+			_borderAlpha = UIStyleManager.getStyle(UIStyleManager.SCROLLPANE_BORDER_ALPHA);
 
-		if (-1 != UIStyleManager.SCROLLPANE_BORDER_ALPHA)
-			_borderThinkness = UIStyleManager.SCROLLPANE_BORDER_THINKNESS;
+		if (UIStyleManager.hasStyle(UIStyleManager.SCROLLPANE_BORDER_ALPHA))
+			_borderThinkness = UIStyleManager.getStyle(UIStyleManager.SCROLLPANE_BORDER_THINKNESS);
 
-		_useCustomRender = UIStyleManager.SCROLLPANE_USE_CUSTOM_RENDER;
+
+		if (UIStyleManager.hasStyle(UIStyleManager.SCROLLPANE_CONTENT_OFFSET_X))
+			_offsetX = UIStyleManager.getStyle(UIStyleManager.SCROLLPANE_CONTENT_OFFSET_X);
+
+		if (UIStyleManager.hasStyle(UIStyleManager.SCROLLPANE_CONTENT_OFFSET_Y))
+			_offsetY = UIStyleManager.getStyle(UIStyleManager.SCROLLPANE_CONTENT_OFFSET_Y);
+
+		if (UIStyleManager.hasStyle(UIStyleManager.SCROLLPANE_CONTENT_WIDTH_OFFSET))
+			_contentOffsetX = UIStyleManager.getStyle(UIStyleManager.SCROLLPANE_CONTENT_WIDTH_OFFSET);
+
+		if (UIStyleManager.hasStyle(UIStyleManager.SCROLLPANE_CONTENT_HEIGHT_OFFSET))
+			_contentOffsetY = UIStyleManager.getStyle(UIStyleManager.SCROLLPANE_CONTENT_HEIGHT_OFFSET);
+
+		if (UIStyleManager.hasStyle(UIStyleManager.SCROLLPANE_BORDER))
+			_border = UIStyleManager.getStyle(UIStyleManager.SCROLLPANE_BORDER);
+
+		if (UIStyleManager.hasStyle(UIStyleManager.SCROLLPANE_USE_CUSTOM_RENDER))
+			_useCustomRender = UIStyleManager.getStyle(UIStyleManager.SCROLLPANE_USE_CUSTOM_RENDER);
+
 	}
 
 
@@ -327,9 +348,9 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 
 		// Set things based on scroll mode
 		if (_scrollContentType == RECT_MODE) {
-			_scrollRectH = new Rectangle(UIStyleManager.SCROLLPANE_CONTENT_OFFSET_X, UIStyleManager.SCROLLPANE_CONTENT_OFFSET_Y, _width,
+			_scrollRectH = new Rectangle(_offsetX, _offsetY, _width,
 				_height - shapeBlock.height);
-			_scrollRectV = new Rectangle(UIStyleManager.SCROLLPANE_CONTENT_OFFSET_X, UIStyleManager.SCROLLPANE_CONTENT_OFFSET_Y, _width,
+			_scrollRectV = new Rectangle(_offsetX, _offsetY, _width,
 				_height - shapeBlock.height);
 
 			_scrollContentH = new ScrollRectContent(_content, _scrollBarH, _scrollRectH);
@@ -383,7 +404,7 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 			// contentObject.mask = _mask;
 		} else if (_scrollContentType == MASK_MODE) {
 			_scrollMask.graphics.beginFill(0, 1);
-			_scrollMask.graphics.drawRect(UIStyleManager.SCROLLPANE_CONTENT_OFFSET_X, UIStyleManager.SCROLLPANE_CONTENT_OFFSET_Y,
+			_scrollMask.graphics.drawRect(_offsetX, _offsetY,
 				(_scrollBarH.visible) ? _width - shapeBlock.width : _width, (_scrollBarV.visible) ? _height : _height - _scrollBarV.buttonHeight);
 			_scrollMask.graphics.endFill();
 		}
@@ -433,8 +454,8 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 			shapeBlock.visible = true;
 
 			// Set the size of the scrollbars
-			_scrollBarH.width = (_width - shapeBlock.width) - UIStyleManager.SCROLLPANE_CONTENT_WIDTH_OFFSET;
-			_scrollBarV.height = (_height - shapeBlock.height) - UIStyleManager.SCROLLPANE_CONTENT_HEIGHT_OFFSET;
+			_scrollBarH.width = (_width - shapeBlock.width) - _contentOffsetX;
+			_scrollBarV.height = (_height - shapeBlock.height) - _contentOffsetY;
 
 			_scrollBarV.draw();
 			_scrollBarH.draw();
@@ -457,21 +478,21 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 
 			// If you can see the shape block then move the block into the right place
 			if (shapeBlock.visible) {
-				shapeBlock.x = (_width - shapeBlock.width) + UIStyleManager.SCROLLPANE_CONTENT_WIDTH_OFFSET;
-				shapeBlock.y = (_height - shapeBlock.height) + UIStyleManager.SCROLLPANE_CONTENT_HEIGHT_OFFSET;
+				shapeBlock.x = (_width - shapeBlock.width) + _contentOffsetX;
+				shapeBlock.y = (_height - shapeBlock.height) + _contentOffsetY;
 
-				// shapeBlock.x = _scrollBarH.width + UIStyleManager.SCROLLPANE_CONTENT_WIDTH_OFFSET;
-				// shapeBlock.y = _scrollBarV.height + UIStyleManager.SCROLLPANE_CONTENT_HEIGHT_OFFSET;
+				// shapeBlock.x = _scrollBarH.width + _contentOffsetX;
+				// shapeBlock.y = _scrollBarV.height + _contentOffsetY;
 			}
 			// Else figure out how to adjust the scroll bars
 			else {
 				// If Hoz is the only one being displayed
 				if (_scrollBarH.visible && !_scrollBarV.visible) {
-					_scrollBarH.width = _width - UIStyleManager.SCROLLPANE_CONTENT_WIDTH_OFFSET;
+					_scrollBarH.width = _width - _contentOffsetX;
 					_scrollBarH.draw();
 				} else if (!_scrollBarH.visible && _scrollBarV.visible) // If Vert is the only one being displayed
 				{
-					_scrollBarV.height = _height - UIStyleManager.SCROLLPANE_CONTENT_HEIGHT_OFFSET;
+					_scrollBarV.height = _height - _contentOffsetY;
 					_scrollBarV.draw();
 				}
 
@@ -479,8 +500,8 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 				shapeBlock.x = shapeBlock.y = 0;
 			}
 		} else if (value == ScrollPolicy.ON) {
-			_scrollBarH.width = (_width - shapeBlock.width) - UIStyleManager.SCROLLPANE_CONTENT_WIDTH_OFFSET;
-			_scrollBarV.height = (_height - shapeBlock.height) - UIStyleManager.SCROLLPANE_CONTENT_HEIGHT_OFFSET;
+			_scrollBarH.width = (_width - shapeBlock.width) - _contentOffsetX;
+			_scrollBarV.height = (_height - shapeBlock.height) - _contentOffsetY;
 
 			_scrollBarV.draw();
 			_scrollBarH.draw();
@@ -505,7 +526,7 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 
 			shapeBlock.visible = false;
 
-			_scrollBarV.height = _height + UIStyleManager.SCROLLPANE_CONTENT_WIDTH_OFFSET;
+			_scrollBarV.height = _height + _contentOffsetX;
 			_scrollBarV.draw();
 
 			// Check to see height of the s loaded width greather
@@ -519,7 +540,7 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 
 			shapeBlock.visible = false;
 
-			_scrollBarH.width = _width + UIStyleManager.SCROLLPANE_CONTENT_WIDTH_OFFSET;
+			_scrollBarH.width = _width + _contentOffsetX;
 			_scrollBarH.draw();
 
 			// Check to see width of the content loaded width greather

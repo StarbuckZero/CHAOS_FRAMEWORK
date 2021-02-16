@@ -36,6 +36,9 @@ class RadioButton extends SelectToggleBase implements IRadioButton implements IB
 	
 	private var _dotSize : Int = 1;
 
+	private var _labelOffX : Int = 0;
+	private var _labelOffY : Int = 0;
+
 	/**
 	 * UI Radio Button 
 	 * @param	data The proprieties that you want to set on component.
@@ -61,14 +64,13 @@ class RadioButton extends SelectToggleBase implements IRadioButton implements IB
 		// Go with what's in data object first, UI style second
 		if (Reflect.hasField(data, "textColor"))
 			Reflect.setField(_labelData, "textColor", Reflect.field(data, "textColor") );
-		else if ( -1 != UIStyleManager.RADIOBUTTON_TEXT_COLOR)
-			Reflect.setField(_labelData, "textColor", UIStyleManager.RADIOBUTTON_TEXT_COLOR);
+
 		
-		// Go with what's in data object first, UI style second
+		// Go with what's in data object first then see if set in UI style
 		if (Reflect.hasField(data, "size"))
 			Reflect.setField(_labelData, "size", Reflect.field(data, "size"));
-		else if ( -1 != UIStyleManager.RADIOBUTTON_TEXT_SIZE)
-			Reflect.setField(_labelData, "size", UIStyleManager.RADIOBUTTON_TEXT_SIZE);
+		else if (UIStyleManager.hasStyle(UIStyleManager.RADIOBUTTON_TEXT_SIZE))
+			Reflect.setField(_labelData, "size", UIStyleManager.getStyle(UIStyleManager.RADIOBUTTON_TEXT_SIZE));
 		
 		if (Reflect.hasField(data, "dotSize"))
 			_dotSize = Reflect.field(data, "dotSize");
@@ -106,44 +108,51 @@ class RadioButton extends SelectToggleBase implements IRadioButton implements IB
 	override private function initSkin() : Void
 	{
 		// Skin element
-		if (null != UIBitmapManager.getUIElement(RadioButton.TYPE, UIBitmapManager.RADIOBUTTON_NORMAL))
+		if (UIBitmapManager.hasUIElement(RadioButton.TYPE, UIBitmapManager.RADIOBUTTON_NORMAL))
 			setDefaultStateImage(UIBitmapManager.getUIElement(CheckBox.TYPE, UIBitmapManager.RADIOBUTTON_NORMAL));
 
-		if (null != UIBitmapManager.getUIElement(RadioButton.TYPE, UIBitmapManager.RADIOBUTTON_OVER))
+		if (UIBitmapManager.hasUIElement(RadioButton.TYPE, UIBitmapManager.RADIOBUTTON_OVER))
 			setOverStateImage(UIBitmapManager.getUIElement(RadioButton.TYPE, UIBitmapManager.RADIOBUTTON_OVER));
 
-		if (null != UIBitmapManager.getUIElement(RadioButton.TYPE, UIBitmapManager.RADIOBUTTON_DOWN))
+		if (UIBitmapManager.hasUIElement(RadioButton.TYPE, UIBitmapManager.RADIOBUTTON_DOWN))
 			setDownStateImage(UIBitmapManager.getUIElement(RadioButton.TYPE, UIBitmapManager.RADIOBUTTON_DOWN));
 
-		if (null != UIBitmapManager.getUIElement(RadioButton.TYPE, UIBitmapManager.RADIOBUTTON_DISABLE))
+		if (UIBitmapManager.hasUIElement(RadioButton.TYPE, UIBitmapManager.RADIOBUTTON_DISABLE))
 			setDisableStateImage(UIBitmapManager.getUIElement(RadioButton.TYPE, UIBitmapManager.RADIOBUTTON_DISABLE));
 	}
 
 	override private function initStyle() : Void
 	{
 		// Color
-		if ( -1 != UIStyleManager.RADIOBUTTON_NORMAL_COLOR)
-			_defaultColor = UIStyleManager.RADIOBUTTON_NORMAL_COLOR;
+		if (UIStyleManager.hasStyle(UIStyleManager.RADIOBUTTON_NORMAL_COLOR))
+			_defaultColor = UIStyleManager.getStyle(UIStyleManager.RADIOBUTTON_NORMAL_COLOR);
 
-		if ( -1 != UIStyleManager.RADIOBUTTON_OVER_COLOR)
-			_overColor = UIStyleManager.RADIOBUTTON_OVER_COLOR;
+		if (UIStyleManager.hasStyle(UIStyleManager.RADIOBUTTON_OVER_COLOR))
+			_overColor = UIStyleManager.getStyle(UIStyleManager.RADIOBUTTON_OVER_COLOR);
 
-		if ( -1 != UIStyleManager.RADIOBUTTON_DOWN_COLOR)
-			_downColor = UIStyleManager.RADIOBUTTON_DOWN_COLOR;
+		if (UIStyleManager.hasStyle(UIStyleManager.RADIOBUTTON_DOWN_COLOR))
+			_downColor = UIStyleManager.getStyle(UIStyleManager.RADIOBUTTON_DOWN_COLOR);
 
-		if ( -1 != UIStyleManager.RADIOBUTTON_DISABLE_COLOR)
-			_disableColor = UIStyleManager.RADIOBUTTON_DISABLE_COLOR;
+		if (UIStyleManager.hasStyle(UIStyleManager.RADIOBUTTON_DISABLE_COLOR))
+			_disableColor = UIStyleManager.getStyle(UIStyleManager.RADIOBUTTON_DISABLE_COLOR);
 			
-		if ( -1 != UIStyleManager.RADIOBUTTON_DISABLE_COLOR)
-			_disableColor = UIStyleManager.RADIOBUTTON_DISABLE_COLOR;
+		if (UIStyleManager.hasStyle(UIStyleManager.RADIOBUTTON_DISABLE_COLOR))
+			_disableColor = UIStyleManager.getStyle(UIStyleManager.RADIOBUTTON_DISABLE_COLOR);
 			
-		if (-1 != UIStyleManager.RADIOBUTTON_SIZE)
-			_buttonSize = UIStyleManager.RADIOBUTTON_SIZE;
+		if (UIStyleManager.hasStyle(UIStyleManager.RADIOBUTTON_SIZE))
+			_buttonSize = UIStyleManager.getStyle(UIStyleManager.RADIOBUTTON_SIZE);
 			
-		if (-1 != UIStyleManager.RADIOBUTTON_DOT)
-			_dotSize = UIStyleManager.RADIOBUTTON_DOT;
+		if (UIStyleManager.hasStyle(UIStyleManager.RADIOBUTTON_DOT))
+			_dotSize = UIStyleManager.getStyle(UIStyleManager.RADIOBUTTON_DOT);
 
-		_useCustomRender = UIStyleManager.RADIOBUTTON_USE_CUSTOM_RENDER;
+		if (UIStyleManager.hasStyle(UIStyleManager.RADIOBUTTON_LABEL_OFFSET_X))
+			_labelOffX = UIStyleManager.getStyle(UIStyleManager.RADIOBUTTON_LABEL_OFFSET_X);
+
+		if (UIStyleManager.hasStyle(UIStyleManager.RADIOBUTTON_LABEL_OFFSET_Y))
+			_labelOffY = UIStyleManager.getStyle(UIStyleManager.RADIOBUTTON_LABEL_OFFSET_Y);
+
+		if (UIStyleManager.hasStyle(UIStyleManager.RADIOBUTTON_USE_CUSTOM_RENDER))
+			_useCustomRender = UIStyleManager.getStyle(UIStyleManager.RADIOBUTTON_USE_CUSTOM_RENDER);
 	}
 	
 	private function set_dotSize( value:Int ) : Int
@@ -210,8 +219,8 @@ class RadioButton extends SelectToggleBase implements IRadioButton implements IB
 
 		// Center Shapes
 		_label.draw();
-		_label.x = _buttonSize + UIStyleManager.RADIOBUTTON_LABEL_OFFSET_X;
-		_label.y = (_height / 2) - (_label.height / 2) + UIStyleManager.RADIOBUTTON_LABEL_OFFSET_Y;
+		_label.x = _buttonSize + _labelOffX;
+		_label.y = (_height / 2) - (_label.height / 2) + _labelOffY;
 		
 		disableState.y = downState.y = overState.y = normalState.y = (_height / 2) - (_buttonSize / 2);		
 	}

@@ -86,16 +86,21 @@ class ToolTip
     private static var _delay : Int = 0;
     
     private static var _timer : Timer;
-    
-    private static var _defaultWidth : Float = 80;
-    private static var _defaultHeight : Float = 40;
+
+    private static var _defaultWidth : Int = 80;
+    private static var _defaultHeight : Int = 40;
+
+    private static inline var DEFAULT_TEXT_COLOR : Int = 0;
+    private static inline var DEFAULT_BORDER_COLOR : Int = 0;
+    private static inline var DEFAULT_BG_COLOR : Int = 0xFFFFFF;
+
     
     public function new()
     {
         
     }
     
-    private static function init() : Void
+    private static function initialize() : Void
     {
         _list = new DataProvider<ToolTipData>();
         
@@ -211,7 +216,7 @@ class ToolTip
     private static function get_displayObject() : Bubble
     {
         if (!_init) 
-            init();
+            initialize();
         
         return _bubble;
     }
@@ -222,7 +227,7 @@ class ToolTip
     private static function get_label() : Label
     {
         if (!_init) 
-            init();
+            initialize();
         
         return _label;
     }
@@ -282,20 +287,26 @@ class ToolTip
     {
         // Init class
         if (!_init) 
-            init();
+            initialize();
         
 
-        if (-1 != UIStyleManager.TOOLTIP_LABEL_TEXT_COLOR && -1 == textColor) 
-            textColor = UIStyleManager.TOOLTIP_LABEL_TEXT_COLOR;
+        if (UIStyleManager.hasStyle(UIStyleManager.TOOLTIP_LABEL_TEXT_COLOR) && -1 == textColor) 
+            textColor = UIStyleManager.getStyle(UIStyleManager.TOOLTIP_LABEL_TEXT_COLOR);
+        else
+            textColor = DEFAULT_TEXT_COLOR;
 
-        if(-1 != UIStyleManager.TOOLTIP_BACKGROUND_NORMAL_COLOR && -1 == backgroundColor)
-            backgroundColor = UIStyleManager.TOOLTIP_BACKGROUND_NORMAL_COLOR;
+        if(UIStyleManager.hasStyle(UIStyleManager.TOOLTIP_BACKGROUND_NORMAL_COLOR) && -1 == backgroundColor)
+            backgroundColor = UIStyleManager.getStyle(UIStyleManager.TOOLTIP_BACKGROUND_NORMAL_COLOR);
+        else 
+            backgroundColor = DEFAULT_BG_COLOR;
 
-        if(-1 != UIStyleManager.TOOLTIP_BORDER_COLOR && -1 == borderColor)
-            borderColor = UIStyleManager.TOOLTIP_BORDER_COLOR;
+        if(UIStyleManager.hasStyle(UIStyleManager.TOOLTIP_BORDER_COLOR) && -1 == borderColor)
+            borderColor = UIStyleManager.getStyle(UIStyleManager.TOOLTIP_BORDER_COLOR);
+        else
+            borderColor = DEFAULT_BORDER_COLOR;
         
-        if(!border)
-            border = UIStyleManager.TOOLTIP_BORDER;
+        if(UIStyleManager.hasStyle(UIStyleManager.TOOLTIP_BORDER_COLOR))
+            border = UIStyleManager.getStyle(UIStyleManager.TOOLTIP_BORDER);
 
         _list.addItem(new ToolTipData(displayObj, text, tipWidth, tipHeight, textColor, backgroundColor, border, borderColor));
         
@@ -324,7 +335,7 @@ class ToolTip
         
         // Init class
         if (!_init) 
-            init();
+            initialize();
         
         
         // Reset location
@@ -332,6 +343,8 @@ class ToolTip
         _label.y = 0;
         
         _label.text = text;
+
+        var labelPadding : Int = UIStyleManager.hasStyle(UIStyleManager.TOOLTIP_LABEL_PADDING) ? UIStyleManager.getStyle(UIStyleManager.TOOLTIP_LABEL_PADDING) : 0;
         
         if (-1 != tipWidth) 
             _label.width = tipWidth;
@@ -346,8 +359,8 @@ class ToolTip
         if ("" != tailLocation) 
             _bubble.tailPlacement = tailLocation;
         
-        _bubble.width = _label.width + UIStyleManager.TOOLTIP_LABEL_PADDING;
-        _bubble.height = _label.height + UIStyleManager.TOOLTIP_LABEL_PADDING;
+        _bubble.width = _label.width + labelPadding;
+        _bubble.height = _label.height + labelPadding;
         
         if (-1 != textColor) 
             _label.textColor = textColor;
@@ -404,7 +417,7 @@ class ToolTip
         
         // Init class
         if (!_init) 
-            init();
+            initialize();
 			
 		// Remove from list
         removeToolTipFromList(displayObj);
@@ -457,6 +470,8 @@ class ToolTip
         // Reset location
         _label.x = 0;
         _label.y = 0;
+
+        var labelPadding : Int = UIStyleManager.hasStyle(UIStyleManager.TOOLTIP_LABEL_PADDING) ? UIStyleManager.getStyle(UIStyleManager.TOOLTIP_LABEL_PADDING) : 0;
         
         if (-1 != dataObj.width) 
             _label.width = dataObj.width
@@ -492,8 +507,8 @@ class ToolTip
             _label.textField.wordWrap = false;
         }
         
-        _bubble.width = ((_label.textField.textWidth <= _defaultWidth)) ? _defaultWidth + UIStyleManager.TOOLTIP_LABEL_PADDING : _label.width + UIStyleManager.TOOLTIP_LABEL_PADDING;
-        _bubble.height = _label.height + UIStyleManager.TOOLTIP_LABEL_PADDING;
+        _bubble.width = ((_label.textField.textWidth <= _defaultWidth)) ? _defaultWidth + labelPadding : _label.width + labelPadding;
+        _bubble.height = _label.height + labelPadding;
         
         if (-1 != dataObj.textColor) 
             _label.textColor = dataObj.textColor;
@@ -585,10 +600,13 @@ class ToolTip
     private static function toolTipAlign(displayObj : DisplayObject) : Void
     {
         
+        var bubbleLocX : Int = UIStyleManager.hasStyle(UIStyleManager.TOOLTIP_BUBBLE_LOC_X) ? UIStyleManager.getStyle(UIStyleManager.TOOLTIP_BUBBLE_LOC_X) : 0;
+        var bubbleLocY : Int = UIStyleManager.hasStyle(UIStyleManager.TOOLTIP_BUBBLE_LOC_Y) ? UIStyleManager.getStyle(UIStyleManager.TOOLTIP_BUBBLE_LOC_Y) : 0;
+
         _bubble.tailPlacement = BubbleTailLocation.BOTTOM;
         
-        _bubble.x = _displayArea.mouseX - (_bubble.width / 2) + UIStyleManager.TOOLTIP_BUBBLE_LOC_X;
-        _bubble.y = _displayArea.mouseY - _bubble.height + UIStyleManager.TOOLTIP_BUBBLE_LOC_Y;
+        _bubble.x = _displayArea.mouseX - (_bubble.width / 2) + bubbleLocX;
+        _bubble.y = _displayArea.mouseY - _bubble.height + bubbleLocY;
         
         if (_bubble.x < 0) 
             _bubble.x = 0;
@@ -614,8 +632,11 @@ class ToolTip
         if (!_followMouse) 
             return;
         
-        _bubble.x = _displayArea.mouseX - (_bubble.width / 2) + UIStyleManager.TOOLTIP_BUBBLE_LOC_X;
-        _bubble.y = _displayArea.mouseY - _bubble.height + UIStyleManager.TOOLTIP_BUBBLE_LOC_Y;
+        var bubbleLocX : Int = UIStyleManager.hasStyle(UIStyleManager.TOOLTIP_BUBBLE_LOC_X) ? UIStyleManager.getStyle(UIStyleManager.TOOLTIP_BUBBLE_LOC_X) : 0;
+        var bubbleLocY : Int = UIStyleManager.hasStyle(UIStyleManager.TOOLTIP_BUBBLE_LOC_Y) ? UIStyleManager.getStyle(UIStyleManager.TOOLTIP_BUBBLE_LOC_Y) : 0;
+
+        _bubble.x = _displayArea.mouseX - (_bubble.width / 2) + bubbleLocX;
+        _bubble.y = _displayArea.mouseY - _bubble.height + bubbleLocY;
     }
 }
 

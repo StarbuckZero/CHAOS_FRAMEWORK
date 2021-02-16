@@ -31,10 +31,15 @@ class ItemPaneButton extends ToggleButton implements IToggleButton
 
 	private var _defaultTextColor : Int = 0x000000;
 	private var _selectedTextColor : Int = 0x000000;
-	 
 	
 	private var _itemLocX : Int = 0;
 	private var _itemLocY : Int = 0;
+
+	private var _iconLocX : Int = 0;
+	private var _iconLocY : Int = 0;
+
+	private var _labelLocX : Int = 0;
+	private var _labelLocY : Int = -2;
 	
 	/**
 	 * ItemPane Button 
@@ -50,11 +55,17 @@ class ItemPaneButton extends ToggleButton implements IToggleButton
 	override function reskin() {
 		super.reskin();
 
-		if(-1 != UIStyleManager.ITEMPANE_TEXT_COLOR)
-			_defaultTextColor = UIStyleManager.ITEMPANE_TEXT_COLOR;
+		if(UIStyleManager.hasStyle(UIStyleManager.ITEMPANE_TEXT_COLOR))
+			_defaultTextColor = UIStyleManager.getStyle(UIStyleManager.ITEMPANE_TEXT_COLOR);
 		
-		if(-1 != UIStyleManager.ITEMPANE_TEXT_SELECTED_COLOR)
-			_selectedTextColor = UIStyleManager.ITEMPANE_TEXT_SELECTED_COLOR;
+		if(UIStyleManager.hasStyle(UIStyleManager.ITEMPANE_TEXT_SELECTED_COLOR))
+			_selectedTextColor = UIStyleManager.getStyle(UIStyleManager.ITEMPANE_TEXT_SELECTED_COLOR);
+
+		if(UIStyleManager.hasStyle(UIStyleManager.ITEMPANE_LABEL_OFFSET_X))
+			_labelLocX = UIStyleManager.getStyle(UIStyleManager.ITEMPANE_LABEL_OFFSET_X);
+
+		if(UIStyleManager.hasStyle(UIStyleManager.ITEMPANE_LABEL_OFFSET_Y))
+			_labelLocY = UIStyleManager.getStyle(UIStyleManager.ITEMPANE_LABEL_OFFSET_Y);
 
 	}
 	
@@ -119,10 +130,10 @@ class ItemPaneButton extends ToggleButton implements IToggleButton
 		
 		_labelData = null;
 		
-		addChild(_label);
+		
 		addChild(_icon);
 		addChild(_item);
-		
+		addChild(_label);
 	}
 	
 	
@@ -168,16 +179,18 @@ class ItemPaneButton extends ToggleButton implements IToggleButton
 	override public function draw():Void 
 	{
 		super.draw();
+
+		
 		
 		_label.width = _width;
 		_label.height = _label.textField.textHeight;
 		_label.draw();
 		
-		_label.x = UIStyleManager.ITEMPANE_LABEL_OFFSET_X;
-		_label.y = (_height - _label.height) + UIStyleManager.ITEMPANE_LABEL_OFFSET_Y;
+		_label.x = _labelLocX;
+		_label.y = (_height - _label.height) + _labelLocY;
 		
-        _icon.x = UIStyleManager.ITEMPANE_ICON_LOC_X;
-        _icon.y = UIStyleManager.ITEMPANE_ICON_LOC_Y;
+        _icon.x = _iconLocX;
+        _icon.y = _iconLocY;
 		
 		_item.x = _itemLocX;
 		_item.y = _itemLocY;
@@ -208,9 +221,5 @@ class ItemPaneButton extends ToggleButton implements IToggleButton
 		}
 
 	}
-
-	
-
-
 	
 }

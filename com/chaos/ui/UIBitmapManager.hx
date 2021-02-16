@@ -344,12 +344,29 @@ class UIBitmapManager {
 		}
 	}
 
+	/**
+	 *  Update all UI elements that are on the screen
+	 */
+
 	public static function updateAllUIElement() {
 		
 		for(i in 0 ... componentNameList.length)
-		{
 			updateUIElement(componentNameList[i]);
-		}
+	}
+
+	/**
+	 * Check to see if UI Element bitmap has been set
+	 *
+	 * @param	UITypeElement The type of UI Element
+	 * @param	style The part of the UI Element you want to skin
+	*/
+	public static function hasUIElement(UITypeElement:String, style:String) : Bool {
+
+		// Make sure everything is setup
+		if (!initialized)
+			initializeManager();
+				
+		return Reflect.hasField(Reflect.field(skinTheme, UITypeElement), style);
 	}
 
 	/**
@@ -440,11 +457,12 @@ class UIBitmapManager {
 	 * @example UIBitmapManager.removeUIElement(CheckBox.TYPE, UIBitmapManager.CHECK_BUTTON_NORMAL );
 	 */
 	public static function removeUIElement(UIElement:String, type:String):Void {
+
 		// Make sure everything is setup
 		if (!initialized)
 			initializeManager();
 
-		//Reflect.deleteField(Reflect.field(skinTheme, UIElement), type);
+		Reflect.deleteField(Reflect.field(skinTheme, UIElement), type);
 	}
 
 	/**

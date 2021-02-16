@@ -159,46 +159,47 @@ class Accordion extends BaseContainer implements IAccordion implements IBaseCont
 	}
 
 	private function setStyle():Void {
-		if (-1 != UIStyleManager.ACCORDION_BUTTON_NORMAL_COLOR)
-			_buttonNormalColor = UIStyleManager.ACCORDION_BUTTON_NORMAL_COLOR;
+		if (UIStyleManager.hasStyle(UIStyleManager.ACCORDION_BUTTON_NORMAL_COLOR))
+			_buttonNormalColor = UIStyleManager.getStyle(UIStyleManager.ACCORDION_BUTTON_NORMAL_COLOR);
 
-		if (-1 != UIStyleManager.ACCORDION_BUTTON_OVER_COLOR)
-			_buttonOverColor = UIStyleManager.ACCORDION_BUTTON_OVER_COLOR;
+		if (UIStyleManager.hasStyle(UIStyleManager.ACCORDION_BUTTON_OVER_COLOR))
+			_buttonOverColor = UIStyleManager.getStyle(UIStyleManager.ACCORDION_BUTTON_OVER_COLOR);
 
-		if (-1 != UIStyleManager.ACCORDION_BUTTON_SELECTED_COLOR)
-			_buttonSelectedColor = UIStyleManager.ACCORDION_BUTTON_SELECTED_COLOR;
+		if (UIStyleManager.hasStyle(UIStyleManager.ACCORDION_BUTTON_SELECTED_COLOR))
+			_buttonSelectedColor = UIStyleManager.getStyle(UIStyleManager.ACCORDION_BUTTON_SELECTED_COLOR);
 
-		if (-1 != UIStyleManager.ACCORDION_BUTTON_DISABLE_COLOR)
-			_buttonDisableColor = UIStyleManager.ACCORDION_BUTTON_DISABLE_COLOR;
+		if (UIStyleManager.hasStyle(UIStyleManager.ACCORDION_BUTTON_DISABLE_COLOR))
+			_buttonDisableColor = UIStyleManager.getStyle(UIStyleManager.ACCORDION_BUTTON_DISABLE_COLOR);
 
-		if (-1 != UIStyleManager.ACCORDION_BUTTON_TEXT_COLOR)
-			_buttonTextColor = UIStyleManager.ACCORDION_BUTTON_TEXT_COLOR;
+		if (UIStyleManager.hasStyle(UIStyleManager.ACCORDION_BUTTON_TEXT_COLOR))
+			_buttonTextColor = UIStyleManager.getStyle(UIStyleManager.ACCORDION_BUTTON_TEXT_COLOR);
 
-		if (-1 != UIStyleManager.ACCORDION_BUTTON_SELECTED_TEXT_COLOR)
-			_buttonTextSelectedColor = UIStyleManager.ACCORDION_BUTTON_SELECTED_TEXT_COLOR;
+		if (UIStyleManager.hasStyle(UIStyleManager.ACCORDION_BUTTON_SELECTED_TEXT_COLOR))
+			_buttonTextSelectedColor = UIStyleManager.getStyle(UIStyleManager.ACCORDION_BUTTON_SELECTED_TEXT_COLOR);
 
-		if (-1 != UIStyleManager.ACCORDION_BACKGROUND_COLOR)
-			_backgroundColor = UIStyleManager.ACCORDION_BACKGROUND_COLOR;
+		if (UIStyleManager.hasStyle(UIStyleManager.ACCORDION_BACKGROUND_COLOR))
+			_backgroundColor = UIStyleManager.getStyle(UIStyleManager.ACCORDION_BACKGROUND_COLOR);
 
-		_useCustomRender = UIStyleManager.ACCORDION_USE_CUSTOM_RENDER;
+		if (UIStyleManager.hasStyle(UIStyleManager.ACCORDION_USE_CUSTOM_RENDER))
+			_useCustomRender = UIStyleManager.getStyle(UIStyleManager.ACCORDION_USE_CUSTOM_RENDER);
 		
 	}
 
 	private function setBitmapStyle():Void {
 
-        if (null != UIBitmapManager.getUIElement(Accordion.TYPE, UIBitmapManager.ACCORDION_BUTTON_NORMAL)) 
+        if (UIBitmapManager.hasUIElement(Accordion.TYPE, UIBitmapManager.ACCORDION_BUTTON_NORMAL)) 
 			_buttonDefaultImage = UIBitmapManager.getUIElement(Accordion.TYPE, UIBitmapManager.ACCORDION_BUTTON_NORMAL);
 		
-        if (null != UIBitmapManager.getUIElement(Accordion.TYPE, UIBitmapManager.ACCORDION_BUTTON_OVER)) 
+        if (UIBitmapManager.hasUIElement(Accordion.TYPE, UIBitmapManager.ACCORDION_BUTTON_OVER)) 
             _buttonOverImage = UIBitmapManager.getUIElement(Accordion.TYPE, UIBitmapManager.ACCORDION_BUTTON_OVER);
 
-        if (null != UIBitmapManager.getUIElement(Accordion.TYPE, UIBitmapManager.ACCORDION_BUTTON_SELECTED)) 
+        if (UIBitmapManager.hasUIElement(Accordion.TYPE, UIBitmapManager.ACCORDION_BUTTON_SELECTED)) 
 			_buttonDownImage = UIBitmapManager.getUIElement(Accordion.TYPE, UIBitmapManager.ACCORDION_BUTTON_SELECTED);
 		
-        if (null != UIBitmapManager.getUIElement(Accordion.TYPE, UIBitmapManager.ACCORDION_BUTTON_DISABLE)) 
+        if (UIBitmapManager.hasUIElement(Accordion.TYPE, UIBitmapManager.ACCORDION_BUTTON_DISABLE)) 
             _buttonDisableImage = UIBitmapManager.getUIElement(Accordion.TYPE, UIBitmapManager.ACCORDION_BUTTON_DISABLE);
 
-        if (null != UIBitmapManager.getUIElement(Accordion.TYPE, UIBitmapManager.ACCORDION_BACKGROUND)) 
+        if (UIBitmapManager.hasUIElement(Accordion.TYPE, UIBitmapManager.ACCORDION_BACKGROUND)) 
             setBackgroundImage(UIBitmapManager.getUIElement(Accordion.TYPE, UIBitmapManager.ACCORDION_BACKGROUND));
 
 	}
@@ -460,7 +461,7 @@ class Accordion extends BaseContainer implements IAccordion implements IBaseCont
 	 */
 	override public function draw():Void {
 
-		if(UIStyleManager.ACCORDION_USE_CUSTOM_RENDER && UIBitmapManager.hasCustomRenderTexture(Accordion.TYPE) && _width > 0 && _height > 0)
+		if(UIStyleManager.hasStyle(UIStyleManager.ACCORDION_USE_CUSTOM_RENDER) && UIStyleManager.getStyle(UIStyleManager.ACCORDION_USE_CUSTOM_RENDER) && UIBitmapManager.hasCustomRenderTexture(Accordion.TYPE) && _width > 0 && _height > 0)
 		{
 			_buttonDefaultImage = UIBitmapManager.runCustomRender(Accordion.TYPE,{"width":_width,"height":_buttonSize,"state":"default"});
 			_buttonOverImage = UIBitmapManager.runCustomRender(Accordion.TYPE,{"width":_width,"height":_buttonSize,"state":"over"});

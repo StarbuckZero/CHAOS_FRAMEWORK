@@ -172,21 +172,21 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
     {
 		
         // Background
-        if (null != UIBitmapManager.getUIElement(GridPane.TYPE, UIBitmapManager.GRIDPANE_BACKGROUND)) 
+        if (UIBitmapManager.hasUIElement(GridPane.TYPE, UIBitmapManager.GRIDPANE_BACKGROUND)) 
             setBackgroundImage(UIBitmapManager.getUIElement(GridPane.TYPE, UIBitmapManager.GRIDPANE_BACKGROUND));
         
           // Buttons
-        if (null != UIBitmapManager.getUIElement(GridPane.TYPE, UIBitmapManager.GRIDPANE_BUTTON_NORMAL)) 
+        if (UIBitmapManager.hasUIElement(GridPane.TYPE, UIBitmapManager.GRIDPANE_BUTTON_NORMAL)) 
             setColumnButtonImage(UIBitmapManager.getUIElement(GridPane.TYPE, UIBitmapManager.GRIDPANE_BUTTON_NORMAL));
         
-        if (null != UIBitmapManager.getUIElement(GridPane.TYPE, UIBitmapManager.GRIDPANE_BUTTON_OVER)) 
+        if (UIBitmapManager.hasUIElement(GridPane.TYPE, UIBitmapManager.GRIDPANE_BUTTON_OVER)) 
             setColumnButtonOverImage(UIBitmapManager.getUIElement(GridPane.TYPE, UIBitmapManager.GRIDPANE_BUTTON_OVER));
         
-        if (null != UIBitmapManager.getUIElement(GridPane.TYPE, UIBitmapManager.GRIDPANE_BUTTON_DOWN)) 
+        if (UIBitmapManager.hasUIElement(GridPane.TYPE, UIBitmapManager.GRIDPANE_BUTTON_DOWN)) 
             setColumnButtonDownImage(UIBitmapManager.getUIElement(GridPane.TYPE, UIBitmapManager.GRIDPANE_BUTTON_DOWN));
         
           // Cell
-        if (null != UIBitmapManager.getUIElement(GridPane.TYPE, UIBitmapManager.GRIDPANE_CELL_BACKGROUND)) 
+        if (UIBitmapManager.hasUIElement(GridPane.TYPE, UIBitmapManager.GRIDPANE_CELL_BACKGROUND)) 
             setCellBackgroundImage(UIBitmapManager.getUIElement(GridPane.TYPE, UIBitmapManager.GRIDPANE_CELL_BACKGROUND));
     }
     
@@ -196,46 +196,50 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
 		super.initStyle();
 		
         // Border
-        if (-1 != UIStyleManager.GRID_BACKGROUND_COLOR) 
-            backgroundColor = UIStyleManager.GRID_BACKGROUND_COLOR;
+        if (UIStyleManager.hasStyle(UIStyleManager.GRID_BACKGROUND_COLOR))
+            _backgroundColor = UIStyleManager.getStyle(UIStyleManager.GRID_BACKGROUND_COLOR);
         
-        if (-1 != UIStyleManager.GRID_BORDER_COLOR) 
-            borderColor = UIStyleManager.GRID_BORDER_COLOR;
+        if (UIStyleManager.hasStyle(UIStyleManager.GRID_BORDER_COLOR)) 
+            _borderColor = UIStyleManager.getStyle(UIStyleManager.GRID_BORDER_COLOR);
         
-        if (-1 != UIStyleManager.GRID_BORDER_ALPHA) 
-            borderAlpha = UIStyleManager.GRID_BORDER_ALPHA;
+        if (UIStyleManager.hasStyle( UIStyleManager.GRID_BORDER_ALPHA))
+            _borderAlpha = UIStyleManager.getStyle(UIStyleManager.GRID_BORDER_ALPHA);
         
-        if (-1 != UIStyleManager.GRID_BORDER_THINKNESS) 
-            borderThinkness = UIStyleManager.GRID_BORDER_THINKNESS;
+        if (UIStyleManager.hasStyle(UIStyleManager.GRID_BORDER_THINKNESS))
+            _borderThinkness = UIStyleManager.getStyle(UIStyleManager.GRID_BORDER_THINKNESS);
         
-        border = UIStyleManager.GRID_BORDER;
-        background = UIStyleManager.GRID_BACKGROUND;
+        if (UIStyleManager.hasStyle(UIStyleManager.GRID_BORDER))
+            _border = UIStyleManager.getStyle(UIStyleManager.GRID_BORDER);
+
+        if (UIStyleManager.hasStyle(UIStyleManager.GRID_BACKGROUND))
+            _background = UIStyleManager.getStyle(UIStyleManager.GRID_BACKGROUND);
         
         // Column Buttons
-        if (-1 != UIStyleManager.GRID_COLUMN_BUTTON_NORMAL_COLOR) 
-            _columnButtonColor = UIStyleManager.GRID_COLUMN_BUTTON_NORMAL_COLOR;
+        if (UIStyleManager.hasStyle(UIStyleManager.GRID_COLUMN_BUTTON_NORMAL_COLOR)) 
+            _columnButtonColor = UIStyleManager.getStyle(UIStyleManager.GRID_COLUMN_BUTTON_NORMAL_COLOR);
         
-        if (-1 != UIStyleManager.GRID_COLUMN_BUTTON_OVER_COLOR) 
-            _columnButtonOverColor = UIStyleManager.GRID_COLUMN_BUTTON_OVER_COLOR;
+        if (UIStyleManager.hasStyle(UIStyleManager.GRID_COLUMN_BUTTON_OVER_COLOR))
+            _columnButtonOverColor = UIStyleManager.getStyle(UIStyleManager.GRID_COLUMN_BUTTON_OVER_COLOR);
         
-        if (-1 != UIStyleManager.GRID_COLUMN_BUTTON_DOWN_COLOR) 
-            _columnButtonDownColor = UIStyleManager.GRID_COLUMN_BUTTON_DOWN_COLOR;
+        if (UIStyleManager.hasStyle(UIStyleManager.GRID_COLUMN_BUTTON_DOWN_COLOR))
+            _columnButtonDownColor = UIStyleManager.getStyle(UIStyleManager.GRID_COLUMN_BUTTON_DOWN_COLOR);
         
         
         // Cell
-        if (-1 != UIStyleManager.GRID_CELL_BACKGROUND_COLOR) 
-            _cellColor = UIStyleManager.GRID_CELL_BACKGROUND_COLOR;
+        if (UIStyleManager.hasStyle(UIStyleManager.GRID_CELL_BACKGROUND_COLOR))
+            _cellColor = UIStyleManager.getStyle(UIStyleManager.GRID_CELL_BACKGROUND_COLOR);
         
-        if (-1 != UIStyleManager.GRID_CELL_BORDER_ALPHA) 
-            _cellBorderAlpha = UIStyleManager.GRID_CELL_BORDER_ALPHA;
+        if (UIStyleManager.hasStyle(UIStyleManager.GRID_CELL_BORDER_ALPHA))
+            _cellBorderAlpha = UIStyleManager.getStyle(UIStyleManager.GRID_CELL_BORDER_ALPHA);
         
-        if (-1 != UIStyleManager.GRID_CELL_BORDER_COLOR) 
-            _cellBorderColor = UIStyleManager.GRID_CELL_BORDER_COLOR;
+        if (UIStyleManager.hasStyle(UIStyleManager.GRID_CELL_BORDER_COLOR))
+            _cellBorderColor = UIStyleManager.getStyle(UIStyleManager.GRID_CELL_BORDER_COLOR);
         
-        if (-1 != UIStyleManager.GRID_BORDER_THINKNESS) 
-            _cellBorderThinkness = UIStyleManager.GRID_BORDER_THINKNESS;
+        if (UIStyleManager.hasStyle(UIStyleManager.GRID_BORDER_THINKNESS))
+            _cellBorderThinkness = UIStyleManager.getStyle(UIStyleManager.GRID_BORDER_THINKNESS);
         
-        _cellBackground = UIStyleManager.GRID_CELL_BACKGROUND;
+        if (UIStyleManager.hasStyle(UIStyleManager.GRID_CELL_BACKGROUND))
+            _cellBackground = UIStyleManager.getStyle(UIStyleManager.GRID_CELL_BACKGROUND);
     }
     
     /**

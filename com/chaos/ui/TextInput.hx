@@ -178,13 +178,11 @@ class TextInput extends Label implements ITextInput implements ILabel implements
 		super.initialize();
 		
 		// Add if offset & align
-		textFormat.indent = UIStyleManager.LABEL_INDENT;
 		textField.background = false;
 		textField.border = false;
 		textField.type = TextFieldType.INPUT;
 		textFormat.align = align = TextFormatAlign.LEFT;
-		
-		
+
 
 		// Set some input defaults
 		enabled = editable = true;
@@ -258,16 +256,16 @@ class TextInput extends Label implements ITextInput implements ILabel implements
 	private function initBitmap() : Void
 	{
 
-		if (null != UIBitmapManager.getUIElement(TextInput.TYPE, UIBitmapManager.TEXTINPUT_NORMAL))
+		if (UIBitmapManager.hasUIElement(TextInput.TYPE, UIBitmapManager.TEXTINPUT_NORMAL))
 			setBackgroundImage(UIBitmapManager.getUIElement(TextInput.TYPE, UIBitmapManager.TEXTINPUT_NORMAL));
 
-		if (null != UIBitmapManager.getUIElement(TextInput.TYPE, UIBitmapManager.TEXTINPUT_OVER))
+		if (UIBitmapManager.hasUIElement(TextInput.TYPE, UIBitmapManager.TEXTINPUT_OVER))
 			setOverBackgroundImage(UIBitmapManager.getUIElement(TextInput.TYPE, UIBitmapManager.TEXTINPUT_OVER));
 
-		if (null != UIBitmapManager.getUIElement(TextInput.TYPE, UIBitmapManager.TEXTINPUT_SELECTED))
+		if (UIBitmapManager.hasUIElement(TextInput.TYPE, UIBitmapManager.TEXTINPUT_SELECTED))
 			setSelectedBackgroundImage(UIBitmapManager.getUIElement(TextInput.TYPE, UIBitmapManager.TEXTINPUT_SELECTED));
 
-		if (null != UIBitmapManager.getUIElement(TextInput.TYPE, UIBitmapManager.TEXTINPUT_DISABLE))
+		if (UIBitmapManager.hasUIElement(TextInput.TYPE, UIBitmapManager.TEXTINPUT_DISABLE))
 			setDisableBackgroundImage(UIBitmapManager.getUIElement(TextInput.TYPE, UIBitmapManager.TEXTINPUT_DISABLE));
 		
 	}
@@ -276,41 +274,50 @@ class TextInput extends Label implements ITextInput implements ILabel implements
 	{
 		super.initStyle();
 
-		if ( -1 != UIStyleManager.INPUT_TEXT_COLOR)
-			_textColor = UIStyleManager.INPUT_TEXT_COLOR;
+		if (UIStyleManager.hasStyle(UIStyleManager.INPUT_TEXT_COLOR))
+			_textColor = UIStyleManager.getStyle(UIStyleManager.INPUT_TEXT_COLOR);
 
-		if ( -1 != UIStyleManager.INPUT_TEXT_OVER_COLOR)
-			_textOverColor = UIStyleManager.INPUT_TEXT_OVER_COLOR;
+		if (UIStyleManager.hasStyle(UIStyleManager.INPUT_TEXT_OVER_COLOR))
+			_textOverColor = UIStyleManager.getStyle(UIStyleManager.INPUT_TEXT_OVER_COLOR);
 
-		if ( -1 != UIStyleManager.INPUT_TEXT_SELECTED_COLOR)
-			_textSelectedColor = UIStyleManager.INPUT_TEXT_SELECTED_COLOR;
+		if (UIStyleManager.hasStyle(UIStyleManager.INPUT_TEXT_SELECTED_COLOR))
+			_textSelectedColor = UIStyleManager.getStyle(UIStyleManager.INPUT_TEXT_SELECTED_COLOR);
 
-		if ( -1 != UIStyleManager.INPUT_TEXT_DISABLE_COLOR)
-			_textDisableColor = UIStyleManager.INPUT_TEXT_DISABLE_COLOR;
+		if (UIStyleManager.hasStyle(UIStyleManager.INPUT_TEXT_DISABLE_COLOR))
+			_textDisableColor = UIStyleManager.getStyle(UIStyleManager.INPUT_TEXT_DISABLE_COLOR);
 
-		if ( -1 != UIStyleManager.INPUT_BACKGROUND_NORMAL_COLOR)
-			_backgroundNormalColor = UIStyleManager.INPUT_BACKGROUND_NORMAL_COLOR;
+		if (UIStyleManager.hasStyle(UIStyleManager.INPUT_BACKGROUND_NORMAL_COLOR))
+			_backgroundNormalColor = UIStyleManager.getStyle(UIStyleManager.INPUT_BACKGROUND_NORMAL_COLOR);
 
-		if ( -1 != UIStyleManager.INPUT_BACKGROUND_OVER_COLOR)
-			_backgroundOverColor = UIStyleManager.INPUT_BACKGROUND_OVER_COLOR;
+		if (UIStyleManager.hasStyle(UIStyleManager.INPUT_BACKGROUND_OVER_COLOR))
+			_backgroundOverColor = UIStyleManager.getStyle(UIStyleManager.INPUT_BACKGROUND_OVER_COLOR);
 
-		if ( -1 != UIStyleManager.INPUT_BACKGROUND_OVER_COLOR)
-			_backgroundSelectedColor = UIStyleManager.INPUT_BACKGROUND_OVER_COLOR;
+		if (UIStyleManager.hasStyle(UIStyleManager.INPUT_BACKGROUND_OVER_COLOR))
+			_backgroundSelectedColor = UIStyleManager.getStyle(UIStyleManager.INPUT_BACKGROUND_OVER_COLOR);
 
-		if ( -1 != UIStyleManager.INPUT_BACKGROUND_DISABLE_COLOR)
-			_backgroundDisableColor = UIStyleManager.INPUT_BACKGROUND_DISABLE_COLOR;
+		if (UIStyleManager.hasStyle(UIStyleManager.INPUT_BACKGROUND_DISABLE_COLOR))
+			_backgroundDisableColor = UIStyleManager.getStyle(UIStyleManager.INPUT_BACKGROUND_DISABLE_COLOR);
 
-		if ("" != UIStyleManager.INPUT_TEXT_FONT)
+		if (UIStyleManager.hasStyle(UIStyleManager.LABEL_INDENT))
+			textFormat.indent = UIStyleManager.getStyle(UIStyleManager.LABEL_INDENT);
+
+		if (UIStyleManager.hasStyle(UIStyleManager.INPUT_TEXT_FONT))
 			textFormat.font = UIStyleManager.INPUT_TEXT_FONT;
 
-		if (null != UIStyleManager.INPUT_TEXT_EMBED)
-			setEmbedFont(UIStyleManager.INPUT_TEXT_EMBED);
+		if (UIStyleManager.hasStyle(UIStyleManager.INPUT_TEXT_EMBED))
+			setEmbedFont(UIStyleManager.getStyle(UIStyleManager.INPUT_TEXT_EMBED));
 
-		_border = UIStyleManager.INPUT_BORDER;
-		_background = UIStyleManager.INPUT_BACKGROUND;
+		if (UIStyleManager.hasStyle(UIStyleManager.INPUT_BORDER))
+			_border = UIStyleManager.getStyle(UIStyleManager.INPUT_BORDER);
+
+		if (UIStyleManager.hasStyle(UIStyleManager.INPUT_BACKGROUND))
+			_background = UIStyleManager.getStyle(UIStyleManager.INPUT_BACKGROUND);
 		
-		_bold = UIStyleManager.INPUT_TEXT_BOLD;
-		_italic = UIStyleManager.INPUT_TEXT_ITALIC;
+		if (UIStyleManager.hasStyle(UIStyleManager.INPUT_TEXT_BOLD))
+			_bold = UIStyleManager.getStyle(UIStyleManager.INPUT_TEXT_BOLD);
+
+		if (UIStyleManager.hasStyle(UIStyleManager.INPUT_TEXT_ITALIC))
+			_italic = UIStyleManager.getStyle(UIStyleManager.INPUT_TEXT_ITALIC);
 		
 	}
 
@@ -588,9 +595,6 @@ class TextInput extends Label implements ITextInput implements ILabel implements
 
 		// Set format this way to fix embed front problems for input field
 		textField.defaultTextFormat = textFormat;
-
-		// Add if offset and alignment
-		textFormat.indent = UIStyleManager.LABEL_INDENT;
 
 		// Get ready to draw background and border
 		if (null != backgroundNormal)

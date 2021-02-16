@@ -16,7 +16,7 @@ import com.chaos.utils.Debug;
  * @author Erick Feiling
  */
 
-class CheckBoxList extends CheckBoxGroup implements IFormUI implements com.chaos.ui.layout.classInterface.IAlignmentContainer implements IBaseContainer implements com.chaos.ui.classInterface.ICheckBoxGroup implements com.chaos.ui.classInterface.IBaseUI
+class CheckBoxList extends CheckBoxGroup implements IFormUI implements IAlignmentContainer implements IBaseContainer implements ICheckBoxGroup implements IBaseUI
 {
     private var id : Int = 0;
     

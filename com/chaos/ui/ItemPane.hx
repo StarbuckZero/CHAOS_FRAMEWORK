@@ -107,8 +107,11 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
     private var _itemSelectedState : BitmapData;
     private var _itemDisableState : BitmapData;
     
-    private var _itemWidth : Int = UIStyleManager.ITEMPANE_DEFAULT_ITEM_WIDTH;
-    private var _itemHeight : Int = UIStyleManager.ITEMPANE_DEFAULT_ITEM_HEIGHT;
+    private var _itemWidth : Int = 40;
+    private var _itemHeight : Int = 40;
+
+    private var _labelOffSetX : Int = 0;
+    private var _labelOffSetY : Int = -2;
     
     private var _itemNormalColor : Int = 0x5D5D5D;
     private var _itemOverColor : Int = 0x666666;
@@ -122,8 +125,8 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
     
     private var _allowMultipleSelection : Bool = false;
     
-    private var _itemLocX : Int = UIStyleManager.ITEMPANE_ITEM_LOC_X;
-    private var _itemLocY : Int = UIStyleManager.ITEMPANE_ITEM_LOC_Y;
+    private var _itemLocX : Int = 0;
+    private var _itemLocY : Int = 0;
     
     private var _embed : Font = null;
     private var _font : String = "";
@@ -269,19 +272,19 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
     {
 		super.initUISkin();
 		
-        if (null != UIBitmapManager.getUIElement(ItemPane.TYPE, UIBitmapManager.ITEMPANE_BACKGROUND)) 
+        if (UIBitmapManager.hasUIElement(ItemPane.TYPE, UIBitmapManager.ITEMPANE_BACKGROUND)) 
             setBackgroundImage(UIBitmapManager.getUIElement(ItemPane.TYPE, UIBitmapManager.ITEMPANE_BACKGROUND));
         
-        if (null != UIBitmapManager.getUIElement(ItemPane.TYPE, UIBitmapManager.ITEMPANE_ITEM_NORMAL)) 
+        if (UIBitmapManager.hasUIElement(ItemPane.TYPE, UIBitmapManager.ITEMPANE_ITEM_NORMAL)) 
             setNormalItem(UIBitmapManager.getUIElement(ItemPane.TYPE, UIBitmapManager.ITEMPANE_ITEM_NORMAL));
         
-        if (null != UIBitmapManager.getUIElement(ItemPane.TYPE, UIBitmapManager.ITEMPANE_ITEM_OVER)) 
+        if (UIBitmapManager.hasUIElement(ItemPane.TYPE, UIBitmapManager.ITEMPANE_ITEM_OVER)) 
             setOverItem(UIBitmapManager.getUIElement(ItemPane.TYPE, UIBitmapManager.ITEMPANE_ITEM_OVER));
         
-        if (null != UIBitmapManager.getUIElement(ItemPane.TYPE, UIBitmapManager.ITEMPANE_ITEM_SELECTED)) 
+        if (UIBitmapManager.hasUIElement(ItemPane.TYPE, UIBitmapManager.ITEMPANE_ITEM_SELECTED)) 
             setSelectedItem(UIBitmapManager.getUIElement(ItemPane.TYPE, UIBitmapManager.ITEMPANE_ITEM_SELECTED));
         
-        if (null != UIBitmapManager.getUIElement(ItemPane.TYPE, UIBitmapManager.ITEMPANE_ITEM_DISABLE)) 
+        if (UIBitmapManager.hasUIElement(ItemPane.TYPE, UIBitmapManager.ITEMPANE_ITEM_DISABLE)) 
             setDisableItem(UIBitmapManager.getUIElement(ItemPane.TYPE, UIBitmapManager.ITEMPANE_ITEM_DISABLE));
     }
     
@@ -290,50 +293,74 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
 		super.initStyle();
 		
         // Scroll Pane Background
-        if (-1 != UIStyleManager.ITEMPANE_BACKGROUND) 
-            backgroundColor = UIStyleManager.ITEMPANE_BACKGROUND; 
+        if (UIStyleManager.hasStyle(UIStyleManager.ITEMPANE_BACKGROUND))
+            _backgroundColor = UIStyleManager.getStyle(UIStyleManager.ITEMPANE_BACKGROUND);
 			
+        if (UIStyleManager.hasStyle(UIStyleManager.ITEMPANE_BORDER_COLOR))
+            _borderColor = UIStyleManager.getStyle(UIStyleManager.ITEMPANE_BORDER_COLOR);
         
-        if (-1 != UIStyleManager.ITEMPANE_BORDER_COLOR) 
-            borderColor = UIStyleManager.ITEMPANE_BORDER_COLOR;
-        
-        if (-1 != UIStyleManager.ITEMPANE_BORDER_ALPHA) 
-            borderAlpha = UIStyleManager.ITEMPANE_BORDER_ALPHA;  
+        if (UIStyleManager.hasStyle(UIStyleManager.ITEMPANE_BORDER_ALPHA))
+            _borderAlpha = UIStyleManager.getStyle(UIStyleManager.ITEMPANE_BORDER_ALPHA);
         
         // Items Pane
-        _border = UIStyleManager.ITEMPANE_ITEM_BORDER;
+        if (UIStyleManager.hasStyle(UIStyleManager.ITEMPANE_ITEM_BORDER))
+            _border = UIStyleManager.getStyle(UIStyleManager.ITEMPANE_ITEM_BORDER);
         
-        if (-1 != UIStyleManager.ITEMPANE_ITEM_BORDER_COLOR) 
-            _borderColor = UIStyleManager.ITEMPANE_ITEM_BORDER_COLOR;
+        if (UIStyleManager.hasStyle(UIStyleManager.ITEMPANE_ITEM_BORDER_COLOR))
+            _borderColor = UIStyleManager.getStyle(UIStyleManager.ITEMPANE_ITEM_BORDER_COLOR);
         
-        if (-1 != UIStyleManager.ITEMPANE_ITEM_BORDER_ALPHA) 
-            _borderAlpha = UIStyleManager.ITEMPANE_ITEM_BORDER_ALPHA;
+        if (UIStyleManager.hasStyle(UIStyleManager.ITEMPANE_ITEM_BORDER_ALPHA))
+            _borderAlpha = UIStyleManager.getStyle(UIStyleManager.ITEMPANE_ITEM_BORDER_ALPHA);
         
-        if (-1 != UIStyleManager.ITEMPANE_ITEM_BORDER_THINKNESS) 
-            _borderThinkness = UIStyleManager.ITEMPANE_ITEM_BORDER_THINKNESS;  
+        if (UIStyleManager.hasStyle(UIStyleManager.ITEMPANE_ITEM_BORDER_THINKNESS))
+            _borderThinkness = UIStyleManager.getStyle(UIStyleManager.ITEMPANE_ITEM_BORDER_THINKNESS);  
         
         
         // Item Colors
-        if (-1 != UIStyleManager.ITEMPANE_ITEM_NORMAL_COLOR) 
-            _itemNormalColor = UIStyleManager.ITEMPANE_ITEM_NORMAL_COLOR;
+        if (UIStyleManager.hasStyle(UIStyleManager.ITEMPANE_ITEM_NORMAL_COLOR))
+            _itemNormalColor = UIStyleManager.getStyle(UIStyleManager.ITEMPANE_ITEM_NORMAL_COLOR);
         
-        if (-1 != UIStyleManager.ITEMPANE_ITEM_OVER_COLOR) 
-            _itemOverColor = UIStyleManager.ITEMPANE_ITEM_OVER_COLOR;
+        if (UIStyleManager.hasStyle(UIStyleManager.ITEMPANE_ITEM_OVER_COLOR))
+            _itemOverColor = UIStyleManager.getStyle(UIStyleManager.ITEMPANE_ITEM_OVER_COLOR);
         
-        if (-1 != UIStyleManager.ITEMPANE_ITEM_SELECTED_COLOR) 
-            _itemSelectedColor = UIStyleManager.ITEMPANE_ITEM_SELECTED_COLOR;
+        if (UIStyleManager.hasStyle(UIStyleManager.ITEMPANE_ITEM_SELECTED_COLOR))
+            _itemSelectedColor = UIStyleManager.getStyle(UIStyleManager.ITEMPANE_ITEM_SELECTED_COLOR);
         
-        if (-1 != UIStyleManager.ITEMPANE_ITEM_DISABLE_COLOR) 
-            _itemDisableColor = UIStyleManager.ITEMPANE_ITEM_DISABLE_COLOR; 
+        if (UIStyleManager.hasStyle(UIStyleManager.ITEMPANE_ITEM_DISABLE_COLOR))
+            _itemDisableColor = UIStyleManager.getStyle(UIStyleManager.ITEMPANE_ITEM_DISABLE_COLOR); 
         
         
          // Label
-        _embed = UIStyleManager.ITEMPANE_TEXT_EMBED;
-        _font = UIStyleManager.ITEMPANE_TEXT_FONT;
-        _color = UIStyleManager.ITEMPANE_TEXT_COLOR;
-        _size = UIStyleManager.ITEMPANE_TEXT_SIZE;
-        _bold = UIStyleManager.ITEMPANE_TEXT_BOLD;
-        _italic = UIStyleManager.ITEMPANE_TEXT_ITALIC;
+        if (UIStyleManager.hasStyle(UIStyleManager.ITEMPANE_TEXT_EMBED))
+            _embed = UIStyleManager.getStyle(UIStyleManager.ITEMPANE_TEXT_EMBED);
+
+        if (UIStyleManager.hasStyle(UIStyleManager.ITEMPANE_TEXT_FONT))
+            _font = UIStyleManager.getStyle(UIStyleManager.ITEMPANE_TEXT_FONT);
+
+        if (UIStyleManager.hasStyle(UIStyleManager.ITEMPANE_TEXT_COLOR))
+            _color = UIStyleManager.getStyle(UIStyleManager.ITEMPANE_TEXT_COLOR);
+
+        if (UIStyleManager.hasStyle(UIStyleManager.ITEMPANE_TEXT_SIZE))
+            _size = UIStyleManager.getStyle(UIStyleManager.ITEMPANE_TEXT_SIZE);
+
+        if (UIStyleManager.hasStyle(UIStyleManager.ITEMPANE_TEXT_BOLD))
+            _bold = UIStyleManager.getStyle(UIStyleManager.ITEMPANE_TEXT_BOLD);
+
+        if (UIStyleManager.hasStyle(UIStyleManager.ITEMPANE_TEXT_ITALIC))
+            _italic = UIStyleManager.getStyle(UIStyleManager.ITEMPANE_TEXT_ITALIC);
+
+        // Item size and Loc
+        if (UIStyleManager.hasStyle(UIStyleManager.ITEMPANE_DEFAULT_ITEM_WIDTH))
+            _itemWidth = UIStyleManager.getStyle(UIStyleManager.ITEMPANE_DEFAULT_ITEM_WIDTH);
+
+        if (UIStyleManager.hasStyle(UIStyleManager.ITEMPANE_DEFAULT_ITEM_HEIGHT))
+            _itemHeight = UIStyleManager.getStyle(UIStyleManager.ITEMPANE_DEFAULT_ITEM_HEIGHT);
+
+        if (UIStyleManager.hasStyle(UIStyleManager.ITEMPANE_ITEM_LOC_X))
+            _itemLocX = UIStyleManager.getStyle(UIStyleManager.ITEMPANE_ITEM_LOC_X);
+
+        if (UIStyleManager.hasStyle(UIStyleManager.ITEMPANE_ITEM_LOC_Y))
+            _itemLocX = UIStyleManager.getStyle(UIStyleManager.ITEMPANE_ITEM_LOC_Y);        
     }
     
     /**
@@ -676,15 +703,17 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
         removeList();
         
         var _lastRowNum : Int = 0;
-        
+        var itemPaneData : Dynamic = {"width":_itemWidth, "height":_itemHeight, "ItemLocX": _itemLocX, "ItemLocY": _itemLocY};
 		
         for (i in 0... _list.length)
 		{
-           
-            //var itemLabel : Label = new Label();
+            
             var itemData : ItemPaneObjectData = _list.getItemAt(i);
+
+            Reflect.setField(itemPaneData,"Label", {"text":itemData.text,"align":"center"});
+
             var lastButton : ItemPaneButton = (i == 0) ? null : cast(_itemHolder.getChildByName( Std.string( Std.int(i - 1) ) ), ItemPaneButton);
-			var itemButton : ItemPaneButton = new ItemPaneButton({"width":_itemWidth, "height":_itemHeight, "ItemLocX": _itemLocX, "ItemLocY": _itemLocY, "Label":{"text":itemData.text, "align":"center"}} );
+			var itemButton : ItemPaneButton = new ItemPaneButton(itemPaneData);
 			
 				
             itemButton.showLabel = _showLabel;

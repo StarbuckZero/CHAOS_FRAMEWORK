@@ -120,7 +120,7 @@ class ProgressBar extends BaseUI implements IProgressBar implements IBaseUI
 	private var _textLoadedColor : Int = 0xFFFFFF;
 	private var _outlineColor : Int = 0x000000;
 
-	private var _border : Bool = UIStyleManager.PROGRESSBAR_BORDER;
+	private var _border : Bool = false;
 	private var _thinkness : Float = 1;
 	private var _outlineAlpha : Float = 1;
 	private var _displayImage : Bool = false;
@@ -272,69 +272,72 @@ class ProgressBar extends BaseUI implements IProgressBar implements IBaseUI
 			_loadedLabelData = {};
 
 		// Set the style
-		if ( -1 != UIStyleManager.PROGRESSBAR_COLOR)
-			_backgroundNormalColor = UIStyleManager.PROGRESSBAR_COLOR;
+		if (UIStyleManager.hasStyle(UIStyleManager.PROGRESSBAR_COLOR))
+			_backgroundNormalColor = UIStyleManager.getStyle(UIStyleManager.PROGRESSBAR_COLOR);
 
-		if ( -1 != UIStyleManager.PROGRESSBAR_COLOR_LOADED)
-			_loadColor = UIStyleManager.PROGRESSBAR_COLOR_LOADED;
+		if (UIStyleManager.hasStyle(UIStyleManager.PROGRESSBAR_COLOR_LOADED))
+			_loadColor = UIStyleManager.getStyle(UIStyleManager.PROGRESSBAR_COLOR_LOADED);
 
-		if ( -1 != UIStyleManager.PROGRESSBAR_TEXT_COLOR)
-			_textColor = UIStyleManager.PROGRESSBAR_TEXT_COLOR;
+		if (UIStyleManager.hasStyle(UIStyleManager.PROGRESSBAR_TEXT_COLOR))
+			_textColor = UIStyleManager.getStyle(UIStyleManager.PROGRESSBAR_TEXT_COLOR);
 
-		if ( -1 != UIStyleManager.PROGRESSBAR_TEXT_LOADED_COLOR)
-			_textLoadedColor = UIStyleManager.PROGRESSBAR_TEXT_LOADED_COLOR;
+		if (UIStyleManager.hasStyle(UIStyleManager.PROGRESSBAR_TEXT_LOADED_COLOR))
+			_textLoadedColor = UIStyleManager.getStyle(UIStyleManager.PROGRESSBAR_TEXT_LOADED_COLOR);
 
-		if ( -1 != UIStyleManager.PROGRESSBAR_BORDER_THINKNESS)
-			_thinkness = UIStyleManager.PROGRESSBAR_BORDER_THINKNESS;
+		if (UIStyleManager.hasStyle(UIStyleManager.PROGRESSBAR_BORDER_THINKNESS))
+			_thinkness = UIStyleManager.getStyle(UIStyleManager.PROGRESSBAR_BORDER_THINKNESS);
 
-		if ( -1 != UIStyleManager.PROGRESSBAR_BORDER_COLOR)
-			_outlineColor = UIStyleManager.PROGRESSBAR_BORDER_COLOR;
+		if (UIStyleManager.hasStyle(UIStyleManager.PROGRESSBAR_BORDER_COLOR))
+			_outlineColor = UIStyleManager.getStyle(UIStyleManager.PROGRESSBAR_BORDER_COLOR);
 
-		if ( -1 != UIStyleManager.PROGRESSBAR_BORDER_ALPHA)
-			_outlineAlpha = UIStyleManager.PROGRESSBAR_BORDER_ALPHA;
+		if (UIStyleManager.hasStyle(UIStyleManager.PROGRESSBAR_BORDER_ALPHA))
+			_outlineAlpha = UIStyleManager.getStyle(UIStyleManager.PROGRESSBAR_BORDER_ALPHA);
 
 		// Set Label Style
-		if ( -1 != UIStyleManager.PROGRESSBAR_TEXT_SIZE)
+		if (UIStyleManager.hasStyle(UIStyleManager.PROGRESSBAR_TEXT_SIZE))
 		{
-			Reflect.setField(_labelData, "size", UIStyleManager.PROGRESSBAR_TEXT_SIZE);
-			Reflect.setField(_loadedLabelData, "size", UIStyleManager.PROGRESSBAR_TEXT_SIZE);
+			Reflect.setField(_labelData, "size", UIStyleManager.getStyle(UIStyleManager.PROGRESSBAR_TEXT_SIZE));
+			Reflect.setField(_loadedLabelData, "size", UIStyleManager.getStyle(UIStyleManager.PROGRESSBAR_TEXT_SIZE));
 		}
 
-		Reflect.setField(_labelData, "italic", UIStyleManager.PROGRESSBAR_TEXT_ITALIC);
-		Reflect.setField(_labelData, "bold", UIStyleManager.PROGRESSBAR_TEXT_BOLD);
+		Reflect.setField(_labelData, "italic", UIStyleManager.hasStyle(UIStyleManager.PROGRESSBAR_TEXT_ITALIC) ? UIStyleManager.getStyle(UIStyleManager.PROGRESSBAR_TEXT_ITALIC) : false );
+		Reflect.setField(_labelData, "bold", UIStyleManager.hasStyle(UIStyleManager.PROGRESSBAR_TEXT_BOLD) ? UIStyleManager.getStyle(UIStyleManager.PROGRESSBAR_TEXT_BOLD) : false );
 
-		Reflect.setField(_loadedLabelData, "italic", UIStyleManager.PROGRESSBAR_TEXT_ITALIC);
-		Reflect.setField(_loadedLabelData, "bold", UIStyleManager.PROGRESSBAR_TEXT_BOLD);
+		Reflect.setField(_loadedLabelData, "italic", UIStyleManager.hasStyle(UIStyleManager.PROGRESSBAR_TEXT_ITALIC) ? UIStyleManager.getStyle(UIStyleManager.PROGRESSBAR_TEXT_ITALIC) : false );
+		Reflect.setField(_loadedLabelData, "bold", UIStyleManager.hasStyle(UIStyleManager.PROGRESSBAR_TEXT_BOLD) ? UIStyleManager.getStyle(UIStyleManager.PROGRESSBAR_TEXT_BOLD) : false );
 
-		if ("" != UIStyleManager.PROGRESSBAR_TEXT_FONT)
+		if (UIStyleManager.hasStyle(UIStyleManager.PROGRESSBAR_TEXT_FONT))
 		{
 			Reflect.setField(_labelData, "font", UIStyleManager.PROGRESSBAR_TEXT_FONT);
 			Reflect.setField(_loadedLabelData, "font", UIStyleManager.PROGRESSBAR_TEXT_FONT);
 		}
 
-		if ("" != UIStyleManager.PROGRESSBAR_TEXT_ALIGN)
+		if (UIStyleManager.hasStyle(UIStyleManager.PROGRESSBAR_TEXT_ALIGN))
 		{
-			Reflect.setField(_labelData, "align", UIStyleManager.PROGRESSBAR_TEXT_ALIGN);
-			Reflect.setField(_loadedLabelData, "align", UIStyleManager.PROGRESSBAR_TEXT_ALIGN);
+			Reflect.setField(_labelData, "align", UIStyleManager.getStyle(UIStyleManager.PROGRESSBAR_TEXT_ALIGN));
+			Reflect.setField(_loadedLabelData, "align", UIStyleManager.getStyle(UIStyleManager.PROGRESSBAR_TEXT_ALIGN));
 		}
 
-		_useCustomRender = UIStyleManager.PROGRESSBAR_USE_CUSTOM_RENDER;
+		if (UIStyleManager.hasStyle(UIStyleManager.PROGRESSBAR_USE_CUSTOM_RENDER))
+			_useCustomRender = UIStyleManager.getStyle(UIStyleManager.PROGRESSBAR_USE_CUSTOM_RENDER);
 
-		//TODO: Look into embed font with asset manager
-		//if (null != UIStyleManager.PROGRESSBAR_TEXT_EMBED)
-		//{
-		//	_label.setEmbedFont(UIStyleManager.PROGRESSBAR_TEXT_EMBED);
-		//	_loadedLabel.setEmbedFont(UIStyleManager.PROGRESSBAR_TEXT_EMBED);
-		//}
+		if (UIStyleManager.hasStyle(UIStyleManager.PROGRESSBAR_BORDER))
+			_border = UIStyleManager.getStyle(UIStyleManager.PROGRESSBAR_BORDER);
+
+		if (UIStyleManager.hasStyle(UIStyleManager.PROGRESSBAR_TEXT_EMBED))
+		{
+			_label.setEmbedFont(UIStyleManager.getStyle(UIStyleManager.PROGRESSBAR_TEXT_EMBED));
+			_loadedLabel.setEmbedFont(UIStyleManager.getStyle(UIStyleManager.PROGRESSBAR_TEXT_EMBED));
+		}
 	}
 
 	private function initBitmap() : Void
 	{
 		// UI Skinning
-		if (null != UIBitmapManager.getUIElement(ProgressBar.TYPE, UIBitmapManager.PROGRESSBAR_BACKGROUND))
+		if (UIBitmapManager.hasUIElement(ProgressBar.TYPE, UIBitmapManager.PROGRESSBAR_BACKGROUND))
 			setBackgroundImage(UIBitmapManager.getUIElement(ProgressBar.TYPE, UIBitmapManager.PROGRESSBAR_BACKGROUND));
 
-		if (null != UIBitmapManager.getUIElement(ProgressBar.TYPE, UIBitmapManager.PROGRESSBAR_LOADED_BACKGROUND))
+		if (UIBitmapManager.hasUIElement(ProgressBar.TYPE, UIBitmapManager.PROGRESSBAR_LOADED_BACKGROUND))
 			setLoadBarImage(UIBitmapManager.getUIElement(ProgressBar.TYPE, UIBitmapManager.PROGRESSBAR_LOADED_BACKGROUND));
 	}
 

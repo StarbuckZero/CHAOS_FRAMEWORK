@@ -125,22 +125,22 @@ class ProgressSlider extends ProgressBar implements IProgressSlider implements I
 	override private function initBitmap():Void {
 		super.initBitmap();
 
-		if (null != UIBitmapManager.getUIElement(Slider.TYPE, UIBitmapManager.PROGRESS_SLIDER_BUTTON_NORMAL))
+		if (UIBitmapManager.hasUIElement(Slider.TYPE, UIBitmapManager.PROGRESS_SLIDER_BUTTON_NORMAL))
 			_sliderButtonDefaultImage = UIBitmapManager.getUIElement(Slider.TYPE, UIBitmapManager.PROGRESS_SLIDER_BUTTON_NORMAL).clone();
 
-		if (null != UIBitmapManager.getUIElement(Slider.TYPE, UIBitmapManager.PROGRESS_SLIDER_BUTTON_OVER))
+		if (UIBitmapManager.hasUIElement(Slider.TYPE, UIBitmapManager.PROGRESS_SLIDER_BUTTON_OVER))
 			_sliderButtonOverImage = UIBitmapManager.getUIElement(Slider.TYPE, UIBitmapManager.PROGRESS_SLIDER_BUTTON_OVER).clone();
 
-		if (null != UIBitmapManager.getUIElement(Slider.TYPE, UIBitmapManager.PROGRESS_SLIDER_BUTTON_DOWN))
+		if (UIBitmapManager.hasUIElement(Slider.TYPE, UIBitmapManager.PROGRESS_SLIDER_BUTTON_DOWN))
 			_sliderButtonDownImage = UIBitmapManager.getUIElement(Slider.TYPE, UIBitmapManager.PROGRESS_SLIDER_BUTTON_DOWN).clone();
 
-		if (null != UIBitmapManager.getUIElement(Slider.TYPE, UIBitmapManager.PROGRESS_SLIDER_BUTTON_DISABLE))
+		if (UIBitmapManager.hasUIElement(Slider.TYPE, UIBitmapManager.PROGRESS_SLIDER_BUTTON_DISABLE))
 			_sliderButtonDisableImage = UIBitmapManager.getUIElement(Slider.TYPE, UIBitmapManager.PROGRESS_SLIDER_BUTTON_DISABLE).clone();
 
-		if (null != UIBitmapManager.getUIElement(ProgressBar.TYPE, UIBitmapManager.PROGRESS_SLIDER_BACKGROUND))
+		if (UIBitmapManager.hasUIElement(ProgressBar.TYPE, UIBitmapManager.PROGRESS_SLIDER_BACKGROUND))
 			setBackgroundImage(UIBitmapManager.getUIElement(ProgressBar.TYPE, UIBitmapManager.PROGRESS_SLIDER_BACKGROUND));
 
-		if (null != UIBitmapManager.getUIElement(ProgressBar.TYPE, UIBitmapManager.PROGRESS_SLIDER_LOADED_BACKGROUND))
+		if (UIBitmapManager.hasUIElement(ProgressBar.TYPE, UIBitmapManager.PROGRESS_SLIDER_LOADED_BACKGROUND))
 			setLoadBarImage(UIBitmapManager.getUIElement(ProgressBar.TYPE, UIBitmapManager.PROGRESS_SLIDER_LOADED_BACKGROUND));
 
 		if (null != _slider) {
@@ -180,62 +180,64 @@ class ProgressSlider extends ProgressBar implements IProgressSlider implements I
 		_sliderData = {};
 
 		// Set the style for progress bar
-		if (-1 != UIStyleManager.PROGRESS_SLIDER_NORMAL_COLOR)
-			Reflect.setField(_sliderData, "sliderColor", UIStyleManager.PROGRESS_SLIDER_NORMAL_COLOR);
+		if (UIStyleManager.hasStyle(UIStyleManager.PROGRESS_SLIDER_NORMAL_COLOR))
+			Reflect.setField(_sliderData, "sliderColor", UIStyleManager.getStyle(UIStyleManager.PROGRESS_SLIDER_NORMAL_COLOR));
 
-		if (-1 != UIStyleManager.PROGRESS_SLIDER_OVER_COLOR)
-			Reflect.setField(_sliderData, "sliderOverColor", UIStyleManager.PROGRESS_SLIDER_OVER_COLOR);
+		if (UIStyleManager.hasStyle(UIStyleManager.PROGRESS_SLIDER_OVER_COLOR))
+			Reflect.setField(_sliderData, "sliderOverColor", UIStyleManager.getStyle(UIStyleManager.PROGRESS_SLIDER_OVER_COLOR));
 
-		if (-1 != UIStyleManager.PROGRESS_SLIDER_DOWN_COLOR)
-			Reflect.setField(_sliderData, "sliderDownColor", UIStyleManager.PROGRESS_SLIDER_DOWN_COLOR);
+		if (UIStyleManager.hasStyle(UIStyleManager.PROGRESS_SLIDER_DOWN_COLOR))
+			Reflect.setField(_sliderData, "sliderDownColor", UIStyleManager.getStyle(UIStyleManager.PROGRESS_SLIDER_DOWN_COLOR));
 
-		if (-1 != UIStyleManager.PROGRESS_SLIDER_DISABLE_COLOR)
-			Reflect.setField(_sliderData, "sliderDisableColor", UIStyleManager.PROGRESS_SLIDER_DISABLE_COLOR);
+		if (UIStyleManager.hasStyle(UIStyleManager.PROGRESS_SLIDER_DISABLE_COLOR))
+			Reflect.setField(_sliderData, "sliderDisableColor", UIStyleManager.getStyle(UIStyleManager.PROGRESS_SLIDER_DISABLE_COLOR));
 
-		if (-1 != UIStyleManager.PROGRESS_SLIDER_SIZE)
-			Reflect.setField(_sliderData, "sliderSize", UIStyleManager.PROGRESS_SLIDER_SIZE);
+		if (UIStyleManager.hasStyle(UIStyleManager.PROGRESS_SLIDER_SIZE))
+			Reflect.setField(_sliderData, "sliderSize", UIStyleManager.getStyle(UIStyleManager.PROGRESS_SLIDER_SIZE));
 
-		if (-1 != UIStyleManager.PROGRESS_SLIDER_OFFSET)
-			Reflect.setField(_sliderData, "sliderOffSet", UIStyleManager.PROGRESS_SLIDER_OFFSET);
+		if (UIStyleManager.hasStyle(UIStyleManager.PROGRESS_SLIDER_OFFSET))
+			Reflect.setField(_sliderData, "sliderOffSet", UIStyleManager.getStyle(UIStyleManager.PROGRESS_SLIDER_OFFSET));
 
-		Reflect.setField(_sliderData, "rotateImage", UIStyleManager.PROGRESS_SLIDER_ROTATE_IMAGE);
+		if (UIStyleManager.hasStyle(UIStyleManager.PROGRESS_SLIDER_ROTATE_IMAGE))
+			Reflect.setField(_sliderData, "rotateImage", UIStyleManager.getStyle(UIStyleManager.PROGRESS_SLIDER_ROTATE_IMAGE));
 
 		// Set the style slider
-		if (-1 != UIStyleManager.PROGRESS_SLIDER_COLOR)
-			_backgroundNormalColor = UIStyleManager.PROGRESS_SLIDER_COLOR;
+		if (UIStyleManager.hasStyle(UIStyleManager.PROGRESS_SLIDER_COLOR))
+			_backgroundNormalColor = UIStyleManager.getStyle(UIStyleManager.PROGRESS_SLIDER_COLOR);
 
-		if (-1 != UIStyleManager.PROGRESS_SLIDER_COLOR_LOADED)
-			_loadColor = UIStyleManager.PROGRESS_SLIDER_COLOR_LOADED;
+		if (UIStyleManager.hasStyle(UIStyleManager.PROGRESS_SLIDER_COLOR_LOADED))
+			_loadColor = UIStyleManager.getStyle(UIStyleManager.PROGRESS_SLIDER_COLOR_LOADED);
 
-		_border = UIStyleManager.PROGRESS_SLIDER_BORDER;
+		if (UIStyleManager.hasStyle(UIStyleManager.PROGRESS_SLIDER_BORDER))
+			_border = UIStyleManager.getStyle(UIStyleManager.PROGRESS_SLIDER_BORDER);
 
-		if (-1 != UIStyleManager.PROGRESS_SLIDER_TEXT_COLOR)
-			_textColor = UIStyleManager.PROGRESS_SLIDER_TEXT_COLOR;
+		if (UIStyleManager.hasStyle(UIStyleManager.PROGRESS_SLIDER_TEXT_COLOR))
+			_textColor = UIStyleManager.getStyle(UIStyleManager.PROGRESS_SLIDER_TEXT_COLOR);
 
-		if (-1 != UIStyleManager.PROGRESS_SLIDER_COLOR_LOADED)
-			_textLoadedColor = UIStyleManager.PROGRESS_SLIDER_COLOR_LOADED;
+		if (UIStyleManager.hasStyle(UIStyleManager.PROGRESS_SLIDER_COLOR_LOADED))
+			_textLoadedColor = UIStyleManager.getStyle(UIStyleManager.PROGRESS_SLIDER_COLOR_LOADED);
 
-		if (-1 != UIStyleManager.PROGRESS_SLIDER_BORDER_THINKNESS)
-			_thinkness = UIStyleManager.PROGRESS_SLIDER_BORDER_THINKNESS;
+		if (UIStyleManager.hasStyle(UIStyleManager.PROGRESS_SLIDER_BORDER_THINKNESS))
+			_thinkness = UIStyleManager.getStyle(UIStyleManager.PROGRESS_SLIDER_BORDER_THINKNESS);
 
-		if (-1 != UIStyleManager.PROGRESS_SLIDER_BORDER_COLOR)
-			_outlineColor = UIStyleManager.PROGRESS_SLIDER_BORDER_COLOR;
+		if (UIStyleManager.hasStyle(UIStyleManager.PROGRESS_SLIDER_BORDER_COLOR))
+			_outlineColor = UIStyleManager.getStyle(UIStyleManager.PROGRESS_SLIDER_BORDER_COLOR);
 
-		if (-1 != UIStyleManager.PROGRESS_SLIDER_BORDER_ALPHA)
-			_outlineAlpha = UIStyleManager.PROGRESS_SLIDER_BORDER_ALPHA;
+		if (UIStyleManager.hasStyle(UIStyleManager.PROGRESS_SLIDER_BORDER_ALPHA))
+			_outlineAlpha = UIStyleManager.getStyle(UIStyleManager.PROGRESS_SLIDER_BORDER_ALPHA);
 
 		// Set Label Style
-		if (-1 != UIStyleManager.PROGRESS_SLIDER_TEXT_SIZE)
-			Reflect.setField(_labelData, "size", UIStyleManager.PROGRESS_SLIDER_TEXT_SIZE);
+		if (UIStyleManager.hasStyle(UIStyleManager.PROGRESS_SLIDER_TEXT_SIZE))
+			Reflect.setField(_labelData, "size", UIStyleManager.getStyle(UIStyleManager.PROGRESS_SLIDER_TEXT_SIZE));
 
-		Reflect.setField(_labelData, "italic", UIStyleManager.PROGRESS_SLIDER_TEXT_ITALIC);
-		Reflect.setField(_labelData, "bold", UIStyleManager.PROGRESS_SLIDER_TEXT_BOLD);
+		Reflect.setField(_labelData, "italic", UIStyleManager.hasStyle(UIStyleManager.PROGRESS_SLIDER_TEXT_ITALIC) ? UIStyleManager.getStyle(UIStyleManager.PROGRESS_SLIDER_TEXT_ITALIC) : false );
+		Reflect.setField(_labelData, "bold", UIStyleManager.hasStyle(UIStyleManager.PROGRESS_SLIDER_TEXT_BOLD) ? UIStyleManager.getStyle(UIStyleManager.PROGRESS_SLIDER_TEXT_BOLD) : false);
 
-		if ("" != UIStyleManager.PROGRESS_SLIDER_TEXT_FONT)
-			Reflect.setField(_labelData, "font", UIStyleManager.PROGRESS_SLIDER_TEXT_FONT);
+		if (UIStyleManager.hasStyle(UIStyleManager.PROGRESS_SLIDER_TEXT_FONT))
+			Reflect.setField(_labelData, "font", UIStyleManager.getStyle(UIStyleManager.PROGRESS_SLIDER_TEXT_FONT));
 
-		if ("" != UIStyleManager.PROGRESS_SLIDER_TEXT_ALIGN)
-			Reflect.setField(_labelData, "align", UIStyleManager.PROGRESS_SLIDER_TEXT_ALIGN);
+		if (UIStyleManager.hasStyle(UIStyleManager.PROGRESS_SLIDER_TEXT_ALIGN))
+			Reflect.setField(_labelData, "align", UIStyleManager.getStyle(UIStyleManager.PROGRESS_SLIDER_TEXT_ALIGN));
 
 		// if (null != UIStyleManager.PROGRESS_SLIDER_TEXT_EMBED)
 		// {

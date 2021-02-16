@@ -200,7 +200,7 @@ class UIDemo extends Sprite
 		
         // Setting the stage because isn't on stage already
         ToolTip.displayArea = this;
-		UIStyleManager.TOOLTIP_BUBBLE_LOC_Y = -10;
+		UIStyleManager.setStyle(UIStyleManager.TOOLTIP_BUBBLE_LOC_Y, -10);
 		
         var toolTipBox : MovieClip = new MovieClip();
         var toolBox : Shape = new Shape();
@@ -262,6 +262,7 @@ class UIDemo extends Sprite
 		itemData.push({"text":"Item 3", "value":"3"});
 		itemData.push({"text":"Item 4", "value":"4"});
 		itemData.push({"text":"Item 5", "value":"5"});
+        
 		
 		
         itemPane = new ItemPane({"width":300, "height":200, "itemWidth":150, "itemHeight":100 , "x": (scrollPane.x + scrollPane.width + OFFSET), "y":scrollPane.y, "data":itemData});

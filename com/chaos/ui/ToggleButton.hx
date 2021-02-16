@@ -120,12 +120,12 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI {
 
 	private var _roundEdge:Int = 0;
 
-	private var _bgAlpha:Float = UIStyleManager.BUTTON_ALPHA;
+	private var _bgAlpha:Float = 1;
 
 	private var _selected:Bool = false;
 	private var _tileImage:Bool = false;
 
-	private var _border:Bool = UIStyleManager.TOGGLE_BUTTON_BORDER;
+	private var _border:Bool = false;
 	private var _normalBorderColor:Int = 0x000000;
 	private var _overBorderColor:Int = 0x000000;
 	private var _downBorderColor:Int = 0x000000;
@@ -271,56 +271,67 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI {
 	}
 
 	private function initStyle() {
-		if (-1 != UIStyleManager.TOGGLE_BUTTON_BORDER_ALPHA)
-			_borderAlpha = UIStyleManager.TOGGLE_BUTTON_BORDER_ALPHA;
 
-		if (-1 != UIStyleManager.TOGGLE_BUTTON_BORDER_NORMAL_COLOR)
-			_normalBorderColor = UIStyleManager.TOGGLE_BUTTON_BORDER_NORMAL_COLOR;
+		if (UIStyleManager.hasStyle(UIStyleManager.TOGGLE_BUTTON_BORDER_ALPHA))
+			_borderAlpha = UIStyleManager.getStyle(UIStyleManager.TOGGLE_BUTTON_BORDER_ALPHA);
 
-		if (-1 != UIStyleManager.TOGGLE_BUTTON_BORDER_OVER_COLOR)
-			_overBorderColor = UIStyleManager.TOGGLE_BUTTON_BORDER_OVER_COLOR;
+		if (UIStyleManager.hasStyle(UIStyleManager.TOGGLE_BUTTON_BORDER_NORMAL_COLOR))
+			_normalBorderColor = UIStyleManager.getStyle(UIStyleManager.TOGGLE_BUTTON_BORDER_NORMAL_COLOR);
 
-		if (-1 != UIStyleManager.TOGGLE_BUTTON_BORDER_SELECTED_COLOR)
-			_downBorderColor = UIStyleManager.TOGGLE_BUTTON_BORDER_SELECTED_COLOR;
+		if (UIStyleManager.hasStyle(UIStyleManager.TOGGLE_BUTTON_BORDER_OVER_COLOR))
+			_overBorderColor = UIStyleManager.getStyle(UIStyleManager.TOGGLE_BUTTON_BORDER_OVER_COLOR);
 
-		if (-1 != UIStyleManager.TOGGLE_BUTTON_BORDER_DISABLE_COLOR)
-			_disableBorderColor = UIStyleManager.TOGGLE_BUTTON_BORDER_DISABLE_COLOR;
+		if (UIStyleManager.hasStyle(UIStyleManager.TOGGLE_BUTTON_BORDER_SELECTED_COLOR))
+			_downBorderColor = UIStyleManager.getStyle(UIStyleManager.TOGGLE_BUTTON_BORDER_SELECTED_COLOR);
 
-		if (-1 != UIStyleManager.TOGGLE_BUTTON_BORDER_THINKNESS)
-			_borderThinkness = UIStyleManager.TOGGLE_BUTTON_BORDER_THINKNESS;
+		if (UIStyleManager.hasStyle(UIStyleManager.TOGGLE_BUTTON_BORDER_DISABLE_COLOR))
+			_disableBorderColor = UIStyleManager.getStyle(UIStyleManager.TOGGLE_BUTTON_BORDER_DISABLE_COLOR);
 
-		if (-1 != UIStyleManager.TOGGLE_BUTTON_NORMAL_COLOR)
-			_defaultColor = UIStyleManager.TOGGLE_BUTTON_NORMAL_COLOR;
+		if (UIStyleManager.hasStyle(UIStyleManager.TOGGLE_BUTTON_BORDER_THINKNESS))
+			_borderThinkness = UIStyleManager.getStyle(UIStyleManager.TOGGLE_BUTTON_BORDER_THINKNESS);
 
-		if (-1 != UIStyleManager.TOGGLE_BUTTON_OVER_COLOR)
-			_overColor = UIStyleManager.TOGGLE_BUTTON_OVER_COLOR;
+		if (UIStyleManager.hasStyle(UIStyleManager.TOGGLE_BUTTON_NORMAL_COLOR))
+			_defaultColor = UIStyleManager.getStyle(UIStyleManager.TOGGLE_BUTTON_NORMAL_COLOR);
 
-		if (-1 != UIStyleManager.TOGGLE_BUTTON_SELECTED_COLOR)
-			_downColor = UIStyleManager.TOGGLE_BUTTON_SELECTED_COLOR;
+		if (UIStyleManager.hasStyle(UIStyleManager.TOGGLE_BUTTON_OVER_COLOR))
+			_overColor = UIStyleManager.getStyle(UIStyleManager.TOGGLE_BUTTON_OVER_COLOR);
 
-		if (-1 != UIStyleManager.TOGGLE_BUTTON_DISABLE_COLOR)
-			_disableColor = UIStyleManager.TOGGLE_BUTTON_DISABLE_COLOR;
+		if (UIStyleManager.hasStyle(UIStyleManager.TOGGLE_BUTTON_SELECTED_COLOR))
+			_downColor = UIStyleManager.getStyle(UIStyleManager.TOGGLE_BUTTON_SELECTED_COLOR);
+
+		if (UIStyleManager.hasStyle(UIStyleManager.TOGGLE_BUTTON_DISABLE_COLOR))
+			_disableColor = UIStyleManager.getStyle(UIStyleManager.TOGGLE_BUTTON_DISABLE_COLOR);
 
 		
-		_useCustomRender = UIStyleManager.TOGGLE_BUTTON_USE_CUSTOM_RENDER;
+		if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_ALPHA))
+			_bgAlpha = UIStyleManager.getStyle(UIStyleManager.BUTTON_ALPHA);
 
-		_tileImage = UIStyleManager.TOGGLE_TILE_IMAGE;
+		if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_ALPHA))
+			_borderAlpha = UIStyleManager.getStyle(UIStyleManager.BUTTON_ALPHA);
 
-		_border = UIStyleManager.TOGGLE_BUTTON_BORDER;
+		if (UIStyleManager.hasStyle(UIStyleManager.TOGGLE_BUTTON_USE_CUSTOM_RENDER))
+			_useCustomRender = UIStyleManager.getStyle(UIStyleManager.TOGGLE_BUTTON_USE_CUSTOM_RENDER);
+
+		if (UIStyleManager.hasStyle(UIStyleManager.TOGGLE_TILE_IMAGE))
+			_tileImage = UIStyleManager.getStyle(UIStyleManager.TOGGLE_TILE_IMAGE);
+
+		if (UIStyleManager.hasStyle(UIStyleManager.TOGGLE_BUTTON_BORDER))
+			_border = UIStyleManager.getStyle(UIStyleManager.TOGGLE_BUTTON_BORDER);
 	}
 
 	private function initBitmap() {
+
 		// Set skining if in UIBitmapManager
-		if (null != UIBitmapManager.getUIElement(Button.TYPE, UIBitmapManager.TOGGLE_BUTTON_NORMAL))
+		if (UIBitmapManager.hasUIElement(ToggleButton.TYPE, UIBitmapManager.TOGGLE_BUTTON_NORMAL))
 			setDefaultStateImage(UIBitmapManager.getUIElement(Button.TYPE, UIBitmapManager.TOGGLE_BUTTON_NORMAL));
 
-		if (null != UIBitmapManager.getUIElement(Button.TYPE, UIBitmapManager.TOGGLE_BUTTON_OVER))
+		if (UIBitmapManager.hasUIElement(ToggleButton.TYPE, UIBitmapManager.TOGGLE_BUTTON_OVER))
 			setOverStateImage(UIBitmapManager.getUIElement(Button.TYPE, UIBitmapManager.TOGGLE_BUTTON_OVER));
 
-		if (null != UIBitmapManager.getUIElement(Button.TYPE, UIBitmapManager.TOGGLE_BUTTON_DOWN))
+		if (UIBitmapManager.hasUIElement(ToggleButton.TYPE, UIBitmapManager.TOGGLE_BUTTON_DOWN))
 			setDownStateImage(UIBitmapManager.getUIElement(Button.TYPE, UIBitmapManager.TOGGLE_BUTTON_DOWN));
 
-		if (null != UIBitmapManager.getUIElement(Button.TYPE, UIBitmapManager.TOGGLE_BUTTON_DISABLE))
+		if (UIBitmapManager.hasUIElement(ToggleButton.TYPE, UIBitmapManager.TOGGLE_BUTTON_DISABLE))
 			setDisableStateImage(UIBitmapManager.getUIElement(Button.TYPE, UIBitmapManager.TOGGLE_BUTTON_DISABLE));
 	}
 

@@ -171,13 +171,6 @@ class ListBox extends ScrollPane implements IListBox implements IBaseUI
 
 		if (Reflect.hasField(data, "outlineAlpha"))
 			_outlineAlpha = Reflect.field(data, "outlineAlpha");
-			
-		// If false then use default
-		if (!Reflect.hasField(data, "border"))
-			_border = UIStyleManager.LIST_BORDER;	
-		
-		 
-
 		
 	}
 
@@ -220,33 +213,40 @@ class ListBox extends ScrollPane implements IListBox implements IBaseUI
 		_list = null;
 	}
 
-	private function initListStyle() : Void
+	private function initBitmap() : Void 
 	{
 		// UISkin and Style for ScrollPane
-		if (null != UIBitmapManager.getUIElement(ListBox.TYPE, UIBitmapManager.LIST_BACKGROUND))
+		if (UIBitmapManager.hasUIElement(ListBox.TYPE, UIBitmapManager.LIST_BACKGROUND))
 			setBackgroundImage(UIBitmapManager.getUIElement(ListBox.TYPE, UIBitmapManager.LIST_BACKGROUND));
+		
+	}
 
-		if ( -1 != UIStyleManager.LIST_BACKGROUND_COLOR)
-			backgroundColor = UIStyleManager.LIST_BACKGROUND_COLOR;
+	private function initListStyle() : Void
+	{
 
-		if ( -1 != UIStyleManager.LIST_TEXT_NORMAL_COLOR)
-			_textColor = UIStyleManager.LIST_TEXT_NORMAL_COLOR;
+		if (UIStyleManager.hasStyle(UIStyleManager.LIST_BACKGROUND_COLOR))
+			_backgroundColor = UIStyleManager.getStyle(UIStyleManager.LIST_BACKGROUND_COLOR);
 
-		if ( -1 != UIStyleManager.LIST_TEXT_OVER_COLOR)
-			_textOverColor = UIStyleManager.LIST_TEXT_OVER_COLOR;
+		if (UIStyleManager.hasStyle(UIStyleManager.LIST_TEXT_NORMAL_COLOR))
+			_textColor = UIStyleManager.getStyle(UIStyleManager.LIST_TEXT_NORMAL_COLOR);
 
-		if( -1 != UIStyleManager.LIST_TEXT_OVER_BACKGROUND_COLOR)
-			_textOverBackground = UIStyleManager.LIST_TEXT_OVER_BACKGROUND_COLOR;
+		if (UIStyleManager.hasStyle(UIStyleManager.LIST_TEXT_OVER_COLOR))
+			_textOverColor = UIStyleManager.getStyle(UIStyleManager.LIST_TEXT_OVER_COLOR);
 
-		if ( -1 != UIStyleManager.LIST_TEXT_SELECTED_COLOR)
-			_textSelectedColor = UIStyleManager.LIST_TEXT_SELECTED_COLOR;
+		if(UIStyleManager.hasStyle(UIStyleManager.LIST_TEXT_OVER_BACKGROUND_COLOR))
+			_textOverBackground = UIStyleManager.getStyle(UIStyleManager.LIST_TEXT_OVER_BACKGROUND_COLOR);
 
-		if ( -1 != UIStyleManager.LIST_TEXT_SELECTED_BACKGROUND_COLOR)
-			_textSelectedBackground = UIStyleManager.LIST_TEXT_SELECTED_BACKGROUND_COLOR;
+		if (UIStyleManager.hasStyle(UIStyleManager.LIST_TEXT_SELECTED_COLOR))
+			_textSelectedColor = UIStyleManager.getStyle(UIStyleManager.LIST_TEXT_SELECTED_COLOR);
 
-		if (null != UIStyleManager.LIST_TEXT_EMBED)
-			_font = UIStyleManager.LIST_TEXT_EMBED;
+		if (UIStyleManager.hasStyle(UIStyleManager.LIST_TEXT_SELECTED_BACKGROUND_COLOR))
+			_textSelectedBackground = UIStyleManager.getStyle(UIStyleManager.LIST_TEXT_SELECTED_BACKGROUND_COLOR);
 
+		if (UIStyleManager.hasStyle(UIStyleManager.LIST_TEXT_EMBED))
+			_font = UIStyleManager.getStyle(UIStyleManager.LIST_TEXT_EMBED);
+
+		if (UIStyleManager.hasStyle(UIStyleManager.LIST_BORDER))
+			_border = UIStyleManager.getStyle(UIStyleManager.LIST_BORDER);
 		
 	}
 
@@ -258,6 +258,7 @@ class ListBox extends ScrollPane implements IListBox implements IBaseUI
 	{
 		super.reskin();
 		
+		initBitmap();
 		initListStyle();
 	}
 
@@ -516,23 +517,25 @@ class ListBox extends ScrollPane implements IListBox implements IBaseUI
 		removeList();
 		
 		// Create data object for common use values for when label is created
-		var labelData:Dynamic = {"textColor":_textColor, "background":false, "align":_align, "width":_width - 1};
+		var labelData:Dynamic = {"textColor":_textColor, "background":false, "align":_align, "width": _width - 1};
 		
 		for (i in 0 ... _list.length)
 		{
 			// Setup text field
 			var listData : ListObjectData = _list.getItemAt(i);
+			
 			Reflect.setField(labelData, "name", Std.string(i));
 			Reflect.setField(labelData, "text", listData.text);
-			
+			Reflect.setField(labelData, "bold", UIStyleManager.hasStyle(UIStyleManager.LIST_TEXT_BOLD) ? UIStyleManager.getStyle(UIStyleManager.LIST_TEXT_BOLD) : false);
+			Reflect.setField(labelData, "italic", UIStyleManager.hasStyle(UIStyleManager.LIST_TEXT_ITALIC) ? UIStyleManager.getStyle(UIStyleManager.LIST_TEXT_ITALIC) : false);
+
+			if (UIStyleManager.hasStyle(UIStyleManager.LIST_TEXT_SIZE))
+				Reflect.setField(labelData,"size", UIStyleManager.getStyle(UIStyleManager.LIST_TEXT_SIZE));
+							
 			var listBoxLabel : Label = new Label(labelData);
 			listBoxLabel.textField.autoSize = "left";
-			listBoxLabel.textFormat.bold = UIStyleManager.LIST_TEXT_BOLD;
-			listBoxLabel.textFormat.italic = UIStyleManager.LIST_TEXT_ITALIC;
 			listBoxLabel.draw();
 
-			if ( -1 != UIStyleManager.LIST_TEXT_SIZE)
-				listBoxLabel.size = UIStyleManager.LIST_TEXT_SIZE;
 
 			if (null != _font)
 				listBoxLabel.setEmbedFont(_font);

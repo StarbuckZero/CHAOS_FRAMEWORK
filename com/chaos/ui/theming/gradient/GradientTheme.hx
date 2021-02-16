@@ -195,14 +195,14 @@ class GradientTheme extends Theme {
     override function style() {
         super.style();
 
-        UIStyleManager.BUTTON_TILE_IMAGE = true;
-        UIStyleManager.BUTTON_USE_CUSTOM_RENDER = true;
-        UIStyleManager.SCROLLBAR_BUTTON_USE_CUSTOM_RENDER = true;
-        UIStyleManager.ACCORDION_USE_CUSTOM_RENDER = true;
-        UIStyleManager.PROGRESSBAR_USE_CUSTOM_RENDER = true;
-        UIStyleManager.RADIOBUTTON_USE_CUSTOM_RENDER = true;
-        UIStyleManager.CHECKBOX_USE_CUSTOM_RENDER = true;
-        UIStyleManager.SCROLLPANE_USE_CUSTOM_RENDER = true;
+        UIStyleManager.setStyle(UIStyleManager.BUTTON_TILE_IMAGE, true);
+        UIStyleManager.setStyle(UIStyleManager.BUTTON_USE_CUSTOM_RENDER, true);
+        UIStyleManager.setStyle(UIStyleManager.SCROLLBAR_BUTTON_USE_CUSTOM_RENDER, true);
+        UIStyleManager.setStyle(UIStyleManager.ACCORDION_USE_CUSTOM_RENDER, true);
+        UIStyleManager.setStyle(UIStyleManager.PROGRESSBAR_USE_CUSTOM_RENDER, true);
+        UIStyleManager.setStyle(UIStyleManager.RADIOBUTTON_USE_CUSTOM_RENDER, true);
+        UIStyleManager.setStyle(UIStyleManager.CHECKBOX_USE_CUSTOM_RENDER, true);
+        UIStyleManager.setStyle(UIStyleManager.SCROLLPANE_USE_CUSTOM_RENDER, true);
         
     }
 

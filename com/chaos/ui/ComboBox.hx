@@ -519,22 +519,23 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 	private function initBorder() : Void
 	{
 		// Setting the border outline
-		_showOutline = UIStyleManager.COMBO_BORDER;
+		if(UIStyleManager.hasStyle(UIStyleManager.COMBO_BORDER))
+			_showOutline = UIStyleManager.getStyle(UIStyleManager.COMBO_BORDER);
 
-		if ( -1 != UIStyleManager.COMBO_BORDER_COLOR)
-			_outlineColor = UIStyleManager.COMBO_BORDER_COLOR;
+		if (UIStyleManager.hasStyle(UIStyleManager.COMBO_BORDER_COLOR))
+			_outlineColor = UIStyleManager.getStyle(UIStyleManager.COMBO_BORDER_COLOR);
 
-		if ( -1 != UIStyleManager.COMBO_BACKGROUND_COLOR)
-			_backgroundColor = UIStyleManager.COMBO_BACKGROUND_COLOR;
+		if (UIStyleManager.hasStyle(UIStyleManager.COMBO_BACKGROUND_COLOR))
+			_backgroundColor = UIStyleManager.getStyle(UIStyleManager.COMBO_BACKGROUND_COLOR);
 
-		if ( -1 != UIStyleManager.COMBO_BORDER_ALPHA)
-			_outlineAlpha = UIStyleManager.COMBO_BORDER_ALPHA;
+		if (UIStyleManager.hasStyle(UIStyleManager.COMBO_BORDER_ALPHA))
+			_outlineAlpha = UIStyleManager.getStyle(UIStyleManager.COMBO_BORDER_ALPHA);
 	}
 
 	private function initLabel() : Void
 	{
-		if ( -1 != UIStyleManager.COMBO_TEXT_COLOR)
-			_textColor = UIStyleManager.COMBO_TEXT_COLOR;
+		if (UIStyleManager.hasStyle(UIStyleManager.COMBO_TEXT_COLOR))
+			_textColor = UIStyleManager.getStyle(UIStyleManager.COMBO_TEXT_COLOR);
 
 		//if ( -1 != UIStyleManager.COMBO_TEXT_NORMAL_BACKGROUND_COLOR)
 		//	_backgroundColor = UIStyleManager.COMBO_TEXT_NORMAL_BACKGROUND_COLOR;
@@ -754,65 +755,68 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 	{
 		
 		// Set Label Style
-		if ( -1 != UIStyleManager.COMBO_TEXT_SIZE)
-			_textFormat.size = UIStyleManager.COMBO_TEXT_SIZE;
+		if (UIStyleManager.hasStyle(UIStyleManager.COMBO_TEXT_SIZE))
+			_textFormat.size = UIStyleManager.getStyle(UIStyleManager.COMBO_TEXT_SIZE);
 
-		_textFormat.italic = UIStyleManager.COMBO_TEXT_ITALIC;
-		_textFormat.bold = UIStyleManager.COMBO_TEXT_BOLD;
+		if (UIStyleManager.hasStyle(UIStyleManager.COMBO_TEXT_ITALIC))
+			_textFormat.italic = UIStyleManager.getStyle(UIStyleManager.COMBO_TEXT_ITALIC);
 
-		if ("" != UIStyleManager.COMBO_TEXT_FONT)
-			_textFormat.font = UIStyleManager.COMBO_TEXT_FONT;
+		if (UIStyleManager.hasStyle(UIStyleManager.COMBO_TEXT_BOLD))
+			_textFormat.bold = UIStyleManager.getStyle(UIStyleManager.COMBO_TEXT_BOLD);
 
-		if ("" != UIStyleManager.COMBO_TEXT_ALIGN)
-			_textFormat.align = UIStyleManager.COMBO_TEXT_ALIGN;
+		if (UIStyleManager.hasStyle(UIStyleManager.COMBO_TEXT_FONT))
+			_textFormat.font = UIStyleManager.getStyle(UIStyleManager.COMBO_TEXT_FONT);
 
-		if ( -1 != UIStyleManager.COMBO_TEXT_SIZE)
-			_textFormat.size = UIStyleManager.COMBO_TEXT_SIZE;
+		if (UIStyleManager.hasStyle(UIStyleManager.COMBO_TEXT_ALIGN))
+			_textFormat.align = UIStyleManager.getStyle(UIStyleManager.COMBO_TEXT_ALIGN);
 
-		if (null != UIStyleManager.COMBO_TEXT_EMBED)
-			_selectLabel.setEmbedFont(UIStyleManager.COMBO_TEXT_EMBED);
+		if (UIStyleManager.hasStyle(UIStyleManager.COMBO_TEXT_SIZE))
+			_textFormat.size = UIStyleManager.getStyle(UIStyleManager.COMBO_TEXT_SIZE);
 
-		if ("" != UIStyleManager.COMBO_DEFAULT_TEXT)
-			_selectLabel.text = UIStyleManager.COMBO_DEFAULT_TEXT;
+		if (UIStyleManager.hasStyle(UIStyleManager.COMBO_TEXT_EMBED))
+			_selectLabel.setEmbedFont(UIStyleManager.getStyle(UIStyleManager.COMBO_TEXT_EMBED));
+
+		if (UIStyleManager.hasStyle(UIStyleManager.COMBO_DEFAULT_TEXT))
+			_selectLabel.text = UIStyleManager.getStyle(UIStyleManager.COMBO_DEFAULT_TEXT);
 
 		// Set the Style for Over and Down states
-		if ( -1 != UIStyleManager.COMBO_TEXT_OVER_COLOR)
-			_textOverColor = UIStyleManager.COMBO_TEXT_OVER_COLOR;
+		if (UIStyleManager.hasStyle(UIStyleManager.COMBO_TEXT_OVER_COLOR))
+			_textOverColor = UIStyleManager.getStyle(UIStyleManager.COMBO_TEXT_OVER_COLOR);
 
-		if ( -1 != UIStyleManager.COMBO_TEXT_OVER_BACKGROUND_COLOR)
-			_textOverBackground = UIStyleManager.COMBO_TEXT_OVER_BACKGROUND_COLOR;
+		if (UIStyleManager.hasStyle(UIStyleManager.COMBO_TEXT_OVER_BACKGROUND_COLOR))
+			_textOverBackground = UIStyleManager.getStyle(UIStyleManager.COMBO_TEXT_OVER_BACKGROUND_COLOR);
 
-		if ( -1 != UIStyleManager.COMBO_TEXT_DOWN_COLOR)
-			_textOverColor = UIStyleManager.COMBO_TEXT_DOWN_COLOR;
+		if (UIStyleManager.hasStyle(UIStyleManager.COMBO_TEXT_DOWN_COLOR))
+			_textOverColor = UIStyleManager.getStyle(UIStyleManager.COMBO_TEXT_DOWN_COLOR);
 
-		if ( -1 != UIStyleManager.COMBO_TEXT_DOWN_BACKGROUND_COLOR)
-			_textDownBackground = UIStyleManager.COMBO_TEXT_DOWN_BACKGROUND_COLOR;
+		if (UIStyleManager.hasStyle(UIStyleManager.COMBO_TEXT_DOWN_BACKGROUND_COLOR))
+			_textDownBackground = UIStyleManager.getStyle(UIStyleManager.COMBO_TEXT_DOWN_BACKGROUND_COLOR);
 
 			
 		// Drop Down Button
 		_buttonData = {};
 		
 		
-		if ( -1 != UIStyleManager.COMBO_BUTTON_NORMAL_COLOR)
-			Reflect.setField(_buttonData, "defaultColor", UIStyleManager.COMBO_BUTTON_NORMAL_COLOR);
+		if (UIStyleManager.hasStyle(UIStyleManager.COMBO_BUTTON_NORMAL_COLOR))
+			Reflect.setField(_buttonData, "defaultColor", UIStyleManager.getStyle(UIStyleManager.COMBO_BUTTON_NORMAL_COLOR));
 
-		if ( -1 != UIStyleManager.COMBO_BUTTON_OVER_COLOR)
-			Reflect.setField(_buttonData, "overColor", UIStyleManager.COMBO_BUTTON_OVER_COLOR);
+		if (UIStyleManager.hasStyle(UIStyleManager.COMBO_BUTTON_OVER_COLOR))
+			Reflect.setField(_buttonData, "overColor", UIStyleManager.getStyle(UIStyleManager.COMBO_BUTTON_OVER_COLOR));
 
-		if ( -1 != UIStyleManager.COMBO_BUTTON_DOWN_COLOR)
-			Reflect.setField(_buttonData, "downColor", UIStyleManager.COMBO_BUTTON_DOWN_COLOR);
+		if (UIStyleManager.hasStyle(UIStyleManager.COMBO_BUTTON_DOWN_COLOR))
+			Reflect.setField(_buttonData, "downColor", UIStyleManager.getStyle(UIStyleManager.COMBO_BUTTON_DOWN_COLOR));
 
-		if ( -1 != UIStyleManager.COMBO_BUTTON_DISABLE_COLOR)
-			Reflect.setField(_buttonData, "disableColor", UIStyleManager.COMBO_BUTTON_DISABLE_COLOR);
+		if (UIStyleManager.hasStyle(UIStyleManager.COMBO_BUTTON_DISABLE_COLOR))
+			Reflect.setField(_buttonData, "disableColor", UIStyleManager.getStyle(UIStyleManager.COMBO_BUTTON_DISABLE_COLOR));
 
-		if ( -1 != UIStyleManager.COMBO_BUTTON_ICON_COLOR)
-			Reflect.setField(_buttonData, "disableColor", UIStyleManager.COMBO_BUTTON_DISABLE_COLOR);
+		if (UIStyleManager.hasStyle(UIStyleManager.COMBO_BUTTON_ICON_COLOR))
+			Reflect.setField(_buttonData, "disableColor", UIStyleManager.getStyle(UIStyleManager.COMBO_BUTTON_DISABLE_COLOR));
 
-		if ( -1 != UIStyleManager.COMBO_BUTTON_ICON_BORDER_COLOR)
-			_iconBorderColor = UIStyleManager.COMBO_BUTTON_ICON_BORDER_COLOR;
+		if (UIStyleManager.hasStyle(UIStyleManager.COMBO_BUTTON_ICON_BORDER_COLOR))
+			_iconBorderColor = UIStyleManager.getStyle(UIStyleManager.COMBO_BUTTON_ICON_BORDER_COLOR);
 
-		if ( -1 != UIStyleManager.COMBO_DROPDOWN_PADDING)
-			_dropDownPadding = UIStyleManager.COMBO_DROPDOWN_PADDING;
+		if (UIStyleManager.hasStyle(UIStyleManager.COMBO_DROPDOWN_PADDING))
+			_dropDownPadding = UIStyleManager.getStyle(UIStyleManager.COMBO_DROPDOWN_PADDING);
 
 	}
 	

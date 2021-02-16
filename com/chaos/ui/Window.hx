@@ -564,34 +564,34 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 	private function initSkin() : Void 
 	{  
 		// Background  
-		if (null != UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_BACKGROUND))   
+		if (UIBitmapManager.hasUIElement(Window.TYPE, UIBitmapManager.WINDOW_BACKGROUND))   
 			_scrollPane.setBackgroundImage(UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_BACKGROUND));
 		
 		// Top  
-		if (null != UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_TOP_LEFT)) 
+		if (UIBitmapManager.hasUIElement(Window.TYPE, UIBitmapManager.WINDOW_TOP_LEFT)) 
 			setWindowTopLeftImage(UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_TOP_LEFT));
 		
-		if (null != UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_TOP_MIDDLE)) 
+		if (UIBitmapManager.hasUIElement(Window.TYPE, UIBitmapManager.WINDOW_TOP_MIDDLE)) 
 			setWindowTopMiddleImage(UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_TOP_MIDDLE));
 		
-		if (null != UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_TOP_RIGHT))
+		if (UIBitmapManager.hasUIElement(Window.TYPE, UIBitmapManager.WINDOW_TOP_RIGHT))
 			setWindowTopRightImage(UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_TOP_RIGHT));
 			
 		// Middle  
-		if (null != UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_MIDDLE_LEFT))  
+		if (UIBitmapManager.hasUIElement(Window.TYPE, UIBitmapManager.WINDOW_MIDDLE_LEFT))  
 			setWindowMiddleLeftImage(UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_MIDDLE_LEFT));
 		
-		if (null != UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_MIDDLE_RIGHT)) 
+		if (UIBitmapManager.hasUIElement(Window.TYPE, UIBitmapManager.WINDOW_MIDDLE_RIGHT)) 
 			setWindowMiddleRightImage(UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_MIDDLE_RIGHT));
 		
 		// Bottom  
-		if (null != UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_BOTTOM_LEFT)) 
+		if (UIBitmapManager.hasUIElement(Window.TYPE, UIBitmapManager.WINDOW_BOTTOM_LEFT)) 
 			setWindowBottomLeftImage(UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_BOTTOM_LEFT));
 		
-		if (null != UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_BOTTOM_MIDDLE))    
+		if (UIBitmapManager.hasUIElement(Window.TYPE, UIBitmapManager.WINDOW_BOTTOM_MIDDLE))    
 			setWindowBottomMiddleImage(UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_BOTTOM_MIDDLE));
 		
-		if (null != UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_BOTTOM_RIGHT))       
+		if (UIBitmapManager.hasUIElement(Window.TYPE, UIBitmapManager.WINDOW_BOTTOM_RIGHT))       
 			setWindowBottomRightImage(UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_BOTTOM_RIGHT));		
     }
 	
@@ -615,87 +615,87 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 			_maxButtonData = {"name":WindowEvent.WINDOW_MAX_BTN, "showLabel":false, "defaultColor":DEFAULT_MAX_BTN_COLOR};
 
 			
-		if ( -1 != UIStyleManager.WINDOW_BACKGROUND_COLOR) 
-			Reflect.setField(_scrollPanelData, "backgroundColor", UIStyleManager.WINDOW_BACKGROUND_COLOR);
+		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_BACKGROUND_COLOR))
+			Reflect.setField(_scrollPanelData, "backgroundColor", UIStyleManager.getStyle(UIStyleManager.WINDOW_BACKGROUND_COLOR));
 		
-		if ( -1 != UIStyleManager.WINDOW_BORDER_ALPHA)   
-			Reflect.setField(_scrollPanelData, "borderAlpha", UIStyleManager.WINDOW_BORDER_ALPHA);
+		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_BORDER_ALPHA))
+			Reflect.setField(_scrollPanelData, "borderAlpha", UIStyleManager.getStyle(UIStyleManager.WINDOW_BORDER_ALPHA));
 		
-		if ( -1 != UIStyleManager.WINDOW_BORDER_COLOR)   
-			Reflect.setField(_scrollPanelData, "borderColor", UIStyleManager.WINDOW_BORDER_COLOR);
+		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_BORDER_COLOR))
+			Reflect.setField(_scrollPanelData, "borderColor", UIStyleManager.getStyle(UIStyleManager.WINDOW_BORDER_COLOR));
 		
+		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_BORDER))
+			Reflect.setField(_scrollPanelData, "border", UIStyleManager.getStyle(UIStyleManager.WINDOW_BORDER));
 		
-		Reflect.setField(_scrollPanelData, "border", UIStyleManager.WINDOW_BORDER);
+		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_ICON_LOCATION))
+			_iconLocation = UIStyleManager.getStyle(UIStyleManager.WINDOW_ICON_LOCATION);
 		
-		if ("" != UIStyleManager.WINDOW_ICON_LOCATION)       
-			_iconLocation = UIStyleManager.WINDOW_ICON_LOCATION;
+		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_BUTTON_LOCATION))
+			_buttonLocation = UIStyleManager.getStyle(UIStyleManager.WINDOW_BUTTON_LOCATION);
 		
-		if ("" != UIStyleManager.WINDOW_BUTTON_LOCATION)    
-			_buttonLocation = UIStyleManager.WINDOW_BUTTON_LOCATION;
+		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_LABEL_LOCATION)) 
+			_labelLocation = UIStyleManager.getStyle(UIStyleManager.WINDOW_LABEL_LOCATION);
 		
-		if ("" != UIStyleManager.WINDOW_LABEL_LOCATION) 
-			_labelLocation = UIStyleManager.WINDOW_LABEL_LOCATION;
+		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_TITLE_TEXT_FONT)) 
+			Reflect.setField(_labelData, "font", UIStyleManager.getStyle(UIStyleManager.WINDOW_TITLE_TEXT_FONT));
 		
-		if ("" != UIStyleManager.WINDOW_TITLE_TEXT_FONT) 
-			Reflect.setField(_labelData, "font", UIStyleManager.WINDOW_TITLE_TEXT_FONT);
+		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_TITLE_TEXT_SIZE))
+			Reflect.setField(_labelData, "size", UIStyleManager.getStyle(UIStyleManager.WINDOW_TITLE_TEXT_SIZE));
 		
-		if ( -1 != UIStyleManager.WINDOW_TITLE_TEXT_SIZE)    
-			Reflect.setField(_labelData, "size", UIStyleManager.WINDOW_TITLE_TEXT_SIZE);
-		
-		//if (null != UIStyleManager.WINDOW_TITLE_TEXT_EMBED)
+		//if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_TITLE_TEXT_EMBED))
 		//_windowTitle.setEmbedFont(UIStyleManager.WINDOW_TITLE_TEXT_EMBED);
 		
-		if ( -1 != UIStyleManager.WINDOW_TITLE_TEXT_COLOR)     
-			Reflect.setField(_labelData, "textColor", UIStyleManager.WINDOW_TITLE_TEXT_COLOR);
+		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_TITLE_TEXT_COLOR))
+			Reflect.setField(_labelData, "textColor", UIStyleManager.getStyle(UIStyleManager.WINDOW_TITLE_TEXT_COLOR));
 		
-		if ( -1 != UIStyleManager.WINDOW_TITLE_AREA_COLOR)   
-			_windowTitleColor = UIStyleManager.WINDOW_TITLE_AREA_COLOR;
+		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_TITLE_AREA_COLOR))
+			_windowTitleColor = UIStyleManager.getStyle(UIStyleManager.WINDOW_TITLE_AREA_COLOR);
 		
-		if ( -1 != UIStyleManager.WINDOW_FOCUS_COLOR)  
-			_windowColor = UIStyleManager.WINDOW_FOCUS_COLOR;
+		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_FOCUS_COLOR))  
+			_windowColor = UIStyleManager.getStyle(UIStyleManager.WINDOW_FOCUS_COLOR);
 		
 		
 		// Min Button
-		if ( -1 != UIStyleManager.WINDOW_MIN_NORMAL_COLOR)
-			Reflect.setField(_minButtonData, "defaultColor", UIStyleManager.WINDOW_MIN_NORMAL_COLOR);
+		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_MIN_NORMAL_COLOR))
+			Reflect.setField(_minButtonData, "defaultColor", UIStyleManager.getStyle(UIStyleManager.WINDOW_MIN_NORMAL_COLOR));
 	
 		
-		if ( -1 != UIStyleManager.WINDOW_MIN_OVER_COLOR)      
-			Reflect.setField(_minButtonData, "overColor", UIStyleManager.WINDOW_MIN_OVER_COLOR);
+		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_MIN_OVER_COLOR))
+			Reflect.setField(_minButtonData, "overColor", UIStyleManager.getStyle(UIStyleManager.WINDOW_MIN_OVER_COLOR));
 		
 		
-		if ( -1 != UIStyleManager.WINDOW_MIN_DOWN_COLOR)   
-			Reflect.setField(_minButtonData, "downColor", UIStyleManager.WINDOW_MIN_DOWN_COLOR);
+		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_MIN_DOWN_COLOR))   
+			Reflect.setField(_minButtonData, "downColor", UIStyleManager.getStyle(UIStyleManager.WINDOW_MIN_DOWN_COLOR));
 		
-		if ( -1 != UIStyleManager.WINDOW_MIN_DISABLE_COLOR)  
-			Reflect.setField(_minButtonData, "disableColor", UIStyleManager.WINDOW_MIN_DISABLE_COLOR);
+		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_MIN_DISABLE_COLOR))  
+			Reflect.setField(_minButtonData, "disableColor", UIStyleManager.getStyle(UIStyleManager.WINDOW_MIN_DISABLE_COLOR));
 		
 		// Max Button  
-		if ( -1 != UIStyleManager.WINDOW_MAX_NORMAL_COLOR)    
-			Reflect.setField(_maxButtonData, "defaultColor", UIStyleManager.WINDOW_MAX_NORMAL_COLOR);
+		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_MAX_NORMAL_COLOR))
+			Reflect.setField(_maxButtonData, "defaultColor", UIStyleManager.getStyle(UIStyleManager.WINDOW_MAX_NORMAL_COLOR));
 		
-		if ( -1 != UIStyleManager.WINDOW_MAX_OVER_COLOR)  
-			Reflect.setField(_maxButtonData, "overColor", UIStyleManager.WINDOW_MAX_OVER_COLOR);
+		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_MAX_OVER_COLOR))
+			Reflect.setField(_maxButtonData, "overColor", UIStyleManager.getStyle(UIStyleManager.WINDOW_MAX_OVER_COLOR));
 		
 
-		if ( -1 != UIStyleManager.WINDOW_MAX_DOWN_COLOR)        
-			Reflect.setField(_maxButtonData, "downColor", UIStyleManager.WINDOW_MAX_DOWN_COLOR);
+		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_MAX_DOWN_COLOR))
+			Reflect.setField(_maxButtonData, "downColor", UIStyleManager.getStyle(UIStyleManager.WINDOW_MAX_DOWN_COLOR));
 		
-		if ( -1 != UIStyleManager.WINDOW_MAX_DISABLE_COLOR)         
-			Reflect.setField(_maxButtonData, "disableColor", UIStyleManager.WINDOW_MAX_DISABLE_COLOR);
+		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_MAX_DISABLE_COLOR))
+			Reflect.setField(_maxButtonData, "disableColor", UIStyleManager.getStyle(UIStyleManager.WINDOW_MAX_DISABLE_COLOR));
 		
 		// Close Button  
-		if ( -1 != UIStyleManager.WINDOW_CLOSE_NORMAL_COLOR)  
-			Reflect.setField(_closeButtonData, "defaultColor", UIStyleManager.WINDOW_CLOSE_NORMAL_COLOR);
+		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_CLOSE_NORMAL_COLOR))
+			Reflect.setField(_closeButtonData, "defaultColor", UIStyleManager.getStyle(UIStyleManager.WINDOW_CLOSE_NORMAL_COLOR));
 		
-		if ( -1 != UIStyleManager.WINDOW_CLOSE_OVER_COLOR)   
-			Reflect.setField(_closeButtonData, "overColor", UIStyleManager.WINDOW_CLOSE_OVER_COLOR);
+		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_CLOSE_OVER_COLOR))
+			Reflect.setField(_closeButtonData, "overColor", UIStyleManager.getStyle(UIStyleManager.WINDOW_CLOSE_OVER_COLOR));
 		
-		if ( -1 != UIStyleManager.WINDOW_CLOSE_DOWN_COLOR)     
-			Reflect.setField(_closeButtonData, "downColor", UIStyleManager.WINDOW_CLOSE_DOWN_COLOR);
+		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_CLOSE_DOWN_COLOR))
+			Reflect.setField(_closeButtonData, "downColor", UIStyleManager.getStyle(UIStyleManager.WINDOW_CLOSE_DOWN_COLOR));
         
-		if ( -1 != UIStyleManager.WINDOW_CLOSE_DISABLE_COLOR)      
-			Reflect.setField(_closeButtonData, "disableColor", UIStyleManager.WINDOW_CLOSE_DISABLE_COLOR);
+		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_CLOSE_DISABLE_COLOR))
+			Reflect.setField(_closeButtonData, "disableColor", UIStyleManager.getStyle(UIStyleManager.WINDOW_CLOSE_DISABLE_COLOR));
 
 		// Set min button data
 		if(_minButton != null)
