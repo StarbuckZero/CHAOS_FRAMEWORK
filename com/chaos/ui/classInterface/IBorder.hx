@@ -25,6 +25,18 @@ interface IBorder extends IBaseUI
 	*/
 		 
 	 var lineAlpha(get, set):Float;
+
+    /**
+    * Rounded edge for width
+	*/
+
+	 var ellipseWidth(get, set):Float;    
+
+    /**
+    * Rounded edge for height
+	*/
+		 
+	 var ellipseHeight(get, set):Float;     
     
 }
   

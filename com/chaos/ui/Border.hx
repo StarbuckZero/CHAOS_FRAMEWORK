@@ -31,10 +31,25 @@ import com.chaos.ui.BaseUI;
 		 
     public var lineAlpha(get, set):Float;
 
+    /**
+    * Rounded edge for width
+	*/
+		 
+    public var ellipseWidth(get, set):Float;    
+
+    /**
+    * Rounded edge for height
+	*/
+		 
+    public var ellipseHeight(get, set):Float;       
+
     private var _lineColor:Int = 0x000000;
     private var _lineThinkness:Float = 1;
     private var _lineAlpha:Float = 1;
     private var _borderShape:Shape = new Shape();
+
+    private var _ellipseWidth : Float = 0;
+    private var _ellipseHeight : Float = 0;
 
 	/**
 	 * UI Component 
@@ -69,7 +84,13 @@ import com.chaos.ui.BaseUI;
             _lineAlpha = Reflect.field(data, "lineAlpha");
         
 		if (Reflect.hasField(data, "lineThinkness"))
-			_lineThinkness = Reflect.field(data, "lineThinkness");        
+			_lineThinkness = Reflect.field(data, "lineThinkness");
+
+		if (Reflect.hasField(data, "ellipseWidth"))
+			_ellipseWidth = Reflect.field(data, "ellipseWidth");
+
+		if (Reflect.hasField(data, "ellipseHeight"))
+			_ellipseHeight = Reflect.field(data, "ellipseHeight");        
     }
 
     override function destroy() {
@@ -92,7 +113,7 @@ import com.chaos.ui.BaseUI;
         _borderShape.graphics.clear();
 
         _borderShape.graphics.lineStyle(_lineThinkness, _lineColor, _lineAlpha);
-        _borderShape.graphics.drawRect(0,0, _width, _height);
+        _borderShape.graphics.drawRoundRect(0,0, _width, _height, _ellipseWidth, _ellipseHeight);
     }
 
 	/**
@@ -106,7 +127,25 @@ import com.chaos.ui.BaseUI;
 	private function get_lineThinkness():Float {
 		return _lineThinkness;
 	}    
+
+    private function set_ellipseWidth(value:Float):Float {
+		_ellipseWidth = value;
+		return value;
+    }
+
+	private function get_ellipseWidth():Float {
+		return _ellipseWidth;
+	}      
     
+    private function set_ellipseHeight(value:Float):Float {
+		_ellipseHeight = value;
+		return value;
+    }
+
+	private function get_ellipseHeight():Float {
+		return _ellipseHeight;
+	}    
+
 	/**
 	* Line color
 	*/
