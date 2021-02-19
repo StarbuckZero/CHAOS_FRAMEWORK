@@ -11,6 +11,25 @@ import com.chaos.mobile.ui.classInterface.IToggleSwitch;
 class ToggleSwitch extends BaseUI implements IToggleSwitch implements IBaseUI {
 
 	/**
+	 * Default color
+	 */
+
+	 public var defaultColor(get, set):Int;
+
+
+	/**
+	 * Selected color
+	 */
+
+	 public var selectedColor(get, set):Int;
+
+	/**
+	 * Switch color
+	 */
+
+	 public var switchColor(get, set):Int;	 
+
+	/**
 	 * Set if you want the button to be selected or not
 	 */
 
@@ -46,7 +65,7 @@ class ToggleSwitch extends BaseUI implements IToggleSwitch implements IBaseUI {
 
 
     /**
-    * Set the switch button alpha
+    * Set the switch outline alpha
     */
 
     public var switchOutlineAlpha(get, set):Float;
@@ -58,7 +77,7 @@ class ToggleSwitch extends BaseUI implements IToggleSwitch implements IBaseUI {
     public var switchOutlineThinkness(get, set):Float;
 
 	/**
-	 * Switch color 
+	 * Switch outline color 
 	 */
 
     public var switchOutlineColor(get, set):Int;
@@ -76,7 +95,12 @@ class ToggleSwitch extends BaseUI implements IToggleSwitch implements IBaseUI {
     private var _defaultState : BaseUI;
     private var _selectedState : BaseUI;
 
+	private var _defaultColor : Int = 0xCCCCCC;
+	private var _selectedColor : Int = 0x00FF00;
+
     private var _switch : BaseUI;
+
+	private var _switchColor : Int = 0xFFFFFF;
 
     private var _selected : Bool = false;
 
@@ -121,6 +145,15 @@ class ToggleSwitch extends BaseUI implements IToggleSwitch implements IBaseUI {
 		if (Reflect.hasField(data, "border"))
 			_border = Reflect.field(data, "border");
 
+		if (Reflect.hasField(data, "defaultColor"))
+			_defaultColor = Reflect.field(data, "defaultColor");
+
+		if (Reflect.hasField(data, "selectedColor"))
+			_selectedColor = Reflect.field(data, "selectedColor");
+
+		if (Reflect.hasField(data, "switchColor"))
+			_switchColor = Reflect.field(data, "switchColor");
+		
 		if (Reflect.hasField(data, "thinkness"))
 			_thinkness = Reflect.field(data, "thinkness");
 
@@ -160,18 +193,46 @@ class ToggleSwitch extends BaseUI implements IToggleSwitch implements IBaseUI {
         addChild(_outline);
     }
 
-    /**
-	 * Set if you want the button to be selected or not
-	 */
+
+
+    private function set_defaultColor(value:Int):Int {
+		_defaultColor = value;
+
+		return value;
+	}
+
+	private function get_defaultColor():Int {
+		return _defaultColor;
+	}   
+
+	private function set_selectedColor(value:Int):Int {
+		_selectedColor = value;
+
+		return value;
+	}
+
+	private function get_selectedColor():Int {
+		return _selectedColor;
+	} 	
+
+	private function set_switchColor(value:Int):Int {
+		_switchColor = value;
+
+		return value;
+	}
+
+	private function get_switchColor():Int {
+		return _switchColor;
+	} 	
+
+
 	private function set_selected(value:Bool):Bool {
 		_selected = value;
 
 		return value;
 	}
 
-	/**
-	 * Return if the button is on it's selected state
-	 */
+
 	private function get_selected():Bool {
 		return _selected;
 	}
@@ -236,50 +297,38 @@ class ToggleSwitch extends BaseUI implements IToggleSwitch implements IBaseUI {
         return _switchOutlineAlpha;
     } 
     
-	/**
-	 * Border thinkness
-	 */
+
      private function set_borderThinkness(value:Float):Float {
 		_thinkness = value;
 
 		return value;
 	}
 
-	/**
-	 * Return the size of the border
-	 */
+
 	private function get_borderThinkness():Float {
 		return _thinkness;
 	}    
 
-	/**
-	 * The color of the label border.
-	 */
+
      private function set_borderColor(value:Int):Int {
 		_outlineColor = value;
 
 		return value;
 	}
 
-	/**
-	 * Resturns If the button is enabled or disable
-	 */
+
 	private function get_borderColor():Int {
 		return _outlineColor;
 	}    
     
-	/**
-	 * Set the alpha between 1 to 0
-	 */
-     private function set_borderAlpha(value:Float):Float {
+	
+    private function set_borderAlpha(value:Float):Float {
 		_outlineAlpha = value;
 
 		return value;
 	}
 
-	/**
-	 * Returns the border alpha
-	 */
+
 	private function get_borderAlpha():Float {
 		return _outlineAlpha;
 	}    
@@ -300,12 +349,12 @@ class ToggleSwitch extends BaseUI implements IToggleSwitch implements IBaseUI {
 		}        
 
         _selectedState.graphics.clear();
-        _selectedState.graphics.beginFill(0x00FF00);
+        _selectedState.graphics.beginFill(_selectedColor);
         _selectedState.graphics.drawRoundRect(0,0, _width, _height, _roundedEdge, _roundedEdge);
         _selectedState.graphics.endFill();
 
         _defaultState.graphics.clear();
-        _defaultState.graphics.beginFill(0xCCCCCC);
+        _defaultState.graphics.beginFill(_defaultColor);
         _defaultState.graphics.drawRoundRect(0,0, _width, _height, _roundedEdge, _roundedEdge);
         _defaultState.graphics.endFill();
 
@@ -316,7 +365,7 @@ class ToggleSwitch extends BaseUI implements IToggleSwitch implements IBaseUI {
         if(_switchOutline)
             _switch.graphics.lineStyle(_switchOutlineThinkness,_switchOutlineColor,_switchOutlineAlpha);
 
-        _switch.graphics.beginFill(0xFFFFFF);
+        _switch.graphics.beginFill(_switchColor);
         _switch.graphics.drawCircle(circleSize, circleSize, circleSize);
         _switch.width = circleSize;
         

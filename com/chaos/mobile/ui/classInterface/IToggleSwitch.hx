@@ -8,9 +8,29 @@ import com.chaos.ui.classInterface.IBaseUI;
 
  interface IToggleSwitch extends IBaseUI
  {
-	/**
-	 * Set if you want the button to be selected or not
-	 */
+
+    /**
+    * Default color
+    */
+
+    var defaultColor(get, set):Int;
+
+
+    /**
+    * Selected color
+    */
+
+    var selectedColor(get, set):Int;
+
+    /**
+    * Switch color
+    */
+
+    var switchColor(get, set):Int;	 
+
+    /**
+    * Set if you want the button to be selected or not
+    */
 
      var selected(get, set):Bool;
 
@@ -45,9 +65,9 @@ import com.chaos.ui.classInterface.IBaseUI;
     var border(get, set):Bool;
  
  
-     /**
-     * Set the switch button alpha
-     */
+    /**
+    * Set the switch outline alpha
+    */
  
     var switchOutlineAlpha(get, set):Float;
  
@@ -58,7 +78,7 @@ import com.chaos.ui.classInterface.IBaseUI;
      var switchOutlineThinkness(get, set):Float;
  
      /**
-      * Switch color 
+      * Switch outline color 
       */
  
     var switchOutlineColor(get, set):Int;
