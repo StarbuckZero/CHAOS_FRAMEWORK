@@ -115,9 +115,13 @@ class ToggleSwitch extends BaseUI implements IToggleSwitch implements IBaseUI {
     private var _switchOutlineThinkness:Float = 1;
     private var _switchOutlineAlpha:Float = .2;
     private var _switchOutlineColor:Int = 0x000000;
+	private var _swtichSize:Float = 0;
 
     private var _roundedEdge : Int = 20;
     private var _toggleAnimationSpeed:Float = .2;
+
+	private var _switchStyle:ToggleType = ToggleType.Circle;
+
 
     /**
     * UI Component 
@@ -144,6 +148,9 @@ class ToggleSwitch extends BaseUI implements IToggleSwitch implements IBaseUI {
 
 		if (Reflect.hasField(data, "border"))
 			_border = Reflect.field(data, "border");
+
+		if (Reflect.hasField(data, "roundedEdge"))
+		_roundedEdge = Reflect.field(data, "roundedEdge");
 
 		if (Reflect.hasField(data, "defaultColor"))
 			_defaultColor = Reflect.field(data, "defaultColor");
@@ -173,8 +180,25 @@ class ToggleSwitch extends BaseUI implements IToggleSwitch implements IBaseUI {
 			_switchOutlineColor = Reflect.field(data, "switchOutlineColor");
 
 		if (Reflect.hasField(data, "switchOutlineThinkness"))
-			_switchOutlineThinkness = Reflect.field(data, "switchOutlineThinkness");        
-        
+			_switchOutlineThinkness = Reflect.field(data, "switchOutlineThinkness");  
+		
+		if (Reflect.hasField(data, "switchStyle"))
+			_switchStyle = getStyle(Reflect.field(data, "switchStyle"));
+
+		// Set default switch size if not set
+		if(!Reflect.hasField(data,"swtichSize"))
+		{
+			if(_switchStyle == Rect)
+				_swtichSize = _width / 2;
+			else
+				_swtichSize = _width / 4;
+		}
+		
+		// If not set then change based on switch type
+		if(!Reflect.hasField(data, "roundedEdge") && _switchStyle == Rect)
+			_roundedEdge = 0;
+		else
+			_roundedEdge = 20;
     }
 
     override function initialize() {
@@ -185,7 +209,6 @@ class ToggleSwitch extends BaseUI implements IToggleSwitch implements IBaseUI {
         _switch = new BaseUI();
 		_outline = new Border({"lineColor":_borderColor,"lineThinkness":_thinkness,"lineAlpha":_outlineAlpha,"ellipseWidth":_roundedEdge,"ellipseHeight": _roundedEdge, "width":_width,"height":_height});
         _selectedState.visible = _selected;
-
 		
         addChild(_defaultState);
         addChild(_selectedState);
@@ -365,11 +388,27 @@ class ToggleSwitch extends BaseUI implements IToggleSwitch implements IBaseUI {
         if(_switchOutline)
             _switch.graphics.lineStyle(_switchOutlineThinkness,_switchOutlineColor,_switchOutlineAlpha);
 
-        _switch.graphics.beginFill(_switchColor);
-        _switch.graphics.drawCircle(circleSize, circleSize, circleSize);
-        _switch.width = circleSize;
+		_switch.graphics.beginFill(_switchColor);
+		_switch.width = circleSize;	
+
+		if(_switchStyle == ToggleType.Circle)
+			_switch.graphics.drawCircle(_swtichSize, _swtichSize, _swtichSize);
+		else if(_switchStyle == ToggleType.Rect)
+			_switch.graphics.drawRect(0,0,_swtichSize,_swtichSize);
+
+		_switch.graphics.endFill();
         
     }
+
+	private function getStyle(value : String ) : ToggleType
+	{
+
+		if(value.toLowerCase() == "rect")
+			return Rect;
+		else
+			return Circle; 
+	}
+
 
 	private function mouseDownEvent(event:MouseEvent):Void {
         
@@ -393,3 +432,7 @@ class ToggleSwitch extends BaseUI implements IToggleSwitch implements IBaseUI {
     
 }
 
+enum ToggleType {
+	Circle;
+	Rect;
+}
