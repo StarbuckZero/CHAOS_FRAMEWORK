@@ -3,6 +3,7 @@ package com.chaos.ui;
 import com.chaos.ui.classInterface.IBaseUI;
 import com.chaos.ui.classInterface.IToggleButton;
 import com.chaos.ui.ButtonBase;
+import com.chaos.ui.UIBitmapManager;
 
 import openfl.display.BitmapData;
 import openfl.events.MouseEvent;
@@ -18,8 +19,6 @@ import openfl.display.Shape;
 
 class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI {
 
-	/** The type of UI Element */
-	public static inline var TYPE:String = "ToggleButton";
 
 	/**
 	 * Border color for normal button state
@@ -322,25 +321,25 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI {
 	private function initBitmap() {
 
 		// Set skining if in UIBitmapManager
-		if (UIBitmapManager.hasUIElement(ToggleButton.TYPE, UIBitmapManager.TOGGLE_BUTTON_NORMAL))
-			setDefaultStateImage(UIBitmapManager.getUIElement(Button.TYPE, UIBitmapManager.TOGGLE_BUTTON_NORMAL));
+		if (UIBitmapManager.hasUIElement(UIBitmapType.ToggleButton, UIBitmapManager.TOGGLE_BUTTON_NORMAL))
+			setDefaultStateImage(UIBitmapManager.getUIElement(UIBitmapType.ToggleButton, UIBitmapManager.TOGGLE_BUTTON_NORMAL));
 
-		if (UIBitmapManager.hasUIElement(ToggleButton.TYPE, UIBitmapManager.TOGGLE_BUTTON_OVER))
-			setOverStateImage(UIBitmapManager.getUIElement(Button.TYPE, UIBitmapManager.TOGGLE_BUTTON_OVER));
+		if (UIBitmapManager.hasUIElement(UIBitmapType.ToggleButton, UIBitmapManager.TOGGLE_BUTTON_OVER))
+			setOverStateImage(UIBitmapManager.getUIElement(UIBitmapType.ToggleButton, UIBitmapManager.TOGGLE_BUTTON_OVER));
 
-		if (UIBitmapManager.hasUIElement(ToggleButton.TYPE, UIBitmapManager.TOGGLE_BUTTON_DOWN))
-			setDownStateImage(UIBitmapManager.getUIElement(Button.TYPE, UIBitmapManager.TOGGLE_BUTTON_DOWN));
+		if (UIBitmapManager.hasUIElement(UIBitmapType.ToggleButton, UIBitmapManager.TOGGLE_BUTTON_DOWN))
+			setDownStateImage(UIBitmapManager.getUIElement(UIBitmapType.ToggleButton, UIBitmapManager.TOGGLE_BUTTON_DOWN));
 
-		if (UIBitmapManager.hasUIElement(ToggleButton.TYPE, UIBitmapManager.TOGGLE_BUTTON_DISABLE))
-			setDisableStateImage(UIBitmapManager.getUIElement(Button.TYPE, UIBitmapManager.TOGGLE_BUTTON_DISABLE));
+		if (UIBitmapManager.hasUIElement(UIBitmapType.ToggleButton, UIBitmapManager.TOGGLE_BUTTON_DISABLE))
+			setDisableStateImage(UIBitmapManager.getUIElement(UIBitmapType.ToggleButton, UIBitmapManager.TOGGLE_BUTTON_DISABLE));
 	}
 
 	private function onStageAdd(event:Event):Void {
-		UIBitmapManager.watchElement(TYPE, this);
+		UIBitmapManager.watchElement(UIBitmapType.ToggleButton, this);
 	}
 
 	private function onStageRemove(event:Event):Void {
-		UIBitmapManager.stopWatchElement(TYPE, this);
+		UIBitmapManager.stopWatchElement(UIBitmapType.ToggleButton, this);
 	}
 
 	/**
@@ -694,11 +693,11 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI {
 	override public function draw():Void {
 
 		// Check to see if Custom Texture will need to be used first
-        if(_useCustomRender && UIBitmapManager.hasCustomRenderTexture(ToggleButton.TYPE) && _width > 0 && _height > 0) {
-            _defaultStateImage = UIBitmapManager.runCustomRender(ToggleButton.TYPE,{"width":_width,"height":_height,"state":"default"});
-            _overStateImage = UIBitmapManager.runCustomRender(ToggleButton.TYPE,{"width":_width,"height":_height,"state":"over"});
-            _downStateImage = UIBitmapManager.runCustomRender(ToggleButton.TYPE,{"width":_width,"height":_height,"state":"down"});
-            _disableStateImage = UIBitmapManager.runCustomRender(ToggleButton.TYPE,{"width":_width,"height":_height,"state":"disable"});
+        if(_useCustomRender && UIBitmapManager.hasCustomRenderTexture(UIBitmapType.ToggleButton) && _width > 0 && _height > 0) {
+            _defaultStateImage = UIBitmapManager.runCustomRender(UIBitmapType.ToggleButton,{"width":_width,"height":_height,"state":"default"});
+            _overStateImage = UIBitmapManager.runCustomRender(UIBitmapType.ToggleButton,{"width":_width,"height":_height,"state":"over"});
+            _downStateImage = UIBitmapManager.runCustomRender(UIBitmapType.ToggleButton,{"width":_width,"height":_height,"state":"down"});
+            _disableStateImage = UIBitmapManager.runCustomRender(UIBitmapType.ToggleButton,{"width":_width,"height":_height,"state":"disable"});
 		}   
 
 		// Figure to use bitmap or normal mode

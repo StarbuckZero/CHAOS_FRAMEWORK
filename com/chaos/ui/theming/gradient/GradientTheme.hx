@@ -1,5 +1,6 @@
 package com.chaos.ui.theming.gradient;
 
+import com.chaos.ui.UIBitmapManager.UIBitmapType;
 import haxe.macro.Type.Ref;
 import openfl.display.BitmapData;
 import com.chaos.utils.CompositeManager;
@@ -209,13 +210,13 @@ class GradientTheme extends Theme {
     override function skin() {
         super.skin();
 
-        UIBitmapManager.addCustomRenderTexture(Accordion.TYPE, accordionCustomRender);
-        UIBitmapManager.addCustomRenderTexture(Button.TYPE, buttonCustomRender);
-        UIBitmapManager.addCustomRenderTexture(ScrollBar.TYPE, scrollBarCustomRender);
-        //UIBitmapManager.addCustomRenderTexture(ScrollPane.TYPE, scrollPaneCustomRender);
-        UIBitmapManager.addCustomRenderTexture(ProgressBar.TYPE, progressBarCustomRender);
-        UIBitmapManager.addCustomRenderTexture(RadioButton.TYPE, radioButtonCustomRender);
-        UIBitmapManager.addCustomRenderTexture(CheckBox.TYPE, checkBoxCustomRender);
+        UIBitmapManager.addCustomRenderTexture(UIBitmapType.Accordion, accordionCustomRender);
+        UIBitmapManager.addCustomRenderTexture(UIBitmapType.Button, buttonCustomRender);
+        UIBitmapManager.addCustomRenderTexture(UIBitmapType.ScrollBar, scrollBarCustomRender);
+        //UIBitmapManager.addCustomRenderTexture(UIBitmapType.ScrollPane, scrollPaneCustomRender);
+        UIBitmapManager.addCustomRenderTexture(UIBitmapType.ProgressBar, progressBarCustomRender);
+        UIBitmapManager.addCustomRenderTexture(UIBitmapType.RadioButton, radioButtonCustomRender);
+        UIBitmapManager.addCustomRenderTexture(UIBitmapType.CheckBox, checkBoxCustomRender);
     }
 
 

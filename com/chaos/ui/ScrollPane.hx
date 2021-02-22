@@ -1,5 +1,6 @@
 package com.chaos.ui;
 
+import com.chaos.ui.UIBitmapManager;
 import com.chaos.ui.classInterface.IScrollBar;
 import com.chaos.ui.classInterface.IScrollPane;
 import com.chaos.ui.layout.classInterface.IBaseContainer;
@@ -83,11 +84,11 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 	}
 
 	private function onStageAdd(event:Event):Void {
-		UIBitmapManager.watchElement(TYPE, this);
+		UIBitmapManager.watchElement(UIBitmapType.ScrollPane, this);
 	}
 
 	private function onStageRemove(event:Event):Void {
-		UIBitmapManager.stopWatchElement(TYPE, this);
+		UIBitmapManager.stopWatchElement(UIBitmapType.ScrollPane, this);
 	}
 
 	/**
@@ -187,8 +188,8 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 	}
 
 	private function initUISkin():Void {
-		if (UIBitmapManager.hasUIElement(ScrollPane.TYPE, UIBitmapManager.SCROLLPANE_BACKGROUND))
-			setBackgroundImage(UIBitmapManager.getUIElement(ScrollPane.TYPE, UIBitmapManager.SCROLLPANE_BACKGROUND));
+		if (UIBitmapManager.hasUIElement(UIBitmapType.ScrollPane, UIBitmapManager.SCROLLPANE_BACKGROUND))
+			setBackgroundImage(UIBitmapManager.getUIElement(UIBitmapType.ScrollPane, UIBitmapManager.SCROLLPANE_BACKGROUND));
 	}
 
 	private function initStyle():Void {
@@ -373,8 +374,8 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 	 */
 	override public function draw():Void {
 
-		if(_useCustomRender && UIBitmapManager.hasCustomRenderTexture(ScrollPane.TYPE) && _width > 0 && _height > 0)  {
-			setBackgroundImage(UIBitmapManager.runCustomRender(ScrollPane.TYPE,{"width":_width,"height":_height}));
+		if(_useCustomRender && UIBitmapManager.hasCustomRenderTexture(UIBitmapType.ScrollPane) && _width > 0 && _height > 0)  {
+			setBackgroundImage(UIBitmapManager.runCustomRender(UIBitmapType.ScrollPane,{"width":_width,"height":_height}));
 		}		
 
 		// Draw background image

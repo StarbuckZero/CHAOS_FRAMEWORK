@@ -224,8 +224,8 @@ class ProgressBar extends BaseUI implements IProgressBar implements IBaseUI
 
 	}
 
-	private function onStageAdd(event : Event) : Void { UIBitmapManager.watchElement(TYPE, this); }
-	private function onStageRemove(event : Event) : Void { UIBitmapManager.stopWatchElement(TYPE, this); }
+	private function onStageAdd(event : Event) : Void { UIBitmapManager.watchElement(UIBitmapType.ProgressBar, this); }
+	private function onStageRemove(event : Event) : Void { UIBitmapManager.stopWatchElement(UIBitmapType.ProgressBar, this); }
 
 	/**
 	 * initialize all importain objects
@@ -334,11 +334,11 @@ class ProgressBar extends BaseUI implements IProgressBar implements IBaseUI
 	private function initBitmap() : Void
 	{
 		// UI Skinning
-		if (UIBitmapManager.hasUIElement(ProgressBar.TYPE, UIBitmapManager.PROGRESSBAR_BACKGROUND))
-			setBackgroundImage(UIBitmapManager.getUIElement(ProgressBar.TYPE, UIBitmapManager.PROGRESSBAR_BACKGROUND));
+		if (UIBitmapManager.hasUIElement(UIBitmapType.ProgressBar, UIBitmapManager.PROGRESSBAR_BACKGROUND))
+			setBackgroundImage(UIBitmapManager.getUIElement(UIBitmapType.ProgressBar, UIBitmapManager.PROGRESSBAR_BACKGROUND));
 
-		if (UIBitmapManager.hasUIElement(ProgressBar.TYPE, UIBitmapManager.PROGRESSBAR_LOADED_BACKGROUND))
-			setLoadBarImage(UIBitmapManager.getUIElement(ProgressBar.TYPE, UIBitmapManager.PROGRESSBAR_LOADED_BACKGROUND));
+		if (UIBitmapManager.hasUIElement(UIBitmapType.ProgressBar, UIBitmapManager.PROGRESSBAR_LOADED_BACKGROUND))
+			setLoadBarImage(UIBitmapManager.getUIElement(UIBitmapType.ProgressBar, UIBitmapManager.PROGRESSBAR_LOADED_BACKGROUND));
 	}
 
 	/**
@@ -726,10 +726,10 @@ class ProgressBar extends BaseUI implements IProgressBar implements IBaseUI
 	override public function draw() : Void
 	{
 
-		 if(_useCustomRender && UIBitmapManager.hasCustomRenderTexture(ProgressBar.TYPE) && _width > 0 && _height > 0)
+		 if(_useCustomRender && UIBitmapManager.hasCustomRenderTexture(UIBitmapType.ProgressBar) && _width > 0 && _height > 0)
 		 {
-			_backgroundImage = UIBitmapManager.runCustomRender(ProgressBar.TYPE,{"width":_width,"height":_height,"state":"default"});
-			_loadedBarImage = UIBitmapManager.runCustomRender(ProgressBar.TYPE,{"width":_width,"height":_height,"state":"loaded"});
+			_backgroundImage = UIBitmapManager.runCustomRender(UIBitmapType.ProgressBar,{"width":_width,"height":_height,"state":"default"});
+			_loadedBarImage = UIBitmapManager.runCustomRender(UIBitmapType.ProgressBar,{"width":_width,"height":_height,"state":"loaded"});
 		}
 
 		// Get ready to draw background and border

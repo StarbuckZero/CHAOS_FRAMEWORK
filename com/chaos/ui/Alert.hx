@@ -37,20 +37,6 @@ class Alert
 	public static var windowUnFocusColor(get, set) : Int;
 	public static var windowTitleUnFocusColor(get, set) : Int;
 
-	/** The type of UI Element */
-	public static inline var TYPE : String = "Alert";
-	/** For displaying the Cancel button */
-	public static inline var CANCEL : String = "cancel";
-	/** For displaying the Ok button */
-	public static inline var OK : String = "ok";
-	/** For displaying the Yes button */
-	public static inline var YES : String = "yes";
-	/** For displaying the No button */
-	public static inline var NO : String = "no";
-	/** For displaying the Maybe button */
-	public static inline var MAYBE : String = "maybe";
-	/** For non-modal mode */
-	public static inline var NONMODAL : String = "nonmodal";
 	/** Default background color */
 	public static var DEFAULT_BACKGROUND : Int = 0xFFFFFF;
 	/** Default background color title area  */
@@ -1066,7 +1052,7 @@ class Alert
 	* @return The alert box that can be added to the stage or DisplayObject of your choice.
 	*/
 
-	public static function create(strMessage : String = "No Message", strTitle : String = "Alert Box", buttonArray : Array<String> = null, alertBoxIcon : BitmapData = null, alertWindowIcon : BitmapData = null, callBackFunc : Dynamic = null, defaultLabelButton : String = "") : Sprite
+	public static function create(strMessage : String = "No Message", strTitle : String = "Alert Box", buttonArray : Array<AlertButtonType> = null, alertBoxIcon : BitmapData = null, alertWindowIcon : BitmapData = null, callBackFunc : Dynamic = null, defaultLabelButton : AlertButtonType = AlertButtonType.OK) : Sprite
 	{
 
 		// Setup AlertBox Holder
@@ -1245,7 +1231,7 @@ class Alert
 			for (i in 0 ... buttonArray.length - 1 + 1)
 			{
 				// Turn off background shape
-				if (Alert.NONMODAL != buttonArray[i])
+				if (AlertButtonType.NONMODAL != buttonArray[i])
 				{
 					// Grab button and place it in holder
 					var tempButton : Button = createAlertButton(buttonArray[i]);
@@ -1266,7 +1252,7 @@ class Alert
 					}
 
 					// Show close button if using cancel button
-					if (tempButton.name == CANCEL)
+					if (tempButton.name == CANCEL.getName())
 						window.closeButton.visible = true;
 
 					tempButton.x = ((buttonHolderClip.numChildren == 1)) ? BUTTON_OFFSET_X : tempButton.width + buttonHolderClip.getChildAt(buttonHolderClip.numChildren - 2).x + BUTTON_OFFSET_X;
@@ -1412,91 +1398,91 @@ class Alert
 	private static function initSkin(window : Window) : Void
 	{
 		// Top
-		if (null != UIBitmapManager.getUIElement(Alert.TYPE, UIBitmapManager.ALERT_TOP_LEFT))
-			window.setWindowTopLeftImage(UIBitmapManager.getUIElement(Alert.TYPE, UIBitmapManager.ALERT_TOP_LEFT));
+		if (null != UIBitmapManager.getUIElement(UIBitmapType.Alert, UIBitmapManager.ALERT_TOP_LEFT))
+			window.setWindowTopLeftImage(UIBitmapManager.getUIElement(UIBitmapType.Alert, UIBitmapManager.ALERT_TOP_LEFT));
 
-		if (null != UIBitmapManager.getUIElement(Alert.TYPE, UIBitmapManager.ALERT_TOP_MIDDLE))
-			window.setWindowTopMiddleImage(UIBitmapManager.getUIElement(Alert.TYPE, UIBitmapManager.ALERT_TOP_MIDDLE));
+		if (null != UIBitmapManager.getUIElement(UIBitmapType.Alert, UIBitmapManager.ALERT_TOP_MIDDLE))
+			window.setWindowTopMiddleImage(UIBitmapManager.getUIElement(UIBitmapType.Alert, UIBitmapManager.ALERT_TOP_MIDDLE));
 
-		if (null != UIBitmapManager.getUIElement(Alert.TYPE, UIBitmapManager.ALERT_TOP_RIGHT))
-			window.setWindowTopRightImage(UIBitmapManager.getUIElement(Alert.TYPE, UIBitmapManager.ALERT_TOP_RIGHT));
+		if (null != UIBitmapManager.getUIElement(UIBitmapType.Alert, UIBitmapManager.ALERT_TOP_RIGHT))
+			window.setWindowTopRightImage(UIBitmapManager.getUIElement(UIBitmapType.Alert, UIBitmapManager.ALERT_TOP_RIGHT));
 
 		// Middle
-		if (null != UIBitmapManager.getUIElement(Alert.TYPE, UIBitmapManager.ALERT_MIDDLE_LEFT))
-			window.setWindowMiddleLeftImage(UIBitmapManager.getUIElement(Alert.TYPE, UIBitmapManager.ALERT_MIDDLE_LEFT));
+		if (null != UIBitmapManager.getUIElement(UIBitmapType.Alert, UIBitmapManager.ALERT_MIDDLE_LEFT))
+			window.setWindowMiddleLeftImage(UIBitmapManager.getUIElement(UIBitmapType.Alert, UIBitmapManager.ALERT_MIDDLE_LEFT));
 
-		if (null != UIBitmapManager.getUIElement(Alert.TYPE, UIBitmapManager.ALERT_MIDDLE_RIGHT))
-			window.setWindowMiddleRightImage(UIBitmapManager.getUIElement(Alert.TYPE, UIBitmapManager.ALERT_MIDDLE_RIGHT));
+		if (null != UIBitmapManager.getUIElement(UIBitmapType.Alert, UIBitmapManager.ALERT_MIDDLE_RIGHT))
+			window.setWindowMiddleRightImage(UIBitmapManager.getUIElement(UIBitmapType.Alert, UIBitmapManager.ALERT_MIDDLE_RIGHT));
 
 		// Bottom
-		if (null != UIBitmapManager.getUIElement(Alert.TYPE, UIBitmapManager.ALERT_BOTTOM_LEFT))
-			window.setWindowBottomLeftImage(UIBitmapManager.getUIElement(Alert.TYPE, UIBitmapManager.ALERT_BOTTOM_LEFT));
+		if (null != UIBitmapManager.getUIElement(UIBitmapType.Alert, UIBitmapManager.ALERT_BOTTOM_LEFT))
+			window.setWindowBottomLeftImage(UIBitmapManager.getUIElement(UIBitmapType.Alert, UIBitmapManager.ALERT_BOTTOM_LEFT));
 
-		if (null != UIBitmapManager.getUIElement(Alert.TYPE, UIBitmapManager.ALERT_BOTTOM_MIDDLE))
-			window.setWindowBottomMiddleImage(UIBitmapManager.getUIElement(Alert.TYPE, UIBitmapManager.ALERT_BOTTOM_MIDDLE));
+		if (null != UIBitmapManager.getUIElement(UIBitmapType.Alert, UIBitmapManager.ALERT_BOTTOM_MIDDLE))
+			window.setWindowBottomMiddleImage(UIBitmapManager.getUIElement(UIBitmapType.Alert, UIBitmapManager.ALERT_BOTTOM_MIDDLE));
 
-		if (null != UIBitmapManager.getUIElement(Alert.TYPE, UIBitmapManager.ALERT_BOTTOM_RIGHT))
-			window.setWindowBottomRightImage(UIBitmapManager.getUIElement(Alert.TYPE, UIBitmapManager.ALERT_BOTTOM_RIGHT));
+		if (null != UIBitmapManager.getUIElement(UIBitmapType.Alert, UIBitmapManager.ALERT_BOTTOM_RIGHT))
+			window.setWindowBottomRightImage(UIBitmapManager.getUIElement(UIBitmapType.Alert, UIBitmapManager.ALERT_BOTTOM_RIGHT));
 
 		// Background
-		if (null != UIBitmapManager.getUIElement(Alert.TYPE, UIBitmapManager.ALERT_BACKGROUND))
-			window.scrollPane.setBackgroundImage(UIBitmapManager.getUIElement(Alert.TYPE, UIBitmapManager.ALERT_BACKGROUND));
+		if (null != UIBitmapManager.getUIElement(UIBitmapType.Alert, UIBitmapManager.ALERT_BACKGROUND))
+			window.scrollPane.setBackgroundImage(UIBitmapManager.getUIElement(UIBitmapType.Alert, UIBitmapManager.ALERT_BACKGROUND));
 
 		// All images for close button that are bitmaps
-		if (null != UIBitmapManager.getUIElement(Alert.TYPE, UIBitmapManager.ALERT_CLOSE_BUTTON_NORMAL))
-			window.closeButton.setDefaultStateImage(UIBitmapManager.getUIElement(Alert.TYPE, UIBitmapManager.ALERT_CLOSE_BUTTON_NORMAL));
+		if (null != UIBitmapManager.getUIElement(UIBitmapType.Alert, UIBitmapManager.ALERT_CLOSE_BUTTON_NORMAL))
+			window.closeButton.setDefaultStateImage(UIBitmapManager.getUIElement(UIBitmapType.Alert, UIBitmapManager.ALERT_CLOSE_BUTTON_NORMAL));
 
-		if (null != UIBitmapManager.getUIElement(Alert.TYPE, UIBitmapManager.ALERT_CLOSE_BUTTON_OVER))
-			window.closeButton.setOverStateImage(UIBitmapManager.getUIElement(Alert.TYPE, UIBitmapManager.ALERT_CLOSE_BUTTON_OVER));
+		if (null != UIBitmapManager.getUIElement(UIBitmapType.Alert, UIBitmapManager.ALERT_CLOSE_BUTTON_OVER))
+			window.closeButton.setOverStateImage(UIBitmapManager.getUIElement(UIBitmapType.Alert, UIBitmapManager.ALERT_CLOSE_BUTTON_OVER));
 
-		if (null != UIBitmapManager.getUIElement(Alert.TYPE, UIBitmapManager.ALERT_CLOSE_BUTTON_DOWN))
-			window.closeButton.setDownStateImage(UIBitmapManager.getUIElement(Alert.TYPE, UIBitmapManager.ALERT_CLOSE_BUTTON_DOWN));
+		if (null != UIBitmapManager.getUIElement(UIBitmapType.Alert, UIBitmapManager.ALERT_CLOSE_BUTTON_DOWN))
+			window.closeButton.setDownStateImage(UIBitmapManager.getUIElement(UIBitmapType.Alert, UIBitmapManager.ALERT_CLOSE_BUTTON_DOWN));
 
-		if (null != UIBitmapManager.getUIElement(Alert.TYPE, UIBitmapManager.ALERT_CLOSE_BUTTON_DISABLE))
-			window.closeButton.setDisableStateImage(UIBitmapManager.getUIElement(Alert.TYPE, UIBitmapManager.ALERT_CLOSE_BUTTON_DISABLE));
+		if (null != UIBitmapManager.getUIElement(UIBitmapType.Alert, UIBitmapManager.ALERT_CLOSE_BUTTON_DISABLE))
+			window.closeButton.setDisableStateImage(UIBitmapManager.getUIElement(UIBitmapType.Alert, UIBitmapManager.ALERT_CLOSE_BUTTON_DISABLE));
 
 	}
 
-	private static function createAlertButton(buttonType : String) : Button
+	private static function createAlertButton(buttonType : AlertButtonType) : Button
 	{
-		var tempButton : Button = new Button({"width":100,"height":20});
+		var newButton : Button = new Button({"width":100,"height":20});
 
 		switch (buttonType)
 		{
-			case Alert.OK:
-				tempButton.text = (("" == UIStyleManager.ALERT_OK_TEXT)) ? _okBtnLabel : UIStyleManager.ALERT_OK_TEXT;
-				tempButton.name = OK;
-				setButtonType("positive", tempButton);
+			case AlertButtonType.OK:
+				newButton.text = UIStyleManager.hasStyle(UIStyleManager.ALERT_OK_TEXT) ? UIStyleManager.getStyle(UIStyleManager.ALERT_OK_TEXT) : _okBtnLabel;
+				newButton.name = AlertButtonType.OK.getName();
+				setButtonType("positive", newButton);
 
-			case Alert.CANCEL:
-				tempButton.text = (("" == UIStyleManager.ALERT_CANCEL_TEXT)) ? _cancelBtnLabel : UIStyleManager.ALERT_CANCEL_TEXT;
-				tempButton.name = CANCEL;
-				setButtonType("negative", tempButton);
+			case AlertButtonType.CANCEL:
+				newButton.text = UIStyleManager.hasStyle(UIStyleManager.ALERT_CANCEL_TEXT) ? UIStyleManager.getStyle(UIStyleManager.ALERT_CANCEL_TEXT) : _cancelBtnLabel;
+				newButton.name = AlertButtonType.CANCEL.getName();
+				setButtonType("negative", newButton);
 
-			case Alert.YES:
-				tempButton.text = (("" == UIStyleManager.ALERT_YES_TEXT)) ? _yesBtnLabel : UIStyleManager.ALERT_YES_TEXT;
-				tempButton.name = YES;
-				setButtonType("positive", tempButton);
+			case AlertButtonType.YES:
+				newButton.text = UIStyleManager.hasStyle(UIStyleManager.ALERT_YES_TEXT) ? UIStyleManager.getStyle(UIStyleManager.ALERT_YES_TEXT) : _yesBtnLabel;
+				newButton.name = AlertButtonType.YES.getName();
+				setButtonType("positive", newButton);
 
-			case Alert.NO:
-				tempButton.text = (("" == UIStyleManager.ALERT_NO_TEXT)) ? _noBtnLabel : UIStyleManager.ALERT_NO_TEXT;
-				tempButton.name = NO;
-				setButtonType("negative", tempButton);
+			case AlertButtonType.NO:
+				newButton.text = UIStyleManager.hasStyle(UIStyleManager.ALERT_NO_TEXT) ? UIStyleManager.getStyle(UIStyleManager.ALERT_NO_TEXT) : _noBtnLabel;
+				newButton.name = AlertButtonType.NO.getName();
+				setButtonType("negative", newButton);
 
-			case Alert.MAYBE:
-				tempButton.text = (("" == UIStyleManager.ALERT_MAYBE_TEXT)) ? _noBtnLabel : UIStyleManager.ALERT_MAYBE_TEXT;
-				tempButton.name = MAYBE;
-				setButtonType("neutral", tempButton);
+			case AlertButtonType.MAYBE:
+				newButton.text = UIStyleManager.hasStyle(UIStyleManager.ALERT_MAYBE_TEXT) ? UIStyleManager.getStyle(UIStyleManager.ALERT_MAYBE_TEXT) : _noBtnLabel;
+				newButton.name = AlertButtonType.MAYBE.getName();
+				setButtonType("neutral", newButton);
 
 			default:
-				tempButton.text = (("" == UIStyleManager.ALERT_OK_TEXT)) ? _okBtnLabel : UIStyleManager.ALERT_OK_TEXT;
-				tempButton.name = OK;
-				setButtonType("positive", tempButton);
+				newButton.text = UIStyleManager.hasStyle(UIStyleManager.ALERT_OK_TEXT) ? UIStyleManager.getStyle(UIStyleManager.ALERT_OK_TEXT) : _okBtnLabel;
+				newButton.name = AlertButtonType.OK.getName();
+				setButtonType("positive", newButton);
 		}
 
-		tempButton.draw();
+		newButton.draw();
 		
-		return tempButton;
+		return newButton;
 	}
 
 	private static function setButtonType(strType : String, button : Button) : Void
@@ -1507,14 +1493,14 @@ class Alert
 			button.overColor = UIStyleManager.hasStyle(UIStyleManager.ALERT_POSITIVE_BUTTON_OVER_COLOR) ? UIStyleManager.getStyle(UIStyleManager.ALERT_POSITIVE_BUTTON_OVER_COLOR) : _positiveButtonOverColor;
 			button.downColor = UIStyleManager.hasStyle(UIStyleManager.ALERT_POSITIVE_BUTTON_DOWN_COLOR) ? UIStyleManager.getStyle(UIStyleManager.ALERT_POSITIVE_BUTTON_DOWN_COLOR) : _positiveButtonDownColor;
 
-			if (UIBitmapManager.hasUIElement(Alert.TYPE, UIBitmapManager.ALERT_POSITIVE_BUTTON_NORMAL))
-				button.setDefaultStateImage(UIBitmapManager.getUIElement(Alert.TYPE, UIBitmapManager.ALERT_POSITIVE_BUTTON_NORMAL));
+			if (UIBitmapManager.hasUIElement(UIBitmapType.Alert, UIBitmapManager.ALERT_POSITIVE_BUTTON_NORMAL))
+				button.setDefaultStateImage(UIBitmapManager.getUIElement(UIBitmapType.Alert, UIBitmapManager.ALERT_POSITIVE_BUTTON_NORMAL));
 
-			if (UIBitmapManager.hasUIElement(Alert.TYPE, UIBitmapManager.ALERT_POSITIVE_BUTTON_OVER))
-				button.setOverStateImage(UIBitmapManager.getUIElement(Alert.TYPE, UIBitmapManager.ALERT_POSITIVE_BUTTON_OVER));
+			if (UIBitmapManager.hasUIElement(UIBitmapType.Alert, UIBitmapManager.ALERT_POSITIVE_BUTTON_OVER))
+				button.setOverStateImage(UIBitmapManager.getUIElement(UIBitmapType.Alert, UIBitmapManager.ALERT_POSITIVE_BUTTON_OVER));
 
-			if (UIBitmapManager.hasUIElement(Alert.TYPE, UIBitmapManager.ALERT_POSITIVE_BUTTON_DOWN))
-				button.setDownStateImage(UIBitmapManager.getUIElement(Alert.TYPE, UIBitmapManager.ALERT_POSITIVE_BUTTON_DOWN));
+			if (UIBitmapManager.hasUIElement(UIBitmapType.Alert, UIBitmapManager.ALERT_POSITIVE_BUTTON_DOWN))
+				button.setDownStateImage(UIBitmapManager.getUIElement(UIBitmapType.Alert, UIBitmapManager.ALERT_POSITIVE_BUTTON_DOWN));
 
 			// All images for positive button that are bitmaps
 			if (_positiveButtonNormalBitmap != null)
@@ -1532,14 +1518,14 @@ class Alert
 			button.overColor = UIStyleManager.hasStyle(UIStyleManager.ALERT_NEGATIVE_BUTTON_OVER_COLOR) ? UIStyleManager.getStyle(UIStyleManager.ALERT_NEGATIVE_BUTTON_OVER_COLOR) : _negativeButtonOverColor;
 			button.downColor = UIStyleManager.hasStyle(UIStyleManager.ALERT_NEGATIVE_BUTTON_DOWN_COLOR) ? UIStyleManager.getStyle(UIStyleManager.ALERT_NEGATIVE_BUTTON_DOWN_COLOR) : _negativeButtonDownColor;
 
-			if (UIBitmapManager.hasUIElement(Alert.TYPE, UIBitmapManager.ALERT_NEGATIVE_BUTTON_NORMAL))
-				button.setDefaultStateImage(UIBitmapManager.getUIElement(Alert.TYPE, UIBitmapManager.ALERT_NEGATIVE_BUTTON_NORMAL));
+			if (UIBitmapManager.hasUIElement(UIBitmapType.Alert, UIBitmapManager.ALERT_NEGATIVE_BUTTON_NORMAL))
+				button.setDefaultStateImage(UIBitmapManager.getUIElement(UIBitmapType.Alert, UIBitmapManager.ALERT_NEGATIVE_BUTTON_NORMAL));
 
-			if (UIBitmapManager.hasUIElement(Alert.TYPE, UIBitmapManager.ALERT_NEGATIVE_BUTTON_OVER))
-				button.setOverStateImage(UIBitmapManager.getUIElement(Alert.TYPE, UIBitmapManager.ALERT_NEGATIVE_BUTTON_OVER));
+			if (UIBitmapManager.hasUIElement(UIBitmapType.Alert, UIBitmapManager.ALERT_NEGATIVE_BUTTON_OVER))
+				button.setOverStateImage(UIBitmapManager.getUIElement(UIBitmapType.Alert, UIBitmapManager.ALERT_NEGATIVE_BUTTON_OVER));
 
-			if (UIBitmapManager.hasUIElement(Alert.TYPE, UIBitmapManager.ALERT_NEGATIVE_BUTTON_DOWN))
-				button.setDownStateImage(UIBitmapManager.getUIElement(Alert.TYPE, UIBitmapManager.ALERT_NEGATIVE_BUTTON_DOWN));
+			if (UIBitmapManager.hasUIElement(UIBitmapType.Alert, UIBitmapManager.ALERT_NEGATIVE_BUTTON_DOWN))
+				button.setDownStateImage(UIBitmapManager.getUIElement(UIBitmapType.Alert, UIBitmapManager.ALERT_NEGATIVE_BUTTON_DOWN));
 
 			// All images for negative button that are bitmaps
 			if (_negativeButtonNormalBitmap != null)
@@ -1557,14 +1543,14 @@ class Alert
 			button.overColor = UIStyleManager.hasStyle(UIStyleManager.ALERT_NEUTRAL_BUTTON_OVER_COLOR) ? UIStyleManager.getStyle(UIStyleManager.ALERT_NEUTRAL_BUTTON_OVER_COLOR) : _neutralButtonOverColor;
 			button.defaultColor = UIStyleManager.hasStyle(UIStyleManager.ALERT_NEUTRAL_BUTTON_DOWN_COLOR) ? UIStyleManager.getStyle(UIStyleManager.ALERT_NEUTRAL_BUTTON_DOWN_COLOR) : _neutralButtonDownColor;
 
-			if (UIBitmapManager.hasUIElement(Alert.TYPE, UIBitmapManager.ALERT_NEUTRAL_BUTTON_DOWN))
-				button.setDefaultStateImage(UIBitmapManager.getUIElement(Alert.TYPE, UIBitmapManager.ALERT_NEUTRAL_BUTTON_DOWN));
+			if (UIBitmapManager.hasUIElement(UIBitmapType.Alert, UIBitmapManager.ALERT_NEUTRAL_BUTTON_DOWN))
+				button.setDefaultStateImage(UIBitmapManager.getUIElement(UIBitmapType.Alert, UIBitmapManager.ALERT_NEUTRAL_BUTTON_DOWN));
 
-			if (UIBitmapManager.hasUIElement(Alert.TYPE, UIBitmapManager.ALERT_NEGATIVE_BUTTON_OVER))
-				button.setOverStateImage(UIBitmapManager.getUIElement(Alert.TYPE, UIBitmapManager.ALERT_NEUTRAL_BUTTON_OVER));
+			if (UIBitmapManager.hasUIElement(UIBitmapType.Alert, UIBitmapManager.ALERT_NEGATIVE_BUTTON_OVER))
+				button.setOverStateImage(UIBitmapManager.getUIElement(UIBitmapType.Alert, UIBitmapManager.ALERT_NEUTRAL_BUTTON_OVER));
 
-			if (UIBitmapManager.hasUIElement(Alert.TYPE, UIBitmapManager.ALERT_NEGATIVE_BUTTON_DOWN))
-				button.setDownStateImage(UIBitmapManager.getUIElement(Alert.TYPE, UIBitmapManager.ALERT_NEUTRAL_BUTTON_DOWN));
+			if (UIBitmapManager.hasUIElement(UIBitmapType.Alert, UIBitmapManager.ALERT_NEGATIVE_BUTTON_DOWN))
+				button.setDownStateImage(UIBitmapManager.getUIElement(UIBitmapType.Alert, UIBitmapManager.ALERT_NEUTRAL_BUTTON_DOWN));
 
 			// All images for neutral button that are bitmaps
 			if (_neutralButtonNormalBitmap != null)
@@ -1578,11 +1564,11 @@ class Alert
 		}
 	}
 
-	private static function modalCheck(buttonArray : Array<String>) : Bool
+	private static function modalCheck(buttonArray : Array<AlertButtonType>) : Bool
 	{
-		for (i in Reflect.fields(buttonArray))
+		for (i in 0...buttonArray.length)
 		{
-			if (Alert.NONMODAL == i)
+			if (AlertButtonType.NONMODAL == buttonArray[i])
 				return true;
 		}
 
@@ -1635,4 +1621,19 @@ class Alert
 		backgroundBlock.graphics.endFill();
 	}
 
+}
+
+enum AlertButtonType {
+	/** For displaying the Cancel button */
+	CANCEL;
+	/** For displaying the Ok button */
+	OK;
+	/** For displaying the Yes button */
+	YES;
+	/** For displaying the No button */
+	NO;
+	/** For displaying the Maybe button */
+	MAYBE;
+	/** For non-modal mode */
+	NONMODAL;	
 }

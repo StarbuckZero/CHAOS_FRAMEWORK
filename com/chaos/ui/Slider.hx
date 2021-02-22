@@ -24,10 +24,7 @@ import com.chaos.ui.UIBitmapManager;
 
 class Slider extends BaseUI implements ISlider implements IBaseUI
 {
-	
-	/** The type of UI Element */
-	public static inline var TYPE : String = "Slider";
-	
+		
 	public static var sliderEventMode(get, set) : String;
 
     /**
@@ -194,8 +191,8 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 		super.setComponentData(data);
 	}
 	
-	private function onStageAdd(event : Event) : Void { UIBitmapManager.watchElement(TYPE, this); }
-	private function onStageRemove(event : Event) : Void { UIBitmapManager.stopWatchElement(TYPE, this); } 
+	private function onStageAdd(event : Event) : Void { UIBitmapManager.watchElement(UIBitmapType.Slider, this); }
+	private function onStageRemove(event : Event) : Void { UIBitmapManager.stopWatchElement(UIBitmapType.Slider, this); } 
 	
 	/**
 	 * Creates and initializes the marker/track elements.
@@ -238,20 +235,20 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 	
 	private function initSkin() : Void
 	{
-		if (UIBitmapManager.hasUIElement(Slider.TYPE, UIBitmapManager.SLIDER_BUTTON_NORMAL))    
-		setSliderImage(UIBitmapManager.getUIElement(Slider.TYPE, UIBitmapManager.SLIDER_BUTTON_NORMAL));
+		if (UIBitmapManager.hasUIElement(UIBitmapType.Slider, UIBitmapManager.SLIDER_BUTTON_NORMAL))    
+		setSliderImage(UIBitmapManager.getUIElement(UIBitmapType.Slider, UIBitmapManager.SLIDER_BUTTON_NORMAL));
 		
-		if (UIBitmapManager.hasUIElement(Slider.TYPE, UIBitmapManager.SLIDER_BUTTON_OVER))     
-        setSliderOverImage(UIBitmapManager.getUIElement(Slider.TYPE, UIBitmapManager.SLIDER_BUTTON_OVER));
+		if (UIBitmapManager.hasUIElement(UIBitmapType.Slider, UIBitmapManager.SLIDER_BUTTON_OVER))     
+        setSliderOverImage(UIBitmapManager.getUIElement(UIBitmapType.Slider, UIBitmapManager.SLIDER_BUTTON_OVER));
 		
-		if (UIBitmapManager.hasUIElement(Slider.TYPE, UIBitmapManager.SLIDER_BUTTON_DOWN))
-		setSliderDownImage(UIBitmapManager.getUIElement(Slider.TYPE, UIBitmapManager.SLIDER_BUTTON_DOWN));
+		if (UIBitmapManager.hasUIElement(UIBitmapType.Slider, UIBitmapManager.SLIDER_BUTTON_DOWN))
+		setSliderDownImage(UIBitmapManager.getUIElement(UIBitmapType.Slider, UIBitmapManager.SLIDER_BUTTON_DOWN));
 		
-		if (UIBitmapManager.hasUIElement(Slider.TYPE, UIBitmapManager.SLIDER_BUTTON_DISABLE))  
-		setSliderDisableImage(UIBitmapManager.getUIElement(Slider.TYPE, UIBitmapManager.SLIDER_BUTTON_DISABLE));
+		if (UIBitmapManager.hasUIElement(UIBitmapType.Slider, UIBitmapManager.SLIDER_BUTTON_DISABLE))  
+		setSliderDisableImage(UIBitmapManager.getUIElement(UIBitmapType.Slider, UIBitmapManager.SLIDER_BUTTON_DISABLE));
 		
-		if (UIBitmapManager.hasUIElement(Slider.TYPE, UIBitmapManager.SLIDER_TRACK))     
-        setTrackImage(UIBitmapManager.getUIElement(Slider.TYPE, UIBitmapManager.SLIDER_TRACK));
+		if (UIBitmapManager.hasUIElement(UIBitmapType.Slider, UIBitmapManager.SLIDER_TRACK))     
+        setTrackImage(UIBitmapManager.getUIElement(UIBitmapType.Slider, UIBitmapManager.SLIDER_TRACK));
 		
     }
 	
@@ -790,15 +787,15 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 	{
 		super.draw();
 		
-		if(_useCustomRender && UIBitmapManager.hasCustomRenderTexture(Slider.TYPE) && _width > 0 && _height > 0)  {
+		if(_useCustomRender && UIBitmapManager.hasCustomRenderTexture(UIBitmapType.Slider) && _width > 0 && _height > 0)  {
 
-			_trackerImage = UIBitmapManager.runCustomRender(Slider.TYPE,{"width":_width,"height":_height,"direction":_mode,"state":"default"});
+			_trackerImage = UIBitmapManager.runCustomRender(UIBitmapType.Slider,{"width":_width,"height":_height,"direction":_mode,"state":"default"});
 
 			_marker.useCustomRender = false;
-			_marker.setDefaultStateImage(UIBitmapManager.runCustomRender(Slider.TYPE,{"width":_marker.width,"height":_marker.height,"direction":_mode,"state":"default"}));
-			_marker.setOverStateImage(UIBitmapManager.runCustomRender(Slider.TYPE,{"width":_marker.width,"height":_marker.height,"direction":_mode,"state":"over"}));
-			_marker.setDownStateImage(UIBitmapManager.runCustomRender(Slider.TYPE,{"width":_marker.width,"height":_marker.height,"direction":_mode,"state":"down"}));
-			_marker.setDisableStateImage(UIBitmapManager.runCustomRender(Slider.TYPE,{"width":_marker.width,"height":_marker.height,"direction":_mode,"state":"disable"}));
+			_marker.setDefaultStateImage(UIBitmapManager.runCustomRender(UIBitmapType.Slider,{"width":_marker.width,"height":_marker.height,"direction":_mode,"state":"default"}));
+			_marker.setOverStateImage(UIBitmapManager.runCustomRender(UIBitmapType.Slider,{"width":_marker.width,"height":_marker.height,"direction":_mode,"state":"over"}));
+			_marker.setDownStateImage(UIBitmapManager.runCustomRender(UIBitmapType.Slider,{"width":_marker.width,"height":_marker.height,"direction":_mode,"state":"down"}));
+			_marker.setDisableStateImage(UIBitmapManager.runCustomRender(UIBitmapType.Slider,{"width":_marker.width,"height":_marker.height,"direction":_mode,"state":"disable"}));
 
 		}
 

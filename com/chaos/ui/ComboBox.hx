@@ -44,10 +44,7 @@ import openfl.text.TextFormat;
 
 class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 {
-	
-	/** The type of UI Element */
-	public static inline var TYPE : String = "ComboBox";
-	
+		
 	/**
 	 * Drop Down Button
 	 */
@@ -310,9 +307,9 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 			_buttonData = Reflect.field(data, "Button");
 	}
 
-	private function onStageAdd(event : Event) : Void { UIBitmapManager.watchElement(TYPE, this); stage.addEventListener(MouseEvent.MOUSE_DOWN, stageClick); }
+	private function onStageAdd(event : Event) : Void { UIBitmapManager.watchElement(UIBitmapType.ComboBox, this); stage.addEventListener(MouseEvent.MOUSE_DOWN, stageClick); }
 
-	private function onStageRemove(event : Event) : Void { UIBitmapManager.stopWatchElement(TYPE, this); stage.removeEventListener(MouseEvent.MOUSE_DOWN, stageClick); }
+	private function onStageRemove(event : Event) : Void { UIBitmapManager.stopWatchElement(UIBitmapType.ComboBox, this); stage.removeEventListener(MouseEvent.MOUSE_DOWN, stageClick); }
 
 	/**
 	 * initialize all importain objects
@@ -545,33 +542,32 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 	private function initBitmpDropDownButton() : Void
 	{
 
-		if (null != UIBitmapManager.getUIElement(ComboBox.TYPE, UIBitmapManager.COMBO_BACKGROUND))
-			setBackgroundImage(UIBitmapManager.getUIElement(ComboBox.TYPE, UIBitmapManager.COMBO_BACKGROUND));
+		if (UIBitmapManager.hasUIElement(UIBitmapType.ComboBox, UIBitmapManager.COMBO_BACKGROUND))
+			setBackgroundImage(UIBitmapManager.getUIElement(UIBitmapType.ComboBox, UIBitmapManager.COMBO_BACKGROUND));
 
-		if (null != UIBitmapManager.getUIElement(ComboBox.TYPE, UIBitmapManager.COMBO_DROPDOWN_BACKGROUND))
-			setDropDownBackgroundImage(UIBitmapManager.getUIElement(ComboBox.TYPE, UIBitmapManager.COMBO_DROPDOWN_BACKGROUND));
+		if (UIBitmapManager.hasUIElement(UIBitmapType.ComboBox, UIBitmapManager.COMBO_DROPDOWN_BACKGROUND))
+			setDropDownBackgroundImage(UIBitmapManager.getUIElement(UIBitmapType.ComboBox, UIBitmapManager.COMBO_DROPDOWN_BACKGROUND));
 
-		if (null != UIBitmapManager.getUIElement(ComboBox.TYPE, UIBitmapManager.COMBO_BUTTON_NORMAL))
-			_dropDownButtonDefaultImage = UIBitmapManager.getUIElement(ComboBox.TYPE, UIBitmapManager.COMBO_BUTTON_NORMAL).clone();
+		if (UIBitmapManager.hasUIElement(UIBitmapType.ComboBox, UIBitmapManager.COMBO_BUTTON_NORMAL))
+			_dropDownButtonDefaultImage = UIBitmapManager.getUIElement(UIBitmapType.ComboBox, UIBitmapManager.COMBO_BUTTON_NORMAL).clone();
 
-		if (null != UIBitmapManager.getUIElement(ComboBox.TYPE, UIBitmapManager.COMBO_BUTTON_OVER))
-			_dropDownButtonOverImage = UIBitmapManager.getUIElement(ComboBox.TYPE, UIBitmapManager.COMBO_BUTTON_OVER).clone();
+		if (UIBitmapManager.hasUIElement(UIBitmapType.ComboBox, UIBitmapManager.COMBO_BUTTON_OVER))
+			_dropDownButtonOverImage = UIBitmapManager.getUIElement(UIBitmapType.ComboBox, UIBitmapManager.COMBO_BUTTON_OVER).clone();
 
-		if (null != UIBitmapManager.getUIElement(ComboBox.TYPE, UIBitmapManager.COMBO_BUTTON_DOWN))
-			_dropDownButtonDown = UIBitmapManager.getUIElement(ComboBox.TYPE, UIBitmapManager.COMBO_BUTTON_DOWN).clone();
+		if (UIBitmapManager.hasUIElement(UIBitmapType.ComboBox, UIBitmapManager.COMBO_BUTTON_DOWN))
+			_dropDownButtonDown = UIBitmapManager.getUIElement(UIBitmapType.ComboBox, UIBitmapManager.COMBO_BUTTON_DOWN).clone();
 
-		if (null != UIBitmapManager.getUIElement(ComboBox.TYPE, UIBitmapManager.COMBO_BUTTON_DISABLE))
-			_dropDownButtonDisable = UIBitmapManager.getUIElement(ComboBox.TYPE, UIBitmapManager.COMBO_BUTTON_DISABLE).clone();
+		if (UIBitmapManager.hasUIElement(UIBitmapType.ComboBox, UIBitmapManager.COMBO_BUTTON_DISABLE))
+			_dropDownButtonDisable = UIBitmapManager.getUIElement(UIBitmapType.ComboBox, UIBitmapManager.COMBO_BUTTON_DISABLE).clone();
 
-		if (null != UIBitmapManager.getUIElement(ComboBox.TYPE, UIBitmapManager.COMBO_BUTTON_DROPDOWN_ICON))
-			_downIconImage = UIBitmapManager.getUIElement(ComboBox.TYPE, UIBitmapManager.COMBO_BUTTON_DROPDOWN_ICON).clone();
+		if (UIBitmapManager.hasUIElement(UIBitmapType.ComboBox, UIBitmapManager.COMBO_BUTTON_DROPDOWN_ICON))
+			_downIconImage = UIBitmapManager.getUIElement(UIBitmapType.ComboBox, UIBitmapManager.COMBO_BUTTON_DROPDOWN_ICON).clone();
 		
 			
 
 		
 		if (null != _dropButton)
 		{
-			
 
 			// Check and remove these if was set by UIBitmapManager
 			if (null != _dropDownButtonDefaultImage)
@@ -621,41 +617,41 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 		
 		
 		// UI Skin/Theme for ScrollBar
-		if (null != UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_BUTTON_NORMAL))
-			_scrollButtonDefaultImage = UIBitmapManager.getUIElement(ComboBox.TYPE, UIBitmapManager.SCROLLBAR_BUTTON_NORMAL).clone();
+		if (UIBitmapManager.hasUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_BUTTON_NORMAL))
+			_scrollButtonDefaultImage = UIBitmapManager.getUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_BUTTON_NORMAL).clone();
 
-		if (null != UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_BUTTON_OVER))
-			_scrollButtonOverImage = UIBitmapManager.getUIElement(ComboBox.TYPE, UIBitmapManager.SCROLLBAR_BUTTON_OVER).clone();
+		if (UIBitmapManager.hasUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_BUTTON_OVER))
+			_scrollButtonOverImage = UIBitmapManager.getUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_BUTTON_OVER).clone();
 
-		if (null != UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_BUTTON_DOWN))
-			_scrollButtonDownImage = UIBitmapManager.getUIElement(ComboBox.TYPE, UIBitmapManager.SCROLLBAR_BUTTON_DOWN).clone();
+		if (UIBitmapManager.hasUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_BUTTON_DOWN))
+			_scrollButtonDownImage = UIBitmapManager.getUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_BUTTON_DOWN).clone();
 
-		if (null != UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_BUTTON_DISABLE))
-			_scrollButtonDisableImage = UIBitmapManager.getUIElement(ComboBox.TYPE, UIBitmapManager.SCROLLBAR_BUTTON_DISABLE).clone();
+		if (UIBitmapManager.hasUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_BUTTON_DISABLE))
+			_scrollButtonDisableImage = UIBitmapManager.getUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_BUTTON_DISABLE).clone();
 
 		// Icons
-		if (null != UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_UP_ICON))
-			_upIconButtonImage = UIBitmapManager.getUIElement(ComboBox.TYPE, UIBitmapManager.SCROLLBAR_UP_ICON).clone();
+		if (UIBitmapManager.hasUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_UP_ICON))
+			_upIconButtonImage = UIBitmapManager.getUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_UP_ICON).clone();
 
-		if (null != UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_DOWN_ICON))
-			_downIconImage = UIBitmapManager.getUIElement(ComboBox.TYPE, UIBitmapManager.SCROLLBAR_DOWN_ICON).clone();
+		if (UIBitmapManager.hasUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_DOWN_ICON))
+			_downIconImage = UIBitmapManager.getUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_DOWN_ICON).clone();
 
 		// Track
-		if (null != UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_TRACK))
-			_trackImage = UIBitmapManager.getUIElement(ComboBox.TYPE, UIBitmapManager.SCROLLBAR_TRACK).clone();
+		if (UIBitmapManager.hasUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_TRACK))
+			_trackImage = UIBitmapManager.getUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_TRACK).clone();
 
 		// Slider
-		if (null != UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_NORMAL))
-			_sliderButtonDefaultImage = UIBitmapManager.getUIElement(ComboBox.TYPE, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_NORMAL).clone();
+		if (UIBitmapManager.hasUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_NORMAL))
+			_sliderButtonDefaultImage = UIBitmapManager.getUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_NORMAL).clone();
 
-		if (null != UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_OVER))
-			_sliderButtonOverImage = UIBitmapManager.getUIElement(ComboBox.TYPE, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_OVER).clone();
+		if (UIBitmapManager.hasUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_OVER))
+			_sliderButtonOverImage = UIBitmapManager.getUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_OVER).clone();
 
-		if (null != UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_DOWN))
-			_sliderButtonDownImage = UIBitmapManager.getUIElement(ComboBox.TYPE, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_DOWN).clone();
+		if (UIBitmapManager.hasUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_DOWN))
+			_sliderButtonDownImage = UIBitmapManager.getUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_DOWN).clone();
 
-		if (null != UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_DISABLE))
-			_sliderButtonDisableImage = UIBitmapManager.getUIElement(ComboBox.TYPE, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_DISABLE).clone();
+		if (UIBitmapManager.hasUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_DISABLE))
+			_sliderButtonDisableImage = UIBitmapManager.getUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_DISABLE).clone();
 		
 		
 		// Only if reskin was called and scrll bar is on screen

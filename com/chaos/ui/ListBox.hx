@@ -31,9 +31,6 @@ import com.chaos.ui.UIBitmapManager;
 class ListBox extends ScrollPane implements IListBox implements IBaseUI
 {
 
-	/** The type of UI Element */
-	public static inline var TYPE : String = "ListBox";
-
     /**
 	 * Outline color
 	 */
@@ -176,12 +173,12 @@ class ListBox extends ScrollPane implements IListBox implements IBaseUI
 
 	override private function onStageAdd(event : Event) : Void
 	{
-		UIBitmapManager.watchElement(TYPE, this);
+		UIBitmapManager.watchElement(UIBitmapType.ListBox, this);
 	}
 
 	override private function onStageRemove(event : Event) : Void
 	{
-		UIBitmapManager.stopWatchElement(TYPE, this);
+		UIBitmapManager.stopWatchElement(UIBitmapType.ListBox, this);
 	}
 
 
@@ -216,8 +213,8 @@ class ListBox extends ScrollPane implements IListBox implements IBaseUI
 	private function initBitmap() : Void 
 	{
 		// UISkin and Style for ScrollPane
-		if (UIBitmapManager.hasUIElement(ListBox.TYPE, UIBitmapManager.LIST_BACKGROUND))
-			setBackgroundImage(UIBitmapManager.getUIElement(ListBox.TYPE, UIBitmapManager.LIST_BACKGROUND));
+		if (UIBitmapManager.hasUIElement(UIBitmapType.ListBox, UIBitmapManager.LIST_BACKGROUND))
+			setBackgroundImage(UIBitmapManager.getUIElement(UIBitmapType.ListBox, UIBitmapManager.LIST_BACKGROUND));
 		
 	}
 

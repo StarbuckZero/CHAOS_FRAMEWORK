@@ -8,6 +8,7 @@ import com.chaos.ui.classInterface.IOverlay;
 import openfl.display.BitmapData;
 import openfl.display.Shape;
 import openfl.errors.Error;
+import com.chaos.ui.UIBitmapManager;
 
 import com.chaos.ui.Overlay;
 
@@ -95,7 +96,7 @@ class Bubble extends Overlay implements IBubble implements IOverlay implements I
 	 * Set the placement of the tail which could be "top", "bottom", "left" or "right"
 	 */
 	
-    public var tailPlacement(get, set) : String;
+    public var tailPlacement(get, set) : BubbleTailLocation;
 	
 	/**
 	 * The tail location, this only works if the tailAutoCenter is false
@@ -109,7 +110,6 @@ class Bubble extends Overlay implements IBubble implements IOverlay implements I
 	
     public var tailAutoCenter(get, set) : Bool;
 
-    public static inline var TYPE : String = "Bubble";
     
     public var contentHolder : Sprite = new Sprite();
     
@@ -132,7 +132,7 @@ class Bubble extends Overlay implements IBubble implements IOverlay implements I
     private var _tailAutoCenter : Bool = true;
     private var _tailLocation : Float = 40;
     
-    private var _tailPlacement : String = "bottom";
+    private var _tailPlacement : BubbleTailLocation = BubbleTailLocation.BOTTOM;
     
     private var _background : Shape = new Shape();
     private var _backgroundBorder : Shape = new Shape();
@@ -159,12 +159,12 @@ class Bubble extends Overlay implements IBubble implements IOverlay implements I
     
     private function onStageAdd(event : Event) : Void
     {
-        UIBitmapManager.watchElement(TYPE, this);
+        UIBitmapManager.watchElement(UIBitmapType.Bubble, this);
     }
     
     private function onStageRemove(event : Event) : Void
     {
-        UIBitmapManager.stopWatchElement(TYPE, this);
+        UIBitmapManager.stopWatchElement(UIBitmapType.Bubble, this);
     }
 	
 	/**
@@ -210,7 +210,7 @@ class Bubble extends Overlay implements IBubble implements IOverlay implements I
 			
 			
 		if (Reflect.hasField(data, "tailPlacement"))
-			_tailPlacement = Reflect.field(data, "tailPlacement");
+			_tailPlacement = getTailLoc(Reflect.field(data, "tailPlacement"));
 		
 	}
 	
@@ -282,8 +282,8 @@ class Bubble extends Overlay implements IBubble implements IOverlay implements I
     
     private function initBitmap() : Void
     {
-        if (UIBitmapManager.hasUIElement(Bubble.TYPE, UIBitmapManager.BUBBLE_BACKGROUND)) 
-            setBackgroundImage(UIBitmapManager.getUIElement(Bubble.TYPE, UIBitmapManager.BUBBLE_BACKGROUND));
+        if (UIBitmapManager.hasUIElement(UIBitmapType.Bubble, UIBitmapManager.BUBBLE_BACKGROUND)) 
+            setBackgroundImage(UIBitmapManager.getUIElement(UIBitmapType.Bubble, UIBitmapManager.BUBBLE_BACKGROUND));
         
         var topLeftImage : BitmapData = null;
         var topMiddleImage : BitmapData = null;
@@ -297,35 +297,35 @@ class Bubble extends Overlay implements IBubble implements IOverlay implements I
         var bottomRightImage : BitmapData = null;
         
         // Top
-        if (UIBitmapManager.hasUIElement(Bubble.TYPE, UIBitmapManager.BUBBLE_OVERLAY_TOP_LEFT)) 
-            topLeftImage = UIBitmapManager.getUIElement(Bubble.TYPE, UIBitmapManager.BUBBLE_OVERLAY_TOP_LEFT);
+        if (UIBitmapManager.hasUIElement(UIBitmapType.Bubble, UIBitmapManager.BUBBLE_OVERLAY_TOP_LEFT)) 
+            topLeftImage = UIBitmapManager.getUIElement(UIBitmapType.Bubble, UIBitmapManager.BUBBLE_OVERLAY_TOP_LEFT);
         
-        if (UIBitmapManager.hasUIElement(Bubble.TYPE, UIBitmapManager.BUBBLE_OVERLAY_TOP_MIDDLE)) 
-            topMiddleImage = UIBitmapManager.getUIElement(Bubble.TYPE, UIBitmapManager.BUBBLE_OVERLAY_TOP_MIDDLE);
+        if (UIBitmapManager.hasUIElement(UIBitmapType.Bubble, UIBitmapManager.BUBBLE_OVERLAY_TOP_MIDDLE)) 
+            topMiddleImage = UIBitmapManager.getUIElement(UIBitmapType.Bubble, UIBitmapManager.BUBBLE_OVERLAY_TOP_MIDDLE);
         
-        if (UIBitmapManager.hasUIElement(Bubble.TYPE, UIBitmapManager.BUBBLE_OVERLAY_TOP_RIGHT)) 
-            topRightImage = UIBitmapManager.getUIElement(Bubble.TYPE, UIBitmapManager.BUBBLE_OVERLAY_TOP_RIGHT);
+        if (UIBitmapManager.hasUIElement(UIBitmapType.Bubble, UIBitmapManager.BUBBLE_OVERLAY_TOP_RIGHT)) 
+            topRightImage = UIBitmapManager.getUIElement(UIBitmapType.Bubble, UIBitmapManager.BUBBLE_OVERLAY_TOP_RIGHT);
         
         setTopImage(topLeftImage, topMiddleImage, topRightImage);
         
         // Middle
-        if (UIBitmapManager.hasUIElement(Bubble.TYPE, UIBitmapManager.BUBBLE_OVERLAY_MIDDLE_LEFT)) 
-            middleLeftImage = UIBitmapManager.getUIElement(Bubble.TYPE, UIBitmapManager.BUBBLE_OVERLAY_MIDDLE_LEFT);
+        if (UIBitmapManager.hasUIElement(UIBitmapType.Bubble, UIBitmapManager.BUBBLE_OVERLAY_MIDDLE_LEFT)) 
+            middleLeftImage = UIBitmapManager.getUIElement(UIBitmapType.Bubble, UIBitmapManager.BUBBLE_OVERLAY_MIDDLE_LEFT);
         
-        if (UIBitmapManager.hasUIElement(Bubble.TYPE, UIBitmapManager.BUBBLE_OVERLAY_MIDDLE_RIGHT)) 
-            middleRightImage = UIBitmapManager.getUIElement(Bubble.TYPE, UIBitmapManager.BUBBLE_OVERLAY_MIDDLE_RIGHT);
+        if (UIBitmapManager.hasUIElement(UIBitmapType.Bubble, UIBitmapManager.BUBBLE_OVERLAY_MIDDLE_RIGHT)) 
+            middleRightImage = UIBitmapManager.getUIElement(UIBitmapType.Bubble, UIBitmapManager.BUBBLE_OVERLAY_MIDDLE_RIGHT);
         
         setMiddleCenterImage(middleLeftImage, middleRightImage);
         
         // Bottom
-        if (UIBitmapManager.hasUIElement(Bubble.TYPE, UIBitmapManager.BUBBLE_OVERLAY_BOTTOM_LEFT)) 
-            bottomLeftImage = UIBitmapManager.getUIElement(Bubble.TYPE, UIBitmapManager.BUBBLE_OVERLAY_BOTTOM_LEFT);
+        if (UIBitmapManager.hasUIElement(UIBitmapType.Bubble, UIBitmapManager.BUBBLE_OVERLAY_BOTTOM_LEFT)) 
+            bottomLeftImage = UIBitmapManager.getUIElement(UIBitmapType.Bubble, UIBitmapManager.BUBBLE_OVERLAY_BOTTOM_LEFT);
         
-        if (UIBitmapManager.hasUIElement(Bubble.TYPE, UIBitmapManager.BUBBLE_OVERLAY_BOTTOM_MIDDLE)) 
-            bottomMiddleImage = UIBitmapManager.getUIElement(Bubble.TYPE, UIBitmapManager.BUBBLE_OVERLAY_BOTTOM_MIDDLE);
+        if (UIBitmapManager.hasUIElement(UIBitmapType.Bubble, UIBitmapManager.BUBBLE_OVERLAY_BOTTOM_MIDDLE)) 
+            bottomMiddleImage = UIBitmapManager.getUIElement(UIBitmapType.Bubble, UIBitmapManager.BUBBLE_OVERLAY_BOTTOM_MIDDLE);
         
-        if (UIBitmapManager.hasUIElement(Bubble.TYPE, UIBitmapManager.BUBBLE_OVERLAY_BOTTOM_RIGHT)) 
-            bottomRightImage = UIBitmapManager.getUIElement(Bubble.TYPE, UIBitmapManager.BUBBLE_OVERLAY_BOTTOM_RIGHT);
+        if (UIBitmapManager.hasUIElement(UIBitmapType.Bubble, UIBitmapManager.BUBBLE_OVERLAY_BOTTOM_RIGHT)) 
+            bottomRightImage = UIBitmapManager.getUIElement(UIBitmapType.Bubble, UIBitmapManager.BUBBLE_OVERLAY_BOTTOM_RIGHT);
         
         setBottomImage(bottomLeftImage, bottomMiddleImage, bottomRightImage);
     }
@@ -557,7 +557,7 @@ class Bubble extends Overlay implements IBubble implements IOverlay implements I
 	 * Set the placement of the tail which could be "top", "bottom", "left" or "right"
 	 */
     
-    private function set_tailPlacement(value : String) : String
+    private function set_tailPlacement(value : BubbleTailLocation) : BubbleTailLocation
     {
         _tailPlacement = value;
         
@@ -568,7 +568,7 @@ class Bubble extends Overlay implements IBubble implements IOverlay implements I
 	 * Get where the tail is placed
 	 */
     
-    private function get_tailPlacement() : String
+    private function get_tailPlacement() : BubbleTailLocation
     {
         return _tailPlacement;
     }
@@ -672,28 +672,28 @@ class Bubble extends Overlay implements IBubble implements IOverlay implements I
         _tail.graphics.endFill();
         
         // Placement
-        if (_tailPlacement == "bottom") 
+        if (_tailPlacement == BubbleTailLocation.BOTTOM) 
         {
             _tail.rotation = 180;
             
             _tail.x = (_tailAutoCenter) ? (width / 2) : _tailLocation;
             _tail.y = height + _tail.height;
         }
-        else if (_tailPlacement == "top") 
+        else if (_tailPlacement == BubbleTailLocation.TOP) 
         {
             _tail.rotation = 0;
             
             _tail.x = (_tailAutoCenter) ? (width / 2) : _tailLocation;
             _tail.y = -_tail.height;
         }
-        else if (_tailPlacement == "left") 
+        else if (_tailPlacement == BubbleTailLocation.LEFT) 
         {
             _tail.rotation = 90;
             
             _tail.x = _tail.width;
             _tail.y = (_tailAutoCenter) ? (height / 2) : _tailLocation;
         }
-        else if (_tailPlacement == "right") 
+        else if (_tailPlacement == BubbleTailLocation.RIGHT) 
         {
             _tail.rotation = -90;
             
@@ -702,6 +702,23 @@ class Bubble extends Overlay implements IBubble implements IOverlay implements I
         }
     }
     
+    private function getTailLoc( value : String ) : BubbleTailLocation {
+
+        switch(value.toLowerCase())
+        {
+            case "top":
+                return BubbleTailLocation.TOP;
+            case "bottom":
+                return BubbleTailLocation.BOTTOM;
+            case "right":
+                return BubbleTailLocation.RIGHT;
+            case "left":
+                return BubbleTailLocation.LEFT;
+
+            default:
+                return BubbleTailLocation.BOTTOM;
+        }
+    }    
     
     private function applyContentMask() : Void
     {

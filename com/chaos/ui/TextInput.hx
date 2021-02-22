@@ -1,5 +1,6 @@
 package com.chaos.ui;
 
+import com.chaos.ui.UIBitmapManager.UIBitmapType;
 import com.chaos.ui.classInterface.IBaseUI;
 import com.chaos.ui.classInterface.ILabel;
 import com.chaos.ui.classInterface.ITextInput;
@@ -20,8 +21,6 @@ import openfl.events.FocusEvent;
  */
 class TextInput extends Label implements ITextInput implements ILabel implements IBaseUI
 {
-	/** The type of UI Element */
-	public static inline var TYPE : String = "TextInput";
 
     /**
 	 * Will upper case first letter on FOCUS_OUT event
@@ -153,7 +152,7 @@ class TextInput extends Label implements ITextInput implements ILabel implements
 
 	override function onStageAdd(event : Event) : Void
 	{
-		UIBitmapManager.watchElement(TYPE, this);
+		UIBitmapManager.watchElement(UIBitmapType.TextInput, this);
 
 		// Check for where user click
 		stage.addEventListener(MouseEvent.MOUSE_DOWN, onInputCheck, false, 0, true);
@@ -161,7 +160,7 @@ class TextInput extends Label implements ITextInput implements ILabel implements
 
 	override function onStageRemove(event : Event) : Void
 	{
-		UIBitmapManager.stopWatchElement(TYPE, this);
+		UIBitmapManager.stopWatchElement(UIBitmapType.TextInput, this);
 
 		// Remove event once gone
 		if (stage.hasEventListener(MouseEvent.MOUSE_DOWN))
@@ -256,17 +255,17 @@ class TextInput extends Label implements ITextInput implements ILabel implements
 	private function initBitmap() : Void
 	{
 
-		if (UIBitmapManager.hasUIElement(TextInput.TYPE, UIBitmapManager.TEXTINPUT_NORMAL))
-			setBackgroundImage(UIBitmapManager.getUIElement(TextInput.TYPE, UIBitmapManager.TEXTINPUT_NORMAL));
+		if (UIBitmapManager.hasUIElement(UIBitmapType.TextInput, UIBitmapManager.TEXTINPUT_NORMAL))
+			setBackgroundImage(UIBitmapManager.getUIElement(UIBitmapType.TextInput, UIBitmapManager.TEXTINPUT_NORMAL));
 
-		if (UIBitmapManager.hasUIElement(TextInput.TYPE, UIBitmapManager.TEXTINPUT_OVER))
-			setOverBackgroundImage(UIBitmapManager.getUIElement(TextInput.TYPE, UIBitmapManager.TEXTINPUT_OVER));
+		if (UIBitmapManager.hasUIElement(UIBitmapType.TextInput, UIBitmapManager.TEXTINPUT_OVER))
+			setOverBackgroundImage(UIBitmapManager.getUIElement(UIBitmapType.TextInput, UIBitmapManager.TEXTINPUT_OVER));
 
-		if (UIBitmapManager.hasUIElement(TextInput.TYPE, UIBitmapManager.TEXTINPUT_SELECTED))
-			setSelectedBackgroundImage(UIBitmapManager.getUIElement(TextInput.TYPE, UIBitmapManager.TEXTINPUT_SELECTED));
+		if (UIBitmapManager.hasUIElement(UIBitmapType.TextInput, UIBitmapManager.TEXTINPUT_SELECTED))
+			setSelectedBackgroundImage(UIBitmapManager.getUIElement(UIBitmapType.TextInput, UIBitmapManager.TEXTINPUT_SELECTED));
 
-		if (UIBitmapManager.hasUIElement(TextInput.TYPE, UIBitmapManager.TEXTINPUT_DISABLE))
-			setDisableBackgroundImage(UIBitmapManager.getUIElement(TextInput.TYPE, UIBitmapManager.TEXTINPUT_DISABLE));
+		if (UIBitmapManager.hasUIElement(UIBitmapType.TextInput, UIBitmapManager.TEXTINPUT_DISABLE))
+			setDisableBackgroundImage(UIBitmapManager.getUIElement(UIBitmapType.TextInput, UIBitmapManager.TEXTINPUT_DISABLE));
 		
 	}
 

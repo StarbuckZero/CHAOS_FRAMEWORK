@@ -19,9 +19,6 @@ import openfl.events.Event;
 class CheckBox extends SelectToggleBase implements ICheckBox implements IBaseUI
 {
 
-	/** The type of UI Element */
-	public static inline var TYPE : String = "CheckBox";
-
 	/** X or checkmark to be used in default draw mode **/
 	public var style(get, set) : String;
 	
@@ -80,23 +77,23 @@ class CheckBox extends SelectToggleBase implements ICheckBox implements IBaseUI
 			Reflect.setField(_labelData, "italic", false);
 	}
 
-	override function onStageAdd(event : Event) : Void { UIBitmapManager.watchElement(TYPE, this); }
-	override function onStageRemove(event : Event) : Void { UIBitmapManager.stopWatchElement(TYPE, this); }
+	override function onStageAdd(event : Event) : Void { UIBitmapManager.watchElement(UIBitmapType.CheckBox, this); }
+	override function onStageRemove(event : Event) : Void { UIBitmapManager.stopWatchElement(UIBitmapType.CheckBox, this); }
 	
 	override private function initSkin() : Void
 	{
 		// Skin element
-		if (UIBitmapManager.hasUIElement(CheckBox.TYPE, UIBitmapManager.CHECKBOX_NORMAL))
-			setDefaultStateImage(UIBitmapManager.getUIElement(CheckBox.TYPE, UIBitmapManager.CHECKBOX_NORMAL));
+		if (UIBitmapManager.hasUIElement(UIBitmapType.CheckBox, UIBitmapManager.CHECKBOX_NORMAL))
+			setDefaultStateImage(UIBitmapManager.getUIElement(UIBitmapType.CheckBox, UIBitmapManager.CHECKBOX_NORMAL));
 
-		if (UIBitmapManager.hasUIElement(CheckBox.TYPE, UIBitmapManager.CHECKBOX_OVER))
-			setOverStateImage(UIBitmapManager.getUIElement(CheckBox.TYPE, UIBitmapManager.CHECKBOX_OVER));
+		if (UIBitmapManager.hasUIElement(UIBitmapType.CheckBox, UIBitmapManager.CHECKBOX_OVER))
+			setOverStateImage(UIBitmapManager.getUIElement(UIBitmapType.CheckBox, UIBitmapManager.CHECKBOX_OVER));
 
-		if (UIBitmapManager.hasUIElement(CheckBox.TYPE, UIBitmapManager.CHECKBOX_DOWN))
-			setDownStateImage(UIBitmapManager.getUIElement(CheckBox.TYPE, UIBitmapManager.CHECKBOX_DOWN));
+		if (UIBitmapManager.hasUIElement(UIBitmapType.CheckBox, UIBitmapManager.CHECKBOX_DOWN))
+			setDownStateImage(UIBitmapManager.getUIElement(UIBitmapType.CheckBox, UIBitmapManager.CHECKBOX_DOWN));
 
-		if (UIBitmapManager.hasUIElement(CheckBox.TYPE, UIBitmapManager.CHECKBOX_DISABLE))
-			setDisableStateImage(UIBitmapManager.getUIElement(CheckBox.TYPE, UIBitmapManager.CHECKBOX_DISABLE));
+		if (UIBitmapManager.hasUIElement(UIBitmapType.CheckBox, UIBitmapManager.CHECKBOX_DISABLE))
+			setDisableStateImage(UIBitmapManager.getUIElement(UIBitmapType.CheckBox, UIBitmapManager.CHECKBOX_DISABLE));
 	}
 
 	override private function initStyle() : Void
@@ -146,17 +143,17 @@ class CheckBox extends SelectToggleBase implements ICheckBox implements IBaseUI
 		var radioButtonOffSetX : Int = UIStyleManager.hasStyle(UIStyleManager.RADIOBUTTON_LABEL_OFFSET_X) ? UIStyleManager.getStyle(UIStyleManager.RADIOBUTTON_LABEL_OFFSET_X) : 0;
 		var radioButtonOffSetY : Int = UIStyleManager.hasStyle(UIStyleManager.RADIOBUTTON_LABEL_OFFSET_Y) ? UIStyleManager.getStyle(UIStyleManager.RADIOBUTTON_LABEL_OFFSET_Y) : 0;
 
-        if(_useCustomRender && UIBitmapManager.hasCustomRenderTexture(CheckBox.TYPE) && _width > 0 && _height > 0) {
+        if(_useCustomRender && UIBitmapManager.hasCustomRenderTexture(UIBitmapType.CheckBox) && _width > 0 && _height > 0) {
 
-            _defaultStateImage = UIBitmapManager.runCustomRender(CheckBox.TYPE,{"width":_buttonSize,"height":_buttonSize,"state":"default","style":_style});
-            _overStateImage = UIBitmapManager.runCustomRender(CheckBox.TYPE,{"width":_buttonSize,"height":_buttonSize,"state":"over","style":_style});
-            _downStateImage = UIBitmapManager.runCustomRender(CheckBox.TYPE,{"width":_buttonSize,"height":_buttonSize,"state":"selected","style":_style});
-			_disableStateImage = UIBitmapManager.runCustomRender(CheckBox.TYPE,{"width":_buttonSize,"height":_buttonSize,"state":"disable","style":_style});
+            _defaultStateImage = UIBitmapManager.runCustomRender(UIBitmapType.CheckBox,{"width":_buttonSize,"height":_buttonSize,"state":"default","style":_style});
+            _overStateImage = UIBitmapManager.runCustomRender(UIBitmapType.CheckBox,{"width":_buttonSize,"height":_buttonSize,"state":"over","style":_style});
+            _downStateImage = UIBitmapManager.runCustomRender(UIBitmapType.CheckBox,{"width":_buttonSize,"height":_buttonSize,"state":"selected","style":_style});
+			_disableStateImage = UIBitmapManager.runCustomRender(UIBitmapType.CheckBox,{"width":_buttonSize,"height":_buttonSize,"state":"disable","style":_style});
 			
-            _selectedDefaultStateImage = UIBitmapManager.runCustomRender(CheckBox.TYPE,{"width":_buttonSize,"height":_buttonSize,"state":"default","style":_style});
-            _selectedOverStateImage = UIBitmapManager.runCustomRender(CheckBox.TYPE,{"width":_buttonSize,"height":_buttonSize,"state":"over","style":_style});
-            _selectedDownStateImage = UIBitmapManager.runCustomRender(CheckBox.TYPE,{"width":_buttonSize,"height":_buttonSize,"state":"selected","style":_style});
-			_selectedDisableStateImage = UIBitmapManager.runCustomRender(CheckBox.TYPE,{"width":_buttonSize,"height":_buttonSize,"state":"disable","style":_style});
+            _selectedDefaultStateImage = UIBitmapManager.runCustomRender(UIBitmapType.CheckBox,{"width":_buttonSize,"height":_buttonSize,"state":"default","style":_style});
+            _selectedOverStateImage = UIBitmapManager.runCustomRender(UIBitmapType.CheckBox,{"width":_buttonSize,"height":_buttonSize,"state":"over","style":_style});
+            _selectedDownStateImage = UIBitmapManager.runCustomRender(UIBitmapType.CheckBox,{"width":_buttonSize,"height":_buttonSize,"state":"selected","style":_style});
+			_selectedDisableStateImage = UIBitmapManager.runCustomRender(UIBitmapType.CheckBox,{"width":_buttonSize,"height":_buttonSize,"state":"disable","style":_style});
 			
 		}
 

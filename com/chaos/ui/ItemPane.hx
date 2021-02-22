@@ -27,10 +27,7 @@ import openfl.text.Font;
 
 class ItemPane extends ScrollPane implements IItemPane implements IScrollPane implements IBaseUI
 {
-	
-    /** The type of UI Element */
-    public static inline var TYPE : String = "ItemPane";
-	
+		
     /**
 	 * Set the width of the item block size
 	 */
@@ -260,32 +257,32 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
     
     override private function onStageAdd(event : Event) : Void
     {
-        UIBitmapManager.watchElement(TYPE, this);
+        UIBitmapManager.watchElement(UIBitmapType.ItemPane, this);
     }
     
    override private function onStageRemove(event : Event) : Void
     {
-        UIBitmapManager.stopWatchElement(TYPE, this);
+        UIBitmapManager.stopWatchElement(UIBitmapType.ItemPane, this);
     }
     
     override private function initUISkin() : Void
     {
 		super.initUISkin();
 		
-        if (UIBitmapManager.hasUIElement(ItemPane.TYPE, UIBitmapManager.ITEMPANE_BACKGROUND)) 
-            setBackgroundImage(UIBitmapManager.getUIElement(ItemPane.TYPE, UIBitmapManager.ITEMPANE_BACKGROUND));
+        if (UIBitmapManager.hasUIElement(UIBitmapType.ItemPane, UIBitmapManager.ITEMPANE_BACKGROUND)) 
+            setBackgroundImage(UIBitmapManager.getUIElement(UIBitmapType.ItemPane, UIBitmapManager.ITEMPANE_BACKGROUND));
         
-        if (UIBitmapManager.hasUIElement(ItemPane.TYPE, UIBitmapManager.ITEMPANE_ITEM_NORMAL)) 
-            setNormalItem(UIBitmapManager.getUIElement(ItemPane.TYPE, UIBitmapManager.ITEMPANE_ITEM_NORMAL));
+        if (UIBitmapManager.hasUIElement(UIBitmapType.ItemPane, UIBitmapManager.ITEMPANE_ITEM_NORMAL)) 
+            setNormalItem(UIBitmapManager.getUIElement(UIBitmapType.ItemPane, UIBitmapManager.ITEMPANE_ITEM_NORMAL));
         
-        if (UIBitmapManager.hasUIElement(ItemPane.TYPE, UIBitmapManager.ITEMPANE_ITEM_OVER)) 
-            setOverItem(UIBitmapManager.getUIElement(ItemPane.TYPE, UIBitmapManager.ITEMPANE_ITEM_OVER));
+        if (UIBitmapManager.hasUIElement(UIBitmapType.ItemPane, UIBitmapManager.ITEMPANE_ITEM_OVER)) 
+            setOverItem(UIBitmapManager.getUIElement(UIBitmapType.ItemPane, UIBitmapManager.ITEMPANE_ITEM_OVER));
         
-        if (UIBitmapManager.hasUIElement(ItemPane.TYPE, UIBitmapManager.ITEMPANE_ITEM_SELECTED)) 
-            setSelectedItem(UIBitmapManager.getUIElement(ItemPane.TYPE, UIBitmapManager.ITEMPANE_ITEM_SELECTED));
+        if (UIBitmapManager.hasUIElement(UIBitmapType.ItemPane, UIBitmapManager.ITEMPANE_ITEM_SELECTED)) 
+            setSelectedItem(UIBitmapManager.getUIElement(UIBitmapType.ItemPane, UIBitmapManager.ITEMPANE_ITEM_SELECTED));
         
-        if (UIBitmapManager.hasUIElement(ItemPane.TYPE, UIBitmapManager.ITEMPANE_ITEM_DISABLE)) 
-            setDisableItem(UIBitmapManager.getUIElement(ItemPane.TYPE, UIBitmapManager.ITEMPANE_ITEM_DISABLE));
+        if (UIBitmapManager.hasUIElement(UIBitmapType.ItemPane, UIBitmapManager.ITEMPANE_ITEM_DISABLE)) 
+            setDisableItem(UIBitmapManager.getUIElement(UIBitmapType.ItemPane, UIBitmapManager.ITEMPANE_ITEM_DISABLE));
     }
     
     override private function initStyle() : Void

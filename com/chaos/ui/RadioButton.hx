@@ -19,9 +19,6 @@ import openfl.events.Event;
 class RadioButton extends SelectToggleBase implements IRadioButton implements IBaseUI
 {
 
-	/** The type of UI Element */
-	public static inline var TYPE : String = "RadioButton";
-
 	/**
 	 * Name of group this button will be linked to
 	 */
@@ -101,24 +98,24 @@ class RadioButton extends SelectToggleBase implements IRadioButton implements IB
 	
 	
 
-	override function onStageAdd(event : Event) : Void { UIBitmapManager.watchElement(TYPE, this); }
-	override function onStageRemove(event : Event) : Void { UIBitmapManager.stopWatchElement(TYPE, this); }
+	override function onStageAdd(event : Event) : Void { UIBitmapManager.watchElement(UIBitmapType.RadioButton, this); }
+	override function onStageRemove(event : Event) : Void { UIBitmapManager.stopWatchElement(UIBitmapType.RadioButton, this); }
 
 
 	override private function initSkin() : Void
 	{
 		// Skin element
-		if (UIBitmapManager.hasUIElement(RadioButton.TYPE, UIBitmapManager.RADIOBUTTON_NORMAL))
-			setDefaultStateImage(UIBitmapManager.getUIElement(CheckBox.TYPE, UIBitmapManager.RADIOBUTTON_NORMAL));
+		if (UIBitmapManager.hasUIElement(UIBitmapType.RadioButton, UIBitmapManager.RADIOBUTTON_NORMAL))
+			setDefaultStateImage(UIBitmapManager.getUIElement(UIBitmapType.RadioButton, UIBitmapManager.RADIOBUTTON_NORMAL));
 
-		if (UIBitmapManager.hasUIElement(RadioButton.TYPE, UIBitmapManager.RADIOBUTTON_OVER))
-			setOverStateImage(UIBitmapManager.getUIElement(RadioButton.TYPE, UIBitmapManager.RADIOBUTTON_OVER));
+		if (UIBitmapManager.hasUIElement(UIBitmapType.RadioButton, UIBitmapManager.RADIOBUTTON_OVER))
+			setOverStateImage(UIBitmapManager.getUIElement(UIBitmapType.RadioButton, UIBitmapManager.RADIOBUTTON_OVER));
 
-		if (UIBitmapManager.hasUIElement(RadioButton.TYPE, UIBitmapManager.RADIOBUTTON_DOWN))
-			setDownStateImage(UIBitmapManager.getUIElement(RadioButton.TYPE, UIBitmapManager.RADIOBUTTON_DOWN));
+		if (UIBitmapManager.hasUIElement(UIBitmapType.RadioButton, UIBitmapManager.RADIOBUTTON_DOWN))
+			setDownStateImage(UIBitmapManager.getUIElement(UIBitmapType.RadioButton, UIBitmapManager.RADIOBUTTON_DOWN));
 
-		if (UIBitmapManager.hasUIElement(RadioButton.TYPE, UIBitmapManager.RADIOBUTTON_DISABLE))
-			setDisableStateImage(UIBitmapManager.getUIElement(RadioButton.TYPE, UIBitmapManager.RADIOBUTTON_DISABLE));
+		if (UIBitmapManager.hasUIElement(UIBitmapType.RadioButton, UIBitmapManager.RADIOBUTTON_DISABLE))
+			setDisableStateImage(UIBitmapManager.getUIElement(UIBitmapType.RadioButton, UIBitmapManager.RADIOBUTTON_DISABLE));
 	}
 
 	override private function initStyle() : Void
@@ -201,17 +198,17 @@ class RadioButton extends SelectToggleBase implements IRadioButton implements IB
 	override public function draw():Void 
 	{
 
-        if(_useCustomRender && UIBitmapManager.hasCustomRenderTexture(RadioButton.TYPE) && _width > 0 && _height > 0) {
+        if(_useCustomRender && UIBitmapManager.hasCustomRenderTexture(UIBitmapType.RadioButton) && _width > 0 && _height > 0) {
 
-            _defaultStateImage = UIBitmapManager.runCustomRender(RadioButton.TYPE,{"width":_buttonSize,"height":_buttonSize,"state":"default"});
-            _overStateImage = UIBitmapManager.runCustomRender(RadioButton.TYPE,{"width":_buttonSize,"height":_buttonSize,"state":"over"});
-            _downStateImage = UIBitmapManager.runCustomRender(RadioButton.TYPE,{"width":_buttonSize,"height":_buttonSize,"state":"selected"});
-			_disableStateImage = UIBitmapManager.runCustomRender(RadioButton.TYPE,{"width":_buttonSize,"height":_buttonSize,"state":"disable"});
+            _defaultStateImage = UIBitmapManager.runCustomRender(UIBitmapType.RadioButton,{"width":_buttonSize,"height":_buttonSize,"state":"default"});
+            _overStateImage = UIBitmapManager.runCustomRender(UIBitmapType.RadioButton,{"width":_buttonSize,"height":_buttonSize,"state":"over"});
+            _downStateImage = UIBitmapManager.runCustomRender(UIBitmapType.RadioButton,{"width":_buttonSize,"height":_buttonSize,"state":"selected"});
+			_disableStateImage = UIBitmapManager.runCustomRender(UIBitmapType.RadioButton,{"width":_buttonSize,"height":_buttonSize,"state":"disable"});
 			
-            _selectedDefaultStateImage = UIBitmapManager.runCustomRender(RadioButton.TYPE,{"width":_buttonSize,"height":_buttonSize,"state":"default"});
-            _selectedOverStateImage = UIBitmapManager.runCustomRender(RadioButton.TYPE,{"width":_buttonSize,"height":_buttonSize,"state":"over"});
-            _selectedDownStateImage = UIBitmapManager.runCustomRender(RadioButton.TYPE,{"width":_buttonSize,"height":_buttonSize,"state":"selected"});
-			_selectedDisableStateImage = UIBitmapManager.runCustomRender(RadioButton.TYPE,{"width":_buttonSize,"height":_buttonSize,"state":"disable"});
+            _selectedDefaultStateImage = UIBitmapManager.runCustomRender(UIBitmapType.RadioButton,{"width":_buttonSize,"height":_buttonSize,"state":"default"});
+            _selectedOverStateImage = UIBitmapManager.runCustomRender(UIBitmapType.RadioButton,{"width":_buttonSize,"height":_buttonSize,"state":"over"});
+            _selectedDownStateImage = UIBitmapManager.runCustomRender(UIBitmapType.RadioButton,{"width":_buttonSize,"height":_buttonSize,"state":"selected"});
+			_selectedDisableStateImage = UIBitmapManager.runCustomRender(UIBitmapType.RadioButton,{"width":_buttonSize,"height":_buttonSize,"state":"disable"});
 			
 		} 
 

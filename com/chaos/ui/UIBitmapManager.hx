@@ -245,29 +245,29 @@ class UIBitmapManager {
 	private static var customRender:Dynamic;
 
     /** Components that will be used for skinning **/
-	private static var componentNameList:Array<String> = [
-		Alert.TYPE,
-		Accordion.TYPE,
-		Bubble.TYPE,
-		Button.TYPE,
-		ToggleButton.TYPE,
-		CheckBox.TYPE,
-        ComboBox.TYPE,
-        Label.TYPE,
-        ListBox.TYPE,
-        ProgressBar.TYPE,
-        RadioButton.TYPE,
-        ScrollBar.TYPE,
-        ScrollPane.TYPE,
-        Slider.TYPE,
-        TabPane.TYPE,
-        TextInput.TYPE,
-        Window.TYPE,
-        ItemPane.TYPE,
-        GridPane.TYPE,
-        ProgressSlider.TYPE,
-        Menu.TYPE
-	];
+	// private static var componentNameList:Array<String> = [
+	// 	Alert.TYPE,
+	// 	Accordion.TYPE,
+	// 	Bubble.TYPE,
+	// 	Button.TYPE,
+	// 	ToggleButton.TYPE,
+	// 	CheckBox.TYPE,
+    //     ComboBox.TYPE,
+    //     Label.TYPE,
+    //     ListBox.TYPE,
+    //     ProgressBar.TYPE,
+    //     RadioButton.TYPE,
+    //     ScrollBar.TYPE,
+    //     ScrollPane.TYPE,
+    //     Slider.TYPE,
+    //     TabPane.TYPE,
+    //     TextInput.TYPE,
+    //     Window.TYPE,
+    //     ItemPane.TYPE,
+    //     GridPane.TYPE,
+    //     ProgressSlider.TYPE,
+    //     Menu.TYPE
+	// ];
 
 	public function new() {}
 
@@ -275,17 +275,25 @@ class UIBitmapManager {
         skinTheme = {};
          
         // Setting up to store bitmaps for all components
-        for( i in 0 ... componentNameList.length)
-            Reflect.setField(skinTheme, componentNameList[i], {});
+		for( compType in Type.allEnums(UIBitmapType))
+			Reflect.setField(skinTheme, compType.getName(), {});
+
+        // for( i in 0 ... componentNameList.length)
+        //     Reflect.setField(skinTheme, componentNameList[i], {});
 
         watchList = {};
         
         // Setting up to store bitmaps for all components
-        for( i in 0 ... componentNameList.length)
-            Reflect.setField(watchList, componentNameList[i], new DataProvider<IBaseUI>());
+		for( compType in Type.allEnums(UIBitmapType))
+			Reflect.setField(watchList, compType.getName(), new DataProvider<IBaseUI>());		
+
+        // for( i in 0 ... componentNameList.length)
+        //     Reflect.setField(watchList, componentNameList[i], new DataProvider<IBaseUI>());
 
 		// Custom bitmap calls
 		customRender = {};
+		
+
 		
 		initialized = true;
 	}
@@ -296,15 +304,15 @@ class UIBitmapManager {
 	 * @param 	UITypeElement The UI class type
 	 * @param	displayObj The UI class that will be watched
 	 */
-	public static function watchElement(UITypeElement:String, displayObj:IBaseUI):Void {
+	public static function watchElement(UIType:UIBitmapType, displayObj:IBaseUI):Void {
 		// Make sure everything is setup
 		if (!initialized)
 			initializeManager();
 
 		try {
-			Reflect.field(watchList, UITypeElement).addItem(displayObj);
+			Reflect.field(watchList, UIType.getName()).addItem(displayObj);
 		} catch (error:Error) {
-			Debug.print("[UIBitmapManager::watchElement] Fail to add object type " + UITypeElement + " to watch list.");
+			Debug.print("[UIBitmapManager::watchElement] Fail to add object type " + UIType.getName() + " to watch list.");
 		}
 	}
 
@@ -314,15 +322,15 @@ class UIBitmapManager {
 	 * @param	UITypeElement The UI class type
 	 * @param	displayObj The UI class that will be watched
 	 */
-	public static function stopWatchElement(UITypeElement:String, displayObj:DisplayObject):Void {
+	public static function stopWatchElement(UIType:UIBitmapType, displayObj:DisplayObject):Void {
 		// Make sure everything is setup
 		if (!initialized)
 			initializeManager();
 
 		try {
-			Reflect.field(watchList, UITypeElement).removeItem(displayObj);
+			Reflect.field(watchList, UIType.getName()).removeItem(displayObj);
 		} catch (error:Error) {
-			Debug.print("[UIBitmapManager::stopWatchElement] Fail to remove object type " + UITypeElement + " to watch list.");
+			Debug.print("[UIBitmapManager::stopWatchElement] Fail to remove object type " + UIType.getName() + " to watch list.");
 		}
 	}
 
@@ -331,12 +339,12 @@ class UIBitmapManager {
 	 *
 	 * @param	UITypeElement
 	 */
-	public static function updateUIElement(UITypeElement:String):Void {
+	public static function updateUIElement(UIType:UIBitmapType):Void {
 		
 		if(watchList == null)
 			return;
 		
-		var uiList:DataProvider<IBaseUI> = Reflect.field(watchList, UITypeElement);
+		var uiList:DataProvider<IBaseUI> = Reflect.field(watchList, UIType.getName());
 
 		for (i in 0...uiList.length) {
 			cast(uiList.getItemAt(i), IBaseUI).reskin();
@@ -350,8 +358,8 @@ class UIBitmapManager {
 
 	public static function updateAllUIElement() {
 		
-		for(i in 0 ... componentNameList.length)
-			updateUIElement(componentNameList[i]);
+		for( compType in Type.allEnums(UIBitmapType))
+			updateUIElement(compType);
 	}
 
 	/**
@@ -360,13 +368,13 @@ class UIBitmapManager {
 	 * @param	UITypeElement The type of UI Element
 	 * @param	style The part of the UI Element you want to skin
 	*/
-	public static function hasUIElement(UITypeElement:String, style:String) : Bool {
+	public static function hasUIElement(UIType:UIBitmapType, style:String) : Bool {
 
 		// Make sure everything is setup
 		if (!initialized)
 			initializeManager();
 				
-		return Reflect.hasField(Reflect.field(skinTheme, UITypeElement), style);
+		return Reflect.hasField(Reflect.field(skinTheme, UIType.getName()), style);
 	}
 
 	/**
@@ -379,16 +387,16 @@ class UIBitmapManager {
 	 *
 	 * @example UIBitmapManager.setUIElement(Button.TYPE, UIBitmapManager.BUTTON_NORMAL, btnNormalImageBitmap );
 	 */
-	public static function setUIElement(UITypeElement:String, style:String, bitmap:BitmapData, updateElement:Bool = true):Void {
+	public static function setUIElement(UIType:UIBitmapType, style:String, bitmap:BitmapData, updateElement:Bool = true):Void {
 		// Make sure everything is setup
 		if (!initialized)
 			initializeManager();
 
-		Reflect.setField(Reflect.field(skinTheme, UITypeElement), style, bitmap);
+		Reflect.setField(Reflect.field(UIType.getName(), UIType.getName()), style, bitmap);
 
 		// Update UI Elements based on type
 		if (updateElement)
-			updateUIElement(UITypeElement);
+			updateUIElement(UIType);
 	}
 
 	/**
@@ -398,12 +406,12 @@ class UIBitmapManager {
 	 * @param	style The part of the UI Element you want to skin
 	 * @param	mask Any form of a DisplayObject you want to use for a mask
 	 */
-	public static function setUIElementMask(UITypeElement:String, style:String, mask:DisplayObject):Void {
+	public static function setUIElementMask(UIType:UIBitmapType, style:String, mask:DisplayObject):Void {
 		// Make sure everything is setup
 		if (!initialized)
 			initializeManager();
 
-		Reflect.setField(Reflect.field(skinTheme, UITypeElement), style, mask);
+		Reflect.setField(Reflect.field(skinTheme, UIType.getName()), style, mask);
 	}
 
 	/**
@@ -416,13 +424,13 @@ class UIBitmapManager {
 	 *
 	 * @example UIBitmapManager.getUIElement(CheckBox.TYPE, UIBitmapManager.CHECK_BUTTON_NORMAL );
 	 */
-	public static function getUIElement(UITypeElement:String, style:String):BitmapData {
+	public static function getUIElement(UIType:UIBitmapType, style:String):BitmapData {
+
 		// Make sure everything is setup
 		if (!initialized)
 			initializeManager();
 
-		var bitmapData:BitmapData = ((null == Reflect.field(Reflect.field(skinTheme, UITypeElement),
-			style))) ? null : Reflect.field(Reflect.field(skinTheme, UITypeElement), style);
+		var bitmapData:BitmapData = Reflect.hasField(Reflect.field(skinTheme, UIType.getName()), style) ? Reflect.field(Reflect.field(skinTheme, UIType.getName()), style) : null;
 
 		if(null != bitmapData)
 			return bitmapData.clone();
@@ -440,12 +448,13 @@ class UIBitmapManager {
 	 *
 	 * @example UIBitmapManager.getUIElementMask(CheckBox.TYPE, UIBitmapManager.CHECK_BUTTON_NORMAL );
 	 */
-	public static function getUIElementMask(UITypeElement:String, style:String):DisplayObject {
+	public static function getUIElementMask(UIType:UIBitmapType, style:String):DisplayObject {
+
 		// Make sure everything is setup
 		if (!initialized)
 			initializeManager();
 
-		return ((null == Reflect.field(Reflect.field(skinTheme, UITypeElement), style))) ? null : Reflect.field(Reflect.field(skinTheme, UITypeElement), style);
+		return Reflect.hasField(Reflect.field(skinTheme, UIType.getName()), style) ? Reflect.field(Reflect.field(skinTheme, UIType.getName()), style) : null;
 	}
 
 	/**
@@ -456,13 +465,13 @@ class UIBitmapManager {
 	 *
 	 * @example UIBitmapManager.removeUIElement(CheckBox.TYPE, UIBitmapManager.CHECK_BUTTON_NORMAL );
 	 */
-	public static function removeUIElement(UIElement:String, type:String):Void {
+	public static function removeUIElement(UIType:UIBitmapType, type:String):Void {
 
 		// Make sure everything is setup
 		if (!initialized)
 			initializeManager();
 
-		Reflect.deleteField(Reflect.field(skinTheme, UIElement), type);
+		Reflect.deleteField(Reflect.field(skinTheme, UIType.getName()), type);
 	}
 
 	/**
@@ -471,7 +480,13 @@ class UIBitmapManager {
 	 * @return an array filled with names
 	 */
 	public static function getUIElementNameList():Array<String> {
-		return componentNameList;
+
+		var list:Array<String> = new Array<String>();
+
+		for( compType in Type.allEnums(UIBitmapType))
+			list.push(compType.getName());
+
+		return list;
 	}
 
 	/**
@@ -480,12 +495,12 @@ class UIBitmapManager {
 	*
 	* @return Will return true if custom render was found
 	**/
-	public static function hasCustomRenderTexture(UIElement:String) : Bool {
+	public static function hasCustomRenderTexture(UIElement:UIBitmapType) : Bool {
 		// Make sure everything is setup
 		if (!initialized)
 			initializeManager();
 
-		return Reflect.hasField(customRender,UIElement);
+		return Reflect.hasField(customRender,UIElement.getName());
 		
 	}
 
@@ -493,26 +508,26 @@ class UIBitmapManager {
 	* Add custom function call that will be used in component when going to
 	**/
 
-	public static function addCustomRenderTexture(UIElement:String, cr:Dynamic->BitmapData ) : Void {
+	public static function addCustomRenderTexture(UIElement:UIBitmapType, cr:Dynamic->BitmapData ) : Void {
 		
 		// Make sure everything is setup
 		if (!initialized)
 			initializeManager();
 
-		Reflect.setField(customRender, UIElement, cr);
+		Reflect.setField(customRender, UIElement.getName(), cr);
 	}
 
 	/**
 	* Remove CustomRender
 	* @param	UIElement The type of UI Element	
 	**/
-	public static function removeCustomRenderTexture(UIElement:String) : Void {
+	public static function removeCustomRenderTexture(UIType:UIBitmapType) : Void {
 
 		// Make sure everything is setup
 		if (!initialized)
 			initializeManager();
 
-		Reflect.deleteField(customRender, UIElement);
+		Reflect.deleteField(customRender, UIType.getName());
 	}
 
 	/**
@@ -522,13 +537,37 @@ class UIBitmapManager {
 	* @return Will return true if custom render was found
 	**/
 
-	public static function runCustomRender(UIElement:String, data:Dynamic) : BitmapData {
+	public static function runCustomRender(UIElement:UIBitmapType, data:Dynamic) : BitmapData {
 
 		// Make sure everything is setup
 		if (!initialized)
 			initializeManager();
 
-		var cr:Dynamic->BitmapData = Reflect.field(customRender,UIElement);
+		var cr:Dynamic->BitmapData = Reflect.field(customRender,UIElement.getName());
 		return cr(data);
 	}
+}
+
+enum UIBitmapType {
+	Alert;
+	Accordion;
+	Bubble;
+	Button;
+	ToggleButton;
+	CheckBox;
+	ComboBox;
+	Label;
+	ListBox;
+	ProgressBar;
+	ProgressSlider;
+	RadioButton;
+	ScrollBar;
+	ScrollPane;
+	Slider;
+	TabPane;
+	TextInput;
+	Window;
+	ItemPane;
+	GridPane;
+	Menu;
 }

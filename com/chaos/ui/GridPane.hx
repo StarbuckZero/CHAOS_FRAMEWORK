@@ -47,8 +47,6 @@ import openfl.display.Sprite;
 
 class GridPane extends ScrollPane implements IGridPane implements IScrollPane implements IBaseContainer implements IBaseUI
 {
-    /** The type of UI Element */
-    public static inline var TYPE : String = "GridPane";
 	
     public var selectedRow(get, set) : Int;
     public var selectedCol(get, set) : Int;

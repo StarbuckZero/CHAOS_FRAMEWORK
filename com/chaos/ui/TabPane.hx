@@ -21,10 +21,7 @@ import com.chaos.ui.UIBitmapManager;
 
 class TabPane extends BaseUI implements ITabPane implements IBaseUI
 {
-	
-	/** The type of UI Element */
-	public static inline var TYPE : String = "TabPane";
-	
+		
 	/**
 	 * Return ScrollPane that content is loaded in for each tab
 	 */
@@ -156,8 +153,8 @@ class TabPane extends BaseUI implements ITabPane implements IBaseUI
 			
 	}
 
-	private function onStageAdd(event : Event) : Void { UIBitmapManager.watchElement(TYPE, this); }
-	private function onStageRemove(event : Event) : Void { UIBitmapManager.stopWatchElement(TYPE, this); }
+	private function onStageAdd(event : Event) : Void { UIBitmapManager.watchElement(UIBitmapType.TabPane, this); }
+	private function onStageRemove(event : Event) : Void { UIBitmapManager.stopWatchElement(UIBitmapType.TabPane, this); }
 	
 	/**
 	 * initialize all importain objects
@@ -185,21 +182,21 @@ class TabPane extends BaseUI implements ITabPane implements IBaseUI
 	private function initSkin() : Void
 	{
 		// Background
-		if (UIBitmapManager.hasUIElement(TabPane.TYPE, UIBitmapManager.TABPANE_BACKGROUND))
-			_scrollPane.setBackgroundImage(UIBitmapManager.getUIElement(ScrollPane.TYPE, UIBitmapManager.TABPANE_BACKGROUND));
+		if (UIBitmapManager.hasUIElement(UIBitmapType.TabPane, UIBitmapManager.TABPANE_BACKGROUND))
+			_scrollPane.setBackgroundImage(UIBitmapManager.getUIElement(UIBitmapType.TabPane, UIBitmapManager.TABPANE_BACKGROUND));
 
 		// Buttons
-		if (UIBitmapManager.hasUIElement(TabPane.TYPE, UIBitmapManager.TABPANE_BUTTON_NORMAL))
-			setTabButtonDefaultImage(UIBitmapManager.getUIElement(TabPane.TYPE, UIBitmapManager.TABPANE_BUTTON_NORMAL));
+		if (UIBitmapManager.hasUIElement(UIBitmapType.TabPane, UIBitmapManager.TABPANE_BUTTON_NORMAL))
+			setTabButtonDefaultImage(UIBitmapManager.getUIElement(UIBitmapType.TabPane, UIBitmapManager.TABPANE_BUTTON_NORMAL));
 
-		if (UIBitmapManager.hasUIElement(TabPane.TYPE, UIBitmapManager.TABPANE_BUTTON_OVER))
-			setTabButtonOverImage(UIBitmapManager.getUIElement(TabPane.TYPE, UIBitmapManager.TABPANE_BUTTON_OVER));
+		if (UIBitmapManager.hasUIElement(UIBitmapType.TabPane, UIBitmapManager.TABPANE_BUTTON_OVER))
+			setTabButtonOverImage(UIBitmapManager.getUIElement(UIBitmapType.TabPane, UIBitmapManager.TABPANE_BUTTON_OVER));
 
-		if ( UIBitmapManager.hasUIElement(TabPane.TYPE, UIBitmapManager.TABPANE_BUTTON_SELECTED))
-			setTabButtonDownImage(UIBitmapManager.getUIElement(TabPane.TYPE, UIBitmapManager.TABPANE_BUTTON_SELECTED));
+		if ( UIBitmapManager.hasUIElement(UIBitmapType.TabPane, UIBitmapManager.TABPANE_BUTTON_SELECTED))
+			setTabButtonDownImage(UIBitmapManager.getUIElement(UIBitmapType.TabPane, UIBitmapManager.TABPANE_BUTTON_SELECTED));
 
-		if (UIBitmapManager.hasUIElement(TabPane.TYPE, UIBitmapManager.TABPANE_BUTTON_DISABLE))
-			setTabButtonDisableImage(UIBitmapManager.getUIElement(TabPane.TYPE, UIBitmapManager.TABPANE_BUTTON_DISABLE));
+		if (UIBitmapManager.hasUIElement(UIBitmapType.TabPane, UIBitmapManager.TABPANE_BUTTON_DISABLE))
+			setTabButtonDisableImage(UIBitmapManager.getUIElement(UIBitmapType.TabPane, UIBitmapManager.TABPANE_BUTTON_DISABLE));
 	}
 
 	private function initStyle() : Void
@@ -645,14 +642,14 @@ class TabPane extends BaseUI implements ITabPane implements IBaseUI
 			button.y = 0;
 			
 			// Check to see if Custom Texture will need to be used first
-			if(_useCustomRender && UIBitmapManager.hasCustomRenderTexture(TabPane.TYPE) && button.width > 0 && button.height > 0) {
+			if(_useCustomRender && UIBitmapManager.hasCustomRenderTexture(UIBitmapType.TabPane) && button.width > 0 && button.height > 0) {
 
 				button.useCustomRender = false;
 				
-				_tabButtonDefaultImage = UIBitmapManager.runCustomRender(TabPane.TYPE,{"width":button.width,"height":button.height,"state":"default"});
-				_tabButtonOverImage = UIBitmapManager.runCustomRender(TabPane.TYPE,{"width":button.width,"height":button.height,"state":"over"});
-				_tabButtonDownImage = UIBitmapManager.runCustomRender(TabPane.TYPE,{"width":button.width,"height":button.height,"state":"down"});
-				_tabButtonDisableImage = UIBitmapManager.runCustomRender(TabPane.TYPE,{"width":button.width,"height":button.height,"state":"disable"});				
+				_tabButtonDefaultImage = UIBitmapManager.runCustomRender(UIBitmapType.TabPane,{"width":button.width,"height":button.height,"state":"default"});
+				_tabButtonOverImage = UIBitmapManager.runCustomRender(UIBitmapType.TabPane,{"width":button.width,"height":button.height,"state":"over"});
+				_tabButtonDownImage = UIBitmapManager.runCustomRender(UIBitmapType.TabPane,{"width":button.width,"height":button.height,"state":"down"});
+				_tabButtonDisableImage = UIBitmapManager.runCustomRender(UIBitmapType.TabPane,{"width":button.width,"height":button.height,"state":"disable"});				
 			}  
 
 			button.textColor = _tabButtonTextColor;

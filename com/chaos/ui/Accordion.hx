@@ -6,6 +6,7 @@ import com.chaos.ui.classInterface.IButton;
 import com.chaos.ui.data.AccordionObjectData;
 import com.chaos.ui.layout.BaseContainer;
 import com.chaos.ui.layout.classInterface.IBaseContainer;
+import com.chaos.ui.UIBitmapManager;
 import openfl.display.BitmapData;
 import openfl.display.DisplayObject;
 import openfl.events.Event;
@@ -17,8 +18,6 @@ import openfl.events.MouseEvent;
  * @author Erick Feiling
  */
 class Accordion extends BaseContainer implements IAccordion implements IBaseContainer implements IBaseUI {
-	/** The type of UI Element */
-	public static inline var TYPE:String = "Accordion";
 
 	/**
 	 * The current selected item
@@ -97,11 +96,11 @@ class Accordion extends BaseContainer implements IAccordion implements IBaseCont
 	}
 
 	private function onStageAdd(event:Event):Void {
-		UIBitmapManager.watchElement(TYPE, this);
+		UIBitmapManager.watchElement(UIBitmapType.Accordion, this);
 	}
 
 	private function onStageRemove(event:Event):Void {
-		UIBitmapManager.stopWatchElement(TYPE, this);
+		UIBitmapManager.stopWatchElement(UIBitmapType.Accordion, this);
 	}
 
 	override public function setComponentData(data:Dynamic):Void {
@@ -187,20 +186,20 @@ class Accordion extends BaseContainer implements IAccordion implements IBaseCont
 
 	private function setBitmapStyle():Void {
 
-        if (UIBitmapManager.hasUIElement(Accordion.TYPE, UIBitmapManager.ACCORDION_BUTTON_NORMAL)) 
-			_buttonDefaultImage = UIBitmapManager.getUIElement(Accordion.TYPE, UIBitmapManager.ACCORDION_BUTTON_NORMAL);
+        if (UIBitmapManager.hasUIElement(UIBitmapType.Accordion, UIBitmapManager.ACCORDION_BUTTON_NORMAL)) 
+			_buttonDefaultImage = UIBitmapManager.getUIElement(UIBitmapType.Accordion, UIBitmapManager.ACCORDION_BUTTON_NORMAL);
 		
-        if (UIBitmapManager.hasUIElement(Accordion.TYPE, UIBitmapManager.ACCORDION_BUTTON_OVER)) 
-            _buttonOverImage = UIBitmapManager.getUIElement(Accordion.TYPE, UIBitmapManager.ACCORDION_BUTTON_OVER);
+        if (UIBitmapManager.hasUIElement(UIBitmapType.Accordion, UIBitmapManager.ACCORDION_BUTTON_OVER)) 
+            _buttonOverImage = UIBitmapManager.getUIElement(UIBitmapType.Accordion, UIBitmapManager.ACCORDION_BUTTON_OVER);
 
-        if (UIBitmapManager.hasUIElement(Accordion.TYPE, UIBitmapManager.ACCORDION_BUTTON_SELECTED)) 
-			_buttonDownImage = UIBitmapManager.getUIElement(Accordion.TYPE, UIBitmapManager.ACCORDION_BUTTON_SELECTED);
+        if (UIBitmapManager.hasUIElement(UIBitmapType.Accordion, UIBitmapManager.ACCORDION_BUTTON_SELECTED)) 
+			_buttonDownImage = UIBitmapManager.getUIElement(UIBitmapType.Accordion, UIBitmapManager.ACCORDION_BUTTON_SELECTED);
 		
-        if (UIBitmapManager.hasUIElement(Accordion.TYPE, UIBitmapManager.ACCORDION_BUTTON_DISABLE)) 
-            _buttonDisableImage = UIBitmapManager.getUIElement(Accordion.TYPE, UIBitmapManager.ACCORDION_BUTTON_DISABLE);
+        if (UIBitmapManager.hasUIElement(UIBitmapType.Accordion, UIBitmapManager.ACCORDION_BUTTON_DISABLE)) 
+            _buttonDisableImage = UIBitmapManager.getUIElement(UIBitmapType.Accordion, UIBitmapManager.ACCORDION_BUTTON_DISABLE);
 
-        if (UIBitmapManager.hasUIElement(Accordion.TYPE, UIBitmapManager.ACCORDION_BACKGROUND)) 
-            setBackgroundImage(UIBitmapManager.getUIElement(Accordion.TYPE, UIBitmapManager.ACCORDION_BACKGROUND));
+        if (UIBitmapManager.hasUIElement(UIBitmapType.Accordion, UIBitmapManager.ACCORDION_BACKGROUND)) 
+            setBackgroundImage(UIBitmapManager.getUIElement(UIBitmapType.Accordion, UIBitmapManager.ACCORDION_BACKGROUND));
 
 	}
 		
@@ -461,14 +460,14 @@ class Accordion extends BaseContainer implements IAccordion implements IBaseCont
 	 */
 	override public function draw():Void {
 
-		if(UIStyleManager.hasStyle(UIStyleManager.ACCORDION_USE_CUSTOM_RENDER) && UIStyleManager.getStyle(UIStyleManager.ACCORDION_USE_CUSTOM_RENDER) && UIBitmapManager.hasCustomRenderTexture(Accordion.TYPE) && _width > 0 && _height > 0)
+		if(UIStyleManager.hasStyle(UIStyleManager.ACCORDION_USE_CUSTOM_RENDER) && UIStyleManager.getStyle(UIStyleManager.ACCORDION_USE_CUSTOM_RENDER) && UIBitmapManager.hasCustomRenderTexture(UIBitmapType.Accordion) && _width > 0 && _height > 0)
 		{
-			_buttonDefaultImage = UIBitmapManager.runCustomRender(Accordion.TYPE,{"width":_width,"height":_buttonSize,"state":"default"});
-			_buttonOverImage = UIBitmapManager.runCustomRender(Accordion.TYPE,{"width":_width,"height":_buttonSize,"state":"over"});
-			_buttonDownImage = UIBitmapManager.runCustomRender(Accordion.TYPE,{"width":_width,"height":_buttonSize,"state":"down"});
-			_buttonDisableImage = UIBitmapManager.runCustomRender(Accordion.TYPE,{"width":_width,"height":_buttonSize,"state":"disable"});
+			_buttonDefaultImage = UIBitmapManager.runCustomRender(UIBitmapType.Accordion,{"width":_width,"height":_buttonSize,"state":"default"});
+			_buttonOverImage = UIBitmapManager.runCustomRender(UIBitmapType.Accordion,{"width":_width,"height":_buttonSize,"state":"over"});
+			_buttonDownImage = UIBitmapManager.runCustomRender(UIBitmapType.Accordion,{"width":_width,"height":_buttonSize,"state":"down"});
+			_buttonDisableImage = UIBitmapManager.runCustomRender(UIBitmapType.Accordion,{"width":_width,"height":_buttonSize,"state":"disable"});
 			
-			_imageBackground = UIBitmapManager.runCustomRender(Accordion.TYPE,{"width":_width,"height":_height,"state":"background"});
+			_imageBackground = UIBitmapManager.runCustomRender(UIBitmapType.Accordion,{"width":_width,"height":_height,"state":"background"});
 		}	
 			
 		super.draw();

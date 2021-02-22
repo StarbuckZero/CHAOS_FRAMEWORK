@@ -39,11 +39,7 @@ import openfl.text.TextFieldAutoSize;
 
 class ToolTip
 {
-	
-    
-    /** The type of UI Element */
-    public static inline var TYPE : String = "ToolTip";
-	
+		
 	/**
 	 * The amount of time in seconds before tool-tip show up
 	 */
@@ -122,8 +118,8 @@ class ToolTip
     
     private static function initSkin() : Void
     {
-        if (null != UIBitmapManager.getUIElement(Bubble.TYPE, UIBitmapManager.TOOLTIP_BACKGROUND)) 
-            _bubble.setBackgroundImage(UIBitmapManager.getUIElement(Bubble.TYPE, UIBitmapManager.TOOLTIP_BACKGROUND));
+        if (null != UIBitmapManager.getUIElement(UIBitmapType.Bubble, UIBitmapManager.TOOLTIP_BACKGROUND)) 
+            _bubble.setBackgroundImage(UIBitmapManager.getUIElement(UIBitmapType.Bubble, UIBitmapManager.TOOLTIP_BACKGROUND));
         
         var topLeftImage : BitmapData = null;
         var topMiddleImage : BitmapData = null;
@@ -137,35 +133,35 @@ class ToolTip
         var bottomRightImage : BitmapData = null;
         
         // Top
-        if (null != UIBitmapManager.getUIElement(Bubble.TYPE, UIBitmapManager.TOOLTIP_OVERLAY_TOP_LEFT)) 
-            topLeftImage = UIBitmapManager.getUIElement(Bubble.TYPE, UIBitmapManager.TOOLTIP_OVERLAY_TOP_LEFT);
+        if (null != UIBitmapManager.getUIElement(UIBitmapType.Bubble, UIBitmapManager.TOOLTIP_OVERLAY_TOP_LEFT)) 
+            topLeftImage = UIBitmapManager.getUIElement(UIBitmapType.Bubble, UIBitmapManager.TOOLTIP_OVERLAY_TOP_LEFT);
         
-        if (null != UIBitmapManager.getUIElement(Bubble.TYPE, UIBitmapManager.TOOLTIP_OVERLAY_TOP_MIDDLE)) 
-            topMiddleImage = UIBitmapManager.getUIElement(Bubble.TYPE, UIBitmapManager.TOOLTIP_OVERLAY_TOP_MIDDLE);
+        if (null != UIBitmapManager.getUIElement(UIBitmapType.Bubble, UIBitmapManager.TOOLTIP_OVERLAY_TOP_MIDDLE)) 
+            topMiddleImage = UIBitmapManager.getUIElement(UIBitmapType.Bubble, UIBitmapManager.TOOLTIP_OVERLAY_TOP_MIDDLE);
         
-        if (null != UIBitmapManager.getUIElement(Bubble.TYPE, UIBitmapManager.TOOLTIP_OVERLAY_TOP_RIGHT)) 
-            topRightImage = UIBitmapManager.getUIElement(Bubble.TYPE, UIBitmapManager.TOOLTIP_OVERLAY_TOP_RIGHT);
+        if (null != UIBitmapManager.getUIElement(UIBitmapType.Bubble, UIBitmapManager.TOOLTIP_OVERLAY_TOP_RIGHT)) 
+            topRightImage = UIBitmapManager.getUIElement(UIBitmapType.Bubble, UIBitmapManager.TOOLTIP_OVERLAY_TOP_RIGHT);
         
         _bubble.setTopImage(topLeftImage, topMiddleImage, topRightImage);
         
         // Middle
-        if (null != UIBitmapManager.getUIElement(Bubble.TYPE, UIBitmapManager.TOOLTIP_OVERLAY_MIDDLE_LEFT)) 
-            middleLeftImage = UIBitmapManager.getUIElement(Bubble.TYPE, UIBitmapManager.TOOLTIP_OVERLAY_MIDDLE_LEFT);
+        if (null != UIBitmapManager.getUIElement(UIBitmapType.Bubble, UIBitmapManager.TOOLTIP_OVERLAY_MIDDLE_LEFT)) 
+            middleLeftImage = UIBitmapManager.getUIElement(UIBitmapType.Bubble, UIBitmapManager.TOOLTIP_OVERLAY_MIDDLE_LEFT);
         
-        if (null != UIBitmapManager.getUIElement(Bubble.TYPE, UIBitmapManager.TOOLTIP_OVERLAY_MIDDLE_RIGHT)) 
-            middleRightImage = UIBitmapManager.getUIElement(Bubble.TYPE, UIBitmapManager.TOOLTIP_OVERLAY_MIDDLE_RIGHT);
+        if (null != UIBitmapManager.getUIElement(UIBitmapType.Bubble, UIBitmapManager.TOOLTIP_OVERLAY_MIDDLE_RIGHT)) 
+            middleRightImage = UIBitmapManager.getUIElement(UIBitmapType.Bubble, UIBitmapManager.TOOLTIP_OVERLAY_MIDDLE_RIGHT);
         
         _bubble.setMiddleCenterImage(middleLeftImage, middleRightImage);
         
         // Bottom
-        if (null != UIBitmapManager.getUIElement(Bubble.TYPE, UIBitmapManager.TOOLTIP_OVERLAY_BOTTOM_LEFT)) 
-            bottomLeftImage = UIBitmapManager.getUIElement(Bubble.TYPE, UIBitmapManager.TOOLTIP_OVERLAY_BOTTOM_LEFT);
+        if (null != UIBitmapManager.getUIElement(UIBitmapType.Bubble, UIBitmapManager.TOOLTIP_OVERLAY_BOTTOM_LEFT)) 
+            bottomLeftImage = UIBitmapManager.getUIElement(UIBitmapType.Bubble, UIBitmapManager.TOOLTIP_OVERLAY_BOTTOM_LEFT);
         
-        if (null != UIBitmapManager.getUIElement(Bubble.TYPE, UIBitmapManager.TOOLTIP_OVERLAY_BOTTOM_MIDDLE)) 
-            bottomMiddleImage = UIBitmapManager.getUIElement(Bubble.TYPE, UIBitmapManager.TOOLTIP_OVERLAY_BOTTOM_MIDDLE);
+        if (null != UIBitmapManager.getUIElement(UIBitmapType.Bubble, UIBitmapManager.TOOLTIP_OVERLAY_BOTTOM_MIDDLE)) 
+            bottomMiddleImage = UIBitmapManager.getUIElement(UIBitmapType.Bubble, UIBitmapManager.TOOLTIP_OVERLAY_BOTTOM_MIDDLE);
         
-        if (null != UIBitmapManager.getUIElement(Bubble.TYPE, UIBitmapManager.TOOLTIP_OVERLAY_BOTTOM_RIGHT)) 
-            bottomRightImage = UIBitmapManager.getUIElement(Bubble.TYPE, UIBitmapManager.TOOLTIP_OVERLAY_BOTTOM_RIGHT);
+        if (null != UIBitmapManager.getUIElement(UIBitmapType.Bubble, UIBitmapManager.TOOLTIP_OVERLAY_BOTTOM_RIGHT)) 
+            bottomRightImage = UIBitmapManager.getUIElement(UIBitmapType.Bubble, UIBitmapManager.TOOLTIP_OVERLAY_BOTTOM_RIGHT);
         
         _bubble.setBottomImage(bottomLeftImage, bottomMiddleImage, bottomRightImage);
     }
@@ -357,7 +353,7 @@ class ToolTip
             _label.height = _defaultHeight;
         
         if ("" != tailLocation) 
-            _bubble.tailPlacement = tailLocation;
+            _bubble.tailPlacement = getTailLoc(tailLocation);
         
         _bubble.width = _label.width + labelPadding;
         _bubble.height = _label.height + labelPadding;
@@ -388,6 +384,25 @@ class ToolTip
 		_bubble.draw();
 		
         onShowBubble();
+    }
+
+    private static function getTailLoc( value : String ) : BubbleTailLocation {
+
+        switch(value.toLowerCase())
+        {
+            case "top":
+                return BubbleTailLocation.TOP;
+            case "bottom":
+                return BubbleTailLocation.BOTTOM;
+            case "right":
+                return BubbleTailLocation.RIGHT;
+            case "left":
+                return BubbleTailLocation.LEFT;
+
+            default:
+                return BubbleTailLocation.BOTTOM;
+        }
+        
     }
     
     /**

@@ -1,5 +1,6 @@
 package com.chaos.ui;
 
+import com.chaos.ui.UIBitmapManager.UIBitmapType;
 import com.chaos.ui.Slider;
 import com.chaos.ui.classInterface.IBaseUI;
 import com.chaos.ui.classInterface.IProgressBar;
@@ -125,23 +126,23 @@ class ProgressSlider extends ProgressBar implements IProgressSlider implements I
 	override private function initBitmap():Void {
 		super.initBitmap();
 
-		if (UIBitmapManager.hasUIElement(Slider.TYPE, UIBitmapManager.PROGRESS_SLIDER_BUTTON_NORMAL))
-			_sliderButtonDefaultImage = UIBitmapManager.getUIElement(Slider.TYPE, UIBitmapManager.PROGRESS_SLIDER_BUTTON_NORMAL).clone();
+		if (UIBitmapManager.hasUIElement(UIBitmapType.ProgressSlider, UIBitmapManager.PROGRESS_SLIDER_BUTTON_NORMAL))
+			_sliderButtonDefaultImage = UIBitmapManager.getUIElement(UIBitmapType.ProgressSlider, UIBitmapManager.PROGRESS_SLIDER_BUTTON_NORMAL).clone();
 
-		if (UIBitmapManager.hasUIElement(Slider.TYPE, UIBitmapManager.PROGRESS_SLIDER_BUTTON_OVER))
-			_sliderButtonOverImage = UIBitmapManager.getUIElement(Slider.TYPE, UIBitmapManager.PROGRESS_SLIDER_BUTTON_OVER).clone();
+		if (UIBitmapManager.hasUIElement(UIBitmapType.Slider, UIBitmapManager.PROGRESS_SLIDER_BUTTON_OVER))
+			_sliderButtonOverImage = UIBitmapManager.getUIElement(UIBitmapType.ProgressSlider, UIBitmapManager.PROGRESS_SLIDER_BUTTON_OVER).clone();
 
-		if (UIBitmapManager.hasUIElement(Slider.TYPE, UIBitmapManager.PROGRESS_SLIDER_BUTTON_DOWN))
-			_sliderButtonDownImage = UIBitmapManager.getUIElement(Slider.TYPE, UIBitmapManager.PROGRESS_SLIDER_BUTTON_DOWN).clone();
+		if (UIBitmapManager.hasUIElement(UIBitmapType.Slider, UIBitmapManager.PROGRESS_SLIDER_BUTTON_DOWN))
+			_sliderButtonDownImage = UIBitmapManager.getUIElement(UIBitmapType.ProgressSlider, UIBitmapManager.PROGRESS_SLIDER_BUTTON_DOWN).clone();
 
-		if (UIBitmapManager.hasUIElement(Slider.TYPE, UIBitmapManager.PROGRESS_SLIDER_BUTTON_DISABLE))
-			_sliderButtonDisableImage = UIBitmapManager.getUIElement(Slider.TYPE, UIBitmapManager.PROGRESS_SLIDER_BUTTON_DISABLE).clone();
+		if (UIBitmapManager.hasUIElement(UIBitmapType.Slider, UIBitmapManager.PROGRESS_SLIDER_BUTTON_DISABLE))
+			_sliderButtonDisableImage = UIBitmapManager.getUIElement(UIBitmapType.ProgressSlider, UIBitmapManager.PROGRESS_SLIDER_BUTTON_DISABLE).clone();
 
-		if (UIBitmapManager.hasUIElement(ProgressBar.TYPE, UIBitmapManager.PROGRESS_SLIDER_BACKGROUND))
-			setBackgroundImage(UIBitmapManager.getUIElement(ProgressBar.TYPE, UIBitmapManager.PROGRESS_SLIDER_BACKGROUND));
+		if (UIBitmapManager.hasUIElement(UIBitmapType.ProgressBar, UIBitmapManager.PROGRESS_SLIDER_BACKGROUND))
+			setBackgroundImage(UIBitmapManager.getUIElement(UIBitmapType.ProgressSlider, UIBitmapManager.PROGRESS_SLIDER_BACKGROUND));
 
-		if (UIBitmapManager.hasUIElement(ProgressBar.TYPE, UIBitmapManager.PROGRESS_SLIDER_LOADED_BACKGROUND))
-			setLoadBarImage(UIBitmapManager.getUIElement(ProgressBar.TYPE, UIBitmapManager.PROGRESS_SLIDER_LOADED_BACKGROUND));
+		if (UIBitmapManager.hasUIElement(UIBitmapType.ProgressBar, UIBitmapManager.PROGRESS_SLIDER_LOADED_BACKGROUND))
+			setLoadBarImage(UIBitmapManager.getUIElement(UIBitmapType.ProgressSlider, UIBitmapManager.PROGRESS_SLIDER_LOADED_BACKGROUND));
 
 		if (null != _slider) {
 			if (null != _sliderButtonDefaultImage) {
@@ -247,11 +248,11 @@ class ProgressSlider extends ProgressBar implements IProgressSlider implements I
 	}
 
 	override private function onStageAdd(event:Event):Void {
-		UIBitmapManager.watchElement(TYPE, this);
+		UIBitmapManager.watchElement(UIBitmapType.ProgressSlider, this);
 	}
 
 	override private function onStageRemove(event:Event):Void {
-		UIBitmapManager.stopWatchElement(TYPE, this);
+		UIBitmapManager.stopWatchElement(UIBitmapType.ProgressSlider, this);
 	}
 
 	/**

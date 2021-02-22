@@ -76,7 +76,7 @@ interface IBubble extends IOverlay
 	 * Set the placement of the tail which could be "top", "bottom", "left" or "right"
 	 */
 
-	var tailPlacement(get, set) : String;
+	var tailPlacement(get, set) : BubbleTailLocation;
 
 	/**
 	 * The tail location, this only works if the tailAutoCenter is false

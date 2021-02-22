@@ -1,5 +1,6 @@
 package com.chaos.ui;
 
+import com.chaos.ui.UIBitmapManager.UIBitmapType;
 import com.chaos.ui.classInterface.IBaseUI;
 import com.chaos.ui.classInterface.ILabel;
 import com.chaos.utils.CompositeManager;
@@ -25,8 +26,6 @@ import com.chaos.ui.BaseUI;
  *  @date 11-5-09
  */
 class Label extends BaseUI implements ILabel implements IBaseUI {
-	/** The type of UI Element */
-	public static inline var TYPE:String = "Label";
 
 	/**
 	 * Return the text field that is being used
@@ -255,11 +254,11 @@ class Label extends BaseUI implements ILabel implements IBaseUI {
 	}
 
 	private function onStageAdd(event:Event):Void {
-		UIBitmapManager.watchElement(TYPE, this);
+		UIBitmapManager.watchElement(UIBitmapType.Label, this);
 	}
 
 	private function onStageRemove(event:Event):Void {
-		UIBitmapManager.stopWatchElement(TYPE, this);
+		UIBitmapManager.stopWatchElement(UIBitmapType.Label, this);
 	}
 
 	private function initStyle():Void {

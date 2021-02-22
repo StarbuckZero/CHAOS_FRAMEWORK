@@ -20,10 +20,7 @@ import com.chaos.utils.Debug;
 
 class WindowManager extends Sprite
 {
-    
-    /** The type of UI Element */
-    public static inline var TYPE : String = "WindowManager";
-    
+        
 	public var closeButtonUnFocusColor(get, set) : Int;
 	public var minButtonUnFocusColor(get, set) : Int;
 	public var maxButtonUnFocusColor(get, set) : Int;

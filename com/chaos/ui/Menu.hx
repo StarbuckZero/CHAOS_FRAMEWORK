@@ -226,10 +226,6 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
 	 */
 	
     public var showSubMenuIcon(get, set) : Bool;
-
-    
-    /** The type of UI Element */
-    public static inline var TYPE : String = "Menu";
     
     /** Use this to turn the on x axis  */
     public static inline var HORIZONTAL : String = "horizontal";  // Left to Right  
@@ -665,45 +661,45 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
     private function initBitmap() : Void
     {
         // Menu Background
-        if (UIBitmapManager.hasUIElement(Menu.TYPE, UIBitmapManager.MENU_BACKGROUND)) 
-            setBackgroundImage(UIBitmapManager.getUIElement(Menu.TYPE, UIBitmapManager.MENU_BACKGROUND));
+        if (UIBitmapManager.hasUIElement(UIBitmapType.Menu, UIBitmapManager.MENU_BACKGROUND)) 
+            setBackgroundImage(UIBitmapManager.getUIElement(UIBitmapType.Menu, UIBitmapManager.MENU_BACKGROUND));
         
         
           // UI Skinning
-        if (UIBitmapManager.hasUIElement(Menu.TYPE, UIBitmapManager.MENU_BUTTON_NORMAL)) 
-            setDefaultStateImage(UIBitmapManager.getUIElement(Menu.TYPE, UIBitmapManager.MENU_BUTTON_NORMAL));
+        if (UIBitmapManager.hasUIElement(UIBitmapType.Menu, UIBitmapManager.MENU_BUTTON_NORMAL)) 
+            setDefaultStateImage(UIBitmapManager.getUIElement(UIBitmapType.Menu, UIBitmapManager.MENU_BUTTON_NORMAL));
         
-        if (UIBitmapManager.hasUIElement(Menu.TYPE, UIBitmapManager.MENU_BUTTON_OVER)) 
-            setOverStateImage(UIBitmapManager.getUIElement(Menu.TYPE, UIBitmapManager.MENU_BUTTON_OVER));
+        if (UIBitmapManager.hasUIElement(UIBitmapType.Menu, UIBitmapManager.MENU_BUTTON_OVER)) 
+            setOverStateImage(UIBitmapManager.getUIElement(UIBitmapType.Menu, UIBitmapManager.MENU_BUTTON_OVER));
         
-        if (UIBitmapManager.hasUIElement(Menu.TYPE, UIBitmapManager.MENU_BUTTON_DOWN)) 
-            setDownStateImage(UIBitmapManager.getUIElement(Menu.TYPE, UIBitmapManager.MENU_BUTTON_DOWN));
+        if (UIBitmapManager.hasUIElement(UIBitmapType.Menu, UIBitmapManager.MENU_BUTTON_DOWN)) 
+            setDownStateImage(UIBitmapManager.getUIElement(UIBitmapType.Menu, UIBitmapManager.MENU_BUTTON_DOWN));
         
-        if (UIBitmapManager.hasUIElement(Menu.TYPE, UIBitmapManager.MENU_BUTTON_DISABLE)) 
-            setDisableStateImage(UIBitmapManager.getUIElement(Menu.TYPE, UIBitmapManager.MENU_BUTTON_DISABLE));
+        if (UIBitmapManager.hasUIElement(UIBitmapType.Menu, UIBitmapManager.MENU_BUTTON_DISABLE)) 
+            setDisableStateImage(UIBitmapManager.getUIElement(UIBitmapType.Menu, UIBitmapManager.MENU_BUTTON_DISABLE));
         
-        if (UIBitmapManager.hasUIElement(Menu.TYPE, UIBitmapManager.MENU_BUTTON_ICON)) 
-            setIcon(UIBitmapManager.getUIElement(Menu.TYPE, UIBitmapManager.MENU_BUTTON_ICON));
+        if (UIBitmapManager.hasUIElement(UIBitmapType.Menu, UIBitmapManager.MENU_BUTTON_ICON)) 
+            setIcon(UIBitmapManager.getUIElement(UIBitmapType.Menu, UIBitmapManager.MENU_BUTTON_ICON));
         
-        if (UIBitmapManager.hasUIElement(Menu.TYPE, UIBitmapManager.MENU_BUTTON_SUB_MENU_DROPDOWN)) 
-            setSubMenuDropDownIconImage(UIBitmapManager.getUIElement(Menu.TYPE, UIBitmapManager.MENU_BUTTON_SUB_MENU_DROPDOWN));
+        if (UIBitmapManager.hasUIElement(UIBitmapType.Menu, UIBitmapManager.MENU_BUTTON_SUB_MENU_DROPDOWN)) 
+            setSubMenuDropDownIconImage(UIBitmapManager.getUIElement(UIBitmapType.Menu, UIBitmapManager.MENU_BUTTON_SUB_MENU_DROPDOWN));
         
         
           // UI Sub Menu Skinning
-        if (UIBitmapManager.hasUIElement(Menu.TYPE, UIBitmapManager.MENU_SUB_BUTTON_NORMAL)) 
-            setSubDefaultStateImage(UIBitmapManager.getUIElement(Menu.TYPE, UIBitmapManager.MENU_SUB_BUTTON_NORMAL));
+        if (UIBitmapManager.hasUIElement(UIBitmapType.Menu, UIBitmapManager.MENU_SUB_BUTTON_NORMAL)) 
+            setSubDefaultStateImage(UIBitmapManager.getUIElement(UIBitmapType.Menu, UIBitmapManager.MENU_SUB_BUTTON_NORMAL));
         
-        if (UIBitmapManager.hasUIElement(Menu.TYPE, UIBitmapManager.MENU_SUB_BUTTON_OVER)) 
-            setSubOverStateImage(UIBitmapManager.getUIElement(Menu.TYPE, UIBitmapManager.MENU_SUB_BUTTON_OVER));
+        if (UIBitmapManager.hasUIElement(UIBitmapType.Menu, UIBitmapManager.MENU_SUB_BUTTON_OVER)) 
+            setSubOverStateImage(UIBitmapManager.getUIElement(UIBitmapType.Menu, UIBitmapManager.MENU_SUB_BUTTON_OVER));
         
-        if (UIBitmapManager.hasUIElement(Menu.TYPE, UIBitmapManager.MENU_SUB_BUTTON_DOWN)) 
-            setSubDownStateImage(UIBitmapManager.getUIElement(Menu.TYPE, UIBitmapManager.MENU_SUB_BUTTON_DOWN));
+        if (UIBitmapManager.hasUIElement(UIBitmapType.Menu, UIBitmapManager.MENU_SUB_BUTTON_DOWN)) 
+            setSubDownStateImage(UIBitmapManager.getUIElement(UIBitmapType.Menu, UIBitmapManager.MENU_SUB_BUTTON_DOWN));
         
-        if (UIBitmapManager.hasUIElement(Menu.TYPE, UIBitmapManager.MENU_SUB_BUTTON_DISABLE)) 
-            setSubDisableStateImage(UIBitmapManager.getUIElement(Menu.TYPE, UIBitmapManager.MENU_SUB_BUTTON_DISABLE));
+        if (UIBitmapManager.hasUIElement(UIBitmapType.Menu, UIBitmapManager.MENU_SUB_BUTTON_DISABLE)) 
+            setSubDisableStateImage(UIBitmapManager.getUIElement(UIBitmapType.Menu, UIBitmapManager.MENU_SUB_BUTTON_DISABLE));
         
-        if (UIBitmapManager.hasUIElement(Menu.TYPE, UIBitmapManager.MENU_SUB_BUTTON_ICON)) 
-            setSubIcon(UIBitmapManager.getUIElement(Menu.TYPE, UIBitmapManager.MENU_SUB_BUTTON_ICON));
+        if (UIBitmapManager.hasUIElement(UIBitmapType.Menu, UIBitmapManager.MENU_SUB_BUTTON_ICON)) 
+            setSubIcon(UIBitmapManager.getUIElement(UIBitmapType.Menu, UIBitmapManager.MENU_SUB_BUTTON_ICON));
     }
     
     
@@ -1922,13 +1918,13 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
         stage.addEventListener(MouseEvent.MOUSE_DOWN, onStageClick, false, 2, true);
         stage.addEventListener(MouseEvent.MOUSE_MOVE, onMenuLeave, false, 2, true);
 		
-        UIBitmapManager.watchElement(TYPE, this);
+        UIBitmapManager.watchElement(UIBitmapType.Menu, this);
     }
     
     private function onStageRemove(event : Event) : Void
     {
         stage.removeEventListener(MouseEvent.MOUSE_DOWN, onMenuItemRollOut);
-        UIBitmapManager.stopWatchElement(TYPE, this);
+        UIBitmapManager.stopWatchElement(UIBitmapType.Menu, this);
     }
     
     private function onMenuLeave(event : MouseEvent) : Void

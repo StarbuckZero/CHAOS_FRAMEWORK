@@ -1,5 +1,6 @@
 package com.chaos.ui;
 
+import com.chaos.ui.UIBitmapManager.UIBitmapType;
 import com.chaos.ui.classInterface.IBaseUI;
 import com.chaos.ui.classInterface.IButton;
 import com.chaos.ui.classInterface.ILabel;
@@ -32,9 +33,6 @@ import openfl.utils.Object;
 
 class Window extends BaseUI implements IWindow implements IBaseUI
 {
-	
-	/** The type of UI Element */ 
-	public static inline var TYPE : String = "Window";
 	
 	/**
 	 * The scroll pane being used
@@ -376,12 +374,12 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 	
 	private function onStageAdd(event : Event) : Void
 	{
-		UIBitmapManager.watchElement(TYPE, this);
+		UIBitmapManager.watchElement(UIBitmapType.Window, this);
     }
 	
 	private function onStageRemove(event : Event) : Void
 	{
-		UIBitmapManager.stopWatchElement(TYPE, this);
+		UIBitmapManager.stopWatchElement(UIBitmapType.Window, this);
     }
 	
 	override public function initialize():Void 
@@ -564,35 +562,35 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 	private function initSkin() : Void 
 	{  
 		// Background  
-		if (UIBitmapManager.hasUIElement(Window.TYPE, UIBitmapManager.WINDOW_BACKGROUND))   
-			_scrollPane.setBackgroundImage(UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_BACKGROUND));
+		if (UIBitmapManager.hasUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_BACKGROUND))   
+			_scrollPane.setBackgroundImage(UIBitmapManager.getUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_BACKGROUND));
 		
 		// Top  
-		if (UIBitmapManager.hasUIElement(Window.TYPE, UIBitmapManager.WINDOW_TOP_LEFT)) 
-			setWindowTopLeftImage(UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_TOP_LEFT));
+		if (UIBitmapManager.hasUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_TOP_LEFT)) 
+			setWindowTopLeftImage(UIBitmapManager.getUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_TOP_LEFT));
 		
-		if (UIBitmapManager.hasUIElement(Window.TYPE, UIBitmapManager.WINDOW_TOP_MIDDLE)) 
-			setWindowTopMiddleImage(UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_TOP_MIDDLE));
+		if (UIBitmapManager.hasUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_TOP_MIDDLE)) 
+			setWindowTopMiddleImage(UIBitmapManager.getUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_TOP_MIDDLE));
 		
-		if (UIBitmapManager.hasUIElement(Window.TYPE, UIBitmapManager.WINDOW_TOP_RIGHT))
-			setWindowTopRightImage(UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_TOP_RIGHT));
+		if (UIBitmapManager.hasUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_TOP_RIGHT))
+			setWindowTopRightImage(UIBitmapManager.getUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_TOP_RIGHT));
 			
 		// Middle  
-		if (UIBitmapManager.hasUIElement(Window.TYPE, UIBitmapManager.WINDOW_MIDDLE_LEFT))  
-			setWindowMiddleLeftImage(UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_MIDDLE_LEFT));
+		if (UIBitmapManager.hasUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_MIDDLE_LEFT))  
+			setWindowMiddleLeftImage(UIBitmapManager.getUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_MIDDLE_LEFT));
 		
-		if (UIBitmapManager.hasUIElement(Window.TYPE, UIBitmapManager.WINDOW_MIDDLE_RIGHT)) 
-			setWindowMiddleRightImage(UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_MIDDLE_RIGHT));
+		if (UIBitmapManager.hasUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_MIDDLE_RIGHT)) 
+			setWindowMiddleRightImage(UIBitmapManager.getUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_MIDDLE_RIGHT));
 		
 		// Bottom  
-		if (UIBitmapManager.hasUIElement(Window.TYPE, UIBitmapManager.WINDOW_BOTTOM_LEFT)) 
-			setWindowBottomLeftImage(UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_BOTTOM_LEFT));
+		if (UIBitmapManager.hasUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_BOTTOM_LEFT)) 
+			setWindowBottomLeftImage(UIBitmapManager.getUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_BOTTOM_LEFT));
 		
-		if (UIBitmapManager.hasUIElement(Window.TYPE, UIBitmapManager.WINDOW_BOTTOM_MIDDLE))    
-			setWindowBottomMiddleImage(UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_BOTTOM_MIDDLE));
+		if (UIBitmapManager.hasUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_BOTTOM_MIDDLE))    
+			setWindowBottomMiddleImage(UIBitmapManager.getUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_BOTTOM_MIDDLE));
 		
-		if (UIBitmapManager.hasUIElement(Window.TYPE, UIBitmapManager.WINDOW_BOTTOM_RIGHT))       
-			setWindowBottomRightImage(UIBitmapManager.getUIElement(Window.TYPE, UIBitmapManager.WINDOW_BOTTOM_RIGHT));		
+		if (UIBitmapManager.hasUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_BOTTOM_RIGHT))       
+			setWindowBottomRightImage(UIBitmapManager.getUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_BOTTOM_RIGHT));		
     }
 	
 	private function initStyle() : Void 

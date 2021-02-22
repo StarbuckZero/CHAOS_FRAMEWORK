@@ -2,6 +2,7 @@
 package com.chaos.ui;
 
 
+import com.chaos.ui.UIBitmapManager.UIBitmapType;
 import com.chaos.ui.classInterface.IBaseUI;
 import com.chaos.ui.classInterface.IButton;
 import com.chaos.ui.classInterface.ILabel;
@@ -27,11 +28,7 @@ import com.chaos.ui.Label;
  */
 
 class Button extends ToggleButton implements IButton implements IToggleButton implements IBaseUI
-{
-	
-    /** The type of UI Element */
-    public static inline var TYPE : String = "Button";
-	
+{	
 	private static inline var PRESS_MODE:String = "press";
 	private static inline var TOGGLE_MODE:String = "toggle";
 	
@@ -259,17 +256,17 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
         super.initBitmap();
 
         // Set skining if in UIBitmapManager
-        if (UIBitmapManager.hasUIElement(Button.TYPE, UIBitmapManager.BUTTON_NORMAL)) 
-            setDefaultStateImage(UIBitmapManager.getUIElement(Button.TYPE, UIBitmapManager.BUTTON_NORMAL));
+        if (UIBitmapManager.hasUIElement(UIBitmapType.Button, UIBitmapManager.BUTTON_NORMAL)) 
+            setDefaultStateImage(UIBitmapManager.getUIElement(UIBitmapType.Button, UIBitmapManager.BUTTON_NORMAL));
         
-        if (UIBitmapManager.hasUIElement(Button.TYPE, UIBitmapManager.BUTTON_OVER)) 
-            setOverStateImage(UIBitmapManager.getUIElement(Button.TYPE, UIBitmapManager.BUTTON_OVER));
+        if (UIBitmapManager.hasUIElement(UIBitmapType.Button, UIBitmapManager.BUTTON_OVER)) 
+            setOverStateImage(UIBitmapManager.getUIElement(UIBitmapType.Button, UIBitmapManager.BUTTON_OVER));
         
-        if (UIBitmapManager.hasUIElement(Button.TYPE, UIBitmapManager.BUTTON_DOWN)) 
-            setDownStateImage(UIBitmapManager.getUIElement(Button.TYPE, UIBitmapManager.BUTTON_DOWN));
+        if (UIBitmapManager.hasUIElement(UIBitmapType.Button, UIBitmapManager.BUTTON_DOWN)) 
+            setDownStateImage(UIBitmapManager.getUIElement(UIBitmapType.Button, UIBitmapManager.BUTTON_DOWN));
         
-        if (UIBitmapManager.hasUIElement(Button.TYPE, UIBitmapManager.BUTTON_DISABLE)) 
-            setDisableStateImage(UIBitmapManager.getUIElement(Button.TYPE, UIBitmapManager.BUTTON_DISABLE));
+        if (UIBitmapManager.hasUIElement(UIBitmapType.Button, UIBitmapManager.BUTTON_DISABLE)) 
+            setDisableStateImage(UIBitmapManager.getUIElement(UIBitmapType.Button, UIBitmapManager.BUTTON_DISABLE));
     }
     
     override private function initStyle() : Void
@@ -681,11 +678,11 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
     override public function draw() : Void
     {
         // Check to see if Custom Texture will need to be used first
-        if(_useCustomRender && UIBitmapManager.hasCustomRenderTexture(Button.TYPE) && _width > 0 && _height > 0) {
-            _defaultStateImage = UIBitmapManager.runCustomRender(Button.TYPE,{"width":_width,"height":_height,"state":"default"});
-            _overStateImage = UIBitmapManager.runCustomRender(Button.TYPE,{"width":_width,"height":_height,"state":"over"});
-            _downStateImage = UIBitmapManager.runCustomRender(Button.TYPE,{"width":_width,"height":_height,"state":"down"});
-            _disableStateImage = UIBitmapManager.runCustomRender(Button.TYPE,{"width":_width,"height":_height,"state":"down"});
+        if(_useCustomRender && UIBitmapManager.hasCustomRenderTexture(UIBitmapType.Button) && _width > 0 && _height > 0) {
+            _defaultStateImage = UIBitmapManager.runCustomRender(UIBitmapType.Button,{"width":_width,"height":_height,"state":"default"});
+            _overStateImage = UIBitmapManager.runCustomRender(UIBitmapType.Button,{"width":_width,"height":_height,"state":"over"});
+            _downStateImage = UIBitmapManager.runCustomRender(UIBitmapType.Button,{"width":_width,"height":_height,"state":"down"});
+            _disableStateImage = UIBitmapManager.runCustomRender(UIBitmapType.Button,{"width":_width,"height":_height,"state":"down"});
         }
 
         super.draw();

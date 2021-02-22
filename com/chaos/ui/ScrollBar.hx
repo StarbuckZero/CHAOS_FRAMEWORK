@@ -1,5 +1,6 @@
 package com.chaos.ui;
 
+import com.chaos.ui.UIBitmapManager.UIBitmapType;
 import com.chaos.drawing.icon.ArrowRightIcon;
 import com.chaos.drawing.icon.ArrowLeftIcon;
 import com.chaos.drawing.icon.ArrowDownIcon;
@@ -23,10 +24,7 @@ import com.chaos.ui.Button;
 
 class ScrollBar extends BaseUI implements IScrollBar implements IBaseUI
 {
-	
-	/** The type of UI Element */
-	public static inline var TYPE : String = "ScrollBar"; 
-	
+		
 	/**
 	 * Up Button for scrollbar
 	 */
@@ -177,8 +175,8 @@ class ScrollBar extends BaseUI implements IScrollBar implements IBaseUI
 	
 	
 	
-	private function onStageAdd(event : Event) : Void { UIBitmapManager.watchElement(TYPE, this); }
-	private function onStageRemove(event : Event) : Void { UIBitmapManager.stopWatchElement(TYPE, this); }
+	private function onStageAdd(event : Event) : Void { UIBitmapManager.watchElement(UIBitmapType.ScrollBar, this); }
+	private function onStageRemove(event : Event) : Void { UIBitmapManager.stopWatchElement(UIBitmapType.ScrollBar, this); }
 	
 	/**
 	 * Create and initialize the slider and arrow elements.
@@ -276,52 +274,52 @@ class ScrollBar extends BaseUI implements IScrollBar implements IBaseUI
 	private function initBitmap() : Void
 	{
 		// Set scrollbar button  
-		if (UIBitmapManager.hasUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_BUTTON_NORMAL)) 
-			_buttonDefaultImage = UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_BUTTON_NORMAL).clone();
+		if (UIBitmapManager.hasUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_BUTTON_NORMAL)) 
+			_buttonDefaultImage = UIBitmapManager.getUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_BUTTON_NORMAL).clone();
 		
-		if (UIBitmapManager.hasUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_BUTTON_OVER)) 
-			_buttonOverImage = UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_BUTTON_OVER).clone();
+		if (UIBitmapManager.hasUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_BUTTON_OVER)) 
+			_buttonOverImage = UIBitmapManager.getUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_BUTTON_OVER).clone();
 		
-		if (UIBitmapManager.hasUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_BUTTON_DOWN))
-			_buttonDownImage = UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_BUTTON_DOWN).clone();
+		if (UIBitmapManager.hasUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_BUTTON_DOWN))
+			_buttonDownImage = UIBitmapManager.getUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_BUTTON_DOWN).clone();
         
-		if (UIBitmapManager.hasUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_BUTTON_DISABLE))
-			_buttonDisableImage = UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_BUTTON_DISABLE).clone();
+		if (UIBitmapManager.hasUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_BUTTON_DISABLE))
+			_buttonDisableImage = UIBitmapManager.getUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_BUTTON_DISABLE).clone();
 		
 		
 		// Set Arrow Icons  
-		if (UIBitmapManager.hasUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_UP_ICON))
-			_upIconButtonImage = UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_UP_ICON).clone();
+		if (UIBitmapManager.hasUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_UP_ICON))
+			_upIconButtonImage = UIBitmapManager.getUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_UP_ICON).clone();
 		
-		if (UIBitmapManager.hasUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_DOWN_ICON)) 
-			_downIconButtonImage = UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_DOWN_ICON).clone();
+		if (UIBitmapManager.hasUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_DOWN_ICON)) 
+			_downIconButtonImage = UIBitmapManager.getUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_DOWN_ICON).clone();
 
-		if (UIBitmapManager.hasUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_RIGHT_ICON)) 
-			_rightIconButtonImage = UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_RIGHT_ICON).clone();
+		if (UIBitmapManager.hasUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_RIGHT_ICON)) 
+			_rightIconButtonImage = UIBitmapManager.getUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_RIGHT_ICON).clone();
 
-		if (UIBitmapManager.hasUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_LEFT_ICON))
-			_leftIconButtonImage = UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_LEFT_ICON).clone();
+		if (UIBitmapManager.hasUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_LEFT_ICON))
+			_leftIconButtonImage = UIBitmapManager.getUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_LEFT_ICON).clone();
 		
 		
 		// Set tracker  
-		if (UIBitmapManager.hasUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_TRACK)) 
-			_trackImage = UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_TRACK).clone();
+		if (UIBitmapManager.hasUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_TRACK)) 
+			_trackImage = UIBitmapManager.getUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_TRACK).clone();
 		
 		
 		// Set Slider  
-		if (UIBitmapManager.hasUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_NORMAL))   
-			_sliderButtonDefaultImage = UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_NORMAL).clone();
+		if (UIBitmapManager.hasUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_NORMAL))   
+			_sliderButtonDefaultImage = UIBitmapManager.getUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_NORMAL).clone();
 		
 		
-		if (UIBitmapManager.hasUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_OVER)) 
-			_sliderButtonOverImage = UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_OVER).clone();
+		if (UIBitmapManager.hasUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_OVER)) 
+			_sliderButtonOverImage = UIBitmapManager.getUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_OVER).clone();
 		
 		
-		if (UIBitmapManager.hasUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_DOWN))
-			_sliderButtonDownImage = UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_DOWN).clone();
+		if (UIBitmapManager.hasUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_DOWN))
+			_sliderButtonDownImage = UIBitmapManager.getUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_DOWN).clone();
 		
-		if (UIBitmapManager.hasUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_DISABLE))
-			_sliderButtonDisableImage = UIBitmapManager.getUIElement(ScrollBar.TYPE, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_DISABLE).clone();
+		if (UIBitmapManager.hasUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_DISABLE))
+			_sliderButtonDisableImage = UIBitmapManager.getUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_DISABLE).clone();
 		
 		
 		// If already there then set and remove BitmapData
@@ -761,19 +759,19 @@ class ScrollBar extends BaseUI implements IScrollBar implements IBaseUI
 		_upButton.width = _downButton.width = _buttonWidth;
 		_upButton.height = _downButton.height = _buttonHeight;
 		
-		if(_useCustomRender && UIBitmapManager.hasCustomRenderTexture(ScrollBar.TYPE) && _width > 0 && _height > 0)
+		if(_useCustomRender && UIBitmapManager.hasCustomRenderTexture(UIBitmapType.ScrollBar) && _width > 0 && _height > 0)
 		{
 			_upButton.useCustomRender = _downButton.useCustomRender = false;
 
-			_upButton.setDefaultStateImage(UIBitmapManager.runCustomRender(ScrollBar.TYPE,{"width":_upButton.width,"height":_upButton.height,"direction":"vertical","state":"default"}));
-			_upButton.setOverStateImage(UIBitmapManager.runCustomRender(ScrollBar.TYPE,{"width":_upButton.width,"height":_upButton.height,"direction":"vertical","state":"over"}));
-			_upButton.setDownStateImage(UIBitmapManager.runCustomRender(ScrollBar.TYPE,{"width":_upButton.width,"height":_upButton.height,"direction":"vertical","state":"down"}));
-			_upButton.setDisableStateImage(UIBitmapManager.runCustomRender(ScrollBar.TYPE,{"width":_upButton.width,"height":_upButton.height,"direction":"vertical","state":"disable"}));
+			_upButton.setDefaultStateImage(UIBitmapManager.runCustomRender(UIBitmapType.ScrollBar,{"width":_upButton.width,"height":_upButton.height,"direction":"vertical","state":"default"}));
+			_upButton.setOverStateImage(UIBitmapManager.runCustomRender(UIBitmapType.ScrollBar,{"width":_upButton.width,"height":_upButton.height,"direction":"vertical","state":"over"}));
+			_upButton.setDownStateImage(UIBitmapManager.runCustomRender(UIBitmapType.ScrollBar,{"width":_upButton.width,"height":_upButton.height,"direction":"vertical","state":"down"}));
+			_upButton.setDisableStateImage(UIBitmapManager.runCustomRender(UIBitmapType.ScrollBar,{"width":_upButton.width,"height":_upButton.height,"direction":"vertical","state":"disable"}));
 
-			_downButton.setDefaultStateImage(UIBitmapManager.runCustomRender(ScrollBar.TYPE,{"width":_downButton.width,"height":_downButton.height,"direction":"vertical","state":"default"}));
-			_downButton.setOverStateImage(UIBitmapManager.runCustomRender(ScrollBar.TYPE,{"width":_downButton.width,"height":_downButton.height,"direction":"vertical","state":"over"}));
-			_downButton.setDownStateImage(UIBitmapManager.runCustomRender(ScrollBar.TYPE,{"width":_downButton.width,"height":_downButton.height,"direction":"vertical","state":"down"}));
-			_downButton.setDisableStateImage(UIBitmapManager.runCustomRender(ScrollBar.TYPE,{"width":_downButton.width,"height":_downButton.height,"direction":"vertical","state":"disable"}));
+			_downButton.setDefaultStateImage(UIBitmapManager.runCustomRender(UIBitmapType.ScrollBar,{"width":_downButton.width,"height":_downButton.height,"direction":"vertical","state":"default"}));
+			_downButton.setOverStateImage(UIBitmapManager.runCustomRender(UIBitmapType.ScrollBar,{"width":_downButton.width,"height":_downButton.height,"direction":"vertical","state":"over"}));
+			_downButton.setDownStateImage(UIBitmapManager.runCustomRender(UIBitmapType.ScrollBar,{"width":_downButton.width,"height":_downButton.height,"direction":"vertical","state":"down"}));
+			_downButton.setDisableStateImage(UIBitmapManager.runCustomRender(UIBitmapType.ScrollBar,{"width":_downButton.width,"height":_downButton.height,"direction":"vertical","state":"disable"}));
 		}
 
 			
@@ -808,14 +806,14 @@ class ScrollBar extends BaseUI implements IScrollBar implements IBaseUI
 		{
 			_slider.height = _height - (_buttonHeight * 2) + _offset;
 
-			if(UIStyleManager.hasStyle(UIStyleManager.SCROLLBAR_BUTTON_USE_CUSTOM_RENDER) && UIStyleManager.getStyle(UIStyleManager.SCROLLBAR_BUTTON_USE_CUSTOM_RENDER) && UIBitmapManager.hasCustomRenderTexture(ScrollBar.TYPE) && _width > 0 && _height > 0) {
+			if(UIStyleManager.hasStyle(UIStyleManager.SCROLLBAR_BUTTON_USE_CUSTOM_RENDER) && UIStyleManager.getStyle(UIStyleManager.SCROLLBAR_BUTTON_USE_CUSTOM_RENDER) && UIBitmapManager.hasCustomRenderTexture(UIBitmapType.ScrollBar) && _width > 0 && _height > 0) {
 
 				_slider.marker.useCustomRender = false;
 
-				_slider.marker.setDefaultStateImage(UIBitmapManager.runCustomRender(ScrollBar.TYPE,{"width":_slider.marker.width,"height":_slider.marker.height,"direction":"vertical","state":"default"}));
-				_slider.marker.setOverStateImage(UIBitmapManager.runCustomRender(ScrollBar.TYPE,{"width":_slider.marker.width,"height":_slider.marker.height,"direction":"vertical","state":"over"}));
-				_slider.marker.setDownStateImage(UIBitmapManager.runCustomRender(ScrollBar.TYPE,{"width":_slider.marker.width,"height":_slider.marker.height,"direction":"vertical","state":"down"}));
-				_slider.marker.setDisableStateImage(UIBitmapManager.runCustomRender(ScrollBar.TYPE,{"width":_slider.marker.width,"height":_slider.marker.height,"direction":"vertical","state":"disable"}));
+				_slider.marker.setDefaultStateImage(UIBitmapManager.runCustomRender(UIBitmapType.ScrollBar,{"width":_slider.marker.width,"height":_slider.marker.height,"direction":"vertical","state":"default"}));
+				_slider.marker.setOverStateImage(UIBitmapManager.runCustomRender(UIBitmapType.ScrollBar,{"width":_slider.marker.width,"height":_slider.marker.height,"direction":"vertical","state":"over"}));
+				_slider.marker.setDownStateImage(UIBitmapManager.runCustomRender(UIBitmapType.ScrollBar,{"width":_slider.marker.width,"height":_slider.marker.height,"direction":"vertical","state":"down"}));
+				_slider.marker.setDisableStateImage(UIBitmapManager.runCustomRender(UIBitmapType.ScrollBar,{"width":_slider.marker.width,"height":_slider.marker.height,"direction":"vertical","state":"disable"}));
 	
 			}
 
@@ -831,10 +829,10 @@ class ScrollBar extends BaseUI implements IScrollBar implements IBaseUI
 
 				_slider.marker.useCustomRender = false;
 
-				_slider.marker.setDefaultStateImage(UIBitmapManager.runCustomRender(ScrollBar.TYPE,{"width":_slider.marker.width,"height":_slider.marker.height,"direction":"vertical","state":"default"}));
-				_slider.marker.setOverStateImage(UIBitmapManager.runCustomRender(ScrollBar.TYPE,{"width":_slider.marker.width,"height":_slider.marker.height,"direction":"vertical","state":"over"}));
-				_slider.marker.setDownStateImage(UIBitmapManager.runCustomRender(ScrollBar.TYPE,{"width":_slider.marker.width,"height":_slider.marker.height,"direction":"vertical","state":"down"}));
-				_slider.marker.setDisableStateImage(UIBitmapManager.runCustomRender(ScrollBar.TYPE,{"width":_slider.marker.width,"height":_slider.marker.height,"direction":"vertical","state":"disable"}));
+				_slider.marker.setDefaultStateImage(UIBitmapManager.runCustomRender(UIBitmapType.ScrollBar,{"width":_slider.marker.width,"height":_slider.marker.height,"direction":"vertical","state":"default"}));
+				_slider.marker.setOverStateImage(UIBitmapManager.runCustomRender(UIBitmapType.ScrollBar,{"width":_slider.marker.width,"height":_slider.marker.height,"direction":"vertical","state":"over"}));
+				_slider.marker.setDownStateImage(UIBitmapManager.runCustomRender(UIBitmapType.ScrollBar,{"width":_slider.marker.width,"height":_slider.marker.height,"direction":"vertical","state":"down"}));
+				_slider.marker.setDisableStateImage(UIBitmapManager.runCustomRender(UIBitmapType.ScrollBar,{"width":_slider.marker.width,"height":_slider.marker.height,"direction":"vertical","state":"disable"}));
 	
 			}
 
@@ -856,20 +854,20 @@ class ScrollBar extends BaseUI implements IScrollBar implements IBaseUI
 		_height = _buttonHeight;
 
 		
-		if(_useCustomRender && UIBitmapManager.hasCustomRenderTexture(ScrollBar.TYPE) && _width > 0 && _height > 0) 
+		if(_useCustomRender && UIBitmapManager.hasCustomRenderTexture(UIBitmapType.ScrollBar) && _width > 0 && _height > 0) 
 		{
 
 			_upButton.useCustomRender = _downButton.useCustomRender = false;
 			
-			_upButton.setDefaultStateImage(UIBitmapManager.runCustomRender(ScrollBar.TYPE,{"width":_upButton.width,"height":_upButton.height,"direction":"horizontal","state":"default"}));
-			_upButton.setOverStateImage(UIBitmapManager.runCustomRender(ScrollBar.TYPE,{"width":_upButton.width,"height":_upButton.height,"direction":"horizontal","state":"over"}));
-			_upButton.setDownStateImage(UIBitmapManager.runCustomRender(ScrollBar.TYPE,{"width":_upButton.width,"height":_upButton.height,"direction":"horizontal","state":"down"}));
-			_upButton.setDisableStateImage(UIBitmapManager.runCustomRender(ScrollBar.TYPE,{"width":_upButton.width,"height":_upButton.height,"direction":"horizontal","state":"disable"}));
+			_upButton.setDefaultStateImage(UIBitmapManager.runCustomRender(UIBitmapType.ScrollBar,{"width":_upButton.width,"height":_upButton.height,"direction":"horizontal","state":"default"}));
+			_upButton.setOverStateImage(UIBitmapManager.runCustomRender(UIBitmapType.ScrollBar,{"width":_upButton.width,"height":_upButton.height,"direction":"horizontal","state":"over"}));
+			_upButton.setDownStateImage(UIBitmapManager.runCustomRender(UIBitmapType.ScrollBar,{"width":_upButton.width,"height":_upButton.height,"direction":"horizontal","state":"down"}));
+			_upButton.setDisableStateImage(UIBitmapManager.runCustomRender(UIBitmapType.ScrollBar,{"width":_upButton.width,"height":_upButton.height,"direction":"horizontal","state":"disable"}));
 
-			_downButton.setDefaultStateImage(UIBitmapManager.runCustomRender(ScrollBar.TYPE,{"width":_downButton.width,"height":_downButton.height,"direction":"horizontal","state":"default"}));
-			_downButton.setOverStateImage(UIBitmapManager.runCustomRender(ScrollBar.TYPE,{"width":_downButton.width,"height":_downButton.height,"direction":"horizontal","state":"over"}));
-			_downButton.setDownStateImage(UIBitmapManager.runCustomRender(ScrollBar.TYPE,{"width":_downButton.width,"height":_downButton.height,"direction":"horizontal","state":"down"}));
-			_downButton.setDisableStateImage(UIBitmapManager.runCustomRender(ScrollBar.TYPE,{"width":_downButton.width,"height":_downButton.height,"direction":"horizontal","state":"disable"}));
+			_downButton.setDefaultStateImage(UIBitmapManager.runCustomRender(UIBitmapType.ScrollBar,{"width":_downButton.width,"height":_downButton.height,"direction":"horizontal","state":"default"}));
+			_downButton.setOverStateImage(UIBitmapManager.runCustomRender(UIBitmapType.ScrollBar,{"width":_downButton.width,"height":_downButton.height,"direction":"horizontal","state":"over"}));
+			_downButton.setDownStateImage(UIBitmapManager.runCustomRender(UIBitmapType.ScrollBar,{"width":_downButton.width,"height":_downButton.height,"direction":"horizontal","state":"down"}));
+			_downButton.setDisableStateImage(UIBitmapManager.runCustomRender(UIBitmapType.ScrollBar,{"width":_downButton.width,"height":_downButton.height,"direction":"horizontal","state":"disable"}));
 
 
 		}
@@ -904,16 +902,16 @@ class ScrollBar extends BaseUI implements IScrollBar implements IBaseUI
 		
 		_slider.height = _slider.sliderHeightNum = _buttonHeight;
 
-		if(_useCustomRender && UIBitmapManager.hasCustomRenderTexture(ScrollBar.TYPE) && _width > 0 && _height > 0)  {
+		if(_useCustomRender && UIBitmapManager.hasCustomRenderTexture(UIBitmapType.ScrollBar) && _width > 0 && _height > 0)  {
 
 			_slider.marker.useCustomRender = false;
 
-			_slider.marker.setDefaultStateImage(UIBitmapManager.runCustomRender(ScrollBar.TYPE,{"width":_slider.marker.width,"height":_slider.marker.height,"direction":"horizontal","state":"default"}));
-			_slider.marker.setOverStateImage(UIBitmapManager.runCustomRender(ScrollBar.TYPE,{"width":_slider.marker.width,"height":_slider.marker.height,"direction":"horizontal","state":"over"}));
-			_slider.marker.setDownStateImage(UIBitmapManager.runCustomRender(ScrollBar.TYPE,{"width":_slider.marker.width,"height":_slider.marker.height,"direction":"horizontal","state":"down"}));
-			_slider.marker.setDisableStateImage(UIBitmapManager.runCustomRender(ScrollBar.TYPE,{"width":_slider.marker.width,"height":_slider.marker.height,"direction":"horizontal","state":"disable"}));
+			_slider.marker.setDefaultStateImage(UIBitmapManager.runCustomRender(UIBitmapType.ScrollBar,{"width":_slider.marker.width,"height":_slider.marker.height,"direction":"horizontal","state":"default"}));
+			_slider.marker.setOverStateImage(UIBitmapManager.runCustomRender(UIBitmapType.ScrollBar,{"width":_slider.marker.width,"height":_slider.marker.height,"direction":"horizontal","state":"over"}));
+			_slider.marker.setDownStateImage(UIBitmapManager.runCustomRender(UIBitmapType.ScrollBar,{"width":_slider.marker.width,"height":_slider.marker.height,"direction":"horizontal","state":"down"}));
+			_slider.marker.setDisableStateImage(UIBitmapManager.runCustomRender(UIBitmapType.ScrollBar,{"width":_slider.marker.width,"height":_slider.marker.height,"direction":"horizontal","state":"disable"}));
 
-			_slider.setTrackImage(UIBitmapManager.runCustomRender(ScrollBar.TYPE,{"width":_slider.track.width,"height":_slider.track.height,"direction":"horizontal","state":"track"}));
+			_slider.setTrackImage(UIBitmapManager.runCustomRender(UIBitmapType.ScrollBar,{"width":_slider.track.width,"height":_slider.track.height,"direction":"horizontal","state":"track"}));
 		}
 
 		_slider.draw();

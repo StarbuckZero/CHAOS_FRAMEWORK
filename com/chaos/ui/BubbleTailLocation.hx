@@ -9,17 +9,11 @@ package com.chaos.ui;
  *
  */
 
-class BubbleTailLocation
+enum BubbleTailLocation
 {
-    
-    public static inline var TOP : String = "top";
-    public static inline var BOTTOM : String = "bottom";
-    public static inline var LEFT : String = "left";
-    public static inline var RIGHT : String = "right";
-    
-    public function new()
-    {
-        
-    }
+    TOP;
+    BOTTOM;
+    LEFT;
+    RIGHT;
 }
 

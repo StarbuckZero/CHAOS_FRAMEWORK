@@ -337,7 +337,7 @@ class UIDemo extends Sprite
     
     private function onAlertButton(event : MouseEvent) : Void
     {
-        alertBox = Alert.create("This is a Message Box", "Alert Box", [Alert.OK], null, null, onAlertButtonClick);
+        alertBox = Alert.create("This is a Message Box", "Alert Box", [AlertButtonType.OK], null, null, onAlertButtonClick);
         addChild(alertBox);
     }
 	

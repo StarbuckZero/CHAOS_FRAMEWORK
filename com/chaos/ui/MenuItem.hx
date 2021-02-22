@@ -79,9 +79,6 @@ class MenuItem extends Button implements IMenuItem implements IToggleButton impl
     public var showSubMenuIcon(get, set) : Bool;
     
 
-    /** The type of UI Element */
-    public static inline var TYPE : String = "MenuItem";
-    
     /** The offset of the icon from the upper left */
     public static var ICON_OFFSETX : Int = 2;
     
