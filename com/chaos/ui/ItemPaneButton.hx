@@ -39,7 +39,7 @@ class ItemPaneButton extends ToggleButton implements IToggleButton
 	private var _iconLocY : Int = 0;
 
 	private var _labelLocX : Int = 0;
-	private var _labelLocY : Int = -2;
+	private var _labelLocY : Int = -10;
 	
 	/**
 	 * ItemPane Button 
@@ -179,15 +179,13 @@ class ItemPaneButton extends ToggleButton implements IToggleButton
 	override public function draw():Void 
 	{
 		super.draw();
-
-		
 		
 		_label.width = _width;
 		_label.height = _label.textField.textHeight;
 		_label.draw();
 		
-		_label.x = _labelLocX;
-		_label.y = (_height - _label.height) + _labelLocY;
+		_label.x = Std.int(_labelLocX);
+		_label.y = Std.int((_height - _label.height) + _labelLocY);
 		
         _icon.x = _iconLocX;
         _icon.y = _iconLocY;

@@ -118,7 +118,7 @@ class Label extends BaseUI implements ILabel implements IBaseUI {
 	private var _size:Int = 11;
 	private var _bold:Bool = false;
 	private var _italic:Bool = false;
-	private var _fontName:String = "";
+	private var _fontName:String = "Arial";
 
 	/**
 	 * UI Label
@@ -211,6 +211,8 @@ class Label extends BaseUI implements ILabel implements IBaseUI {
 
 		// Setup width
 		_textField.width = _width;
+
+		//trace("autoText " + _textField.autoSize);
 
 		// First figure out if auto resize is being used
 		if (_textField.autoSize == TextFieldAutoSize.NONE)

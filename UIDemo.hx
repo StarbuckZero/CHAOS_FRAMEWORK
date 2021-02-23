@@ -37,6 +37,7 @@ import com.chaos.ui.UIStyleManager;
 import com.chaos.ui.Window;
 import com.chaos.mobile.ui.Card;
 import com.chaos.utils.ThreadManager;
+import com.chaos.ui.ScrollPolicy;
 import openfl.display.Bitmap;
 import openfl.display.DisplayObject;
 import openfl.display.MovieClip;
@@ -265,7 +266,7 @@ class UIDemo extends Sprite
         
 		
 		
-        itemPane = new ItemPane({"width":300, "height":200, "itemWidth":150, "itemHeight":100 , "x": (scrollPane.x + scrollPane.width + OFFSET), "y":scrollPane.y, "data":itemData});
+        itemPane = new ItemPane({"width":300, "height":200, "itemWidth":150, "mode":ScrollPolicy.ONLY_VERTICAL, "itemHeight":100 , "x": (scrollPane.x + scrollPane.width + OFFSET), "y":scrollPane.y, "data":itemData});
 		
         // Menu System
 		var subMenuData:Array<Dynamic> = new Array<Dynamic>();

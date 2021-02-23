@@ -170,7 +170,6 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
 		else
             _labelData = {"textColor": 0xFFFFFF, "bold":_bold, "italic":_italic};
 			
-			
 		if (Reflect.hasField(data, "showLabel"))
 			_showLabel = Reflect.field(data, "showLabel");
 			
@@ -303,7 +302,7 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
         if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_TEXT_ALIGN))
             Reflect.setField(_labelData,"align",UIStyleManager.BUTTON_TEXT_ALIGN);
         
-        if (null != UIStyleManager.BUTTON_TEXT_EMBED) 
+        if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_TEXT_EMBED)) 
             Reflect.setField(_labelData,"embedFont",UIStyleManager.BUTTON_TEXT_EMBED);
         
         if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_NORMAL_COLOR)) 
@@ -738,11 +737,12 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
             // Set location of text
             _label.width = _width - buttonOffSetX;
 			_label.draw();
-			
-            _label.x = (_width / 2) - (_label.width / 2) + buttonOffSetX;
-            _label.y = (_height / 2) - (_label.textField.textHeight / 2) + _imageOffSetY;
+
+            _label.x = Std.int((_width / 2) - (_label.width / 2) + buttonOffSetX);
+            _label.y = Std.int((_height / 2) - (_label.textField.textHeight / 2) + _imageOffSetY);
 			
         }
+
 		
 		if (_mode.toLowerCase() == PRESS_MODE)
 		{

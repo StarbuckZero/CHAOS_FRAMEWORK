@@ -82,7 +82,7 @@ class UIStyleManager
     public static var BUBBLE_BACKGROUND_ALPHA : String = "BUBBLE_BACKGROUND_ALPHA";
     
     public static var BUBBLE_BORDER_ALPHA : String = "BUBBLE_BORDER_ALPHA";
-    public static var BUBBLE_BORDER : String = "BUBBLE_BORDER";//Bool = true;
+    public static var BUBBLE_BORDER : String = "BUBBLE_BORDER";
     public static var BUBBLE_BORDER_COLOR : String = "BUBBLE_BORDER_COLOR";
     public static var BUBBLE_BORDER_THINKNESS : String = "BUBBLE_BORDER_THINKNESS";
     
@@ -93,7 +93,7 @@ class UIStyleManager
     public static var BUTTON_DOWN_COLOR : String = "BUTTON_DOWN_COLOR";
     public static var BUTTON_DISABLE_COLOR : String = "BUTTON_DISABLE_COLOR";
 
-    public static var BUTTON_TILE_IMAGE : String = "BUTTON_TILE_IMAGE";//Bool = false;
+    public static var BUTTON_TILE_IMAGE : String = "BUTTON_TILE_IMAGE";
 
     public static var BUTTON_USE_CUSTOM_RENDER : String = "BUTTON_USE_CUSTOM_RENDER";
     
@@ -103,13 +103,13 @@ class UIStyleManager
     public static var BUTTON_TEXT_DISABLE_COLOR : String = "BUTTON_TEXT_DISABLE_COLOR";
     public static var BUTTON_TEXT_SIZE : String = "BUTTON_TEXT_SIZE";
     
-    public static var BUTTON_TEXT_BOLD : String = "BUTTON_TEXT_BOLD";//Bool = false;
-    public static var BUTTON_TEXT_ITALIC : String = "BUTTON_TEXT_ITALIC";//Bool = false;
+    public static var BUTTON_TEXT_BOLD : String = "BUTTON_TEXT_BOLD";
+    public static var BUTTON_TEXT_ITALIC : String = "BUTTON_TEXT_ITALIC";
     
     public static var BUTTON_TEXT_ALIGN : String = "BUTTON_TEXT_ALIGN";
     
     /** How rounded the button will be */
-    public static var BUTTON_ROUND_NUM : String = "BUTTON_ROUND_NUM";//Int = -1;
+    public static var BUTTON_ROUND_NUM : String = "BUTTON_ROUND_NUM";
     
     /** Text label off set for location X */
     public static var BUTTON_TEXT_OFFSET_X : String = "BUTTON_TEXT_OFFSET_X";//Int = 3;
@@ -130,19 +130,19 @@ class UIStyleManager
     public static var BUTTON_ICON_HEIGHT : String = "BUTTON_ICON_HEIGHT";//Int = -1;
     
     /** The default button width */
-    public static var BUTTON_WIDTH : String = "BUTTON_WIDTH";//Int = -1;
+    public static var BUTTON_WIDTH : String = "BUTTON_WIDTH";
     
     /** The default button height */
-    public static var BUTTON_HEIGHT : String = "BUTTON_HEIGHT";//Int = -1;
+    public static var BUTTON_HEIGHT : String = "BUTTON_HEIGHT";
     
     /** The default button highlight color */
-    public static var BUTTON_ALPHA : String = "BUTTON_ALPHA";//Float = 1;
+    public static var BUTTON_ALPHA : String = "BUTTON_ALPHA";
     
     /** The filter mode for the button text */
-    public static var BUTTON_SHADOW_FILTER : String = "BUTTON_SHADOW_FILTER";//Bool = true;
+    public static var BUTTON_SHADOW_FILTER : String = "BUTTON_SHADOW_FILTER";
     
     /** The default filter mode for the button bevel edge */
-    public static var BUTTON_BEVEL_FILTER : String = "BUTTON_BEVEL_FILTER";//Bool = true;
+    public static var BUTTON_BEVEL_FILTER : String = "BUTTON_BEVEL_FILTER";
     
     public static var CHECKBOX_NORMAL_COLOR : String = "CHECKBOX_NORMAL_COLOR";
     public static var CHECKBOX_OVER_COLOR : String = "CHECKBOX_OVER_COLOR";
@@ -151,22 +151,22 @@ class UIStyleManager
     
     public static var CHECKBOX_TEXT_COLOR : String = "CHECKBOX_TEXT_COLOR";
     
-    public static var CHECKBOX_TEXT_BOLD : String = "CHECKBOX_TEXT_BOLD";//Bool = false;
-    public static var CHECKBOX_TEXT_ITALIC : String = "CHECKBOX_TEXT_ITALIC";//Bool = false;
-    public static var CHECKBOX_TEXT_SIZE : String = "CHECKBOX_TEXT_SIZE";//Int = -1;
+    public static var CHECKBOX_TEXT_BOLD : String = "CHECKBOX_TEXT_BOLD";
+    public static var CHECKBOX_TEXT_ITALIC : String = "CHECKBOX_TEXT_ITALIC";
+    public static var CHECKBOX_TEXT_SIZE : String = "CHECKBOX_TEXT_SIZE";
     
     public static var CHECKBOX_TEXT_ALIGN : String = "CHECKBOX_TEXT_ALIGN";
 
-    public static var CHECKBOX_USE_CUSTOM_RENDER : String = "CHECKBOX_USE_CUSTOM_RENDER";//Bool = false;
+    public static var CHECKBOX_USE_CUSTOM_RENDER : String = "CHECKBOX_USE_CUSTOM_RENDER";
     
     /** The over all size of checkbox */
-    public static var CHECKBOX_SIZE : String = "CHECKBOX_SIZE";//Int = -1;
+    public static var CHECKBOX_SIZE : String = "CHECKBOX_SIZE";
     
     /** Label offset on x axis */
-    public static var CHECKBOX_LABEL_OFFSET_X : String = "CHECKBOX_LABEL_OFFSET_X";//Int = 0;
+    public static var CHECKBOX_LABEL_OFFSET_X : String = "CHECKBOX_LABEL_OFFSET_X";
     
     /** Label offset on y axis */
-    public static var CHECKBOX_LABEL_OFFSET_Y : String = "CHECKBOX_LABEL_OFFSET_Y";//Int = 0;
+    public static var CHECKBOX_LABEL_OFFSET_Y : String = "CHECKBOX_LABEL_OFFSET_Y";
     
     public static var RADIOBUTTON_NORMAL_COLOR : String = "RADIOBUTTON_NORMAL_COLOR";
     public static var RADIOBUTTON_OVER_COLOR : String = "RADIOBUTTON_OVER_COLOR";
@@ -175,31 +175,31 @@ class UIStyleManager
     
     public static var RADIOBUTTON_TEXT_COLOR : String = "RADIOBUTTON_TEXT_COLOR";
     
-    public static var RADIOBUTTON_TEXT_BOLD : String = "RADIOBUTTON_TEXT_BOLD";//Bool = false;
-    public static var RADIOBUTTON_TEXT_ITALIC : String = "RADIOBUTTON_TEXT_ITALIC";//Bool = false;
-    public static var RADIOBUTTON_TEXT_SIZE : String = "RADIOBUTTON_TEXT_SIZE";//Int = -1;
+    public static var RADIOBUTTON_TEXT_BOLD : String = "RADIOBUTTON_TEXT_BOLD";
+    public static var RADIOBUTTON_TEXT_ITALIC : String = "RADIOBUTTON_TEXT_ITALIC";
+    public static var RADIOBUTTON_TEXT_SIZE : String = "RADIOBUTTON_TEXT_SIZE";
     
     public static var RADIOBUTTON_TEXT_ALIGN : String = "RADIOBUTTON_TEXT_ALIGN";
 
-    public static var RADIOBUTTON_USE_CUSTOM_RENDER : String = "RADIOBUTTON_USE_CUSTOM_RENDER";//Bool = false;
+    public static var RADIOBUTTON_USE_CUSTOM_RENDER : String = "RADIOBUTTON_USE_CUSTOM_RENDER";
     
     /** The radio button over all size */
-    public static var RADIOBUTTON_SIZE : String = "RADIOBUTTON_SIZE";//Int = -1;
+    public static var RADIOBUTTON_SIZE : String = "RADIOBUTTON_SIZE";
     
     /** The radio button dot */
-    public static var RADIOBUTTON_DOT : String = "RADIOBUTTON_DOT";//Int = -1;
+    public static var RADIOBUTTON_DOT : String = "RADIOBUTTON_DOT";
     
     /** Radio button offset on the x axis */
-    public static var RADIOBUTTON_OFFSET_X : String = "RADIOBUTTON_OFFSET_X";//Int = 0;
+    public static var RADIOBUTTON_OFFSET_X : String = "RADIOBUTTON_OFFSET_X";
     
     /** Radio button offset on the y axis */
-    public static var RADIOBUTTON_OFFSET_Y : String = "RADIOBUTTON_OFFSET_Y";//Int = 0;
+    public static var RADIOBUTTON_OFFSET_Y : String = "RADIOBUTTON_OFFSET_Y";
     
     /** Label offset on x axis */
-    public static var RADIOBUTTON_LABEL_OFFSET_X : String = "RADIOBUTTON_LABEL_OFFSET_X";//Int = 0;
+    public static var RADIOBUTTON_LABEL_OFFSET_X : String = "RADIOBUTTON_LABEL_OFFSET_X";
     
     /** Label offset on y axis */
-    public static var RADIOBUTTON_LABEL_OFFSET_Y : String = "RADIOBUTTON_LABEL_OFFSET_Y";//Int = 0;
+    public static var RADIOBUTTON_LABEL_OFFSET_Y : String = "RADIOBUTTON_LABEL_OFFSET_Y";
     
     public static var COMBO_BUTTON_NORMAL_COLOR : String = "COMBO_BUTTON_NORMAL_COLOR";
     public static var COMBO_BUTTON_OVER_COLOR : String = "COMBO_BUTTON_OVER_COLOR";
@@ -248,7 +248,7 @@ class UIStyleManager
     public static var GRID_BORDER_THINKNESS : String = "GRID_BORDER_THINKNESS";
     
     public static var GRID_CELL_BORDER_ALPHA : String = "GRID_CELL_BORDER_ALPHA";
-    public static var GRID_CELL_BORDER : String = "GRID_CELL_BORDER";//Bool = false;
+    public static var GRID_CELL_BORDER : String = "GRID_CELL_BORDER";
     public static var GRID_CELL_BORDER_COLOR : String = "GRID_CELL_BORDER_COLOR";
     public static var GRID_CELL_BORDER_THINKNESS : String = "GRID_CELL_BORDER_THINKNESS";
     
@@ -264,11 +264,16 @@ class UIStyleManager
     public static var LIST_BACKGROUND_COLOR : String = "LIST_BACKGROUND_COLOR";
     
     public static var LIST_TEXT_EMBED : String = "LIST_TEXT_EMBED";
+    /** String **/
     public static var LIST_TEXT_FONT : String = "LIST_TEXT_FONT";
     
+    /** Int **/
     public static var LIST_TEXT_NORMAL_COLOR : String = "LIST_TEXT_NORMAL_COLOR";
+    /** Int **/
     public static var LIST_TEXT_OVER_COLOR : String = "LIST_TEXT_OVER_COLOR";
+    /** Int **/
     public static var LIST_TEXT_OVER_BACKGROUND_COLOR : String = "LIST_TEXT_OVER_BACKGROUND_COLOR";
+    /** Int **/
     public static var LIST_TEXT_SELECTED_COLOR : String = "LIST_TEXT_SELECTED_COLOR";
     
     public static var LIST_TEXT_SELECTED_BACKGROUND_COLOR : String = "LIST_TEXT_SELECTED_BACKGROUND_COLOR";
@@ -296,7 +301,7 @@ class UIStyleManager
     public static var LABEL_TEXT_ALIGN : String = "LABEL_TEXT_ALIGN";
     
     /** Set the amount of pixels the text will be indented by  */
-    public static var LABEL_INDENT : String = "LABEL_INDENT";//Int = 0;
+    public static var LABEL_INDENT : String = "LABEL_INDENT";
     
     public static var INPUT_BACKGROUND : String = "INPUT_BACKGROUND";
     
@@ -336,7 +341,7 @@ class UIStyleManager
     public static var PROGRESSBAR_TEXT_ITALIC : String = "PROGRESSBAR_TEXT_ITALIC";
     public static var PROGRESSBAR_TEXT_SIZE : String = "PROGRESSBAR_TEXT_SIZE";
 
-    public static var PROGRESSBAR_USE_CUSTOM_RENDER : String = "PROGRESSBAR_USE_CUSTOM_RENDER";//Bool = false;
+    public static var PROGRESSBAR_USE_CUSTOM_RENDER : String = "PROGRESSBAR_USE_CUSTOM_RENDER";
     
     public static var PROGRESSBAR_COLOR : String = "PROGRESSBAR_COLOR";
     public static var PROGRESSBAR_COLOR_LOADED : String = "PROGRESSBAR_COLOR_LOADED";
@@ -376,7 +381,7 @@ class UIStyleManager
     public static var SCROLLBAR_ROTATE_IMAGE : String = "SCROLLBAR_ROTATE_IMAGE";
     public static var SCROLLBAR_SLIDER_OFFSET : String = "SCROLLBAR_SLIDER_OFFSET";
     
-    public static var SCROLLBAR_BUTTON_USE_CUSTOM_RENDER : String = "SCROLLBAR_BUTTON_USE_CUSTOM_RENDER";//Bool = false;
+    public static var SCROLLBAR_BUTTON_USE_CUSTOM_RENDER : String = "SCROLLBAR_BUTTON_USE_CUSTOM_RENDER";
 
     public static var SCROLLBAR_BUTTON_NORMAL_COLOR : String = "SCROLLBAR_BUTTON_NORMAL_COLOR";
     public static var SCROLLBAR_BUTTON_OVER_COLOR : String = "SCROLLBAR_BUTTON_OVER_COLOR";
@@ -408,7 +413,7 @@ class UIStyleManager
     
     public static var SLIDER_ROTATE_IMAGE : String = "SLIDER_ROTATE_IMAGE";
 
-    public static var SLIDER_USE_CUSTOM_RENDER : String = "SLIDER_USE_CUSTOM_RENDER";//Bool = false;
+    public static var SLIDER_USE_CUSTOM_RENDER : String = "SLIDER_USE_CUSTOM_RENDER";
     
     public static var SLIDER_OFFSET : String = "SLIDER_OFFSET";
     
@@ -419,7 +424,7 @@ class UIStyleManager
     public static var SCROLLPANE_BORDER_COLOR : String = "SCROLLPANE_BORDER_COLOR";
     public static var SCROLLPANE_BORDER_THINKNESS : String = "SCROLLPANE_BORDER_THINKNESS";
 
-    public static var SCROLLPANE_USE_CUSTOM_RENDER : String = "SCROLLPANE_USE_CUSTOM_RENDER";//Bool = false;
+    public static var SCROLLPANE_USE_CUSTOM_RENDER : String = "SCROLLPANE_USE_CUSTOM_RENDER";
     
     public static var SCROLLPANE_CONTENT_OFFSET_X : String = "SCROLLPANE_CONTENT_OFFSET_X";
     public static var SCROLLPANE_CONTENT_OFFSET_Y : String = "SCROLLPANE_CONTENT_OFFSET_Y";
