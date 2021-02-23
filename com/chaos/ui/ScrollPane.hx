@@ -442,15 +442,18 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 	}
 
 	private function updatePolicy(value:ScrollPolicy = ScrollPolicy.AUTO):Void {
+		
 		// If nothing was setup then leave
 		if (_content.numChildren == 0)
 			return;
 
 		// Figure out what to do with the
 		if (value == ScrollPolicy.AUTO) {
+
 			// Make sure scroll bars are hidden
 			_scrollBarH.visible = true;
 			_scrollBarV.visible = true;
+
 			shapeBlock.visible = true;
 
 			// Set the size of the scrollbars
@@ -477,15 +480,14 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 			}
 
 			// If you can see the shape block then move the block into the right place
-			if (shapeBlock.visible) {
+			if (shapeBlock.visible) 
+			{
 				shapeBlock.x = (_width - shapeBlock.width) + _contentOffsetX;
 				shapeBlock.y = (_height - shapeBlock.height) + _contentOffsetY;
-
-				// shapeBlock.x = _scrollBarH.width + _contentOffsetX;
-				// shapeBlock.y = _scrollBarV.height + _contentOffsetY;
 			}
-			// Else figure out how to adjust the scroll bars
-			else {
+			
+			else { // Else figure out how to adjust the scroll bars
+				
 				// If Hoz is the only one being displayed
 				if (_scrollBarH.visible && !_scrollBarV.visible) {
 					_scrollBarH.width = _width - _contentOffsetX;
@@ -500,6 +502,7 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 				shapeBlock.x = shapeBlock.y = 0;
 			}
 		} else if (value == ScrollPolicy.ON) {
+
 			_scrollBarH.width = (_width - shapeBlock.width) - _contentOffsetX;
 			_scrollBarV.height = (_height - shapeBlock.height) - _contentOffsetY;
 
@@ -521,6 +524,7 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 			else
 				_scrollBarV.enabled = false;
 		} else if (value == ScrollPolicy.ONLY_VERTICAL) {
+
 			_scrollBarH.visible = false;
 			_scrollBarV.visible = true;
 
@@ -534,7 +538,9 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 				_scrollBarV.enabled = true;
 			else
 				_scrollBarV.enabled = false;
+
 		} else if (value == ScrollPolicy.ONLY_HORIZONTAL) {
+
 			_scrollBarV.visible = false;
 			_scrollBarH.visible = true;
 
@@ -548,7 +554,9 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 				_scrollBarH.enabled = true;
 			else
 				_scrollBarH.enabled = false;
+
 		} else if (value == ScrollPolicy.OFF) {
+
 			_scrollBarH.visible = false;
 			_scrollBarV.visible = false;
 
