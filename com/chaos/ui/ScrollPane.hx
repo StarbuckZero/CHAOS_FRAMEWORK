@@ -15,7 +15,6 @@ import com.chaos.ui.layout.BaseContainer;
  *  A container for loading in DisplayObject
  */
 class ScrollPane extends BaseContainer implements IScrollPane implements IBaseContainer {
-	public static inline var TYPE:String = "ScrollPane";
 
 	private static inline var RECT_MODE:String = "rect";
 	private static inline var MASK_MODE:String = "mask";
@@ -42,11 +41,11 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 	 *
 	 * @see com.chaos.ui.ScrollPolicy
 	 */
-	public var mode(get, set):String;
+	public var mode(get, set):ScrollPolicy;
 
 	public var shapeBlock:Shape;
 
-	private var _mode:String = ScrollPolicy.AUTO;
+	private var _mode:ScrollPolicy = ScrollPolicy.AUTO;
 	private var _scrollContentType:String = RECT_MODE;
 
 	private var _scrollContentLoaded:Bool = false;
@@ -426,7 +425,7 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 	 *
 	 * @see com.chaos.ui.ScrollPolicy
 	 */
-	public function set_mode(value:String):String {
+	public function set_mode(value:ScrollPolicy):ScrollPolicy {
 		_mode = value;
 		updatePolicy(_mode);
 
@@ -438,11 +437,11 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 	 *
 	 * @see com.chaos.ui.ScrollPolicy
 	 */
-	public function get_mode():String {
+	public function get_mode():ScrollPolicy {
 		return _mode;
 	}
 
-	private function updatePolicy(value:String = "auto"):Void {
+	private function updatePolicy(value:ScrollPolicy = ScrollPolicy.AUTO):Void {
 		// If nothing was setup then leave
 		if (_content.numChildren == 0)
 			return;

@@ -37,7 +37,7 @@ interface IScrollPane extends IBaseContainer
 	 */
 	
 
-	var mode(get, set) : String;      
+	var mode(get, set) : ScrollPolicy;      
 	
 	
 	/**

@@ -321,8 +321,9 @@ class UIDemo extends Sprite
         addChild(itemPane);
         addChild(menu.displayObject);
         addChild(accordion);
-        addChild(window.displayObject);
         addChild(card);
+        addChild(window.displayObject);
+        
         
     }
     

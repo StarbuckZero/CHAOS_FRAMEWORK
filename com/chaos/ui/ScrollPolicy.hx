@@ -2,31 +2,27 @@ package com.chaos.ui;
 
 /**
  * These values are used for the scrollbars on the ScrollPane, TabPane and Window Class.
- *	<br><br>
+ *	
  *  @author Erick Feiling
  *  @date 11-14-09
  *
  */
 
-class ScrollPolicy 
+enum ScrollPolicy 
 {
 	/** The AUTO setting turn on and off the scrollbar based on the size of the content  */ 
-	public static inline var AUTO : String = "auto"; 
+	AUTO; 
 	
 	/** The scrollbar will always be turned off  */
-	public static inline var OFF : String = "off"; 
+	OFF; 
 	
 	/** The scrollbar will always be turned on  */ 
-	public static inline var ON : String = "on";
+	ON;
 	
 	/** Only show the vertical scrollbar  */
-	public static inline var ONLY_VERTICAL : String = "vertical_only"; 
+	ONLY_VERTICAL; 
 	
 	/** Only show the horizontal scrollbar  */ 
-	public static inline var ONLY_HORIZONTAL : String = "horizontal_only";
+	ONLY_HORIZONTAL;
 	
-	private function new()
-    {
-        
-    }
 }
