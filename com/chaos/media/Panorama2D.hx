@@ -17,12 +17,12 @@ import openfl.geom.Point;
 import openfl.geom.Rectangle;
 
 /**
- * A 2D Panorama that used image or swf files
+ * A 2D Panorama that used image
  *
  * @author Erick Feiling
  */
 
-class Panorama extends BaseUI implements IPanorama implements IBaseUI
+class Panorama2D extends BaseUI implements IPanorama implements IBaseUI
 {
     public var spacing(get, set) : Int;
     public var lag(get, set) : Int;
