@@ -213,7 +213,7 @@ class TileLayer extends BaseUI implements IBaseUI
             var layer:Dynamic = _layers[i];
             var layerMap:Array<Int> = Reflect.field(layer,"data");
             var tileIndex:Int = _index;
-            
+
             _row = Std.int(_width / _tileWidth) + _tileBufferAmount;
             _column = Std.int(_height / _tileHeight) + _tileBufferAmount;
 
@@ -231,9 +231,6 @@ class TileLayer extends BaseUI implements IBaseUI
 
                 if(image != null)
                 {
-                    if(i == 1)
-                        trace("Found image!");
-
                     _content.graphics.beginBitmapFill(image);
                     _content.graphics.drawRect(rowCount * _tileWidth, colCount * _tileHeight, image.width, image.height);
                     _content.graphics.endFill();         
@@ -253,8 +250,6 @@ class TileLayer extends BaseUI implements IBaseUI
         } 
 
         _layerLength = layerCount;
-
-        trace("index: " + _index + " out of " + _layerLength + " column index: " + _colIndex);
 
     }
     
