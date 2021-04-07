@@ -1,19 +1,22 @@
 package com.chaos.drawing;
 
-import com.chaos.utils.Debug;
-import cpp.abi.Abi;
-import openfl.display.Shape;
-import haxe.macro.Type.Ref;
-import openfl.display.BitmapData;
 import haxe.Json;
-import com.chaos.ui.BaseUI;
-import com.chaos.ui.classInterface.IBaseUI;
 
+import openfl.display.Shape;
 import openfl.display.Tile;
 import openfl.display.Tilemap;
 import openfl.display.Tileset;
 import openfl.geom.Rectangle;
+import openfl.geom.Point;
 import openfl.utils.Assets;
+import openfl.display.BitmapData;
+
+import com.chaos.utils.Debug;
+import com.chaos.ui.BaseUI;
+import com.chaos.ui.classInterface.IBaseUI;
+import com.chaos.utils.CompositeManager;
+
+
 
 /**
  * A 2D Layer filled with bitmap images based on data files
@@ -33,6 +36,10 @@ class TileLayer extends BaseUI implements IBaseUI
     private var _tileHeight:Int = 0;
     private var _tileCount:Int = 0;
 
+    private var _tileImageWidth:Int = 0;
+    private var _tileImageHeight:Int = 0;
+    private var _tileImageCount:Int = 0;
+
     private var _mapWidth:Int = -1;
     private var _mapHeight:Int = -1;
 
@@ -47,6 +54,8 @@ class TileLayer extends BaseUI implements IBaseUI
     private var _tiles:Array<Dynamic>;
     private var _layers:Array<Dynamic>;
     private var _layerLength:Int = 0;
+
+    private var _tileImage:BitmapData;
 
     /* Adjust the offset of the id number. This is for when items get exported in the Tiled Program.*/
     private var _idOffset:Int = -1;
@@ -137,10 +146,10 @@ class TileLayer extends BaseUI implements IBaseUI
             setupTileMap( Json.parse(Assets.getText(tileAsset)), Json.parse(Assets.getText(tileMap)) );
     }
 
-    private function setupTileMap(tileDataObj:Dynamic, tileMapDataObj:Dynamic) {
+    private function setupTileMap(tileDataObj:Dynamic, tileMapDataObj:Dynamic):Void {
 
         
-        // Tile
+        // Tile Assets
         if(Reflect.hasField(tileDataObj,"tilewidth"))
             _tileWidth = Reflect.field(tileDataObj,"tilewidth"); 
 
@@ -153,6 +162,19 @@ class TileLayer extends BaseUI implements IBaseUI
         if(Reflect.hasField(tileDataObj,"tiles"))
             _tiles = Reflect.field(tileDataObj,"tiles");
 
+        // Tile Image
+        if(Reflect.hasField(tileDataObj,"imagewidth"))
+            _tileImageWidth = Reflect.field(tileDataObj,"imagewidth");
+
+        if(Reflect.hasField(tileDataObj,"imageheight"))
+            _tileImageHeight = Reflect.field(tileDataObj,"imageheight");
+
+        if(Reflect.hasField(tileDataObj,"columns"))
+            _tileImageCount = Reflect.field(tileDataObj,"columns");        
+
+        if(Reflect.hasField(tileDataObj,"image"))
+            _tileImage = Assets.getBitmapData( _assetPrefix + Reflect.field(tileDataObj,"image"));
+        
 
         // Map 
         if(Reflect.hasField(tileMapDataObj,"width"))
@@ -182,15 +204,16 @@ class TileLayer extends BaseUI implements IBaseUI
 
         _content.graphics.clear();
 
-        var tileIndex:Int = _index;
         var layerCount:Int = 0;
 
         // Start drawing layer
         for(i in 0 ... _layers.length)
         {
+
             var layer:Dynamic = _layers[i];
             var layerMap:Array<Int> = Reflect.field(layer,"data");
-
+            var tileIndex:Int = _index;
+            
             _row = Std.int(_width / _tileWidth) + _tileBufferAmount;
             _column = Std.int(_height / _tileHeight) + _tileBufferAmount;
 
@@ -200,12 +223,17 @@ class TileLayer extends BaseUI implements IBaseUI
             if(layerCount <= 0)
                 layerCount = layerMap.length;
             
+            _content.graphics.moveTo(0,0);
+
             while(rowCount < _row && colCount < _column) {
                 
                 var image:BitmapData = getTile(layerMap[tileIndex + rowCount]);
 
                 if(image != null)
                 {
+                    if(i == 1)
+                        trace("Found image!");
+
                     _content.graphics.beginBitmapFill(image);
                     _content.graphics.drawRect(rowCount * _tileWidth, colCount * _tileHeight, image.width, image.height);
                     _content.graphics.endFill();         
@@ -234,15 +262,33 @@ class TileLayer extends BaseUI implements IBaseUI
     private function getTile( id:Int ):BitmapData
     {
 
-        // filter down tiles to return just one
-        var tile:Array<Dynamic> = _tiles.filter(function(tileData:Dynamic) {return Reflect.field(tileData,"id") == (id + _idOffset);});
+        if(_tiles != null && _tiles.length > 0)
+        {
+            // filter down tiles to return just one
+            var tile:Array<Dynamic> = _tiles.filter(function(tileData:Dynamic) {return Reflect.field(tileData,"id") == (id + _idOffset);});
 
-        // If found then grab that image
-        if(tile.length > 0)
-            return Assets.getBitmapData( _assetPrefix + Reflect.field(tile[0],"image"));
+            // If found then grab that image
+            if(tile.length > 0)
+                return Assets.getBitmapData( _assetPrefix + Reflect.field(tile[0],"image"));
+        }
+        else if(_tileImage != null) {
+
+            if(id > 0 )
+                return getFromSpritesheet(id + _idOffset);
+        }
+
 
         return null;
 
     }
 
+    public function getFromSpritesheet(tileNumber:Int):BitmapData
+    {
+        var rowLength:Int = Std.int(_tileImage.width / _tileWidth);
+
+        var canvasBitmapData = new BitmapData(_tileWidth,_tileHeight);
+        canvasBitmapData.copyPixels(_tileImage, new Rectangle(Std.int(tileNumber % rowLength) * _tileWidth, Std.int(tileNumber / rowLength) * _tileHeight, _tileWidth, _tileHeight), new Point(0, 0));
+        
+        return canvasBitmapData.clone();
+    }
 }
