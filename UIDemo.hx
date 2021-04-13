@@ -13,7 +13,6 @@ import com.chaos.ui.CheckBoxGroup;
 import com.chaos.ui.ComboBox;
 import com.chaos.ui.TextInput;
 import com.chaos.utils.CompositeManager;
-//import com.chaos.ui.Interface.IButton;
 import com.chaos.ui.data.ComboBoxObjectData;
 import com.chaos.ui.data.ItemPaneObjectData;
 import com.chaos.ui.data.ListObjectData;
@@ -50,7 +49,7 @@ import openfl.text.TextField;
 
 
 /**
- * ...
+ * Demo of all UI classes
  * @author Erick Feiling
  */
 class UIDemo extends Sprite
@@ -180,14 +179,13 @@ class UIDemo extends Sprite
         window = new Window({"width":200, "height":200,  "Label":{"text":"Window"}});
 		window.x = ((stage.stageWidth / 2) - (window.width / 2));
 		window.y = ((stage.stageHeight / 2) - (window.height / 2));
-		//window.textLabel.text = "Window";
 		
 		
         // Attach events
         window.closeButton.addEventListener(MouseEvent.CLICK, onHideWindow, false, 0, true);
         window.minButton.addEventListener(MouseEvent.CLICK, onHideWindow, false, 0, true);
         
-		// Hide Window for button press
+        // Hide Window for button press
         window.visible = false;
         
         // Tab Pane
