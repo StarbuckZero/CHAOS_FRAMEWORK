@@ -5,6 +5,7 @@
  */
 package com.chaos.media;
 
+import openfl.display.LoaderInfo;
 import com.chaos.ui.classInterface.IBaseUI;
 
 import openfl.display.BitmapData;
@@ -29,8 +30,6 @@ class DisplayImage extends BaseUI implements IBaseUI
 	private var _drawOffStage:Bool = false;
 	private var _image : BitmapData = null;
 	private var _url : String = "";
-	
-
 	
 	/**
 	 * Loads an image from a given loaction off the net. Use the onImageComplete call back or add an lisnter using Event.COMPLETE for when image loads.
@@ -81,10 +80,10 @@ class DisplayImage extends BaseUI implements IBaseUI
 			_url = Reflect.field(data, "url");
 			
 		if (Reflect.hasField(data, "drawOffStage"))
-			_drawOffStage =  Reflect.field(data, "drawOffStage");
+			_drawOffStage = Reflect.field(data, "drawOffStage");
 		
 		if (Reflect.hasField(data, "image"))
-			_image =  Reflect.field(data, "image");		
+			_image = Reflect.field(data, "image");		
 		
 	}
 	
@@ -188,19 +187,13 @@ class DisplayImage extends BaseUI implements IBaseUI
 	
 	private function fileComplete(event : Event) : Void  
 	{  
-		try
-		{
-			var loaderFile:Loader = cast(event.target, Loader);
-			_image = cast( (loaderFile.content), Bitmap).bitmapData;
-			
-			if (_drawOffStage)
-				draw();
-		}
-		catch (error : Error)
-		{
-			Debug.print("[DisplayImage::fileComplete] Fail to convert image");
-		}
-			
+		
+		var loaderFile:LoaderInfo = cast(event.target, LoaderInfo);
+		_image = cast( (loaderFile.content), Bitmap).bitmapData;
+		
+		if (_drawOffStage)
+			draw();
+		
 		dispatchEvent(event);
     }
 }
