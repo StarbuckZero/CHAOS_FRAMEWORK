@@ -2,7 +2,6 @@
 import com.chaos.ui.Accordion;
 import com.chaos.data.DataProvider;
 import com.chaos.ui.ScrollTextContent;
-
 import com.chaos.drawing.icon.ArrowRightIcon;
 import com.chaos.drawing.icon.StopIcon;
 import com.chaos.form.ui.InputField;
@@ -37,6 +36,7 @@ import com.chaos.ui.Window;
 import com.chaos.mobile.ui.Card;
 import com.chaos.utils.ThreadManager;
 import com.chaos.ui.ScrollPolicy;
+
 import openfl.display.Bitmap;
 import openfl.display.DisplayObject;
 import openfl.display.MovieClip;
