@@ -250,11 +250,6 @@ class TileLayer extends BaseUI implements IBaseUI
 
         if(_mapWidth < 0 || _mapHeight < 0)
             Debug.print("[TileLayer::setupTileMap] The tileWidth and tileHeight must be set in order to draw anything");
-
-
-        // clear objects
-        //_tileData = null;
-        //_tileMapData = null;
     }
 
     override function draw() {
