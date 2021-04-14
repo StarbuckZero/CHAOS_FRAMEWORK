@@ -64,6 +64,8 @@ class TileLayer extends BaseUI implements IBaseUI
     private var _cache:Map<String,BitmapData>;
     private var _enableCache:Bool = false;
 
+    private var _preloadTiles:Bool = true;
+
     private var _lazyLoading:Bool = false;
 
     /* Adjust the offset of the id number. This is for when items get exported in the Tiled Program.*/
@@ -97,6 +99,10 @@ class TileLayer extends BaseUI implements IBaseUI
         if(Reflect.hasField(data,"enableCache"))
             _enableCache = Reflect.field(data,"enableCache");
 
+        if(Reflect.hasField(data,"preloadTiles"))
+            _preloadTiles = Reflect.field(data,"preloadTiles");        
+        
+
         // Load files based off Asset Libray
         if(Reflect.hasField(data,"tileFile") && Reflect.hasField(data,"tileMap") && Assets.exists(Reflect.field(data,"tileFile")) && Assets.exists(Reflect.field(data,"tileMap")))
             loadTileAssetLibrary(Reflect.field(data,"tileFile"), Reflect.field(data,"tileMap"));
@@ -115,6 +121,25 @@ class TileLayer extends BaseUI implements IBaseUI
         _content = new Shape();
 
         addChild(_content);
+    }
+
+    override function destroy() {
+        super.destroy();
+
+        for (key in _cache.keys()) {
+
+            var image:BitmapData = _cache.get(key);
+            image.dispose();
+            image = null;
+
+            _cache.remove(key);
+        }
+
+        _content.graphics.clear();
+        removeChild(_content);
+
+        _cache = null;
+
     }
 
 
@@ -155,7 +180,6 @@ class TileLayer extends BaseUI implements IBaseUI
             _colIndex++;
             _index += _mapHeight;
         }
-            
 
         if(redraw)
             draw();        
@@ -193,7 +217,7 @@ class TileLayer extends BaseUI implements IBaseUI
         if(Reflect.hasField(tileDataObj,"tilecount"))
             _tileCount = Reflect.field(tileDataObj,"tilecount");
 
-        if(Reflect.hasField(tileDataObj,"tiles"))
+        if(Reflect.hasField(tileDataObj,"tiles")) 
             _tiles = Reflect.field(tileDataObj,"tiles");
 
         // Tile Image
@@ -220,12 +244,17 @@ class TileLayer extends BaseUI implements IBaseUI
         // Layers
         if(Reflect.hasField(tileMapDataObj,"layers"))
             _layers = Reflect.field(tileMapDataObj,"layers");
-        
+
+        if(_layers != null && _preloadTiles)
+            preloadAllTiles();        
 
         if(_mapWidth < 0 || _mapHeight < 0)
             Debug.print("[TileLayer::setupTileMap] The tileWidth and tileHeight must be set in order to draw anything");
 
 
+        // clear objects
+        //_tileData = null;
+        //_tileMapData = null;
     }
 
     override function draw() {
@@ -314,7 +343,6 @@ class TileLayer extends BaseUI implements IBaseUI
                     displayImage.load(_assetPrefix + Reflect.field(tile[0],"image"));
                     displayImage.name = Reflect.field(tile[0],"image");
                 }
-                    
 
                 if(_enableCache) 
                     _cache.set(Reflect.field(tile[0],"image"),image);
@@ -329,9 +357,7 @@ class TileLayer extends BaseUI implements IBaseUI
                 return getFromSpritesheet(id + _idOffset);
         }
 
-
         return null;
-
     }
 
     public function getFromSpritesheet(tileNumber:Int):BitmapData
@@ -375,5 +401,40 @@ class TileLayer extends BaseUI implements IBaseUI
 
         if(_tileLoadCount == 0)
         draw();
+    }
+
+    private function preloadAllTiles():Void {
+
+
+        // If not enabled then it's pointless to run code below
+        if(!_enableCache)
+            return;
+
+        // Load and cache all images by calling the getTile method
+        for(i in 0 ... _layers.length) {
+    
+            var layer:Dynamic = _layers[i]; 
+            var layerMap:Array<Int> = Reflect.field(layer,"data");
+
+            var array:Array<Int> = getUniqueTileIds(layerMap);
+
+            for(a in 0 ... array.length) {
+                getTile(array[a]);
+            }
+
+        }     
+
+    }
+
+    private function getUniqueTileIds<Int>(array:Array<Int>):Array<Int> {
+
+        var newArray:Array<Int> = [];
+
+        for (v in array) {
+         	if (newArray.indexOf(v) == -1) 
+            	newArray.push(v);
+     	}
+
+        return newArray;
     }
 }

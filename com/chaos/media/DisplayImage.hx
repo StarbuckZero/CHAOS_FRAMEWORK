@@ -179,7 +179,7 @@ class DisplayImage extends BaseUI implements IBaseUI
 	
 	private function ioErrorHandler(event : IOErrorEvent) : Void 
 	{
-		Debug.print("[DisplayImage::ioErrorHandler] Fail to load file");
+		//Debug.print("[DisplayImage::ioErrorHandler] Fail to load file");
 		
 		dispatchEvent(event);
     }
