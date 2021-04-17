@@ -1,11 +1,10 @@
 package com.chaos.drawing;
 
+import haxe.Json;
+
 import openfl.net.URLRequest;
 import openfl.net.URLLoader;
 import openfl.events.Event;
-import com.chaos.media.DisplayImage;
-import haxe.Json;
-
 import openfl.display.Shape;
 import openfl.display.Tile;
 import openfl.display.Tilemap;
@@ -15,11 +14,10 @@ import openfl.geom.Point;
 import openfl.utils.Assets;
 import openfl.display.BitmapData;
 
+import com.chaos.media.DisplayImage;
 import com.chaos.utils.Debug;
 import com.chaos.ui.BaseUI;
 import com.chaos.ui.classInterface.IBaseUI;
-import com.chaos.utils.CompositeManager;
-
 
 
 /**
@@ -28,10 +26,13 @@ import com.chaos.utils.CompositeManager;
  * @author Erick Feiling
  */
 
-
-
 class TileLayer extends BaseUI implements IBaseUI
 {
+    public var assetPrefix(get, set) : String;
+    public var lazyLoading(get, never) : Bool;
+    public var enableCaching(get, set) : Bool;
+    public var index(get, set) : Int;
+    public var tileBufferAmount(get, set) : Int;
 
     private var _tileData:Dynamic;
     private var _tileMapData:Dynamic;
@@ -62,9 +63,9 @@ class TileLayer extends BaseUI implements IBaseUI
     private var _tileImage:BitmapData;
 
     private var _cache:Map<String,BitmapData>;
-    private var _enableCache:Bool = false;
+    private var _enableCaching:Bool = false;
 
-    private var _preloadTiles:Bool = true;
+    private var _cacheTiles:Bool = false;
 
     private var _lazyLoading:Bool = false;
 
@@ -73,13 +74,15 @@ class TileLayer extends BaseUI implements IBaseUI
 
     private var _content:Shape;
 
-    private var _assetPrefix:String = "assets/";
+    private var _assetPrefix:String = "";
 
     private var _tileMapLoaded:Bool = false;
     private var _tileAssetDataLoaded:Bool = false;
 
     private var _tileLoadCount:Int = 0;
 
+    public var beforeDraw: Shape->Void;
+    public var afterDraw: Shape->Void;
 
     public function new(data:Dynamic = null)
     {
@@ -96,52 +99,99 @@ class TileLayer extends BaseUI implements IBaseUI
         if(Reflect.hasField(data,"tileBufferAmount"))
             _tileBufferAmount = Reflect.field(data,"tileBufferAmount");
 
-        if(Reflect.hasField(data,"enableCache"))
-            _enableCache = Reflect.field(data,"enableCache");
+        if(Reflect.hasField(data,"enableCaching"))
+            _enableCaching = Reflect.field(data,"enableCaching");
 
-        if(Reflect.hasField(data,"preloadTiles"))
-            _preloadTiles = Reflect.field(data,"preloadTiles");        
-        
+        if(Reflect.hasField(data,"cacheTiles"))
+            _cacheTiles = Reflect.field(data,"cacheTiles");
+
+        if(Reflect.hasField(data,"assetPrefix"))
+            _assetPrefix = Reflect.field(data,"assetPrefix");      
 
         // Load files based off Asset Libray
         if(Reflect.hasField(data,"tileFile") && Reflect.hasField(data,"tileMap") && Assets.exists(Reflect.field(data,"tileFile")) && Assets.exists(Reflect.field(data,"tileMap")))
             loadTileAssetLibrary(Reflect.field(data,"tileFile"), Reflect.field(data,"tileMap"));
         else if(Reflect.hasField(data,"tileFile") && Reflect.hasField(data,"tileMap"))
             loadTileFromPath(Reflect.field(data,"tileFile"), Reflect.field(data,"tileMap"));
-
     }
 
     override function initialize() {
         super.initialize();
 
-        
-        if(_enableCache)
+        if(enableCaching)
             _cache = new Map<String,BitmapData>();
 
         _content = new Shape();
 
-        addChild(_content);
-    }
+        addChild(_content);   
+    } 
 
+	private function set_assetPrefix( value:String ):String
+	{
+        _assetPrefix = value;
+
+		return _assetPrefix;
+	} 
+
+	private function get_assetPrefix():String
+	{
+		return _assetPrefix;
+	}    
+
+	private function get_lazyLoading():Bool
+	{
+		return _lazyLoading;
+	}  
+
+	private function set_enableCaching( value:Bool ):Bool
+	{
+        _enableCaching = value;
+
+		return _enableCaching;
+	} 
+
+	private function get_enableCaching():Bool
+	{
+		return _enableCaching;
+	}
+
+	private function set_index( value:Int ):Int
+	{
+        _index = value;
+
+		return _index;
+	} 
+
+	private function get_index():Int
+	{
+		return _index;
+	}       
+
+	private function set_tileBufferAmount( value:Int ):Int
+	{
+        _tileBufferAmount = value;
+
+		return _tileBufferAmount;
+	} 
+
+	private function get_tileBufferAmount():Int
+	{
+		return _tileBufferAmount;
+	}     
+        
     override function destroy() {
         super.destroy();
 
-        for (key in _cache.keys()) {
-
-            var image:BitmapData = _cache.get(key);
-            image.dispose();
-            image = null;
-
-            _cache.remove(key);
-        }
+        // Clear out everything
+        clearCache();
 
         _content.graphics.clear();
         removeChild(_content);
 
         _cache = null;
-
+        _tileData = null;
+        _tileMapData = null;
     }
-
 
     public function left( redraw:Bool = true ) {
 
@@ -154,7 +204,6 @@ class TileLayer extends BaseUI implements IBaseUI
 
     public function right( redraw:Bool = true ) {
 
-        
         if(_index < (_mapWidth * (_colIndex + 1)) - _row)
             _index++;
 
@@ -175,7 +224,6 @@ class TileLayer extends BaseUI implements IBaseUI
 
     public function down( redraw:Bool = true ) { 
 
-        
         if(_index < (_layerLength - _mapHeight)) {
             _colIndex++;
             _index += _mapHeight;
@@ -185,15 +233,48 @@ class TileLayer extends BaseUI implements IBaseUI
             draw();        
     }
 
+    /**
+    * Clear out all images stored in the layer cache
+    **/    
+
+    public function clearCache():Void {
+
+        for (key in _cache.keys()) {
+
+            var image:BitmapData = _cache.get(key);
+            image.dispose();
+            image = null;
+
+            _cache.remove(key);
+        }
+
+    }
+
+    /**
+    * load tile assets and map data files from Asset Libraray
+    * 
+	* @param	tileAsset The bitmap you want to use
+    * @param	tileMap The bitmap you want to use
+    *
+    **/
+
     public function loadTileAssetLibrary( tileAsset:String, tileMap:String ):Void {
 
         setupTileMap( Json.parse(Assets.getText(tileAsset)), Json.parse(Assets.getText(tileMap)) );
     }
 
+    /**
+    * load tile assets and map data from URL location. Doing this will turn on lazying loading mode and caching.
+    * 
+	* @param	tileAsset The bitmap you want to use
+    * @param	tileMap The bitmap you want to use
+    *
+    **/
+
     public function loadTileFromPath(tileAssetURL:String, tileMapURL:String):Void {
 
         // Force lazy loading and caching
-        _enableCache = _lazyLoading = true;
+        _enableCaching = _lazyLoading = true;
         
         var tileAssetLoader:URLLoader = new URLLoader();
         var tileMapLoader:URLLoader = new URLLoader();
@@ -245,7 +326,7 @@ class TileLayer extends BaseUI implements IBaseUI
         if(Reflect.hasField(tileMapDataObj,"layers"))
             _layers = Reflect.field(tileMapDataObj,"layers");
 
-        if(_layers != null && _preloadTiles)
+        if(_layers != null && _cacheTiles)
             preloadAllTiles();        
 
         if(_mapWidth < 0 || _mapHeight < 0)
@@ -253,6 +334,10 @@ class TileLayer extends BaseUI implements IBaseUI
     }
 
     override function draw() {
+
+        if(beforeDraw != null)
+            this.beforeDraw(_content);
+
         super.draw();
 
         if(_mapWidth < 0 || _mapHeight < 0)
@@ -307,10 +392,20 @@ class TileLayer extends BaseUI implements IBaseUI
 
         _layerLength = layerCount;
 
+        if(this.afterDraw != null)
+            this.afterDraw(_content);
+
     }
     
+    /**
+    * Get bitmap based on tile map id.
+    * 
+	* @param	id The bitmap you want to use
+    *
+    * @return  A image based off id, this will return null if image has not been cached or isn't loading from Asset library.
+    **/
 
-    private function getTile( id:Int ):BitmapData
+    public function getTile( id:Int ):BitmapData
     {
 
         if(_tiles != null && _tiles.length > 0)
@@ -323,7 +418,7 @@ class TileLayer extends BaseUI implements IBaseUI
 
                 var image:BitmapData = null;
 
-                if(_enableCache && _cache.exists(Reflect.field(tile[0],"image")))
+                if(_enableCaching && _cache.exists(Reflect.field(tile[0],"image")))
                     return _cache.get(Reflect.field(tile[0],"image"));
 
                 if(!_lazyLoading)
@@ -339,7 +434,7 @@ class TileLayer extends BaseUI implements IBaseUI
                     displayImage.name = Reflect.field(tile[0],"image");
                 }
 
-                if(_enableCache) 
+                if(_enableCaching) 
                     _cache.set(Reflect.field(tile[0],"image"),image);
 
                 return image;
@@ -355,7 +450,7 @@ class TileLayer extends BaseUI implements IBaseUI
         return null;
     }
 
-    public function getFromSpritesheet(tileNumber:Int):BitmapData
+    private function getFromSpritesheet(tileNumber:Int):BitmapData
     {
         var rowLength:Int = Std.int(_tileImage.width / _tileWidth);
 
@@ -400,9 +495,8 @@ class TileLayer extends BaseUI implements IBaseUI
 
     private function preloadAllTiles():Void {
 
-
         // If not enabled then it's pointless to run code below
-        if(!_enableCache)
+        if(!_enableCaching)
             return;
 
         // Load and cache all images by calling the getTile method
