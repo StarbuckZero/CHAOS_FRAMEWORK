@@ -208,6 +208,8 @@ class ListBox extends ScrollPane implements IListBox implements IBaseUI
 		
 		_list.removeAll();
 		_list = null;
+
+		UIBitmapManager.stopWatchElement(UIBitmapType.ListBox, this);
 	}
 
 	private function initBitmap() : Void 

@@ -257,6 +257,8 @@ class Bubble extends Overlay implements IBubble implements IOverlay implements I
 		removeChild(_tail);
 		removeChild(_backgroundBorder);
 		removeChild(_content);
+
+        UIBitmapManager.stopWatchElement(UIBitmapType.Bubble, this);
 		
 		
 	}

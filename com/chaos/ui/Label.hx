@@ -253,6 +253,8 @@ class Label extends BaseUI implements ILabel implements IBaseUI {
 
 		_textFormat = null;
 		_textField = null;
+
+		UIBitmapManager.stopWatchElement(UIBitmapType.Label, this);
 	}
 
 	private function onStageAdd(event:Event):Void {

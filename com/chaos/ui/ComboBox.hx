@@ -284,6 +284,7 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 	override public function setComponentData(data:Dynamic):Void 
 	{
 		super.setComponentData(data);
+
 		
 		if (Reflect.hasField(data, "data"))
 		{
@@ -301,10 +302,14 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 		if (Reflect.hasField(data, "Label"))
 			_labelData = Reflect.field(data, "Label");
 		else
-			_labelData = {"textColr":_textColor};
+			_labelData = {"textColor":_textColor};
 			
 		if (Reflect.hasField(data, "Button"))
 			_buttonData = Reflect.field(data, "Button");
+
+		if (Reflect.hasField(data, "rowCount"))
+			_rowCount = Reflect.field(data, "rowCount");
+
 	}
 
 	private function onStageAdd(event : Event) : Void { UIBitmapManager.watchElement(UIBitmapType.ComboBox, this); stage.addEventListener(MouseEvent.MOUSE_DOWN, stageClick); }

@@ -359,6 +359,14 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
         if (UIStyleManager.hasStyle(UIStyleManager.ITEMPANE_ITEM_LOC_Y))
             _itemLocX = UIStyleManager.getStyle(UIStyleManager.ITEMPANE_ITEM_LOC_Y);        
     }
+
+    override function destroy() {
+        super.destroy();
+
+        removeList();
+        
+        UIBitmapManager.stopWatchElement(UIBitmapType.ItemPane, this);
+    }
     
     /**
 	 * Set the width of the item block size
@@ -808,7 +816,7 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
         while (i > 0)
         {
             
-			var itemButton : ItemPaneButton = cast(_itemHolder.getChildByName(Std.string(i)), ItemPaneButton);
+			var itemButton : ItemPaneButton = cast(_itemHolder.getChildAt(i), ItemPaneButton);
 			
 			itemButton.removeEventListener(ToggleEvent.DOWN_STATE, onItemDownPress);
 			_itemHolder.removeChild(itemButton);
@@ -821,7 +829,7 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
 			
 			
 			
-			itemButton = null;
+			//itemButton = null;
 			
 			i--;
         }

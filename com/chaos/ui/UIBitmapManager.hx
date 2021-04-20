@@ -358,6 +358,10 @@ class UIBitmapManager {
 
 	public static function updateAllUIElement() {
 		
+		// Make sure everything is setup
+		if (!initialized)
+			initializeManager();
+				
 		for( compType in Type.allEnums(UIBitmapType))
 			updateUIElement(compType);
 	}

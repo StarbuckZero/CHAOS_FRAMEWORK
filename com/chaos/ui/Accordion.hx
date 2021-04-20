@@ -148,6 +148,8 @@ class Accordion extends BaseContainer implements IAccordion implements IBaseCont
 		_buttonOverImage = null;
 		_buttonDownImage = null;
 		_buttonDisableImage = null;
+
+		UIBitmapManager.stopWatchElement(UIBitmapType.Accordion, this);
 	}
 
 	override public function reskin():Void {
