@@ -12,6 +12,7 @@ import com.chaos.utils.Debug;
  *
  * @author Erick Feiling
  */
+
 class UIBitmapManager {
 	public static inline var ACCORDION_BUTTON_NORMAL:String = "accordion_button_normal";
 	public static inline var ACCORDION_BUTTON_OVER:String = "accordion_button_over";
@@ -244,42 +245,21 @@ class UIBitmapManager {
 	private static var watchList:Dynamic;
 	private static var customRender:Dynamic;
 
-    /** Components that will be used for skinning **/
-	// private static var componentNameList:Array<String> = [
-	// 	Alert.TYPE,
-	// 	Accordion.TYPE,
-	// 	Bubble.TYPE,
-	// 	Button.TYPE,
-	// 	ToggleButton.TYPE,
-	// 	CheckBox.TYPE,
-    //     ComboBox.TYPE,
-    //     Label.TYPE,
-    //     ListBox.TYPE,
-    //     ProgressBar.TYPE,
-    //     RadioButton.TYPE,
-    //     ScrollBar.TYPE,
-    //     ScrollPane.TYPE,
-    //     Slider.TYPE,
-    //     TabPane.TYPE,
-    //     TextInput.TYPE,
-    //     Window.TYPE,
-    //     ItemPane.TYPE,
-    //     GridPane.TYPE,
-    //     ProgressSlider.TYPE,
-    //     Menu.TYPE
-	// ];
-
 	public function new() {}
 
-	private static function initializeManager():Void {
-        skinTheme = {};
+	private static function initializeManager() : Void {
+
+		skinTheme = {};
          
         // Setting up to store bitmaps for all components
 		for( compType in Type.allEnums(UIBitmapType))
 			Reflect.setField(skinTheme, compType.getName(), {});
 
-        // for( i in 0 ... componentNameList.length)
-        //     Reflect.setField(skinTheme, componentNameList[i], {});
+        skinTheme = {};
+         
+        // Setting up to store bitmaps for all components
+		for( compType in Type.allEnums(UIBitmapType))
+			Reflect.setField(skinTheme, compType.getName(), {});
 
         watchList = {};
         
@@ -287,15 +267,20 @@ class UIBitmapManager {
 		for( compType in Type.allEnums(UIBitmapType))
 			Reflect.setField(watchList, compType.getName(), new DataProvider<IBaseUI>());		
 
-        // for( i in 0 ... componentNameList.length)
-        //     Reflect.setField(watchList, componentNameList[i], new DataProvider<IBaseUI>());
-
 		// Custom bitmap calls
 		customRender = {};
 		
-
-		
+		// Flag as inited
 		initialized = true;
+	}
+
+	public static function clear() : Void {
+
+		for( compType in Type.allEnums(UIBitmapType))
+			Reflect.deleteField(skinTheme, compType.getName());
+
+		for( compType in Type.allEnums(UIBitmapType))
+			Reflect.setField(skinTheme, compType.getName(), {});		
 	}
 
 	/**
@@ -361,7 +346,7 @@ class UIBitmapManager {
 		// Make sure everything is setup
 		if (!initialized)
 			initializeManager();
-				
+
 		for( compType in Type.allEnums(UIBitmapType))
 			updateUIElement(compType);
 	}

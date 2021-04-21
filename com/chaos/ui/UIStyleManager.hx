@@ -653,5 +653,13 @@ class UIStyleManager
     public static function getStyle(styleName : String) : Dynamic {
         return Reflect.field(styleList, styleName);
     }
+
+    public static function clear() : Void {
+
+        for (index in Reflect.fields(styleList)) 
+            Reflect.deleteField(styleList,index);
+    }
+
+
 }
 
