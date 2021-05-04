@@ -94,6 +94,12 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 	 */
 	
 	public var text(get, set) : String;
+
+	/**
+	 * Set the alignment of the drop down labels
+	 */
+	 
+	 public var align(get, set):String;	
 	
 	/**
 	 * Returns text label used on the combo box selected item area
@@ -255,6 +261,8 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 	private var _labelArray:Array<ILabel> = new Array<ILabel>();
 	private var _lastScrollPercent:Float;
 	private var _itemIndex:Int = 0;
+
+	private var _align:String = "center";
 	
 	private var _labelData:Dynamic;
 	private var _buttonData:Dynamic;
@@ -304,6 +312,9 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 		else
 			_labelData = {"textColor":_textColor};
 			
+		if (Reflect.hasField(data, "align"))
+			_align = Reflect.field(data, "align");
+
 		if (Reflect.hasField(data, "Button"))
 			_buttonData = Reflect.field(data, "Button");
 
@@ -394,7 +405,7 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 		
 		
 		
-		_labelData = null;
+		//_labelData = null;
 		
 		// Add to display
 		addChild(_background);
@@ -910,7 +921,23 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 
 	private function get_buttonWidth() : Int { return _buttonWidth; }
 
-	
+	/**
+	 * Set the alignment of the drop down labels
+	 */
+	 private function set_align(value:String):String {
+
+		_align = value = value.toLowerCase();
+
+		return value;
+	}
+
+	/**
+	 * Return the alignment that is being used
+	 */
+
+	private function get_align():String {
+		return _align;
+	}	
 
 	private function set_borderThinkness( value : Float) : Float
 	{
@@ -1564,7 +1591,7 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 		
 		
 		// This will be used to create the label
-		var labelData:Dynamic = {"width": (_scrollbar.visible)  ? _width + SCROLLBAR_OFFSET + _scrollbar.width - _buttonWidth : _width, "height": _height + SCROLLBAR_OFFSET, "textColor": _textColor, "backgroundColor":_backgroundColor,"bitmapMode":true, "background":true};
+		var labelData:Dynamic = {"width": (_scrollbar.visible)  ? _width + SCROLLBAR_OFFSET + _scrollbar.width - _buttonWidth : _width, "height": _height + SCROLLBAR_OFFSET, "align":_align, "textColor": _textColor, "backgroundColor":_backgroundColor,"bitmapMode":false, "background":true};
 		
 		// Create labels
 		for (i in 0 ... labelCount)

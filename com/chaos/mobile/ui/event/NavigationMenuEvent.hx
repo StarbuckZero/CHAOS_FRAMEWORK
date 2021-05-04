@@ -12,7 +12,7 @@ class NavigationMenuEvent extends Event
 {
     
     /**
-	 * When open
+	 * When button selected
 	 * @eventType com.chaos.mobile.ui.event.NavigationMenuEvent.SELECTED
 	 */
 	

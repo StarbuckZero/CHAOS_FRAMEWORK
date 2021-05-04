@@ -21,8 +21,8 @@ import com.chaos.ui.BaseUI;
 /**
  *  Creates a Label for develop to place text on the stage or in another display object.
  *  This is a nice wrapper around Text Field which handles a lot of things.
- *	<br><br>
- *  @author Erick Feiling<br>
+
+ *  @author Erick Feiling
  *  @date 11-5-09
  */
 class Label extends BaseUI implements ILabel implements IBaseUI {
@@ -201,7 +201,7 @@ class Label extends BaseUI implements ILabel implements IBaseUI {
 		_textField.type = TextFieldType.DYNAMIC;
 		_textField.border = false;
 		_textFormat.color = _textColor;
-		_textFormat.align = _align;
+		_textFormat.align = getTextAlignment(_align);
 		_textFormat.bold = _bold;
 		_textFormat.italic = _italic;
 		_textFormat.size = _size;
@@ -388,20 +388,9 @@ class Label extends BaseUI implements ILabel implements IBaseUI {
 	 * Set the alignment of the label text
 	 */
 	private function set_align(value:String):String {
-		if (value.toLowerCase() == "left")
-			_textFormat.align = TextFormatAlign.LEFT;
-		else if (value.toLowerCase() == "right")
-			_textFormat.align = TextFormatAlign.RIGHT;
-		else if (value.toLowerCase() == "center")
-			_textFormat.align = TextFormatAlign.CENTER;
-		else if (value.toLowerCase() == "justify")
-			_textFormat.align = TextFormatAlign.JUSTIFY;
-		else if (value.toLowerCase() == "end")
-			_textFormat.align = TextFormatAlign.END;
-		else if (value.toLowerCase() == "start")
-			_textFormat.align = TextFormatAlign.START;
 
-		value = value.toLowerCase();
+		_textFormat.align = getTextAlignment(value);
+		_align = value = value.toLowerCase();
 
 		return value;
 	}
@@ -643,13 +632,14 @@ class Label extends BaseUI implements ILabel implements IBaseUI {
 
 		// First turn off all the stuff that would be turned on if nomral TextField
 		_textField.selectable = ((_enabled && _editable)) ? true : false;
+		_textFormat.align = getTextAlignment(_align);
 
+		_textField.text = _text;
 		_textField.setTextFormat(_textFormat, _beginIndex, _endIndex);
 		_textField.embedFonts = _embedFonts;
 		_textField.textColor = _textColor;
 		_textField.background = _background;
 		_textField.backgroundColor = _backgroundColor;
-		_textField.text = _text;
 
 		// Get ready to draw background and border
 		_outline.visible = _border;
@@ -676,5 +666,28 @@ class Label extends BaseUI implements ILabel implements IBaseUI {
 			_textImage.graphics.drawRect(0, 0, _textField.width, _textField.height);
 			_textImage.graphics.endFill();
 		}
+	}
+
+	private function getTextAlignment( textAlign:String ) : TextFormatAlign {
+
+		if (textAlign.toLowerCase() == "left")
+			return TextFormatAlign.LEFT;
+
+		if (textAlign.toLowerCase() == "right")
+			return TextFormatAlign.RIGHT;
+
+		if (textAlign.toLowerCase() == "center")
+			return TextFormatAlign.CENTER;
+
+		if (textAlign.toLowerCase() == "justify")
+			return TextFormatAlign.JUSTIFY;
+
+		if (textAlign.toLowerCase() == "end")
+			return TextFormatAlign.END;
+
+		if (textAlign.toLowerCase() == "start")
+			return TextFormatAlign.START;
+
+		return null;
 	}
 }

@@ -127,6 +127,12 @@ interface IComboBox extends IBaseUI
 	var dropDownPadding(get, set) : Int;
 
 	/**
+	 * Set the alignment of the drop down labels
+	 */
+
+	var align(get, set) : String;	
+
+	/**
 	 * Configure and setup the label to handle embedded fonts
 	 *
 	 * @param value The font you want to use.

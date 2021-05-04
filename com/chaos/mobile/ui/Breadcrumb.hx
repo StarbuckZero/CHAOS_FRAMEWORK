@@ -1,5 +1,6 @@
 package com.chaos.mobile.ui;
 
+import openfl.events.MouseEvent;
 import openfl.display.Sprite;
 import openfl.display.Shape;
 import openfl.display.BitmapData;
@@ -11,6 +12,7 @@ import com.chaos.ui.layout.BaseContainer;
 import com.chaos.ui.BaseUI;
 import com.chaos.ui.classInterface.IBaseUI;
 import com.chaos.ui.layout.classInterface.IBaseContainer;
+import com.chaos.mobile.ui.event.BreadcrumbEvent;
 
 class Breadcrumb extends BaseContainer implements IBreadcrumb implements IBaseContainer implements IBaseUI
 {
@@ -73,6 +75,8 @@ class Breadcrumb extends BaseContainer implements IBreadcrumb implements IBaseCo
         var crumb:Crumb = new Crumb({"name":"crumb_" + _level,"text":levelName,"labelSpacing":_labelSpacing,"icon":icon,"height":_height});
         crumbHolder.addChild(crumb);
 
+        crumb.addEventListener(MouseEvent.CLICK, onCrumbClicked, false, 0, true);
+
         // If higher than first level
         if(_level > 0)
         {
@@ -111,6 +115,8 @@ class Breadcrumb extends BaseContainer implements IBreadcrumb implements IBaseCo
             var crumbHolder:Sprite = cast(_content.getChildByName("level_" + _level), Sprite);
             var separator:Label = cast(_content.getChildByName("separator_" + _level), Label);
             var crumb:Crumb = cast(crumbHolder.getChildByName("crumb_" + _level), Crumb);
+
+            crumb.removeEventListener(MouseEvent.CLICK, onCrumbClicked);
             
             // Do clean up
             if(separator != null)
@@ -135,7 +141,15 @@ class Breadcrumb extends BaseContainer implements IBreadcrumb implements IBaseCo
         _labelSpacing = value;
 
         return _labelSpacing;
-    }    
+    }   
+    
+    private function onCrumbClicked(event:MouseEvent) : Void {
+
+        var crumb:Crumb = cast(event.currentTarget, Crumb);
+        var crumbName:String = crumb.name;
+
+        dispatchEvent(new BreadcrumbEvent(BreadcrumbEvent.SELECTED, crumb,Std.parseInt(crumbName.substr(crumbName.indexOf("_") + 1))));
+    }
 
     /**
 	 * Draw the container
