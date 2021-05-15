@@ -85,7 +85,7 @@ class SoundManager implements ISoundManager
 	
 	/**
 	 *
-	 * Places an mp3 into the Sound Manager and set it as the current selected object
+	 * Places an sound into the Sound Manager and set it as the current selected object
 	 *
 	 * @param strName The name of the sound object.
 	 * @param url The location of the sound file
@@ -285,10 +285,6 @@ class SoundManager implements ISoundManager
 	
 	/**
 	 * Adjust the volume at a rate. This will unmute any of the auto files being used.
-	 *
-	 *	Note: Flash ActionScript does not support overloading so this is my way.
-	 *	I'm using the arguments object when it comes to what's being passed. Information
-	 *	on that could be found in the Macromedia help.
 	 *
 	 *	@param arg1 (String/Number) This could be the name or the volume you just want to set the
 	 *	current sound.
@@ -576,10 +572,10 @@ class SoundManager implements ISoundManager
 		if (null == Reflect.field(_soundObjectHolder, strName))
 		return false;
 		
-		var soundData : SoundData = try cast(Reflect.field(_soundObjectHolder, strName), SoundData) catch(e:Dynamic) null;
+		var soundData : SoundData = Reflect.field(_soundObjectHolder, strName);
 		
 		// Make sure none of the pan trackers are running
-		if (soundData.panTracking)
+		if (!soundData.panTracking)
 			setChannelPan(Std.int(panNumber), soundData.soundChannel);
 		
 		return true;
@@ -1240,6 +1236,8 @@ class SoundManager implements ISoundManager
 			
 			// Make sure it keeps old volume settings 
 			panSoundChannel.soundTransform = tempSoundTransform;
+			
+			return true;
         }
 		
 		return false;
