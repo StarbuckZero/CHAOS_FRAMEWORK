@@ -516,7 +516,8 @@ class ListBox extends ScrollPane implements IListBox implements IBaseUI
 		removeList();
 		
 		// Create data object for common use values for when label is created
-		var labelData:Dynamic = {"textColor":_textColor, "background":false, "align":_align, "width": _width - 1};
+		var labelData:Dynamic = {"textColor":_textColor, "background":false, "align":_align, "width": _width - 2};
+		
 		
 		for (i in 0 ... _list.length)
 		{
