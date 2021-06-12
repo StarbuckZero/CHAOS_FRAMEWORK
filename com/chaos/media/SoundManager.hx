@@ -229,8 +229,13 @@ class SoundManager implements ISoundManager
 		// Check to see if anything was pasted 
 		if (!Reflect.hasField(_soundObjectHolder, strName))
 			return -1;
-		
-		return Std.int( cast(Reflect.field(_soundObjectHolder, strName), SoundData).soundChannel.soundTransform.volume * 100);
+
+		var soundObj:SoundData = cast(Reflect.field(_soundObjectHolder, strName), SoundData);
+
+		if(!soundObj.playing)
+			playSound(strName);
+
+		return Std.int( soundObj.soundChannel.soundTransform.volume * 100);
 		
     }
 	
@@ -421,7 +426,7 @@ class SoundManager implements ISoundManager
         } 
 		
 		// Flag as null for GC then delete
-		Reflect.setField(_soundObjectHolder, strName, null);
+		Reflect.deleteField(_soundObjectHolder, strName);
 		
 		return true;
     }
