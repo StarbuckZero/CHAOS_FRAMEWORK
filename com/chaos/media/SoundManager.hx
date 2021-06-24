@@ -325,7 +325,7 @@ class SoundManager implements ISoundManager
 		
 		// Start timer for fade
 		currentSoundObj.muteVolume = -1;
-		currentSoundObj.volTask = new TaskDataObject(strName, startVolume, fadeToNum, fadeVolTimer, [{"soundData":currentSoundObj}] );
+		currentSoundObj.volTask = new TaskDataObject(strName, startVolume, fadeToNum, fadeVolTimer, [currentSoundObj, callBack] );
 		
 		ThreadManager.setTimerRate(TASKNAME, fadeRate);
 		ThreadManager.addTask(TASKNAME, currentSoundObj.volTask);
@@ -1146,7 +1146,7 @@ class SoundManager implements ISoundManager
 			setVolume(tempArray[0], 100);
 			stopSound(tempArray[0]);
 			
-			//_crossFadeCallBack(_crossFadeItem);
+			_crossFadeCallBack(_crossFadeItem);
 			_crossFadeCallBack = null;
 			_crossFadeItem = "";
         }
@@ -1334,11 +1334,10 @@ class SoundManager implements ISoundManager
 	private function fadeVolTimer(task:ITask) : Void	
 	{
 		
-		var soundData:SoundData = cast(Reflect.field(task.data[0], "soundData"), SoundData);
+		var soundData:SoundData = cast(task.data[0], SoundData);
+		var callBack:Dynamic->Void = task.data[1];
 		
-
-		
-		//task : ITask, fadeSoundObj : SoundData, callBack : Dynamic->Void = null
+		// task : ITask, fadeSoundObj : SoundData, callBack : Dynamic->Void = null
 		// Note: Add and Sub by 1 doesn't work with HAXE so just fading  
 		if (task.index > task.end) 
 		{
@@ -1353,8 +1352,8 @@ class SoundManager implements ISoundManager
 			soundData.volTask = null;
 			
 			// Just send name in callback because dev and pull sound object from sound manager
-			//if (null != callBack)  
-			//	callBack(soundData.name);
+			if (null != callBack)  
+				callBack(soundData.name);
 			
 			// Event for when fade is finished  
 			dispatchEvent(new SoundStatusEvent(soundData, SoundStatusEvent.SOUND_FADE_COMPLETE));
