@@ -99,7 +99,7 @@ class Canvas extends BaseContainer implements IBaseContainer implements IBaseUI
 						objectName = Reflect.field(obj, "name");
 					
 					if (Reflect.hasField(obj, "width"))
-						shapeWidth = Reflect.field(obj, "height");
+						shapeWidth = Reflect.field(obj, "width");
 					
 					if (Reflect.hasField(obj, "height"))
 						shapeHeight = Reflect.field(obj, "height");
@@ -115,8 +115,6 @@ class Canvas extends BaseContainer implements IBaseContainer implements IBaseUI
 						
 					if (Reflect.hasField(obj, "alpha"))
 						shapeAlpha = Reflect.field(obj, "alpha");
-						
-
 						
 					addSquare(objectName, layerName, locX, locY, shapeWidth, shapeHeight, color, shapeAlpha, image, tile);
 				}
@@ -136,7 +134,7 @@ class Canvas extends BaseContainer implements IBaseContainer implements IBaseUI
 						objectName = Reflect.field(obj, "name");
 					
 					if (Reflect.hasField(obj, "width"))
-						shapeWidth = Reflect.field(obj, "height");
+						shapeWidth = Reflect.field(obj, "width");
 					
 					if (Reflect.hasField(obj, "height"))
 						shapeHeight = Reflect.field(obj, "height");
@@ -171,7 +169,7 @@ class Canvas extends BaseContainer implements IBaseContainer implements IBaseUI
 						objectName = Reflect.field(obj, "name");
 					
 					if (Reflect.hasField(obj, "width"))
-						shapeWidth = Reflect.field(obj, "height");
+						shapeWidth = Reflect.field(obj, "width");
 					
 					if (Reflect.hasField(obj, "height"))
 						shapeHeight = Reflect.field(obj, "height");
@@ -210,7 +208,7 @@ class Canvas extends BaseContainer implements IBaseContainer implements IBaseUI
 						objectName = Reflect.field(obj, "name");
 					
 					if (Reflect.hasField(obj, "width"))
-						shapeWidth = Reflect.field(obj, "height");
+						shapeWidth = Reflect.field(obj, "width");
 					
 					if (Reflect.hasField(obj, "height"))
 						shapeHeight = Reflect.field(obj, "height");
@@ -325,12 +323,15 @@ class Canvas extends BaseContainer implements IBaseContainer implements IBaseUI
 					
 					if (Reflect.hasField(obj, "Y"))
 						locY = Reflect.field(obj, "y");
+
+					if (Reflect.hasField(obj, "styleMarker"))
+						styleMarker = Reflect.field(obj, "styleMarker");					
 						
 					if (Reflect.hasField(obj, "objectX"))
-						helX = Reflect.field(obj, "x");
+						helX = Reflect.field(obj, "objectX");
 					
 					if (Reflect.hasField(obj, "objectY"))
-						helY = Reflect.field(obj, "y");
+						helY = Reflect.field(obj, "objectY");
 						
 					if (Reflect.hasField(obj, "color"))
 						color = Reflect.field(obj, "color");
@@ -349,7 +350,6 @@ class Canvas extends BaseContainer implements IBaseContainer implements IBaseUI
 						
 					addHelix(objectName, layerName, locX, locY, radius, helX, helY, styleMarker, color, thinkness, shapeAlpha, image, tile);
 				}
-				
 				else if (Reflect.hasField(canvasData, "HelixOutline"))
 				{
 					obj = Reflect.field(canvasData, "HelixOutline");
@@ -375,11 +375,14 @@ class Canvas extends BaseContainer implements IBaseContainer implements IBaseUI
 					if (Reflect.hasField(obj, "y"))
 						locY = Reflect.field(obj, "y");
 						
+					if (Reflect.hasField(obj, "styleMarker"))
+						styleMarker = Reflect.field(obj, "styleMarker");
+
 					if (Reflect.hasField(obj, "objectX"))
-						helX = Reflect.field(obj, "x");
+						helX = Reflect.field(obj, "objectX");
 					
 					if (Reflect.hasField(obj, "objectY"))
-						helY = Reflect.field(obj, "y");
+						helY = Reflect.field(obj, "objectY");
 						
 					if (Reflect.hasField(obj, "color"))
 						color = Reflect.field(obj, "color");
@@ -390,13 +393,96 @@ class Canvas extends BaseContainer implements IBaseContainer implements IBaseUI
 					if (Reflect.hasField(obj, "alpha"))
 						shapeAlpha = Reflect.field(obj, "alpha");
 						
+					addHelixOutline(objectName, layerName, locX, locY, radius, helX, helY, styleMarker, color, thinkness, shapeAlpha);
+				}
+				else if (Reflect.hasField(canvasData, "Hexagon")) {
+
+					obj = Reflect.field(canvasData, "Hexagon");
+
+					var hexagonX:Float = 0;
+					var hexagonY:Float = 0;
+
+					var radius:Int = 0;
+
+					if (Reflect.hasField(obj, "layerName"))
+						layerName = Reflect.field(obj, "layerName");
+					
+					if (Reflect.hasField(obj, "name"))
+						objectName = Reflect.field(obj, "name");
+					
+					if (Reflect.hasField(obj, "radius"))
+						radius = Reflect.field(obj, "radius");
+						
+					if (Reflect.hasField(obj, "x"))
+						locX = Reflect.field(obj, "x");
+					
+					if (Reflect.hasField(obj, "y"))
+						locY = Reflect.field(obj, "y");
+						
+					if (Reflect.hasField(obj, "objectX"))
+						hexagonX = Reflect.field(obj, "objectX");
+					
+					if (Reflect.hasField(obj, "objectY"))
+						hexagonY = Reflect.field(obj, "objectY");
+						
+					if (Reflect.hasField(obj, "color"))
+						color = Reflect.field(obj, "color");
+						
+					if (Reflect.hasField(obj, "thinkness"))
+						thinkness = Reflect.field(obj, "thinkness");	
+						
+					if (Reflect.hasField(obj, "alpha"))
+						shapeAlpha = Reflect.field(obj, "alpha");
+
 					if (Reflect.hasField(obj, "image"))
 						image = Reflect.field(obj, "image");
 						
 					if (Reflect.hasField(obj, "tile"))
 						tile = Reflect.field(obj, "tile");
+
+					addHexagon(objectName, layerName, locX, locY, radius, hexagonX, hexagonY, color, thinkness, shapeAlpha, image, tile);
+				}
+				else if (Reflect.hasField(canvasData, "HexagonOutline")) {
+
+					obj = Reflect.field(canvasData, "HexagonOutline");
+
+					var hexagonX:Float = 0;
+					var hexagonY:Float = 0;
+
+					var radius:Int = 0;
+
+					if (Reflect.hasField(obj, "layerName"))
+						layerName = Reflect.field(obj, "layerName");
+					
+					if (Reflect.hasField(obj, "name"))
+						objectName = Reflect.field(obj, "name");
+					
+					if (Reflect.hasField(obj, "radius"))
+						radius = Reflect.field(obj, "radius");
 						
-					addHelixOutline(objectName, layerName, locX, locY, radius, helX, helY, styleMarker, color, thinkness, shapeAlpha);
+					if (Reflect.hasField(obj, "x"))
+						locX = Reflect.field(obj, "x");
+					
+					if (Reflect.hasField(obj, "y"))
+						locY = Reflect.field(obj, "y");
+						
+					if (Reflect.hasField(obj, "objectX"))
+						hexagonX = Reflect.field(obj, "x");
+					
+					if (Reflect.hasField(obj, "objectY"))
+						hexagonY = Reflect.field(obj, "y");
+						
+					if (Reflect.hasField(obj, "color"))
+						color = Reflect.field(obj, "color");
+						
+					if (Reflect.hasField(obj, "thinkness"))
+						thinkness = Reflect.field(obj, "thinkness");	
+						
+					if (Reflect.hasField(obj, "alpha"))
+						shapeAlpha = Reflect.field(obj, "alpha");	
+					
+					addHexagonOutline(objectName, layerName, locX, locY, radius, hexagonX, hexagonY, color, thinkness, shapeAlpha);
+
 				}
 				else if (Reflect.hasField(canvasData, "Line"))
 				{
@@ -415,7 +501,7 @@ class Canvas extends BaseContainer implements IBaseContainer implements IBaseUI
 						objectName = Reflect.field(obj, "name");
 					
 					if (Reflect.hasField(obj, "width"))
-						shapeWidth = Reflect.field(obj, "height");
+						shapeWidth = Reflect.field(obj, "width");
 					
 					if (Reflect.hasField(obj, "height"))
 						shapeHeight = Reflect.field(obj, "height");
@@ -565,12 +651,12 @@ class Canvas extends BaseContainer implements IBaseContainer implements IBaseUI
 	}
 	
 	/**
-	 * Adds a element to a layer
+	 * Adds a UI object to a layer
 	 * @param	element The object that you want to add
 	 * @param	layerName The name of the layer image will be added to
 	 */
 	
-	public function addElement( element:BaseUI, layerName:String):Void
+	public function addObject( element:BaseUI, layerName:String):Void
 	{
 		addToLayer(layerName, element);	
 	}
@@ -649,8 +735,6 @@ class Canvas extends BaseContainer implements IBaseContainer implements IBaseUI
 		helix.graphics.moveTo(x + radius, y);
 		helix.graphics.lineStyle(thickness, color);
 		
-		helix.graphics.beginFill(color, alpha);
-		
 		var style : Float = Math.tan(styleMaker * Math.PI / 180);
 		var angle : Float = 45;
 
@@ -665,7 +749,6 @@ class Canvas extends BaseContainer implements IBaseContainer implements IBaseUI
 			angle += 45;
 		}
 		
-		helix.graphics.endFill();
 		
 		addToLayer(layerName, helix);
 	}	
@@ -710,7 +793,7 @@ class Canvas extends BaseContainer implements IBaseContainer implements IBaseUI
 		hexagon.graphics.lineTo(2 * sideB + startX, startY);
 		hexagon.graphics.lineTo(sideB + startX, startY - sideA);
 		hexagon.graphics.lineTo(startX, startY);
-		
+
 		addToLayer(layerName, hexagon);
 	}		
 	
@@ -795,7 +878,7 @@ class Canvas extends BaseContainer implements IBaseContainer implements IBaseUI
 	 * @param	ratios Array of alphas 
 	 */
 
-	public function addGradientSquare( shapeName:String, layerName:String, locX:Int, locY:Int, shapeWidth : Int, shapeHeight : Int, type : String = "linear", colors : Array<Int> = [0xFFFFFFF,0x000000], alphas : Array<Float> = [1,1], ratios : Array<Int> = [0, 255]) : Void
+	public function addGradientSquare( shapeName:String, layerName:String, locX:Int, locY:Int, shapeWidth : Int, shapeHeight : Int, type : String = "linear", colors : Array<Int> = null, alphas : Array<Float> = null, ratios : Array<Int> = null) : Void
 	{
         var square : BaseUI = new BaseUI({"name":shapeName, "x":locX, "y":locY});
         
@@ -883,7 +966,11 @@ class Canvas extends BaseContainer implements IBaseContainer implements IBaseUI
 	{
 		var circle : BaseUI = new BaseUI({"name":shapeName, "x":locX, "y":locY});
 		
-		circle.graphics.beginFill(color, alpha);
+		if(image == image)
+			circle.graphics.beginFill(color, alpha);
+		else
+			circle.graphics.beginBitmapFill(image, null, tileImage);
+
 		circle.graphics.drawCircle(0, 0, radius);
 		circle.graphics.endFill();
 		

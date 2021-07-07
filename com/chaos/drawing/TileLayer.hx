@@ -33,9 +33,13 @@ class TileLayer extends BaseUI implements IBaseUI
     public var enableCaching(get, set) : Bool;
     public var index(get, set) : Int;
     public var tileBufferAmount(get, set) : Int;
+    public var useMask(get, set) : Bool;
 
     private var _tileData:Dynamic;
     private var _tileMapData:Dynamic;
+
+    private var _mask:Shape;
+    private var _useMask:Bool = false;
 
     private var _tileWidth:Int = 0;
     private var _tileHeight:Int = 0;
@@ -106,7 +110,10 @@ class TileLayer extends BaseUI implements IBaseUI
             _cacheTiles = Reflect.field(data,"cacheTiles");
 
         if(Reflect.hasField(data,"assetPrefix"))
-            _assetPrefix = Reflect.field(data,"assetPrefix");      
+            _assetPrefix = Reflect.field(data,"assetPrefix");   
+        
+        if(Reflect.hasField(data,"useMask"))
+            _useMask = Reflect.field(data,"useMask");          
 
         // Load files based off Asset Libray
         if(Reflect.hasField(data,"tileFile") && Reflect.hasField(data,"tileMap") && Assets.exists(Reflect.field(data,"tileFile")) && Assets.exists(Reflect.field(data,"tileMap")))
@@ -122,7 +129,9 @@ class TileLayer extends BaseUI implements IBaseUI
             _cache = new Map<String,BitmapData>();
 
         _content = new Shape();
+        _mask = new Shape();
 
+        addChild(_mask);
         addChild(_content);   
     } 
 
@@ -153,6 +162,18 @@ class TileLayer extends BaseUI implements IBaseUI
 	private function get_enableCaching():Bool
 	{
 		return _enableCaching;
+	}
+
+    private function set_useMask( value:Bool ):Bool
+	{
+        _useMask = value;
+
+		return _useMask;
+	} 
+
+	private function get_useMask():Bool
+	{
+		return _useMask;
 	}
 
 	private function set_index( value:Int ):Int
@@ -188,6 +209,11 @@ class TileLayer extends BaseUI implements IBaseUI
         _content.graphics.clear();
         removeChild(_content);
 
+        
+        _mask.graphics.clear();
+        removeChild(_mask);
+
+        mask = null;
         _cache = null;
         _tileData = null;
         _tileMapData = null;
@@ -343,7 +369,24 @@ class TileLayer extends BaseUI implements IBaseUI
         if(_mapWidth < 0 || _mapHeight < 0)
             return;
 
+        if(_useMask) {
+            
+            _mask.graphics.beginFill(0);
+            _mask.graphics.drawRect(0,0,_width,_height);
+            _mask.graphics.endFill();    
+
+            mask = _mask;
+            addChild(_mask);
+
+        } else {
+
+            _mask.graphics.clear();
+            mask = null;
+            removeChild(_mask);            
+        }
+
         _content.graphics.clear();
+
 
         var layerCount:Int = 0;
 
