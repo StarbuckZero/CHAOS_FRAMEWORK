@@ -177,7 +177,7 @@ class GridCell extends BaseUI implements IBaseUI implements IGridCell
     public function setLayout(value : Class<Dynamic>, params : Dynamic = null) : Void
     {
         
-        if (Std.is(Type.createInstance(value, []), AlignmentBaseContainer)) 
+        if (Std.isOfType(Type.createInstance(value, []), AlignmentBaseContainer)) 
         {
             _layoutClass = value;
             
@@ -194,7 +194,7 @@ class GridCell extends BaseUI implements IBaseUI implements IGridCell
             _container.background = false;
             
             // Apply direction for FitContainer
-            if (Std.is(_container, FitContainer) && null != params && params.exists("direction") && Std.is(params.direction, String)) 
+            if (Std.isOfType(_container, FitContainer) && null != params && params.exists("direction") && Std.isOfType(params.direction, String)) 
                 (try cast(_container, FitContainer) catch (e:Dynamic) null).direction = params.direction;
             
             

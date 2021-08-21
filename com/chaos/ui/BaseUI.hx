@@ -166,7 +166,7 @@ class BaseUI extends Sprite implements IBaseUI
 
 			var obj:Dynamic = Reflect.field(data,"obj");
 
-			if(Std.is(obj, String) && this.getChildByName(obj) != null)
+			if(Std.isOfType(obj, String) && this.getChildByName(obj) != null)
 				displayObj = this.getChildByName(obj);
 			else 
 				trace("[BaseUI::animateTo] Couldn't find " + obj + " going to default to using current " + this.name);

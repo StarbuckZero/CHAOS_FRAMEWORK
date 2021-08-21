@@ -1574,7 +1574,7 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
         for (i in 0...subMenu.length)
 		{
 			
-            if (Std.is(subMenu.getItemAt(i), MenuItemObjectData)) 
+            if (Std.isOfType(subMenu.getItemAt(i), MenuItemObjectData)) 
             {
                 var dataObj : MenuItemObjectData = subMenu.getItemAt(i);
                 var menu : IMenuItem = new MenuItem({"text":dataObj.text,"width":_buttonWidth, "height":_buttonHeight}); // dataObj.icon, dataObj.subMenuIcon

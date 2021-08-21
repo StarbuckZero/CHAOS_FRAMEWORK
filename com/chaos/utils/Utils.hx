@@ -46,10 +46,10 @@ class Utils
         
         var foundChild : DisplayObject = null;
         
-        if (Std.is(displayObj, MovieClip)) 
+        if (Std.isOfType(displayObj, MovieClip)) 
             foundChild = (try cast(displayObj, MovieClip) catch(e:Dynamic) null).getChildByName(childName);
         
-        if (Std.is(displayObj, Sprite)) 
+        if (Std.isOfType(displayObj, Sprite)) 
             foundChild = (try cast(displayObj, Sprite) catch (e:Dynamic) null).getChildByName(childName);  // If not found then search children
         
         if (foundChild == null) 
@@ -59,7 +59,7 @@ class Utils
             var childObject : DisplayObject;
             var childsChild : DisplayObject;
             
-            if (Std.is(displayObj, MovieClip)) 
+            if (Std.isOfType(displayObj, MovieClip)) 
             {
                 
                 for (i in 0... cast(displayObj, MovieClip).numChildren )
@@ -67,7 +67,7 @@ class Utils
                     childObject = cast(displayObj, MovieClip).getChildAt(i);
                     
                     // If it is a movieclip then pass to method again
-                    if (Std.is(childObject, MovieClip)) 
+                    if (Std.isOfType(childObject, MovieClip)) 
                     {
                         childsChild = getNestedChild(cast(childObject, MovieClip), childName);
                         
@@ -75,7 +75,7 @@ class Utils
                         if (childsChild != null) 
                             return childsChild;
                     }
-                    else if (Std.is(childObject, Sprite)) 
+                    else if (Std.isOfType(childObject, Sprite)) 
                     {
                         childsChild = getNestedChild(cast(childObject, Sprite), childName);
                         
@@ -93,7 +93,7 @@ class Utils
                     childObject = cast(displayObj, Sprite).getChildAt(i);
                     
                     // If it is a movieclip then pass to method again
-                    if (Std.is(childObject, MovieClip)) 
+                    if (Std.isOfType(childObject, MovieClip)) 
                     {
                         childsChild = getNestedChild(cast(childObject, MovieClip), childName);
                         
@@ -101,7 +101,7 @@ class Utils
                         if (childsChild != null) 
                             return childsChild;
                     }
-                    else if (Std.is(childObject, Sprite)) 
+                    else if (Std.isOfType(childObject, Sprite)) 
                     {
                         childsChild = getNestedChild(cast(childObject, Sprite), childName);
                         
