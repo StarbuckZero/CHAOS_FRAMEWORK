@@ -616,7 +616,7 @@ class ProgressBar extends BaseUI implements IProgressBar implements IBaseUI
 	{
 		var blnStremClass : Bool = false;
 
-		if (Std.is(value, Sound) || Std.is(value, URLLoader) || Std.is(value, Loader))
+		if (Std.isOfType(value, Sound) || Std.isOfType(value, URLLoader) || Std.isOfType(value, Loader))
 			blnStremClass = true;
 
 		// Add in events and set flag
@@ -800,11 +800,11 @@ class ProgressBar extends BaseUI implements IProgressBar implements IBaseUI
 
 	private function progressCheck(event : Event) : Void
 	{
-		if (Std.is(event.currentTarget, Sound))
+		if (Std.isOfType(event.currentTarget, Sound))
 			_percent = Std.int(( cast(event.currentTarget, Sound).bytesLoaded /  cast(event.currentTarget, Sound).bytesTotal) * 100);
-		else if (Std.is(event.currentTarget, URLLoader))
+		else if (Std.isOfType(event.currentTarget, URLLoader))
 			_percent = Std.int(( cast(event.currentTarget, URLLoader).bytesLoaded /  cast(event.currentTarget, URLLoader).bytesTotal) * 100);
-		else if (Std.is(event.currentTarget, Loader))
+		else if (Std.isOfType(event.currentTarget, Loader))
 			_percent = Std.int(( cast(event.currentTarget, Loader).contentLoaderInfo.bytesLoaded /  cast(event.currentTarget, Loader).contentLoaderInfo.bytesTotal) * 100);
 
 		draw();

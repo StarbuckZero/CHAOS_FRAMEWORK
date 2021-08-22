@@ -650,16 +650,6 @@ class Canvas extends BaseContainer implements IBaseContainer implements IBaseUI
 		addToLayer(layerName, image);
 	}
 	
-	/**
-	 * Adds a UI object to a layer
-	 * @param	element The object that you want to add
-	 * @param	layerName The name of the layer image will be added to
-	 */
-	
-	public function addObject( element:BaseUI, layerName:String):Void
-	{
-		addToLayer(layerName, element);	
-	}
 	
 	/**
 	 * Draw Helix

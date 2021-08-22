@@ -1,8 +1,6 @@
 package com.chaos.ui.layout.classInterface;
 
 
-
-
 /**
  * Interface for Grid class
  * @author Erick Feiling
@@ -26,8 +24,6 @@ interface IGridContainer extends IBaseContainer
     /**
 	 * The default height
 	 */
-    
-    
     
     var cellHeight(get, set) : Int;
 
@@ -89,7 +85,7 @@ interface IGridContainer extends IBaseContainer
 	 * @return A grid cell
 	 */
     
-    function getCell(row : Int, col : Int) : com.chaos.ui.layout.classInterface.IGridCell;
+    function getCell(row : Int, col : Int) : IGridCell;
     
     /**
 	 * Check to see if cell is in grid

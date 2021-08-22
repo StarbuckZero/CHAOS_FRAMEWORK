@@ -88,7 +88,6 @@ class DisplayVideo extends BaseUI implements IBaseUI
         super(data);
 		
         addEventListener(Event.ADDED_TO_STAGE, onStageAdd, false, 0, true);
-        //_background = Draw.Square(10, 10, 0xFFFFFF);
     }
 	
 	
@@ -338,7 +337,6 @@ class DisplayVideo extends BaseUI implements IBaseUI
         if (null != _stream) 
             _stream.play(_videoURL);
 		
-		
     }
     
     private function netStatusHandler(event : NetStatusEvent) : Void
@@ -349,7 +347,7 @@ class DisplayVideo extends BaseUI implements IBaseUI
 	
 	private function handleVideoStatus( status:String ) : Void
 	{
-		//trace("handleVideoStatus: " + status);
+		trace("handleVideoStatus: " + status);
         switch (status)
         {
             
@@ -384,17 +382,14 @@ class DisplayVideo extends BaseUI implements IBaseUI
     private function connectStream(event : NetStatusEvent = null) : Void
     {
         
-        var customClient : Dynamic;
-		
-		
+        var customClient:Object = new Object();
+
 		#if html5
-		customClient = { "onPlayStatus ": metaDataHandler };
+		customClient.onPlayStatus = metaDataHandler;
 		#else
-		customClient = { "onMetaData": metaDataHandler };
+		customClient.onMetaData = metaDataHandler;
 		#end
 		
-        customClient.onMetaData = metaDataHandler;
-        
         _stream = new NetStream(_connection);
         
         _stream.client = customClient;

@@ -93,7 +93,7 @@ class Carousel extends BaseContainer implements IBaseContainer implements IBaseU
         itemContent.height = _height;
 
         // If a BaseUI class then force redraw
-        if(Std.is(itemContent, BaseUI) && !cast(itemContent, BaseUI).drawOnResize)
+        if(Std.isOfType(itemContent, BaseUI) && !cast(itemContent, BaseUI).drawOnResize)
             cast(itemContent, BaseUI).draw();
 
         // Create Dot

@@ -174,11 +174,11 @@ class DisplayImage extends BaseUI implements IBaseUI
 			graphics.endFill();
 		}
 		
-		
 	}
 	
 	private function ioErrorHandler(event : IOErrorEvent) : Void 
 	{
+		//NOTE: This will fire, if the image was loaded or not
 		//Debug.print("[DisplayImage::ioErrorHandler] Fail to load file");
 		
 		dispatchEvent(event);

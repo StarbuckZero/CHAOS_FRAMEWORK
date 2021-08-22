@@ -20,6 +20,7 @@ import com.chaos.utils.Debug;
  * @author Erick Feiling
  */
 class GridContainer extends BaseContainer implements IGridContainer implements IBaseContainer implements IBaseUI {
+
 	public var alwaysOnTop(get, set):Bool;
 	public var cellWidth(get, set):Int;
 	public var cellHeight(get, set):Int;
@@ -40,11 +41,13 @@ class GridContainer extends BaseContainer implements IGridContainer implements I
 	 * rows The amount of rows
 	 * column The amount of columns
 	 */
+
 	public function new(data:Dynamic = null) {
 		super(data);
 	}
 
 	override function setComponentData(data:Dynamic) {
+
 		super.setComponentData(data);
 
 		if (Reflect.hasField(data,"row"))
@@ -55,6 +58,7 @@ class GridContainer extends BaseContainer implements IGridContainer implements I
 	}
 
 	override function initialize() {
+
 		super.initialize();
 
 		background = false;
@@ -63,12 +67,14 @@ class GridContainer extends BaseContainer implements IGridContainer implements I
 
 		// Create data list
 		for (row in 0...rowCount) {
+
 			// Add new row
 			var rowData:DataProvider<IGridCell> = new DataProvider<IGridCell>();
 
 			_list.addItem(rowData);
 
 			for (col in 0...columnCount) {
+
 				// Create cell
 				var cell:IGridCell = new GridCell(Std.int(_width / rowCount), Std.int(_height / columnCount));
 				_content.addChild(cell.displayObject);
@@ -84,6 +90,7 @@ class GridContainer extends BaseContainer implements IGridContainer implements I
 	/**
 	 * Moves cell that user mouse over to the top of the display list.
 	 */
+
 	private function set_alwaysOnTop(value:Bool):Bool {
 		_alwaysOnTop = value;
 		return value;
@@ -92,6 +99,7 @@ class GridContainer extends BaseContainer implements IGridContainer implements I
 	/**
 	 * If true cell will be move to the top of the display list inside the grid container.
 	 */
+
 	private function get_alwaysOnTop():Bool {
 		return _alwaysOnTop;
 	}
@@ -99,6 +107,7 @@ class GridContainer extends BaseContainer implements IGridContainer implements I
 	/**
 	 * The default width
 	 */
+
 	private function set_cellWidth(value:Int):Int {
 		_cellWidth = value;
 		draw();
@@ -108,6 +117,7 @@ class GridContainer extends BaseContainer implements IGridContainer implements I
 	/**
 	 * Return the default cell width
 	 */
+
 	private function get_cellWidth():Int {
 		return _cellWidth;
 	}
@@ -115,6 +125,7 @@ class GridContainer extends BaseContainer implements IGridContainer implements I
 	/**
 	 * The default height
 	 */
+
 	private function set_cellHeight(value:Int):Int {
 		_cellHeight = value;
 		draw();
@@ -124,6 +135,7 @@ class GridContainer extends BaseContainer implements IGridContainer implements I
 	/**
 	 * Return the default cell height
 	 */
+
 	private function get_cellHeight():Int {
 		return _cellHeight;
 	}
@@ -135,7 +147,9 @@ class GridContainer extends BaseContainer implements IGridContainer implements I
 	 * @param	col The index of the column
 	 * @param	widthNum The new width of the cell
 	 */
+
 	public function setCellWidth(row:Int, col:Int, widthNum:Int):Void {
+
 		if (!validCell(row, col))
 			return;
 
@@ -165,7 +179,9 @@ class GridContainer extends BaseContainer implements IGridContainer implements I
 	 * @param	col The index of the column
 	 * @param	heightNum The new height of the cell
 	 */
+
 	public function setCellHeight(row:Int, col:Int, heightNum:Int):Void {
+
 		if (!validCell(row, col))
 			return;
 
@@ -176,6 +192,7 @@ class GridContainer extends BaseContainer implements IGridContainer implements I
 
 		// Move everything else y location
 		for (i in row...rowCount) {
+
 			// Get the next row in list
 			rowData = _list.getItemAt(i);
 
@@ -206,6 +223,7 @@ class GridContainer extends BaseContainer implements IGridContainer implements I
 
 		// Create the columns for the row
 		for (col in 0...columnCount) {
+
 			var cell:IGridCell = new GridCell(Std.int(width / rowCount), Std.int(height / columnCount));
 
 			_content.addChild(cell.displayObject);
@@ -225,6 +243,7 @@ class GridContainer extends BaseContainer implements IGridContainer implements I
 	 * @param	index Which item to remove
 	 */
 	public function removeRow(index:Int):Void {
+		
 		if (null == _list.getItemAt(index) || null == _list.getItemAt(index))
 			return;
 
@@ -250,16 +269,18 @@ class GridContainer extends BaseContainer implements IGridContainer implements I
 	 * @param	index Where you want to add the new column
 	 */
 	public function addColumn(index:Int):Void {
+
 		if (null == _list.getItemAt(index) || null == _list.getItemAt(index))
 			return;
 
 		// Get each row and add a col
 		for (row in 0...rowCount) {
+
 			// Get the row
 			var rowData:DataProvider<IGridCell> = _list.getItemAt(row);
 
 			// Create a new cell
-			var cell:IGridCell = new GridCell(Std.int(width / rowCount), Std.int(height / columnCount));
+			var cell:IGridCell = new GridCell(Std.int(_width / rowCount), Std.int(_height / columnCount));
 
 			// Add to the display
 			_content.addChild(cell.displayObject);
@@ -278,6 +299,7 @@ class GridContainer extends BaseContainer implements IGridContainer implements I
 	 * @param	index Which item to remove
 	 */
 	public function removeColumn(index:Int):Void {
+
 		// Get each row and add a col
 		for (row in 0...rowCount) {
 			// Get the row
@@ -310,7 +332,9 @@ class GridContainer extends BaseContainer implements IGridContainer implements I
 	 *
 	 * @return A grid cell
 	 */
+
 	public function getCell(row:Int, col:Int):IGridCell {
+
 		if (_list.getItemAt(row) != null && _list.getItemAt(row).getItemAt(col) != null)
 			return _list.getItemAt(row).getItemAt(col);
 
@@ -325,6 +349,7 @@ class GridContainer extends BaseContainer implements IGridContainer implements I
 	 * @return True if there is a cell there and false if not
 	 */
 	public function validCell(row:Int, col:Int):Bool {
+
 		if (_list.getItemAt(row) != null && _list.getItemAt(row).getItemAt(col) != null)
 			return true;
 
@@ -353,6 +378,7 @@ class GridContainer extends BaseContainer implements IGridContainer implements I
 	 * Update the all cells
 	 */
 	override public function draw():Void {
+
 		super.draw();
 
 		if (null == _list)
@@ -360,11 +386,13 @@ class GridContainer extends BaseContainer implements IGridContainer implements I
 
 		// Create data list
 		for (row in 0...rowCount) {
+
 			// Get row
 			var rowData:DataProvider<IGridCell> = _list.getItemAt(row);
 
 			// Start resizing col cell
 			for (col in 0...columnCount) {
+
 				// Get the cell
 				var cell:IGridCell = rowData.getItemAt(col);
 				cell.addEventListener(MouseEvent.MOUSE_OVER, moveToFront, false, 0, true);
@@ -373,20 +401,23 @@ class GridContainer extends BaseContainer implements IGridContainer implements I
 				_content.addChild(cell.displayObject);
 
 				// Force resize based on with and height
-				cell.width = ((_cellWidth >= -1)) ? Std.int(width / columnCount) : _cellWidth;
-				cell.height = ((_cellHeight >= -1)) ? Std.int(height / rowCount) : _cellHeight;
+				cell.width = ((_cellWidth >= -1)) ? Std.int(_width / columnCount) : _cellWidth;
+				cell.height = ((_cellHeight >= -1)) ? Std.int(_height / rowCount) : _cellHeight;
 
 				// Place items
 				cell.x = cell.width * col;
 				cell.y = cell.height * row;
+
+				cell.draw();
 			}
 		}
 
-		contentHolder.scrollRect = null;
-		contentHolder.scrollRect = new Rectangle(0, 0, width, height);
+		//contentHolder.scrollRect = null;
+		//contentHolder.scrollRect = new Rectangle(0, 0, _width, _height);
 	}
 
 	private function moveToFront(event:MouseEvent):Void {
+
 		if (_alwaysOnTop)
 			_content.setChildIndex(cast(event.currentTarget, DisplayObject), _content.numChildren - 1);
 	}

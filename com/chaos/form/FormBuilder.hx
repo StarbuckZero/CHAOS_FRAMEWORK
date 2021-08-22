@@ -44,7 +44,7 @@ class FormBuilder extends BaseUI implements IFormBuilder implements IBaseUI
     
     public var hiddenObj : Dynamic = {};
     
-    private var _grid : IGridContainer = new GridContainer({"row":0, "column":2});
+    private var _grid : IGridContainer;
     
     private var _border : Bool = true;
     private var _borderThinkness : Int = 2;
@@ -66,31 +66,18 @@ class FormBuilder extends BaseUI implements IFormBuilder implements IBaseUI
     public function new(data:Dynamic = null )
     {
         super(data);
-		
+        
+    }
+
+    override function initialize() {
+
+        super.initialize();
+
+        _grid = new GridContainer({"width":_width,"height":_height,"row": 1, "column":2});
+
         addChild(_grid.displayObject);
     }
     
-    override private function get_width() : Float
-    {
-        return _grid.width;
-    }
-    
-    override private function set_width(value : Float) : Float
-    {
-        _grid.width = value;
-        return value;
-    }
-    
-    override private function get_height() : Float
-    {
-        return _grid.height;
-    }
-    
-    override private function set_height(value : Float) : Float
-    {
-        _grid.height = value;
-        return value;
-    }
     
     /**
 	 * The default spacing used for added form elements
@@ -223,6 +210,9 @@ class FormBuilder extends BaseUI implements IFormBuilder implements IBaseUI
         // Set borders and everything first
         setColumnHeightAt(0, _defaultCellHeight);
         setColumnHeightAt(1, _defaultCellHeight);
+
+        setColumnWidthAt(0,100);
+        setColumnWidthAt(1,100);
         
         _grid.getCell(0, 0).setLayout(GridCellLayout.HORIZONTAL, params);
         _grid.getCell(0, 1).setLayout(((null != layoutClass && Std.is(Type.createInstance(layoutClass, []), AlignmentBaseContainer))) ? Type.createInstance(layoutClass, []) : GridCellLayout.HORIZONTAL, params);
@@ -230,7 +220,7 @@ class FormBuilder extends BaseUI implements IFormBuilder implements IBaseUI
         // Turn off clipping for combo boxes
         _grid.getCell(0, 0).container.clipping = _grid.getCell(0, 1).container.clipping = false;
         
-        var newLabel : ILabel = new TextLabel(labelName);
+        var newLabel : ILabel = new TextLabel({"text":labelName});
         _grid.getCell(0, 0).container.addElement(newLabel);
 
         _grid.getCell(0, 0).border = _border;
@@ -244,6 +234,16 @@ class FormBuilder extends BaseUI implements IFormBuilder implements IBaseUI
         _grid.getCell(0, 1).borderThinkness = _borderThinkness;
 
         _grid.getCell(0, 1).container.addElement(cast(element, IBaseUI));
+        
+        if (Std.isOfType(element, IBaseUI)) 
+        {
+            var baseElement : IBaseUI = (try cast(element, IBaseUI) catch(e:Dynamic) null);
+            
+            _grid.getCell(0, 1).container.addElement(baseElement);
+            
+            _grid.getCell(0, 1).border = _border;
+            _grid.getCell(0, 1).borderThinkness = _borderThinkness;
+        }
 		
 		// Adjust elements location  
         for (row in 0 ... _grid.getRowCount())
@@ -265,6 +265,7 @@ class FormBuilder extends BaseUI implements IFormBuilder implements IBaseUI
                 if (_hSpacing > 0) 
                     _grid.getCell(row, 1).container.getElementAtIndex(0).y = _hSpacing;
             }
+
         }
     }
     
@@ -282,7 +283,7 @@ class FormBuilder extends BaseUI implements IFormBuilder implements IBaseUI
 	 * @copy com.chaos.ui.layout.GridContainer
 	 */
     
-    public function getCell(row : Int, col : Int) : com.chaos.ui.layout.classInterface.IGridCell
+    public function getCell(row : Int, col : Int) : IGridCell
     {
         return _grid.getCell(row, col);
     }
@@ -379,6 +380,16 @@ class FormBuilder extends BaseUI implements IFormBuilder implements IBaseUI
                 Debug.print("[FormBuilder::setColumnHeight] Fail to update " + row + "x" + index + " height in grid to " + colHeight + ".");
         }
     }
+
+    override function draw() {
+        
+        super.draw();
+
+        _grid.width = _width;
+        _grid.height = _height;
+
+        _grid.draw();
+    }
     
     /**
 	 * Clear all form values
@@ -390,7 +401,7 @@ class FormBuilder extends BaseUI implements IFormBuilder implements IBaseUI
         for (row in 0 ... _grid.getRowCount())
 		{
             
-            if (_grid.getCell(row, 1).container.length > 0 && null != _grid.getCell(row, 1).container.getElementAtIndex(0) && Std.is(_grid.getCell(row, 1).container.getElementAtIndex(0), IFormUI)) 
+            if (_grid.getCell(row, 1).container.length > 0 && null != _grid.getCell(row, 1).container.getElementAtIndex(0) && Std.isOfType(_grid.getCell(row, 1).container.getElementAtIndex(0), IFormUI)) 
             {
                 var itemFormUI : IFormUI = try cast(_grid.getCell(row, 1).container.getElementAtIndex(0), IFormUI) catch(e:Dynamic) null;
                 itemFormUI.clear();
@@ -423,7 +434,7 @@ class FormBuilder extends BaseUI implements IFormBuilder implements IBaseUI
         for (row in 0 ... _grid.getRowCount())
 		{
             
-            if (_grid.getCell(row, 1).container.length > 0 && null != _grid.getCell(row, 1).container.getElementAtIndex(0) && Std.is(_grid.getCell(row, 1).container.getElementAtIndex(0), IFormUI)) 
+            if (_grid.getCell(row, 1).container.length > 0 && null != _grid.getCell(row, 1).container.getElementAtIndex(0) && Std.isOfType(_grid.getCell(row, 1).container.getElementAtIndex(0), IFormUI)) 
             {
                 var itemFormUI : IFormUI = try cast(_grid.getCell(row, 1).container.getElementAtIndex(0), IFormUI) catch (e:Dynamic) null;
 				Reflect.setField(formObj, itemFormUI.getName(), itemFormUI.getValue());

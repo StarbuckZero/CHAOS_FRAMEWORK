@@ -414,9 +414,9 @@ class ToolTip
         if (null != _bubble.parent) 
         {
             
-            if (Std.is(_displayArea, MovieClip)) 
+            if (Std.isOfType(_displayArea, MovieClip)) 
                 cast((_displayArea), MovieClip).removeChild(_bubble)
-            else if (Std.is(_displayArea, Sprite)) 
+            else if (Std.isOfType(_displayArea, Sprite)) 
                 cast((_displayArea), Sprite).removeChild(_bubble);
         }
     }
@@ -561,9 +561,9 @@ class ToolTip
     
     private static function onShowBubble(event : TimerEvent = null) : Void
     {
-        if (Std.is(_displayArea, MovieClip)) 
+        if (Std.isOfType(_displayArea, MovieClip)) 
             cast((_displayArea), MovieClip).addChild(_bubble)
-        else if (Std.is(_displayArea, Sprite)) 
+        else if (Std.isOfType(_displayArea, Sprite)) 
             cast((_displayArea), Sprite).addChild(_bubble);
     }
     
