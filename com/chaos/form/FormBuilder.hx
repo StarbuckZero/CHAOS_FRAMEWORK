@@ -232,8 +232,6 @@ class FormBuilder extends BaseUI implements IFormBuilder implements IBaseUI
         
         _grid.getCell(0, 1).border = _border;
         _grid.getCell(0, 1).borderThinkness = _borderThinkness;
-
-        _grid.getCell(0, 1).container.addElement(cast(element, IBaseUI));
         
         if (Std.isOfType(element, IBaseUI)) 
         {
