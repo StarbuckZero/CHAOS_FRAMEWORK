@@ -3,15 +3,17 @@ package com.chaos.form;
 import com.chaos.form.FormData;
 
 
-import com.chaos.form.classInterface.IFormBuilder;
-import com.chaos.form.ui.classInterface.IFormUI;
+
 import com.chaos.ui.BaseUI;
-import com.chaos.ui.classInterface.IBaseUI;
-import com.chaos.ui.layout.AlignmentBaseContainer;
 import com.chaos.ui.layout.GridContainer;
+import com.chaos.ui.layout.AlignmentBaseContainer;
+import com.chaos.ui.classInterface.IBaseUI;
+import com.chaos.ui.layout.classInterface.IAlignmentContainer;
 import com.chaos.ui.layout.classInterface.IGridCell;
 import com.chaos.ui.layout.classInterface.IGridContainer;
 import com.chaos.form.ui.TextLabel;
+import com.chaos.form.classInterface.IFormBuilder;
+import com.chaos.form.ui.classInterface.IFormUI;
 import com.chaos.ui.classInterface.ILabel;
 import com.chaos.utils.Debug;
 import com.chaos.ui.layout.GridCellLayout;
@@ -214,7 +216,7 @@ class FormBuilder extends BaseUI implements IFormBuilder implements IBaseUI
 	 * @param	params Any extra values that will be passed for the layout
 	 */
     
-    public function addFormElement(labelName : String, elementName : String, element : IFormUI, layout : Class<Dynamic> = null, params : Dynamic = null) : Void
+    public function addFormElement(labelName : String, elementName : String, elementClass : Class<Dynamic>, layoutClass : Class<Dynamic> = null, params : Dynamic = null) : Void
     {
         _grid.addRow(0);
         
@@ -223,29 +225,25 @@ class FormBuilder extends BaseUI implements IFormBuilder implements IBaseUI
         setColumnHeightAt(1, _defaultCellHeight);
         
         _grid.getCell(0, 0).setLayout(GridCellLayout.HORIZONTAL, params);
-        _grid.getCell(0, 1).setLayout(((null != layout && Std.is(Type.createInstance(layout, []), AlignmentBaseContainer))) ? Type.createInstance(layout, []) : GridCellLayout.HORIZONTAL, params);
+        _grid.getCell(0, 1).setLayout(((null != layoutClass && Std.is(Type.createInstance(layoutClass, []), AlignmentBaseContainer))) ? Type.createInstance(layoutClass, []) : GridCellLayout.HORIZONTAL, params);
         
         // Turn off clipping for combo boxes
         _grid.getCell(0, 0).container.clipping = _grid.getCell(0, 1).container.clipping = false;
         
         var newLabel : ILabel = new TextLabel(labelName);
         _grid.getCell(0, 0).container.addElement(newLabel);
-        
-        element.setName(elementName);
-        
+
         _grid.getCell(0, 0).border = _border;
         _grid.getCell(0, 0).borderThinkness = _borderThinkness;
         
-        // Check to see ifitem is a based UI
-        if (Std.is(element, IBaseUI)) 
-        {
-            var baseElement : IBaseUI = (try cast(element, IBaseUI) catch(e:Dynamic) null);
-            
-            _grid.getCell(0, 1).container.addElement(baseElement);
-            
-            _grid.getCell(0, 1).border = _border;
-            _grid.getCell(0, 1).borderThinkness = _borderThinkness;
-        }  
+        // Check to see if item is a based UI
+        var element:IFormUI = Type.createInstance(elementClass,[]);
+        element.setName(elementName);
+        
+        _grid.getCell(0, 1).border = _border;
+        _grid.getCell(0, 1).borderThinkness = _borderThinkness;
+
+        _grid.getCell(0, 1).container.addElement(cast(element, IBaseUI));
 		
 		// Adjust elements location  
         for (row in 0 ... _grid.getRowCount())

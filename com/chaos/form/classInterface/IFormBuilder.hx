@@ -89,12 +89,12 @@ interface IFormBuilder extends IBaseUI
 	 *
 	 * @param	labelName The label of the form
 	 * @param	elementName The name that will be used once sent to server
-	 * @param	element The ui class that will be used
+	 * @param	element The form ui class that will be used
 	 * @param	layout What layout that will be used
 	 * @param	params Any extra values that will be passed for the layout
 	 */
     
-    function addFormElement(labelName : String, elementName : String, element : IFormUI, layout : Class<Dynamic> = null, params : Dynamic = null) : Void;
+    function addFormElement(labelName : String, elementName : String, elementClass : Class<Dynamic>, layoutClass : Class<Dynamic> = null, params : Dynamic = null) : Void;
     
     /**
 	 * Keeps track of a FormData object. The name and values will be sent to server when using the send method.
