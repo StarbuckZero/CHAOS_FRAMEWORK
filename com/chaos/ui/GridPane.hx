@@ -1107,7 +1107,6 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
     {
         if (null == _grid) 
             return;
-        
 			
 		var row:Int = 0;
 		var col:Int = 0;

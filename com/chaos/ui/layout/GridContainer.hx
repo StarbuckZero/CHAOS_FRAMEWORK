@@ -219,6 +219,7 @@ class GridContainer extends BaseContainer implements IGridContainer implements I
 	 * @param	index Where you want to add the new row
 	 */
 	public function addRow(index:Int):Void {
+		
 		var newRow:DataProvider<IGridCell> = new DataProvider<IGridCell>();
 
 		// Create the columns for the row
@@ -403,6 +404,7 @@ class GridContainer extends BaseContainer implements IGridContainer implements I
 				// Force resize based on with and height
 				cell.width = ((_cellWidth >= -1)) ? Std.int(_width / columnCount) : _cellWidth;
 				cell.height = ((_cellHeight >= -1)) ? Std.int(_height / rowCount) : _cellHeight;
+				
 
 				// Place items
 				cell.x = cell.width * col;
@@ -412,8 +414,8 @@ class GridContainer extends BaseContainer implements IGridContainer implements I
 			}
 		}
 
-		//contentHolder.scrollRect = null;
-		//contentHolder.scrollRect = new Rectangle(0, 0, _width, _height);
+		// contentHolder.scrollRect = null;
+		// contentHolder.scrollRect = new Rectangle(0, 0, _width, _height);
 	}
 
 	private function moveToFront(event:MouseEvent):Void {

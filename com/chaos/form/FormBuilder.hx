@@ -69,11 +69,18 @@ class FormBuilder extends BaseUI implements IFormBuilder implements IBaseUI
         
     }
 
+    override function setComponentData(data:Dynamic) {
+
+        super.setComponentData(data);
+
+        //TODO: Make sure it support 
+    }
+
     override function initialize() {
 
         super.initialize();
 
-        _grid = new GridContainer({"width":_width,"height":_height,"row": 1, "column":2});
+        _grid = new GridContainer({"width":_width,"height":_height,"row": 0, "column":2});
 
         addChild(_grid.displayObject);
     }
@@ -197,50 +204,51 @@ class FormBuilder extends BaseUI implements IFormBuilder implements IBaseUI
 	 * Adds a new form element to the form
 	 *
 	 * @param	labelName The label of the form
-	 * @param	elementName The name that will be used once sent to server
-	 * @param	element The ui class that will be used
-	 * @param	layout What layout that will be used
+	 * @param	elementName The name that will stored in an object
+	 * @param	elementClass The ui class that will be used
+     * @param	elementParams The ui class that will be used
+	 * @param	layoutClass What layout that will be used
 	 * @param	params Any extra values that will be passed for the layout
 	 */
     
-    public function addFormElement(labelName : String, elementName : String, elementClass : Class<Dynamic>, layoutClass : Class<Dynamic> = null, params : Dynamic = null) : Void
+    public function addFormElement(labelName : String, elementName : String, elementClass : Class<Dynamic>, elementParams: Dynamic = null, layoutClass : Class<Dynamic> = null, layoutParams : Dynamic = null) : Void
     {
-        _grid.addRow(0);
+        _grid.addRow(_grid.getRowCount());
+
+        var labelRow:IGridCell = _grid.getCell(_grid.getRowCount() - 1, 0);
+        var inputRow:IGridCell = _grid.getCell(_grid.getRowCount() - 1, 1);
         
         // Set borders and everything first
         setColumnHeightAt(0, _defaultCellHeight);
         setColumnHeightAt(1, _defaultCellHeight);
-
-        setColumnWidthAt(0,100);
-        setColumnWidthAt(1,100);
         
-        _grid.getCell(0, 0).setLayout(GridCellLayout.HORIZONTAL, params);
-        _grid.getCell(0, 1).setLayout(((null != layoutClass && Std.is(Type.createInstance(layoutClass, []), AlignmentBaseContainer))) ? Type.createInstance(layoutClass, []) : GridCellLayout.HORIZONTAL, params);
+        labelRow.setLayout(GridCellLayout.HORIZONTAL, layoutParams);
+        inputRow.setLayout(((null != layoutClass && Std.isOfType(Type.createInstance(layoutClass, []), AlignmentBaseContainer))) ? Type.createInstance(layoutClass, []) : GridCellLayout.FIT, layoutParams);
         
         // Turn off clipping for combo boxes
-        _grid.getCell(0, 0).container.clipping = _grid.getCell(0, 1).container.clipping = false;
+        labelRow.container.clipping = inputRow.container.clipping = false;
         
-        var newLabel : ILabel = new TextLabel({"text":labelName});
-        _grid.getCell(0, 0).container.addElement(newLabel);
+        var newLabel : ILabel = new TextLabel({"text":labelName,"width":labelRow.width,"height":labelRow.height});
+        labelRow.container.addElement(newLabel);
 
-        _grid.getCell(0, 0).border = _border;
-        _grid.getCell(0, 0).borderThinkness = _borderThinkness;
+        labelRow.border = _border;
+        labelRow.borderThinkness = _borderThinkness;
         
         // Check to see if item is a based UI
-        var element:IFormUI = Type.createInstance(elementClass,[]);
+        var element:IFormUI = Type.createInstance(elementClass,[elementParams]);
         element.setName(elementName);
         
-        _grid.getCell(0, 1).border = _border;
-        _grid.getCell(0, 1).borderThinkness = _borderThinkness;
+        inputRow.border = _border;
+        inputRow.borderThinkness = _borderThinkness;
         
         if (Std.isOfType(element, IBaseUI)) 
         {
             var baseElement : IBaseUI = (try cast(element, IBaseUI) catch(e:Dynamic) null);
             
-            _grid.getCell(0, 1).container.addElement(baseElement);
+            inputRow.container.addElement(baseElement);
             
-            _grid.getCell(0, 1).border = _border;
-            _grid.getCell(0, 1).borderThinkness = _borderThinkness;
+            inputRow.border = _border;
+            inputRow.borderThinkness = _borderThinkness;
         }
 		
 		// Adjust elements location  
@@ -265,6 +273,7 @@ class FormBuilder extends BaseUI implements IFormBuilder implements IBaseUI
             }
 
         }
+
     }
     
     /**

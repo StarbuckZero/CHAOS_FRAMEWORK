@@ -159,8 +159,9 @@ class BaseContainer extends BaseUI implements IBaseContainer implements IBaseUI
     {
         for (i in 0 ... list.length)
 		{
-            if (null != list[i] && Std.isOfType(list[i], IBaseUI)) 
+            if (null != list[i] && Std.isOfType(list[i], IBaseUI))  {
                 _content.addChild(cast(list[i], IBaseUI).displayObject);
+            }
             else 
                 Debug.print("[BaseContainer::addElementList] Fail to add item at index " + i);
         }
