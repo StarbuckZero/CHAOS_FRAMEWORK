@@ -584,33 +584,33 @@ class UIStyleManager
     public static var ICON_COLOR : String = "ICON_COLOR";
     public static var ICON_BORDER_COLOR : String = "ICON_BORDER_COLOR";
     
-    public static var MENU_NORMAL_COLOR : String = "MENU_NORMAL_COLOR";
-    public static var MENU_OVER_COLOR : String = "MENU_OVER_COLOR";
-    public static var MENU_DOWN_COLOR : String = "MENU_DOWN_COLOR";
-    public static var MENU_DISABLE_COLOR : String = "MENU_DISABLE_COLOR";
+    public static var MENU_BUTTON_NORMAL_COLOR : String = "MENU_BUTTON_NORMAL_COLOR";
+    public static var MENU_BUTTON_OVER_COLOR : String = "MENU_BUTTON_OVER_COLOR";
+    public static var MENU_BUTTON_DOWN_COLOR : String = "MENU_BUTTON_DOWN_COLOR";
+    public static var MENU_BUTTON_DISABLE_COLOR : String = "MENU_BUTTON_DISABLE_COLOR";
     
-    public static var MENU_SUB_NORMAL_COLOR : String = "MENU_SUB_NORMAL_COLOR";
-    public static var MENU_SUB_OVER_COLOR : String = "MENU_SUB_OVER_COLOR";
-    public static var MENU_SUB_DOWN_COLOR : String = "MENU_SUB_DOWN_COLOR";
-    public static var MENU_SUB_DISABLE_COLOR : String = "MENU_SUB_DISABLE_COLOR";
+    public static var MENU_SUB_BUTTON_NORMAL_COLOR : String = "MENU_SUB_BUTTON_NORMAL_COLOR";
+    public static var MENU_SUB_BUTTON_OVER_COLOR : String = "MENU_SUB_BUTTON_OVER_COLOR";
+    public static var MENU_SUB_BUTTON_DOWN_COLOR : String = "MENU_SUB_BUTTON_DOWN_COLOR";
+    public static var MENU_SUB_BUTTON_DISABLE_COLOR : String = "MENU_SUB_BUTTON_DISABLE_COLOR";
     
-    public static var MENU_BORDER_ALPHA : String = "MENU_BORDER_ALPHA";
-    public static var MENU_BORDER : String = "MENU_BORDER";
-    public static var MENU_BORDER_THINKNESS : String = "MENU_BORDER_THINKNESS";
+    public static var MENU_BUTTON_BORDER_ALPHA : String = "MENU_BUTTON_BORDER_ALPHA";
+    public static var MENU_BUTTON_BORDER : String = "MENU_BUTTON_BORDER";
+    public static var MENU_BUTTON_BORDER_THINKNESS : String = "MENU_BUTTON_BORDER_THINKNESS";
     
-    public static var MENU_BORDER_NORMAL_COLOR : String = "MENU_BORDER_NORMAL_COLOR";
-    public static var MENU_BORDER_OVER_COLOR : String = "MENU_BORDER_OVER_COLOR";
-    public static var MENU_BORDER_DOWN_COLOR : String = "MENU_BORDER_DOWN_COLOR";
-    public static var MENU_BORDER_DISABLE_COLOR : String = "MENU_BORDER_DISABLE_COLOR";
+    public static var MENU_BUTTON_BORDER_NORMAL_COLOR : String = "MENU_BORDER_BUTTON_NORMAL_COLOR";
+    public static var MENU_BUTTON_BORDER_OVER_COLOR : String = "MENU_BORDER_BUTTON_OVER_COLOR";
+    public static var MENU_BUTTON_BORDER_DOWN_COLOR : String = "MENU_BORDER_BUTTON_DOWN_COLOR";
+    public static var MENU_BUTTON_BORDER_DISABLE_COLOR : String = "MENU_BORDER_BUTTON_DISABLE_COLOR";
     
-    public static var MENU_SUB_BORDER_ALPHA : String = "MENU_SUB_BORDER_ALPHA";
-    public static var MENU_SUB_BORDER : String = "MENU_SUB_BORDER";
-    public static var MENU_SUB_BORDER_THINKNESS : String = "MENU_SUB_BORDER_THINKNESS";
+    public static var MENU_SUB_BUTTON_BORDER_ALPHA : String = "MENU_SUB_BUTTON_BORDER_ALPHA";
+    public static var MENU_SUB_BUTTON_BORDER : String = "MENU_SUB_BUTTON_BORDER";
+    public static var MENU_SUB_BUTTON_BORDER_THINKNESS : String = "MENU_SUB_BUTTON_BORDER_THINKNESS";
     
-    public static var MENU_SUB_BORDER_NORMAL_COLOR : String = "MENU_SUB_BORDER_NORMAL_COLOR";
-    public static var MENU_SUB_BORDER_OVER_COLOR : String = "MENU_SUB_BORDER_OVER_COLOR";
-    public static var MENU_SUB_BORDER_DOWN_COLOR : String = "MENU_SUB_BORDER_DOWN_COLOR";
-    public static var MENU_SUB_BORDER_DISABLE_COLOR : String = "MENU_SUB_BORDER_DISABLE_COLOR";
+    public static var MENU_SUB_BUTTON_BORDER_NORMAL_COLOR : String = "MENU_SUB_BUTTON_BORDER_NORMAL_COLOR";
+    public static var MENU_SUB_BUTTON_BORDER_OVER_COLOR : String = "MENU_SUB_BUTTON_BORDER_OVER_COLOR";
+    public static var MENU_SUB_BUTTON_BORDER_DOWN_COLOR : String = "MENU_SUB_BUTTON_BORDER_DOWN_COLOR";
+    public static var MENU_SUB_BUTTON_BORDER_DISABLE_COLOR : String = "MENU_SUB_BUTTON_BORDER_DISABLE_COLOR";
     
     public static var MENU_LABEL_TEXT_EMBED : String = "MENU_LABEL_TEXT_EMBED";
     public static var MENU_LABEL_TEXT_FONT : String = "MENU_LABEL_TEXT_FONT";

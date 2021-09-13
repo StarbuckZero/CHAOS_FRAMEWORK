@@ -77,6 +77,12 @@ class MenuItem extends Button implements IMenuItem implements IToggleButton impl
 	 */
     	
     public var showSubMenuIcon(get, set) : Bool;
+
+    /**
+	 * Set button alpha
+	 */
+    
+    public var fillAlpha(get, set) : Float;	    
     
 
     /** The offset of the icon from the upper left */
@@ -101,11 +107,9 @@ class MenuItem extends Button implements IMenuItem implements IToggleButton impl
     
     private var _subMenuDisplayImage : BitmapData;
     
-    
     private var _thinkness : Float = 1;
     
-    
-    private var _alpha : Float = 1;
+    private var _fillAlpha : Float = 1;
     private var _lineAlpha : Float = 1;
     
     private var _hasChildren : Bool = false;
@@ -273,7 +277,7 @@ class MenuItem extends Button implements IMenuItem implements IToggleButton impl
 	
     private function set_fillAlpha(value : Float) : Float
     {
-        _alpha = value;
+        _fillAlpha = value;
         
 		
         return value;
@@ -285,7 +289,7 @@ class MenuItem extends Button implements IMenuItem implements IToggleButton impl
 	
     private function get_fillAlpha() : Float
     {
-        return _alpha;
+        return _fillAlpha;
     }
     
     /**
@@ -433,23 +437,6 @@ class MenuItem extends Button implements IMenuItem implements IToggleButton impl
     override public function draw() : Void
     {
 		super.draw();
-        
-        /*
-        if (_border) 
-		{
-			
-			normalState.graphics.lineStyle(_thinkness, _normalLineColor, _lineAlpha);
-			overState.graphics.lineStyle(_thinkness, _overLineColor, _lineAlpha);
-			downState.graphics.lineStyle(_thinkness, _downLineColor, _lineAlpha);
-			disableState.graphics.lineStyle(_thinkness, _disableLineColor, _lineAlpha);
-			
-			normalState.graphics.drawRect(0, 0, _width, _height);
-			overState.graphics.drawRect(0, 0, _width, _height);
-			downState.graphics.drawRect(0, 0, _width, _height);
-			disableState.graphics.drawRect(0, 0, _width, _height);
-        }
-        */
-		
 	}
     
     private function onMenuOver(event : MouseEvent) : Void

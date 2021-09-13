@@ -19,8 +19,8 @@ interface IMenuItem extends IButton
 	 * Set the menu to being open or closed on roll over
 	 */
     
-    
     var open(get, set) : Bool;    
+
     /**
 	 * Set the button has a parent
 	 */
@@ -72,11 +72,16 @@ interface IMenuItem extends IButton
 	var borderAlpha(get, set) : Float;	
     
     /**
+	 * Set button alpha
+	 */
+
+    
+	 var fillAlpha(get, set) : Float;	
+
+    /**
 	 * Set the label text color
 	 */
     
-    
-
     var textColor(get, set) : Int;    
     
     /**
@@ -117,8 +122,6 @@ interface IMenuItem extends IButton
     /**
 	 * Show or hide the Sub menu icon
 	 */
-    
-
     
     var showSubMenuIcon(get, set) : Bool;    
     

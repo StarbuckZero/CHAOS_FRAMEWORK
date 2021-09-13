@@ -3,6 +3,7 @@ package com.chaos.ui.layout;
 import com.chaos.ui.classInterface.IBaseUI;
 import com.chaos.ui.layout.classInterface.IAlignmentContainer;
 import com.chaos.ui.layout.classInterface.IGridCell;
+import com.chaos.ui.classInterface.IBorder;
 
 
 import com.chaos.ui.layout.GridCellLayout;
@@ -20,147 +21,70 @@ import com.chaos.ui.BaseUI;
  * @author Erick Feiling
  */
 
-class GridCell extends BaseUI implements IBaseUI implements IGridCell
+class GridCell extends BaseUI implements IGridCell implements IBaseUI 
 {
-    public var border(get, set) : Bool;
-    public var borderColor(get, set) : Int;
-    public var borderAlpha(get, set) : Float;
-    public var borderThinkness(get, set) : Float;
-    public var container(get, never) : IAlignmentContainer;
 
-    public var outline : Shape;
+    public var container(get, never) : IAlignmentContainer;
+    public var border(get, never) : IBorder;
+
+    private var _border : IBorder;
     
     private var _layoutClass : Class<Dynamic> = GridCellLayout.FIT;
     private var _container : IAlignmentContainer;
-    
-    private var _border : Bool = true;
-    
-    private var _thinkness : Float = 1;
-    private var _borderColor : Int = 0x000000;
-    private var _borderAlpha : Float = 1;
+
+    private var _params : Dynamic = {};
+    private var _borderData : Dynamic = {};
     
     /**
 	 * Creates a cell block for a grid
 	 *
-	 * @param	gridWidth The width of the cell block
-	 * @param	gridHeight The height of the block
-	 * @param	layout Set the alignments
-	 * @param	params Set extra stuff to the layout
+	 * @param	data The proprieties that you want to set on component.
 	 *
 	 * @see com.chaos.ui.layout.GridLayout
 	 *
-	 * @exampleText var cell = new GridCell(100,100,GridLayout.FIT,{'direction':FitContainerDirection.VERTICAL});
+	 * @exampleText var cell = new GridCell({"width":100,"height":100,"border":{},"layout":GridLayout.FIT,"params":{'direction':FitContainerDirection.VERTICAL}});
 	 */
     
-    public function new(gridWidth : Float = -1, gridHeight : Float = -1, layout : Class<Dynamic> = null, params : Dynamic = null)
+    public function new(data:Dynamic = null)
     {
-        
-        super();
-        
-        if (-1 != gridWidth) 
-            _width = gridWidth;
-        
-        if (-1 != gridHeight) 
-            _height = gridHeight;
-        
-        if (null != layout) 
-            setLayout(layout, params);
-        
-        init();
+        super(data);
     }
-    
-    private function init() : Void
-    {
-        _container = Type.createInstance(_layoutClass, []);
-        outline = new Shape();
-        
-        _container.width = _width;
-        _container.height = _height;
-        
-        addChild(_container.displayObject);
-        addChild(outline);
-        
-        draw();
+
+    override function setComponentData(data:Dynamic) {
+
+        super.setComponentData(data);
+
+		if (Reflect.hasField(data, "layout"))
+			_layoutClass = Reflect.field(data, "layout");
+
+		if (Reflect.hasField(data, "params"))
+			_params = Reflect.field(data, "params");
     }
-    
-    
-    /**
-	 * Toggle on and off border
-	 */
-    
-    private function set_border(value : Bool) : Bool
-    {
-        _border = value;
-        draw();
-        return value;
+
+    override function initialize() {
+
+        super.initialize();
+
+        _border = new Border(_borderData);
+        
+        if (null != _layoutClass) 
+            setLayout(_layoutClass, _params);
+
+        addChild(_border.displayObject);
+
+        _params = null;
+        _borderData = null;
+        _layoutClass = null;
+
     }
     
     /**
-	 * Returns true if the border is on and false if not
+	 * Returns border 
 	 */
     
-    private function get_border() : Bool
+    private function get_border() : IBorder
     {
         return _border;
-    }
-    
-    /**
-	 * The ScrollPane border color
-	 */
-    
-    private function set_borderColor(value : Int) : Int
-    {
-        _borderColor = value;
-        draw();
-        return value;
-    }
-    
-    /**
-	 * Returns the color
-	 */
-    
-    private function get_borderColor() : Int
-    {
-        return _borderColor;
-    }
-    
-    /**
-	 * Specifies the border alpha. Set the alpha between 1 to 0.
-	 */
-    
-    private function set_borderAlpha(value : Float) : Float
-    {
-        _borderAlpha = value;
-        draw();
-        return value;
-    }
-    
-    /**
-	 * Returns the boarder alpha
-	 */
-    
-    private function get_borderAlpha() : Float
-    {
-        return _borderAlpha;
-    }
-    
-    /**
-	 * Border thinkness
-	 */
-    
-    private function set_borderThinkness(value : Float) : Float
-    {
-        _thinkness = value;
-        draw();
-        return value;
-    }
-    
-    /**
-	 * Return the size of the border
-	 */
-    private function get_borderThinkness() : Float
-    {
-        return _thinkness;
     }
     
     /**
@@ -176,7 +100,8 @@ class GridCell extends BaseUI implements IBaseUI implements IGridCell
     
     public function setLayout(value : Class<Dynamic>, params : Dynamic = null) : Void
     {
-        
+
+        // Check to to see if right container 
         if (Std.isOfType(Type.createInstance(value, []), AlignmentBaseContainer)) 
         {
             _layoutClass = value;
@@ -185,29 +110,15 @@ class GridCell extends BaseUI implements IBaseUI implements IGridCell
             if (null != _container && null != _container.displayObject.parent) 
                 removeChild(_container.displayObject);
             
-            
             // Add new layout
-            _container = Type.createInstance(_layoutClass, []);
-            _container.width = _width;
-            _container.height = _height;
-            
+            _container = Type.createInstance(_layoutClass, [params]);
             _container.background = false;
             
             // Apply direction for FitContainer
-            if (Std.isOfType(_container, FitContainer) && null != params && params.exists("direction") && Std.isOfType(params.direction, String)) 
-                (try cast(_container, FitContainer) catch (e:Dynamic) null).direction = params.direction;
+            if (Std.isOfType(_container, FitContainer) && null != params && Reflect.hasField(params,"direction") && Std.isOfType( Reflect.field(params,"direction"), String)) 
+                cast(_container, FitContainer).direction = params.direction;
             
-            
-            // Toggle background 
-            if (null != params && params.exists("background")) 
-                _container.background = cast(params.background, Bool);
-            
-            if (null != params && params.exists("backgroundAlpha")) 
-                _container.backgroundAlpha = Std.parseFloat(params.backgroundAlpha);
-            
-            if (null != params && params.exists("backgroundColor")) 
-                _container.backgroundColor = Std.parseInt(params.backgroundColor);
-            
+            addChild(_border.displayObject);
             addChild(_container.displayObject);
         }
         else 
@@ -236,23 +147,14 @@ class GridCell extends BaseUI implements IBaseUI implements IGridCell
     {
         super.draw();
         
-        if (null == outline) 
-            return;
-        
-        if (null != _container) 
-		{
-            _container.width = _width;
-            _container.height = _height;
-		}
-			
-        outline.graphics.clear();
-        
-        // Setup for border if need be
-        if (_border) 
-        {
-            outline.graphics.lineStyle(_thinkness, _borderColor, _borderAlpha);
-            outline.graphics.drawRect(0, 0, _width, _height);
-        }
+        _container.width = _width;
+        _container.height = _height;
+
+        _border.width = _width;
+        _border.height = _height;
+
+        _container.draw();
+        _border.draw();
     }
 }
 

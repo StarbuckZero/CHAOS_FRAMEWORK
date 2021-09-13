@@ -1,6 +1,7 @@
 package com.chaos.ui.layout.classInterface;
 
 
+import com.chaos.ui.classInterface.IBorder;
 import com.chaos.ui.classInterface.IBaseUI;
 
 /**
@@ -24,29 +25,8 @@ interface IGridCell extends IBaseUI
 	 * Toggle on and off border
 	 */
     
-    var border(get, set) : Bool;    
+    var border(get, never) : IBorder;    
     
-    /**
-	 * The ScrollPane border color
-	 */
-    
-    
-    var borderColor(get, set) : Int;    
-    
-    /**
-	 * Specifies the border alpha. Set the alpha between 1 to 0.
-	 */
-    
-    
-    
-    var borderAlpha(get, set) : Float;    
-    
-    /**
-	 * Border thinkness
-	 */
-    
-    
-    var borderThinkness(get, set) : Float;
 
     /**
 	 * Remove old layout container and add new one to cell block.

@@ -33,7 +33,7 @@ import openfl.events.MouseEvent;
  * @author Erick Feiling
  */
 
-class Menu extends BaseContainer implements IBaseContainer implements IMenu implements IBaseUI
+class Menu extends BaseContainer implements IMenu implements IBaseContainer implements IBaseUI
 {
     /**
 	 * Return a container with the menu top level buttons
@@ -147,25 +147,25 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
 	 * Set the inner menu button alpha
 	 */
 	
-    public var fillAlpha(get, set) : Float;
+    public var buttonAlpha(get, set) : Float;
 	
     /**
 	 * Set the inner menu sub button alpha
 	 */
 	
-    public var subAlpha(get, set) : Float;
+    public var subButtonAlpha(get, set) : Float;
 	
     /**
 	 * Set the border menu button alpha
 	 */
 	
-    public var lineAlpha(get, set) : Float;
+    public var buttonLineAlpha(get, set) : Float;
 	
     /**
 	 * Set the border sub menu button alpha
 	 */
 	
-    public var subLineAlpha(get, set) : Float;
+    public var subButtonLineAlpha(get, set) : Float;
 	
     /**
 	 * Set the label text color
@@ -219,7 +219,13 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
 	 * Border thinkness
 	 */
 	
-    public var subBorderThinkness(get, set) : Float;
+     public var buttonBorderThinkness(get, set) : Float;
+
+    /**
+	 * Border thinkness
+	 */
+	
+    public var subButtonBorderThinkness(get, set) : Float;
 	
     /**
 	 * Show or hide the Sub menu icon
@@ -278,10 +284,11 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
     private var _subTextSelectedColor : Int = 0x999999;
     private var _subTextDisableColor : Int = 0xCCCCCC;
     
-    private var _thinkness : Float = 1;
+    private var _buttonBorder : Bool = false;
+    private var _buttonBorderThinkness : Float = 1;
     
-    private var _subBorder : Bool = false;
-    private var _subThinkness : Float = 1;
+    private var _subButtonBorder : Bool = false;
+    private var _subButtonBorderThinkness : Float = 1;
     
     private var _useMask : Bool = false;
     
@@ -292,10 +299,11 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
     
     private var _subMenuDisplayImage : BitmapData;
     
-    private var _alpha : Float = 1;
-    
-    private var _subAlpha : Float = 1;
-    private var _subLineAlpha : Float = 1;
+    private var _buttonAlpha : Float = 1;
+    private var _buttonLineAlpha : Float = 1;
+
+    private var _subButtonAlpha : Float = 1;
+    private var _subButtonLineAlpha : Float = 1;
     
     private var _buttonWidth : Float = 100;
     private var _buttonHeight : Float = 20;
@@ -453,15 +461,18 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
 			
 		// Border
 		
-		if (Reflect.hasField(data, "border"))
-			_border = Reflect.field(data, "border");
+		if (Reflect.hasField(data, "buttonBorder"))
+			_buttonBorder = Reflect.field(data, "buttonBorder");
 		
-		if (Reflect.hasField(data, "subBorder"))
-			_subBorder = Reflect.field(data, "subBorder");
+		if (Reflect.hasField(data, "subButtonBorder"))
+			_subButtonBorder = Reflect.field(data, "subButtonBorder");
 			
-		if (Reflect.hasField(data, "borderAlpha"))
-			_borderAlpha = Reflect.field(data, "borderAlpha");
+		if (Reflect.hasField(data, "buttonLineAlpha"))
+			_buttonLineAlpha = Reflect.field(data, "buttonLineAlpha");
 			
+		if (Reflect.hasField(data, "buttonLineAlpha"))
+			_subButtonLineAlpha = Reflect.field(data, "buttonLineAlpha");
+
 		// Reverse the direction of the sub menu buttons
 		if (Reflect.hasField(data, "reverse"))
 			_reverse = Reflect.field(data, "reverse");
@@ -554,37 +565,37 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
             _backgroundAlpha = UIStyleManager.getStyle(UIStyleManager.MENU_BACKGROUND_ALPHA);
         
         // Button Color 
-        if (UIStyleManager.hasStyle(UIStyleManager.MENU_NORMAL_COLOR)) 
-            _normalFillColor = UIStyleManager.getStyle(UIStyleManager.MENU_NORMAL_COLOR);
+        if (UIStyleManager.hasStyle(UIStyleManager.MENU_BUTTON_NORMAL_COLOR)) 
+            _normalFillColor = UIStyleManager.getStyle(UIStyleManager.MENU_BUTTON_NORMAL_COLOR);
         
-        if (UIStyleManager.hasStyle(UIStyleManager.MENU_OVER_COLOR)) 
-            _overFillColor = UIStyleManager.getStyle(UIStyleManager.MENU_OVER_COLOR);
+        if (UIStyleManager.hasStyle(UIStyleManager.MENU_BUTTON_OVER_COLOR)) 
+            _overFillColor = UIStyleManager.getStyle(UIStyleManager.MENU_BUTTON_OVER_COLOR);
         
-        if (UIStyleManager.hasStyle(UIStyleManager.MENU_DISABLE_COLOR)) 
-            _disableFillColor = UIStyleManager.getStyle(UIStyleManager.MENU_DISABLE_COLOR);
+        if (UIStyleManager.hasStyle(UIStyleManager.MENU_BUTTON_DISABLE_COLOR)) 
+            _disableFillColor = UIStyleManager.getStyle(UIStyleManager.MENU_BUTTON_DISABLE_COLOR);
         
-        if (UIStyleManager.hasStyle(UIStyleManager.MENU_DOWN_COLOR)) 
-            _downFillColor = UIStyleManager.getStyle(UIStyleManager.MENU_DOWN_COLOR);
+        if (UIStyleManager.hasStyle(UIStyleManager.MENU_BUTTON_DOWN_COLOR)) 
+            _downFillColor = UIStyleManager.getStyle(UIStyleManager.MENU_BUTTON_DOWN_COLOR);
         
         
           // Button Border
-        if (UIStyleManager.hasStyle(UIStyleManager.MENU_BORDER_NORMAL_COLOR)) 
-            _normalLineColor = UIStyleManager.getStyle(UIStyleManager.MENU_BORDER_NORMAL_COLOR);
+        if (UIStyleManager.hasStyle(UIStyleManager.MENU_BUTTON_BORDER_NORMAL_COLOR)) 
+            _normalLineColor = UIStyleManager.getStyle(UIStyleManager.MENU_BUTTON_BORDER_NORMAL_COLOR);
         
-        if (UIStyleManager.hasStyle(UIStyleManager.MENU_BORDER_OVER_COLOR)) 
-            _overLineColor = UIStyleManager.getStyle(UIStyleManager.MENU_BORDER_OVER_COLOR);
+        if (UIStyleManager.hasStyle(UIStyleManager.MENU_BUTTON_BORDER_OVER_COLOR)) 
+            _overLineColor = UIStyleManager.getStyle(UIStyleManager.MENU_BUTTON_BORDER_OVER_COLOR);
         
-        if (UIStyleManager.hasStyle(UIStyleManager.MENU_BORDER_DOWN_COLOR)) 
-            _downLineColor = UIStyleManager.getStyle(UIStyleManager.MENU_BORDER_DOWN_COLOR);
+        if (UIStyleManager.hasStyle(UIStyleManager.MENU_BUTTON_BORDER_DOWN_COLOR)) 
+            _downLineColor = UIStyleManager.getStyle(UIStyleManager.MENU_BUTTON_BORDER_DOWN_COLOR);
         
-        if (UIStyleManager.hasStyle(UIStyleManager.MENU_BORDER_DISABLE_COLOR)) 
-            _disableLineColor = UIStyleManager.getStyle(UIStyleManager.MENU_BORDER_DISABLE_COLOR);
+        if (UIStyleManager.hasStyle(UIStyleManager.MENU_BUTTON_BORDER_DISABLE_COLOR)) 
+            _disableLineColor = UIStyleManager.getStyle(UIStyleManager.MENU_BUTTON_BORDER_DISABLE_COLOR);
         
-        if (UIStyleManager.hasStyle(UIStyleManager.MENU_BORDER_ALPHA)) 
-            _borderAlpha = UIStyleManager.getStyle(UIStyleManager.MENU_BORDER_ALPHA);
+        if (UIStyleManager.hasStyle(UIStyleManager.MENU_BUTTON_BORDER_ALPHA)) 
+            _buttonLineAlpha = UIStyleManager.getStyle(UIStyleManager.MENU_BUTTON_BORDER_ALPHA);
         
-        if (UIStyleManager.hasStyle(UIStyleManager.MENU_BORDER_THINKNESS)) 
-            _thinkness = UIStyleManager.getStyle(UIStyleManager.MENU_BORDER_THINKNESS);
+        if (UIStyleManager.hasStyle(UIStyleManager.MENU_BUTTON_BORDER_THINKNESS)) 
+            _buttonBorderThinkness = UIStyleManager.getStyle(UIStyleManager.MENU_BUTTON_BORDER_THINKNESS);
         
         
         
@@ -604,37 +615,37 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
         
         
           // Sub Menu
-        if (UIStyleManager.hasStyle(UIStyleManager.MENU_SUB_NORMAL_COLOR)) 
-            _subMenuDefaultColor = UIStyleManager.getStyle(UIStyleManager.MENU_SUB_NORMAL_COLOR);
+        if (UIStyleManager.hasStyle(UIStyleManager.MENU_SUB_BUTTON_NORMAL_COLOR)) 
+            _subMenuDefaultColor = UIStyleManager.getStyle(UIStyleManager.MENU_SUB_BUTTON_NORMAL_COLOR);
         
-        if (UIStyleManager.hasStyle(UIStyleManager.MENU_SUB_OVER_COLOR)) 
-            _subMenuOverColor = UIStyleManager.getStyle(UIStyleManager.MENU_SUB_OVER_COLOR);
+        if (UIStyleManager.hasStyle(UIStyleManager.MENU_SUB_BUTTON_OVER_COLOR)) 
+            _subMenuOverColor = UIStyleManager.getStyle(UIStyleManager.MENU_SUB_BUTTON_OVER_COLOR);
         
-        if (UIStyleManager.hasStyle(UIStyleManager.MENU_SUB_DISABLE_COLOR)) 
-            _subMenuDisableColor = UIStyleManager.getStyle(UIStyleManager.MENU_SUB_DISABLE_COLOR);
+        if (UIStyleManager.hasStyle(UIStyleManager.MENU_SUB_BUTTON_DISABLE_COLOR)) 
+            _subMenuDisableColor = UIStyleManager.getStyle(UIStyleManager.MENU_SUB_BUTTON_DISABLE_COLOR);
         
-        if (UIStyleManager.hasStyle(UIStyleManager.MENU_SUB_DOWN_COLOR)) 
-            _subMenuDownColor = UIStyleManager.getStyle(UIStyleManager.MENU_SUB_DOWN_COLOR);
+        if (UIStyleManager.hasStyle(UIStyleManager.MENU_SUB_BUTTON_DOWN_COLOR)) 
+            _subMenuDownColor = UIStyleManager.getStyle(UIStyleManager.MENU_SUB_BUTTON_DOWN_COLOR);
         
         
          // Button Border
-        if (UIStyleManager.hasStyle(UIStyleManager.MENU_SUB_BORDER_NORMAL_COLOR)) 
-            _normalLineColor = UIStyleManager.getStyle(UIStyleManager.MENU_SUB_BORDER_NORMAL_COLOR);
+        if (UIStyleManager.hasStyle(UIStyleManager.MENU_SUB_BUTTON_BORDER_NORMAL_COLOR)) 
+            _normalLineColor = UIStyleManager.getStyle(UIStyleManager.MENU_SUB_BUTTON_BORDER_NORMAL_COLOR);
         
-        if (UIStyleManager.hasStyle(UIStyleManager.MENU_SUB_BORDER_OVER_COLOR)) 
-            _overLineColor = UIStyleManager.getStyle(UIStyleManager.MENU_SUB_BORDER_OVER_COLOR);
+        if (UIStyleManager.hasStyle(UIStyleManager.MENU_SUB_BUTTON_BORDER_OVER_COLOR)) 
+            _overLineColor = UIStyleManager.getStyle(UIStyleManager.MENU_SUB_BUTTON_BORDER_OVER_COLOR);
         
-        if (UIStyleManager.hasStyle(UIStyleManager.MENU_SUB_BORDER_DOWN_COLOR)) 
-            _downLineColor = UIStyleManager.getStyle(UIStyleManager.MENU_SUB_BORDER_DOWN_COLOR);
+        if (UIStyleManager.hasStyle(UIStyleManager.MENU_SUB_BUTTON_BORDER_DOWN_COLOR)) 
+            _downLineColor = UIStyleManager.getStyle(UIStyleManager.MENU_SUB_BUTTON_BORDER_DOWN_COLOR);
         
-        if (UIStyleManager.hasStyle(UIStyleManager.MENU_SUB_BORDER_DISABLE_COLOR)) 
-            _disableLineColor = UIStyleManager.getStyle(UIStyleManager.MENU_SUB_BORDER_DISABLE_COLOR);
+        if (UIStyleManager.hasStyle(UIStyleManager.MENU_SUB_BUTTON_BORDER_DISABLE_COLOR)) 
+            _disableLineColor = UIStyleManager.getStyle(UIStyleManager.MENU_SUB_BUTTON_BORDER_DISABLE_COLOR);
         
-        if (UIStyleManager.hasStyle(UIStyleManager.MENU_SUB_BORDER_ALPHA)) 
-            _borderAlpha = UIStyleManager.getStyle(UIStyleManager.MENU_BORDER_ALPHA);
+        // if (UIStyleManager.hasStyle(UIStyleManager.MENU_SUB_BORDER_ALPHA)) 
+        //     _borderAlpha = UIStyleManager.getStyle(UIStyleManager.MENU_BORDER_ALPHA);
         
-        if (UIStyleManager.hasStyle(UIStyleManager.MENU_SUB_BORDER_THINKNESS)) 
-            _subThinkness = UIStyleManager.getStyle(UIStyleManager.MENU_SUB_BORDER_THINKNESS);
+        if (UIStyleManager.hasStyle(UIStyleManager.MENU_SUB_BUTTON_BORDER_THINKNESS)) 
+            _subButtonBorderThinkness = UIStyleManager.getStyle(UIStyleManager.MENU_SUB_BUTTON_BORDER_THINKNESS);
         
         
         
@@ -651,11 +662,11 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
         if (UIStyleManager.hasStyle(UIStyleManager.MENU_SUB_LABEL_TEXT_DISABLE_COLOR)) 
             _subTextDisableColor = UIStyleManager.getStyle(UIStyleManager.MENU_SUB_LABEL_TEXT_DISABLE_COLOR);
 
-        if (UIStyleManager.hasStyle(UIStyleManager.MENU_BORDER))
-            _border =  UIStyleManager.getStyle(UIStyleManager.MENU_BORDER);
+        if (UIStyleManager.hasStyle(UIStyleManager.MENU_BUTTON_BORDER))
+            _buttonBorder =  UIStyleManager.getStyle(UIStyleManager.MENU_BUTTON_BORDER);
 
-        if (UIStyleManager.hasStyle(UIStyleManager.MENU_SUB_BORDER))
-            _subBorder = UIStyleManager.getStyle(UIStyleManager.MENU_SUB_BORDER);
+        if (UIStyleManager.hasStyle(UIStyleManager.MENU_SUB_BUTTON_BORDER))
+            _subButtonBorder = UIStyleManager.getStyle(UIStyleManager.MENU_SUB_BUTTON_BORDER);
     }
     
     private function initBitmap() : Void
@@ -1066,9 +1077,9 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
 	 * Set the inner menu button alpha
 	 */
     
-    private function set_fillAlpha(value : Float) : Float
+    private function set_buttonAlpha(value : Float) : Float
     {
-        _alpha = value;
+        _buttonAlpha = value;
         
         return value;
     }
@@ -1077,18 +1088,18 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
 	 * Return alpha
 	 */
     
-    private function get_fillAlpha() : Float
+    private function get_buttonAlpha() : Float
     {
-        return _alpha;
+        return _buttonAlpha;
     }
     
     /**
 	 * Set the inner menu sub button alpha
 	 */
     
-    private function set_subAlpha(value : Float) : Float
+    private function set_subButtonAlpha(value : Float) : Float
     {
-        _subAlpha = value;
+        _subButtonAlpha = value;
         
         return value;
     }
@@ -1097,18 +1108,18 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
 	 * Return alpha
 	 */
     
-    private function get_subAlpha() : Float
+    private function get_subButtonAlpha() : Float
     {
-        return _subAlpha;
+        return _subButtonAlpha;
     }
     
     /**
 	 * Set the border menu button alpha
 	 */
 	
-    private function set_lineAlpha(value : Float) : Float
+    private function set_buttonLineAlpha(value : Float) : Float
     {
-        _alpha = value;
+        _buttonLineAlpha = value;
         
         return value;
     }
@@ -1117,18 +1128,18 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
 	 * Return alpha
 	 */
     
-    private function get_lineAlpha() : Float
+    private function get_buttonLineAlpha() : Float
     {
-        return _alpha;
+        return _buttonLineAlpha;
     }
     
     /**
 	 * Set the border sub menu button alpha
 	 */
 	
-    private function set_subLineAlpha(value : Float) : Float
+    private function set_subButtonLineAlpha(value : Float) : Float
     {
-        _subLineAlpha = value;
+        _subButtonLineAlpha = value;
         
 		
         return value;
@@ -1138,9 +1149,9 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
 	 * Return alpha
 	 */
     
-    private function get_subLineAlpha() : Float
+    private function get_subButtonLineAlpha() : Float
     {
-        return _subLineAlpha;
+        return _subButtonLineAlpha;
     }
     
     /**
@@ -1305,12 +1316,12 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
     
     
     /**
-	 * Border thinkness
+	 * Border thinkness for main buttons
 	 */
     
-    private function set_subBorderThinkness(value : Float) : Float
+    private function set_buttonBorderThinkness(value : Float) : Float
     {
-        _subThinkness = value;
+        _buttonBorderThinkness = value;
         
 		
         return value;
@@ -1320,9 +1331,30 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
 	 * Return thinkness
 	 */
     
-    private function get_subBorderThinkness() : Float
+    private function get_buttonBorderThinkness() : Float
     {
-        return _subThinkness;
+        return _buttonBorderThinkness;
+    }    
+    
+    /**
+	 * Border thinkness for sub buttons
+	 */
+    
+    private function set_subButtonBorderThinkness(value : Float) : Float
+    {
+        _subButtonBorderThinkness = value;
+        
+		
+        return value;
+    }
+    
+    /**
+	 * Return thinkness
+	 */
+    
+    private function get_subButtonBorderThinkness() : Float
+    {
+        return _subButtonBorderThinkness;
     }
     
 
@@ -1816,17 +1848,15 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
         menu.downColor = _downFillColor;
         menu.disableColor = _disableFillColor;
         
-        //menu.fillAlpha = _alpha;
-        menu.borderAlpha = _borderAlpha;
-        menu.border = _border;
-        menu.borderThinkness = _thinkness;
+        menu.fillAlpha = _buttonAlpha;
+        menu.borderAlpha = _buttonLineAlpha;
+        menu.border = _buttonBorder;
+        menu.borderThinkness = _buttonBorderThinkness;
         
         menu.normalBorderColor = _normalLineColor;
         menu.overBorderColor = _overLineColor;
         menu.downBorderColor = _downLineColor;
         menu.disableBorderColor = _disableLineColor;
-        
-        //menu.smoothImage = _smoothImage;
         
         if (_normalDisplayImage != null) 
             menu.setDefaultStateImage(_normalDisplayImage);
@@ -1864,10 +1894,10 @@ class Menu extends BaseContainer implements IBaseContainer implements IMenu impl
         menu.downColor = _subMenuDownColor;
         menu.disableColor = _subMenuDisableColor;
         
-        //menu.fillAlpha = _subAlpha;
-        menu.borderAlpha = _subLineAlpha;
-        menu.border = _subBorder;
-        menu.borderThinkness = _subThinkness;
+        menu.fillAlpha = _subButtonAlpha;
+        menu.borderAlpha = _subButtonLineAlpha;
+        menu.border = _subButtonBorder;
+        menu.borderThinkness = _subButtonBorderThinkness;
         
         menu.normalBorderColor = _subNormalLineColor;
         menu.overBorderColor = _subOverLineColor;

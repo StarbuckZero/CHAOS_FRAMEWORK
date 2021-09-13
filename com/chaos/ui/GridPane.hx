@@ -126,10 +126,9 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
 		super.setComponentData(data);
 		
 		if (Reflect.hasField(data, "data"))
-		{
 			gridData = Reflect.field(data, "data");
-			setGridSize(_width, _height);
-		}
+
+        setGridSize(_width, _height);
 		
 	}
 	
@@ -1284,17 +1283,11 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
 		b = b.toUpperCase();
 		
 		if (a < b)
-		{
 			return -1;
-		}
 		else if (a > b)
-		{
 			return 1;
-		}
 		else
-		{
 			return 0;
-		}
 	}
 	
 	private function sortAlphabeticallyAscending( a:String, b:String):Int
@@ -1303,17 +1296,11 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
 		b = b.toUpperCase();
 		
 		if (a > b)
-		{
 			return -1;
-		}
 		else if (a < b)
-		{
 			return 1;
-		}
 		else
-		{
 			return 0;
-		}
 	}	
     
     private function onUserSelection(event : MouseEvent) : Void

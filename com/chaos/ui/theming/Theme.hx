@@ -168,28 +168,28 @@ class Theme {
         // MENU
         UIStyleManager.setStyle(UIStyleManager.MENU_BACKGROUND_COLOR , _background);
 
-        UIStyleManager.setStyle(UIStyleManager.MENU_BORDER_NORMAL_COLOR , _secondaryColor);
-        UIStyleManager.setStyle(UIStyleManager.MENU_BORDER_OVER_COLOR , _primaryColor);
-        UIStyleManager.setStyle(UIStyleManager.MENU_BORDER_DOWN_COLOR , _secondaryColor);
-        UIStyleManager.setStyle(UIStyleManager.MENU_BORDER_DISABLE_COLOR , _primaryColor);
+        UIStyleManager.setStyle(UIStyleManager.MENU_BUTTON_BORDER_NORMAL_COLOR , _secondaryColor);
+        UIStyleManager.setStyle(UIStyleManager.MENU_BUTTON_BORDER_OVER_COLOR , _primaryColor);
+        UIStyleManager.setStyle(UIStyleManager.MENU_BUTTON_BORDER_DOWN_COLOR , _secondaryColor);
+        UIStyleManager.setStyle(UIStyleManager.MENU_BUTTON_BORDER_DISABLE_COLOR , _primaryColor);
 
         UIStyleManager.setStyle(UIStyleManager.MENU_LABEL_TEXT_NORMAL_COLOR , _primaryTextColor);
         UIStyleManager.setStyle(UIStyleManager.MENU_LABEL_TEXT_OVER_COLOR , _secondaryTextColor);
 
-        UIStyleManager.setStyle(UIStyleManager.MENU_NORMAL_COLOR , _primaryColor);
-        UIStyleManager.setStyle(UIStyleManager.MENU_OVER_COLOR , _highlightColor);
-        UIStyleManager.setStyle(UIStyleManager.MENU_DOWN_COLOR , _shadowColor);
-        UIStyleManager.setStyle(UIStyleManager.MENU_DISABLE_COLOR , _secondaryColor);
+        UIStyleManager.setStyle(UIStyleManager.MENU_BUTTON_NORMAL_COLOR , _primaryColor);
+        UIStyleManager.setStyle(UIStyleManager.MENU_BUTTON_OVER_COLOR , _highlightColor);
+        UIStyleManager.setStyle(UIStyleManager.MENU_BUTTON_DOWN_COLOR , _shadowColor);
+        UIStyleManager.setStyle(UIStyleManager.MENU_BUTTON_DISABLE_COLOR , _secondaryColor);
 
-        UIStyleManager.setStyle(UIStyleManager.MENU_SUB_BORDER_NORMAL_COLOR , _primaryColor);
-        UIStyleManager.setStyle(UIStyleManager.MENU_SUB_BORDER_OVER_COLOR , _secondaryColor);
-        UIStyleManager.setStyle(UIStyleManager.MENU_SUB_BORDER_DOWN_COLOR , _shadowColor);
-        UIStyleManager.setStyle(UIStyleManager.MENU_SUB_BORDER_DISABLE_COLOR , _secondaryColor);
+        UIStyleManager.setStyle(UIStyleManager.MENU_SUB_BUTTON_BORDER_NORMAL_COLOR , _primaryColor);
+        UIStyleManager.setStyle(UIStyleManager.MENU_SUB_BUTTON_BORDER_OVER_COLOR , _secondaryColor);
+        UIStyleManager.setStyle(UIStyleManager.MENU_SUB_BUTTON_BORDER_DOWN_COLOR , _shadowColor);
+        UIStyleManager.setStyle(UIStyleManager.MENU_SUB_BUTTON_BORDER_DISABLE_COLOR , _secondaryColor);
 
-        UIStyleManager.setStyle(UIStyleManager.MENU_SUB_NORMAL_COLOR , _secondaryColor);
-        UIStyleManager.setStyle(UIStyleManager.MENU_SUB_OVER_COLOR , _highlightColor);
-        UIStyleManager.setStyle(UIStyleManager.MENU_SUB_DOWN_COLOR , _primaryColor);
-        UIStyleManager.setStyle(UIStyleManager.MENU_SUB_DISABLE_COLOR , _secondaryColor);
+        UIStyleManager.setStyle(UIStyleManager.MENU_SUB_BUTTON_NORMAL_COLOR , _secondaryColor);
+        UIStyleManager.setStyle(UIStyleManager.MENU_SUB_BUTTON_OVER_COLOR , _highlightColor);
+        UIStyleManager.setStyle(UIStyleManager.MENU_SUB_BUTTON_DOWN_COLOR , _primaryColor);
+        UIStyleManager.setStyle(UIStyleManager.MENU_SUB_BUTTON_DISABLE_COLOR , _secondaryColor);
 
         UIStyleManager.setStyle(UIStyleManager.MENU_SUB_LABEL_TEXT_NORMAL_COLOR , _secondaryTextColor);
         UIStyleManager.setStyle(UIStyleManager.MENU_SUB_LABEL_TEXT_OVER_COLOR , _primaryTextColor);

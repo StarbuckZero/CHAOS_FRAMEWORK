@@ -293,24 +293,24 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
         if (UIStyleManager.hasStyle(UIStyleManager.ITEMPANE_BACKGROUND))
             _backgroundColor = UIStyleManager.getStyle(UIStyleManager.ITEMPANE_BACKGROUND);
 			
-        if (UIStyleManager.hasStyle(UIStyleManager.ITEMPANE_BORDER_COLOR))
-            _borderColor = UIStyleManager.getStyle(UIStyleManager.ITEMPANE_BORDER_COLOR);
+        // if (UIStyleManager.hasStyle(UIStyleManager.ITEMPANE_BORDER_COLOR))
+        //     _borderColor = UIStyleManager.getStyle(UIStyleManager.ITEMPANE_BORDER_COLOR);
         
-        if (UIStyleManager.hasStyle(UIStyleManager.ITEMPANE_BORDER_ALPHA))
-            _borderAlpha = UIStyleManager.getStyle(UIStyleManager.ITEMPANE_BORDER_ALPHA);
+        // if (UIStyleManager.hasStyle(UIStyleManager.ITEMPANE_BORDER_ALPHA))
+        //     _borderAlpha = UIStyleManager.getStyle(UIStyleManager.ITEMPANE_BORDER_ALPHA);
         
-        // Items Pane
-        if (UIStyleManager.hasStyle(UIStyleManager.ITEMPANE_ITEM_BORDER))
-            _border = UIStyleManager.getStyle(UIStyleManager.ITEMPANE_ITEM_BORDER);
+        // // Items Pane
+        // if (UIStyleManager.hasStyle(UIStyleManager.ITEMPANE_ITEM_BORDER))
+        //     _border = UIStyleManager.getStyle(UIStyleManager.ITEMPANE_ITEM_BORDER);
         
-        if (UIStyleManager.hasStyle(UIStyleManager.ITEMPANE_ITEM_BORDER_COLOR))
-            _borderColor = UIStyleManager.getStyle(UIStyleManager.ITEMPANE_ITEM_BORDER_COLOR);
+        // if (UIStyleManager.hasStyle(UIStyleManager.ITEMPANE_ITEM_BORDER_COLOR))
+        //     _borderColor = UIStyleManager.getStyle(UIStyleManager.ITEMPANE_ITEM_BORDER_COLOR);
         
-        if (UIStyleManager.hasStyle(UIStyleManager.ITEMPANE_ITEM_BORDER_ALPHA))
-            _borderAlpha = UIStyleManager.getStyle(UIStyleManager.ITEMPANE_ITEM_BORDER_ALPHA);
+        // if (UIStyleManager.hasStyle(UIStyleManager.ITEMPANE_ITEM_BORDER_ALPHA))
+        //     _borderAlpha = UIStyleManager.getStyle(UIStyleManager.ITEMPANE_ITEM_BORDER_ALPHA);
         
-        if (UIStyleManager.hasStyle(UIStyleManager.ITEMPANE_ITEM_BORDER_THINKNESS))
-            _borderThinkness = UIStyleManager.getStyle(UIStyleManager.ITEMPANE_ITEM_BORDER_THINKNESS);  
+        // if (UIStyleManager.hasStyle(UIStyleManager.ITEMPANE_ITEM_BORDER_THINKNESS))
+        //     _borderThinkness = UIStyleManager.getStyle(UIStyleManager.ITEMPANE_ITEM_BORDER_THINKNESS);  
         
         
         // Item Colors

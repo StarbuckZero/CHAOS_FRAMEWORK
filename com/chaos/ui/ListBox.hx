@@ -244,8 +244,8 @@ class ListBox extends ScrollPane implements IListBox implements IBaseUI
 		if (UIStyleManager.hasStyle(UIStyleManager.LIST_TEXT_EMBED))
 			_font = UIStyleManager.getStyle(UIStyleManager.LIST_TEXT_EMBED);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.LIST_BORDER))
-			_border = UIStyleManager.getStyle(UIStyleManager.LIST_BORDER);
+		// if (UIStyleManager.hasStyle(UIStyleManager.LIST_BORDER))
+		// 	_border = UIStyleManager.getStyle(UIStyleManager.LIST_BORDER);
 		
 	}
 

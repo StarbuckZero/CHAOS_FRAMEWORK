@@ -76,7 +76,7 @@ class GridContainer extends BaseContainer implements IGridContainer implements I
 			for (col in 0...columnCount) {
 
 				// Create cell
-				var cell:IGridCell = new GridCell(Std.int(_width / rowCount), Std.int(_height / columnCount));
+				var cell:IGridCell = new GridCell({"width":Std.int(_width / rowCount),"height":Std.int(_height / columnCount)});
 				_content.addChild(cell.displayObject);
 
 				cell.x = cell.width * col;
@@ -86,6 +86,31 @@ class GridContainer extends BaseContainer implements IGridContainer implements I
 			}
 		}		
 	}
+
+	override function destroy() {
+		super.destroy();
+
+		for (row in 0...rowCount) {
+
+			// Get row
+			var rowData:DataProvider<IGridCell> = _list.getItemAt(row);
+
+			// Start resizing col cell
+			for (col in 0...columnCount) 
+			{
+
+				// Get the cell
+				var cell:IGridCell = rowData.getItemAt(col);
+				cell.destroy();
+
+				// Re add to the display for order
+				_content.removeChild(cell.displayObject);
+
+			}
+
+		}
+	}
+	
 
 	/**
 	 * Moves cell that user mouse over to the top of the display list.
@@ -110,7 +135,6 @@ class GridContainer extends BaseContainer implements IGridContainer implements I
 
 	private function set_cellWidth(value:Int):Int {
 		_cellWidth = value;
-		draw();
 		return value;
 	}
 
@@ -128,7 +152,6 @@ class GridContainer extends BaseContainer implements IGridContainer implements I
 
 	private function set_cellHeight(value:Int):Int {
 		_cellHeight = value;
-		draw();
 		return value;
 	}
 
@@ -148,7 +171,7 @@ class GridContainer extends BaseContainer implements IGridContainer implements I
 	 * @param	widthNum The new width of the cell
 	 */
 
-	public function setCellWidth(row:Int, col:Int, widthNum:Int):Void {
+	public function setCellWidth(row:Int, col:Int, widthNum:Int) : Void {
 
 		if (!validCell(row, col))
 			return;
@@ -159,7 +182,8 @@ class GridContainer extends BaseContainer implements IGridContainer implements I
 		cell.width = widthNum;
 
 		// Move everything else x location
-		for (i in col...columnCount) {
+		for (i in col...columnCount) 
+		{
 			var currentColumn:IGridCell = rowData.getItemAt(i);
 
 			// If it's not the current cell and greater than 0
@@ -180,7 +204,7 @@ class GridContainer extends BaseContainer implements IGridContainer implements I
 	 * @param	heightNum The new height of the cell
 	 */
 
-	public function setCellHeight(row:Int, col:Int, heightNum:Int):Void {
+	public function setCellHeight(row:Int, col:Int, heightNum:Int) : Void {
 
 		if (!validCell(row, col))
 			return;
@@ -218,14 +242,13 @@ class GridContainer extends BaseContainer implements IGridContainer implements I
 	 * Adds new row to grid
 	 * @param	index Where you want to add the new row
 	 */
-	public function addRow(index:Int):Void {
-		
+	public function addRow(index:Int) : Void {
 		var newRow:DataProvider<IGridCell> = new DataProvider<IGridCell>();
 
 		// Create the columns for the row
 		for (col in 0...columnCount) {
 
-			var cell:IGridCell = new GridCell(Std.int(width / rowCount), Std.int(height / columnCount));
+			var cell:IGridCell = new GridCell({"width":Std.int(width / rowCount),"height": Std.int(height / columnCount)});
 
 			_content.addChild(cell.displayObject);
 
@@ -243,7 +266,7 @@ class GridContainer extends BaseContainer implements IGridContainer implements I
 	 * Remove row from grid
 	 * @param	index Which item to remove
 	 */
-	public function removeRow(index:Int):Void {
+	public function removeRow(index:Int) : Void {
 		
 		if (null == _list.getItemAt(index) || null == _list.getItemAt(index))
 			return;
@@ -269,7 +292,7 @@ class GridContainer extends BaseContainer implements IGridContainer implements I
 	 * Adds new column to grid
 	 * @param	index Where you want to add the new column
 	 */
-	public function addColumn(index:Int):Void {
+	public function addColumn(index:Int) : Void {
 
 		if (null == _list.getItemAt(index) || null == _list.getItemAt(index))
 			return;
@@ -281,7 +304,7 @@ class GridContainer extends BaseContainer implements IGridContainer implements I
 			var rowData:DataProvider<IGridCell> = _list.getItemAt(row);
 
 			// Create a new cell
-			var cell:IGridCell = new GridCell(Std.int(_width / rowCount), Std.int(_height / columnCount));
+			var cell:IGridCell = new GridCell({"width":Std.int(_width / rowCount),"height":Std.int(_height / columnCount)});
 
 			// Add to the display
 			_content.addChild(cell.displayObject);
@@ -299,7 +322,7 @@ class GridContainer extends BaseContainer implements IGridContainer implements I
 	 * Removews column from grid
 	 * @param	index Which item to remove
 	 */
-	public function removeColumn(index:Int):Void {
+	public function removeColumn(index:Int) : Void {
 
 		// Get each row and add a col
 		for (row in 0...rowCount) {
@@ -334,7 +357,7 @@ class GridContainer extends BaseContainer implements IGridContainer implements I
 	 * @return A grid cell
 	 */
 
-	public function getCell(row:Int, col:Int):IGridCell {
+	public function getCell(row:Int, col:Int) : IGridCell {
 
 		if (_list.getItemAt(row) != null && _list.getItemAt(row).getItemAt(col) != null)
 			return _list.getItemAt(row).getItemAt(col);
@@ -349,7 +372,7 @@ class GridContainer extends BaseContainer implements IGridContainer implements I
 	 * @param	col The column index
 	 * @return True if there is a cell there and false if not
 	 */
-	public function validCell(row:Int, col:Int):Bool {
+	public function validCell(row:Int, col:Int) : Bool {
 
 		if (_list.getItemAt(row) != null && _list.getItemAt(row).getItemAt(col) != null)
 			return true;
@@ -363,7 +386,7 @@ class GridContainer extends BaseContainer implements IGridContainer implements I
 	 * Gets the number of rows.
 	 * @return The total number of rows
 	 */
-	public function getRowCount():Int {
+	public function getRowCount() : Int {
 		return rowCount;
 	}
 
@@ -371,14 +394,14 @@ class GridContainer extends BaseContainer implements IGridContainer implements I
 	 * Gets the number of columns
 	 * @return The total number of columns
 	 */
-	public function getColumnCount():Int {
+	public function getColumnCount() : Int {
 		return columnCount;
 	}
 
 	/**
 	 * Update the all cells
 	 */
-	override public function draw():Void {
+	override public function draw() : Void {
 
 		super.draw();
 
@@ -396,7 +419,9 @@ class GridContainer extends BaseContainer implements IGridContainer implements I
 
 				// Get the cell
 				var cell:IGridCell = rowData.getItemAt(col);
-				cell.addEventListener(MouseEvent.MOUSE_OVER, moveToFront, false, 0, true);
+
+				if(!cell.hasEventListener(MouseEvent.MOUSE_OVER))
+					cell.addEventListener(MouseEvent.MOUSE_OVER, moveToFront, false, 0, true);
 
 				// Re add to the display for order
 				_content.addChild(cell.displayObject);

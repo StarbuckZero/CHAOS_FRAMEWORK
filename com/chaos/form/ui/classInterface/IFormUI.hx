@@ -1,8 +1,6 @@
 package com.chaos.form.ui.classInterface;
 
 
-import com.chaos.ui.classInterface.IBaseUI;
-
 /**
  * Interface for Form elements
  * @author Erick Feiling

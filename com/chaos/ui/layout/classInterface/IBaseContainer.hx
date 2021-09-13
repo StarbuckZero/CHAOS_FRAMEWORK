@@ -47,30 +47,7 @@ interface IBaseContainer extends IBaseUI
 	 */
 
 	var showImage(get, set) : Bool;
-	
-	/**
-	 * Toggle on and off border
-	 */   
-	
-	 var border(get, set) : Bool;      
-	
-	 /**
-	  * The ScrollPane border color
-	  */
-	 
-	 var borderColor(get, set) : Int;      
-	 
-	 /**
-	  * Specifies the border alpha. Set the alpha between 1 to 0.
-	  */
-	 
-	 var borderAlpha(get, set) : Float;      
-	 
-	 /**
-	  * Border thinkness
-	  */ 
-	 
-	 var borderThinkness(get, set) : Float;      	
+		
 
     /**
 	 * Set the background image

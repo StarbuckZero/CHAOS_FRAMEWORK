@@ -68,7 +68,6 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 	// This is used for the real size
 	private var _outline:Shape;
 
-
 	private var _bgDisplayImage:Bool = false;
 
 	/**
@@ -97,17 +96,18 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 	override function setComponentData(data:Dynamic) {
 		super.setComponentData(data);
 
-		if (Reflect.hasField(data, "border"))
-			_border = Reflect.field(data, "border");
+		//TODO: Use Border class
+		// if (Reflect.hasField(data, "border"))
+		// 	_border = Reflect.field(data, "border");
 
-		if (Reflect.hasField(data, "thinkness"))
-			_borderThinkness = Reflect.field(data, "thinkness");
+		// if (Reflect.hasField(data, "thinkness"))
+		// 	_borderThinkness = Reflect.field(data, "thinkness");
 
-		if (Reflect.hasField(data, "borderColor"))
-			_borderColor = Reflect.field(data, "borderColor");
+		// if (Reflect.hasField(data, "borderColor"))
+		// 	_borderColor = Reflect.field(data, "borderColor");
 
-		if (Reflect.hasField(data, "borderAlpha"))
-			_borderAlpha = Reflect.field(data, "borderAlpha");
+		// if (Reflect.hasField(data, "borderAlpha"))
+		// 	_borderAlpha = Reflect.field(data, "borderAlpha");
 
 		if (Reflect.hasField(data, "mode"))
 			_mode = Reflect.field(data, "mode");
@@ -195,14 +195,14 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 		if (UIStyleManager.hasStyle(UIStyleManager.SCROLLPANE_BACKGROUND))
 			_backgroundColor = UIStyleManager.getStyle(UIStyleManager.SCROLLPANE_BACKGROUND);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.SCROLLPANE_BORDER_COLOR))
-			_borderColor = UIStyleManager.getStyle(UIStyleManager.SCROLLPANE_BORDER_COLOR);
+		// if (UIStyleManager.hasStyle(UIStyleManager.SCROLLPANE_BORDER_COLOR))
+		// 	_borderColor = UIStyleManager.getStyle(UIStyleManager.SCROLLPANE_BORDER_COLOR);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.SCROLLPANE_BORDER_ALPHA))
-			_borderAlpha = UIStyleManager.getStyle(UIStyleManager.SCROLLPANE_BORDER_ALPHA);
+		// if (UIStyleManager.hasStyle(UIStyleManager.SCROLLPANE_BORDER_ALPHA))
+		// 	_borderAlpha = UIStyleManager.getStyle(UIStyleManager.SCROLLPANE_BORDER_ALPHA);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.SCROLLPANE_BORDER_ALPHA))
-			_borderThinkness = UIStyleManager.getStyle(UIStyleManager.SCROLLPANE_BORDER_THINKNESS);
+		// if (UIStyleManager.hasStyle(UIStyleManager.SCROLLPANE_BORDER_ALPHA))
+		// 	_borderThinkness = UIStyleManager.getStyle(UIStyleManager.SCROLLPANE_BORDER_THINKNESS);
 
 
 		if (UIStyleManager.hasStyle(UIStyleManager.SCROLLPANE_CONTENT_OFFSET_X))
@@ -217,8 +217,8 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 		if (UIStyleManager.hasStyle(UIStyleManager.SCROLLPANE_CONTENT_HEIGHT_OFFSET))
 			_contentOffsetY = UIStyleManager.getStyle(UIStyleManager.SCROLLPANE_CONTENT_HEIGHT_OFFSET);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.SCROLLPANE_BORDER))
-			_border = UIStyleManager.getStyle(UIStyleManager.SCROLLPANE_BORDER);
+		// if (UIStyleManager.hasStyle(UIStyleManager.SCROLLPANE_BORDER))
+		// 	_border = UIStyleManager.getStyle(UIStyleManager.SCROLLPANE_BORDER);
 
 		if (UIStyleManager.hasStyle(UIStyleManager.SCROLLPANE_USE_CUSTOM_RENDER))
 			_useCustomRender = UIStyleManager.getStyle(UIStyleManager.SCROLLPANE_USE_CUSTOM_RENDER);
@@ -412,11 +412,12 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 		_outline.graphics.clear();
 
 		// Setup for border if need be
-		if (_border) {
-			_outline.graphics.lineStyle(_borderThinkness, _borderColor, _borderAlpha);
-			_outline.graphics.drawRect(0, 0, _width, _height);
-			_outline.graphics.endFill();
-		}
+		//TODO: Use Border class
+		// if (_border) {
+		// 	_outline.graphics.lineStyle(_borderThinkness, _borderColor, _borderAlpha);
+		// 	_outline.graphics.drawRect(0, 0, _width, _height);
+		// 	_outline.graphics.endFill();
+		// }
 	}
 
 	/**

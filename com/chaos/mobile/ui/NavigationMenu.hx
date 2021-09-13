@@ -467,7 +467,7 @@ class NavigationMenu extends BaseContainer implements INavigationMenu implements
 			var data:NavigationMenuObjectData = list.getItemAt(i);
 			
 			var dataObj:Dynamic = {"name":"button_" + i + "_" + _content.numChildren,"text": data.text,"width": _width, "height": _buttonHeight,
-			 					  "DragContainer": menuLevelContainer,"NavigationMenu": this,"border":_buttonBorder,"borderColor":_buttonBorderColor,"borderAlpha":_borderAlpha};
+			 					  "DragContainer": menuLevelContainer,"NavigationMenu": this,"border": _buttonBorder,"borderThinkness":_buttonBorderThinkness ,"borderColor": _buttonBorderColor ,"borderAlpha": _buttonBorderAlpha };
 
 			// Set defaults
 			if(_defaultColor != -1)

@@ -18,71 +18,77 @@ import com.chaos.ui.classInterface.ILabel;
 import com.chaos.utils.Debug;
 import com.chaos.ui.layout.GridCellLayout;
 import openfl.events.Event;
-import openfl.events.IOErrorEvent;
-import openfl.net.URLLoader;
-import openfl.net.URLRequest;
-import openfl.net.URLVariables;
-import openfl.net.URLRequestMethod;
+
 
 /**
- * This creates a form that can submit data to a server in the form of a post or get
+ * This creates a form 
  * @author Erick Feiling
  */
 
-class FormBuilder extends BaseUI implements IFormBuilder implements IBaseUI
+class FormBuilder extends GridContainer implements IFormBuilder implements IBaseUI
 {
     public static inline var TYPE : String = "FormBuilder";
 	
     public var vSpacing(get, set) : Int;
     public var hSpacing(get, set) : Int;
-    public var border(get, set) : Bool;
-    public var borderThinkness(get, set) : Int;
-    public var url(get, set) : String;
-    public var method(get, set) : String;
     
-    public var formObj : URLVariables = new URLVariables();
-    
-    public var hiddenObj : Dynamic = {};
-    
-    private var _grid : IGridContainer;
-    
-    private var _border : Bool = true;
-    private var _borderThinkness : Int = 2;
     private var _vSpacing : Int = 4;
     private var _hSpacing : Int = 0;
-    
-    private var _url : String = "";
-    private var _method : String = URLRequestMethod.POST;
-    
+        
     private var _defaultCellHeight : Int = 30;
     
     /**
-	 * Creates a two colume form that sends command to a server.
+	 * Creates a two colume form that return values in object
 	 *
-	 * @eventType openfl.events.IOErrorEvent.IO_ERROR
-	 * @eventType openfl.events.Event.COMPLETE
 	 */
 	
     public function new(data:Dynamic = null )
     {
-        super(data);
-        
+        super(data);   
     }
 
     override function setComponentData(data:Dynamic) {
 
+        // If going to update columns then have to be more than 2 else force it to be 2
+		if (!Reflect.hasField(data, "column") || Reflect.hasField(data, "column") && Reflect.field(data, "column") < 2)
+            Reflect.setField(data, "column", 2);
+                
         super.setComponentData(data);
 
-        //TODO: Make sure it support 
+        // If not passed then set it to true
+        //_border = (Reflect.hasField(data, "border")) ? Reflect.field(data,"border") : true;
+
+        if(Reflect.hasField(data, "vSpacing"))
+            _vSpacing = Reflect.field(data,"vSpacing");
+
+        if(Reflect.hasField(data, "hSpacing"))
+            _hSpacing = Reflect.field(data,"hSpacing");
+
+        if(Reflect.hasField(data, "defaultCellHeight"))
+            _defaultCellHeight = Reflect.field(data,"defaultCellHeight");
     }
 
     override function initialize() {
 
         super.initialize();
 
-        _grid = new GridContainer({"width":_width,"height":_height,"row": 0, "column":2});
+    }
 
-        addChild(_grid.displayObject);
+    override function destroy() {
+
+        // Remove all cells first
+        for (row in 0 ... getRowCount())
+		{
+            for( col in 0 ... getColumnCount())  {
+
+                if (getCell(row, col).container.length > 0 && null != getCell(row, col).container.getElementAtIndex(0) && Std.isOfType(getCell(row, col).container.getElementAtIndex(0), IBaseUI)) 
+                    cast(getCell(row, col).container.getElementAtIndex(0), IBaseUI).destroy();
+            }
+
+        }        
+
+        super.destroy();
+
     }
     
     
@@ -125,82 +131,6 @@ class FormBuilder extends BaseUI implements IFormBuilder implements IBaseUI
     }
     
     /**
-	 * If true the border on added form item will have border
-	 */
-    
-    private function set_border(value : Bool) : Bool
-    {
-        _border = value;
-        return value;
-    }
-    
-    /**
-	 * Return true if border will be set by default and false if not
-	 */
-    
-    private function get_border() : Bool
-    {
-        return _border;
-    }
-    
-    /**
-	 * Set the default border thinkness of added item
-	 */
-    
-    private function set_borderThinkness(value : Int) : Int
-    {
-        _borderThinkness = value;
-        return value;
-    }
-    
-    /**
-	 * Return the border thinkness
-	 */
-	
-    private function get_borderThinkness() : Int
-    {
-        return _borderThinkness;
-    }
-    
-    /**
-	 * Set the url the form data will be sent
-	 */
-	
-    private function set_url(value : String) : String
-    {
-        _url = value;
-        return value;
-    }
-    
-    /**
-	 * Get the url that is being used
-	 */
-    
-    private function get_url() : String
-    {
-        return _url;
-    }
-    
-    /**
-	 * Used for sending a "GET" or "POST" command to the server. Use the URLRequestMethod to set this.
-	 */
-    
-    private function set_method(value : String) : String
-    {
-        _method = value;
-        return value;
-    }
-    
-    /**
-	 * Return the mode the form is in
-	 */
-    
-    private function get_method() : String
-    {
-        return _method;
-    }
-    
-    /**
 	 * Adds a new form element to the form
 	 *
 	 * @param	labelName The label of the form
@@ -213,10 +143,10 @@ class FormBuilder extends BaseUI implements IFormBuilder implements IBaseUI
     
     public function addFormElement(labelName : String, elementName : String, elementClass : Class<Dynamic>, elementParams: Dynamic = null, layoutClass : Class<Dynamic> = null, layoutParams : Dynamic = null) : Void
     {
-        _grid.addRow(_grid.getRowCount());
+        addRow(getRowCount());
 
-        var labelRow:IGridCell = _grid.getCell(_grid.getRowCount() - 1, 0);
-        var inputRow:IGridCell = _grid.getCell(_grid.getRowCount() - 1, 1);
+        var labelRow:IGridCell = getCell(getRowCount() - 1, 0);
+        var inputRow:IGridCell = getCell(getRowCount() - 1, 1);
         
         // Set borders and everything first
         setColumnHeightAt(0, _defaultCellHeight);
@@ -231,15 +161,15 @@ class FormBuilder extends BaseUI implements IFormBuilder implements IBaseUI
         var newLabel : ILabel = new TextLabel({"text":labelName,"width":labelRow.width,"height":labelRow.height});
         labelRow.container.addElement(newLabel);
 
-        labelRow.border = _border;
-        labelRow.borderThinkness = _borderThinkness;
+        // labelRow.border.visible = _border;
+        // labelRow.border.lineThinkness = _borderThinkness;
         
         // Check to see if item is a based UI
         var element:IFormUI = Type.createInstance(elementClass,[elementParams]);
         element.setName(elementName);
         
-        inputRow.border = _border;
-        inputRow.borderThinkness = _borderThinkness;
+        // inputRow.border = _border;
+        // inputRow.borderThinkness = _borderThinkness;
         
         if (Std.isOfType(element, IBaseUI)) 
         {
@@ -247,86 +177,35 @@ class FormBuilder extends BaseUI implements IFormBuilder implements IBaseUI
             
             inputRow.container.addElement(baseElement);
             
-            inputRow.border = _border;
-            inputRow.borderThinkness = _borderThinkness;
+            // inputRow.border = _border;
+            // inputRow.borderThinkness = _borderThinkness;
         }
 		
 		// Adjust elements location  
-        for (row in 0 ... _grid.getRowCount())
+        for (row in 0 ... getRowCount())
 		{
-            if (_grid.getCell(row, 0).container.length > 0) 
+            if (getCell(row, 0).container.length > 0) 
             {
-                _grid.getCell(row, 0).container.getElementAtIndex(0).x = _vSpacing;
+                getCell(row, 0).container.getElementAtIndex(0).x = _vSpacing;
                 
                 // Only move if was adjusted
                 if (_hSpacing > 0) 
-                    _grid.getCell(row, 0).container.getElementAtIndex(0).y = _hSpacing;
+                    getCell(row, 0).container.getElementAtIndex(0).y = _hSpacing;
             }
             
-            if (_grid.getCell(row, 1).container.length > 0) 
+            if (getCell(row, 1).container.length > 0) 
             {
-                _grid.getCell(row, 1).container.getElementAtIndex(0).x = _vSpacing;
+                getCell(row, 1).container.getElementAtIndex(0).x = _vSpacing;
                 
                 // Only move if was adjusted
                 if (_hSpacing > 0) 
-                    _grid.getCell(row, 1).container.getElementAtIndex(0).y = _hSpacing;
+                    getCell(row, 1).container.getElementAtIndex(0).y = _hSpacing;
             }
 
         }
 
     }
-    
-    /**
-	 * Keeps track of a FormData object. The name and values will be sent to server when using the send method.
-	 * @param	dataObj The form object
-	 */
-    
-    public function addFormData(dataObj : FormData) : Void
-    {
-        Reflect.setField(hiddenObj, dataObj.getName(), dataObj);
-    }
-    
-    /**
-	 * @copy com.chaos.ui.layout.GridContainer
-	 */
-    
-    public function getCell(row : Int, col : Int) : IGridCell
-    {
-        return _grid.getCell(row, col);
-    }
-    
-    /**
-	 * Set the size of the form
-	 * @param	newWidth The new width
-	 * @param	newHeight The new height
-	 */
-    
-    public function setSize(newWidth : Int, newHeight : Int) : Void
-    {
-        _grid.width = newWidth;
-        _grid.height = newHeight;
-    }
-    
-    /**
-	 * Set the width of the form
-	 * @param	value The new width
-	 */
-    
-    public function setWidth(value : Int) : Void
-    {
-        _grid.width = value;
-    }
-    
-    /**
-	 * Set the height of the form
-	 * @param	value The new height
-	 */
-    
-    public function setHeight(value : Int) : Void
-    {
-        _grid.height = value;
-    }
-    
+        
     /**
 	 * Set the column width
 	 *
@@ -337,32 +216,13 @@ class FormBuilder extends BaseUI implements IFormBuilder implements IBaseUI
     public function setColumnWidthAt(index : Int, colWidth : Int) : Void
     {
         
-        for (row in 0 ... _grid.getRowCount())
+        for (row in 0 ... getRowCount())
 		{
             
-            if (_grid.validCell(row, index)) 
-                _grid.setCellWidth(row, index, colWidth);
+            if (validCell(row, index)) 
+                setCellWidth(row, index, colWidth);
             else 
                 Debug.print("[FormBuilder::setColumnWidthAt] Fail to update " + row + "x" + index + " width in grid to " + colWidth + ".");
-        }
-    }
-    
-    /**
-	 * Set all the cells width in the grid
-	 * @param	colWidth The new cell width
-	 */
-    
-    public function setCellWidth(colWidth : Int) : Void
-    {
-        for (row in 0 ... _grid.getRowCount())
-		{
-            for (col in 0 ... _grid.getColumnCount())
-			{
-                if (_grid.validCell(row, col)) 
-                    _grid.setCellWidth(row, col, colWidth);
-                else 
-                    Debug.print("[FormBuilder::setColumnWidth] Fail to update " + row + "x" + col + " width in grid to " + colWidth + ".");
-            }
         }
     }
     
@@ -375,27 +235,15 @@ class FormBuilder extends BaseUI implements IFormBuilder implements IBaseUI
     
     public function setColumnHeightAt(index : Int, colHeight : Int) : Void
     {
-        if (null == _grid) 
-            return;
-        
-        for (row in 0 ... _grid.getRowCount())
+
+        for (row in 0 ... getRowCount())
 		{
             
-            if (_grid.validCell(row, index)) 
-                _grid.setCellHeight(row, index, colHeight);
+            if (validCell(row, index)) 
+                setCellHeight(row, index, colHeight);
             else 
                 Debug.print("[FormBuilder::setColumnHeight] Fail to update " + row + "x" + index + " height in grid to " + colHeight + ".");
         }
-    }
-
-    override function draw() {
-        
-        super.draw();
-
-        _grid.width = _width;
-        _grid.height = _height;
-
-        _grid.draw();
     }
     
     /**
@@ -404,79 +252,36 @@ class FormBuilder extends BaseUI implements IFormBuilder implements IBaseUI
     
     public function reset() : Void
     {
-        // Get all data from form objects
-        for (row in 0 ... _grid.getRowCount())
+        // clear all input fields
+        for (row in 0 ... getRowCount())
 		{
-            
-            if (_grid.getCell(row, 1).container.length > 0 && null != _grid.getCell(row, 1).container.getElementAtIndex(0) && Std.isOfType(_grid.getCell(row, 1).container.getElementAtIndex(0), IFormUI)) 
-            {
-                var itemFormUI : IFormUI = try cast(_grid.getCell(row, 1).container.getElementAtIndex(0), IFormUI) catch(e:Dynamic) null;
-                itemFormUI.clear();
-                
-				Reflect.setField(formObj, itemFormUI.getName(), itemFormUI.getValue());
-            }
+            if (getCell(row, 1).container.length > 0 && null != getCell(row, 1).container.getElementAtIndex(0) && Std.isOfType(getCell(row, 1).container.getElementAtIndex(0), IFormUI)) 
+                cast(getCell(row, 1).container.getElementAtIndex(0), IFormUI).clear();
         }
+
     }
     
     /**
-	 * Does a POST or GET with all the values to a server-side script
-	 *
-	 * @eventType openfl.events.Event.COMPLETE
-	 * @eventType openfl.events.IOErrorEvent.IO_ERROR
-	 *
-	 * @return The data object just in case values are written
+	 * Take all input values and return them
+	 * @return The object with values
 	 */
     
-    public function send() : Dynamic
+    public function getFormData() : Dynamic
     {
-        // Do nothing if URL wasn't set
-        if (_url == "") 
+
+        var formObj: Dynamic = {};
+
+        for (row in 0 ... getRowCount())
         {
-            Debug.print("[FormBuilder::send] URL wasn't set");
-            return {};
+            if (getCell(row, 1).container.length > 0 && null != getCell(row, 1).container.getElementAtIndex(0) && Std.isOfType(getCell(row, 1).container.getElementAtIndex(0), IFormUI)) 
+            {
+                var itemFormUI : IFormUI = cast(getCell(row, 1).container.getElementAtIndex(0), IFormUI);                    
+                Reflect.setField(formObj, itemFormUI.getName(), itemFormUI.getValue());
+            }
         }
         
-        
-          // Get all data from form objects  
-        for (row in 0 ... _grid.getRowCount())
-		{
-            
-            if (_grid.getCell(row, 1).container.length > 0 && null != _grid.getCell(row, 1).container.getElementAtIndex(0) && Std.isOfType(_grid.getCell(row, 1).container.getElementAtIndex(0), IFormUI)) 
-            {
-                var itemFormUI : IFormUI = try cast(_grid.getCell(row, 1).container.getElementAtIndex(0), IFormUI) catch (e:Dynamic) null;
-				Reflect.setField(formObj, itemFormUI.getName(), itemFormUI.getValue());
-            }
-        } 
-        
-        
-        // Add hidden data object to formObj  
-        for (index in Reflect.fields(hiddenObj))
-            Reflect.setField(formObj, index, (try cast(Reflect.field(hiddenObj, index), FormData) catch(e:Dynamic) null).getValue());
-        
-        var request : URLRequest = new URLRequest();
-        request.data = formObj;
-        request.url = _url;
-        request.method = _method;
-        
-        // Send data to server
-        var loader : URLLoader = new URLLoader();
-        loader.addEventListener(Event.COMPLETE, onComplete, false, 0, true);
-        loader.addEventListener(IOErrorEvent.IO_ERROR, onError, false, 0, true);
-        loader.load(request);
-        
-        return loader.data;
-    }
-    
-    private function onComplete(event : Event) : Void
-    {
-        dispatchEvent(event);
-    }
-    
-    private function onError(event : IOErrorEvent) : Void
-    {
-        Debug.print("[FormBuilder::onError] Fail to send infomation.");
-        
-        dispatchEvent(event);
+        return formObj;
+
     }
 }
 

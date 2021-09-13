@@ -146,28 +146,28 @@ interface IMenu extends IBaseContainer
     
 
     
-    var fillAlpha(get, set) : Float;    
+    var buttonAlpha(get, set) : Float;    
     
     /**
 	 * Set the inner menu sub button alpha
 	 */
     
 
-    var subAlpha(get, set) : Float;    
+    var subButtonAlpha(get, set) : Float;    
     
     /**
 	 * Set the border menu button alpha
 	 */
     
     
-    var lineAlpha(get, set) : Float;    
+    var buttonLineAlpha(get, set) : Float;    
     
     /**
 	 * Set the border sub menu button alpha
 	 */
     
     
-    var subLineAlpha(get, set) : Float;    
+    var subButtonLineAlpha(get, set) : Float;    
     
     /**
 	 * Set the label text color
@@ -227,13 +227,13 @@ interface IMenu extends IBaseContainer
 	 */
     
     
-    var borderThinkness(get, set) : Float;    
+    var buttonBorderThinkness(get, set) : Float;    
     
     /**
 	 * Border thinkness
 	 */
     
-    var subBorderThinkness(get, set) : Float;    
+    var subButtonBorderThinkness(get, set) : Float;    
       
 	
     /**
