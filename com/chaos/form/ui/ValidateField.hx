@@ -56,7 +56,8 @@ class ValidateField extends InputField implements IFormUI implements ITextInput 
 		
         removeEventListener(Event.ADDED_TO_STAGE, onStageAdd);
         removeEventListener(Event.REMOVED_FROM_STAGE, onStageRemove);
-		
+		stage.removeEventListener(MouseEvent.MOUSE_DOWN, onValidateCheck);
+
 		backgroundValidate.graphics.clear();
 		
 		removeChild(backgroundValidate);
@@ -130,7 +131,7 @@ class ValidateField extends InputField implements IFormUI implements ITextInput 
     
     public function isValid() : Bool
     {
-        return true;
+        return !isEmpty();
     }
     
     

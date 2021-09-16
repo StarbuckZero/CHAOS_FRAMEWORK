@@ -1,16 +1,14 @@
 package com.chaos.ui;
 
 import com.chaos.drawing.icon.classInterface.IBasicIcon;
+import com.chaos.form.ui.classInterface.IFormUI;
 import com.chaos.ui.ScrollPane;
 import com.chaos.ui.classInterface.IBaseUI;
 import com.chaos.ui.classInterface.IButton;
 import com.chaos.ui.classInterface.IGridPane;
 import com.chaos.ui.classInterface.IScrollPane;
-import openfl.display.BitmapData;
-import openfl.errors.Error;
-import openfl.utils.Dictionary;
-import openfl.utils.Object;
-
+import com.chaos.ui.UIBitmapManager;
+import com.chaos.ui.UIStyleManager;
 import com.chaos.data.DataProvider;
 
 import com.chaos.form.ui.TextLabel;
@@ -21,23 +19,20 @@ import com.chaos.ui.layout.classInterface.IAlignmentContainer;
 import com.chaos.ui.layout.classInterface.IBaseContainer;
 import com.chaos.ui.layout.classInterface.IGridCell;
 import com.chaos.ui.layout.classInterface.IGridContainer;
-
-import com.chaos.form.ui.classInterface.IFormUI;
 import com.chaos.ui.Button;
 import com.chaos.utils.Debug;
 import com.chaos.utils.Utils;
 import com.chaos.drawing.icon.ArrowDownIcon;
 import com.chaos.ui.event.GridPaneEvent;
 import com.chaos.utils.Validator;
+
 import openfl.events.Event;
-
-
-
+import openfl.display.BitmapData;
+import openfl.errors.Error;
+import openfl.utils.Dictionary;
+import openfl.utils.Object;
 import openfl.events.MouseEvent;
 import openfl.events.FocusEvent;
-
-
-
 import openfl.display.Sprite;
 
 /**
@@ -126,10 +121,7 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
 		super.setComponentData(data);
 		
 		if (Reflect.hasField(data, "data"))
-			gridData = Reflect.field(data, "data");
-
-        setGridSize(_width, _height);
-		
+			gridData = Reflect.field(data, "data");		
 	}
 	
 	/**
@@ -167,24 +159,23 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
     
     private function initSkin() : Void
     {
-		
         // Background
-        if (UIBitmapManager.hasUIElement(GridPane.TYPE, UIBitmapManager.GRIDPANE_BACKGROUND)) 
-            setBackgroundImage(UIBitmapManager.getUIElement(GridPane.TYPE, UIBitmapManager.GRIDPANE_BACKGROUND));
+        if (UIBitmapManager.hasUIElement(UIBitmapType.GridPane, UIBitmapManager.GRIDPANE_BACKGROUND)) 
+            setBackgroundImage(UIBitmapManager.getUIElement(UIBitmapType.GridPane, UIBitmapManager.GRIDPANE_BACKGROUND));
         
           // Buttons
-        if (UIBitmapManager.hasUIElement(GridPane.TYPE, UIBitmapManager.GRIDPANE_BUTTON_NORMAL)) 
-            setColumnButtonImage(UIBitmapManager.getUIElement(GridPane.TYPE, UIBitmapManager.GRIDPANE_BUTTON_NORMAL));
+        if (UIBitmapManager.hasUIElement(UIBitmapType.GridPane, UIBitmapManager.GRIDPANE_BUTTON_NORMAL)) 
+            setColumnButtonImage(UIBitmapManager.getUIElement(UIBitmapType.GridPane, UIBitmapManager.GRIDPANE_BUTTON_NORMAL));
         
-        if (UIBitmapManager.hasUIElement(GridPane.TYPE, UIBitmapManager.GRIDPANE_BUTTON_OVER)) 
-            setColumnButtonOverImage(UIBitmapManager.getUIElement(GridPane.TYPE, UIBitmapManager.GRIDPANE_BUTTON_OVER));
+        if (UIBitmapManager.hasUIElement(UIBitmapType.GridPane, UIBitmapManager.GRIDPANE_BUTTON_OVER)) 
+            setColumnButtonOverImage(UIBitmapManager.getUIElement(UIBitmapType.GridPane, UIBitmapManager.GRIDPANE_BUTTON_OVER));
         
-        if (UIBitmapManager.hasUIElement(GridPane.TYPE, UIBitmapManager.GRIDPANE_BUTTON_DOWN)) 
-            setColumnButtonDownImage(UIBitmapManager.getUIElement(GridPane.TYPE, UIBitmapManager.GRIDPANE_BUTTON_DOWN));
+        if (UIBitmapManager.hasUIElement(UIBitmapType.GridPane, UIBitmapManager.GRIDPANE_BUTTON_DOWN)) 
+            setColumnButtonDownImage(UIBitmapManager.getUIElement(UIBitmapType.GridPane, UIBitmapManager.GRIDPANE_BUTTON_DOWN));
         
           // Cell
-        if (UIBitmapManager.hasUIElement(GridPane.TYPE, UIBitmapManager.GRIDPANE_CELL_BACKGROUND)) 
-            setCellBackgroundImage(UIBitmapManager.getUIElement(GridPane.TYPE, UIBitmapManager.GRIDPANE_CELL_BACKGROUND));
+        if (UIBitmapManager.hasUIElement(UIBitmapType.GridPane, UIBitmapManager.GRIDPANE_CELL_BACKGROUND)) 
+            setCellBackgroundImage(UIBitmapManager.getUIElement(UIBitmapType.GridPane, UIBitmapManager.GRIDPANE_CELL_BACKGROUND));
     }
     
 	 
@@ -196,17 +187,17 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
         if (UIStyleManager.hasStyle(UIStyleManager.GRID_BACKGROUND_COLOR))
             _backgroundColor = UIStyleManager.getStyle(UIStyleManager.GRID_BACKGROUND_COLOR);
         
-        if (UIStyleManager.hasStyle(UIStyleManager.GRID_BORDER_COLOR)) 
-            _borderColor = UIStyleManager.getStyle(UIStyleManager.GRID_BORDER_COLOR);
+        // if (UIStyleManager.hasStyle(UIStyleManager.GRID_BORDER_COLOR)) 
+        //     _borderColor = UIStyleManager.getStyle(UIStyleManager.GRID_BORDER_COLOR);
         
-        if (UIStyleManager.hasStyle( UIStyleManager.GRID_BORDER_ALPHA))
-            _borderAlpha = UIStyleManager.getStyle(UIStyleManager.GRID_BORDER_ALPHA);
+        // if (UIStyleManager.hasStyle( UIStyleManager.GRID_BORDER_ALPHA))
+        //     _borderAlpha = UIStyleManager.getStyle(UIStyleManager.GRID_BORDER_ALPHA);
         
-        if (UIStyleManager.hasStyle(UIStyleManager.GRID_BORDER_THINKNESS))
-            _borderThinkness = UIStyleManager.getStyle(UIStyleManager.GRID_BORDER_THINKNESS);
+        // if (UIStyleManager.hasStyle(UIStyleManager.GRID_BORDER_THINKNESS))
+        //     _borderThinkness = UIStyleManager.getStyle(UIStyleManager.GRID_BORDER_THINKNESS);
         
-        if (UIStyleManager.hasStyle(UIStyleManager.GRID_BORDER))
-            _border = UIStyleManager.getStyle(UIStyleManager.GRID_BORDER);
+        // if (UIStyleManager.hasStyle(UIStyleManager.GRID_BORDER))
+        //     _border = UIStyleManager.getStyle(UIStyleManager.GRID_BORDER);
 
         if (UIStyleManager.hasStyle(UIStyleManager.GRID_BACKGROUND))
             _background = UIStyleManager.getStyle(UIStyleManager.GRID_BACKGROUND);
@@ -989,8 +980,10 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
             var colInfoHolder : Sprite = cast(column.getItemAt(i).col,Sprite);
             var buttonArea : IAlignmentContainer = cast(colInfoHolder.getChildByName("buttonArea"), IAlignmentContainer);
             var button : IButton = cast(buttonArea.getElementByName("button"), IButton);
+            var cell : IGridCell = _grid.getCell(0, i);
             
-            buttonArea.width = _grid.getCell(0, i).width;
+            buttonArea.width = cell.width;
+            buttonArea.draw();
             
             // Match button size with cell
             if (_grid.validCell(0, i)) 
@@ -1032,12 +1025,13 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
 			{
                 // Get the cell
                 var currentCell : IGridCell = _grid.getCell(row, col);
-                currentCell.border = _cellBorder;
-                currentCell.borderColor = _cellBorderColor;
-                currentCell.borderAlpha = _cellBorderAlpha;
+                currentCell.border.visible = _cellBorder;
+                currentCell.border.lineColor = _cellBorderColor;
+                currentCell.border.lineAlpha = _cellBorderAlpha;
+                currentCell.border.lineThinkness = _cellBorderThinkness;
                 currentCell.container.background = _cellBackground;
                 currentCell.container.backgroundColor = _cellColor;
-                currentCell.borderThinkness = _cellBorderThinkness;
+                currentCell.draw();
                 
                 // Make sure image is loaded and set background image
                 if (null != _cellBackgroundImage && null != currentCell.container) 

@@ -41,7 +41,7 @@ class Validator
 	}
 
 	/**
-	 * Validates data in the following formats 10-26-1981, 10/26/1981 and 10.26.1981
+	 * Validates date in the following formats 10-26-1981, 10/26/1981 and 10.26.1981
 	 *
 	 * @param	value Formated string with date
 	 *

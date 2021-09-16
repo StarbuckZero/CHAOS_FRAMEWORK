@@ -799,6 +799,7 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI {
 	}
 
 	private function mouseDownEvent(event:MouseEvent):Void {
+		
 		// Toggle selected stage
 		_selected = !_selected;
 

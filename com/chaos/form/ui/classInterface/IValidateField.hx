@@ -10,7 +10,7 @@ import openfl.display.BitmapData;
  * @author Erick Feiling
  */
 
-interface IValidateField extends com.chaos.ui.classInterface.ITextInput
+interface IValidateField extends ITextInput
 {
 
 	

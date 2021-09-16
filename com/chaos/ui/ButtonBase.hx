@@ -118,6 +118,8 @@ import com.chaos.ui.Border;
 
         if(_border)  
             super.draw();
+        else
+          _borderShape.graphics.clear();
 
         shapeBase.graphics.clear();
 

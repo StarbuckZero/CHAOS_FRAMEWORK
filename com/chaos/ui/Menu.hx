@@ -1870,14 +1870,14 @@ class Menu extends BaseContainer implements IMenu implements IBaseContainer impl
         if (_disableDisplayImage != null) 
             menu.setDisableStateImage(_disableDisplayImage);
         
+        menu.draw();
+        
 		//TODO: Update menu Item button
         //if (_icon != null) 
         //    menu.setIconBitmap(_icon);
         //
         //if (_subMenuDisplayImage != null) 
         //    menu.setSubMenuImage(_subMenuDisplayImage);
-		
-		menu.draw();
     }
     
     private function styleSubMenuButton(menu : IMenuItem) : Void

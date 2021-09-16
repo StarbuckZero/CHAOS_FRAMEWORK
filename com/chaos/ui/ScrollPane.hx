@@ -1,15 +1,17 @@
 package com.chaos.ui;
 
 import com.chaos.ui.UIBitmapManager;
+import com.chaos.ui.ScrollPolicy;
+import com.chaos.ui.layout.BaseContainer;
 import com.chaos.ui.classInterface.IScrollBar;
 import com.chaos.ui.classInterface.IScrollPane;
+import com.chaos.ui.classInterface.IBorder;
 import com.chaos.ui.layout.classInterface.IBaseContainer;
+
 import openfl.display.DisplayObject;
 import openfl.display.Shape;
 import openfl.geom.Rectangle;
 import openfl.events.Event;
-import com.chaos.ui.ScrollPolicy;
-import com.chaos.ui.layout.BaseContainer;
 
 /**
  *  A container for loading in DisplayObject
@@ -29,11 +31,20 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 	 */
 	public var scrollBarV(get, never):IScrollBar;
 
+	/**
+	 * Hide or show the outline around the component
+	 */
+	public var showOutline(get, set):Bool;	
+
+	/**
+	 * Get border
+	 */
+	public var outline(get, never):IBorder;
 
 	/**
 	 * Places a DisplayObject in the ScrollPane
 	 */
-	public var source(get, set):DisplayObject;
+	 public var source(get, set):DisplayObject;	
 
 	/**
 	 * Change the ScrollBar settings on the ScrollPane. This changes the way the scrollbars react to content.
@@ -66,9 +77,13 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 	private var _contentOffsetY:Int = 0;
 
 	// This is used for the real size
-	private var _outline:Shape;
+	private var _outline:IBorder;
+
+	private var _showOutline : Bool = false;
 
 	private var _bgDisplayImage:Bool = false;
+
+	private var _borderData:Dynamic = {};
 
 	/**
 	 * UI ScrollPane
@@ -96,23 +111,17 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 	override function setComponentData(data:Dynamic) {
 		super.setComponentData(data);
 
-		//TODO: Use Border class
-		// if (Reflect.hasField(data, "border"))
-		// 	_border = Reflect.field(data, "border");
+		if (Reflect.hasField(data, "showOutline"))
+			_showOutline = Reflect.field(data, "showOutline");
 
-		// if (Reflect.hasField(data, "thinkness"))
-		// 	_borderThinkness = Reflect.field(data, "thinkness");
-
-		// if (Reflect.hasField(data, "borderColor"))
-		// 	_borderColor = Reflect.field(data, "borderColor");
-
-		// if (Reflect.hasField(data, "borderAlpha"))
-		// 	_borderAlpha = Reflect.field(data, "borderAlpha");
+		if (Reflect.hasField(data, "Border"))
+			_borderData = Reflect.field(data, "Border");
 
 		if (Reflect.hasField(data, "mode"))
 			_mode = Reflect.field(data, "mode");
 
-		if (Reflect.hasField(data, "scrollContentType")) {
+		if (Reflect.hasField(data, "scrollContentType")) 
+		{
 			if (Reflect.field(data, "scrollContentType") == RECT_MODE || Reflect.field(data, "scrollContentType") == MASK_MODE)
 				_scrollContentType = Reflect.field(data, "scrollContentType");
 		}
@@ -122,11 +131,12 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 	 * initialize all importain objects
 	 */
 	override public function initialize():Void {
+		
 		_scrollBarH = new ScrollBar();
 		_scrollBarV = new ScrollBar();
 
 		shapeBlock = new Shape();
-		_outline = new Shape();
+		_outline = new Border(_borderData);
 
 		_scrollMask = new Shape();
 
@@ -145,7 +155,7 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 		addChild(_contentSizeBox);
 
 		addChild(shapeBlock);
-		addChild(_outline);
+		addChild(_outline.displayObject);
 		addChild(_scrollBarH.displayObject);
 		addChild(_scrollBarV.displayObject);
 	}
@@ -158,13 +168,14 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 
 		_contentSizeBox.graphics.clear();
 		shapeBlock.graphics.clear();
-		_outline.graphics.clear();
 
+		removeEventListener(Event.ADDED_TO_STAGE, onStageAdd);
+		removeEventListener(Event.REMOVED_FROM_STAGE, onStageRemove);
 
 		removeChild(_contentSizeBox);
 
 		removeChild(shapeBlock);
-		removeChild(_outline);
+		removeChild(_outline.displayObject);
 		removeChild(_scrollBarH.displayObject);
 		removeChild(_scrollBarV.displayObject);
 
@@ -174,6 +185,8 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 
 		_scrollBarH.destroy();
 		_scrollBarV.destroy();
+		_outline.destroy();
+
 	}
 
 	/**
@@ -195,16 +208,6 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 		if (UIStyleManager.hasStyle(UIStyleManager.SCROLLPANE_BACKGROUND))
 			_backgroundColor = UIStyleManager.getStyle(UIStyleManager.SCROLLPANE_BACKGROUND);
 
-		// if (UIStyleManager.hasStyle(UIStyleManager.SCROLLPANE_BORDER_COLOR))
-		// 	_borderColor = UIStyleManager.getStyle(UIStyleManager.SCROLLPANE_BORDER_COLOR);
-
-		// if (UIStyleManager.hasStyle(UIStyleManager.SCROLLPANE_BORDER_ALPHA))
-		// 	_borderAlpha = UIStyleManager.getStyle(UIStyleManager.SCROLLPANE_BORDER_ALPHA);
-
-		// if (UIStyleManager.hasStyle(UIStyleManager.SCROLLPANE_BORDER_ALPHA))
-		// 	_borderThinkness = UIStyleManager.getStyle(UIStyleManager.SCROLLPANE_BORDER_THINKNESS);
-
-
 		if (UIStyleManager.hasStyle(UIStyleManager.SCROLLPANE_CONTENT_OFFSET_X))
 			_offsetX = UIStyleManager.getStyle(UIStyleManager.SCROLLPANE_CONTENT_OFFSET_X);
 
@@ -217,14 +220,33 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 		if (UIStyleManager.hasStyle(UIStyleManager.SCROLLPANE_CONTENT_HEIGHT_OFFSET))
 			_contentOffsetY = UIStyleManager.getStyle(UIStyleManager.SCROLLPANE_CONTENT_HEIGHT_OFFSET);
 
-		// if (UIStyleManager.hasStyle(UIStyleManager.SCROLLPANE_BORDER))
-		// 	_border = UIStyleManager.getStyle(UIStyleManager.SCROLLPANE_BORDER);
+		if (UIStyleManager.hasStyle(UIStyleManager.SCROLLPANE_BORDER))
+			_showOutline = UIStyleManager.getStyle(UIStyleManager.SCROLLPANE_BORDER);
 
 		if (UIStyleManager.hasStyle(UIStyleManager.SCROLLPANE_USE_CUSTOM_RENDER))
 			_useCustomRender = UIStyleManager.getStyle(UIStyleManager.SCROLLPANE_USE_CUSTOM_RENDER);
 
 	}
 
+	/**
+	 * Hide or show the outline
+	 */
+	 private function set_showOutline(value:Bool):Bool {
+		
+		_showOutline = value;
+		return value;
+	}
+
+	private function get_showOutline():Bool {
+		return _showOutline;
+	}
+
+	/**
+	 * Return outline used on component
+	 */
+	private function get_outline():IBorder {
+		return _outline;
+	}
 
 	/**
 	 * Set the color of the ScrollPane background
@@ -287,6 +309,7 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 	 * Places a DisplayObject in the ScrollPane
 	 */
 	private function set_source(value:DisplayObject):DisplayObject {
+
 		if (null == _scrollBarH && null == _scrollBarV)
 			return null;
 
@@ -331,7 +354,7 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 			// Update Scrollbar
 			contentHolder.addChild(_scrollBarH.displayObject);
 			contentHolder.addChild(_scrollBarV.displayObject);
-			contentHolder.addChild(_outline);
+			contentHolder.addChild(_outline.displayObject);
 		}
 
 		update();
@@ -396,6 +419,7 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 		_scrollMask.graphics.clear();
 
 		if (_scrollContentType == RECT_MODE) {
+
 			// Over all mask
 			_mask.graphics.beginFill();
 			_mask.graphics.drawRect(0, 0, _width, _height);
@@ -403,21 +427,21 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 
 			// contentObject.mask = _mask;
 		} else if (_scrollContentType == MASK_MODE) {
+
 			_scrollMask.graphics.beginFill(0, 1);
 			_scrollMask.graphics.drawRect(_offsetX, _offsetY,
+
 				(_scrollBarH.visible) ? _width - shapeBlock.width : _width, (_scrollBarV.visible) ? _height : _height - _scrollBarV.buttonHeight);
 			_scrollMask.graphics.endFill();
 		}
 
-		_outline.graphics.clear();
+		_outline.visible = _showOutline;
 
-		// Setup for border if need be
-		//TODO: Use Border class
-		// if (_border) {
-		// 	_outline.graphics.lineStyle(_borderThinkness, _borderColor, _borderAlpha);
-		// 	_outline.graphics.drawRect(0, 0, _width, _height);
-		// 	_outline.graphics.endFill();
-		// }
+		_outline.width = _width;
+		_outline.height = _height;
+
+		_outline.draw();
+
 	}
 
 	/**
