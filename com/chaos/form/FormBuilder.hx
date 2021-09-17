@@ -160,25 +160,16 @@ class FormBuilder extends GridContainer implements IFormBuilder implements IBase
         
         var newLabel : ILabel = new TextLabel({"text":labelName,"width":labelRow.width,"height":labelRow.height});
         labelRow.container.addElement(newLabel);
-
-        // labelRow.border.visible = _border;
-        // labelRow.border.lineThinkness = _borderThinkness;
         
         // Check to see if item is a based UI
         var element:IFormUI = Type.createInstance(elementClass,[elementParams]);
         element.setName(elementName);
-        
-        // inputRow.border = _border;
-        // inputRow.borderThinkness = _borderThinkness;
-        
+                
         if (Std.isOfType(element, IBaseUI)) 
         {
             var baseElement : IBaseUI = (try cast(element, IBaseUI) catch(e:Dynamic) null);
             
-            inputRow.container.addElement(baseElement);
-            
-            // inputRow.border = _border;
-            // inputRow.borderThinkness = _borderThinkness;
+            inputRow.container.addElement(baseElement);            
         }
 		
 		// Adjust elements location  
@@ -218,7 +209,6 @@ class FormBuilder extends GridContainer implements IFormBuilder implements IBase
         
         for (row in 0 ... getRowCount())
 		{
-            
             if (validCell(row, index)) 
                 setCellWidth(row, index, colWidth);
             else 

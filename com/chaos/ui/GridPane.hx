@@ -1,5 +1,6 @@
 package com.chaos.ui;
 
+import openfl.geom.Matrix;
 import com.chaos.drawing.icon.classInterface.IBasicIcon;
 import com.chaos.form.ui.classInterface.IFormUI;
 import com.chaos.ui.ScrollPane;
@@ -64,12 +65,12 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
     
     public var columnDefaultHeight : Int = 25;
     
-    private var column : DataProvider<Dynamic> = new DataProvider<Dynamic>();
+    private var column : DataProvider<GridObjectData> = new DataProvider<GridObjectData>();
     
     private var buttonHolder : Sprite = new Sprite();
     private var gridHolder : Sprite = new Sprite();
     
-    private var gridData : DataProvider<Dynamic> = new DataProvider<Dynamic>();
+    private var _gridData : DataProvider<Dynamic> = new DataProvider<Dynamic>();
     
     private var _grid : IGridContainer = new GridContainer({"row":1,"column": 0});
     
@@ -120,8 +121,27 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
 	{
 		super.setComponentData(data);
 		
-		if (Reflect.hasField(data, "data"))
-			gridData = Reflect.field(data, "data");		
+		if (Reflect.hasField(data, "data")) {
+
+            // If an array then place in grid data else just replace
+            if( Std.isOfType(Reflect.field(data, "data"), Array) ) {
+
+                var gridDataArray:Array<Dynamic> = Reflect.field(data, "data");
+
+                for( i in 0 ... gridDataArray.length)
+                    _gridData.addItem(gridDataArray[i]);
+            }
+            else if(Std.isOfType(Reflect.field(data, "data"), DataProvider))
+            {
+                _gridData = Reflect.field(data, "data");
+            }
+            else
+            {
+                Debug.print("[GridPane::setComponentData] Couldn't covert or set data, must be an Array<Dynamic> or DataProvider<Dynamic> class type.");
+            }
+                
+        }
+			
 	}
 	
 	/**
@@ -140,8 +160,7 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
         
         addChild(buttonHolder);
         
-        source = _grid.displayObject;		
-		
+        source = _grid.displayObject;
 	}
     
 	
@@ -529,7 +548,7 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
     
     private function set_dataProvider(value : DataProvider<Object>) : DataProvider<Object>
     {
-        gridData = value;
+        _gridData = value;
 		
         return value;
     }
@@ -540,7 +559,7 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
     
     private function get_dataProvider() : DataProvider<Object>
     {
-        return gridData;
+        return _gridData;
     }
     
     /**
@@ -572,16 +591,16 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
 	 * @param	element The Form object class
 	 * @param	dataRowName The name that is being used inside the store object.
 	 * @param	gridLayout The layout you want to use. The default is the FitLayout or Fit
-	 * @param	data The DataProvider that could be used for DropDownMenu or Select list
+	 * @param	data Passed in when creating the element
 	 *
 	 * @see com.chaos.ui.layout.GridCellLayout
 	 * @exampleText grid.addColumn("Family", DropDownMenu, "family", GridCellLayout.VERTICAL, dropDownData);
 	 */
     
-    public function addColumn(colName : String, element : Class<Object>, dataRowName : String, gridLayout : Class<Object> = null, data : DataProvider<Dynamic> = null) : Void
+    public function addColumn(colName : String, element : Class<Object>, dataRowName : String, gridLayout : Class<Object> = null, data : Dynamic = null) : Void
     {
         
-        if (!(Std.is(Type.createInstance(element, []), IFormUI)) || !(Std.is(Type.createInstance(element, []), IBaseUI))) 
+        if (!(Std.isOfType(Type.createInstance(element, []), IFormUI)) || !(Std.isOfType(Type.createInstance(element, []), IBaseUI))) 
         {
             Debug.print("[GridPane::addColumn] Didn't add column because class doesn't support both the IFormUI and IBaseUI interfaces.");
             return;
@@ -591,33 +610,16 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
         _grid.addColumn(0);
         
         // Add store data value
-        storeList.unshift(dataRowName);
+        storeList.push(dataRowName);
         
         // Setup what's needed for col
-        var obj : Object = new Object();
-        var colInfoHolder : Sprite = new Sprite();
-        var buttonArea : IAlignmentContainer = new FitContainer();
-        var button : IButton = new Button(colName);
-        var arrow : IBasicIcon = new ArrowDownIcon({"width":10,"height":10});
-        
-        Reflect.setField(obj, "col", colInfoHolder);
-        Reflect.setField(obj, "element", element);  // Store element  
-        Reflect.setField(obj, "button", button);
-        Reflect.setField(obj, "name", colName);
-        Reflect.setField(obj, "arrow", arrow);
-        Reflect.setField(obj, "arrowDefault", arrow.displayObject.transform.matrix.clone());
-        Reflect.setField(obj, "dataRowName", dataRowName);
-        Reflect.setField(obj, "sort", false);
-        Reflect.setField(obj, "data", data);
-        Reflect.setField(obj, "layout", gridLayout);
-        
-        colInfoHolder.name = "col" + _grid.getColumnCount();
-        buttonArea.name = "buttonArea";
-        button.name = colName;
-        
-        arrow.name = "arrow";
-        
-        
+        var colInfoHolder : BaseUI = new BaseUI({"name":"col" + _grid.getColumnCount()});
+        var buttonArea : IAlignmentContainer = new FitContainer({"name":"buttonArea"});
+        var button : IButton = new Button({"name":"button","text":colName});
+        var arrow : IBasicIcon = new ArrowDownIcon({"name":"arrow","width":10,"height":10});        
+
+        var gridColObj:GridObjectData = new GridObjectData(colInfoHolder, buttonArea, element, button, colName,arrow, dataRowName, gridLayout, data);
+                
         button.addEventListener(MouseEvent.CLICK, onButtonClick, false, 0, true);
         
         // Get the first cell and get the width
@@ -634,7 +636,7 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
         colInfoHolder.addChild(arrow.displayObject);
         
         // Keep track of clip
-        column.addItemAt(obj, 0);
+        column.addItem(gridColObj);
         
         buttonHolder.addChild(colInfoHolder);
         
@@ -652,17 +654,18 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
     
     public function removeColumnByIndex(index : Int) : Void
     {
-        var columnObj : Object = column.getItemAt(index);
-        var colInfoHolder : Sprite = cast(columnObj.col, Sprite);
-        var button : IButton = cast(columnObj.button, IButton);
-        var dataRowName : String = cast(columnObj.dataRowName, String);
+        var columnObj : GridObjectData = column.getItemAt(index);
+        var colInfoHolder : IBaseUI = columnObj.col;
+        var button : IButton = columnObj.button;
+        var dataRowName : String = columnObj.dataRowName;
         
         // Remove name used for data row because data list is in same order as column
         storeList.splice(index, 1);
         
         button.removeEventListener(MouseEvent.CLICK, onButtonClick);
-        buttonHolder.removeChild(colInfoHolder);
+        buttonHolder.removeChild(colInfoHolder.displayObject);
         column.removeItem(columnObj);
+
         _grid.removeColumn(index);
         
         draw();
@@ -675,6 +678,7 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
     public function removeAllColumns() : Void
     {
         var columnCount : Int = column.length;
+
         for (i in 0...columnCount){
             removeColumnByIndex(0);
         }
@@ -709,7 +713,7 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
     public function setColumnWidthAt(index : Int, colWidth : Int) : Void
     {
         
-        for (row in 0..._grid.getRowCount())
+        for (row in 0 ... _grid.getRowCount())
 		{
             
             if (_grid.validCell(row, index)) 
@@ -731,9 +735,9 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
 	 */
     public function setCellWidth(colWidth : Int) : Void
     {
-        for (row in 0..._grid.getRowCount())
+        for (row in 0 ... _grid.getRowCount())
 		{
-            for (col in 0..._grid.getColumnCount())
+            for (col in 0 ... _grid.getColumnCount())
 			{
                 if (_grid.validCell(row, col)) 
                 {
@@ -760,7 +764,7 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
         if (null == _grid) 
             return;
         
-        for (row in 0..._grid.getRowCount()){
+        for (row in 0 ... _grid.getRowCount()){
             
             if (_grid.validCell(row, index)) 
             {
@@ -782,16 +786,14 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
     public function setCellHeight(colHeight : Int) : Void
     {
         
-        for (row in 0..._grid.getRowCount()){
-            for (col in 0..._grid.getColumnCount()){
+        for (row in 0 ... _grid.getRowCount())
+        {
+            for (col in 0 ... _grid.getColumnCount()) 
+            {
                 if (_grid.validCell(row, col)) 
-                {
                     _grid.setCellHeight(row, col, colHeight);
-                }
                 else 
-                {
                     Debug.print("[GridPane::setCellHeight] Fail to update " + row + "x" + col + " height in grid to " + colHeight + ".");
-                }
             }
         }
         
@@ -805,7 +807,7 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
     {
         // Make valid cell first, then return the hold object
         if (_grid.validCell(_selectedRow, _selectedCol)) 
-            return gridData.getItemAt(_selectedRow);
+            return _gridData.getItemAt(_selectedRow);
         
         return null;
     }
@@ -820,8 +822,9 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
     {
         try
         {
-            return try cast(_grid.getCell(_selectedRow, _selectedCol).container.getElementAtIndex(0).displayObject, IFormUI) catch(e:Dynamic) null;
-        }        catch (error : Error)
+            return cast(_grid.getCell(_selectedRow, _selectedCol).container.getElementAtIndex(0).displayObject, IFormUI);
+        }        
+        catch (error : Error)
         {
             Debug.print("[GridPane::getSelectedElement] Couldn't or convert item");
         }
@@ -958,9 +961,6 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
         refreshPane();
     }
     
-
-    
-    
     /**
 	 * Update the UI Grid
 	 */
@@ -974,16 +974,19 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
         
         _grid.width = width;
         
+        
         for (i in 0 ... column.length)
 		{
             // Get holder and button area
-            var colInfoHolder : Sprite = cast(column.getItemAt(i).col,Sprite);
-            var buttonArea : IAlignmentContainer = cast(colInfoHolder.getChildByName("buttonArea"), IAlignmentContainer);
-            var button : IButton = cast(buttonArea.getElementByName("button"), IButton);
+            var colInfoHolder : IBaseUI = column.getItemAt(i).col;
+            var buttonArea : IAlignmentContainer = column.getItemAt(i).buttonHolder;
+            var button : IButton = column.getItemAt(i).button;
             var cell : IGridCell = _grid.getCell(0, i);
             
             buttonArea.width = cell.width;
             buttonArea.draw();
+
+            _grid.y = buttonArea.height;
             
             // Match button size with cell
             if (_grid.validCell(0, i)) 
@@ -1001,7 +1004,7 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
         updateColumnArea();  // Update the top button area  
         
         // For updating data in grid
-        if (null != gridData && gridData.length > 0) 
+        if (null != _gridData && _gridData.length > 0) 
         {
             updateRowCount();  // Add or remove rows  
             updateCellName();  // Cell names  
@@ -1048,11 +1051,11 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
     {
         for (i in 0 ... column.length)
 		{
-            var colInfoHolder : Sprite = cast(column.getItemAt(i).col, Sprite);
+            var colInfoHolder : IBaseUI = column.getItemAt(i).col;
 			
-            var arrow : IBasicIcon = cast(column.getItemAt(i).arrow, IBasicIcon);
-            var buttonArea : IAlignmentContainer = cast(colInfoHolder.getChildByName("buttonArea"), IAlignmentContainer);
-            var button : IButton = try cast(column.getItemAt(i).button, IButton);
+            var arrow : IBasicIcon = column.getItemAt(i).arrow;
+            var buttonArea : IAlignmentContainer = column.getItemAt(i).buttonHolder;
+            var button : IButton = column.getItemAt(i).button;
             
             button.defaultColor = _columnButtonColor;
             button.overColor = _columnButtonOverColor;
@@ -1082,7 +1085,7 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
             
             if (i > 0)
             {
-                var oldInfoHolder : Sprite = cast(column.getItemAt(i - 1).col, Sprite);
+                var oldInfoHolder : IBaseUI = column.getItemAt(i - 1).col;
                 colInfoHolder.x = oldInfoHolder.x + _grid.getCell(0, i - 1).width;
             }
             else 
@@ -1105,17 +1108,18 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
 		var col:Int = 0;
         
         // Create data list
-        while (row != gridData.length)
+        while (row != _gridData.length)
 		{
-            
+
             // Start resizing col cell
             while (col != storeList.length)
 			{
+                
                 // Make sure cell is there
                 if (_grid.validCell(row, col)) 
                 {
                     // If value is not there then move on
-                    if (!gridData.getItemAt(row).hasOwnProperty(storeList[col])) 
+                    if (!Reflect.hasField(_gridData.getItemAt(row),storeList[col])) 
                     {
 						col++;
 						continue;
@@ -1126,9 +1130,9 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
                     if (_grid.getCell(row, col).container.length == 0) 
                     {
                         // Create element from stored class
-                        var formClass : Class<Dynamic> = cast(column.getItemAt(col).element, Class<Dynamic>);
-                        var element : Dynamic = Type.createInstance(formClass, []);
-                        var cell :IGridCell = _grid.getCell(row, col);
+                        var formClass : Class<Dynamic> = column.getItemAt(col).element;
+                        var element : Dynamic = Type.createInstance(formClass, [column.getItemAt(col).data]);
+                        var cell : IGridCell = _grid.getCell(row, col);
                         
                         // If there is a layout set it before adding in content
                         if (null != column.getItemAt(col).layout) 
@@ -1143,12 +1147,8 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
                         cell.addEventListener(FocusEvent.MOUSE_FOCUS_CHANGE, onCellCheck, false, 0, true);
                         cell.addEventListener(MouseEvent.MOUSE_OUT, onCellCheck, false, 0, true);
                         
-                        if (element.exists("dataProvider") && null != column.getItemAt(col).data) 
-                            element.dataProvider = column.getItemAt(col).data;
-                        
-                        
                         // Add element
-                        if (Std.is(element, IBaseUI)) 
+                        if (Std.isOfType(element, IBaseUI)) 
                         {
                             cell.container.addElement(cast(element, IBaseUI));
                         }
@@ -1158,9 +1158,10 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
                         }
                         
                         // Set value  
-                        if (Std.is(element, IFormUI)) 
+                        if (Std.isOfType(element, IFormUI)) 
                         {
-                            (try cast(element, IFormUI) catch (e:Dynamic) null).setValue(Std.string(Reflect.field(gridData.getItemAt( row  ), storeList[ col ] )));
+                            cast(element, IFormUI).setValue(Std.string(Reflect.field(_gridData.getItemAt( row  ), storeList[ col ] )));
+                            cast(element, IBaseUI).draw();
                         }
                         else 
                         {
@@ -1171,9 +1172,10 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
                     {
                         var uiFormElement : IBaseUI = _grid.getCell(row, col).container.getElementAtIndex(0);
                         
-                        if (Std.is(uiFormElement, IFormUI)) 
+                        if (Std.isOfType(uiFormElement, IFormUI)) 
                         {
-                            cast(uiFormElement, IFormUI).setValue( Reflect.field(gridData.getItemAt(row),storeList[col]) ) ;
+                            cast(uiFormElement, IFormUI).setValue( Reflect.field(_gridData.getItemAt(row),storeList[col]) );
+                            uiFormElement.draw();
                         }
                         else 
                         {
@@ -1204,12 +1206,12 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
         
         var breakOut : Int = 0;
         
-        while (_grid.getRowCount() != gridData.length)
+        while (_grid.getRowCount() != _gridData.length)
         {
             
-            if (_grid.getRowCount() < gridData.length) 
+            if (_grid.getRowCount() < _gridData.length) 
                 _grid.addRow(0);
-            else if (_grid.getRowCount() > gridData.length) 
+            else if (_grid.getRowCount() > _gridData.length) 
                 _grid.removeRow(0);
             
             breakOut++;
@@ -1251,14 +1253,14 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
                 if (column.getItemAt(i).sort) 
                 {
                     arrow.displayObject.transform.matrix = column.getItemAt(i).arrowDefault;
-                    gridData.dataArray.sort(sortAlphabeticallyDescending);
+                    _gridData.dataArray.sort(sortAlphabeticallyDescending);
                     
                     updateColumnArea();
                 }
                 else 
                 {
                     Utils.flipVertical(arrow.displayObject);
-                    gridData.dataArray.sort(sortAlphabeticallyAscending);
+                    _gridData.dataArray.sort(sortAlphabeticallyAscending);
                     
                     updateColumnArea();
                     arrow.displayObject.y += arrow.displayObject.height / 2;
@@ -1319,11 +1321,11 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
         try
         {
             var cellSelectArray : Array<String> = cast(event.currentTarget, IBaseUI).name.split("_");
-            var currentGridData : String = Std.string( Reflect.field(gridData.getItemAt( Std.parseInt(cellSelectArray[0]) ), storeList[ Std.parseInt(cellSelectArray[1]) ] ));
+            var currentGridData : String = Std.string( Reflect.field(_gridData.getItemAt( Std.parseInt(cellSelectArray[0]) ), storeList[ Std.parseInt(cellSelectArray[1]) ] ));
             var currentFormObj : IFormUI = null;
             
             // Make sure there is an item in the cell and use the IForm interface
-            if (_grid.getCell( Std.parseInt(cellSelectArray[0]), Std.parseInt(cellSelectArray[1]) ).container.length == 1 && Std.is(_grid.getCell( Std.parseInt(cellSelectArray[0]), Std.parseInt(cellSelectArray[1]) ).container.getElementAtIndex(0), IFormUI)) 
+            if (_grid.getCell( Std.parseInt(cellSelectArray[0]), Std.parseInt(cellSelectArray[1]) ).container.length == 1 && Std.isOfType(_grid.getCell( Std.parseInt(cellSelectArray[0]), Std.parseInt(cellSelectArray[1]) ).container.getElementAtIndex(0), IFormUI)) 
                 currentFormObj = cast(_grid.getCell( Std.parseInt(cellSelectArray[0]), Std.parseInt(cellSelectArray[1])).container.getElementAtIndex(0), IFormUI);
             
             if (null != currentFormObj) 
@@ -1331,7 +1333,7 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
                 if (currentFormObj.getValue() != currentGridData) 
                 {
                     // Update value and dispatch event
-                    Reflect.setField(gridData.getItemAt( Std.parseInt(cellSelectArray[0]) ), storeList[ Std.parseInt(cellSelectArray[1]) ], ( (Validator.isValidNumber(currentGridData) && Std.is( Reflect.field( gridData.getItemAt( Std.parseInt(cellSelectArray[0]) ), storeList[ Std.parseInt(cellSelectArray[1]) ]) , Int))) ? Std.parseInt(currentGridData) : currentFormObj.getValue());
+                    Reflect.setField(_gridData.getItemAt( Std.parseInt(cellSelectArray[0]) ), storeList[ Std.parseInt(cellSelectArray[1]) ], ( (Validator.isValidNumber(currentGridData) && Std.isOfType( Reflect.field( _gridData.getItemAt( Std.parseInt(cellSelectArray[0]) ), storeList[ Std.parseInt(cellSelectArray[1]) ]) , Int))) ? Std.parseInt(currentGridData) : currentFormObj.getValue());
                     dispatchEvent(new GridPaneEvent(GridPaneEvent.CHANGE, false, false, _selectedRow, _selectedCol));
                 }
             }
@@ -1344,4 +1346,54 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
     
 
 }
+
+
+/**
+ * Grid Data Object
+ * @author Erick Feiling
+ */
+
+ class GridObjectData 
+ {
+
+    public var col : IBaseUI;
+    public var buttonHolder : IAlignmentContainer;
+    public var element : Class<Object>;
+    public var button : IButton;
+    public var name : String;
+    public var arrow : IBasicIcon;
+    public var arrowDefault : Matrix;
+    public var dataRowName : String;
+    public var data : Dynamic;
+    public var sort : Bool = false;
+    public var layout : Class<Object>;
+
+	/**
+	 * Store grid values to use later
+	 * @param	colInfoHolder Hold button and arrow
+	 * @param	buttonHolder Fit container for button
+	 * @param	element UI Class used in this column
+	 * @param	button button being used
+	 * @param	colName The name of the button
+	 * @param	arrow The arrow on top of the button
+	 * @param	dataRowName The name being used
+	 * @param	gridLayout What layout the cell will used
+	 * @param	data Used for drop downs and list buttons
+	 */
+	
+    public function new(colInfoHolder : IBaseUI , buttonHolder : IAlignmentContainer, element : Class<Object>, button : IButton, colName : String, arrow : IBasicIcon, dataRowName : String, gridLayout : Class<Object> = null, data:Dynamic = null )
+    {
+        this.col = colInfoHolder;
+        this.buttonHolder = buttonHolder;
+        this.element = element;
+        this.button = button;
+        this.name = colName;
+        this.arrow = arrow;
+        this.arrowDefault = arrow.displayObject.transform.matrix.clone();
+        this.dataRowName = dataRowName;
+        this.data = data;
+        this.layout = gridLayout;
+    }
+    
+ }
 
