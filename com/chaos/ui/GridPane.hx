@@ -1104,15 +1104,13 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
         if (null == _grid) 
             return;
 			
-		var row:Int = 0;
-		var col:Int = 0;
         
         // Create data list
-        while (row != _gridData.length)
+        for (row in 0 ... _gridData.length)
 		{
 
             // Start resizing col cell
-            while (col != storeList.length)
+            for (col in 0 ... storeList.length)
 			{
                 
                 // Make sure cell is there
@@ -1120,11 +1118,7 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
                 {
                     // If value is not there then move on
                     if (!Reflect.hasField(_gridData.getItemAt(row),storeList[col])) 
-                    {
-						col++;
 						continue;
-                    }  
-                    
                     
                     // Check to see if cell was added 
                     if (_grid.getCell(row, col).container.length == 0) 
@@ -1188,10 +1182,8 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
                     }
                 }
 				
-				col++;
             }
 			
-			row++;
         }
     }
     
