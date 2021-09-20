@@ -1,0 +1,12 @@
+{
+	"name": "chaos-framework",
+	"url": "https://github.com/StarbuckZero/CHAOS_FRAMEWORK",
+    "license": "MIT",
+	"tags": [ "chaos", "2d","ui", "sound", "drawing" ,"openfl", "js", "ios", "android", "web", "cpp" ],
+	"description": "UI and multimedia framework",
+	"version": "2.0.0",
+	"releasenote": "First release of the new 2.0 framework",
+	"contributors": [ "starbuckzero"],
+	"dependencies": {},
+	"classPath": "com"
+}
