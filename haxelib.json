@@ -7,6 +7,5 @@
 	"version": "2.0.0",
 	"releasenote": "First release of the new 2.0 framework",
 	"contributors": [ "starbuckzero"],
-	"dependencies": {},
-	"classPath": "com"
+	"dependencies": {"openfl":""}
 }
