@@ -132,12 +132,12 @@ interface IGridPane extends IScrollPane
 	 * @param	element The Form object class
 	 * @param	dataRowName The name that is being used inside the store object.
 	 * @param	gridLayout The layout you want to use. The default is the FitLayout or Fit
-	 * @param	data The DataProvider that could be used for DropDownMenu or Select list
+	 * @param	data Passed in when creating the element
 	 *
 	 * @exampleText grid.addColumn("Family", DropDownMenu, "family", GridCellLayout.VERTICAL, dropDownData);
 	 */
     
-    function addColumn(colName : String, element : Class<Object>, dataRowName : String, gridLayout : Class<Object> = null, data : DataProvider<Object> = null) : Void;
+    function addColumn(colName : String, element : Class<Object>, dataRowName : String, gridLayout : Class<Object> = null, data : Dynamic = null): Void;
     
     /**
 	 * Remove an column using the index id
