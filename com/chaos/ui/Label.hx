@@ -556,7 +556,7 @@ class Label extends BaseUI implements ILabel implements IBaseUI {
 	 * The size of the text
 	 */
 	private function set_size(value:Dynamic):Dynamic {
-		_textFormat.size = value;
+		_size = _textFormat.size = value;
 
 		return value;
 	}
