@@ -633,6 +633,9 @@ class Label extends BaseUI implements ILabel implements IBaseUI {
 		// First turn off all the stuff that would be turned on if nomral TextField
 		_textField.selectable = ((_enabled && _editable)) ? true : false;
 		_textFormat.align = getTextAlignment(_align);
+		_textFormat.bold = _bold;
+		_textFormat.italic = _italic;
+		_textFormat.size = _size;
 
 		_textField.text = _text;
 		_textField.setTextFormat(_textFormat, _beginIndex, _endIndex);
