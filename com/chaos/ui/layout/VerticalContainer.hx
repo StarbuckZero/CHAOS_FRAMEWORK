@@ -1,8 +1,5 @@
 package com.chaos.ui.layout;
 
-
-
-
 import com.chaos.ui.classInterface.IBaseUI;
 import com.chaos.ui.event.ContainerEvent;
 import com.chaos.ui.layout.ContainerAlignPolicy;
