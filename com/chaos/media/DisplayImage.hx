@@ -164,11 +164,14 @@ class DisplayImage extends BaseUI implements IBaseUI
 		var redraw:Bool = false;
 		
 		// This will check to see if image should displayed
-		if (_drawOffStage || stage != null)
+		if (_drawOffStage || stage != null && _image != null)
 			redraw = true;
 		
 		if (redraw)
 		{
+			_width = _image.width;
+			_height = _image.height;
+			
 			graphics.beginBitmapFill(_image, null, true);
 			graphics.drawRect(0, 0, _image.width, _image.height);
 			graphics.endFill();
@@ -187,7 +190,6 @@ class DisplayImage extends BaseUI implements IBaseUI
 	
 	private function fileComplete(event : Event) : Void  
 	{  
-		
 		var loaderFile:LoaderInfo = cast(event.target, LoaderInfo);
 		_image = cast( (loaderFile.content), Bitmap).bitmapData;
 		
