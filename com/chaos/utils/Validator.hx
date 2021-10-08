@@ -55,7 +55,7 @@ class Validator
 	}
 
 	/**
-	 * Check to see if string is valid number
+	 * Check to see if string is valid whole number
 	 * @param	value A string with number value
 	 * @return True if it is a number and false if not
 	 */
@@ -64,6 +64,19 @@ class Validator
 	{
 		var regNum:EReg = ~/[0-9]/;
 		return regNum.match(value);
+	}
+
+	/**
+	 * Check to see if string is valid US currency by number with 2 decimal places 
+	 * @param	value A string with number value
+	 * @return True if it is a number and false if not
+	 */	
+	static public function isCurrencyUS(value:String) {
+
+		var regNum:EReg = /^[0-9]*(\.[0-9]{0,2})?$/;
+
+		return regNum.match(value);
+		
 	}
 
 }
