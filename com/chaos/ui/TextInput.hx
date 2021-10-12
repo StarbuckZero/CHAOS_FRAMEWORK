@@ -96,6 +96,8 @@ class TextInput extends Label implements ITextInput implements ILabel implements
 	private var _defaultString : String = "";
 	private var _upperCaseFirst : Bool = false;
 
+	private var _alignSet : Bool = false;
+
 	/**
 	 * UI TextInput 
 	 * @param	data The proprieties that you want to set on component.
@@ -143,6 +145,9 @@ class TextInput extends Label implements ITextInput implements ILabel implements
 			
 		if (Reflect.hasField(data, "upperCaseFirst"))
 			_upperCaseFirst = Reflect.field(data, "upperCaseFirst");
+
+		if (Reflect.hasField(data, "align"))
+			_alignSet = true;
 			
 		// If input string is empty then set to default text
 		if (_text == "" && _defaultString != "")
@@ -180,7 +185,10 @@ class TextInput extends Label implements ITextInput implements ILabel implements
 		textField.background = false;
 		textField.border = false;
 		textField.type = TextFieldType.INPUT;
-		textFormat.align = align = TextFormatAlign.LEFT;
+
+		// If haven't been set the default to left
+		if(!_alignSet)
+			textFormat.align = _align = TextFormatAlign.LEFT;
 
 
 		// Set some input defaults
