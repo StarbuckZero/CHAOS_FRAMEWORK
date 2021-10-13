@@ -20,9 +20,9 @@ class CheckBoxList extends CheckBoxGroup implements IFormUI implements IAlignmen
 {
     private var id : Int = 0;
     
-    public function new(checkBoxName : String)
+    public function new(data:Dynamic = null)
     {
-        super(checkBoxName);
+        super(data);
     }
     
 	/**
@@ -40,7 +40,7 @@ class CheckBoxList extends CheckBoxGroup implements IFormUI implements IAlignmen
     {
         for (i in 0..._content.numChildren){
             if (Std.is(_content.getChildAt(i), CheckBox)) 
-                (try cast(_content.getChildAt(i), com.chaos.ui.classInterface.ICheckBox) catch(e:Dynamic) null).selected = false;
+                (try cast(_content.getChildAt(i),ICheckBox) catch(e:Dynamic) null).selected = false;
         }
     }
     

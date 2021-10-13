@@ -73,7 +73,7 @@ class Validator
 	 */	
 	static public function isCurrencyUS(value:String) {
 
-		var regNum:EReg = /^[0-9]*(\.[0-9]{0,2})?$/;
+		var regNum:EReg = ~/^[0-9]*(\.[0-9]{0,2})?$/;
 
 		return regNum.match(value);
 		

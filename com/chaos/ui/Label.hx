@@ -185,6 +185,15 @@ class Label extends BaseUI implements ILabel implements IBaseUI {
 
 		if (Reflect.hasField(data, "bitmapMode"))
 			_bitmapMode = Reflect.field(data, "bitmapMode");
+
+		if (Reflect.hasField(data, "restrict"))
+			_textField.restrict = Reflect.field(data, "restrict");
+
+		if (Reflect.hasField(data, "maxChars"))
+			_textField.maxChars = Reflect.field(data, "maxChars"); 
+
+		if (Reflect.hasField(data, "displayAsPassword"))
+			_textField.displayAsPassword = Reflect.field(data, "displayAsPassword");		
 	}
 
 	/**

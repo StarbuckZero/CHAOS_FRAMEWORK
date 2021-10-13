@@ -61,8 +61,6 @@ class GridContainer extends BaseContainer implements IGridContainer implements I
 
 		super.initialize();
 
-		background = false;
-
 		_list = new DataProvider<DataProvider<IGridCell>>();
 
 		// Create data list
