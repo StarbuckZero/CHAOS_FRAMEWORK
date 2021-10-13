@@ -4,7 +4,7 @@ package com.chaos.drawing.icon;
 import com.chaos.drawing.icon.classInterface.IBasicIcon;
 
 /**
- * Stop icon used for media players
+ * X icon 
  *
  * @author Erick Feiling
  */
@@ -41,6 +41,14 @@ class CloseIcon extends BaseIcon implements IBasicIcon
         _iconArea.graphics.lineTo(width, height);
         _iconArea.graphics.moveTo(0, height);
         _iconArea.graphics.lineTo(width, 0);
+
+        // Draw hotspot
+        _iconArea.graphics.lineStyle(0,0,0);
+        _iconArea.graphics.beginFill(0,0);
+        _iconArea.graphics.drawRect(0,0,_width,_height);
+        _iconArea.graphics.endFill();
+
+        
     }
 }
 
