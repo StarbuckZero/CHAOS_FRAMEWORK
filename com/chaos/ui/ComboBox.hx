@@ -296,14 +296,18 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 		
 		if (Reflect.hasField(data, "data"))
 		{
-			var data:Array<Dynamic> = Reflect.field(data, "data");
+			var dataList:Array<Dynamic> = Reflect.field(data, "data");
 			
-			for (i in 0 ... data.length)
+			for (i in 0 ... dataList.length)
 			{
-				var dataObj:Dynamic = data[i];
+				var dataObj:Dynamic = dataList[i];
 				
-				if (Reflect.hasField(dataObj,"text") && Reflect.hasField(dataObj, "value"))
+				if (Reflect.hasField(dataObj,"text") && Reflect.hasField(dataObj, "value") && Reflect.hasField(dataObj, "selected") && Reflect.field(dataObj, "selected")) {
+					_selectIndex = i;
 					_list.addItem(new ComboBoxObjectData(i, Reflect.field(dataObj, "text"), Reflect.field(dataObj, "value"), (Reflect.hasField(dataObj, "selected")) ? Reflect.field(dataObj, "selected") : false));
+				}	
+				else 
+					_list.addItem(new ComboBoxObjectData(i, Reflect.field(dataObj, "text"),Reflect.field(dataObj, "value")));
 			}
 		}
 		
@@ -1369,6 +1373,10 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 		_selectLabel.width = (_width - _buttonWidth);
 		_selectLabel.height = _height;
 		_selectLabel.textField.setTextFormat(_textFormat);
+
+		if(_selectIndex != -1)
+			_selectLabel.text = getSelected().text;
+
 		_selectLabel.draw();
 		
 		_dropButton.width = _buttonWidth;
