@@ -1224,7 +1224,7 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 
 	override private function set_enabled(value : Bool) : Bool
 	{
-		super.enabled = _scrollbar.enabled = _dropButton.enabled = _dropDownHotspot.buttonMode =value;
+		super.enabled = _scrollbar.enabled = _dropButton.enabled = _dropDownHotspot.buttonMode = value;
 		 
 
 		return value;

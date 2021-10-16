@@ -55,9 +55,6 @@ class FormBuilder extends GridContainer implements IFormBuilder implements IBase
                 
         super.setComponentData(data);
 
-        // If not passed then set it to true
-        //_border = (Reflect.hasField(data, "border")) ? Reflect.field(data,"border") : true;
-
         if(Reflect.hasField(data, "vSpacing"))
             _vSpacing = Reflect.field(data,"vSpacing");
 

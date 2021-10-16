@@ -17,7 +17,6 @@ class DropDownMenu extends ComboBox implements IComboBox implements IBaseUI impl
     
     public function new(data:Dynamic = null)
     {
-		// comboWidth : Int = -1, comboHeight : Int = -1, comboList : DataProvider<Dynamic> = null
         super(data);
     }
     
