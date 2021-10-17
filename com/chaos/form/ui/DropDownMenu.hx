@@ -75,12 +75,15 @@ class DropDownMenu extends ComboBox implements IComboBox implements IBaseUI impl
     /**
 	 * Return the value that has been stored
 	 *
-	 * @return A string value from object
+	 * @return A string value if found or text in label
 	 */
     
     public function getValue() : String
     {
-        return text;
+        if(_selectIndex != -1)
+            return getSelected().value;
+        else 
+            return text;
     }
     
     /**
@@ -91,7 +94,17 @@ class DropDownMenu extends ComboBox implements IComboBox implements IBaseUI impl
 	
     public function setValue(value : String) : Void
     {
-        text = value;
+        // Set text if found in list
+        for( i in 0 ... _list.length) {
+
+            // Update index and set text
+            if(_list.getItemAt(i).value == value) {
+                _selectIndex = i;
+                text = getSelected().text;
+            }
+
+        }
+       
     }
     
     /**
