@@ -692,6 +692,9 @@ class TextInput extends Label implements ITextInput implements ILabel implements
 		backgroundOver.visible = false;
 		backgroundSelected.visible = false;
 		backgroundDisable.visible = false;
+
+		// Update text based on text field
+		_text = _textField.text;
 	}
 
 	private function overState(event : Event) : Void

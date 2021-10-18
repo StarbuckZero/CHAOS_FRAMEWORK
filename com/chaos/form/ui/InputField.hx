@@ -47,7 +47,7 @@ class InputField extends TextInput implements ITextInput implements IFormUI impl
     
     public function getElementType() : String
     {
-        return "label";
+        return "input";
     }
     
     /**
