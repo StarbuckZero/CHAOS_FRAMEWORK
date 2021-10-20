@@ -247,6 +247,26 @@ class FormBuilder extends GridContainer implements IFormBuilder implements IBase
         }
 
     }
+
+    /**
+    * Set input fields in data being passed in
+	 * @param	formObj Object with values for the form elements 
+    **/
+
+    public function setFormData(formObj:Dynamic) : Void 
+    {
+        for (row in 0 ... getRowCount())
+            {
+                if (getCell(row, 1).container.length > 0 && null != getCell(row, 1).container.getElementAtIndex(0) && Std.isOfType(getCell(row, 1).container.getElementAtIndex(0), IFormUI)) 
+                {
+                    var itemFormUI : IFormUI = cast(getCell(row, 1).container.getElementAtIndex(0), IFormUI);
+
+                    // Check to see if name is in object and set it if so
+                    if(Reflect.hasField(formObj, itemFormUI.getName()))
+                        itemFormUI.setValue( Reflect.field(formObj,itemFormUI.getName()) );
+                }
+            }
+    }
     
     /**
 	 * Take all input values and return them

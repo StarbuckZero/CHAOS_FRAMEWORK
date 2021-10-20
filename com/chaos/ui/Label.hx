@@ -118,7 +118,7 @@ class Label extends BaseUI implements ILabel implements IBaseUI {
 	private var _size:Int = 11;
 	private var _bold:Bool = false;
 	private var _italic:Bool = false;
-	private var _fontName:String = "Arial";
+	private var _fontName:String = "";
 
 	/**
 	 * UI Label
@@ -142,7 +142,7 @@ class Label extends BaseUI implements ILabel implements IBaseUI {
 			_text = Reflect.field(data, "text");
 
 		if (Reflect.hasField(data, "font"))
-			_fontName = Reflect.field(data, "font");
+			_textFormat.font = _fontName = Reflect.field(data, "font");
 
 		if (Reflect.hasField(data, "size"))
 			_size = Reflect.field(data, "size");
@@ -214,9 +214,7 @@ class Label extends BaseUI implements ILabel implements IBaseUI {
 		_textFormat.bold = _bold;
 		_textFormat.italic = _italic;
 		_textFormat.size = _size;
-
-		if (_fontName != "")
-			_textFormat.font = _fontName;
+		
 
 		// Setup width
 		_textField.width = _width;
@@ -581,7 +579,7 @@ class Label extends BaseUI implements ILabel implements IBaseUI {
 	 * The font you want to set the label to
 	 */
 	private function set_font(value:String):String {
-		_textFormat.font = value;
+		_textFormat.font = _fontName = value;
 
 		return value;
 	}
@@ -645,6 +643,7 @@ class Label extends BaseUI implements ILabel implements IBaseUI {
 		_textFormat.bold = _bold;
 		_textFormat.italic = _italic;
 		_textFormat.size = _size;
+		_textFormat.font = _fontName;
 
 		_textField.text = _text;
 		_textField.setTextFormat(_textFormat, _beginIndex, _endIndex);

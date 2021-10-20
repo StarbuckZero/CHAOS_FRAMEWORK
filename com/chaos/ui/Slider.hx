@@ -765,6 +765,8 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 			
 			ThreadManager.removeEventTimer(updatePercent);
         }
+
+		_marker.removeEventListener(MouseEvent.MOUSE_DOWN, markerPress);
 		
 		// Drawing
 		_track.graphics.clear();
@@ -836,8 +838,6 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 	{
 		stage.removeEventListener(MouseEvent.MOUSE_UP, stopSliding);
 		stage.removeEventListener(MouseEvent.MOUSE_MOVE, updatePercent);
-		
-		_marker.removeEventListener(MouseEvent.MOUSE_DOWN, markerPress);
     }
 	
 

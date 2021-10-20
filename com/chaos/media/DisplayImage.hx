@@ -25,11 +25,13 @@ class DisplayImage extends BaseUI implements IBaseUI
 	public static inline var TYPE : String = "DisplayImage";
 	
     public var image(get, never) : BitmapData;
+	public var repeat(get, set) : Bool;
     public var drawOffStage(get, set) : Bool;
 	
 	private var _drawOffStage:Bool = false;
 	private var _image : BitmapData = null;
 	private var _url : String = "";
+	private var _repeat : Bool = false;
 	
 	/**
 	 * Loads an image from a given loaction off the net. Use the onImageComplete call back or add an lisnter using Event.COMPLETE for when image loads.
@@ -119,6 +121,18 @@ class DisplayImage extends BaseUI implements IBaseUI
 	{
 		return _drawOffStage;
 	}
+
+	private function set_repeat( value:Bool ) : Bool
+	{
+		_repeat = value;
+		
+		return value;
+	}
+	
+	private function get_repeat() : Bool
+	{
+		return _repeat;
+	}	
 	
 	/**
 	 * Store a bitmap in the display image
@@ -132,6 +146,17 @@ class DisplayImage extends BaseUI implements IBaseUI
 		
 		draw();
     } 
+
+	public function unload() : Void {
+
+		if(null != image) {
+
+			graphics.clear();
+
+			_image.dispose();
+		}
+			
+	}
 	
 	
 	
@@ -167,12 +192,14 @@ class DisplayImage extends BaseUI implements IBaseUI
 		if (_drawOffStage || stage != null && _image != null)
 			redraw = true;
 		
+		graphics.clear();
+
 		if (redraw)
 		{
 			_width = _image.width;
 			_height = _image.height;
-			
-			graphics.beginBitmapFill(_image, null, true);
+	
+			graphics.beginBitmapFill(_image, null, _repeat);
 			graphics.drawRect(0, 0, _image.width, _image.height);
 			graphics.endFill();
 		}

@@ -364,21 +364,23 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 	 * Update the content area, this is needed for when the content loaded inside the ScrollPane size has changed
 	 */
 	public function update():Void {
-		if (_scrollContentLoaded) {
+
+		if (_scrollContentLoaded) 
+		{
 			_scrollContentH.unload();
 			_scrollContentV.unload();
 		}
 
 		// Set things based on scroll mode
 		if (_scrollContentType == RECT_MODE) {
-			_scrollRectH = new Rectangle(_offsetX, _offsetY, _width,
-				_height - shapeBlock.height);
-			_scrollRectV = new Rectangle(_offsetX, _offsetY, _width,
-				_height - shapeBlock.height);
+			_scrollRectH = new Rectangle(_offsetX, _offsetY, _width,_height - shapeBlock.height);
+			_scrollRectV = new Rectangle(_offsetX, _offsetY, _width,_height - shapeBlock.height);
 
 			_scrollContentH = new ScrollRectContent(_content, _scrollBarH, _scrollRectH);
 			_scrollContentV = new ScrollRectContent(_content, _scrollBarV, _scrollRectV);
-		} else if (_scrollContentType == MASK_MODE) {
+
+		} else if (_scrollContentType == MASK_MODE) 
+		{
 			_scrollContentH = new ScrollMaskContent(_content, _scrollBarH, _scrollMask);
 			_scrollContentV = new ScrollMaskContent(_content, _scrollBarV, _scrollMask);
 		}
@@ -425,13 +427,10 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 			_mask.graphics.drawRect(0, 0, _width, _height);
 			_mask.graphics.endFill();
 
-			// contentObject.mask = _mask;
 		} else if (_scrollContentType == MASK_MODE) {
 
 			_scrollMask.graphics.beginFill(0, 1);
-			_scrollMask.graphics.drawRect(_offsetX, _offsetY,
-
-				(_scrollBarH.visible) ? _width - shapeBlock.width : _width, (_scrollBarV.visible) ? _height : _height - _scrollBarV.buttonHeight);
+			_scrollMask.graphics.drawRect(_offsetX, _offsetY, (_scrollBarH.visible) ? _width - shapeBlock.width : _width, (_scrollBarV.visible) ? _height : _height - _scrollBarV.buttonHeight);
 			_scrollMask.graphics.endFill();
 		}
 
