@@ -26,7 +26,7 @@ class InputField extends TextInput implements ITextInput implements IFormUI impl
 	
 	public function data():Dynamic
 	{
-		return {"name":name, "id":_id, "value":(_textField.text != _defaultString) ? _textField.text : "", "type":"label"};
+		return {"name":name, "id":_id, "value":(_text != _defaultString) ? _text : "", "type":"label"};
 	}
     
     /**
@@ -80,7 +80,7 @@ class InputField extends TextInput implements ITextInput implements IFormUI impl
     
     public function getValue() : String
     {
-        return _textField.text;
+        return _text;
     }
     
     /**
@@ -91,7 +91,7 @@ class InputField extends TextInput implements ITextInput implements IFormUI impl
 	
     public function setValue(value : String) : Void
     {
-        _textField.text = value;
+        _text = value;
     }
     
     /**
