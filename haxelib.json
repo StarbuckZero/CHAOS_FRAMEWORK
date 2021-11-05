@@ -4,8 +4,8 @@
     "license": "MIT",
 	"tags": [ "chaos", "2d","ui", "sound", "drawing" ,"openfl", "js", "ios", "android", "web", "cpp" ],
 	"description": "UI and multimedia framework",
-	"version": "2.0.2",
-	"releasenote": "Bug fixes and code clean up",
+	"version": "2.0.3",
+	"releasenote": "Updated InputField to match base class",
 	"contributors": [ "starbuckzero"],
 	"dependencies": {"openfl":""}
 }
