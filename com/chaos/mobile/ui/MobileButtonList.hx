@@ -87,6 +87,22 @@ class MobileButtonList extends DragContainer implements IBaseUI
         return cast(_content.getChildByName("button_" + _selectedIndex), MobileButton);
     }
 
+    override public function draw() {
+        super.draw();
+
+        // Update all buttons sizes
+        for (i in 0 ... _content.numChildren) {
+
+            var button:MobileButton = cast(_content.getChildByName("button_" + i), MobileButton);
+
+            button.width = _width;
+            button.height = _buttonHeight;
+
+            button.y = _buttonHeight * i;
+            button.draw();
+        }
+    }
+
     private function createDataList( dataArray : Array<Dynamic> ) : Void {
 
         for (i in 0 ... dataArray.length) {
