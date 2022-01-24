@@ -781,10 +781,20 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI {
 			}
 		}
 
+		if (!_enabled)
+			{
+				if(_stateFadeSpeed > 0)
+					disableState.animateTo({"duration":_stateFadeSpeed,"alpha":1});
+				else
+					disableState.alpha = 1;
+			}		
 
 	}
 
 	private function mouseOverEvent(event:MouseEvent):Void {
+
+		if(!_enabled)
+			return;
 
 		// Check to set toggle
 		if(_stateFadeSpeed > 0)

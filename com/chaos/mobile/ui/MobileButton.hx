@@ -150,7 +150,7 @@ class MobileButton extends Button implements IBaseUI
     
     private function mobileUpEvent( event : MouseEvent ) : Void {
 
-        if(!_touchAnimation) 
+        if(!_touchAnimation || !_enabled) 
             return;
         
         _dot.scaleY =_dot.scaleX = 0;
