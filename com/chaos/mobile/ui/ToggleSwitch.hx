@@ -397,6 +397,20 @@ class ToggleSwitch extends BaseUI implements IToggleSwitch implements IBaseUI {
 			_switch.graphics.drawRect(0,0,_swtichSize,_swtichSize);
 
 		_switch.graphics.endFill();
+
+		// If selected value change update the toggle
+        if(_selected) {
+
+            _selectedState.visible = false;
+            _selectedState.alpha = 0;
+            _selectedState.animateTo({"alpha":1,"duration":_toggleAnimationSpeed});
+            _switch.animateTo({"x":(_width / 2),"duration":_toggleAnimationSpeed});
+        }
+        else 
+        {
+            _selectedState.animateTo({"alpha":0,"duration":_toggleAnimationSpeed});
+            _switch.animateTo({"x":0,"duration":_toggleAnimationSpeed});
+        }		
         
     }
 
