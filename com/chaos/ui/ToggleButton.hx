@@ -752,7 +752,7 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI {
 	public function drawButtonState(base:ButtonBase, color:Int = 0xFFFFFF, borderColor:Int = 0x000000, image:BitmapData = null):Void {
 
 		base.setComponentData({"border":_border,"lineThinkness":_borderThinkness,"lineAlpha":_borderAlpha, "lineColor":borderColor,
-		"baseAlpha":_bgAlpha,"tileImage":_tileImage,"image":image,"baseColor":color,"width":_width,"height":_height});
+		"baseAlpha":_bgAlpha,"tileImage":_tileImage,"image":image,"baseColor":color,"width":_width,"height":_height,"roundEdge":_roundEdge});
 
 		base.draw();
 	}
