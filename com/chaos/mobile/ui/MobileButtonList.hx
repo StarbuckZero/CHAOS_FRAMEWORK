@@ -28,6 +28,8 @@ class MobileButtonList extends DragContainer implements IBaseUI
 
     private var _selectedIndex : Int = -1;
 
+    private var _buttonBorder:Bool = false;
+
     private var _list : DataProvider<BaseObjectData> = new DataProvider<BaseObjectData>();
 
 	/**
@@ -50,6 +52,9 @@ class MobileButtonList extends DragContainer implements IBaseUI
 
 		if (Reflect.hasField(data, "buttonHeight"))
             _buttonHeight = Reflect.field(data, "buttonHeight");
+
+		if (Reflect.hasField(data, "buttonBorder"))
+            _buttonBorder = Reflect.field(data, "buttonBorder");
         
 		if (Reflect.hasField(data, "Label"))
             _labelData = Reflect.field(data, "Label");
@@ -107,7 +112,7 @@ class MobileButtonList extends DragContainer implements IBaseUI
 
         for (i in 0 ... dataArray.length) {
 
-            var button:MobileButton = new MobileButton({"name":"button_" + i ,"Label":_labelData,"width":_width,"height":_buttonHeight,"text": Reflect.hasField(dataArray[i],"text") ? Reflect.field(dataArray[i], "text") : ""});
+            var button:MobileButton = new MobileButton({"name":"button_" + i ,"border":_buttonBorder,"Label":_labelData,"width":_width,"height":_buttonHeight,"text": Reflect.hasField(dataArray[i],"text") ? Reflect.field(dataArray[i], "text") : ""});
 
             button.addEventListener(MouseEvent.CLICK, onButtonClick, false, 0, true);
             button.y = _buttonHeight * i;
