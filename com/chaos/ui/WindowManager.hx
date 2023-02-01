@@ -43,6 +43,7 @@ class WindowManager extends Sprite
 		// if ( -1 != UIStyleManager.WINDOW_FOCUS_COLOR)  
 		// 	_windowFocusColor = UIStyleManager.WINDOW_FOCUS_COLOR;
 		
+		/*
 		if ( -1 != UIStyleManager.WINDOW_TITLE_AREA_UNFOCUS_COLOR)
 			_windowTitleUnFocusColor = UIStyleManager.WINDOW_TITLE_AREA_UNFOCUS_COLOR;
 				
@@ -57,7 +58,7 @@ class WindowManager extends Sprite
 			
 		if ( -1 != UIStyleManager.WINDOW_MIN_UNFOCUS_COLOR)
 			_minUnFocusColor = UIStyleManager.WINDOW_MIN_UNFOCUS_COLOR;
-		
+		*/
     }
     
 	public function addWindow( window:Window ):Window
