@@ -94,7 +94,7 @@ class MenuItem extends Button implements IMenuItem implements IToggleButton impl
     private static inline var DEFAULT_WIDTH : Float = 20;
     private static inline var DEFAULT_HEIGHT : Float = 20;
 	
-    private var _textColor : Int = 0x000000;
+    //private var _textColor : Int = 0x000000;
     private var _textOverColor : Int = 0xFFFFFF;
     private var _textSelectedColor : Int = 0x999999;
     private var _textDisableColor : Int = 0xCCCCCC;

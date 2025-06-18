@@ -12,6 +12,17 @@ import com.chaos.ui.UIBitmapManager;
 import com.chaos.ui.UIStyleManager;
 import com.chaos.data.DataProvider;
 
+import com.chaos.form.ui.CheckBoxList;
+import com.chaos.form.ui.DateField;
+import com.chaos.form.ui.DropDownMenu;
+import com.chaos.form.ui.EmailField;
+import com.chaos.form.ui.InputField;
+import com.chaos.form.ui.PasswordField;
+import com.chaos.form.ui.PhoneNumberField;
+import com.chaos.form.ui.RadioButtonList;
+import com.chaos.form.ui.Select;
+import com.chaos.form.ui.TextLabel;
+
 import com.chaos.form.ui.TextLabel;
 import com.chaos.media.DisplayImage;
 import com.chaos.ui.layout.FitContainer;
@@ -20,6 +31,7 @@ import com.chaos.ui.layout.classInterface.IAlignmentContainer;
 import com.chaos.ui.layout.classInterface.IBaseContainer;
 import com.chaos.ui.layout.classInterface.IGridCell;
 import com.chaos.ui.layout.classInterface.IGridContainer;
+import com.chaos.ui.layout.GridCellLayout;
 import com.chaos.ui.Button;
 import com.chaos.utils.Debug;
 import com.chaos.utils.Utils;
@@ -141,8 +153,97 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
             }
                 
         }
+
+        if(Reflect.hasField(data,"column")) {
+
+            var col:Array<Dynamic> = Reflect.field(data,"column");
+            
+            for(i in 0 ... col.length) {
+
+                var colData:Dynamic = col[i];
+    
+                if(Reflect.hasField(colData,"colName") && Reflect.hasField(colData,"element") && Reflect.hasField(colData,"dataRowName")) {
+    
+                    var colName : String = Reflect.field(colData,"colName");
+                    var element : Class<Dynamic> = getFormClass(Reflect.field(colData,"element"));
+                    var dataRowName : String = Reflect.field(colData,"dataRowName");
+                    var gridLayout : Class<Dynamic> = null;
+                    var data : Dynamic = {};
+    
+                    if(Reflect.hasField(colData,"gridLayout"))
+                        gridLayout = getCellLayout(Reflect.field(colData,"gridLayout"));
+    
+                    if(Reflect.hasField(colData,"data"))
+                        data = getCellLayout(Reflect.field(colData,"data"));
+    
+                    addColumn(colName, element, dataRowName, gridLayout, data);
+        
+                }
+                    
+            }
+        }
 			
 	}
+
+    private function getFormClass(type : String) : Dynamic
+    {
+        switch (type)
+        {
+            case "CheckBoxList":
+                return CheckBoxList;
+            
+            case "DateField":
+                return DateField;
+            
+            case "DropDownMenu":
+                return DropDownMenu;
+            
+            case "EmailField":
+                return EmailField;
+            
+            case "InputField":
+                return InputField;
+            
+            case "PasswordField":
+                return PasswordField;
+            
+            case "PhoneNumberField":
+                return PhoneNumberField;
+            
+            case "RadioButtonList":
+                return RadioButtonList;
+            
+            case "Select":
+                return Select;
+            
+            case "TextLabel":
+                return TextLabel;
+            default:
+                return TextLabel;
+        }
+        
+        return null;
+    }
+    
+    private function getCellLayout(layout : String) : Dynamic
+    {
+        switch (layout.toUpperCase())
+        {
+            case "FIT":
+                return GridCellLayout.FIT;
+            
+            case "HORIZONTAL":
+                return GridCellLayout.HORIZONTAL;
+            
+            case "VERTICAL":
+                return GridCellLayout.VERTICAL;
+            default:
+                return GridCellLayout.FIT;
+        }
+        
+        
+        return null;
+    }    
 	
 	/**
 	 * initialize all importain objects

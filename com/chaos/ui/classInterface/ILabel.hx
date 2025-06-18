@@ -67,6 +67,18 @@ interface ILabel extends IBaseUI
 	var size(get, set) : Dynamic;
 
 	/**
+	* Set if the label text is italic
+	*/
+
+	var italic(get, set) : Bool;	
+
+	/**
+	* Set if the label text is bold
+	*/
+
+	var bold(get, set) : Bool;
+
+	/**
 	* Set if the label text is editable
 	*/
 

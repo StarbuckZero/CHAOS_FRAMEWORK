@@ -136,6 +136,9 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
 	
 	private var _bold : Bool = false; 
 	private var _italic : Bool = false;
+
+    private var _labelSize : Int = 11;
+    private var _textColor : Int = 0xFFFFFF;
 	
 	/**
 	 * UI Button 
@@ -165,11 +168,31 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
 		if (Reflect.hasField(data, "text"))
 			_text = Reflect.field(data, "text");
 		
-		if (Reflect.hasField(data, "Label"))
+        // Get Label variables
+		if (Reflect.hasField(data, "Label")) 
+        {
             _labelData = Reflect.field(data, "Label");
-		else
-            _labelData = {"textColor": 0xFFFFFF, "bold":_bold, "italic":_italic};
+            
+            if(Reflect.hasField(_labelData,"size")) 
+                _labelSize = Reflect.field(_labelData, "size");
+
+            if(Reflect.hasField(_labelData,"textColor")) 
+                _textColor = Reflect.field(_labelData, "textColor");
+
+            if(Reflect.hasField(_labelData,"italic")) 
+                _italic = Reflect.field(_labelData, "italic");
+
+            if(Reflect.hasField(_labelData,"bold")) 
+                _bold = Reflect.field(_labelData, "bold");            
+
+        }
+		else 
+        {
+            _labelData = {"textColor": _textColor, "bold":_bold, "italic":_italic, "size": _labelSize};
+        }
+            
 			
+
 		if (Reflect.hasField(data, "showLabel"))
 			_showLabel = Reflect.field(data, "showLabel");
 			
@@ -560,7 +583,7 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
     
     private function set_textSize(value : Int) : Int
     {
-        _label.size = value;
+       _labelSize = _label.size = value;
         
         return value;
     }
@@ -580,7 +603,7 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
     
     private function set_textColor(value : Int) : Int
     {
-        _label.textColor = value;
+        _textColor = _label.textColor = value;
         return value;
     }
     
@@ -692,6 +715,10 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
         
         // Seting label  
         _label.text = _text;
+        _label.size = _labelSize;
+        _label.italic = _italic;
+        _label.bold = _bold;
+        _label.textColor = _labelSize;
         _label.textField.multiline = true;
         _label.textField.autoSize = TextFieldAutoSize.CENTER;
         

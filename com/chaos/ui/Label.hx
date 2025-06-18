@@ -78,6 +78,17 @@ class Label extends BaseUI implements ILabel implements IBaseUI {
 	public var size(get, set):Dynamic;
 
 	/**
+	* Set if the label text is italic
+	*/
+	 public var italic(get, set):Bool;
+
+	/**
+	* Set if the label text is bold
+	*/
+
+	public var bold(get, set):Bool;
+
+	/**
 	 * The font you want to set the label to
 	 */
 	public var font(get, set):String;
@@ -107,7 +118,6 @@ class Label extends BaseUI implements ILabel implements IBaseUI {
 	private var _background:Bool = false;
 	private var _backgroundColor:Int = 0xFFFFFF;
 	private var _border:Bool = false;
-	private var _borderColor:Int = 0x000000;
 	private var _thinkness:Float = 1;
 	private var _outlineColor:Int = 0x000000;
 	private var _outlineAlpha:Float = 1;
@@ -227,7 +237,7 @@ class Label extends BaseUI implements ILabel implements IBaseUI {
 		else
 			_height = _textField.height;
 
-		_outline = new Border({"lineColor":_borderColor,"lineThinkness":_thinkness,"lineAlpha":_outlineAlpha,"width":_width,"height":_height});
+		_outline = new Border({"lineColor":_outlineColor,"lineThinkness":_thinkness,"lineAlpha":_outlineAlpha,"width":_width,"height":_height});
 		
 		// Add to display
 		addChild(_outline);
@@ -563,17 +573,53 @@ class Label extends BaseUI implements ILabel implements IBaseUI {
 	 * The size of the text
 	 */
 	private function set_size(value:Dynamic):Dynamic {
-		_size = _textFormat.size = value;
+		_size = value;
 
 		return value;
 	}
+
 
 	/**
 	 *  Return the size
 	 */
 	private function get_size():Dynamic {
-		return _textFormat.size;
+		return _size;
+	}	
+
+	/**
+	 *  Return the if bold or not
+	 */
+	 private function get_bold():Bool {
+		return _bold;
 	}
+
+	/**
+	* Set if the label text is bold
+	*/
+
+	 private function set_bold(value:Bool):Bool {
+		_bold = value;
+
+		return value;
+	}
+
+	/**
+	 *  Return the if italic or not
+	 */
+	 private function get_italic():Bool {
+		return _italic;
+	}
+
+	/**
+	* Set if the label text is italic
+	*/
+
+	 private function set_italic(value:Bool):Bool {
+		_italic = value;
+
+		return value;
+	}	
+
 
 	/**
 	 * The font you want to set the label to
@@ -651,6 +697,7 @@ class Label extends BaseUI implements ILabel implements IBaseUI {
 		_textField.textColor = _textColor;
 		_textField.background = _background;
 		_textField.backgroundColor = _backgroundColor;
+		
 
 		// Get ready to draw background and border
 		_outline.visible = _border;
@@ -659,7 +706,8 @@ class Label extends BaseUI implements ILabel implements IBaseUI {
 		{
 			_outline.width = _width;
 			_outline.height = _height;
-			_outline.lineColor = _borderColor;
+			_outline.lineColor = _outlineColor;
+			_outline.lineAlpha = _outlineAlpha;
 			_outline.draw();
 		}
 			

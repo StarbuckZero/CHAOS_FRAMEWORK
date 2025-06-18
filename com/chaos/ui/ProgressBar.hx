@@ -206,6 +206,9 @@ class ProgressBar extends BaseUI implements IProgressBar implements IBaseUI
 		if (Reflect.hasField(data, "align"))
 			_align = Reflect.field(data, "align");
 
+		if (Reflect.hasField(data, "border"))
+			_border = Reflect.field(data, "border");
+		
 		if (Reflect.hasField(data, "percent"))
 			_percent = Reflect.field(data, "percent");
 
@@ -744,13 +747,14 @@ class ProgressBar extends BaseUI implements IProgressBar implements IBaseUI
 		_label.height = _loadedLabel.height = _height;
 		_label.visible = _showLabel;
 		_loadedLabel.visible = _showLabel;
+		
 
 		if (_showImage)
 		{
 			if (null != _backgroundImage)
 				_backgroundNormal.graphics.beginBitmapFill(_backgroundImage, null, true, _smoothImage)
-				else
-					_backgroundNormal.graphics.beginFill(_backgroundNormalColor, _backgroundAlpha);
+			else
+				_backgroundNormal.graphics.beginFill(_backgroundNormalColor, _backgroundAlpha);
 
 			if (null != _loadedBarImage)
 				_loadedBar.graphics.beginBitmapFill(_loadedBarImage, null, true, _smoothImage);
@@ -762,6 +766,8 @@ class ProgressBar extends BaseUI implements IProgressBar implements IBaseUI
 			_backgroundNormal.graphics.beginFill(_backgroundNormalColor, _backgroundAlpha);
 			_loadedBar.graphics.beginFill(_loadColor, _loadedAlpha);
 		}
+
+		_backgroundNormal.visible = _background;
 
 		// First set draw normal size
 		_backgroundNormal.graphics.drawRect(0, 0, _width, _height);
@@ -780,6 +786,8 @@ class ProgressBar extends BaseUI implements IProgressBar implements IBaseUI
 
 		// Set loading text
 		_label.text = _loadedLabel.text = Std.string(_percent);
+		_label.textColor = _textColor;
+		_loadedLabel.textColor = _textLoadedColor;
 		_label.draw();
 		_loadedLabel.draw();
 
