@@ -108,7 +108,6 @@ class ToggleSwitch extends BaseUI implements IToggleSwitch implements IBaseUI {
     private var _borderColor:Int = 0x000000;
     private var _outline : Border;
     private var _thinkness:Float = 1;
-	private var _outlineColor:Int = 0x000000;
 	private var _outlineAlpha:Float = .2;
 
     private var _switchOutline:Bool = false;
@@ -165,7 +164,7 @@ class ToggleSwitch extends BaseUI implements IToggleSwitch implements IBaseUI {
 			_thinkness = Reflect.field(data, "thinkness");
 
 		if (Reflect.hasField(data, "borderColor"))
-			_outlineColor = Reflect.field(data, "outlineColor");
+			_borderColor = Reflect.field(data, "borderColor");
 
 		if (Reflect.hasField(data, "outlineAlpha"))
 			_outlineAlpha = Reflect.field(data, "outlineAlpha");
@@ -334,14 +333,14 @@ class ToggleSwitch extends BaseUI implements IToggleSwitch implements IBaseUI {
 
 
      private function set_borderColor(value:Int):Int {
-		_outlineColor = value;
+		_borderColor = value;
 
 		return value;
 	}
 
 
 	private function get_borderColor():Int {
-		return _outlineColor;
+		return _borderColor;
 	}    
     
 	
@@ -367,6 +366,9 @@ class ToggleSwitch extends BaseUI implements IToggleSwitch implements IBaseUI {
 			_outline.width = _width;
 			_outline.height = _height;
             _outline.ellipseWidth = _outline.ellipseHeight = _roundedEdge;
+			_outline.lineAlpha = _outlineAlpha;
+			_outline.lineThinkness = _thinkness;
+			_outline.lineColor = _borderColor;
 			
 			_outline.draw();
 		}        

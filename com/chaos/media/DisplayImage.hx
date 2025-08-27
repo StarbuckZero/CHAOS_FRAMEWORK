@@ -7,7 +7,7 @@ package com.chaos.media;
 
 import openfl.display.LoaderInfo;
 import com.chaos.ui.classInterface.IBaseUI;
-
+import com.chaos.media.event.DisplayImageEvent;
 import openfl.display.BitmapData;
 import openfl.errors.Error;
 import com.chaos.ui.BaseUI;
@@ -16,8 +16,14 @@ import openfl.display.Loader;
 import openfl.display.Bitmap;
 import openfl.events.IOErrorEvent;
 import openfl.net.URLRequest;
-
+import openfl.geom.Matrix;
 import openfl.events.Event;
+import openfl.events.EventDispatcher;
+
+#if html5
+import haxe.crypto.Base64;
+import openfl.utils.ByteArray;
+#end
 
 
 class DisplayImage extends BaseUI implements IBaseUI
@@ -27,11 +33,15 @@ class DisplayImage extends BaseUI implements IBaseUI
     public var image(get, never) : BitmapData;
 	public var repeat(get, set) : Bool;
     public var drawOffStage(get, set) : Bool;
+	public var resizeImage(get, set) : Bool;
 	
+	private var _resizeImage : Bool = false;
 	private var _drawOffStage:Bool = false;
 	private var _image : BitmapData = null;
 	private var _url : String = "";
 	private var _repeat : Bool = false;
+
+	private var _onBase64Image:Dynamic;
 	
 	/**
 	 * Loads an image from a given loaction off the net. Use the onImageComplete call back or add an lisnter using Event.COMPLETE for when image loads.
@@ -83,10 +93,25 @@ class DisplayImage extends BaseUI implements IBaseUI
 			
 		if (Reflect.hasField(data, "drawOffStage"))
 			_drawOffStage = Reflect.field(data, "drawOffStage");
+
+		if (Reflect.hasField(data, "resizeImage"))
+			_resizeImage = Reflect.field(data, "resizeImage");
 		
-		if (Reflect.hasField(data, "image"))
-			_image = Reflect.field(data, "image");		
+		if (Reflect.hasField(data, "image")) {
+
+			_image = Reflect.field(data, "image");
+
+			_width = _image.width;
+			_height = _image.height;
+		}
+
+		if (Reflect.hasField(data, "repeat"))
+			_repeat = Reflect.field(data, "repeat");
 		
+		if(Reflect.hasField(data, "base64")) {
+			setBase64Image(Reflect.field(data, "base64"));
+		}
+			
 	}
 	
 
@@ -122,6 +147,18 @@ class DisplayImage extends BaseUI implements IBaseUI
 		return _drawOffStage;
 	}
 
+	private function set_resizeImage( value:Bool ) : Bool
+	{
+		_resizeImage = value;
+		
+		return value;
+	}
+	
+	private function get_resizeImage() : Bool
+	{
+		return _resizeImage;
+	}	
+
 	private function set_repeat( value:Bool ) : Bool
 	{
 		_repeat = value;
@@ -132,7 +169,75 @@ class DisplayImage extends BaseUI implements IBaseUI
 	private function get_repeat() : Bool
 	{
 		return _repeat;
-	}	
+	}
+
+	/**
+	 * Convert Base64 string into image
+	 *
+	 * @param	base64String Base64 encoded string value
+	 */
+	
+
+	public function setBase64Image( base64String:String) : Void {
+		
+		
+		var type:String =  base64String.substr(base64String.indexOf(":") + 1);
+
+		type = type.substr(0,type.indexOf(";"));
+
+		
+
+		if(type != "") {
+
+			#if sys
+			var bitmapData = BitmapData.fromBase64(base64String, type);
+
+			if(bitmapData != null) 
+			{
+				Debug.print("[DisplayImage::setBase64Image] Set BitmapData: " + name);
+				_image = bitmapData;
+
+				if(_width != _image.width)
+					_width = _image.width;
+
+				if(_height != _image.height)
+					_height = _image.height;
+
+				dispatchEvent(new DisplayImageEvent( DisplayImageEvent.IMAGE_LOADED));
+			
+				draw();
+			}
+			else 
+			{
+				Debug.print("[DisplayImage::setBase64Image] Unable to create image.");
+			}
+			#end
+
+			#if html5
+			var imageBytes:ByteArray = Base64.decode(base64String.split(",")[1]);
+			BitmapData.loadFromBytes(imageBytes).onComplete(function(bitmapData:BitmapData) {
+				
+				Debug.print("[DisplayImage::setBase64Image] Set HTML5 BitmapData: " + name);
+
+				_image = bitmapData;
+
+				_width = _image.width;
+				_height = _image.height;
+
+				dispatchEvent(new DisplayImageEvent( DisplayImageEvent.IMAGE_LOADED));
+
+				draw();
+
+			}).onError(function(error:Dynamic) {
+				Debug.print("[DisplayImage::setBase64Image] Unable to create image. Error: " + error);
+			});
+			#end
+		}
+		else {
+			Debug.print("[DisplayImage::setBase64Image] Unable to find image type: " + type);	
+		}		
+	}
+
 	
 	/**
 	 * Store a bitmap in the display image
@@ -143,6 +248,11 @@ class DisplayImage extends BaseUI implements IBaseUI
 	public function setImage(image : BitmapData ) : Void
 	{
 		_image = image;
+
+		_width = _image.width;
+		_height = _image.height;
+
+		dispatchEvent(new DisplayImageEvent(DisplayImageEvent.IMAGE_LOADED));
 		
 		draw();
     } 
@@ -196,14 +306,21 @@ class DisplayImage extends BaseUI implements IBaseUI
 
 		if (redraw)
 		{
-			_width = _image.width;
-			_height = _image.height;
-	
-			graphics.beginBitmapFill(_image, null, _repeat);
-			graphics.drawRect(0, 0, _image.width, _image.height);
+			var bitmapData:BitmapData = null;
+
+			// Resize image or keep default size
+			if(_resizeImage) {
+				bitmapData = resizeBitmapData(_image, Std.int(_width), Std.int(_height));
+			}
+			else {
+				bitmapData = _image;
+			}
+			
+			// Draw in new size
+			graphics.beginBitmapFill(bitmapData, null, _repeat);
+			graphics.drawRect(0, 0, _width, _height);
 			graphics.endFill();
 		}
-		
 	}
 	
 	private function ioErrorHandler(event : IOErrorEvent) : Void 
@@ -219,10 +336,35 @@ class DisplayImage extends BaseUI implements IBaseUI
 	{  
 		var loaderFile:LoaderInfo = cast(event.target, LoaderInfo);
 		_image = cast( (loaderFile.content), Bitmap).bitmapData;
+
+		_image.width;
+		_image.height;
 		
+		dispatchEvent(new DisplayImageEvent(DisplayImageEvent.IMAGE_LOADED));
+
 		if (_drawOffStage)
 			draw();
 		
 		dispatchEvent(event);
     }
+
+	private function resizeBitmapData(originalBitmapData:BitmapData, newWidth:Int, newHeight:Int) : BitmapData {
+
+		var resizedBitmapData:BitmapData = new BitmapData(newWidth, newHeight, true, 0x00000000); // true for transparency, 0x00000000 for transparent black
+
+		var originalWidth:Int = originalBitmapData.width;
+		var originalHeight:Int = originalBitmapData.height;
+
+		var scaleX:Float = newWidth / originalWidth;
+		var scaleY:Float = newHeight / originalHeight;
+
+		var matrix:Matrix = new Matrix();
+
+		matrix.scale(scaleX, scaleY);
+
+		resizedBitmapData.draw(originalBitmapData, matrix);
+
+		return resizedBitmapData;
+
+	}
 }

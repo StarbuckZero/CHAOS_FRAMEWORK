@@ -46,6 +46,47 @@ class Breadcrumb extends BaseContainer implements IBreadcrumb implements IBaseCo
     override public function setComponentData(data:Dynamic):Void 
     {
         super.setComponentData(data);
+
+        // Properties
+        if (Reflect.hasField(data, "labelSpacing"))  {
+            _labelSpacing = Reflect.field(data,"labelSpacing");
+        }
+
+        if (Reflect.hasField(data, "separatorSize"))  {
+            _separatorSize = Reflect.field(data,"separatorSize");
+        }
+
+        if (Reflect.hasField(data, "separator"))  {
+            _separator = Reflect.field(data,"separator");
+        }
+        
+        
+        // Methods
+		if (Reflect.hasField(data, "addLevel")) 
+        {
+            var level : Dynamic = Reflect.field(data,"addLevel");
+
+            var name : String = "";
+            var icon : BitmapData = null;
+
+            if(Reflect.hasField(level,"name")) {
+                name = Reflect.field(data,"name");
+            }
+
+            if(Reflect.hasField(level,"icon")) {
+                icon = Reflect.field(data,"icon");
+            }
+            
+            // Add level if name was passed
+            if(name != "")
+                this.addLevel(name, icon);
+        }
+
+
+        if (Reflect.hasField(data, "jumpToLevel"))  {
+            jumpToLevel( Std.parseInt(Reflect.field(data,"jumpToLevel")) );
+        }
+      
     }
     
 	/**

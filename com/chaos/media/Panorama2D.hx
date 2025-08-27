@@ -35,7 +35,7 @@ class Panorama2D extends BaseUI implements IPanorama implements IBaseUI
     public var mode(get, never) : String;
     public var source(get, set) : DisplayObject;
 
-    public static inline var TYPE : String = "Panorama";
+    public static inline var TYPE : String = "Panorama2D";
     
     public static inline var MODE_NOMRAL : String = "normal";
     public static inline var MODE_360 : String = "360";

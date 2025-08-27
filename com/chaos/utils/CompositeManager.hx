@@ -54,12 +54,12 @@ class CompositeManager
     {
         
         // Create the size of the image and draw the bitmap
-        var testBitmapData : BitmapData = new BitmapData(Std.int(newWidth), Std.int(newHeight), true, 0xFF);
+        var newBitmapData : BitmapData = new BitmapData(Std.int(newWidth), Std.int(newHeight), true, 0xFF);
         
         // Turn display object into bitmap
-        testBitmapData.draw(currentDisplayObject, null, null, null, null, smoothing);
+        newBitmapData.draw(currentDisplayObject, null, null, null, null, smoothing);
         
-        return testBitmapData;
+        return newBitmapData;
     }
 	
 	/**

@@ -25,11 +25,15 @@ import openfl.display.Shape;
     private var _label : Label;
     private var _downArrowIcon : ArrowDownIcon;
 
+    private var _background : Shape;
     private var _border : Shape;
     private var _thinkness : Float = 1;
+    private var _borderAlpha : Float = 1;
 
     private var _arrowColor : Int = 0;
     private var _borderColor : Int = 0;
+    private var _backgroundColor : Int = 0xFFFFFF;
+    private var _backgroundAlpha : Float = 1;
 
     private var _iconWidth : Int = 20;
     private var _iconHeight : Int = 15;
@@ -73,6 +77,15 @@ import openfl.display.Shape;
 
         if(Reflect.hasField(data,"borderColor"))
             _borderColor = Reflect.field(data,"borderColor");
+
+        if(Reflect.hasField(data,"borderAlpha"))
+            _borderAlpha = Reflect.field(data,"borderAlpha");           
+
+        if(Reflect.hasField(data,"backgroundColor"))
+            _backgroundColor = Reflect.field(data,"backgroundColor");
+
+        if(Reflect.hasField(data,"backgroundAlpha"))
+            _backgroundAlpha = Reflect.field(data,"backgroundAlpha");        
         
         if(Reflect.hasField(data,"textSize"))
             _textSize = Reflect.field(data,"textSize");
@@ -81,7 +94,7 @@ import openfl.display.Shape;
             _defaultText = Reflect.field(data,"defaultText");
 
         if(Reflect.hasField(data,"thinkness"))
-            _thinkness = Reflect.field(data,"thinkness");
+            _thinkness = Reflect.field(data,"thinkness");     
 
         if (Reflect.hasField(data, "data"))
             _menuData = Reflect.field(data, "data");
@@ -104,6 +117,7 @@ import openfl.display.Shape;
     override function initialize() {
         super.initialize();
 
+        _background = new Shape();
         _border = new Shape();
         _label = new Label({"text": _defaultText, "size" : _textSize});
         _label.addEventListener(MouseEvent.CLICK,onToggleMenu,false,0,true);
@@ -116,6 +130,7 @@ import openfl.display.Shape;
         _menuList.addEventListener(MobileButtonListEvent.CHANGE, onMenuButtonClicked, false, 0, true);
         _menuList.visible = false;
         
+        addChild(_background);
         addChild(_label);
         addChild(_downArrowIcon);
         addChild(_border);
@@ -143,9 +158,14 @@ import openfl.display.Shape;
         _label.draw();
         _menuList.draw();
 
+        _background.graphics.clear();
+        _background.graphics.beginFill(_backgroundColor, _backgroundAlpha);
+        _background.graphics.drawRect(0, 0, _width, _height);
+        _background.graphics.endFill();
+
         // Setup for border if need be
         _border.graphics.clear();
-        _border.graphics.lineStyle(_thinkness, _borderColor, 1);
+        _border.graphics.lineStyle(_thinkness, _borderColor, _borderAlpha);
         _border.graphics.drawRect(0, 0, _width, _height);
         _border.graphics.endFill();
     
