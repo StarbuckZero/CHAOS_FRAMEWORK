@@ -6,6 +6,7 @@ import com.chaos.ui.classInterface.IBaseUI;
 import com.chaos.ui.BaseUI;
 import com.chaos.utils.Debug;
 import com.chaos.utils.Utils;
+import com.chaos.media.event.DisplayImageEvent;
 import openfl.display.Bitmap;
 import openfl.display.BitmapData;
 import openfl.display.DisplayObject;
@@ -15,6 +16,12 @@ import openfl.events.Event;
 import openfl.events.MouseEvent;
 import openfl.geom.Point;
 import openfl.geom.Rectangle;
+
+#if html5
+import haxe.crypto.Base64;
+import openfl.utils.ByteArray;
+#end
+
 
 /**
  * A 2D Panorama that used image
@@ -139,6 +146,9 @@ class Panorama2D extends BaseUI implements IPanorama implements IBaseUI
 
         if (Reflect.hasField(data, "source"))
             _source = Reflect.field(data,"source");
+
+		if(Reflect.hasField(data, "base64")) 
+			setBase64Image(Reflect.field(data, "base64"));
 
         if (Reflect.hasField(data, "image"))
             setImage(Reflect.field(data,"image"));
@@ -368,6 +378,64 @@ class Panorama2D extends BaseUI implements IPanorama implements IBaseUI
     {
         return _source;
     }
+
+	/**
+	 * Convert Base64 string into image
+	 *
+	 * @param	base64String Base64 encoded string value
+	 */
+	
+
+	public function setBase64Image( base64String:String) : Void {
+		
+		
+		var type:String =  base64String.substr(base64String.indexOf(":") + 1);
+
+		type = type.substr(0,type.indexOf(";"));
+
+		
+
+		if(type != "") {
+
+			#if sys
+			var bitmapData = BitmapData.fromBase64(base64String, type);
+
+			if(bitmapData != null) 
+			{
+				Debug.print("[Panorama2D::setBase64Image] Set BitmapData: " + name);
+				setImage(bitmapData);
+
+				dispatchEvent(new DisplayImageEvent( DisplayImageEvent.IMAGE_LOADED));
+			
+				draw();
+			}
+			else 
+			{
+				Debug.print("[Panorama2D::setBase64Image] Unable to create image.");
+			}
+			#end
+
+			#if html5
+			var imageBytes:ByteArray = Base64.decode(base64String.split(",")[1]);
+			BitmapData.loadFromBytes(imageBytes).onComplete(function(bitmapData:BitmapData) {
+				
+				Debug.print("[Panorama2D::setBase64Image] Set HTML5 BitmapData: " + name);
+
+				setImage(bitmapData);
+
+				dispatchEvent(new DisplayImageEvent( DisplayImageEvent.IMAGE_LOADED));
+
+				draw();
+
+			}).onError(function(error:Dynamic) {
+				Debug.print("[Panorama2D::setBase64Image] Unable to create image. Error: " + error);
+			});
+			#end
+		}
+		else {
+			Debug.print("[Panorama2D::setBase64Image] Unable to find image type: " + type);	
+		}		
+	}    
     
     /**
 	 * Set a mask to current display object
