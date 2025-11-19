@@ -40,6 +40,7 @@ class DisplayImage extends BaseUI implements IBaseUI
 	private var _image : BitmapData = null;
 	private var _url : String = "";
 	private var _repeat : Bool = false;
+	private var _base64 : String = "";
 
 	private var _onBase64Image:Dynamic;
 	
@@ -180,12 +181,12 @@ class DisplayImage extends BaseUI implements IBaseUI
 
 	public function setBase64Image( base64String:String) : Void {
 		
-		
+		if(_base64 == base64String)
+			return;
+
 		var type:String =  base64String.substr(base64String.indexOf(":") + 1);
 
 		type = type.substr(0,type.indexOf(";"));
-
-		
 
 		if(type != "") {
 
@@ -236,6 +237,8 @@ class DisplayImage extends BaseUI implements IBaseUI
 		else {
 			Debug.print("[DisplayImage::setBase64Image] Unable to find image type: " + type);	
 		}		
+
+		_base64 = base64String;
 	}
 
 	
