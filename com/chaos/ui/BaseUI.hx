@@ -378,7 +378,7 @@ class BaseUI extends Sprite implements IBaseUI
 	 * Return the this class DisplayObject so it can be added and removed from the stage
 	 */
     
-    function get_displayObject() : DisplayObject
+    private function get_displayObject() : DisplayObject
     {
         return this;
 	}

@@ -245,10 +245,12 @@ class DisplayVideo extends BaseUI implements IBaseUI
 	 *  Things on the object duration, width, height and framerate
 	 */
     
+     /*
     private function get_metaData() : Dynamic
     {
         return _metaData;
     }
+        */
     
     /**
 	 * Returns the connection object

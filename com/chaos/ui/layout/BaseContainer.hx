@@ -8,6 +8,7 @@ package com.chaos.ui.layout;
  */
 
 
+import js.html.rtc.SdpType;
 import com.chaos.ui.BaseUI;
 import com.chaos.ui.classInterface.IBaseUI;
 import com.chaos.ui.layout.classInterface.IBaseContainer;
@@ -162,7 +163,10 @@ class BaseContainer extends BaseUI implements IBaseContainer implements IBaseUI
     {
         try
         {
-            return try cast(_content.getChildAt(value), IBaseUI) catch(e:Dynamic) null;
+             if(Std.isOfType(_content.getChildAt(value), IBaseUI) ) {
+                return try cast(_content.getChildAt(value), IBaseUI) catch(e:Dynamic) null;
+            }
+            
         } 
 		catch (error : Error)
         {
@@ -206,22 +210,25 @@ class BaseContainer extends BaseUI implements IBaseContainer implements IBaseUI
         // Remove all old items and add them back again
         for (i in 0..._content.numChildren)
 		{
-            var currentObject : IBaseUI = null;
-            
-            try
-            {
-                currentObject = cast(_content.getChildAt(i), IBaseUI);
-                _content.removeChild(currentObject.displayObject);
-            }            
-			catch (error : Error)
-            {
-                trace("[BaseContainer] Couldn't remove item");
-            }  
-            
-            
-            // Only grab the items that are needed  
-            if (object != currentObject) 
-                temp.push(currentObject);
+             if(Std.isOfType(_content.getChildAt(i), IBaseUI) ) {
+
+                var currentObject : IBaseUI = null;
+                
+                try
+                {
+                    currentObject = cast(_content.getChildAt(i), IBaseUI);
+                    _content.removeChild(currentObject.displayObject);
+                }            
+                catch (error : Error)
+                {
+                    trace("[BaseContainer] Couldn't remove item");
+                }  
+
+                // Only grab the items that are needed  
+                if (object != currentObject) 
+                    temp.push(currentObject);
+
+             }
         }  
         
         
@@ -242,11 +249,14 @@ class BaseContainer extends BaseUI implements IBaseContainer implements IBaseUI
 		{
             try
             {
-                currentObject = cast(_content.getChildAt(i), IBaseUI);
-                _content.removeChild(currentObject.displayObject);
-				
-				currentObject.destroy();
-				currentObject = null;
+                if(Std.isOfType(_content.getChildAt(i), IBaseUI) ) {
+
+                    currentObject = cast(_content.getChildAt(i), IBaseUI);
+                    _content.removeChild(currentObject.displayObject);
+                    
+                    currentObject.destroy();
+                    currentObject = null;
+                }
 				
             } 
 			catch (error : Error)
