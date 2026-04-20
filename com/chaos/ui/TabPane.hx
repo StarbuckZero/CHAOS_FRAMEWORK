@@ -397,19 +397,31 @@ class TabPane extends BaseUI implements ITabPane implements IBaseUI
 	 *
 	 * @param index  The index at which the item is to be added.
 	 */
-	public function removeItemAt(value : Int) : TabPaneObjectData
+	 
+	public function removeItemAt(value:Int):TabPaneObjectData
 	{
 		if (value < 0 || value > _contentList.length - 1)
 			return null;
 
-		var tempObj : TabPaneObjectData = _contentList.removeItemAt(value)[0];
+		var tempObj:TabPaneObjectData = _contentList.removeItemAt(value)[0];
 
 		var button:Button = cast(buttonArea.getChildByName(Std.string(tempObj.id)), Button);
-		
-		// Remove button from display
-		removeChild(button);
 
-		button.addEventListener(MouseEvent.CLICK, tabPress);
+		if (button != null)
+		{
+			button.removeEventListener(MouseEvent.CLICK, tabPress);
+			button.removeEventListener(MouseEvent.MOUSE_UP, onMouseUp);
+			button.removeEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
+
+			if (button.parent == buttonArea)
+				buttonArea.removeChild(button);
+		}
+
+		if (_selectedIndex >= _contentList.length)
+			_selectedIndex = _contentList.length - 1;
+
+		if (_selectedIndex < 0)
+			_selectedIndex = 0;
 
 		draw();
 
