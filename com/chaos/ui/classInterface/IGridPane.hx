@@ -83,11 +83,11 @@ interface IGridPane extends IScrollPane
     var cellBorderAlpha(get, set) : Float;    
     
     /**
-	 * Cell border thinkness
+	 * Cell border thickness
 	 */
 
     
-    var cellBorderThinkness(get, set) : Float;    
+    var cellBorderThickness(get, set) : Float;    
     
     /**
 	 * The button normal state color

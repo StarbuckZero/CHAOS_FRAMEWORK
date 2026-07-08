@@ -66,7 +66,7 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
     public var cellColor(get, set) : Int;
     public var cellBackground(get, set) : Bool;
     public var cellBorderAlpha(get, set) : Float;
-    public var cellBorderThinkness(get, set) : Float;
+    public var cellBorderThickness(get, set) : Float;
     public var columnButtonColor(get, set) : Int;
     public var columnButtonOverColor(get, set) : Int;
     public var columnButtonDownColor(get, set) : Int;
@@ -107,7 +107,7 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
     private var _cellBorderColor : Int = 0x000000;
     private var _cellBorderAlpha : Float = 1;
     private var _cellBackground : Bool = true;
-    private var _cellBorderThinkness : Float = 1;
+    private var _cellBorderThickness : Float = 1;
     
     private var _columnButtonColor : Int = 0xCCCCCC;
     private var _columnButtonOverColor : Int = 0x666666;
@@ -313,8 +313,8 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
         // if (UIStyleManager.hasStyle( UIStyleManager.GRID_BORDER_ALPHA))
         //     _borderAlpha = UIStyleManager.getStyle(UIStyleManager.GRID_BORDER_ALPHA);
         
-        // if (UIStyleManager.hasStyle(UIStyleManager.GRID_BORDER_THINKNESS))
-        //     _borderThinkness = UIStyleManager.getStyle(UIStyleManager.GRID_BORDER_THINKNESS);
+        // if (UIStyleManager.hasStyle(UIStyleManager.GRID_BORDER_THICKNESS))
+        //     _borderThinkness = UIStyleManager.getStyle(UIStyleManager.GRID_BORDER_THICKNESS);
         
         // if (UIStyleManager.hasStyle(UIStyleManager.GRID_BORDER))
         //     _border = UIStyleManager.getStyle(UIStyleManager.GRID_BORDER);
@@ -343,8 +343,8 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
         if (UIStyleManager.hasStyle(UIStyleManager.GRID_CELL_BORDER_COLOR))
             _cellBorderColor = UIStyleManager.getStyle(UIStyleManager.GRID_CELL_BORDER_COLOR);
         
-        if (UIStyleManager.hasStyle(UIStyleManager.GRID_BORDER_THINKNESS))
-            _cellBorderThinkness = UIStyleManager.getStyle(UIStyleManager.GRID_BORDER_THINKNESS);
+        if (UIStyleManager.hasStyle(UIStyleManager.GRID_BORDER_THICKNESS))
+            _cellBorderThickness = UIStyleManager.getStyle(UIStyleManager.GRID_BORDER_THICKNESS);
         
         if (UIStyleManager.hasStyle(UIStyleManager.GRID_CELL_BACKGROUND))
             _cellBackground = UIStyleManager.getStyle(UIStyleManager.GRID_CELL_BACKGROUND);
@@ -563,9 +563,9 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
 	 * Cell border thinkness
 	 */
     
-    private function set_cellBorderThinkness(value : Float) : Float
+    private function set_cellBorderThickness(value : Float) : Float
     {
-        _cellBorderThinkness = value;
+        _cellBorderThickness = value;
         updateCellColor();
 		
         return value;
@@ -575,9 +575,9 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
 	 * Return the size of the border
 	 */
     
-    private function get_cellBorderThinkness() : Float
+    private function get_cellBorderThickness() : Float
     {
-        return _cellBorderThinkness;
+        return _cellBorderThickness;
     }
     
     /**
@@ -1132,7 +1132,7 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
                 currentCell.border.visible = _cellBorder;
                 currentCell.border.lineColor = _cellBorderColor;
                 currentCell.border.lineAlpha = _cellBorderAlpha;
-                currentCell.border.lineThinkness = _cellBorderThinkness;
+                currentCell.border.lineThinkness = _cellBorderThickness;
                 currentCell.container.background = _cellBackground;
                 currentCell.container.backgroundColor = _cellColor;
                 currentCell.draw();

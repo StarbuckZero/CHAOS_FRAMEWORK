@@ -227,13 +227,13 @@ interface IMenu extends IBaseContainer
 	 */
     
     
-    var buttonBorderThinkness(get, set) : Float;    
+    var buttonBorderThickness(get, set) : Float;    
     
     /**
 	 * Border thinkness
 	 */
     
-    var subButtonBorderThinkness(get, set) : Float;    
+    var subButtonBorderThickness(get, set) : Float;    
       
 	
     /**

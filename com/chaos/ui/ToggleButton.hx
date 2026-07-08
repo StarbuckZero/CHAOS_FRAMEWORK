@@ -286,8 +286,8 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI {
 		if (UIStyleManager.hasStyle(UIStyleManager.TOGGLE_BUTTON_BORDER_DISABLE_COLOR))
 			_disableBorderColor = UIStyleManager.getStyle(UIStyleManager.TOGGLE_BUTTON_BORDER_DISABLE_COLOR);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.TOGGLE_BUTTON_BORDER_THINKNESS))
-			_borderThinkness = UIStyleManager.getStyle(UIStyleManager.TOGGLE_BUTTON_BORDER_THINKNESS);
+		if (UIStyleManager.hasStyle(UIStyleManager.TOGGLE_BUTTON_BORDER_THICKNESS))
+			_borderThinkness = UIStyleManager.getStyle(UIStyleManager.TOGGLE_BUTTON_BORDER_THICKNESS);
 
 		if (UIStyleManager.hasStyle(UIStyleManager.TOGGLE_BUTTON_NORMAL_COLOR))
 			_defaultColor = UIStyleManager.getStyle(UIStyleManager.TOGGLE_BUTTON_NORMAL_COLOR);

@@ -59,10 +59,10 @@ class ProgressBar extends BaseUI implements IProgressBar implements IBaseUI
 	public var borderColor(get, set) : Int;
 	
 	/**
-	 * Specifies the border thinkness
+	 * Specifies the border Thickness
 	 */
 	
-	public var borderThinkness(get, set) : Float;
+	public var borderThickness(get, set) : Float;
 	
 	/**
 	 * Specifies the border alpha
@@ -121,7 +121,7 @@ class ProgressBar extends BaseUI implements IProgressBar implements IBaseUI
 	private var _outlineColor : Int = 0x000000;
 
 	private var _border : Bool = false;
-	private var _thinkness : Float = 1;
+	private var _borderThickness : Float = 1;
 	private var _outlineAlpha : Float = 1;
 	private var _displayImage : Bool = false;
 	private var _showImage : Bool = true;
@@ -182,8 +182,8 @@ class ProgressBar extends BaseUI implements IProgressBar implements IBaseUI
 		if (Reflect.hasField(data, "borderColor"))
 			_outlineColor = Reflect.field(data, "borderColor");
 
-		if (Reflect.hasField(data, "borderThinkness"))
-			_thinkness = Reflect.field(data, "borderThinkness");
+		if (Reflect.hasField(data, "borderThickness"))
+			_borderThickness = Reflect.field(data, "borderThickness");
 
 		if (Reflect.hasField(data, "borderAlpha"))
 			_outlineAlpha = Reflect.field(data, "borderAlpha");
@@ -287,8 +287,8 @@ class ProgressBar extends BaseUI implements IProgressBar implements IBaseUI
 		if (UIStyleManager.hasStyle(UIStyleManager.PROGRESSBAR_TEXT_LOADED_COLOR))
 			_textLoadedColor = UIStyleManager.getStyle(UIStyleManager.PROGRESSBAR_TEXT_LOADED_COLOR);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.PROGRESSBAR_BORDER_THINKNESS))
-			_thinkness = UIStyleManager.getStyle(UIStyleManager.PROGRESSBAR_BORDER_THINKNESS);
+		if (UIStyleManager.hasStyle(UIStyleManager.PROGRESSBAR_BORDER))
+			_borderThickness = UIStyleManager.getStyle(UIStyleManager.PROGRESSBAR_BORDER);
 
 		if (UIStyleManager.hasStyle(UIStyleManager.PROGRESSBAR_BORDER_COLOR))
 			_outlineColor = UIStyleManager.getStyle(UIStyleManager.PROGRESSBAR_BORDER_COLOR);
@@ -445,21 +445,21 @@ class ProgressBar extends BaseUI implements IProgressBar implements IBaseUI
 	private function get_borderColor() : Int { return _outlineColor; }
 
 	/**
-	 * Specifies the border thinkness
+	 * Specifies the border THICKNESS
 	 */
 
-	private function set_borderThinkness(value : Float) : Float
+	private function set_borderThickness(value : Float) : Float
 	{
-		_thinkness = value;
+		_borderThickness = value;
 
 		return value;
 	}
 
 	/**
-	 * Returns the border thinkness
+	 * Returns the border THICKNESS
 	 */
 
-	private function get_borderThinkness() : Float { return _thinkness; }
+	private function get_borderThickness() : Float { return _borderThickness; }
 
 	/**
 	 * Specifies the border alpha
@@ -801,7 +801,7 @@ class ProgressBar extends BaseUI implements IProgressBar implements IBaseUI
 		// Setup for border if need be
 		if (_border)
 		{
-			_outline.graphics.lineStyle(_thinkness, _outlineColor, _outlineAlpha);
+			_outline.graphics.lineStyle(_borderThickness, _outlineColor, _outlineAlpha);
 			_outline.graphics.drawRect(0, 0, _width, _height);
 		}
 	}

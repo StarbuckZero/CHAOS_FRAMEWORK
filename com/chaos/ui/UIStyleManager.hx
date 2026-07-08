@@ -84,7 +84,7 @@ class UIStyleManager
     public static var BUBBLE_BORDER_ALPHA : String = "BUBBLE_BORDER_ALPHA";
     public static var BUBBLE_BORDER : String = "BUBBLE_BORDER";
     public static var BUBBLE_BORDER_COLOR : String = "BUBBLE_BORDER_COLOR";
-    public static var BUBBLE_BORDER_THINKNESS : String = "BUBBLE_BORDER_THINKNESS";
+    public static var BUBBLE_BORDER_THICKNESS : String = "BUBBLE_BORDER_THICKNESS";
     
     public static var BUTTON_TINT_ALPHA : String = "BUTTON_TINT_ALPHA";
     
@@ -213,7 +213,7 @@ class UIStyleManager
     public static var COMBO_BORDER : String = "COMBO_BORDER";
     public static var COMBO_BORDER_COLOR : String = "COMBO_BORDER_COLOR";
     public static var COMBO_BACKGROUND_COLOR : String = "COMBO_BACKGROUND_COLOR";
-    public static var COMBO_BORDER_THINKNESS : String = "COMBO_BORDER_THINKNESS";
+    public static var COMBO_BORDER_THICKNESS : String = "COMBO_BORDER_THICKNESS";
     
 	public static var COMBO_DROPDOWN_PADDING : String = "COMBO_DROPDOWN_PADDING";
 	
@@ -245,12 +245,12 @@ class UIStyleManager
     public static var GRID_BORDER_ALPHA : String = "GRID_BORDER_ALPHA";
     public static var GRID_BORDER : String = "GRID_BORDER";
     public static var GRID_BORDER_COLOR : String = "GRID_BORDER_COLOR";
-    public static var GRID_BORDER_THINKNESS : String = "GRID_BORDER_THINKNESS";
+    public static var GRID_BORDER_THICKNESS : String = "GRID_BORDER_THICKNESS";
     
     public static var GRID_CELL_BORDER_ALPHA : String = "GRID_CELL_BORDER_ALPHA";
     public static var GRID_CELL_BORDER : String = "GRID_CELL_BORDER";
     public static var GRID_CELL_BORDER_COLOR : String = "GRID_CELL_BORDER_COLOR";
-    public static var GRID_CELL_BORDER_THINKNESS : String = "GRID_CELL_BORDER_THINKNESS";
+    public static var GRID_CELL_BORDER_THICKNESS : String = "GRID_CELL_BORDER_THICKNESS";
     
     public static var GRID_COLUMN_BUTTON_NORMAL_COLOR : String = "GRID_COLUMN_BUTTON_NORMAL_COLOR";
     public static var GRID_COLUMN_BUTTON_OVER_COLOR : String = "GRID_COLUMN_BUTTON_OVER_COLOR";
@@ -259,7 +259,7 @@ class UIStyleManager
     public static var LIST_BORDER_ALPHA : String = "LIST_BORDER_ALPHA";
     public static var LIST_BORDER : String = "LIST_BORDER";
     public static var LIST_BORDER_COLOR : String = "LIST_BORDER_COLOR";
-    public static var LIST_BORDER_THINKNESS : String = "LIST_BORDER_THINKNESS";
+    public static var LIST_BORDER_THICKNESS : String = "LIST_BORDER_THICKNESS";
     
     public static var LIST_BACKGROUND_COLOR : String = "LIST_BACKGROUND_COLOR";
     
@@ -285,7 +285,7 @@ class UIStyleManager
     public static var LABEL_BORDER_ALPHA : String = "LABEL_BORDER_ALPHA";
     public static var LABEL_BORDER : String = "LABEL_BORDER";
     public static var LABEL_BORDER_COLOR : String = "LABEL_BORDER_COLOR";
-    public static var LABEL_BORDER_THINKNESS : String = "LABEL_BORDER_THINKNESS";
+    public static var LABEL_BORDER_THICKNESS : String = "LABEL_BORDER_THICKNESS";
     
     public static var LABEL_BACKGROUND : String = "LABEL_BACKGROUND";
     public static var LABEL_BACKGROUND_COLOR : String = "LABEL_BACKGROUND_COLOR";
@@ -313,7 +313,7 @@ class UIStyleManager
     public static var INPUT_BORDER_ALPHA : String = "INPUT_BORDER_ALPHA";
     public static var INPUT_BORDER : String = "INPUT_BORDER";
     public static var INPUT_BORDER_COLOR : String = "INPUT_BORDER_COLOR";
-    public static var INPUT_BORDER_THINKNESS : String = "INPUT_BORDER_THINKNESS";
+    public static var INPUT_BORDER_THICKNESS : String = "INPUT_BORDER_THICKNESS";
     
     public static var INPUT_TEXT_EMBED : String = "INPUT_TEXT_EMBED";
     public static var INPUT_TEXT_FONT : String = "INPUT_TEXT_FONT";
@@ -329,7 +329,7 @@ class UIStyleManager
     public static var PROGRESSBAR_BORDER_ALPHA : String = "PROGRESSBAR_BORDER_ALPHA";
     public static var PROGRESSBAR_BORDER : String = "PROGRESSBAR_BORDER";
 	public static var PROGRESSBAR_BORDER_COLOR : String = "PROGRESSBAR_BORDER_COLOR";
-    public static var PROGRESSBAR_BORDER_THINKNESS : String = "PROGRESSBAR_BORDER_THINKNESS";
+    public static var PROGRESSBAR_BORDER_THICKNESS : String = "PROGRESSBAR_BORDER_THICKNESS";
     
     public static var PROGRESSBAR_TEXT_EMBED : String = "PROGRESSBAR_TEXT_EMBED";
     public static var PROGRESSBAR_TEXT_FONT : String = "PROGRESSBAR_TEXT_FONT";
@@ -351,7 +351,7 @@ class UIStyleManager
     public static var PROGRESS_SLIDER_BORDER_ALPHA : String = "PROGRESS_SLIDER_BORDER_ALPHA";
     public static var PROGRESS_SLIDER_BORDER : String = "PROGRESS_SLIDER_BORDER";
     public static var PROGRESS_SLIDER_BORDER_COLOR : String = "PROGRESS_SLIDER_BORDER_COLOR";
-    public static var PROGRESS_SLIDER_BORDER_THINKNESS : String = "PROGRESS_SLIDER_BORDER_THINKNESS";
+    public static var PROGRESS_SLIDER_BORDER_THICKNESS : String = "PROGRESS_SLIDER_BORDER_THICKNESS";
     
     public static var PROGRESS_SLIDER_TEXT_EMBED : String = "PROGRESS_SLIDER_TEXT_EMBED";
     public static var PROGRESS_SLIDER_TEXT_FONT : String = "PROGRESS_SLIDER_TEXT_FONT";
@@ -422,7 +422,7 @@ class UIStyleManager
     public static var SCROLLPANE_BORDER_ALPHA : String = "SCROLLPANE_BORDER_ALPHA";
     public static var SCROLLPANE_BORDER : String = "SCROLLPANE_BORDER";
     public static var SCROLLPANE_BORDER_COLOR : String = "SCROLLPANE_BORDER_COLOR";
-    public static var SCROLLPANE_BORDER_THINKNESS : String = "SCROLLPANE_BORDER_THINKNESS";
+    public static var SCROLLPANE_BORDER_THICKNESS : String = "SCROLLPANE_BORDER_THICKNESS";
 
     public static var SCROLLPANE_USE_CUSTOM_RENDER : String = "SCROLLPANE_USE_CUSTOM_RENDER";
     
@@ -437,12 +437,12 @@ class UIStyleManager
     public static var ITEMPANE_BORDER_ALPHA : String = "ITEMPANE_BORDER_ALPHA";
     public static var ITEMPANE_BORDER : String = "ITEMPANE_BORDER";
     public static var ITEMPANE_BORDER_COLOR : String = "ITEMPANE_BORDER_COLOR";
-    public static var ITEMPANE_BORDER_THINKNESS : String = "ITEMPANE_BORDER_THINKNESS";
+    public static var ITEMPANE_BORDER_THICKNESS : String = "ITEMPANE_BORDER_THICKNESS";
     
     public static var ITEMPANE_ITEM_BORDER_ALPHA : String = "ITEMPANE_ITEM_BORDER_ALPHA";
     public static var ITEMPANE_ITEM_BORDER : String = "ITEMPANE_ITEM_BORDER";
     public static var ITEMPANE_ITEM_BORDER_COLOR : String = "ITEMPANE_ITEM_BORDER_COLOR";
-    public static var ITEMPANE_ITEM_BORDER_THINKNESS : String = "ITEMPANE_ITEM_BORDER_THINKNESS";
+    public static var ITEMPANE_ITEM_BORDER_THICKNESS : String = "ITEMPANE_ITEM_BORDER_THICKNESS";
     
     public static var ITEMPANE_ITEM_NORMAL_COLOR : String = "ITEMPANE_ITEM_NORMAL_COLOR";
     public static var ITEMPANE_ITEM_OVER_COLOR : String = "ITEMPANE_ITEM_OVER_COLOR";
@@ -497,7 +497,7 @@ class UIStyleManager
     public static var TABPANE_BORDER_ALPHA : String = "TABPANE_BORDER_ALPHA";
     public static var TABPANE_BORDER : String = "TABPANE_BORDER";
     public static var TABPANE_BORDER_COLOR : String = "TABPANE_BORDER_COLOR";
-    public static var TABPANE_BORDER_THINKNESS : String = "TABPANE_BORDER_THINKNESS";
+    public static var TABPANE_BORDER_THICKNESS : String = "TABPANE_BORDER_THICKNESS";
 
     public static var TOGGLE_BUTTON_BORDER : String = "TOGGLE_BUTTON_BORDER";
     public static var TOGGLE_BUTTON_BORDER_ALPHA : String = "TOGGLE_BUTTON_BORDER_ALPHA";
@@ -507,7 +507,7 @@ class UIStyleManager
     public static var TOGGLE_BUTTON_BORDER_DISABLE_COLOR : String = "TOGGLE_BUTTON_BORDER_DISABLE_COLOR";
     public static var TOGGLE_BUTTON_BORDER_SELECTED_COLOR : String = "TOGGLE_BUTTON_BORDER_SELECTED_COLOR";
 
-    public static var TOGGLE_BUTTON_BORDER_THINKNESS : String = "TOGGLE_BUTTON_BORDER_THINKNESS";
+    public static var TOGGLE_BUTTON_BORDER_THICKNESS : String = "TOGGLE_BUTTON_BORDER_THICKNESS";
 
     public static var TOGGLE_BUTTON_NORMAL_COLOR : String = "TOGGLE_BUTTON_NORMAL_COLOR";
     public static var TOGGLE_BUTTON_OVER_COLOR :String = "TOGGLE_BUTTON_OVER_COLOR";
@@ -524,7 +524,7 @@ class UIStyleManager
     public static var TOOLTIP_BORDER_ALPHA : String = "TOOLTIP_BORDER_ALPHA";
     public static var TOOLTIP_BORDER : String = "TOOLTIP_BORDER";
     public static var TOOLTIP_BORDER_COLOR : String = "TOOLTIP_BORDER_COLOR";
-    public static var TOOLTIP_BORDER_THINKNESS : String = "TOOLTIP_BORDER_THINKNESS";
+    public static var TOOLTIP_BORDER_THICKNESS : String = "TOOLTIP_BORDER_THICKNESS";
     
     public static var TOOLTIP_LABEL_TEXT_EMBED : String = "TOOLTIP_LABEL_TEXT_EMBED";
     public static var TOOLTIP_LABEL_TEXT_FONT : String = "TOOLTIP_LABEL_TEXT_FONT";
@@ -596,7 +596,7 @@ class UIStyleManager
     
     public static var MENU_BUTTON_BORDER_ALPHA : String = "MENU_BUTTON_BORDER_ALPHA";
     public static var MENU_BUTTON_BORDER : String = "MENU_BUTTON_BORDER";
-    public static var MENU_BUTTON_BORDER_THINKNESS : String = "MENU_BUTTON_BORDER_THINKNESS";
+    public static var MENU_BUTTON_BORDER_THICKNESS : String = "MENU_BUTTON_BORDER_THICKNESS";
     
     public static var MENU_BUTTON_BORDER_NORMAL_COLOR : String = "MENU_BORDER_BUTTON_NORMAL_COLOR";
     public static var MENU_BUTTON_BORDER_OVER_COLOR : String = "MENU_BORDER_BUTTON_OVER_COLOR";
@@ -605,7 +605,7 @@ class UIStyleManager
     
     public static var MENU_SUB_BUTTON_BORDER_ALPHA : String = "MENU_SUB_BUTTON_BORDER_ALPHA";
     public static var MENU_SUB_BUTTON_BORDER : String = "MENU_SUB_BUTTON_BORDER";
-    public static var MENU_SUB_BUTTON_BORDER_THINKNESS : String = "MENU_SUB_BUTTON_BORDER_THINKNESS";
+    public static var MENU_SUB_BUTTON_BORDER_THICKNESS : String = "MENU_SUB_BUTTON_BORDER_THICKNESS";
     
     public static var MENU_SUB_BUTTON_BORDER_NORMAL_COLOR : String = "MENU_SUB_BUTTON_BORDER_NORMAL_COLOR";
     public static var MENU_SUB_BUTTON_BORDER_OVER_COLOR : String = "MENU_SUB_BUTTON_BORDER_OVER_COLOR";

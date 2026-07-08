@@ -215,8 +215,8 @@ class TabPane extends BaseUI implements ITabPane implements IBaseUI
 		if (UIStyleManager.hasStyle(UIStyleManager.TABPANE_BORDER_ALPHA))
 			Reflect.setField(_scrollPaneData, "borderAlpha", UIStyleManager.getStyle(UIStyleManager.TABPANE_BORDER_ALPHA));
 			
-		if (UIStyleManager.hasStyle(UIStyleManager.TABPANE_BORDER_THINKNESS))
-			Reflect.setField(_scrollPaneData, "borderThinkness", UIStyleManager.getStyle(UIStyleManager.TABPANE_BORDER_THINKNESS));
+		if (UIStyleManager.hasStyle(UIStyleManager.TABPANE_BORDER_THICKNESS))
+			Reflect.setField(_scrollPaneData, "borderTHICKNESS", UIStyleManager.getStyle(UIStyleManager.TABPANE_BORDER_THICKNESS));
 
 		// Buttons
 		if (UIStyleManager.hasStyle(UIStyleManager.TABPANE_BUTTON_NORMAL_COLOR))

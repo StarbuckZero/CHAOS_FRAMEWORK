@@ -58,7 +58,7 @@ class Label extends BaseUI implements ILabel implements IBaseUI {
 	public var backgroundColor(get, set):Int;
 
 	/**
-	 * Border thinkness
+	 * Border thickness
 	 */
 	// public var borderThinkness(get, set):Float;
 
@@ -118,7 +118,7 @@ class Label extends BaseUI implements ILabel implements IBaseUI {
 	private var _background:Bool = false;
 	private var _backgroundColor:Int = 0xFFFFFF;
 	private var _border:Bool = false;
-	private var _thinkness:Float = 1;
+	private var _thickness:Float = 1;
 	private var _outlineColor:Int = 0x000000;
 	private var _outlineAlpha:Float = 1;
 	private var _bgAlpha:Float = .2;
@@ -178,8 +178,8 @@ class Label extends BaseUI implements ILabel implements IBaseUI {
 		if (Reflect.hasField(data, "border"))
 			_border = Reflect.field(data, "border");
 
-		if (Reflect.hasField(data, "thinkness"))
-			_thinkness = Reflect.field(data, "thinkness");
+		if (Reflect.hasField(data, "thickness"))
+			_thickness = Reflect.field(data, "thickness");
 
 		if (Reflect.hasField(data, "outlineColor"))
 			_outlineColor = Reflect.field(data, "outlineColor");
@@ -237,7 +237,7 @@ class Label extends BaseUI implements ILabel implements IBaseUI {
 		else
 			_height = _textField.height;
 
-		_outline = new Border({"lineColor":_outlineColor,"lineThinkness":_thinkness,"lineAlpha":_outlineAlpha,"width":_width,"height":_height});
+		_outline = new Border({"lineColor":_outlineColor,"lineThinkness":_thickness,"lineAlpha":_outlineAlpha,"width":_width,"height":_height});
 		
 		// Add to display
 		addChild(_outline);
@@ -284,8 +284,8 @@ class Label extends BaseUI implements ILabel implements IBaseUI {
 
 	private function initStyle():Void {
 
-		if (UIStyleManager.hasStyle(UIStyleManager.LABEL_BORDER_THINKNESS))
-			_thinkness = UIStyleManager.getStyle(UIStyleManager.LABEL_BORDER_THINKNESS);
+		if (UIStyleManager.hasStyle(UIStyleManager.LABEL_BORDER_THICKNESS))
+			_thickness = UIStyleManager.getStyle(UIStyleManager.LABEL_BORDER_THICKNESS);
 
 		if (UIStyleManager.hasStyle(UIStyleManager.LABEL_BORDER_COLOR))
 			_outlineColor = UIStyleManager.getStyle(UIStyleManager.LABEL_BORDER_COLOR);
@@ -500,10 +500,10 @@ class Label extends BaseUI implements ILabel implements IBaseUI {
 	}
 
 	/**
-	 * Border thinkness
+	 * Border thickness
 	 */
 	private function set_borderThinkness(value:Float):Float {
-		_thinkness = value;
+		_thickness = value;
 
 		return value;
 	}
@@ -512,7 +512,7 @@ class Label extends BaseUI implements ILabel implements IBaseUI {
 	 * Return the size of the border
 	 */
 	private function get_borderThinkness():Float {
-		return _thinkness;
+		return _thickness;
 	}
 
 	/**

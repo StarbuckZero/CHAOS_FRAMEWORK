@@ -32,9 +32,9 @@ interface IProgressBar extends com.chaos.ui.classInterface.IBaseUI
 
 	var borderColor(get, set) : Int;      
 	/**
-	 * Specifies the border thinkness
+	 * Specifies the border Thickness
 	 */
-	var borderThinkness(get, set) : Float;      
+	var borderThickness(get, set) : Float;      
 	/**
 	 * Specifies the border alpha
 	 */   

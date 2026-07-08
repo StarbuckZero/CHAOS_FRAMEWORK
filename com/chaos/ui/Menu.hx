@@ -219,13 +219,13 @@ class Menu extends BaseContainer implements IMenu implements IBaseContainer impl
 	 * Border thinkness
 	 */
 	
-     public var buttonBorderThinkness(get, set) : Float;
+     public var buttonBorderThickness(get, set) : Float;
 
     /**
 	 * Border thinkness
 	 */
 	
-    public var subButtonBorderThinkness(get, set) : Float;
+    public var subButtonBorderThickness(get, set) : Float;
 	
     /**
 	 * Show or hide the Sub menu icon
@@ -285,10 +285,10 @@ class Menu extends BaseContainer implements IMenu implements IBaseContainer impl
     private var _subTextDisableColor : Int = 0xCCCCCC;
     
     private var _buttonBorder : Bool = false;
-    private var _buttonBorderThinkness : Float = 1;
+    private var _buttonBorderThickness : Float = 1;
     
     private var _subButtonBorder : Bool = false;
-    private var _subButtonBorderThinkness : Float = 1;
+    private var _subButtonBorderThickness : Float = 1;
     
     private var _useMask : Bool = false;
     
@@ -594,8 +594,8 @@ class Menu extends BaseContainer implements IMenu implements IBaseContainer impl
         if (UIStyleManager.hasStyle(UIStyleManager.MENU_BUTTON_BORDER_ALPHA)) 
             _buttonLineAlpha = UIStyleManager.getStyle(UIStyleManager.MENU_BUTTON_BORDER_ALPHA);
         
-        if (UIStyleManager.hasStyle(UIStyleManager.MENU_BUTTON_BORDER_THINKNESS)) 
-            _buttonBorderThinkness = UIStyleManager.getStyle(UIStyleManager.MENU_BUTTON_BORDER_THINKNESS);
+        if (UIStyleManager.hasStyle(UIStyleManager.MENU_BUTTON_BORDER_THICKNESS)) 
+            _buttonBorderThickness = UIStyleManager.getStyle(UIStyleManager.MENU_BUTTON_BORDER_THICKNESS);
         
         
         
@@ -644,8 +644,8 @@ class Menu extends BaseContainer implements IMenu implements IBaseContainer impl
         // if (UIStyleManager.hasStyle(UIStyleManager.MENU_SUB_BORDER_ALPHA)) 
         //     _borderAlpha = UIStyleManager.getStyle(UIStyleManager.MENU_BORDER_ALPHA);
         
-        if (UIStyleManager.hasStyle(UIStyleManager.MENU_SUB_BUTTON_BORDER_THINKNESS)) 
-            _subButtonBorderThinkness = UIStyleManager.getStyle(UIStyleManager.MENU_SUB_BUTTON_BORDER_THINKNESS);
+        if (UIStyleManager.hasStyle(UIStyleManager.MENU_SUB_BUTTON_BORDER_THICKNESS)) 
+            _subButtonBorderThickness = UIStyleManager.getStyle(UIStyleManager.MENU_SUB_BUTTON_BORDER_THICKNESS);
         
         
         
@@ -1319,9 +1319,9 @@ class Menu extends BaseContainer implements IMenu implements IBaseContainer impl
 	 * Border thinkness for main buttons
 	 */
     
-    private function set_buttonBorderThinkness(value : Float) : Float
+    private function set_buttonBorderThickness(value : Float) : Float
     {
-        _buttonBorderThinkness = value;
+        _buttonBorderThickness = value;
         
 		
         return value;
@@ -1331,18 +1331,18 @@ class Menu extends BaseContainer implements IMenu implements IBaseContainer impl
 	 * Return thinkness
 	 */
     
-    private function get_buttonBorderThinkness() : Float
+    private function get_buttonBorderThickness() : Float
     {
-        return _buttonBorderThinkness;
+        return _buttonBorderThickness;
     }    
     
     /**
 	 * Border thinkness for sub buttons
 	 */
     
-    private function set_subButtonBorderThinkness(value : Float) : Float
+    private function set_subButtonBorderThickness(value : Float) : Float
     {
-        _subButtonBorderThinkness = value;
+        _subButtonBorderThickness = value;
         
 		
         return value;
@@ -1352,9 +1352,9 @@ class Menu extends BaseContainer implements IMenu implements IBaseContainer impl
 	 * Return thinkness
 	 */
     
-    private function get_subButtonBorderThinkness() : Float
+    private function get_subButtonBorderThickness() : Float
     {
-        return _subButtonBorderThinkness;
+        return _subButtonBorderThickness;
     }
     
 
@@ -1851,7 +1851,7 @@ class Menu extends BaseContainer implements IMenu implements IBaseContainer impl
         menu.fillAlpha = _buttonAlpha;
         menu.borderAlpha = _buttonLineAlpha;
         menu.border = _buttonBorder;
-        menu.borderThinkness = _buttonBorderThinkness;
+        menu.borderThinkness = _buttonBorderThickness;
         
         menu.normalBorderColor = _normalLineColor;
         menu.overBorderColor = _overLineColor;
@@ -1897,7 +1897,7 @@ class Menu extends BaseContainer implements IMenu implements IBaseContainer impl
         menu.fillAlpha = _subButtonAlpha;
         menu.borderAlpha = _subButtonLineAlpha;
         menu.border = _subButtonBorder;
-        menu.borderThinkness = _subButtonBorderThinkness;
+        menu.borderThinkness = _subButtonBorderThickness;
         
         menu.normalBorderColor = _subNormalLineColor;
         menu.overBorderColor = _subOverLineColor;
