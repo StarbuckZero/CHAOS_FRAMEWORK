@@ -376,16 +376,28 @@ class UIBitmapManager {
 	 *
 	 * @example UIBitmapManager.setUIElement(Button.TYPE, UIBitmapManager.BUTTON_NORMAL, btnNormalImageBitmap );
 	 */
-	public static function setUIElement(UIType:UIBitmapType, style:String, bitmap:BitmapData, updateElement:Bool = true):Void {
+	 
+	public static function setUIElement(UIType:UIBitmapType, style:String, bitmap:BitmapData,updateElement:Bool = true):Void {
+		
 		// Make sure everything is setup
-		if (!initialized)
+		if (!initialized) {
 			initializeManager();
+		}
 
-		Reflect.setField(Reflect.field(UIType.getName(), UIType.getName()), style, bitmap);
+		var uiTypeName:String = UIType.getName();
+		var uiTheme:Dynamic = Reflect.field(skinTheme, uiTypeName);
+
+		if (uiTheme == null) {
+			uiTheme = {};
+			Reflect.setField(skinTheme, uiTypeName, uiTheme);
+		}
+
+		Reflect.setField(uiTheme, style, bitmap);
 
 		// Update UI Elements based on type
-		if (updateElement)
+		if (updateElement) {
 			updateUIElement(UIType);
+		}
 	}
 
 	/**
