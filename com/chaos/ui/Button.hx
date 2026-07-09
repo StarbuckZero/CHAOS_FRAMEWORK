@@ -294,65 +294,132 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
     override private function initStyle() : Void
     {
         super.initStyle();
-        
+
+        if (_labelData == null) {
+            _labelData = {};
+        }
+
         // First set style default
-        if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_WIDTH) && UIStyleManager.getStyle(UIStyleManager.BUTTON_WIDTH) != _width) 
+        if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_WIDTH) && UIStyleManager.getStyle(UIStyleManager.BUTTON_WIDTH) != _width) {
             _width = UIStyleManager.getStyle(UIStyleManager.BUTTON_WIDTH);
-        
-        if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_HEIGHT) && UIStyleManager.getStyle(UIStyleManager.BUTTON_WIDTH) != _height) 
-            _height = UIStyleManager.getStyle(UIStyleManager.BUTTON_WIDTH);  
-        
-        // Set the default round edge
-        if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_ROUND_NUM)) 
+        }
+
+        // This was using BUTTON_WIDTH by mistake.
+        if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_HEIGHT) && UIStyleManager.getStyle(UIStyleManager.BUTTON_HEIGHT) != _height) {
+            _height = UIStyleManager.getStyle(UIStyleManager.BUTTON_HEIGHT);
+        }
+
+        if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_ROUND_NUM)) {
             _roundEdge = UIStyleManager.getStyle(UIStyleManager.BUTTON_ROUND_NUM);
-        
-        // Set Button Label because on UIStyleManager
-        if (UIStyleManager.hasStyle( UIStyleManager.BUTTON_TEXT_COLOR)) 
-            Reflect.setField(_labelData,"textColor",UIStyleManager.BUTTON_TEXT_COLOR);
-        
-        if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_TEXT_SIZE))
-            Reflect.setField(_labelData,"size",UIStyleManager.BUTTON_TEXT_SIZE);
-        
-        if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_TEXT_ITALIC))
-		    _italic = UIStyleManager.getStyle(UIStyleManager.BUTTON_TEXT_ITALIC);
+        }
 
-        if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_TEXT_BOLD))
-		    _bold = UIStyleManager.getStyle(UIStyleManager.BUTTON_TEXT_BOLD);
-        
-        if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_TEXT_FONT)) 
-            _textFormat.font = UIStyleManager.BUTTON_TEXT_FONT;
-        
-        if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_TEXT_ALIGN))
-            Reflect.setField(_labelData,"align",UIStyleManager.BUTTON_TEXT_ALIGN);
-        
-        if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_TEXT_EMBED)) 
-            Reflect.setField(_labelData,"embedFont",UIStyleManager.BUTTON_TEXT_EMBED);
-        
-        if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_NORMAL_COLOR)) 
+        // Label styles
+        if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_TEXT_COLOR)) {
+            _textColor = UIStyleManager.getStyle(UIStyleManager.BUTTON_TEXT_COLOR);
+            Reflect.setField(_labelData, "textColor", _textColor);
+
+            if (_label != null) {
+                _label.textColor = _textColor;
+            }
+        }
+
+        if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_TEXT_SIZE)) {
+            _labelSize = UIStyleManager.getStyle(UIStyleManager.BUTTON_TEXT_SIZE);
+            Reflect.setField(_labelData, "size", _labelSize);
+
+            if (_label != null) {
+                _label.size = _labelSize;
+            }
+        }
+
+        if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_TEXT_ITALIC)) {
+            _italic = UIStyleManager.getStyle(UIStyleManager.BUTTON_TEXT_ITALIC);
+            Reflect.setField(_labelData, "italic", _italic);
+
+            if (_label != null) {
+                _label.italic = _italic;
+            }
+        }
+
+        if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_TEXT_BOLD)) {
+            _bold = UIStyleManager.getStyle(UIStyleManager.BUTTON_TEXT_BOLD);
+            Reflect.setField(_labelData, "bold", _bold);
+
+            if (_label != null) {
+                _label.bold = _bold;
+            }
+        }
+
+        if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_TEXT_FONT)) {
+            var fontValue:String = UIStyleManager.getStyle(UIStyleManager.BUTTON_TEXT_FONT);
+            _textFormat.font = fontValue;
+            Reflect.setField(_labelData, "font", fontValue);
+
+            if (_label != null) {
+                _label.textFormat.font = fontValue;
+            }
+        }
+
+        if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_TEXT_ALIGN)) {
+            var alignValue:String = UIStyleManager.getStyle(UIStyleManager.BUTTON_TEXT_ALIGN);
+            Reflect.setField(_labelData, "align", alignValue);
+
+            if (_label != null) {
+                _label.align = alignValue;
+            }
+        }
+
+        if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_TEXT_EMBED)) {
+            var embedValue:Bool = UIStyleManager.getStyle(UIStyleManager.BUTTON_TEXT_EMBED);
+
+            Reflect.setField(_labelData, "embedFont", embedValue);
+
+            if (_label != null) {
+                if (!embedValue) {
+                    _label.unloadEmbedFont();
+                }
+            }
+        }
+
+        // Set Label
+        if (_label != null) {
+            _label.setComponentData(_labelData);
+            _label.draw();
+        }
+
+        _labelData = null;
+
+        if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_NORMAL_COLOR)) {
             _defaultColor = UIStyleManager.getStyle(UIStyleManager.BUTTON_NORMAL_COLOR);
-        
-        if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_OVER_COLOR))
+        }
+
+        if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_OVER_COLOR)) {
             _overColor = UIStyleManager.getStyle(UIStyleManager.BUTTON_OVER_COLOR);
-        
-        if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_DOWN_COLOR))
+        }
+
+        if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_DOWN_COLOR)) {
             _downColor = UIStyleManager.getStyle(UIStyleManager.BUTTON_DOWN_COLOR);
-        
-        if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_DISABLE_COLOR))
+        }
+
+        if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_DISABLE_COLOR)) {
             _disableColor = UIStyleManager.getStyle(UIStyleManager.BUTTON_DISABLE_COLOR);
-        
+        }
 
-        if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_USE_CUSTOM_RENDER))
+        if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_USE_CUSTOM_RENDER)) {
             _useCustomRender = UIStyleManager.getStyle(UIStyleManager.BUTTON_USE_CUSTOM_RENDER);
+        }
 
-        if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_TILE_IMAGE))
+        if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_TILE_IMAGE)) {
             _tileImage = UIStyleManager.getStyle(UIStyleManager.BUTTON_TILE_IMAGE);
-        
-        // Set default loc of image offset
-        if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_IMAGE_OFFSET_X))
-            _imageOffSetX = UIStyleManager.getStyle(UIStyleManager.BUTTON_IMAGE_OFFSET_X);
+        }
 
-        if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_IMAGE_OFFSET_Y))
+        if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_IMAGE_OFFSET_X)) {
+            _imageOffSetX = UIStyleManager.getStyle(UIStyleManager.BUTTON_IMAGE_OFFSET_X);
+        }
+
+        if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_IMAGE_OFFSET_Y)) {
             _imageOffSetY = UIStyleManager.getStyle(UIStyleManager.BUTTON_IMAGE_OFFSET_Y);
+        }
     }
     
     /**
@@ -718,7 +785,7 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
         _label.size = _labelSize;
         _label.italic = _italic;
         _label.bold = _bold;
-        _label.textColor = _labelSize;
+        _label.textColor = _textColor;
         _label.textField.multiline = true;
         _label.textField.autoSize = TextFieldAutoSize.CENTER;
         
