@@ -654,6 +654,14 @@ class UIStyleManager
         return Reflect.field(styleList, styleName);
     }
 
+    public static function removeStyle(styleName:String):Void {
+        if (styleName == null || styleName == "") {
+            return;
+        }
+
+        Reflect.deleteField(styleList, styleName);
+    }
+
     public static function clear() : Void {
 
         for (index in Reflect.fields(styleList)) 

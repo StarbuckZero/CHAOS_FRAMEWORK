@@ -467,12 +467,23 @@ class UIBitmapManager {
 	 * @example UIBitmapManager.removeUIElement(CheckBox.TYPE, UIBitmapManager.CHECK_BUTTON_NORMAL );
 	 */
 	public static function removeUIElement(UIType:UIBitmapType, type:String):Void {
-
 		// Make sure everything is setup
-		if (!initialized)
+		if (!initialized) {
 			initializeManager();
+		}
 
-		Reflect.deleteField(Reflect.field(skinTheme, UIType.getName()), type);
+		if (UIType == null || type == null || type == "") {
+			return;
+		}
+
+		var uiTypeName:String = UIType.getName();
+		var uiTheme:Dynamic = Reflect.field(skinTheme, uiTypeName);
+
+		if (uiTheme == null) {
+			return;
+		}
+
+		Reflect.deleteField(uiTheme, type);
 	}
 
 	/**
