@@ -269,7 +269,7 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI {
 		initBitmap();
 	}
 
-	private function initStyle() {
+	 function initStyle() {
 
 		if (UIStyleManager.hasStyle(UIStyleManager.TOGGLE_BUTTON_BORDER_ALPHA))
 			_borderAlpha = UIStyleManager.getStyle(UIStyleManager.TOGGLE_BUTTON_BORDER_ALPHA);
@@ -318,7 +318,7 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI {
 			_border = UIStyleManager.getStyle(UIStyleManager.TOGGLE_BUTTON_BORDER);
 	}
 
-	private function initBitmap() {
+	 function initBitmap() {
 
 		// Set skining if in UIBitmapManager
 		if (UIBitmapManager.hasUIElement(UIBitmapType.ToggleButton, UIBitmapManager.TOGGLE_BUTTON_NORMAL))

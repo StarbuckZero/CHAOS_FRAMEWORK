@@ -80,7 +80,7 @@ class CheckBox extends SelectToggleBase implements ICheckBox implements IBaseUI
 	override function onStageAdd(event : Event) : Void { UIBitmapManager.watchElement(UIBitmapType.CheckBox, this); }
 	override function onStageRemove(event : Event) : Void { UIBitmapManager.stopWatchElement(UIBitmapType.CheckBox, this); }
 	
-	override private function initSkin() : Void
+	override function initBitmap() : Void
 	{
 		// Skin element
 		if (UIBitmapManager.hasUIElement(UIBitmapType.CheckBox, UIBitmapManager.CHECKBOX_NORMAL))
@@ -96,7 +96,7 @@ class CheckBox extends SelectToggleBase implements ICheckBox implements IBaseUI
 			setDisableStateImage(UIBitmapManager.getUIElement(UIBitmapType.CheckBox, UIBitmapManager.CHECKBOX_DISABLE));
 	}
 
-	override private function initStyle() : Void
+	override function initStyle() : Void
 	{
 		// Color
 		if (UIStyleManager.hasStyle(UIStyleManager.CHECKBOX_NORMAL_COLOR))

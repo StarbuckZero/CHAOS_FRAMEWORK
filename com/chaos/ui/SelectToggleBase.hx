@@ -149,14 +149,15 @@ class SelectToggleBase extends ToggleButton implements IToggleButton implements 
 		super.initialize();
 	}
 	
-	override private function initStyle() : Void
+	override function initStyle() : Void
 	{
+		
 
 	}
 	
-	private function initSkin() : Void
+	override function initBitmap() : Void
 	{
-	
+
 	}	
 	
 	/**
@@ -165,10 +166,10 @@ class SelectToggleBase extends ToggleButton implements IToggleButton implements 
 	
 	override public function reskin() : Void
 	{
-		initSkin();
-		initStyle();
-		
 		super.reskin();
+
+		initBitmap();
+		initStyle();	
 	}	
 	
 	
@@ -294,27 +295,39 @@ class SelectToggleBase extends ToggleButton implements IToggleButton implements 
 	
 	override public function draw():Void 
 	{
+
 		// Figure to use bitmap or normal mode
 		if (_selected)
 		{
-			downState.visible = true;
-			disableState.visible = normalState.visible = false;
 						
 			drawButtonState(normalState, _defaultColor, _normalBorderColor, _selectedDefaultStateImage);
 			drawButtonState(overState, _overColor, _overBorderColor, _selectedOverStateImage);
 			drawButtonState(downState, _downColor, _downBorderColor, _selectedDownStateImage);
-			drawButtonState(disableState, _disableColor, _disableColor, _selectedDisableStateImage);		
+			drawButtonState(disableState, _disableColor, _disableBorderColor, _selectedDisableStateImage);		
+		}
+		else
+		{
+
+			drawButtonState(normalState,_defaultColor,_normalBorderColor,_defaultStateImage);
+			drawButtonState(overState,_overColor,_overBorderColor,_overStateImage);
+			drawButtonState(downState,_downColor,_downBorderColor,_downStateImage);
+			drawButtonState(disableState,_disableColor,_disableBorderColor,_disableStateImage);
+		}
+
+		if (_selected)
+		{
+			downState.visible = true;
+			normalState.visible = false;
+			overState.visible = false;
+			disableState.visible = false;
 		}
 		else
 		{
 			normalState.visible = true;
-			disableState.visible = downState.visible = false;				
-			
-			drawButtonState(normalState, _defaultColor, _defaultStateImage);
-			drawButtonState(overState, _overColor, _overStateImage);
-			drawButtonState(downState, _downColor, _downStateImage);
-			drawButtonState(disableState, _disableColor, _disableStateImage);		
-		}
+			overState.visible = false;
+			downState.visible = false;
+			disableState.visible = false;
+		}		
 		
 		// Update label size
 		_label.text = _text;

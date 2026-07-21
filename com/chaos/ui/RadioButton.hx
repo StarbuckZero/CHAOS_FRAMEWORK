@@ -102,24 +102,97 @@ class RadioButton extends SelectToggleBase implements IRadioButton implements IB
 	override function onStageRemove(event : Event) : Void { UIBitmapManager.stopWatchElement(UIBitmapType.RadioButton, this); }
 
 
-	override private function initSkin() : Void
+	override function initBitmap():Void
 	{
-		// Skin element
-		if (UIBitmapManager.hasUIElement(UIBitmapType.RadioButton, UIBitmapManager.RADIOBUTTON_NORMAL))
-			setDefaultStateImage(UIBitmapManager.getUIElement(UIBitmapType.RadioButton, UIBitmapManager.RADIOBUTTON_NORMAL));
+		super.initBitmap();
 
-		if (UIBitmapManager.hasUIElement(UIBitmapType.RadioButton, UIBitmapManager.RADIOBUTTON_OVER))
-			setOverStateImage(UIBitmapManager.getUIElement(UIBitmapType.RadioButton, UIBitmapManager.RADIOBUTTON_OVER));
+		if (UIBitmapManager.hasUIElement(UIBitmapType.RadioButton,UIBitmapManager.RADIOBUTTON_NORMAL)) {
 
-		if (UIBitmapManager.hasUIElement(UIBitmapType.RadioButton, UIBitmapManager.RADIOBUTTON_DOWN))
-			setDownStateImage(UIBitmapManager.getUIElement(UIBitmapType.RadioButton, UIBitmapManager.RADIOBUTTON_DOWN));
+			var normalImage = UIBitmapManager.getUIElement(
+				UIBitmapType.RadioButton,
+				UIBitmapManager.RADIOBUTTON_NORMAL
+			);
 
-		if (UIBitmapManager.hasUIElement(UIBitmapType.RadioButton, UIBitmapManager.RADIOBUTTON_DISABLE))
-			setDisableStateImage(UIBitmapManager.getUIElement(UIBitmapType.RadioButton, UIBitmapManager.RADIOBUTTON_DISABLE));
+			setDefaultStateImage(normalImage);
+
+			setSelectedDefaultStateImage(
+				UIBitmapManager.getUIElement(
+					UIBitmapType.RadioButton,
+					UIBitmapManager.RADIOBUTTON_NORMAL
+				)
+			);
+		}
+
+		if (UIBitmapManager.hasUIElement(UIBitmapType.RadioButton,UIBitmapManager.RADIOBUTTON_OVER)) {
+
+			setOverStateImage(
+				UIBitmapManager.getUIElement(
+					UIBitmapType.RadioButton,
+					UIBitmapManager.RADIOBUTTON_OVER
+				)
+			);
+
+			setSelectedOverStateImage(
+				UIBitmapManager.getUIElement(
+					UIBitmapType.RadioButton,
+					UIBitmapManager.RADIOBUTTON_OVER
+				)
+			);
+		}
+
+		if (UIBitmapManager.hasUIElement(UIBitmapType.RadioButton,UIBitmapManager.RADIOBUTTON_DOWN)) {
+
+			setDownStateImage(
+				UIBitmapManager.getUIElement(
+					UIBitmapType.RadioButton,
+					UIBitmapManager.RADIOBUTTON_DOWN
+				)
+			);
+
+			setSelectedDefaultStateImage(
+				UIBitmapManager.getUIElement(
+					UIBitmapType.RadioButton,
+					UIBitmapManager.RADIOBUTTON_DOWN
+				)
+			);
+
+			setSelectedOverStateImage(
+				UIBitmapManager.getUIElement(
+					UIBitmapType.RadioButton,
+					UIBitmapManager.RADIOBUTTON_DOWN
+				)
+			);
+
+			setSelectedDownStateImage(
+				UIBitmapManager.getUIElement(
+					UIBitmapType.RadioButton,
+					UIBitmapManager.RADIOBUTTON_DOWN
+				)
+			);
+		}
+
+		if (UIBitmapManager.hasUIElement(UIBitmapType.RadioButton,UIBitmapManager.RADIOBUTTON_DISABLE)) {
+
+			setDisableStateImage(
+				UIBitmapManager.getUIElement(
+					UIBitmapType.RadioButton,
+					UIBitmapManager.RADIOBUTTON_DISABLE
+				)
+			);
+
+			setSelectedDisableStateImage(
+				UIBitmapManager.getUIElement(
+					UIBitmapType.RadioButton,
+					UIBitmapManager.RADIOBUTTON_DISABLE
+				)
+			);
+		}
 	}
 
 	override private function initStyle() : Void
 	{
+		super.initStyle();
+
 		// Color
 		if (UIStyleManager.hasStyle(UIStyleManager.RADIOBUTTON_NORMAL_COLOR))
 			_defaultColor = UIStyleManager.getStyle(UIStyleManager.RADIOBUTTON_NORMAL_COLOR);
@@ -195,31 +268,80 @@ class RadioButton extends SelectToggleBase implements IRadioButton implements IB
 	 * Draw the container
 	 */
 	
-	override public function draw():Void 
-	{
+	override public function draw():Void {
+		
+		if (_useCustomRender &&UIBitmapManager.hasCustomRenderTexture(UIBitmapType.RadioButton) &&_buttonSize > 0) {
+			var defaultImage = UIBitmapManager.runCustomRender(
+				UIBitmapType.RadioButton,
+				{
+					width: _buttonSize,
+					height: _buttonSize,
+					state: "default"
+				}
+			);
 
-        if(_useCustomRender && UIBitmapManager.hasCustomRenderTexture(UIBitmapType.RadioButton) && _width > 0 && _height > 0) {
+			var overImage = UIBitmapManager.runCustomRender(
+				UIBitmapType.RadioButton,
+				{
+					width: _buttonSize,
+					height: _buttonSize,
+					state: "over"
+				}
+			);
 
-            _defaultStateImage = UIBitmapManager.runCustomRender(UIBitmapType.RadioButton,{"width":_buttonSize,"height":_buttonSize,"state":"default"});
-            _overStateImage = UIBitmapManager.runCustomRender(UIBitmapType.RadioButton,{"width":_buttonSize,"height":_buttonSize,"state":"over"});
-            _downStateImage = UIBitmapManager.runCustomRender(UIBitmapType.RadioButton,{"width":_buttonSize,"height":_buttonSize,"state":"selected"});
-			_disableStateImage = UIBitmapManager.runCustomRender(UIBitmapType.RadioButton,{"width":_buttonSize,"height":_buttonSize,"state":"disable"});
-			
-            _selectedDefaultStateImage = UIBitmapManager.runCustomRender(UIBitmapType.RadioButton,{"width":_buttonSize,"height":_buttonSize,"state":"default"});
-            _selectedOverStateImage = UIBitmapManager.runCustomRender(UIBitmapType.RadioButton,{"width":_buttonSize,"height":_buttonSize,"state":"over"});
-            _selectedDownStateImage = UIBitmapManager.runCustomRender(UIBitmapType.RadioButton,{"width":_buttonSize,"height":_buttonSize,"state":"selected"});
-			_selectedDisableStateImage = UIBitmapManager.runCustomRender(UIBitmapType.RadioButton,{"width":_buttonSize,"height":_buttonSize,"state":"disable"});
-			
-		} 
+			var selectedImage = UIBitmapManager.runCustomRender(
+				UIBitmapType.RadioButton,
+				{
+					width: _buttonSize,
+					height: _buttonSize,
+					state: "selected"
+				}
+			);
+
+			var disableImage = UIBitmapManager.runCustomRender(
+				UIBitmapType.RadioButton,
+				{
+					width: _buttonSize,
+					height: _buttonSize,
+					state: "disable"
+				}
+			);
+
+			if (defaultImage != null) {
+				_defaultStateImage = defaultImage;
+			}
+
+			if (overImage != null) {
+				_overStateImage = overImage;
+			}
+
+			if (selectedImage != null) {
+				_downStateImage = selectedImage;
+				_selectedDefaultStateImage = selectedImage;
+				_selectedOverStateImage = selectedImage;
+				_selectedDownStateImage = selectedImage;
+			}
+
+			if (disableImage != null) {
+				_disableStateImage = disableImage;
+				_selectedDisableStateImage = disableImage;
+			}
+		}
 
 		super.draw();
 
-		// Center Shapes
-		_label.draw();
-		_label.x = _buttonSize + _labelOffX;
-		_label.y = (_height / 2) - (_label.height / 2) + _labelOffY;
-		
-		disableState.y = downState.y = overState.y = normalState.y = (_height / 2) - (_buttonSize / 2);		
+		if (_label != null) {
+			_label.draw();
+			_label.x = _buttonSize + _labelOffX;
+			_label.y = (_height / 2) - (_label.height / 2) + _labelOffY;
+		}
+
+		var stateY:Float = (_height / 2) - (_buttonSize / 2);
+
+		disableState.y = stateY;
+		downState.y = stateY;
+		overState.y = stateY;
+		normalState.y = stateY;
 	}
 
 	
@@ -230,31 +352,28 @@ class RadioButton extends SelectToggleBase implements IRadioButton implements IB
 	 * @param	image The image
 	 */
 	
-	override public function drawButtonState(base:ButtonBase, color:Int = 0xFFFFFF, borderColor:Int = 0x000000, image:BitmapData = null):Void 
-	{
-		if (image != null)
-		{
-			super.drawButtonState(base, color, image);
-		}
-		else
-		{
-			base.shapeBase.graphics.clear();
-			
-			base.shapeBase.graphics.lineStyle(_lineSize, color, _lineAlpha);
-			base.shapeBase.graphics.beginFill(color, 0);
-			base.shapeBase.graphics.drawCircle(0,0, _buttonSize / 2);
-			base.shapeBase.graphics.endFill(); 
-			
-			// Draw dot if selected  
-			if (_selected) 
-			{
-				base.shapeBase.graphics.lineStyle(_lineSize, color, _lineAlpha);
-				base.shapeBase.graphics.beginFill(color, _bgAlpha);
-				base.shapeBase.graphics.drawCircle(0, 0, _dotSize);
-				base.shapeBase.graphics.endFill();
-			}			
+	override public function drawButtonState(base:ButtonBase, color:Int = 0xFFFFFF, borderColor:Int = 0x000000, image:BitmapData = null):Void {
+
+		if (image != null) {super.drawButtonState(base,color,borderColor,image);
+
+			return;
 		}
 
+		base.shapeBase.graphics.clear();
+
+		base.shapeBase.graphics.lineStyle(_lineSize,color,_lineAlpha);
+
+		base.shapeBase.graphics.beginFill(color, 0);base.shapeBase.graphics.drawCircle(0,0,_buttonSize / 2);
+		base.shapeBase.graphics.endFill();
+
+		if (_selected) {
+			base.shapeBase.graphics.lineStyle(_lineSize,color,_lineAlpha);
+
+			base.shapeBase.graphics.beginFill(color,_bgAlpha);
+			base.shapeBase.graphics.drawCircle(0,0,_dotSize);
+
+			base.shapeBase.graphics.endFill();
+		}
 	}
 	
 	override function mouseDownEvent(event:MouseEvent):Void 
