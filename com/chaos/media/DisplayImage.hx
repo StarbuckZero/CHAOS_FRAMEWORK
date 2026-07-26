@@ -60,26 +60,28 @@ class DisplayImage extends BaseUI implements IBaseUI
 	private function onStageAdd(e:Event):Void 
 	{
 		removeEventListener(Event.ADDED_TO_STAGE, onStageAdd);
+		removeEventListener(Event.REMOVED_FROM_STAGE, onStageRemove);
 		addEventListener(Event.REMOVED_FROM_STAGE, onStageRemove);
-		
+
 		draw();
 	}
 	
 	private function onStageRemove(e:Event):Void 
 	{
-		removeEventListener(Event.REMOVED_FROM_STAGE, onStageRemove);
-		
 		graphics.clear();
+
+		addEventListener(Event.ADDED_TO_STAGE, onStageAdd);
 	}
-	
+		
 	/**
 	 * @inheritDoc
 	 */
 	override public function initialize():Void 
 	{
 		super.initialize();
-		
-		load(_url);
+
+		if (_url != null && _url != "")
+			load(_url);
 	}	
 	
 	/**
@@ -98,12 +100,16 @@ class DisplayImage extends BaseUI implements IBaseUI
 		if (Reflect.hasField(data, "resizeImage"))
 			_resizeImage = Reflect.field(data, "resizeImage");
 		
-		if (Reflect.hasField(data, "image")) {
+		if (Reflect.hasField(data, "image"))
+		{
+			var bitmapData:BitmapData = Reflect.field(data, "image");
 
-			_image = Reflect.field(data, "image");
-
-			_width = _image.width;
-			_height = _image.height;
+			if (bitmapData != null)
+			{
+				_image = bitmapData;
+				_width = _image.width;
+				_height = _image.height;
+			}
 		}
 
 		if (Reflect.hasField(data, "repeat"))
@@ -124,7 +130,7 @@ class DisplayImage extends BaseUI implements IBaseUI
 	{
 		super.destroy();
 		
-		removeEventListener(Event.REMOVED_FROM_STAGE, onStageAdd);
+		removeEventListener(Event.ADDED_TO_STAGE, onStageAdd);
 		removeEventListener(Event.REMOVED_FROM_STAGE, onStageRemove);
 		
 		if (null != _image)
@@ -179,66 +185,97 @@ class DisplayImage extends BaseUI implements IBaseUI
 	 */
 	
 
-	public function setBase64Image( base64String:String) : Void {
-		
-		if(_base64 == base64String)
+	public function setBase64Image(base64String:String):Void
+	{
+		if (base64String == null || base64String == "")
+		{
+			Debug.print("[DisplayImage::setBase64Image] Base64 string is empty.");
+			return;
+		}
+
+		if (_base64 == base64String && _image != null)
 			return;
 
-		var type:String =  base64String.substr(base64String.indexOf(":") + 1);
+		var commaIndex:Int = base64String.indexOf(",");
 
-		type = type.substr(0,type.indexOf(";"));
+		if (commaIndex == -1)
+		{
+			Debug.print(
+				"[DisplayImage::setBase64Image] Invalid Base64 data URL."
+			);
+			return;
+		}
 
-		if(type != "") {
+		var header:String = base64String.substr(0, commaIndex);
+		var encodedData:String = base64String.substr(commaIndex + 1);
 
-			#if sys
-			var bitmapData = BitmapData.fromBase64(base64String, type);
+		var typeStart:Int = header.indexOf(":");
+		var typeEnd:Int = header.indexOf(";");
 
-			if(bitmapData != null) 
+		if (typeStart == -1 || typeEnd == -1 || typeEnd <= typeStart)
+		{
+			Debug.print(
+				"[DisplayImage::setBase64Image] Unable to determine image type."
+			);
+			return;
+		}
+
+		var type:String = header.substring(typeStart + 1, typeEnd);
+
+		_base64 = base64String;
+
+		#if html5
+		var imageBytes:ByteArray;
+
+		try
+		{
+			imageBytes = Base64.decode(encodedData);
+		}
+		catch (error:Dynamic)
+		{
+			_base64 = "";
+			Debug.print(
+				"[DisplayImage::setBase64Image] Base64 decode failed: " + error
+			);
+			return;
+		}
+
+		BitmapData.loadFromBytes(imageBytes)
+			.onComplete(function(bitmapData:BitmapData)
 			{
-				Debug.print("[DisplayImage::setBase64Image] Set BitmapData: " + name);
-				_image = bitmapData;
+				if (bitmapData == null)
+				{
+					_base64 = "";
+					Debug.print(
+						"[DisplayImage::setBase64Image] BitmapData is null."
+					);
+					return;
+				}
 
-				if(_width != _image.width)
-					_width = _image.width;
-
-				if(_height != _image.height)
-					_height = _image.height;
-
-				dispatchEvent(new DisplayImageEvent( DisplayImageEvent.IMAGE_LOADED));
-			
-				draw();
-			}
-			else 
-			{
-				Debug.print("[DisplayImage::setBase64Image] Unable to create image.");
-			}
-			#end
-
-			#if html5
-			var imageBytes:ByteArray = Base64.decode(base64String.split(",")[1]);
-			BitmapData.loadFromBytes(imageBytes).onComplete(function(bitmapData:BitmapData) {
-				
-				Debug.print("[DisplayImage::setBase64Image] Set HTML5 BitmapData: " + name);
+				Debug.print(
+					"[DisplayImage::setBase64Image] Set HTML5 BitmapData: " + name
+				);
 
 				_image = bitmapData;
-
 				_width = _image.width;
 				_height = _image.height;
 
-				dispatchEvent(new DisplayImageEvent( DisplayImageEvent.IMAGE_LOADED));
-
 				draw();
 
-			}).onError(function(error:Dynamic) {
-				Debug.print("[DisplayImage::setBase64Image] Unable to create image. Error: " + error);
-			});
-			#end
-		}
-		else {
-			Debug.print("[DisplayImage::setBase64Image] Unable to find image type: " + type);	
-		}		
+				dispatchEvent(
+					new DisplayImageEvent(DisplayImageEvent.IMAGE_LOADED)
+				);
+			})
+			.onError(function(error:Dynamic)
+			{
+				_base64 = "";
 
-		_base64 = base64String;
+				Debug.print(
+					"[DisplayImage::setBase64Image] Unable to create image: " +
+					error
+				);
+			});
+		#end
 	}
 
 	
@@ -260,15 +297,18 @@ class DisplayImage extends BaseUI implements IBaseUI
 		draw();
     } 
 
-	public function unload() : Void {
+	public function unload():Void
+	{
+		graphics.clear();
 
-		if(null != image) {
-
-			graphics.clear();
-
+		if (_image != null)
+		{
 			_image.dispose();
+			_image = null;
 		}
-			
+
+		_base64 = "";
+		_url = "";
 	}
 	
 	
@@ -335,21 +375,33 @@ class DisplayImage extends BaseUI implements IBaseUI
     }
 	
 	
-	private function fileComplete(event : Event) : Void  
+	private function fileComplete(event:Event):Void  
 	{  
 		var loaderFile:LoaderInfo = cast(event.target, LoaderInfo);
-		_image = cast( (loaderFile.content), Bitmap).bitmapData;
+		var bitmap:Bitmap = cast(loaderFile.content, Bitmap);
 
-		_image.width;
-		_image.height;
-		
-		dispatchEvent(new DisplayImageEvent(DisplayImageEvent.IMAGE_LOADED));
+		if (bitmap == null || bitmap.bitmapData == null)
+		{
+			Debug.print("[DisplayImage::fileComplete] BitmapData is null.");
+			return;
+		}
 
-		if (_drawOffStage)
-			draw();
-		
-		dispatchEvent(event);
-    }
+		_image = bitmap.bitmapData;
+
+		if (_width <= 0)
+			_width = _image.width;
+
+		if (_height <= 0)
+			_height = _image.height;
+
+		Debug.print("[DisplayImage::fileComplete] Image loaded: " + name);
+
+		draw();
+
+		dispatchEvent(
+			new DisplayImageEvent(DisplayImageEvent.IMAGE_LOADED)
+		);
+	}
 
 	private function resizeBitmapData(originalBitmapData:BitmapData, newWidth:Int, newHeight:Int) : BitmapData {
 
