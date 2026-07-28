@@ -8,7 +8,6 @@ package com.chaos.ui.layout;
  */
 
 
-import js.html.rtc.SdpType;
 import com.chaos.ui.BaseUI;
 import com.chaos.ui.classInterface.IBaseUI;
 import com.chaos.ui.layout.classInterface.IBaseContainer;
