@@ -269,7 +269,13 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI {
 		initBitmap();
 	}
 
-	 function initStyle() {
+	private function initStyle() {
+
+		if (UIStyleManager.hasStyle(UIStyleManager.TOGGLE_BUTTON_WIDTH))
+			_width = UIStyleManager.getStyle(UIStyleManager.TOGGLE_BUTTON_WIDTH);
+
+		if (UIStyleManager.hasStyle(UIStyleManager.TOGGLE_BUTTON_HEIGHT))
+			_height = UIStyleManager.getStyle(UIStyleManager.TOGGLE_BUTTON_HEIGHT);
 
 		if (UIStyleManager.hasStyle(UIStyleManager.TOGGLE_BUTTON_BORDER_ALPHA))
 			_borderAlpha = UIStyleManager.getStyle(UIStyleManager.TOGGLE_BUTTON_BORDER_ALPHA);
@@ -301,7 +307,6 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI {
 		if (UIStyleManager.hasStyle(UIStyleManager.TOGGLE_BUTTON_DISABLE_COLOR))
 			_disableColor = UIStyleManager.getStyle(UIStyleManager.TOGGLE_BUTTON_DISABLE_COLOR);
 
-		
 		if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_ALPHA))
 			_bgAlpha = UIStyleManager.getStyle(UIStyleManager.BUTTON_ALPHA);
 

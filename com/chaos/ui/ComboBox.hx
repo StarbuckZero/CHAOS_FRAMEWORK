@@ -769,7 +769,7 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 
 	private function initComboBoxStyle() : Void
 	{
-		
+						
 		// Set Label Style
 		if (UIStyleManager.hasStyle(UIStyleManager.COMBO_TEXT_SIZE))
 			_textFormat.size = UIStyleManager.getStyle(UIStyleManager.COMBO_TEXT_SIZE);
@@ -812,7 +812,12 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 		// Drop Down Button
 		_buttonData = {};
 		
-		
+		if (UIStyleManager.hasStyle(UIStyleManager.COMBO_WIDTH))
+			_width = UIStyleManager.getStyle(UIStyleManager.COMBO_WIDTH);
+
+		if (UIStyleManager.hasStyle(UIStyleManager.COMBO_HEIGHT))
+			_height = UIStyleManager.getStyle(UIStyleManager.COMBO_HEIGHT);
+				
 		if (UIStyleManager.hasStyle(UIStyleManager.COMBO_BUTTON_NORMAL_COLOR))
 			Reflect.setField(_buttonData, "defaultColor", UIStyleManager.getStyle(UIStyleManager.COMBO_BUTTON_NORMAL_COLOR));
 

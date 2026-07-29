@@ -223,6 +223,12 @@ class ListBox extends ScrollPane implements IListBox implements IBaseUI
 	private function initListStyle() : Void
 	{
 
+		if (UIStyleManager.hasStyle(UIStyleManager.LIST_WIDTH))
+			_width = UIStyleManager.getStyle(UIStyleManager.LIST_WIDTH);
+
+		if (UIStyleManager.hasStyle(UIStyleManager.LIST_HEIGHT))
+			_height = UIStyleManager.getStyle(UIStyleManager.LIST_HEIGHT);
+
 		if (UIStyleManager.hasStyle(UIStyleManager.LIST_BACKGROUND_COLOR))
 			_backgroundColor = UIStyleManager.getStyle(UIStyleManager.LIST_BACKGROUND_COLOR);
 

@@ -556,6 +556,11 @@ class Menu extends BaseContainer implements IMenu implements IBaseContainer impl
     
     private function initStyle() : Void
     {
+        if (UIStyleManager.hasStyle(UIStyleManager.MENU_WIDTH))
+            _width = UIStyleManager.getStyle(UIStyleManager.MENU_WIDTH);
+
+        if (UIStyleManager.hasStyle(UIStyleManager.MENU_HEIGHT))
+            _height = UIStyleManager.getStyle(UIStyleManager.MENU_HEIGHT);        
         
         // Background
         if (UIStyleManager.hasStyle(UIStyleManager.MENU_BACKGROUND_COLOR)) 

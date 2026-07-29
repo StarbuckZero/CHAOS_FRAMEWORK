@@ -274,6 +274,12 @@ class ProgressBar extends BaseUI implements IProgressBar implements IBaseUI
 		if(_loadedLabelData == null)
 			_loadedLabelData = {};
 
+		if (UIStyleManager.hasStyle(UIStyleManager.PROGRESSBAR_WIDTH))
+			_width = UIStyleManager.getStyle(UIStyleManager.PROGRESSBAR_WIDTH);
+
+		if (UIStyleManager.hasStyle(UIStyleManager.PROGRESSBAR_HEIGHT))
+			_height = UIStyleManager.getStyle(UIStyleManager.PROGRESSBAR_HEIGHT);
+
 		// Set the style
 		if (UIStyleManager.hasStyle(UIStyleManager.PROGRESSBAR_COLOR))
 			_backgroundNormalColor = UIStyleManager.getStyle(UIStyleManager.PROGRESSBAR_COLOR);

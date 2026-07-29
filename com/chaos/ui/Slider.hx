@@ -254,6 +254,12 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 	
 	private function initStyle() : Void 
 	{
+		if (UIStyleManager.hasStyle(UIStyleManager.SLIDER_WIDTH))
+			_width = UIStyleManager.getStyle(UIStyleManager.SLIDER_WIDTH);
+
+		if (UIStyleManager.hasStyle(UIStyleManager.SLIDER_HEIGHT))
+			_height = UIStyleManager.getStyle(UIStyleManager.SLIDER_HEIGHT);
+
 		if (UIStyleManager.hasStyle(UIStyleManager.SLIDER_NORMAL_COLOR))
 			_sliderNormalColor = UIStyleManager.getStyle(UIStyleManager.SLIDER_NORMAL_COLOR);
 		

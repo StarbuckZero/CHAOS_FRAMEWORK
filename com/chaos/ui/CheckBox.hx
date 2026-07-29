@@ -53,15 +53,14 @@ class CheckBox extends SelectToggleBase implements ICheckBox implements IBaseUI
 		// Go with what's in data object first, UI style second
 		if (Reflect.hasField(data, "textColor"))
 			Reflect.setField(_labelData, "textColor", Reflect.field(data, "textColor") );
-
 		else if (UIStyleManager.hasStyle(UIStyleManager.CHECKBOX_TEXT_COLOR))
-			Reflect.setField(_labelData, "textColor", UIStyleManager.CHECKBOX_TEXT_COLOR);
+			Reflect.setField(_labelData, "textColor", UIStyleManager.getStyle(UIStyleManager.CHECKBOX_TEXT_COLOR));
 		
 		// Go with what's in data object first, UI style second
 		if (Reflect.hasField(data, "size"))
 			Reflect.setField(_labelData, "size", Reflect.field(data, "size"));
 		else if (UIStyleManager.hasStyle(UIStyleManager.CHECKBOX_TEXT_SIZE))
-			Reflect.setField(_labelData, "size", UIStyleManager.CHECKBOX_TEXT_SIZE);
+			Reflect.setField(_labelData, "size", UIStyleManager.getStyle(UIStyleManager.CHECKBOX_TEXT_SIZE));
 		
 		if (Reflect.hasField(data, "style"))
 			_style = Reflect.field(data, "style");
@@ -82,7 +81,7 @@ class CheckBox extends SelectToggleBase implements ICheckBox implements IBaseUI
 	
 	override function initBitmap() : Void
 	{
-		// Skin element
+		// Unselected states
 		if (UIBitmapManager.hasUIElement(UIBitmapType.CheckBox, UIBitmapManager.CHECKBOX_NORMAL))
 			setDefaultStateImage(UIBitmapManager.getUIElement(UIBitmapType.CheckBox, UIBitmapManager.CHECKBOX_NORMAL));
 
@@ -94,11 +93,24 @@ class CheckBox extends SelectToggleBase implements ICheckBox implements IBaseUI
 
 		if (UIBitmapManager.hasUIElement(UIBitmapType.CheckBox, UIBitmapManager.CHECKBOX_DISABLE))
 			setDisableStateImage(UIBitmapManager.getUIElement(UIBitmapType.CheckBox, UIBitmapManager.CHECKBOX_DISABLE));
+
+		// Selected states
+		if (UIBitmapManager.hasUIElement(UIBitmapType.CheckBox, UIBitmapManager.CHECKBOX_SELECTED_NORMAL))
+			setSelectedDefaultStateImage(UIBitmapManager.getUIElement(UIBitmapType.CheckBox, UIBitmapManager.CHECKBOX_SELECTED_NORMAL));
+
+		if (UIBitmapManager.hasUIElement(UIBitmapType.CheckBox, UIBitmapManager.CHECKBOX_SELECTED_OVER))
+			setSelectedOverStateImage(UIBitmapManager.getUIElement(UIBitmapType.CheckBox, UIBitmapManager.CHECKBOX_SELECTED_OVER));
+
+		if (UIBitmapManager.hasUIElement(UIBitmapType.CheckBox, UIBitmapManager.CHECKBOX_SELECTED_DOWN))
+			setSelectedDownStateImage(UIBitmapManager.getUIElement(UIBitmapType.CheckBox, UIBitmapManager.CHECKBOX_SELECTED_DOWN));
+
+		if (UIBitmapManager.hasUIElement(UIBitmapType.CheckBox, UIBitmapManager.CHECKBOX_SELECTED_DISABLE))
+			setSelectedDisableStateImage(UIBitmapManager.getUIElement(UIBitmapType.CheckBox, UIBitmapManager.CHECKBOX_SELECTED_DISABLE));
 	}
 
 	override function initStyle() : Void
 	{
-		// Color
+		// Unselected colors
 		if (UIStyleManager.hasStyle(UIStyleManager.CHECKBOX_NORMAL_COLOR))
 			_defaultColor = UIStyleManager.getStyle(UIStyleManager.CHECKBOX_NORMAL_COLOR);
 
@@ -110,18 +122,27 @@ class CheckBox extends SelectToggleBase implements ICheckBox implements IBaseUI
 
 		if (UIStyleManager.hasStyle(UIStyleManager.CHECKBOX_DISABLE_COLOR))
 			_disableColor = UIStyleManager.getStyle(UIStyleManager.CHECKBOX_DISABLE_COLOR);
-			
-		if (UIStyleManager.hasStyle(UIStyleManager.CHECKBOX_DISABLE_COLOR))
-			_disableColor = UIStyleManager.getStyle(UIStyleManager.CHECKBOX_DISABLE_COLOR);
-			
+
+		// Selected colors
+		if (UIStyleManager.hasStyle(UIStyleManager.CHECKBOX_SELECTED_NORMAL_COLOR))
+			_selectedDefaultColor = UIStyleManager.getStyle(UIStyleManager.CHECKBOX_SELECTED_NORMAL_COLOR);
+
+		if (UIStyleManager.hasStyle(UIStyleManager.CHECKBOX_SELECTED_OVER_COLOR))
+			_selectedOverColor = UIStyleManager.getStyle(UIStyleManager.CHECKBOX_SELECTED_OVER_COLOR);
+
+		if (UIStyleManager.hasStyle(UIStyleManager.CHECKBOX_SELECTED_DOWN_COLOR))
+			_selectedDownColor = UIStyleManager.getStyle(UIStyleManager.CHECKBOX_SELECTED_DOWN_COLOR);
+
+		if (UIStyleManager.hasStyle(UIStyleManager.CHECKBOX_SELECTED_DISABLE_COLOR))
+			_selectedDisableColor = UIStyleManager.getStyle(UIStyleManager.CHECKBOX_SELECTED_DISABLE_COLOR);
+
 		if (UIStyleManager.hasStyle(UIStyleManager.CHECKBOX_SIZE))
 			_buttonSize = UIStyleManager.getStyle(UIStyleManager.CHECKBOX_SIZE);
-		
-		if (UIStyleManager.hasStyle(UIStyleManager.CHECKBOX_SIZE))
+
+		if (UIStyleManager.hasStyle(UIStyleManager.CHECKBOX_USE_CUSTOM_RENDER))
 			_useCustomRender = UIStyleManager.getStyle(UIStyleManager.CHECKBOX_USE_CUSTOM_RENDER);
-		
 	}
-	
+		
 	private function set_style(value:String) : String
 	{
 		_style = value;
@@ -140,20 +161,20 @@ class CheckBox extends SelectToggleBase implements ICheckBox implements IBaseUI
 	
 	override public function draw():Void 
 	{
-		var radioButtonOffSetX : Int = UIStyleManager.hasStyle(UIStyleManager.RADIOBUTTON_LABEL_OFFSET_X) ? UIStyleManager.getStyle(UIStyleManager.RADIOBUTTON_LABEL_OFFSET_X) : 0;
-		var radioButtonOffSetY : Int = UIStyleManager.hasStyle(UIStyleManager.RADIOBUTTON_LABEL_OFFSET_Y) ? UIStyleManager.getStyle(UIStyleManager.RADIOBUTTON_LABEL_OFFSET_Y) : 0;
+		var checkBoxOffSetX : Int = UIStyleManager.hasStyle(UIStyleManager.CHECKBOX_LABEL_OFFSET_X) ? UIStyleManager.getStyle(UIStyleManager.CHECKBOX_LABEL_OFFSET_X) : 0;
+		var checkBoxOffSetY : Int = UIStyleManager.hasStyle(UIStyleManager.CHECKBOX_LABEL_OFFSET_Y) ? UIStyleManager.getStyle(UIStyleManager.CHECKBOX_LABEL_OFFSET_Y) : 0;
 
         if(_useCustomRender && UIBitmapManager.hasCustomRenderTexture(UIBitmapType.CheckBox) && _width > 0 && _height > 0) {
 
             _defaultStateImage = UIBitmapManager.runCustomRender(UIBitmapType.CheckBox,{"width":_buttonSize,"height":_buttonSize,"state":"default","style":_style});
             _overStateImage = UIBitmapManager.runCustomRender(UIBitmapType.CheckBox,{"width":_buttonSize,"height":_buttonSize,"state":"over","style":_style});
-            _downStateImage = UIBitmapManager.runCustomRender(UIBitmapType.CheckBox,{"width":_buttonSize,"height":_buttonSize,"state":"selected","style":_style});
+            _downStateImage = UIBitmapManager.runCustomRender(UIBitmapType.CheckBox, {"width":_buttonSize, "height":_buttonSize, "state":"down", "style":_style});
 			_disableStateImage = UIBitmapManager.runCustomRender(UIBitmapType.CheckBox,{"width":_buttonSize,"height":_buttonSize,"state":"disable","style":_style});
 			
-            _selectedDefaultStateImage = UIBitmapManager.runCustomRender(UIBitmapType.CheckBox,{"width":_buttonSize,"height":_buttonSize,"state":"default","style":_style});
-            _selectedOverStateImage = UIBitmapManager.runCustomRender(UIBitmapType.CheckBox,{"width":_buttonSize,"height":_buttonSize,"state":"over","style":_style});
-            _selectedDownStateImage = UIBitmapManager.runCustomRender(UIBitmapType.CheckBox,{"width":_buttonSize,"height":_buttonSize,"state":"selected","style":_style});
-			_selectedDisableStateImage = UIBitmapManager.runCustomRender(UIBitmapType.CheckBox,{"width":_buttonSize,"height":_buttonSize,"state":"disable","style":_style});
+			_selectedDefaultStateImage = UIBitmapManager.runCustomRender(UIBitmapType.CheckBox, {"width":_buttonSize, "height":_buttonSize, "state":"selected_default", "style":_style});
+			_selectedOverStateImage = UIBitmapManager.runCustomRender(UIBitmapType.CheckBox, {"width":_buttonSize, "height":_buttonSize, "state":"selected_over", "style":_style});
+			_selectedDownStateImage = UIBitmapManager.runCustomRender(UIBitmapType.CheckBox, {"width":_buttonSize, "height":_buttonSize, "state":"selected_down", "style":_style});
+			_selectedDisableStateImage = UIBitmapManager.runCustomRender(UIBitmapType.CheckBox, {"width":_buttonSize, "height":_buttonSize, "state":"selected_disable", "style":_style});
 			
 		}
 
@@ -161,13 +182,13 @@ class CheckBox extends SelectToggleBase implements ICheckBox implements IBaseUI
 		
 		// Update label size
 		_label.text = _text;
-		_label.width = _width - _buttonSize - radioButtonOffSetX;
+		_label.width = _width - _buttonSize - checkBoxOffSetX;
 		_label.height = _height;
 		
 		// Center Shapes
 		_label.draw();
-		_label.x = _buttonSize + radioButtonOffSetX;
-		_label.y = (_height / 2) - (_label.height / 2) + radioButtonOffSetY;
+		_label.x = _buttonSize + checkBoxOffSetX;
+		_label.y = (_height / 2) - (_label.height / 2) + checkBoxOffSetY;
 		
 		disableState.y = downState.y = overState.y = normalState.y = (_height / 2) - (_buttonSize / 2);
 	}
@@ -185,7 +206,7 @@ class CheckBox extends SelectToggleBase implements ICheckBox implements IBaseUI
 		
 		if (image != null)
 		{
-			super.drawButtonState(base, color, image);
+			super.drawButtonState(base, color, borderColor, image);
 		}
 		else
 		{

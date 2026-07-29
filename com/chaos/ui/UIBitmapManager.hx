@@ -78,6 +78,11 @@ class UIBitmapManager {
 	public static inline var CHECKBOX_DOWN:String = "checkbox_down";
 	public static inline var CHECKBOX_DISABLE:String = "checkbox_disable";
 
+	public static inline var CHECKBOX_SELECTED_NORMAL:String = "checkbox_selected_normal";
+	public static inline var CHECKBOX_SELECTED_OVER:String = "checkbox_selected_over";
+	public static inline var CHECKBOX_SELECTED_DOWN:String = "checkbox_selected_down";
+	public static inline var CHECKBOX_SELECTED_DISABLE:String = "checkbox_selected_disable";	
+
 	public static inline var RADIOBUTTON_NORMAL:String = "radiobutton_normal";
 	public static inline var RADIOBUTTON_OVER:String = "radiobutton_over";
 	public static inline var RADIOBUTTON_DOWN:String = "radiobutton_down";

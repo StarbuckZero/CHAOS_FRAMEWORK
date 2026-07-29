@@ -284,6 +284,12 @@ class Label extends BaseUI implements ILabel implements IBaseUI {
 
 	private function initStyle():Void {
 
+		if (UIStyleManager.hasStyle(UIStyleManager.LABEL_WIDTH))
+			_width = UIStyleManager.getStyle(UIStyleManager.LABEL_WIDTH);
+
+		if (UIStyleManager.hasStyle(UIStyleManager.LABEL_HEIGHT))
+			_height = UIStyleManager.getStyle(UIStyleManager.LABEL_HEIGHT);
+
 		if (UIStyleManager.hasStyle(UIStyleManager.LABEL_BORDER_THICKNESS))
 			_thickness = UIStyleManager.getStyle(UIStyleManager.LABEL_BORDER_THICKNESS);
 

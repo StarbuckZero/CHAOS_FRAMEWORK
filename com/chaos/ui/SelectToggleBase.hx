@@ -43,6 +43,11 @@ class SelectToggleBase extends ToggleButton implements IToggleButton implements 
 	
 	private var _label : Label;
 	
+	private var _selectedDefaultColor:Int = 0xCCCCCC;
+	private var _selectedOverColor:Int = 0x666666;
+	private var _selectedDownColor:Int = 0x333333;
+	private var _selectedDisableColor:Int = 0x999999;
+
 	
 	private var _selectedDefaultStateImage : BitmapData;
 	private var _selectedOverStateImage : BitmapData;
@@ -299,11 +304,10 @@ class SelectToggleBase extends ToggleButton implements IToggleButton implements 
 		// Figure to use bitmap or normal mode
 		if (_selected)
 		{
-						
-			drawButtonState(normalState, _defaultColor, _normalBorderColor, _selectedDefaultStateImage);
-			drawButtonState(overState, _overColor, _overBorderColor, _selectedOverStateImage);
-			drawButtonState(downState, _downColor, _downBorderColor, _selectedDownStateImage);
-			drawButtonState(disableState, _disableColor, _disableBorderColor, _selectedDisableStateImage);		
+			drawButtonState(normalState, _selectedDefaultColor, _normalBorderColor, _selectedDefaultStateImage);
+			drawButtonState(overState, _selectedOverColor, _overBorderColor, _selectedOverStateImage);
+			drawButtonState(downState, _selectedDownColor, _downBorderColor, _selectedDownStateImage);
+			drawButtonState(disableState, _selectedDisableColor, _disableBorderColor, _selectedDisableStateImage);
 		}
 		else
 		{
@@ -316,17 +320,17 @@ class SelectToggleBase extends ToggleButton implements IToggleButton implements 
 
 		if (_selected)
 		{
-			downState.visible = true;
-			normalState.visible = false;
-			overState.visible = false;
-			disableState.visible = false;
+			downState.alpha = 1;
+			normalState.alpha = 0;
+			overState.alpha = 0;
+			disableState.alpha = 0;
 		}
 		else
 		{
-			normalState.visible = true;
-			overState.visible = false;
-			downState.visible = false;
-			disableState.visible = false;
+			normalState.alpha = 1;
+			overState.alpha = 0;
+			downState.alpha = 0;
+			disableState.alpha = 0;
 		}		
 		
 		// Update label size

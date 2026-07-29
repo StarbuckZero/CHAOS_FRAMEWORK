@@ -148,6 +148,11 @@ class UIStyleManager
     public static var CHECKBOX_OVER_COLOR : String = "CHECKBOX_OVER_COLOR";
     public static var CHECKBOX_DOWN_COLOR : String = "CHECKBOX_DOWN_COLOR";
     public static var CHECKBOX_DISABLE_COLOR : String = "CHECKBOX_DISABLE_COLOR";
+
+    public static var CHECKBOX_SELECTED_NORMAL_COLOR : String = "CHECKBOX_SELECTED_NORMAL_COLOR";
+    public static var CHECKBOX_SELECTED_OVER_COLOR : String = "CHECKBOX_SELECTED_OVER_COLOR";
+    public static var CHECKBOX_SELECTED_DOWN_COLOR : String = "CHECKBOX_SELECTED_DOWN_COLOR";
+    public static var CHECKBOX_SELECTED_DISABLE_COLOR : String = "CHECKBOX_SELECTED_DISABLE_COLOR";
     
     public static var CHECKBOX_TEXT_COLOR : String = "CHECKBOX_TEXT_COLOR";
     
@@ -200,6 +205,12 @@ class UIStyleManager
     
     /** Label offset on y axis */
     public static var RADIOBUTTON_LABEL_OFFSET_Y : String = "RADIOBUTTON_LABEL_OFFSET_Y";
+
+    /** The default ComboBox width */
+    public static var COMBO_WIDTH : String = "COMBO_WIDTH";
+
+    /** The default ComboBox height */
+    public static var COMBO_HEIGHT : String = "COMBO_HEIGHT";
     
     public static var COMBO_BUTTON_NORMAL_COLOR : String = "COMBO_BUTTON_NORMAL_COLOR";
     public static var COMBO_BUTTON_OVER_COLOR : String = "COMBO_BUTTON_OVER_COLOR";
@@ -236,6 +247,12 @@ class UIStyleManager
     public static var COMBO_TEXT_OVER_BACKGROUND_COLOR : String = "COMBO_TEXT_OVER_BACKGROUND_COLOR";
     public static var COMBO_TEXT_DOWN_BACKGROUND_COLOR : String = "COMBO_TEXT_DOWN_BACKGROUND_COLOR";
     
+    /** The default GridPane width */
+    public static var GRID_WIDTH : String = "GRID_WIDTH";
+
+    /** The default GridPane height */
+    public static var GRID_HEIGHT : String = "GRID_HEIGHT";
+
     public static var GRID_BACKGROUND : String = "GRID_BACKGROUND";
     public static var GRID_BACKGROUND_COLOR : String = "GRID_BACKGROUND_COLOR";
     
@@ -256,6 +273,12 @@ class UIStyleManager
     public static var GRID_COLUMN_BUTTON_OVER_COLOR : String = "GRID_COLUMN_BUTTON_OVER_COLOR";
     public static var GRID_COLUMN_BUTTON_DOWN_COLOR : String = "GRID_COLUMN_BUTTON_DOWN_COLOR";
     
+    /** The default ListBox width */
+    public static var LIST_WIDTH : String = "LIST_WIDTH";
+
+    /** The default ListBox height */
+    public static var LIST_HEIGHT : String = "LIST_HEIGHT";
+
     public static var LIST_BORDER_ALPHA : String = "LIST_BORDER_ALPHA";
     public static var LIST_BORDER : String = "LIST_BORDER";
     public static var LIST_BORDER_COLOR : String = "LIST_BORDER_COLOR";
@@ -282,6 +305,12 @@ class UIStyleManager
     public static var LIST_TEXT_ITALIC : String = "LIST_TEXT_ITALIC";
     public static var LIST_TEXT_SIZE : String = "LIST_TEXT_SIZE";
     
+    /** The default Label width */
+    public static var LABEL_WIDTH : String = "LABEL_WIDTH";
+
+    /** The default Label height */
+    public static var LABEL_HEIGHT : String = "LABEL_HEIGHT";
+
     public static var LABEL_BORDER_ALPHA : String = "LABEL_BORDER_ALPHA";
     public static var LABEL_BORDER : String = "LABEL_BORDER";
     public static var LABEL_BORDER_COLOR : String = "LABEL_BORDER_COLOR";
@@ -303,6 +332,12 @@ class UIStyleManager
     /** Set the amount of pixels the text will be indented by  */
     public static var LABEL_INDENT : String = "LABEL_INDENT";
     
+    /** The default TextInput width */
+    public static var INPUT_WIDTH : String = "INPUT_WIDTH";
+
+    /** The default TextInput height */
+    public static var INPUT_HEIGHT : String = "INPUT_HEIGHT";
+
     public static var INPUT_BACKGROUND : String = "INPUT_BACKGROUND";
     
     public static var INPUT_BACKGROUND_NORMAL_COLOR : String = "INPUT_BACKGROUND_NORMAL_COLOR";
@@ -326,6 +361,12 @@ class UIStyleManager
     public static var INPUT_TEXT_BOLD : String = "INPUT_TEXT_BOLD";
     public static var INPUT_TEXT_ITALIC : String = "INPUT_TEXT_ITALIC";
     
+    /** The default ProgressBar width */
+    public static var PROGRESSBAR_WIDTH : String = "PROGRESSBAR_WIDTH";
+
+    /** The default ProgressBar height */
+    public static var PROGRESSBAR_HEIGHT : String = "PROGRESSBAR_HEIGHT";
+
     public static var PROGRESSBAR_BORDER_ALPHA : String = "PROGRESSBAR_BORDER_ALPHA";
     public static var PROGRESSBAR_BORDER : String = "PROGRESSBAR_BORDER";
 	public static var PROGRESSBAR_BORDER_COLOR : String = "PROGRESSBAR_BORDER_COLOR";
@@ -401,6 +442,12 @@ class UIStyleManager
     
     /** The scroller offset */
     public static var SCROLLBAR_OFFSET : String = "SCROLLBAR_OFFSET";
+
+    /** The default Slider width */
+    public static var SLIDER_WIDTH : String = "SLIDER_WIDTH";
+
+    /** The default Slider height */
+    public static var SLIDER_HEIGHT : String = "SLIDER_HEIGHT";
     
     public static var SLIDER_NORMAL_COLOR : String = "SLIDER_NORMAL_COLOR";
     public static var SLIDER_OVER_COLOR : String = "SLIDER_OVER_COLOR";
@@ -417,6 +464,12 @@ class UIStyleManager
     
     public static var SLIDER_OFFSET : String = "SLIDER_OFFSET";
     
+    /** The default ScrollPane width */
+    public static var SCROLLPANE_WIDTH : String = "SCROLLPANE_WIDTH";
+
+    /** The default ScrollPane height */
+    public static var SCROLLPANE_HEIGHT : String = "SCROLLPANE_HEIGHT";
+
     public static var SCROLLPANE_BACKGROUND : String = "SCROLLPANE_BACKGROUND";
     
     public static var SCROLLPANE_BORDER_ALPHA : String = "SCROLLPANE_BORDER_ALPHA";
@@ -432,6 +485,12 @@ class UIStyleManager
     public static var SCROLLPANE_CONTENT_WIDTH_OFFSET : String = "SCROLLPANE_CONTENT_WIDTH_OFFSET";
     public static var SCROLLPANE_CONTENT_HEIGHT_OFFSET : String = "SCROLLPANE_CONTENT_HEIGHT_OFFSET";
     
+    /** The default ItemPane width */
+    public static var ITEMPANE_WIDTH : String = "ITEMPANE_WIDTH";
+
+    /** The default ItemPane height */
+    public static var ITEMPANE_HEIGHT : String = "ITEMPANE_HEIGHT";
+
     public static var ITEMPANE_BACKGROUND : String = "ITEMPANE_BACKGROUND";
     
     public static var ITEMPANE_BORDER_ALPHA : String = "ITEMPANE_BORDER_ALPHA";
@@ -475,6 +534,12 @@ class UIStyleManager
     
     /** The offset of the y-axis */
     public static var ITEMPANE_LABEL_OFFSET_Y : String = "ITEMPANE_LABEL_OFFSET_Y";
+
+    /** The default TabPane width */
+    public static var TABPANE_WIDTH : String = "TABPANE_WIDTH";
+
+    /** The default TabPane height */
+    public static var TABPANE_HEIGHT : String = "TABPANE_HEIGHT";
     
     public static var TABPANE_BACKGROUND : String = "TABPANE_BACKGROUND";
     
@@ -498,6 +563,12 @@ class UIStyleManager
     public static var TABPANE_BORDER : String = "TABPANE_BORDER";
     public static var TABPANE_BORDER_COLOR : String = "TABPANE_BORDER_COLOR";
     public static var TABPANE_BORDER_THICKNESS : String = "TABPANE_BORDER_THICKNESS";
+
+    /** The default toggle button width */
+    public static var TOGGLE_BUTTON_WIDTH : String = "TOGGLE_BUTTON_WIDTH";
+
+    /** The default toggle button height */
+    public static var TOGGLE_BUTTON_HEIGHT : String = "TOGGLE_BUTTON_HEIGHT";
 
     public static var TOGGLE_BUTTON_BORDER : String = "TOGGLE_BUTTON_BORDER";
     public static var TOGGLE_BUTTON_BORDER_ALPHA : String = "TOGGLE_BUTTON_BORDER_ALPHA";
@@ -537,6 +608,12 @@ class UIStyleManager
     public static var TOOLTIP_BUBBLE_LOC_X : String = "TOOLTIP_BUBBLE_LOC_X";
     public static var TOOLTIP_BUBBLE_LOC_Y : String = "TOOLTIP_BUBBLE_LOC_Y";
     
+    /** The default Window width */
+    public static var WINDOW_WIDTH : String = "WINDOW_WIDTH";
+
+    /** The default Window height */
+    public static var WINDOW_HEIGHT : String = "WINDOW_HEIGHT";
+
     public static var WINDOW_TITLE_TEXT_EMBED : String = "WINDOW_TITLE_TEXT_EMBED";
     public static var WINDOW_TITLE_TEXT_FONT : String = "WINDOW_TITLE_TEXT_FONT";
     public static var WINDOW_TITLE_TEXT_COLOR : String = "WINDOW_TITLE_TEXT_COLOR";
@@ -577,6 +654,12 @@ class UIStyleManager
     public static var WINDOW_CLOSE_DISABLE_COLOR : String = "WINDOW_CLOSE_DISABLE_COLOR";
     public static var WINDOW_CLOSE_UNFOCUS_COLOR : String = "WINDOW_CLOSE_UNFOCUS_COLOR";
 	
+    /** The default Menu width */
+    public static var MENU_WIDTH : String = "MENU_WIDTH";
+
+    /** The default Menu height */
+    public static var MENU_HEIGHT : String = "MENU_HEIGHT";
+
     public static var MENU_BACKGROUND_COLOR : String = "MENU_BACKGROUND_COLOR";
     public static var MENU_BACKGROUND_ALPHA : String = "MENU_BACKGROUND_ALPHA";
 

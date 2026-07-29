@@ -190,7 +190,6 @@ class TextInput extends Label implements ITextInput implements ILabel implements
 		if(!_alignSet)
 			textFormat.align = _align = TextFormatAlign.LEFT;
 
-
 		// Set some input defaults
 		enabled = editable = true;
 
@@ -280,6 +279,12 @@ class TextInput extends Label implements ITextInput implements ILabel implements
 	override function initStyle() : Void
 	{
 		super.initStyle();
+
+		if (UIStyleManager.hasStyle(UIStyleManager.INPUT_WIDTH))
+			_width = UIStyleManager.getStyle(UIStyleManager.INPUT_WIDTH);
+
+		if (UIStyleManager.hasStyle(UIStyleManager.INPUT_HEIGHT))
+			_height = UIStyleManager.getStyle(UIStyleManager.INPUT_HEIGHT);
 
 		if (UIStyleManager.hasStyle(UIStyleManager.INPUT_TEXT_COLOR))
 			_textColor = UIStyleManager.getStyle(UIStyleManager.INPUT_TEXT_COLOR);

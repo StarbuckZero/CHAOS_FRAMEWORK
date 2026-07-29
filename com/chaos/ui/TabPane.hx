@@ -202,6 +202,13 @@ class TabPane extends BaseUI implements ITabPane implements IBaseUI
 	private function initStyle() : Void
 	{
 		_scrollPaneData = {};
+
+		// Width and Height
+		if (UIStyleManager.hasStyle(UIStyleManager.TABPANE_WIDTH))
+			_width = UIStyleManager.getStyle(UIStyleManager.TABPANE_WIDTH);
+
+		if (UIStyleManager.hasStyle(UIStyleManager.TABPANE_HEIGHT))
+			_height = UIStyleManager.getStyle(UIStyleManager.TABPANE_HEIGHT);
 		
 		// Border
 		if (UIStyleManager.hasStyle(UIStyleManager.TABPANE_BACKGROUND))

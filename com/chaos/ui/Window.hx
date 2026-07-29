@@ -612,6 +612,11 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 		if (_maxButtonData == null)
 			_maxButtonData = {"name":WindowEvent.WINDOW_MAX_BTN, "showLabel":false, "defaultColor":DEFAULT_MAX_BTN_COLOR};
 
+		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_WIDTH))
+			_width = UIStyleManager.getStyle(UIStyleManager.WINDOW_WIDTH);
+
+		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_HEIGHT))
+			_height = UIStyleManager.getStyle(UIStyleManager.WINDOW_HEIGHT);
 			
 		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_BACKGROUND_COLOR))
 			Reflect.setField(_scrollPanelData, "backgroundColor", UIStyleManager.getStyle(UIStyleManager.WINDOW_BACKGROUND_COLOR));
