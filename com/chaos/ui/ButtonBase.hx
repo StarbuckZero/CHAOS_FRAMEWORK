@@ -123,17 +123,18 @@ import com.chaos.ui.Border;
 
         shapeBase.graphics.clear();
 
+        // Always draw the state color first. A bitmap is a skin layered over the
+        // color, so transparent pixels can reveal the configured state color.
+        shapeBase.graphics.beginFill(_baseColor, _baseAlpha);
+        shapeBase.graphics.drawRoundRect(0, 0, _width, _height, _roundEdge);
+        shapeBase.graphics.endFill();
+
         if (null != _image)
-          shapeBase.graphics.beginBitmapFill(_image, null, _tileImage, _smoothImage);
-		  else
-		  	shapeBase.graphics.beginFill(_baseColor, _baseAlpha);
-
-	  	if (_image != null)
-			  shapeBase.graphics.drawRoundRect(0, 0, _width, _height, _roundEdge);
-		  else
-			  shapeBase.graphics.drawRoundRect(0, 0, _width, _height, _roundEdge);
-
-		    shapeBase.graphics.endFill();          
+        {
+            shapeBase.graphics.beginBitmapFill(_image, null, _tileImage, _smoothImage);
+            shapeBase.graphics.drawRoundRect(0, 0, _width, _height, _roundEdge);
+            shapeBase.graphics.endFill();
+        }
      }
 
      private function set_tileImage(value:Bool):Bool {

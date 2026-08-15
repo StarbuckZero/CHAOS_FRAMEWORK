@@ -430,33 +430,39 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
 	//@:setter(enabled)
 	override function set_enabled(value:Bool):Bool 
 	{
-		
-		if (_mode.toLowerCase() == PRESS_MODE)
+		var result:Bool = super.set_enabled(value);
+
+		buttonMode = value;
+		mouseEnabled = value;
+
+		if (value) 
 		{
-			if (enabled != value) 
+			if (!hasEventListener(MouseEvent.MOUSE_UP))
+				addEventListener(MouseEvent.MOUSE_UP, mouseUpEvent, false, 1, true);
+
+			disableState.visible = false;
+
+			if (_mode.toLowerCase() == PRESS_MODE || !_selected) 
 			{
-				
-				if (value) 
-				{
-					// Attach roll over and out event
-					if (!hasEventListener(MouseEvent.MOUSE_UP))
-						addEventListener(MouseEvent.MOUSE_UP, mouseUpEvent, false, 0, true);
-						
-					disableState.visible = false;
-				}
-				else 
-				{
-					
-					// Attach roll over and out event
-					removeEventListener(MouseEvent.MOUSE_UP, mouseUpEvent);
-					disableState.visible = true;
-				}
+				normalState.alpha = 1;
+				overState.alpha = downState.alpha = disableState.alpha = 0;
+			}
+			else 
+			{
+				downState.alpha = 1;
+				overState.alpha = normalState.alpha = disableState.alpha = 0;
 			}
 		}
-		
-		buttonMode = value;
-		
-		return super.set_enabled(value);
+		else 
+		{
+			removeEventListener(MouseEvent.MOUSE_UP, mouseUpEvent);
+
+			disableState.visible = true;
+			disableState.alpha = 1;
+			normalState.alpha = overState.alpha = downState.alpha = 0;
+		}
+
+		return result;
 	}
 	
     
@@ -864,6 +870,9 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
 	
 	private function mouseUpEvent(event:MouseEvent):Void 
 	{
+        if (!enabled)
+            return;
+
         if (_stateFadeSpeed > 0)
         {
             overState.alpha = 0;
@@ -880,6 +889,9 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
 	
 	override function mouseDownEvent(event:MouseEvent):Void 
 	{
+        if (!enabled)
+            return;
+
 		// Either go with what is done in the ToggleButton Super class
 		if (_mode.toLowerCase() != PRESS_MODE)
 			super.mouseDownEvent(event);

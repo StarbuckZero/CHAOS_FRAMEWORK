@@ -87,38 +87,50 @@ class DisplayImage extends BaseUI implements IBaseUI
 	/**
 	 * @inheritDoc
 	 */
-	override public function setComponentData(data:Dynamic):Void 
+	override public function setComponentData(data:Dynamic):Void
 	{
 		super.setComponentData(data);
-		
-		if(Reflect.hasField(data,"url"))
-			_url = Reflect.field(data, "url");
-			
+
+		if (data == null)
+			return;
+
 		if (Reflect.hasField(data, "drawOffStage"))
 			_drawOffStage = Reflect.field(data, "drawOffStage");
 
 		if (Reflect.hasField(data, "resizeImage"))
 			_resizeImage = Reflect.field(data, "resizeImage");
-		
+
+		if (Reflect.hasField(data, "repeat"))
+			_repeat = Reflect.field(data, "repeat");
+
 		if (Reflect.hasField(data, "image"))
 		{
 			var bitmapData:BitmapData = Reflect.field(data, "image");
 
 			if (bitmapData != null)
+				setImage(bitmapData);
+		}
+
+		if (Reflect.hasField(data, "base64"))
+		{
+			var base64:String = Reflect.field(data, "base64");
+
+			if (base64 != null && base64 != "")
+				setBase64Image(base64);
+		}
+
+		if (Reflect.hasField(data, "url"))
+		{
+			var url:String = Reflect.field(data, "url");
+
+			if (url != null && url != "" && url != _url)
 			{
-				_image = bitmapData;
-				_width = _image.width;
-				_height = _image.height;
+				_url = url;
+				load(_url);
 			}
 		}
 
-		if (Reflect.hasField(data, "repeat"))
-			_repeat = Reflect.field(data, "repeat");
-		
-		if(Reflect.hasField(data, "base64")) {
-			setBase64Image(Reflect.field(data, "base64"));
-		}
-			
+		draw();
 	}
 	
 
@@ -256,15 +268,7 @@ class DisplayImage extends BaseUI implements IBaseUI
 					"[DisplayImage::setBase64Image] Set HTML5 BitmapData: " + name
 				);
 
-				_image = bitmapData;
-				_width = _image.width;
-				_height = _image.height;
-
-				draw();
-
-				dispatchEvent(
-					new DisplayImageEvent(DisplayImageEvent.IMAGE_LOADED)
-				);
+				setImage(bitmapData);
 			})
 			.onError(function(error:Dynamic)
 			{
@@ -285,17 +289,23 @@ class DisplayImage extends BaseUI implements IBaseUI
 	 * @param	displayBitmap The bitmap you want to use
 	 */
 	
-	public function setImage(image : BitmapData ) : Void
+	public function setImage(image:BitmapData):Void
 	{
+		if (image == null)
+			return;
+
 		_image = image;
 
-		_width = _image.width;
-		_height = _image.height;
+		if (_width <= 0)
+			_width = _image.width;
+
+		if (_height <= 0)
+			_height = _image.height;
+
+		draw();
 
 		dispatchEvent(new DisplayImageEvent(DisplayImageEvent.IMAGE_LOADED));
-		
-		draw();
-    } 
+	}
 
 	public function unload():Void
 	{
@@ -375,8 +385,8 @@ class DisplayImage extends BaseUI implements IBaseUI
     }
 	
 	
-	private function fileComplete(event:Event):Void  
-	{  
+	private function fileComplete(event:Event):Void
+	{
 		var loaderFile:LoaderInfo = cast(event.target, LoaderInfo);
 		var bitmap:Bitmap = cast(loaderFile.content, Bitmap);
 
@@ -386,40 +396,45 @@ class DisplayImage extends BaseUI implements IBaseUI
 			return;
 		}
 
-		_image = bitmap.bitmapData;
-
-		if (_width <= 0)
-			_width = _image.width;
-
-		if (_height <= 0)
-			_height = _image.height;
-
 		Debug.print("[DisplayImage::fileComplete] Image loaded: " + name);
 
-		draw();
-
-		dispatchEvent(
-			new DisplayImageEvent(DisplayImageEvent.IMAGE_LOADED)
-		);
+		setImage(bitmap.bitmapData);
 	}
 
-	private function resizeBitmapData(originalBitmapData:BitmapData, newWidth:Int, newHeight:Int) : BitmapData {
+	private function resizeBitmapData(source:BitmapData,width:Int,height:Int):BitmapData {
 
-		var resizedBitmapData:BitmapData = new BitmapData(newWidth, newHeight, true, 0x00000000); // true for transparency, 0x00000000 for transparent black
+		if (source == null || width <= 0 || height <= 0) {
+			return source;
+		}
 
-		var originalWidth:Int = originalBitmapData.width;
-		var originalHeight:Int = originalBitmapData.height;
+		if (source.width == width && source.height == height) {
+			return source.clone();
+		}
 
-		var scaleX:Float = newWidth / originalWidth;
-		var scaleY:Float = newHeight / originalHeight;
+		var resizedBitmapData:BitmapData = new BitmapData(
+			width,
+			height,
+			true,
+			0x00000000
+		);
+
+		var sourceBitmap:Bitmap = new Bitmap(source);
+
+		var scaleX:Float = width / source.width;
+		var scaleY:Float = height / source.height;
 
 		var matrix:Matrix = new Matrix();
-
 		matrix.scale(scaleX, scaleY);
 
-		resizedBitmapData.draw(originalBitmapData, matrix);
+		resizedBitmapData.draw(
+			sourceBitmap,
+			matrix,
+			null,
+			null,
+			null,
+			true
+		);
 
 		return resizedBitmapData;
-
 	}
 }
