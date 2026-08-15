@@ -777,7 +777,7 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
             _defaultStateImage = UIBitmapManager.runCustomRender(UIBitmapType.Button,{"width":_width,"height":_height,"state":"default"});
             _overStateImage = UIBitmapManager.runCustomRender(UIBitmapType.Button,{"width":_width,"height":_height,"state":"over"});
             _downStateImage = UIBitmapManager.runCustomRender(UIBitmapType.Button,{"width":_width,"height":_height,"state":"down"});
-            _disableStateImage = UIBitmapManager.runCustomRender(UIBitmapType.Button,{"width":_width,"height":_height,"state":"down"});
+            _disableStateImage = UIBitmapManager.runCustomRender(UIBitmapType.Button,{"width":_width,"height":_height,"state":"disable"});
         }
 
         super.draw();
