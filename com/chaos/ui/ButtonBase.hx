@@ -2,6 +2,7 @@ package com.chaos.ui;
 
 import openfl.display.Shape;
 import openfl.display.BitmapData;
+import openfl.geom.Matrix;
 import com.chaos.ui.classInterface.IBaseUI;
 import com.chaos.ui.classInterface.IButtonBase;
 import com.chaos.ui.classInterface.IBorder;
@@ -123,15 +124,27 @@ import com.chaos.ui.Border;
 
         shapeBase.graphics.clear();
 
-        // Always draw the state color first. A bitmap is a skin layered over the
-        // color, so transparent pixels can reveal the configured state color.
-        shapeBase.graphics.beginFill(_baseColor, _baseAlpha);
-        shapeBase.graphics.drawRoundRect(0, 0, _width, _height, _roundEdge);
-        shapeBase.graphics.endFill();
-
         if (null != _image)
         {
-            shapeBase.graphics.beginBitmapFill(_image, null, _tileImage, _smoothImage);
+            var bitmapMatrix:Matrix = null;
+
+            // Tiled images repeat at their native size. Non-tiled images stretch
+            // to fill the current component bounds and therefore follow resizes.
+            if (!_tileImage && _image.width > 0 && _image.height > 0 && _width > 0 && _height > 0)
+            {
+                bitmapMatrix = new Matrix();
+                bitmapMatrix.scale(_width / _image.width, _height / _image.height);
+            }
+
+            shapeBase.graphics.beginBitmapFill(_image, bitmapMatrix, _tileImage, _smoothImage);
+            shapeBase.graphics.drawRoundRect(0, 0, _width, _height, _roundEdge);
+            shapeBase.graphics.endFill();
+        }
+        else
+        {
+            // Only use the state color when no bitmap skin is available. Drawing
+            // it beneath a bitmap would make transparent sprite pixels opaque.
+            shapeBase.graphics.beginFill(_baseColor, _baseAlpha);
             shapeBase.graphics.drawRoundRect(0, 0, _width, _height, _roundEdge);
             shapeBase.graphics.endFill();
         }
