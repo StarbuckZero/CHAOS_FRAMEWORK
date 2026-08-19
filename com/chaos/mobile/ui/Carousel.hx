@@ -16,6 +16,7 @@ import com.chaos.ui.layout.classInterface.IBaseContainer;
 import com.chaos.mobile.ui.data.CarouselObjectData;
 import com.chaos.ui.classInterface.IBaseUI;
 import com.chaos.data.DataProvider;
+import com.chaos.utils.Debug;
 
 class Carousel extends BaseContainer implements IBaseContainer implements IBaseUI
 {
@@ -81,6 +82,12 @@ class Carousel extends BaseContainer implements IBaseContainer implements IBaseU
 
     public function addItem( item : CarouselObjectData ):Void
     {
+        if (item == null || item.content == null || !Std.isOfType(item.content, DisplayObject))
+        {
+            Debug.print("[Carousel::addItem] Unable to add item without valid DisplayObject content.");
+            return;
+        }
+
         // Add content to display
         var itemContent:DisplayObject = item.content;
 
@@ -275,6 +282,12 @@ class Carousel extends BaseContainer implements IBaseContainer implements IBaseU
             // Get content 
             if(Reflect.hasField(data,"content"))
                 content = Reflect.field(data,"content");
+
+            if (content == null || !Std.isOfType(content, DisplayObject))
+            {
+                Debug.print("[Carousel::addItemsFromList] Skipping item at index " + i + " without valid DisplayObject content.");
+                continue;
+            }
 
             // Default Icon Image
             if(Reflect.hasField(data,"defaultIcon"))
