@@ -18,6 +18,11 @@ import openfl.display.Shape;
 import openfl.display.Sprite;
 import openfl.errors.Error;
 import openfl.display.BitmapData;
+import openfl.geom.Matrix;
+import com.chaos.ui.UIStyleManager;
+import com.chaos.ui.UIBitmapManager;
+import com.chaos.ui.UIBitmapManager.UIBitmapType;
+import openfl.events.Event;
 
 class BaseContainer extends BaseUI implements IBaseContainer implements IBaseUI
 {
@@ -27,6 +32,7 @@ class BaseContainer extends BaseUI implements IBaseContainer implements IBaseUI
     public var background(get, set) : Bool;
     public var backgroundColor(get, set) : Int;
     public var backgroundAlpha(get, set) : Float;
+    public var tileImage(get, set) : Bool;
 
     
     /** This could be used for holding other DisplayObjects */
@@ -42,6 +48,7 @@ class BaseContainer extends BaseUI implements IBaseContainer implements IBaseUI
     private var _backgroundAlpha : Float = 1;
     private var _backgroundColor : Int = 0xCCCCCC;
     private var _background : Bool = true;
+    private var _tileImage : Bool = false;
 
     
     private var _showImage : Bool = true;
@@ -53,7 +60,9 @@ class BaseContainer extends BaseUI implements IBaseContainer implements IBaseUI
     public function new(data:Dynamic = null)
     {
         super(data);
-        
+
+		addEventListener(Event.ADDED_TO_STAGE, onBaseContainerStageAdd, false, 0, true);
+		addEventListener(Event.REMOVED_FROM_STAGE, onBaseContainerStageRemove, false, 0, true);
     }
 	
 	/**
@@ -93,7 +102,66 @@ class BaseContainer extends BaseUI implements IBaseContainer implements IBaseUI
 			
 		if (Reflect.hasField(data, "backgroundImage"))
 			_imageBackground = Reflect.field(data, "backgroundImage");
+
+		if (Reflect.hasField(data, "tileImage"))
+			_tileImage = Reflect.field(data, "tileImage");
 		
+	}
+
+	override public function reskin() : Void
+	{
+		super.reskin();
+
+		if (UIStyleManager.hasStyle(UIStyleManager.BASE_CONTAINER_TILE_IMAGE))
+			_tileImage = UIStyleManager.getStyle(UIStyleManager.BASE_CONTAINER_TILE_IMAGE);
+
+		if (UIBitmapManager.hasUIElement(UIBitmapType.BaseContainer, UIBitmapManager.BASE_CONTAINER_BACKGROUND))
+			setBackgroundImage(UIBitmapManager.getUIElement(UIBitmapType.BaseContainer, UIBitmapManager.BASE_CONTAINER_BACKGROUND));
+
+		var componentSkin : Dynamic = getComponentBackgroundSkin();
+
+		if (componentSkin != null && UIBitmapManager.hasUIElement(componentSkin.type, componentSkin.style))
+			setBackgroundImage(UIBitmapManager.getUIElement(componentSkin.type, componentSkin.style));
+	}
+
+	private function getComponentBackgroundSkin() : Dynamic
+	{
+		return switch (Type.getClassName(Type.getClass(this)))
+		{
+			case "com.chaos.drawing.Canvas": {type:UIBitmapType.Canvas, style:UIBitmapManager.CANVAS_BACKGROUND};
+			case "com.chaos.form.FormBuilder": {type:UIBitmapType.FormBuilder, style:UIBitmapManager.FORM_BUILDER_BACKGROUND};
+			case "com.chaos.mobile.ui.Breadcrumb": {type:UIBitmapType.Breadcrumb, style:UIBitmapManager.BREADCRUMB_BACKGROUND};
+			case "com.chaos.mobile.ui.Carousel": {type:UIBitmapType.Carousel, style:UIBitmapManager.CAROUSEL_BACKGROUND};
+			case "com.chaos.mobile.ui.MobileButtonList": {type:UIBitmapType.MobileButtonList, style:UIBitmapManager.MOBILE_BUTTON_LIST_BACKGROUND};
+			case "com.chaos.mobile.ui.NavigationMenu": {type:UIBitmapType.NavigationMenu, style:UIBitmapManager.NAVIGATION_MENU_BACKGROUND};
+			case "com.chaos.mobile.ui.layout.DragContainer": {type:UIBitmapType.DragContainer, style:UIBitmapManager.DRAG_CONTAINER_BACKGROUND};
+			case "com.chaos.ui.layout.AlignmentBaseContainer": {type:UIBitmapType.AlignmentBaseContainer, style:UIBitmapManager.ALIGNMENT_BASE_CONTAINER_BACKGROUND};
+			case "com.chaos.ui.layout.FitContainer": {type:UIBitmapType.FitContainer, style:UIBitmapManager.FIT_CONTAINER_BACKGROUND};
+			case "com.chaos.ui.layout.GridContainer": {type:UIBitmapType.GridContainer, style:UIBitmapManager.GRID_CONTAINER_BACKGROUND};
+			case "com.chaos.ui.layout.HorizontalContainer": {type:UIBitmapType.HorizontalContainer, style:UIBitmapManager.HORIZONTAL_CONTAINER_BACKGROUND};
+			case "com.chaos.ui.layout.VerticalContainer": {type:UIBitmapType.VerticalContainer, style:UIBitmapManager.VERTICAL_CONTAINER_BACKGROUND};
+			default: null;
+		}
+	}
+
+	private function onBaseContainerStageAdd(event : Event) : Void
+	{
+		UIBitmapManager.watchElement(UIBitmapType.BaseContainer, this);
+
+		var componentSkin : Dynamic = getComponentBackgroundSkin();
+
+		if (componentSkin != null)
+			UIBitmapManager.watchElement(componentSkin.type, this);
+	}
+
+	private function onBaseContainerStageRemove(event : Event) : Void
+	{
+		UIBitmapManager.stopWatchElement(UIBitmapType.BaseContainer, this);
+
+		var componentSkin : Dynamic = getComponentBackgroundSkin();
+
+		if (componentSkin != null)
+			UIBitmapManager.stopWatchElement(componentSkin.type, this);
 	}
 	
 	/**
@@ -103,6 +171,10 @@ class BaseContainer extends BaseUI implements IBaseContainer implements IBaseUI
 	override public function destroy():Void 
 	{
 		super.destroy();
+
+		removeEventListener(Event.ADDED_TO_STAGE, onBaseContainerStageAdd);
+		removeEventListener(Event.REMOVED_FROM_STAGE, onBaseContainerStageRemove);
+		onBaseContainerStageRemove(null);
 		
 		backgroundShape.graphics.clear();
 		
@@ -293,6 +365,17 @@ class BaseContainer extends BaseUI implements IBaseContainer implements IBaseUI
     {
         return _showImage;
     }
+
+    private function set_tileImage(value : Bool) : Bool
+    {
+        _tileImage = value;
+        return value;
+    }
+
+    private function get_tileImage() : Bool
+    {
+        return _tileImage;
+    }
     
 
     /**
@@ -388,7 +471,17 @@ class BaseContainer extends BaseUI implements IBaseContainer implements IBaseUI
         backgroundShape.graphics.clear();
         
 		if(null != _imageBackground)
-			backgroundShape.graphics.beginBitmapFill(_imageBackground, null, true, _smoothImage);
+		{
+			var bitmapMatrix : Matrix = null;
+
+			if (!_tileImage && _imageBackground.width > 0 && _imageBackground.height > 0 && _width > 0 && _height > 0)
+			{
+				bitmapMatrix = new Matrix();
+				bitmapMatrix.scale(_width / _imageBackground.width, _height / _imageBackground.height);
+			}
+
+			backgroundShape.graphics.beginBitmapFill(_imageBackground, bitmapMatrix, _tileImage, _smoothImage);
+		}
 		else 
 			backgroundShape.graphics.beginFill(_backgroundColor, _backgroundAlpha);
 		

@@ -181,6 +181,9 @@ class Accordion extends BaseContainer implements IAccordion implements IBaseCont
 		if (UIStyleManager.hasStyle(UIStyleManager.ACCORDION_BACKGROUND_COLOR))
 			_backgroundColor = UIStyleManager.getStyle(UIStyleManager.ACCORDION_BACKGROUND_COLOR);
 
+		if (UIStyleManager.hasStyle(UIStyleManager.ACCORDION_TILE_IMAGE))
+			_tileImage = UIStyleManager.getStyle(UIStyleManager.ACCORDION_TILE_IMAGE);
+
 		if (UIStyleManager.hasStyle(UIStyleManager.ACCORDION_USE_CUSTOM_RENDER))
 			_useCustomRender = UIStyleManager.getStyle(UIStyleManager.ACCORDION_USE_CUSTOM_RENDER);
 		

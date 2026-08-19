@@ -13,6 +13,8 @@ import openfl.text.Font;
 
 class UIStyleManager
 {
+	/** Repeat BaseContainer background images instead of stretching them. */
+	public static var BASE_CONTAINER_TILE_IMAGE : String = "BASE_CONTAINER_TILE_IMAGE";
 	
     public static var ACCORDION_BUTTON_NORMAL_COLOR : String = "ACCORDION_BUTTON_NORMAL_COLOR";
     public static var ACCORDION_BUTTON_OVER_COLOR : String = "ACCORDION_BUTTON_OVER_COLOR";
@@ -23,6 +25,7 @@ class UIStyleManager
 	public static var ACCORDION_BUTTON_SELECTED_TEXT_COLOR : String = "ACCORDION_BUTTON_SELECTED_TEXT_COLOR";
 	
     public static var ACCORDION_BACKGROUND_COLOR : String = "ACCORDION_BACKGROUND_COLOR";
+    public static var ACCORDION_TILE_IMAGE : String = "ACCORDION_TILE_IMAGE";
     
     public static var ACCORDION_USE_CUSTOM_RENDER : String = "ACCORDION_USE_CUSTOM_RENDER";//Bool = false;
 	
@@ -255,6 +258,7 @@ class UIStyleManager
 
     public static var GRID_BACKGROUND : String = "GRID_BACKGROUND";
     public static var GRID_BACKGROUND_COLOR : String = "GRID_BACKGROUND_COLOR";
+    public static var GRIDPANE_TILE_IMAGE : String = "GRIDPANE_TILE_IMAGE";
     
     public static var GRID_CELL_BACKGROUND : String = "GRID_CELL_BACKGROUND";
     public static var GRID_CELL_BACKGROUND_COLOR : String = "GRID_CELL_BACKGROUND_COLOR";
@@ -285,6 +289,7 @@ class UIStyleManager
     public static var LIST_BORDER_THICKNESS : String = "LIST_BORDER_THICKNESS";
     
     public static var LIST_BACKGROUND_COLOR : String = "LIST_BACKGROUND_COLOR";
+    public static var LIST_TILE_IMAGE : String = "LIST_TILE_IMAGE";
     
     public static var LIST_TEXT_EMBED : String = "LIST_TEXT_EMBED";
     /** String **/
@@ -471,6 +476,7 @@ class UIStyleManager
     public static var SCROLLPANE_HEIGHT : String = "SCROLLPANE_HEIGHT";
 
     public static var SCROLLPANE_BACKGROUND : String = "SCROLLPANE_BACKGROUND";
+    public static var SCROLLPANE_TILE_IMAGE : String = "SCROLLPANE_TILE_IMAGE";
     
     public static var SCROLLPANE_BORDER_ALPHA : String = "SCROLLPANE_BORDER_ALPHA";
     public static var SCROLLPANE_BORDER : String = "SCROLLPANE_BORDER";
@@ -492,6 +498,7 @@ class UIStyleManager
     public static var ITEMPANE_HEIGHT : String = "ITEMPANE_HEIGHT";
 
     public static var ITEMPANE_BACKGROUND : String = "ITEMPANE_BACKGROUND";
+    public static var ITEMPANE_TILE_IMAGE : String = "ITEMPANE_TILE_IMAGE";
     
     public static var ITEMPANE_BORDER_ALPHA : String = "ITEMPANE_BORDER_ALPHA";
     public static var ITEMPANE_BORDER : String = "ITEMPANE_BORDER";
@@ -662,6 +669,7 @@ class UIStyleManager
 
     public static var MENU_BACKGROUND_COLOR : String = "MENU_BACKGROUND_COLOR";
     public static var MENU_BACKGROUND_ALPHA : String = "MENU_BACKGROUND_ALPHA";
+    public static var MENU_TILE_IMAGE : String = "MENU_TILE_IMAGE";
 
     public static var ICON_BORDER : String = "ICON_BORDER";
     public static var ICON_COLOR : String = "ICON_COLOR";

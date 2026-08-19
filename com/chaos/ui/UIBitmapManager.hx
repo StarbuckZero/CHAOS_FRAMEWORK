@@ -14,6 +14,19 @@ import com.chaos.utils.Debug;
  */
 
 class UIBitmapManager {
+	public static inline var BASE_CONTAINER_BACKGROUND:String = "base_container_background";
+	public static inline var ALIGNMENT_BASE_CONTAINER_BACKGROUND:String = "alignment_base_container_background";
+	public static inline var BREADCRUMB_BACKGROUND:String = "breadcrumb_background";
+	public static inline var CANVAS_BACKGROUND:String = "canvas_background";
+	public static inline var CAROUSEL_BACKGROUND:String = "carousel_background";
+	public static inline var DRAG_CONTAINER_BACKGROUND:String = "drag_container_background";
+	public static inline var FIT_CONTAINER_BACKGROUND:String = "fit_container_background";
+	public static inline var FORM_BUILDER_BACKGROUND:String = "form_builder_background";
+	public static inline var GRID_CONTAINER_BACKGROUND:String = "grid_container_background";
+	public static inline var HORIZONTAL_CONTAINER_BACKGROUND:String = "horizontal_container_background";
+	public static inline var MOBILE_BUTTON_LIST_BACKGROUND:String = "mobile_button_list_background";
+	public static inline var NAVIGATION_MENU_BACKGROUND:String = "navigation_menu_background";
+	public static inline var VERTICAL_CONTAINER_BACKGROUND:String = "vertical_container_background";
 	public static inline var ACCORDION_BUTTON_NORMAL:String = "accordion_button_normal";
 	public static inline var ACCORDION_BUTTON_OVER:String = "accordion_button_over";
 	public static inline var ACCORDION_BUTTON_SELECTED:String = "accordion_button_down";
@@ -566,6 +579,19 @@ class UIBitmapManager {
 }
 
 enum UIBitmapType {
+	BaseContainer;
+	AlignmentBaseContainer;
+	Breadcrumb;
+	Canvas;
+	Carousel;
+	DragContainer;
+	FitContainer;
+	FormBuilder;
+	GridContainer;
+	HorizontalContainer;
+	MobileButtonList;
+	NavigationMenu;
+	VerticalContainer;
 	Alert;
 	Accordion;
 	Bubble;

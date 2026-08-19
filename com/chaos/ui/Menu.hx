@@ -568,6 +568,9 @@ class Menu extends BaseContainer implements IMenu implements IBaseContainer impl
         
         if (UIStyleManager.hasStyle(UIStyleManager.MENU_BACKGROUND_ALPHA)) 
             _backgroundAlpha = UIStyleManager.getStyle(UIStyleManager.MENU_BACKGROUND_ALPHA);
+
+        if (UIStyleManager.hasStyle(UIStyleManager.MENU_TILE_IMAGE))
+            _tileImage = UIStyleManager.getStyle(UIStyleManager.MENU_TILE_IMAGE);
         
         // Button Color 
         if (UIStyleManager.hasStyle(UIStyleManager.MENU_BUTTON_NORMAL_COLOR)) 

@@ -293,6 +293,9 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
         if (UIStyleManager.hasStyle(UIStyleManager.ITEMPANE_BACKGROUND))
             _backgroundColor = UIStyleManager.getStyle(UIStyleManager.ITEMPANE_BACKGROUND);
 
+        if (UIStyleManager.hasStyle(UIStyleManager.ITEMPANE_TILE_IMAGE))
+            _tileImage = UIStyleManager.getStyle(UIStyleManager.ITEMPANE_TILE_IMAGE);
+
         if (UIStyleManager.hasStyle(UIStyleManager.ITEMPANE_WIDTH))
             _width = UIStyleManager.getStyle(UIStyleManager.ITEMPANE_WIDTH);
 

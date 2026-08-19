@@ -232,6 +232,9 @@ class ListBox extends ScrollPane implements IListBox implements IBaseUI
 		if (UIStyleManager.hasStyle(UIStyleManager.LIST_BACKGROUND_COLOR))
 			_backgroundColor = UIStyleManager.getStyle(UIStyleManager.LIST_BACKGROUND_COLOR);
 
+		if (UIStyleManager.hasStyle(UIStyleManager.LIST_TILE_IMAGE))
+			_tileImage = UIStyleManager.getStyle(UIStyleManager.LIST_TILE_IMAGE);
+
 		if (UIStyleManager.hasStyle(UIStyleManager.LIST_TEXT_NORMAL_COLOR))
 			_textColor = UIStyleManager.getStyle(UIStyleManager.LIST_TEXT_NORMAL_COLOR);
 

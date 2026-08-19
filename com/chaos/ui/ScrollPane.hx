@@ -214,6 +214,9 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 		if (UIStyleManager.hasStyle(UIStyleManager.SCROLLPANE_BACKGROUND))
 			_backgroundColor = UIStyleManager.getStyle(UIStyleManager.SCROLLPANE_BACKGROUND);
 
+		if (UIStyleManager.hasStyle(UIStyleManager.SCROLLPANE_TILE_IMAGE))
+			_tileImage = UIStyleManager.getStyle(UIStyleManager.SCROLLPANE_TILE_IMAGE);
+
 		if (UIStyleManager.hasStyle(UIStyleManager.SCROLLPANE_CONTENT_OFFSET_X))
 			_offsetX = UIStyleManager.getStyle(UIStyleManager.SCROLLPANE_CONTENT_OFFSET_X);
 

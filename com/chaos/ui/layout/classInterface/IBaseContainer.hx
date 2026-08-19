@@ -47,6 +47,13 @@ interface IBaseContainer extends IBaseUI
 	 */
 
 	var showImage(get, set) : Bool;
+
+    /**
+	 * Repeat the background image at its native size when true. When false,
+	 * stretch it to the current container bounds.
+	 */
+
+	var tileImage(get, set) : Bool;
 		
 
     /**

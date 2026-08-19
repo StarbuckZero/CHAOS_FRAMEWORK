@@ -306,6 +306,9 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
         // Border
         if (UIStyleManager.hasStyle(UIStyleManager.GRID_BACKGROUND_COLOR))
             _backgroundColor = UIStyleManager.getStyle(UIStyleManager.GRID_BACKGROUND_COLOR);
+
+        if (UIStyleManager.hasStyle(UIStyleManager.GRIDPANE_TILE_IMAGE))
+            _tileImage = UIStyleManager.getStyle(UIStyleManager.GRIDPANE_TILE_IMAGE);
         
         // if (UIStyleManager.hasStyle(UIStyleManager.GRID_BORDER_COLOR)) 
         //     _borderColor = UIStyleManager.getStyle(UIStyleManager.GRID_BORDER_COLOR);
