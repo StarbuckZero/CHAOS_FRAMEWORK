@@ -212,6 +212,7 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 	private var _listOpen : Bool = false;
 
 	private var _backgroundColor : Int = 0xFFFFFF;
+	private var _textNormalBackground : Int = 0xFFFFFF;
 	private var _outlineAlpha : Float = 1;
 	private var _showOutline : Bool = true;
 
@@ -233,7 +234,8 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 	private var _backgroundDropImage : BitmapData;
 	
 	private var _upIconButtonImage:BitmapData;
-	private var _downIconImage:BitmapData;
+	private var _scrollDownIconImage:BitmapData;
+	private var _dropDownIconImage:BitmapData;
 	
 	private var _scrollButtonDefaultImage : BitmapData;
 	private var _scrollButtonOverImage : BitmapData;
@@ -268,6 +270,8 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 	private var _buttonData:Dynamic;
 	
 	private var _iconBorderColor:Int = 0xFFFFFF;
+	private var _iconColor:Int = 0xFFFFFF;
+	private var _defaultText:String = "";
 
 	/**
 	 * UI ComboBox 
@@ -383,23 +387,24 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 		_dropButton.addEventListener(MouseEvent.CLICK, toggleList, false, 0, true);
 		_dropDownHotspot.addEventListener(MouseEvent.CLICK, toggleList, false, 0, true);
 
-		_dropDownIcon = new ArrowDownIcon({"width":5, "height":5, "borderColor":_iconBorderColor});
+		_dropDownIcon = new ArrowDownIcon({"width":5, "height":5, "baseColor":_iconColor, "borderColor":_iconBorderColor});
 		
 		super.initialize();
 		
 		// Create default text field and boarder
 		_selectLabel.textColor = _textColor;
 		_selectLabel.backgroundColor = _backgroundColor;
+		_selectLabel.text = _defaultText;
 		
 		_dropDownHotspot.buttonMode = true;
 		
 		// If there is no drop down icon then use default arrow
-		if (null != _downIconImage)
+		if (null != _dropDownIconImage)
 		{
-			_dropButton.setIcon(_downIconImage.clone());
+			_dropButton.setIcon(_dropDownIconImage.clone());
 			
-			_downIconImage.dispose();
-			_downIconImage = null;
+			_dropDownIconImage.dispose();
+			_dropDownIconImage = null;
 			
 		}
 		else
@@ -467,8 +472,11 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 		if (null != _upIconButtonImage)
 			_upIconButtonImage.dispose();
 			
-		if(null != _downIconImage)
-			_downIconImage.dispose();
+		if(null != _scrollDownIconImage)
+			_scrollDownIconImage.dispose();
+
+		if(null != _dropDownIconImage)
+			_dropDownIconImage.dispose();
 
 		if (null != _scrollButtonDefaultImage)
 			_scrollButtonDefaultImage.dispose();
@@ -516,7 +524,8 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 			
 		// Set everything to null
 		_backgroundDropImage = _backgroundImage = null;
-		_scrollButtonDisableImage = _scrollButtonDownImage = _scrollButtonOverImage = _scrollButtonDefaultImage = _downIconImage = _upIconButtonImage = null;
+		_scrollButtonDisableImage = _scrollButtonDownImage = _scrollButtonOverImage = _scrollButtonDefaultImage = _scrollDownIconImage = _upIconButtonImage = null;
+		_dropDownIconImage = null;
 		_sliderButtonDisableImage = _sliderButtonDownImage = _sliderButtonOverImage = _sliderButtonDefaultImage = _trackImage = null;
 		_dropDownButtonDisable = _dropDownButtonDown = _dropDownButtonOverImage = _dropDownButtonDefaultImage = null;
 		
@@ -547,6 +556,9 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 
 		if (UIStyleManager.hasStyle(UIStyleManager.COMBO_BORDER_ALPHA))
 			_outlineAlpha = UIStyleManager.getStyle(UIStyleManager.COMBO_BORDER_ALPHA);
+
+		if (UIStyleManager.hasStyle(UIStyleManager.COMBO_BORDER_THICKNESS))
+			_thinkness = UIStyleManager.getStyle(UIStyleManager.COMBO_BORDER_THICKNESS);
 	}
 
 	private function initLabel() : Void
@@ -554,8 +566,9 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 		if (UIStyleManager.hasStyle(UIStyleManager.COMBO_TEXT_COLOR))
 			_textColor = UIStyleManager.getStyle(UIStyleManager.COMBO_TEXT_COLOR);
 
-		//if ( -1 != UIStyleManager.COMBO_TEXT_NORMAL_BACKGROUND_COLOR)
-		//	_backgroundColor = UIStyleManager.COMBO_TEXT_NORMAL_BACKGROUND_COLOR;
+		_textNormalBackground = UIStyleManager.hasStyle(UIStyleManager.COMBO_TEXT_NORMAL_BACKGROUND_COLOR)
+			? UIStyleManager.getStyle(UIStyleManager.COMBO_TEXT_NORMAL_BACKGROUND_COLOR)
+			: _backgroundColor;
 
 	}
 
@@ -563,10 +576,10 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 	{
 
 		if (UIBitmapManager.hasUIElement(UIBitmapType.ComboBox, UIBitmapManager.COMBO_BACKGROUND))
-			setBackgroundImage(UIBitmapManager.getUIElement(UIBitmapType.ComboBox, UIBitmapManager.COMBO_BACKGROUND));
+			setBackgroundImage(UIBitmapManager.getUIElement(UIBitmapType.ComboBox, UIBitmapManager.COMBO_BACKGROUND).clone());
 
 		if (UIBitmapManager.hasUIElement(UIBitmapType.ComboBox, UIBitmapManager.COMBO_DROPDOWN_BACKGROUND))
-			setDropDownBackgroundImage(UIBitmapManager.getUIElement(UIBitmapType.ComboBox, UIBitmapManager.COMBO_DROPDOWN_BACKGROUND));
+			setDropDownBackgroundImage(UIBitmapManager.getUIElement(UIBitmapType.ComboBox, UIBitmapManager.COMBO_DROPDOWN_BACKGROUND).clone());
 
 		if (UIBitmapManager.hasUIElement(UIBitmapType.ComboBox, UIBitmapManager.COMBO_BUTTON_NORMAL))
 			_dropDownButtonDefaultImage = UIBitmapManager.getUIElement(UIBitmapType.ComboBox, UIBitmapManager.COMBO_BUTTON_NORMAL).clone();
@@ -581,7 +594,7 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 			_dropDownButtonDisable = UIBitmapManager.getUIElement(UIBitmapType.ComboBox, UIBitmapManager.COMBO_BUTTON_DISABLE).clone();
 
 		if (UIBitmapManager.hasUIElement(UIBitmapType.ComboBox, UIBitmapManager.COMBO_BUTTON_DROPDOWN_ICON))
-			_downIconImage = UIBitmapManager.getUIElement(UIBitmapType.ComboBox, UIBitmapManager.COMBO_BUTTON_DROPDOWN_ICON).clone();
+			_dropDownIconImage = UIBitmapManager.getUIElement(UIBitmapType.ComboBox, UIBitmapManager.COMBO_BUTTON_DROPDOWN_ICON).clone();
 		
 			
 
@@ -622,12 +635,12 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 				_dropDownButtonDisable = null;
 			}			
 			
-			if (null != _downIconImage)
+			if (null != _dropDownIconImage)
 			{
-				_dropButton.setIcon(_downIconImage.clone());
+				_dropButton.setIcon(_dropDownIconImage.clone());
 				
-				_downIconImage.dispose();
-				_downIconImage = null;
+				_dropDownIconImage.dispose();
+				_dropDownIconImage = null;
 			}
 		}
 	}
@@ -654,7 +667,7 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 			_upIconButtonImage = UIBitmapManager.getUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_UP_ICON).clone();
 
 		if (UIBitmapManager.hasUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_DOWN_ICON))
-			_downIconImage = UIBitmapManager.getUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_DOWN_ICON).clone();
+			_scrollDownIconImage = UIBitmapManager.getUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_DOWN_ICON).clone();
 
 		// Track
 		if (UIBitmapManager.hasUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_TRACK))
@@ -680,8 +693,8 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 			// Up and Down Buttons
 			if (null != _scrollButtonDefaultImage)
 			{
-				_scrollbar.upButton.setDisableStateImage(_scrollButtonDefaultImage.clone());
-				_scrollbar.downButton.setDisableStateImage(_scrollButtonDefaultImage.clone());
+				_scrollbar.upButton.setDefaultStateImage(_scrollButtonDefaultImage.clone());
+				_scrollbar.downButton.setDefaultStateImage(_scrollButtonDefaultImage.clone());
 				
 				_scrollButtonDefaultImage.dispose();
 				_scrollButtonDefaultImage = null;
@@ -708,8 +721,8 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 			
 			if (null != _scrollButtonDisableImage)
 			{
-				_scrollbar.upButton.setDownStateImage(_scrollButtonDisableImage.clone());
-				_scrollbar.downButton.setDownStateImage(_scrollButtonDisableImage.clone());
+				_scrollbar.upButton.setDisableStateImage(_scrollButtonDisableImage.clone());
+				_scrollbar.downButton.setDisableStateImage(_scrollButtonDisableImage.clone());
 				
 				_scrollButtonDisableImage.dispose();
 				_scrollButtonDisableImage = null;
@@ -724,12 +737,12 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 				_upIconButtonImage = null;
 			}
 			
-			if (null != _downIconImage)
+			if (null != _scrollDownIconImage)
 			{
-				_scrollbar.downButton.setIcon(_downIconImage.clone());
+				_scrollbar.downButton.setIcon(_scrollDownIconImage.clone());
 				
-				_downIconImage.dispose();
-				_downIconImage = null;
+				_scrollDownIconImage.dispose();
+				_scrollDownIconImage = null;
 			}
 			
 			// Slider
@@ -786,14 +799,23 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 		if (UIStyleManager.hasStyle(UIStyleManager.COMBO_TEXT_ALIGN))
 			_textFormat.align = UIStyleManager.getStyle(UIStyleManager.COMBO_TEXT_ALIGN);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.COMBO_TEXT_SIZE))
-			_textFormat.size = UIStyleManager.getStyle(UIStyleManager.COMBO_TEXT_SIZE);
 
 		if (UIStyleManager.hasStyle(UIStyleManager.COMBO_TEXT_EMBED))
-			_selectLabel.setEmbedFont(UIStyleManager.getStyle(UIStyleManager.COMBO_TEXT_EMBED));
+		{
+			_embedFont = UIStyleManager.getStyle(UIStyleManager.COMBO_TEXT_EMBED);
+			_useEmbedFonts = _embedFont != null;
+
+			if (_selectLabel != null && _useEmbedFonts)
+				_selectLabel.setEmbedFont(_embedFont);
+		}
 
 		if (UIStyleManager.hasStyle(UIStyleManager.COMBO_DEFAULT_TEXT))
-			_selectLabel.text = UIStyleManager.getStyle(UIStyleManager.COMBO_DEFAULT_TEXT);
+		{
+			_defaultText = UIStyleManager.getStyle(UIStyleManager.COMBO_DEFAULT_TEXT);
+
+			if (_selectLabel != null)
+				_selectLabel.text = _defaultText;
+		}
 
 		// Set the Style for Over and Down states
 		if (UIStyleManager.hasStyle(UIStyleManager.COMBO_TEXT_OVER_COLOR))
@@ -803,7 +825,7 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 			_textOverBackground = UIStyleManager.getStyle(UIStyleManager.COMBO_TEXT_OVER_BACKGROUND_COLOR);
 
 		if (UIStyleManager.hasStyle(UIStyleManager.COMBO_TEXT_DOWN_COLOR))
-			_textOverColor = UIStyleManager.getStyle(UIStyleManager.COMBO_TEXT_DOWN_COLOR);
+			_textDownColor = UIStyleManager.getStyle(UIStyleManager.COMBO_TEXT_DOWN_COLOR);
 
 		if (UIStyleManager.hasStyle(UIStyleManager.COMBO_TEXT_DOWN_BACKGROUND_COLOR))
 			_textDownBackground = UIStyleManager.getStyle(UIStyleManager.COMBO_TEXT_DOWN_BACKGROUND_COLOR);
@@ -831,7 +853,7 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 			Reflect.setField(_buttonData, "disableColor", UIStyleManager.getStyle(UIStyleManager.COMBO_BUTTON_DISABLE_COLOR));
 
 		if (UIStyleManager.hasStyle(UIStyleManager.COMBO_BUTTON_ICON_COLOR))
-			Reflect.setField(_buttonData, "disableColor", UIStyleManager.getStyle(UIStyleManager.COMBO_BUTTON_DISABLE_COLOR));
+			_iconColor = UIStyleManager.getStyle(UIStyleManager.COMBO_BUTTON_ICON_COLOR);
 
 		if (UIStyleManager.hasStyle(UIStyleManager.COMBO_BUTTON_ICON_BORDER_COLOR))
 			_iconBorderColor = UIStyleManager.getStyle(UIStyleManager.COMBO_BUTTON_ICON_BORDER_COLOR);
@@ -839,6 +861,19 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 		if (UIStyleManager.hasStyle(UIStyleManager.COMBO_DROPDOWN_PADDING))
 			_dropDownPadding = UIStyleManager.getStyle(UIStyleManager.COMBO_DROPDOWN_PADDING);
 
+
+		if (_dropButton != null)
+			_dropButton.setComponentData(_buttonData);
+
+		if (_dropDownIcon != null)
+		{
+			_dropDownIcon.baseColor = _iconColor;
+			_dropDownIcon.borderColor = _iconBorderColor;
+			_dropDownIcon.draw();
+
+			if (_dropButton != null)
+				_dropButton.setIcon(CompositeManager.displayObjectToBitmap(_dropDownIcon.displayObject, _smoothImage));
+		}
 	}
 	
 	private function set_itemBuffer(value:Int):Int
@@ -1395,7 +1430,7 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 		var label:Label = cast(event.currentTarget, Label);
 		
 		label.textColor = _textColor;
-		label.backgroundColor = _backgroundColor;
+		label.backgroundColor = _textNormalBackground;
 		label.background = true;
 		label.draw();
 	}
@@ -1604,7 +1639,7 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 		
 		
 		// This will be used to create the label
-		var labelData:Dynamic = {"width": (_scrollbar.visible)  ? _width + SCROLLBAR_OFFSET + _scrollbar.width - _buttonWidth : _width, "height": _height + SCROLLBAR_OFFSET, "align":_align, "textColor": _textColor, "backgroundColor":_backgroundColor,"bitmapMode":false, "background":true};
+		var labelData:Dynamic = {"width": (_scrollbar.visible)  ? _width + SCROLLBAR_OFFSET + _scrollbar.width - _buttonWidth : _width, "height": _height + SCROLLBAR_OFFSET, "align":_align, "textColor": _textColor, "backgroundColor":_textNormalBackground,"bitmapMode":false, "background":true};
 		
 		// Create labels
 		for (i in 0 ... labelCount)
