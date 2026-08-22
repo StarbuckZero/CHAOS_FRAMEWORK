@@ -322,11 +322,14 @@ class RadioButton extends SelectToggleBase implements IRadioButton implements IB
 	override public function drawButtonState(base:ButtonBase, color:Int = 0xFFFFFF, borderColor:Int = 0x000000, image:BitmapData = null):Void {
 
 		if (image != null)
+		{
 			super.drawButtonState(base, color, borderColor, image);
-		else
-			base.shapeBase.graphics.clear();
+			return;
+		}
 
-		// Keep the styled ring and selected dot above the bitmap layer.
+		base.shapeBase.graphics.clear();
+
+		// Draw the styled fallback only when no complete bitmap state is supplied.
 		base.shapeBase.graphics.lineStyle(_lineSize, color, _lineAlpha);
 
 		base.shapeBase.graphics.beginFill(color, 0);
@@ -352,6 +355,8 @@ class RadioButton extends SelectToggleBase implements IRadioButton implements IB
 		_selected = true;
 		
 		draw();
+		normalState.alpha = overState.alpha = disableState.alpha = 0;
+		downState.alpha = 1;
 	}
 
 }

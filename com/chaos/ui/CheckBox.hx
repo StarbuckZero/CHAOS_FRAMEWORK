@@ -210,13 +210,14 @@ class CheckBox extends SelectToggleBase implements ICheckBox implements IBaseUI
 	{
 		
 		if (image != null)
-			super.drawButtonState(base, color, borderColor, image);
-		else
 		{
-			base.shapeBase.graphics.clear();
+			super.drawButtonState(base, color, borderColor, image);
+			return;
 		}
 
-		// Keep the styled outline and selection mark above the bitmap layer.
+		base.shapeBase.graphics.clear();
+
+		// Draw the styled fallback only when no complete bitmap state is supplied.
 		base.shapeBase.graphics.lineStyle(_lineSize, color, _lineAlpha);
 		base.shapeBase.graphics.drawRect(0, 0, _buttonSize, _buttonSize);
 
@@ -245,6 +246,8 @@ class CheckBox extends SelectToggleBase implements ICheckBox implements IBaseUI
 		
 		// Force redraw after select toggle
 		draw();
+		normalState.alpha = overState.alpha = disableState.alpha = 0;
+		downState.alpha = 1;
 	}
 
 }

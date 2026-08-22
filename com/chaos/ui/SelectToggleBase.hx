@@ -78,6 +78,7 @@ class SelectToggleBase extends ToggleButton implements IToggleButton implements 
 		
 		addEventListener(Event.ADDED_TO_STAGE, onStageAdd, false, 0, true);
 		addEventListener(Event.REMOVED_FROM_STAGE, onStageRemove, false, 0, true);
+		addEventListener(MouseEvent.MOUSE_UP, selectedToggleMouseUpEvent, false, 0, true);
 		
 	}
 	
@@ -188,6 +189,7 @@ class SelectToggleBase extends ToggleButton implements IToggleButton implements 
 		
 		removeEventListener(Event.ADDED_TO_STAGE, onStageAdd);
 		removeEventListener(Event.REMOVED_FROM_STAGE, onStageRemove);
+		removeEventListener(MouseEvent.MOUSE_UP, selectedToggleMouseUpEvent);
 		
 		_label.destroy();
 		
@@ -304,10 +306,11 @@ class SelectToggleBase extends ToggleButton implements IToggleButton implements 
 		// Figure to use bitmap or normal mode
 		if (_selected)
 		{
-			drawButtonState(normalState, _selectedDefaultColor, _normalBorderColor, _selectedDefaultStateImage);
-			drawButtonState(overState, _selectedOverColor, _overBorderColor, _selectedOverStateImage);
-			drawButtonState(downState, _selectedDownColor, _downBorderColor, _selectedDownStateImage);
-			drawButtonState(disableState, _selectedDisableColor, _disableBorderColor, _selectedDisableStateImage);
+			var selectedFallbackImage = _selectedDefaultStateImage;
+			drawButtonState(normalState, _selectedDefaultColor, _normalBorderColor, selectedFallbackImage);
+			drawButtonState(overState, _selectedOverColor, _overBorderColor, _selectedOverStateImage != null ? _selectedOverStateImage : selectedFallbackImage);
+			drawButtonState(downState, _selectedDownColor, _downBorderColor, _selectedDownStateImage != null ? _selectedDownStateImage : selectedFallbackImage);
+			drawButtonState(disableState, _selectedDisableColor, _disableBorderColor, _selectedDisableStateImage != null ? _selectedDisableStateImage : selectedFallbackImage);
 		}
 		else
 		{
@@ -318,20 +321,13 @@ class SelectToggleBase extends ToggleButton implements IToggleButton implements 
 			drawButtonState(disableState,_disableColor,_disableBorderColor,_disableStateImage);
 		}
 
-		if (_selected)
+		normalState.alpha = 1;
+		overState.alpha = downState.alpha = disableState.alpha = 0;
+		if (!_enabled)
 		{
-			downState.alpha = 1;
 			normalState.alpha = 0;
-			overState.alpha = 0;
-			disableState.alpha = 0;
+			disableState.alpha = 1;
 		}
-		else
-		{
-			normalState.alpha = 1;
-			overState.alpha = 0;
-			downState.alpha = 0;
-			disableState.alpha = 0;
-		}		
 		
 		// Update label size
 		_label.text = _text;
@@ -382,12 +378,37 @@ class SelectToggleBase extends ToggleButton implements IToggleButton implements 
 		
 	}
 	
+	override function mouseOutEvent(event:MouseEvent):Void
+	{
+		showButtonState(_enabled ? normalState : disableState);
+	}
+
+	override function mouseOverEvent(event:MouseEvent):Void
+	{
+		if (_enabled)
+			showButtonState(overState);
+	}
+
 	override function mouseDownEvent(event:MouseEvent):Void 
 	{
 		super.mouseDownEvent(event);
-		
-		// Force redraw after select toggle
 		draw();
+		if (_enabled)
+			showButtonState(downState);
+	}
+
+	private function selectedToggleMouseUpEvent(event:MouseEvent):Void
+	{
+		if (_enabled)
+			showButtonState(overState);
+	}
+
+	private function showButtonState(state:ButtonBase):Void
+	{
+		normalState.alpha = state == normalState ? 1 : 0;
+		overState.alpha = state == overState ? 1 : 0;
+		downState.alpha = state == downState ? 1 : 0;
+		disableState.alpha = state == disableState ? 1 : 0;
 	}
 	
 }
