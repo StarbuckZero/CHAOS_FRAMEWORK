@@ -139,7 +139,7 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
 
     private var _labelSize : Int = 11;
     private var _textColor : Int = 0xFFFFFF;
-    private var _textDisableColor : Int = 0x999999;
+    private var _buttonTextDisableColor : Int = 0x999999;
 	
 	/**
 	 * UI Button 
@@ -325,7 +325,7 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
         }
 
         if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_TEXT_DISABLE_COLOR)) {
-            _textDisableColor = UIStyleManager.getStyle(UIStyleManager.BUTTON_TEXT_DISABLE_COLOR);
+            _buttonTextDisableColor = UIStyleManager.getStyle(UIStyleManager.BUTTON_TEXT_DISABLE_COLOR);
         }
 
         if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_TEXT_SIZE)) {
@@ -389,7 +389,7 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
         // Set Label
         if (_label != null) {
             _label.setComponentData(_labelData);
-            _label.textColor = enabled ? _textColor : _textDisableColor;
+            _label.textColor = enabled ? _textColor : _buttonTextDisableColor;
             _label.draw();
         }
 
@@ -469,7 +469,7 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
 		}
 
 		if (_label != null)
-			_label.textColor = value ? _textColor : _textDisableColor;
+			_label.textColor = value ? _textColor : _buttonTextDisableColor;
 
 		return result;
 	}
@@ -800,7 +800,7 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
         _label.size = _labelSize;
         _label.italic = _italic;
         _label.bold = _bold;
-        _label.textColor = enabled ? _textColor : _textDisableColor;
+        _label.textColor = enabled ? _textColor : _buttonTextDisableColor;
         _label.textField.multiline = true;
         _label.textField.autoSize = TextFieldAutoSize.CENTER;
         
