@@ -111,6 +111,8 @@ class CheckBox extends SelectToggleBase implements ICheckBox implements IBaseUI
 	override function initStyle() : Void
 	{
 		// Unselected colors
+		super.initStyle();
+
 		if (UIStyleManager.hasStyle(UIStyleManager.CHECKBOX_NORMAL_COLOR))
 			_defaultColor = UIStyleManager.getStyle(UIStyleManager.CHECKBOX_NORMAL_COLOR);
 
@@ -141,6 +143,9 @@ class CheckBox extends SelectToggleBase implements ICheckBox implements IBaseUI
 
 		if (UIStyleManager.hasStyle(UIStyleManager.CHECKBOX_USE_CUSTOM_RENDER))
 			_useCustomRender = UIStyleManager.getStyle(UIStyleManager.CHECKBOX_USE_CUSTOM_RENDER);
+
+		if (UIStyleManager.hasStyle(UIStyleManager.CHECKBOX_TILE_IMAGE))
+			_tileImage = UIStyleManager.getStyle(UIStyleManager.CHECKBOX_TILE_IMAGE);
 	}
 		
 	private function set_style(value:String) : String
@@ -205,31 +210,30 @@ class CheckBox extends SelectToggleBase implements ICheckBox implements IBaseUI
 	{
 		
 		if (image != null)
-		{
 			super.drawButtonState(base, color, borderColor, image);
-		}
 		else
 		{
 			base.shapeBase.graphics.clear();
-			base.shapeBase.graphics.lineStyle(_lineSize, color, _lineAlpha);
-			base.shapeBase.graphics.drawRect(0,0,_buttonSize,_buttonSize);
+		}
 
-			// Draw X if selected
-			if (_selected)
+		// Keep the styled outline and selection mark above the bitmap layer.
+		base.shapeBase.graphics.lineStyle(_lineSize, color, _lineAlpha);
+		base.shapeBase.graphics.drawRect(0, 0, _buttonSize, _buttonSize);
+
+		if (_selected)
+		{
+			base.shapeBase.graphics.moveTo(0, 0);
+			if (_style == STYLE_X)
 			{
-				base.shapeBase.graphics.moveTo(0, 0);
-				if (_style == STYLE_X)
-				{
-					base.shapeBase.graphics.lineTo(_buttonSize, _buttonSize);
-					base.shapeBase.graphics.moveTo(_buttonSize, 0);
-					base.shapeBase.graphics.lineTo(0, _buttonSize);
-				}
-				else if (_style == STYLE_CHECKMARK)
-				{
-					base.shapeBase.graphics.moveTo(0, (_buttonSize / 2));
-					base.shapeBase.graphics.lineTo(_buttonSize / 2, _buttonSize);
-					base.shapeBase.graphics.lineTo(_buttonSize - 1, 0);
-				}
+				base.shapeBase.graphics.lineTo(_buttonSize, _buttonSize);
+				base.shapeBase.graphics.moveTo(_buttonSize, 0);
+				base.shapeBase.graphics.lineTo(0, _buttonSize);
+			}
+			else if (_style == STYLE_CHECKMARK)
+			{
+				base.shapeBase.graphics.moveTo(0, (_buttonSize / 2));
+				base.shapeBase.graphics.lineTo(_buttonSize / 2, _buttonSize);
+				base.shapeBase.graphics.lineTo(_buttonSize - 1, 0);
 			}
 		}
 

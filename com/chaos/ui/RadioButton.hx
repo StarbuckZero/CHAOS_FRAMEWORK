@@ -104,89 +104,31 @@ class RadioButton extends SelectToggleBase implements IRadioButton implements IB
 
 	override function initBitmap():Void
 	{
-		super.initBitmap();
+		// Unselected states
+		if (UIBitmapManager.hasUIElement(UIBitmapType.RadioButton, UIBitmapManager.RADIOBUTTON_NORMAL))
+			setDefaultStateImage(UIBitmapManager.getUIElement(UIBitmapType.RadioButton, UIBitmapManager.RADIOBUTTON_NORMAL));
 
-		if (UIBitmapManager.hasUIElement(UIBitmapType.RadioButton,UIBitmapManager.RADIOBUTTON_NORMAL)) {
+		if (UIBitmapManager.hasUIElement(UIBitmapType.RadioButton, UIBitmapManager.RADIOBUTTON_OVER))
+			setOverStateImage(UIBitmapManager.getUIElement(UIBitmapType.RadioButton, UIBitmapManager.RADIOBUTTON_OVER));
 
-			var normalImage = UIBitmapManager.getUIElement(
-				UIBitmapType.RadioButton,
-				UIBitmapManager.RADIOBUTTON_NORMAL
-			);
+		if (UIBitmapManager.hasUIElement(UIBitmapType.RadioButton, UIBitmapManager.RADIOBUTTON_DOWN))
+			setDownStateImage(UIBitmapManager.getUIElement(UIBitmapType.RadioButton, UIBitmapManager.RADIOBUTTON_DOWN));
 
-			setDefaultStateImage(normalImage);
+		if (UIBitmapManager.hasUIElement(UIBitmapType.RadioButton, UIBitmapManager.RADIOBUTTON_DISABLE))
+			setDisableStateImage(UIBitmapManager.getUIElement(UIBitmapType.RadioButton, UIBitmapManager.RADIOBUTTON_DISABLE));
 
-			setSelectedDefaultStateImage(
-				UIBitmapManager.getUIElement(
-					UIBitmapType.RadioButton,
-					UIBitmapManager.RADIOBUTTON_NORMAL
-				)
-			);
-		}
+		// Selected states
+		if (UIBitmapManager.hasUIElement(UIBitmapType.RadioButton, UIBitmapManager.RADIOBUTTON_SELECTED_NORMAL))
+			setSelectedDefaultStateImage(UIBitmapManager.getUIElement(UIBitmapType.RadioButton, UIBitmapManager.RADIOBUTTON_SELECTED_NORMAL));
 
-		if (UIBitmapManager.hasUIElement(UIBitmapType.RadioButton,UIBitmapManager.RADIOBUTTON_OVER)) {
+		if (UIBitmapManager.hasUIElement(UIBitmapType.RadioButton, UIBitmapManager.RADIOBUTTON_SELECTED_OVER))
+			setSelectedOverStateImage(UIBitmapManager.getUIElement(UIBitmapType.RadioButton, UIBitmapManager.RADIOBUTTON_SELECTED_OVER));
 
-			setOverStateImage(
-				UIBitmapManager.getUIElement(
-					UIBitmapType.RadioButton,
-					UIBitmapManager.RADIOBUTTON_OVER
-				)
-			);
+		if (UIBitmapManager.hasUIElement(UIBitmapType.RadioButton, UIBitmapManager.RADIOBUTTON_SELECTED_DOWN))
+			setSelectedDownStateImage(UIBitmapManager.getUIElement(UIBitmapType.RadioButton, UIBitmapManager.RADIOBUTTON_SELECTED_DOWN));
 
-			setSelectedOverStateImage(
-				UIBitmapManager.getUIElement(
-					UIBitmapType.RadioButton,
-					UIBitmapManager.RADIOBUTTON_OVER
-				)
-			);
-		}
-
-		if (UIBitmapManager.hasUIElement(UIBitmapType.RadioButton,UIBitmapManager.RADIOBUTTON_DOWN)) {
-
-			setDownStateImage(
-				UIBitmapManager.getUIElement(
-					UIBitmapType.RadioButton,
-					UIBitmapManager.RADIOBUTTON_DOWN
-				)
-			);
-
-			setSelectedDefaultStateImage(
-				UIBitmapManager.getUIElement(
-					UIBitmapType.RadioButton,
-					UIBitmapManager.RADIOBUTTON_DOWN
-				)
-			);
-
-			setSelectedOverStateImage(
-				UIBitmapManager.getUIElement(
-					UIBitmapType.RadioButton,
-					UIBitmapManager.RADIOBUTTON_DOWN
-				)
-			);
-
-			setSelectedDownStateImage(
-				UIBitmapManager.getUIElement(
-					UIBitmapType.RadioButton,
-					UIBitmapManager.RADIOBUTTON_DOWN
-				)
-			);
-		}
-
-		if (UIBitmapManager.hasUIElement(UIBitmapType.RadioButton,UIBitmapManager.RADIOBUTTON_DISABLE)) {
-
-			setDisableStateImage(
-				UIBitmapManager.getUIElement(
-					UIBitmapType.RadioButton,
-					UIBitmapManager.RADIOBUTTON_DISABLE
-				)
-			);
-
-			setSelectedDisableStateImage(
-				UIBitmapManager.getUIElement(
-					UIBitmapType.RadioButton,
-					UIBitmapManager.RADIOBUTTON_DISABLE
-				)
-			);
-		}
+		if (UIBitmapManager.hasUIElement(UIBitmapType.RadioButton, UIBitmapManager.RADIOBUTTON_SELECTED_DISABLE))
+			setSelectedDisableStateImage(UIBitmapManager.getUIElement(UIBitmapType.RadioButton, UIBitmapManager.RADIOBUTTON_SELECTED_DISABLE));
 	}
 
 	override private function initStyle() : Void
@@ -205,10 +147,20 @@ class RadioButton extends SelectToggleBase implements IRadioButton implements IB
 
 		if (UIStyleManager.hasStyle(UIStyleManager.RADIOBUTTON_DISABLE_COLOR))
 			_disableColor = UIStyleManager.getStyle(UIStyleManager.RADIOBUTTON_DISABLE_COLOR);
-			
-		if (UIStyleManager.hasStyle(UIStyleManager.RADIOBUTTON_DISABLE_COLOR))
-			_disableColor = UIStyleManager.getStyle(UIStyleManager.RADIOBUTTON_DISABLE_COLOR);
-			
+
+		// Selected colors
+		if (UIStyleManager.hasStyle(UIStyleManager.RADIOBUTTON_SELECTED_NORMAL_COLOR))
+			_selectedDefaultColor = UIStyleManager.getStyle(UIStyleManager.RADIOBUTTON_SELECTED_NORMAL_COLOR);
+
+		if (UIStyleManager.hasStyle(UIStyleManager.RADIOBUTTON_SELECTED_OVER_COLOR))
+			_selectedOverColor = UIStyleManager.getStyle(UIStyleManager.RADIOBUTTON_SELECTED_OVER_COLOR);
+
+		if (UIStyleManager.hasStyle(UIStyleManager.RADIOBUTTON_SELECTED_DOWN_COLOR))
+			_selectedDownColor = UIStyleManager.getStyle(UIStyleManager.RADIOBUTTON_SELECTED_DOWN_COLOR);
+
+		if (UIStyleManager.hasStyle(UIStyleManager.RADIOBUTTON_SELECTED_DISABLE_COLOR))
+			_selectedDisableColor = UIStyleManager.getStyle(UIStyleManager.RADIOBUTTON_SELECTED_DISABLE_COLOR);
+
 		if (UIStyleManager.hasStyle(UIStyleManager.RADIOBUTTON_SIZE))
 			_buttonSize = UIStyleManager.getStyle(UIStyleManager.RADIOBUTTON_SIZE);
 			
@@ -223,6 +175,9 @@ class RadioButton extends SelectToggleBase implements IRadioButton implements IB
 
 		if (UIStyleManager.hasStyle(UIStyleManager.RADIOBUTTON_USE_CUSTOM_RENDER))
 			_useCustomRender = UIStyleManager.getStyle(UIStyleManager.RADIOBUTTON_USE_CUSTOM_RENDER);
+
+		if (UIStyleManager.hasStyle(UIStyleManager.RADIOBUTTON_TILE_IMAGE))
+			_tileImage = UIStyleManager.getStyle(UIStyleManager.RADIOBUTTON_TILE_IMAGE);
 	}
 	
 	private function set_dotSize( value:Int ) : Int
@@ -289,12 +244,12 @@ class RadioButton extends SelectToggleBase implements IRadioButton implements IB
 				}
 			);
 
-			var selectedImage = UIBitmapManager.runCustomRender(
+			var downImage = UIBitmapManager.runCustomRender(
 				UIBitmapType.RadioButton,
 				{
 					width: _buttonSize,
 					height: _buttonSize,
-					state: "selected"
+					state: "down"
 				}
 			);
 
@@ -307,6 +262,11 @@ class RadioButton extends SelectToggleBase implements IRadioButton implements IB
 				}
 			);
 
+			var selectedDefaultImage = UIBitmapManager.runCustomRender(UIBitmapType.RadioButton, {width: _buttonSize, height: _buttonSize, state: "selected_default"});
+			var selectedOverImage = UIBitmapManager.runCustomRender(UIBitmapType.RadioButton, {width: _buttonSize, height: _buttonSize, state: "selected_over"});
+			var selectedDownImage = UIBitmapManager.runCustomRender(UIBitmapType.RadioButton, {width: _buttonSize, height: _buttonSize, state: "selected_down"});
+			var selectedDisableImage = UIBitmapManager.runCustomRender(UIBitmapType.RadioButton, {width: _buttonSize, height: _buttonSize, state: "selected_disable"});
+
 			if (defaultImage != null) {
 				_defaultStateImage = defaultImage;
 			}
@@ -315,16 +275,23 @@ class RadioButton extends SelectToggleBase implements IRadioButton implements IB
 				_overStateImage = overImage;
 			}
 
-			if (selectedImage != null) {
-				_downStateImage = selectedImage;
-				_selectedDefaultStateImage = selectedImage;
-				_selectedOverStateImage = selectedImage;
-				_selectedDownStateImage = selectedImage;
-			}
+			if (downImage != null)
+				_downStateImage = downImage;
+
+			if (selectedDefaultImage != null)
+				_selectedDefaultStateImage = selectedDefaultImage;
+
+			if (selectedOverImage != null)
+				_selectedOverStateImage = selectedOverImage;
+
+			if (selectedDownImage != null)
+				_selectedDownStateImage = selectedDownImage;
+
+			if (selectedDisableImage != null)
+				_selectedDisableStateImage = selectedDisableImage;
 
 			if (disableImage != null) {
 				_disableStateImage = disableImage;
-				_selectedDisableStateImage = disableImage;
 			}
 		}
 
@@ -354,23 +321,23 @@ class RadioButton extends SelectToggleBase implements IRadioButton implements IB
 	
 	override public function drawButtonState(base:ButtonBase, color:Int = 0xFFFFFF, borderColor:Int = 0x000000, image:BitmapData = null):Void {
 
-		if (image != null) {super.drawButtonState(base,color,borderColor,image);
+		if (image != null)
+			super.drawButtonState(base, color, borderColor, image);
+		else
+			base.shapeBase.graphics.clear();
 
-			return;
-		}
+		// Keep the styled ring and selected dot above the bitmap layer.
+		base.shapeBase.graphics.lineStyle(_lineSize, color, _lineAlpha);
 
-		base.shapeBase.graphics.clear();
-
-		base.shapeBase.graphics.lineStyle(_lineSize,color,_lineAlpha);
-
-		base.shapeBase.graphics.beginFill(color, 0);base.shapeBase.graphics.drawCircle(0,0,_buttonSize / 2);
+		base.shapeBase.graphics.beginFill(color, 0);
+		base.shapeBase.graphics.drawCircle(0, 0, _buttonSize / 2);
 		base.shapeBase.graphics.endFill();
 
 		if (_selected) {
-			base.shapeBase.graphics.lineStyle(_lineSize,color,_lineAlpha);
+			base.shapeBase.graphics.lineStyle(_lineSize, color, _lineAlpha);
 
-			base.shapeBase.graphics.beginFill(color,_bgAlpha);
-			base.shapeBase.graphics.drawCircle(0,0,_dotSize);
+			base.shapeBase.graphics.beginFill(color, _bgAlpha);
+			base.shapeBase.graphics.drawCircle(0, 0, _dotSize);
 
 			base.shapeBase.graphics.endFill();
 		}

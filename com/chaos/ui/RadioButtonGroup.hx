@@ -84,6 +84,17 @@ class RadioButtonGroup extends HorizontalContainer implements IRadioButtonGroup 
 		if (null == _list)
 			_list = new Array<IRadioButton>();
 		
+		// A radio group can only have one selected item. When data declares a
+		// later item selected, make it the group's selected item.
+		if (selected)
+		{
+			for (item in _list)
+			{
+				item.selected = false;
+				item.draw();
+			}
+		}
+
         var radio : IRadioButton = new RadioButton({"name": radioName, "groupName":_group, "text":labelText, "selected":selected, "width": 100, "height":20});
 		
         radio.addEventListener(MouseEvent.CLICK, onChange, false, 0, true);

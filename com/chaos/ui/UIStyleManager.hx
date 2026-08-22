@@ -166,6 +166,7 @@ class UIStyleManager
     public static var CHECKBOX_TEXT_ALIGN : String = "CHECKBOX_TEXT_ALIGN";
 
     public static var CHECKBOX_USE_CUSTOM_RENDER : String = "CHECKBOX_USE_CUSTOM_RENDER";
+    public static var CHECKBOX_TILE_IMAGE : String = "CHECKBOX_TILE_IMAGE";
     
     /** The over all size of checkbox */
     public static var CHECKBOX_SIZE : String = "CHECKBOX_SIZE";
@@ -180,6 +181,11 @@ class UIStyleManager
     public static var RADIOBUTTON_OVER_COLOR : String = "RADIOBUTTON_OVER_COLOR";
     public static var RADIOBUTTON_DOWN_COLOR : String = "RADIOBUTTON_DOWN_COLOR";
     public static var RADIOBUTTON_DISABLE_COLOR : String = "RADIOBUTTON_DISABLE_COLOR";
+
+    public static var RADIOBUTTON_SELECTED_NORMAL_COLOR : String = "RADIOBUTTON_SELECTED_NORMAL_COLOR";
+    public static var RADIOBUTTON_SELECTED_OVER_COLOR : String = "RADIOBUTTON_SELECTED_OVER_COLOR";
+    public static var RADIOBUTTON_SELECTED_DOWN_COLOR : String = "RADIOBUTTON_SELECTED_DOWN_COLOR";
+    public static var RADIOBUTTON_SELECTED_DISABLE_COLOR : String = "RADIOBUTTON_SELECTED_DISABLE_COLOR";
     
     public static var RADIOBUTTON_TEXT_COLOR : String = "RADIOBUTTON_TEXT_COLOR";
     
@@ -188,6 +194,7 @@ class UIStyleManager
     public static var RADIOBUTTON_TEXT_SIZE : String = "RADIOBUTTON_TEXT_SIZE";
     
     public static var RADIOBUTTON_TEXT_ALIGN : String = "RADIOBUTTON_TEXT_ALIGN";
+    public static var RADIOBUTTON_TILE_IMAGE : String = "RADIOBUTTON_TILE_IMAGE";
 
     public static var RADIOBUTTON_USE_CUSTOM_RENDER : String = "RADIOBUTTON_USE_CUSTOM_RENDER";
     

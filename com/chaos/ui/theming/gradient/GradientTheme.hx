@@ -87,6 +87,14 @@ class GradientTheme extends Theme {
                 shape.graphics.beginGradientFill(GradientType.LINEAR,[_secondaryColor,_primaryColor],[1,1],[0, 255],matrix,SpreadMethod.PAD,InterpolationMethod.LINEAR_RGB);
             else if( Std.string(Reflect.field(data,"state")).toLowerCase() == "disable")
                 shape.graphics.beginGradientFill(GradientType.LINEAR,[_secondaryColor,_shadowColor],[1,1],[0, 255],matrix,SpreadMethod.PAD,InterpolationMethod.LINEAR_RGB);
+			else if( Std.string(Reflect.field(data,"state")).toLowerCase() == "selected_default")
+				shape.graphics.beginGradientFill(GradientType.LINEAR,[_secondaryColor,_primaryColor],[1,1],[0, 255],matrix,SpreadMethod.PAD,InterpolationMethod.LINEAR_RGB);
+			else if( Std.string(Reflect.field(data,"state")).toLowerCase() == "selected_over")
+				shape.graphics.beginGradientFill(GradientType.LINEAR,[_secondaryColor,_highlightColor],[1,1],[0, 255],matrix,SpreadMethod.PAD,InterpolationMethod.LINEAR_RGB);
+			else if( Std.string(Reflect.field(data,"state")).toLowerCase() == "selected_down")
+				shape.graphics.beginGradientFill(GradientType.LINEAR,[_shadowColor,_primaryColor],[1,1],[0, 255],matrix,SpreadMethod.PAD,InterpolationMethod.LINEAR_RGB);
+			else if( Std.string(Reflect.field(data,"state")).toLowerCase() == "selected_disable")
+				shape.graphics.beginGradientFill(GradientType.LINEAR,[_shadowColor,_secondaryColor],[1,1],[0, 255],matrix,SpreadMethod.PAD,InterpolationMethod.LINEAR_RGB);
 
             shape.graphics.drawCircle(customWidth / 2,customWidth / 2,customWidth / 2);
             shape.graphics.endFill();           
@@ -110,6 +118,14 @@ class GradientTheme extends Theme {
                 return createCustomRender(_secondaryColor,_primaryColor,Reflect.field(data,"width"),Reflect.field(data,"height"), _rotation,0,5);
             else if( Std.string(Reflect.field(data,"state")).toLowerCase() == "disable")
                 return createCustomRender(_secondaryColor,_shadowColor,Reflect.field(data,"width"),Reflect.field(data,"height"), _rotation,0,5);
+			else if( Std.string(Reflect.field(data,"state")).toLowerCase() == "selected_default")
+				return createCustomRender(_secondaryColor,_primaryColor,Reflect.field(data,"width"),Reflect.field(data,"height"), _rotation,0,5);
+			else if( Std.string(Reflect.field(data,"state")).toLowerCase() == "selected_over")
+				return createCustomRender(_secondaryColor,_highlightColor,Reflect.field(data,"width"),Reflect.field(data,"height"), _rotation,0,5);
+			else if( Std.string(Reflect.field(data,"state")).toLowerCase() == "selected_down")
+				return createCustomRender(_shadowColor,_primaryColor,Reflect.field(data,"width"),Reflect.field(data,"height"), _rotation,0,5);
+			else if( Std.string(Reflect.field(data,"state")).toLowerCase() == "selected_disable")
+				return createCustomRender(_shadowColor,_secondaryColor,Reflect.field(data,"width"),Reflect.field(data,"height"), _rotation,0,5);
         }
 
         return null;

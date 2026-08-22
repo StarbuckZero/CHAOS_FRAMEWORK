@@ -101,6 +101,11 @@ class UIBitmapManager {
 	public static inline var RADIOBUTTON_DOWN:String = "radiobutton_down";
 	public static inline var RADIOBUTTON_DISABLE:String = "radiobutton_disable";
 
+	public static inline var RADIOBUTTON_SELECTED_NORMAL:String = "radiobutton_selected_normal";
+	public static inline var RADIOBUTTON_SELECTED_OVER:String = "radiobutton_selected_over";
+	public static inline var RADIOBUTTON_SELECTED_DOWN:String = "radiobutton_selected_down";
+	public static inline var RADIOBUTTON_SELECTED_DISABLE:String = "radiobutton_selected_disable";
+
 	public static inline var COMBO_BUTTON_NORMAL:String = "combo_button_normal";
 	public static inline var COMBO_BUTTON_OVER:String = "combo_button_over";
 	public static inline var COMBO_BUTTON_DOWN:String = "combo_button_down";
