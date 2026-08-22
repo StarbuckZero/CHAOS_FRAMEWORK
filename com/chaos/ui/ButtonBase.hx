@@ -26,8 +26,13 @@ import com.chaos.ui.Border;
      /**
      * Alpha for base
      */
-          
-     public var baseAlpha(get, set):Float; 
+     public var baseAlpha(get, set):Float;
+
+     /**
+     * Alpha for the color layer drawn over a bitmap. A negative value disables
+     * the tint layer.
+     */
+     public var tintAlpha(get, set):Float;
 
      /**
      * Image for base
@@ -55,6 +60,7 @@ import com.chaos.ui.Border;
 
      public var shapeBase:Shape = new Shape();
 
+     private var _tintAlpha:Float = -1;
      private var _roundEdge:Int = 0;
      private var _border:Bool = false;
      private var _baseColor:Int = 0xCCCCCC;
@@ -81,8 +87,12 @@ import com.chaos.ui.Border;
           if (Reflect.hasField(data, "baseColor"))
             _baseColor = Reflect.field(data, "baseColor");
 
-          if (Reflect.hasField(data, "baseAlpha"))
-            _baseAlpha = Reflect.field(data, "baseAlpha");  
+          if (Reflect.hasField(data, "baseAlpha")) {
+            _baseAlpha = Reflect.field(data, "baseAlpha");
+          }
+
+          if (Reflect.hasField(data, "tintAlpha"))
+            _tintAlpha = Reflect.field(data, "tintAlpha");
 
           if (Reflect.hasField(data, "image"))
             _image = Reflect.field(data, "image");
@@ -139,6 +149,13 @@ import com.chaos.ui.Border;
             shapeBase.graphics.beginBitmapFill(_image, bitmapMatrix, _tileImage, _smoothImage);
             shapeBase.graphics.drawRoundRect(0, 0, _width, _height, _roundEdge);
             shapeBase.graphics.endFill();
+
+            if (_tintAlpha >= 0)
+            {
+                shapeBase.graphics.beginFill(_baseColor, _tintAlpha);
+                shapeBase.graphics.drawRoundRect(0, 0, _width, _height, _roundEdge);
+                shapeBase.graphics.endFill();
+            }
         }
         else
         {
@@ -223,5 +240,14 @@ import com.chaos.ui.Border;
 
 	private function get_baseAlpha():Float {
 		return _baseAlpha;
-    }    
+    }
+
+    private function set_tintAlpha(value:Float):Float {
+        _tintAlpha = value;
+        return value;
+    }
+
+    private function get_tintAlpha():Float {
+        return _tintAlpha;
+    }
  }

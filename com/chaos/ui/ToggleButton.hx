@@ -120,6 +120,7 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI {
 	private var _roundEdge:Int = 0;
 
 	private var _bgAlpha:Float = 1;
+	private var _tintAlpha:Float = -1;
 
 	private var _selected:Bool = false;
 	private var _tileImage:Bool = false;
@@ -310,8 +311,6 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI {
 		if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_ALPHA))
 			_bgAlpha = UIStyleManager.getStyle(UIStyleManager.BUTTON_ALPHA);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_ALPHA))
-			_borderAlpha = UIStyleManager.getStyle(UIStyleManager.BUTTON_ALPHA);
 
 		if (UIStyleManager.hasStyle(UIStyleManager.TOGGLE_BUTTON_USE_CUSTOM_RENDER))
 			_useCustomRender = UIStyleManager.getStyle(UIStyleManager.TOGGLE_BUTTON_USE_CUSTOM_RENDER);
@@ -757,7 +756,7 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI {
 	public function drawButtonState(base:ButtonBase, color:Int = 0xFFFFFF, borderColor:Int = 0x000000, image:BitmapData = null):Void {
 
 		base.setComponentData({"border":_border,"lineThinkness":_borderThinkness,"lineAlpha":_borderAlpha, "lineColor":borderColor,
-		"baseAlpha":_bgAlpha,"tileImage":_tileImage,"image":image,"baseColor":color,"width":_width,"height":_height,"roundEdge":_roundEdge});
+		"baseAlpha":_bgAlpha,"tintAlpha":_tintAlpha,"tileImage":_tileImage,"image":image,"baseColor":color,"width":_width,"height":_height,"roundEdge":_roundEdge});
 
 		base.draw();
 	}

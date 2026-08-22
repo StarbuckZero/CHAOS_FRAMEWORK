@@ -36,6 +36,9 @@ class RadioButton extends SelectToggleBase implements IRadioButton implements IB
 	private var _labelOffX : Int = 0;
 	private var _labelOffY : Int = 0;
 
+	private var _buttonOffX : Int = 0;
+	private var _buttonOffY : Int = 0;
+
 	/**
 	 * UI Radio Button 
 	 * @param	data The proprieties that you want to set on component.
@@ -62,6 +65,8 @@ class RadioButton extends SelectToggleBase implements IRadioButton implements IB
 		if (Reflect.hasField(data, "textColor"))
 			Reflect.setField(_labelData, "textColor", Reflect.field(data, "textColor") );
 
+		else if (UIStyleManager.hasStyle(UIStyleManager.RADIOBUTTON_TEXT_COLOR))
+			Reflect.setField(_labelData, "textColor", UIStyleManager.getStyle(UIStyleManager.RADIOBUTTON_TEXT_COLOR));
 		
 		// Go with what's in data object first then see if set in UI style
 		if (Reflect.hasField(data, "size"))
@@ -84,15 +89,28 @@ class RadioButton extends SelectToggleBase implements IRadioButton implements IB
 			RadioButtonManager.addItem(_groupName, this);
 		}
 		
-		if (""  != UIStyleManager.RADIOBUTTON_TEXT_ALIGN)
-			Reflect.setField(_labelData, "align", UIStyleManager.RADIOBUTTON_TEXT_ALIGN);
-		
-		// If not found then go with default
-		if (!Reflect.hasField(_labelData, "bold"))
-			Reflect.setField(_labelData, "bold", UIStyleManager.RADIOBUTTON_TEXT_BOLD);
-		
-		if (!Reflect.hasField(_labelData, "italic"))
-			Reflect.setField(_labelData, "italic", UIStyleManager.RADIOBUTTON_TEXT_ITALIC);
+		if (Reflect.hasField(data, "align"))
+			Reflect.setField(_labelData, "align", Reflect.field(data, "align"));
+		else if (UIStyleManager.hasStyle(UIStyleManager.RADIOBUTTON_TEXT_ALIGN))
+			Reflect.setField(_labelData, "align", UIStyleManager.getStyle(UIStyleManager.RADIOBUTTON_TEXT_ALIGN));
+
+		if (Reflect.hasField(data, "bold"))
+			Reflect.setField(_labelData, "bold", Reflect.field(data, "bold"));
+		else if (!Reflect.hasField(_labelData, "bold"))
+		{
+			var bold = UIStyleManager.hasStyle(UIStyleManager.RADIOBUTTON_TEXT_BOLD)
+				? UIStyleManager.getStyle(UIStyleManager.RADIOBUTTON_TEXT_BOLD) : false;
+			Reflect.setField(_labelData, "bold", bold);
+		}
+
+		if (Reflect.hasField(data, "italic"))
+			Reflect.setField(_labelData, "italic", Reflect.field(data, "italic"));
+		else if (!Reflect.hasField(_labelData, "italic"))
+		{
+			var italic = UIStyleManager.hasStyle(UIStyleManager.RADIOBUTTON_TEXT_ITALIC)
+				? UIStyleManager.getStyle(UIStyleManager.RADIOBUTTON_TEXT_ITALIC) : false;
+			Reflect.setField(_labelData, "italic", italic);
+		}
 
 	}
 	
@@ -166,6 +184,12 @@ class RadioButton extends SelectToggleBase implements IRadioButton implements IB
 			
 		if (UIStyleManager.hasStyle(UIStyleManager.RADIOBUTTON_DOT))
 			_dotSize = UIStyleManager.getStyle(UIStyleManager.RADIOBUTTON_DOT);
+
+		if (UIStyleManager.hasStyle(UIStyleManager.RADIOBUTTON_OFFSET_X))
+			_buttonOffX = UIStyleManager.getStyle(UIStyleManager.RADIOBUTTON_OFFSET_X);
+
+		if (UIStyleManager.hasStyle(UIStyleManager.RADIOBUTTON_OFFSET_Y))
+			_buttonOffY = UIStyleManager.getStyle(UIStyleManager.RADIOBUTTON_OFFSET_Y);
 
 		if (UIStyleManager.hasStyle(UIStyleManager.RADIOBUTTON_LABEL_OFFSET_X))
 			_labelOffX = UIStyleManager.getStyle(UIStyleManager.RADIOBUTTON_LABEL_OFFSET_X);
@@ -303,7 +327,10 @@ class RadioButton extends SelectToggleBase implements IRadioButton implements IB
 			_label.y = (_height / 2) - (_label.height / 2) + _labelOffY;
 		}
 
-		var stateY:Float = (_height / 2) - (_buttonSize / 2);
+		var stateX:Float = _buttonOffX;
+		var stateY:Float = (_height / 2) - (_buttonSize / 2) + _buttonOffY;
+
+		disableState.x = downState.x = overState.x = normalState.x = stateX;
 
 		disableState.y = stateY;
 		downState.y = stateY;

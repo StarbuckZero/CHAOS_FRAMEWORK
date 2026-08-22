@@ -65,15 +65,28 @@ class CheckBox extends SelectToggleBase implements ICheckBox implements IBaseUI
 		if (Reflect.hasField(data, "style"))
 			_style = Reflect.field(data, "style");
 		
-		if (UIStyleManager.hasStyle(UIStyleManager.CHECKBOX_TEXT_ALIGN))
+		if (Reflect.hasField(data, "align"))
+			Reflect.setField(_labelData, "align", Reflect.field(data, "align"));
+		else if (UIStyleManager.hasStyle(UIStyleManager.CHECKBOX_TEXT_ALIGN))
 			Reflect.setField(_labelData, "align", UIStyleManager.getStyle(UIStyleManager.CHECKBOX_TEXT_ALIGN));
-		
-		// If not found then go with default
-		if (!Reflect.hasField(_labelData, "bold") && !UIStyleManager.hasStyle(UIStyleManager.CHECKBOX_TEXT_BOLD))
-			Reflect.setField(_labelData, "bold", false);
-		
-		if (!Reflect.hasField(_labelData, "italic") && !UIStyleManager.hasStyle(UIStyleManager.CHECKBOX_TEXT_ITALIC))
-			Reflect.setField(_labelData, "italic", false);
+
+		if (Reflect.hasField(data, "bold"))
+			Reflect.setField(_labelData, "bold", Reflect.field(data, "bold"));
+		else if (!Reflect.hasField(_labelData, "bold"))
+		{
+			var bold = UIStyleManager.hasStyle(UIStyleManager.CHECKBOX_TEXT_BOLD)
+				? UIStyleManager.getStyle(UIStyleManager.CHECKBOX_TEXT_BOLD) : false;
+			Reflect.setField(_labelData, "bold", bold);
+		}
+
+		if (Reflect.hasField(data, "italic"))
+			Reflect.setField(_labelData, "italic", Reflect.field(data, "italic"));
+		else if (!Reflect.hasField(_labelData, "italic"))
+		{
+			var italic = UIStyleManager.hasStyle(UIStyleManager.CHECKBOX_TEXT_ITALIC)
+				? UIStyleManager.getStyle(UIStyleManager.CHECKBOX_TEXT_ITALIC) : false;
+			Reflect.setField(_labelData, "italic", italic);
+		}
 	}
 
 	override function onStageAdd(event : Event) : Void { UIBitmapManager.watchElement(UIBitmapType.CheckBox, this); }

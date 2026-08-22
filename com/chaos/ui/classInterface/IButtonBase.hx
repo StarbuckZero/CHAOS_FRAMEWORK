@@ -20,9 +20,17 @@ import openfl.display.BitmapData;
           
     var baseAlpha(get, set):Float; 
 
+
+    /**
+     * Alpha for the color layer drawn over a bitmap. A negative value disables
+     * the tint layer.
+     */
+    var tintAlpha(get, set):Float;
+
      /**
      * Image for base
      */
+
           
     var image(get, set):BitmapData;
 

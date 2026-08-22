@@ -14,6 +14,10 @@ import openfl.display.Shape;
 import openfl.events.MouseEvent;
 import openfl.events.Event;
 
+import openfl.filters.BitmapFilter;
+import openfl.filters.DropShadowFilter;
+import openfl.filters.GlowFilter;
+
 import openfl.text.TextFormat;
 import openfl.text.TextFieldAutoSize;
 
@@ -141,6 +145,13 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
     private var _textColor : Int = 0xFFFFFF;
     private var _buttonTextDisableColor : Int = 0x999999;
 	
+	private var _iconWidth : Int = -1;
+	private var _iconHeight : Int = -1;
+	private var _shadowFilter : Bool = false;
+	private var _bevelFilter : Bool = false;
+	private var _shadowTextFilter : DropShadowFilter = new DropShadowFilter(2, 0, 0x000000, 1, 5, 5, 1.2, 2);
+	private var _buttonGlowFilter1 : GlowFilter = new GlowFilter(0xFFFFFF, 1, 36, 36, 2, 1, false, true);
+	private var _buttonGlowFilter2 : GlowFilter = new GlowFilter(0x000000, 1, 14, 14, 2, 1, false, true);
 	/**
 	 * UI Button 
 	 * @param	data The proprieties that you want to set on component.
@@ -315,6 +326,26 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
         }
 
         // Label styles
+
+        if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_TINT_ALPHA)) {
+            _tintAlpha = UIStyleManager.getStyle(UIStyleManager.BUTTON_TINT_ALPHA);
+        }
+
+        if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_ICON_WIDTH)) {
+            _iconWidth = UIStyleManager.getStyle(UIStyleManager.BUTTON_ICON_WIDTH);
+        }
+
+        if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_ICON_HEIGHT)) {
+            _iconHeight = UIStyleManager.getStyle(UIStyleManager.BUTTON_ICON_HEIGHT);
+        }
+
+        if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_SHADOW_FILTER)) {
+            _shadowFilter = UIStyleManager.getStyle(UIStyleManager.BUTTON_SHADOW_FILTER);
+        }
+
+        if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_BEVEL_FILTER)) {
+            _bevelFilter = UIStyleManager.getStyle(UIStyleManager.BUTTON_BEVEL_FILTER);
+        }
         if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_TEXT_COLOR)) {
             _textColor = UIStyleManager.getStyle(UIStyleManager.BUTTON_TEXT_COLOR);
             Reflect.setField(_labelData, "textColor", _textColor);
@@ -797,6 +828,27 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
         
         // Seting label  
         _label.text = _text;
+
+        if (_icon.width > 0 && _iconWidth > -1) {
+            _icon.width = _iconWidth;
+        }
+
+        if (_icon.height > 0 && _iconHeight > -1) {
+            _icon.height = _iconHeight;
+        }
+
+        var buttonFilters:Array<BitmapFilter> = [];
+        if (_bevelFilter) {
+            buttonFilters.push(_buttonGlowFilter1);
+            buttonFilters.push(_buttonGlowFilter2);
+        }
+        filters = buttonFilters;
+
+        var labelFilters:Array<BitmapFilter> = [];
+        if (_shadowFilter) {
+            labelFilters.push(_shadowTextFilter);
+        }
+        _label.filters = labelFilters;
         _label.size = _labelSize;
         _label.italic = _italic;
         _label.bold = _bold;
