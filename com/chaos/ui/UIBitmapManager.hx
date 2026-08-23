@@ -111,7 +111,10 @@ class UIBitmapManager {
 	public static inline var COMBO_BUTTON_DOWN:String = "combo_button_down";
 	public static inline var COMBO_BUTTON_DISABLE:String = "combo_button_disable";
 
-	public static inline var COMBO_BUTTON_DROPDOWN_ICON:String = "combo_button_icon";
+	public static inline var COMBO_BUTTON_ICON:String = "combo_button_icon";
+
+	@:deprecated("Use COMBO_BUTTON_ICON instead")
+	public static inline var COMBO_BUTTON_DROPDOWN_ICON:String = COMBO_BUTTON_ICON;
 
 	public static inline var COMBO_BACKGROUND:String = "combo_background";
 	public static inline var COMBO_DROPDOWN_BACKGROUND:String = "combo_dropdown_background";

@@ -12,6 +12,7 @@ import com.chaos.utils.CompositeManager;
 import openfl.display.BitmapData;
 import openfl.geom.Point;
 import openfl.geom.Rectangle;
+import openfl.geom.Matrix;
 
 import openfl.display.Shape;
 import com.chaos.ui.data.ComboBoxObjectData;
@@ -250,6 +251,8 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 	private var _sliderButtonDisableImage : BitmapData;
 	
 	private var _showImage : Bool = true;
+	private var _dropDownLabelBackground:Null<Bool> = null;
+	private var _dropDownTileImage:Bool = false;
 
 	private var _clickLabelArea : Bool = true;
 
@@ -593,8 +596,8 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 		if (UIBitmapManager.hasUIElement(UIBitmapType.ComboBox, UIBitmapManager.COMBO_BUTTON_DISABLE))
 			_dropDownButtonDisable = UIBitmapManager.getUIElement(UIBitmapType.ComboBox, UIBitmapManager.COMBO_BUTTON_DISABLE).clone();
 
-		if (UIBitmapManager.hasUIElement(UIBitmapType.ComboBox, UIBitmapManager.COMBO_BUTTON_DROPDOWN_ICON))
-			_dropDownIconImage = UIBitmapManager.getUIElement(UIBitmapType.ComboBox, UIBitmapManager.COMBO_BUTTON_DROPDOWN_ICON).clone();
+		if (UIBitmapManager.hasUIElement(UIBitmapType.ComboBox, UIBitmapManager.COMBO_BUTTON_ICON))
+			_dropDownIconImage = UIBitmapManager.getUIElement(UIBitmapType.ComboBox, UIBitmapManager.COMBO_BUTTON_ICON).clone();
 		
 			
 
@@ -861,6 +864,13 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 		if (UIStyleManager.hasStyle(UIStyleManager.COMBO_DROPDOWN_PADDING))
 			_dropDownPadding = UIStyleManager.getStyle(UIStyleManager.COMBO_DROPDOWN_PADDING);
 
+		_dropDownLabelBackground = UIStyleManager.hasStyle(UIStyleManager.COMBO_DROPDOWN_LABEL_BACKGROUND)
+			? UIStyleManager.getStyle(UIStyleManager.COMBO_DROPDOWN_LABEL_BACKGROUND)
+			: null;
+
+		_dropDownTileImage = UIStyleManager.hasStyle(UIStyleManager.COMBO_DROPDOWN_TILE_IMAGE)
+			? UIStyleManager.getStyle(UIStyleManager.COMBO_DROPDOWN_TILE_IMAGE)
+			: false;
 
 		if (_dropButton != null)
 			_dropButton.setComponentData(_buttonData);
@@ -1431,10 +1441,21 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 		
 		label.textColor = _textColor;
 		label.backgroundColor = _textNormalBackground;
-		label.background = true;
+		label.background = showsDropDownLabelBackground();
 		label.draw();
 	}
 
+	private inline function usesDropDownBackgroundImage():Bool
+	{
+		return _backgroundDropImage != null && _showImage;
+	}
+
+	private inline function showsDropDownLabelBackground():Bool
+	{
+		return _dropDownLabelBackground != null
+			? _dropDownLabelBackground
+			: !usesDropDownBackgroundImage();
+	}
 	private function textOverEvent(event : MouseEvent) : Void
 	{
 		
@@ -1621,12 +1642,25 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 			 
 		
 		// Draw the over all size that is needed for labels
-		if (_backgroundDropImage != null && _showImage)
-			_itemDropDownSize.graphics.beginBitmapFill(_backgroundDropImage, null, true, _smoothImage);
+		var dropDownWidth:Float = _width + SCROLLBAR_OFFSET;
+		var dropDownHeight:Float = (_height + _dropDownPadding) * _list.length;
+
+		if (usesDropDownBackgroundImage())
+		{
+			var bitmapMatrix:Matrix = null;
+
+			if (!_dropDownTileImage && _backgroundDropImage.width > 0 && _backgroundDropImage.height > 0 && dropDownWidth > 0 && dropDownHeight > 0)
+			{
+				bitmapMatrix = new Matrix();
+				bitmapMatrix.scale(dropDownWidth / _backgroundDropImage.width, dropDownHeight / _backgroundDropImage.height);
+			}
+
+			_itemDropDownSize.graphics.beginBitmapFill(_backgroundDropImage, bitmapMatrix, _dropDownTileImage, _smoothImage);
+		}
 		else
 			_itemDropDownSize.graphics.beginFill(_backgroundColor, 1);
-			
-		_itemDropDownSize.graphics.drawRect(0, 0, (_width + SCROLLBAR_OFFSET) - _buttonWidth, (_height + _dropDownPadding) * (_list.length));
+
+		_itemDropDownSize.graphics.drawRect(0, 0, dropDownWidth, dropDownHeight);
 		_itemDropDownSize.graphics.endFill();
 		
 		
@@ -1638,8 +1672,10 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 		_itemIndex = labelCount;
 		
 		
-		// This will be used to create the label
-		var labelData:Dynamic = {"width": (_scrollbar.visible)  ? _width + SCROLLBAR_OFFSET + _scrollbar.width - _buttonWidth : _width, "height": _height + SCROLLBAR_OFFSET, "align":_align, "textColor": _textColor, "backgroundColor":_textNormalBackground,"bitmapMode":false, "background":true};
+		// Keep labels out of the scrollbar column while the dropdown background
+		// continues behind the scrollbar across the full dropdown width.
+		var labelWidth:Float = _scrollbar.visible ? dropDownWidth - _scrollbar.width : dropDownWidth;
+		var labelData:Dynamic = {"width": Math.max(0, labelWidth), "height": _height + SCROLLBAR_OFFSET, "align":_align, "textColor": _textColor, "backgroundColor":_textNormalBackground,"bitmapMode":false, "background":showsDropDownLabelBackground()};
 		
 		// Create labels
 		for (i in 0 ... labelCount)

@@ -237,6 +237,8 @@ class UIStyleManager
     public static var COMBO_BORDER_THICKNESS : String = "COMBO_BORDER_THICKNESS";
     
 	public static var COMBO_DROPDOWN_PADDING : String = "COMBO_DROPDOWN_PADDING";
+	public static var COMBO_DROPDOWN_LABEL_BACKGROUND : String = "COMBO_DROPDOWN_LABEL_BACKGROUND";
+	public static var COMBO_DROPDOWN_TILE_IMAGE : String = "COMBO_DROPDOWN_TILE_IMAGE";
 	
     public static var COMBO_TEXT_EMBED : String = "COMBO_TEXT_EMBED";
     public static var COMBO_TEXT_FONT : String = "COMBO_TEXT_FONT";
