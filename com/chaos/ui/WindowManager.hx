@@ -36,29 +36,21 @@ class WindowManager extends Sprite
     {
         super();
 		
-		// Set defaults for unfocus and focus colors
-		// if ( -1 != UIStyleManager.WINDOW_TITLE_AREA_COLOR)   
-		// 	_windowTitleFocusColor = UIStyleManager.WINDOW_TITLE_AREA_COLOR;
+		// Set defaults for unfocused window states.
+		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_TITLE_AREA_UNFOCUS_COLOR))
+			_windowTitleUnFocusColor = UIStyleManager.getStyle(UIStyleManager.WINDOW_TITLE_AREA_UNFOCUS_COLOR);
 		
-		// if ( -1 != UIStyleManager.WINDOW_FOCUS_COLOR)  
-		// 	_windowFocusColor = UIStyleManager.WINDOW_FOCUS_COLOR;
+		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_UNFOCUS_COLOR))
+			_windowUnFocusColor = UIStyleManager.getStyle(UIStyleManager.WINDOW_UNFOCUS_COLOR);
 		
-		/*
-		if ( -1 != UIStyleManager.WINDOW_TITLE_AREA_UNFOCUS_COLOR)
-			_windowTitleUnFocusColor = UIStyleManager.WINDOW_TITLE_AREA_UNFOCUS_COLOR;
-				
-		if ( -1 != UIStyleManager.WINDOW_UNFOCUS_COLOR)
-			_windowUnFocusColor = UIStyleManager.WINDOW_UNFOCUS_COLOR;
-			
-		if ( -1 != UIStyleManager.WINDOW_CLOSE_UNFOCUS_COLOR)
-			_closeUnFocusColor = UIStyleManager.WINDOW_CLOSE_UNFOCUS_COLOR;
+		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_CLOSE_UNFOCUS_COLOR))
+			_closeUnFocusColor = UIStyleManager.getStyle(UIStyleManager.WINDOW_CLOSE_UNFOCUS_COLOR);
+	
+		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_MAX_UNFOCUS_COLOR))
+			_maxUnFocusColor = UIStyleManager.getStyle(UIStyleManager.WINDOW_MAX_UNFOCUS_COLOR);
 		
-		if ( -1 != UIStyleManager.WINDOW_MAX_UNFOCUS_COLOR)
-			_maxUnFocusColor = UIStyleManager.WINDOW_MAX_UNFOCUS_COLOR;
-			
-		if ( -1 != UIStyleManager.WINDOW_MIN_UNFOCUS_COLOR)
-			_minUnFocusColor = UIStyleManager.WINDOW_MIN_UNFOCUS_COLOR;
-		*/
+		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_MIN_UNFOCUS_COLOR))
+			_minUnFocusColor = UIStyleManager.getStyle(UIStyleManager.WINDOW_MIN_UNFOCUS_COLOR);
     }
     
 	public function addWindow( window:Window ):Window

@@ -1076,7 +1076,17 @@ class Alert
 		if (!backgroundBlock.hasEventListener(Event.ADDED_TO_STAGE))
 			backgroundBlock.addEventListener(Event.ADDED_TO_STAGE, setupTintStageEvent, false, 0, false);
 
+		if (UIStyleManager.hasStyle(UIStyleManager.ALERT_MODAL_TINT_ALPHA))
+			_tintAlpha = UIStyleManager.getStyle(UIStyleManager.ALERT_MODAL_TINT_ALPHA);
+		if (UIStyleManager.hasStyle(UIStyleManager.ALERT_MODAL_BACKGROUND_COLOR))
+			_tintBackgroundColor = UIStyleManager.getStyle(UIStyleManager.ALERT_MODAL_BACKGROUND_COLOR);
+
 		updateAlertBox();
+
+		for (i in 0..._alertList.length) {
+			var openAlert:AlertObjectData = cast(_alertList.getItemAt(i), AlertObjectData);
+			applyWindowFocusTheme(cast(openAlert.window, Window), false);
+		}
 
 		var window : Window = new Window();
 		var buttonList:Array<IButton> = new Array<IButton>();
@@ -1098,23 +1108,29 @@ class Alert
 
 		var useTextFormat : Bool = false;
 
-		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_TITLE_TEXT_FONT))
+		if (UIStyleManager.hasStyle(UIStyleManager.ALERT_TITLE_TEXT_FONT))
 		{
-			window.textLabel.font = UIStyleManager.getStyle(UIStyleManager.WINDOW_TITLE_TEXT_FONT);
+			window.textLabel.font = UIStyleManager.getStyle(UIStyleManager.ALERT_TITLE_TEXT_FONT);
 			useTextFormat = true;
 		}
 
-		if ( UIStyleManager.hasStyle(UIStyleManager.WINDOW_TITLE_TEXT_SIZE))
+		if ( UIStyleManager.hasStyle(UIStyleManager.ALERT_TITLE_TEXT_SIZE))
 		{
-			window.textLabel.size = UIStyleManager.getStyle(UIStyleManager.WINDOW_TITLE_TEXT_SIZE);
+			window.textLabel.size = UIStyleManager.getStyle(UIStyleManager.ALERT_TITLE_TEXT_SIZE);
 			useTextFormat = true;
 		}
 
-		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_TITLE_TEXT_EMBED))
-			window.textLabel.setEmbedFont(UIStyleManager.getStyle(UIStyleManager.WINDOW_TITLE_TEXT_EMBED));
+		if (UIStyleManager.hasStyle(UIStyleManager.ALERT_TITLE_TEXT_EMBED))
+			window.textLabel.setEmbedFont(UIStyleManager.getStyle(UIStyleManager.ALERT_TITLE_TEXT_EMBED));
 
-		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_TITLE_TEXT_COLOR))
-			window.textLabel.textColor = UIStyleManager.getStyle(UIStyleManager.WINDOW_TITLE_TEXT_COLOR);
+		if (UIStyleManager.hasStyle(UIStyleManager.ALERT_TITLE_TEXT_COLOR))
+			window.textLabel.textColor = UIStyleManager.getStyle(UIStyleManager.ALERT_TITLE_TEXT_COLOR);
+
+		if (UIStyleManager.hasStyle(UIStyleManager.ALERT_TITLE_TEXT_BOLD))
+			window.textLabel.textFormat.bold = UIStyleManager.getStyle(UIStyleManager.ALERT_TITLE_TEXT_BOLD);
+
+		if (UIStyleManager.hasStyle(UIStyleManager.ALERT_TITLE_TEXT_ITALIC))
+			window.textLabel.textFormat.italic = UIStyleManager.getStyle(UIStyleManager.ALERT_TITLE_TEXT_ITALIC);
 
 		// Setup Window
 		window.addEventListener(Event.ADDED_TO_STAGE, setupWindowStageEvent, false, 0, true);
@@ -1134,8 +1150,7 @@ class Alert
 		window.resize = false;
 
 		// Setup colors for window & check and setup bitmap/image if needed
-		window.windowTitleColor = UIStyleManager.hasStyle(UIStyleManager.ALERT_TITLE_AREA_COLOR) ? UIStyleManager.getStyle(UIStyleManager.ALERT_TITLE_AREA_COLOR) : _windowTitleColor;
-		window.windowColor = UIStyleManager.hasStyle(UIStyleManager.ALERT_WINDOW_FOCUS_COLOR) ? UIStyleManager.getStyle(UIStyleManager.ALERT_WINDOW_FOCUS_COLOR) : _windowFocusColor;
+		applyWindowFocusTheme(window, true);
 		window.scrollPane.backgroundColor = UIStyleManager.hasStyle(UIStyleManager.ALERT_BACKGROUND_COLOR) ? UIStyleManager.getStyle(UIStyleManager.ALERT_BACKGROUND_COLOR) : _backgroundColor;
 
 		if (UIStyleManager.hasStyle(UIStyleManager.ALERT_ICON_LOCATION))
@@ -1324,6 +1339,11 @@ class Alert
 
 		}
 
+		if (_alertList.length > 0) {
+			var topAlert:AlertObjectData = cast(_alertList.getItemAt(_alertList.length - 1), AlertObjectData);
+			applyWindowFocusTheme(cast(topAlert.window, Window), true);
+		}
+
 		// Remove background if no more windows are left in the list
 		if (_alertList.length == 0)
 		{
@@ -1331,6 +1351,27 @@ class Alert
 			backgroundBlock.removeEventListener(Event.ADDED_TO_STAGE, setupTintStageEvent);
 		}
 
+	}
+
+	private static function applyWindowFocusTheme(window:Window, focused:Bool):Void
+	{
+		if (window == null)
+			return;
+
+		var titleStyle = focused ? UIStyleManager.ALERT_TITLE_AREA_COLOR : UIStyleManager.ALERT_TITLE_AREA_UNFOCUS_COLOR;
+		var windowStyle = focused ? UIStyleManager.ALERT_WINDOW_FOCUS_COLOR : UIStyleManager.ALERT_WINDOW_UNFOCUS_COLOR;
+		var bottomStyle = focused ? UIStyleManager.ALERT_BOTTOM_COLOR : UIStyleManager.ALERT_UNFOCUS_BOTTOM_COLOR;
+
+		window.windowTitleColor = UIStyleManager.hasStyle(titleStyle)
+			? UIStyleManager.getStyle(titleStyle)
+			: (focused ? _windowTitleColor : _windowTitleUnFocusColor);
+		window.windowColor = UIStyleManager.hasStyle(windowStyle)
+			? UIStyleManager.getStyle(windowStyle)
+			: (focused ? _windowFocusColor : _windowUnFocusColor);
+		window.setWindowBottomColor(UIStyleManager.hasStyle(bottomStyle)
+			? UIStyleManager.getStyle(bottomStyle)
+			: window.windowColor);
+		window.draw();
 	}
 
 	private static function setCloseButtonTheme(window : Window) : Void
@@ -1423,6 +1464,13 @@ class Alert
 
 		if (null != UIBitmapManager.getUIElement(UIBitmapType.Alert, UIBitmapManager.ALERT_BOTTOM_RIGHT))
 			window.setWindowBottomRightImage(UIBitmapManager.getUIElement(UIBitmapType.Alert, UIBitmapManager.ALERT_BOTTOM_RIGHT));
+
+		if (UIBitmapManager.hasUIElement(UIBitmapType.Alert, UIBitmapManager.ALERT_TOP_PATTERN_OVERLAY))
+			window.setWindowTopPatternImage(UIBitmapManager.getUIElement(UIBitmapType.Alert, UIBitmapManager.ALERT_TOP_PATTERN_OVERLAY));
+		if (UIBitmapManager.hasUIElement(UIBitmapType.Alert, UIBitmapManager.ALERT_MIDDLE_PATTERN_OVERLAY))
+			window.setWindowMiddlePatternImage(UIBitmapManager.getUIElement(UIBitmapType.Alert, UIBitmapManager.ALERT_MIDDLE_PATTERN_OVERLAY));
+		if (UIBitmapManager.hasUIElement(UIBitmapType.Alert, UIBitmapManager.ALERT_BOTTOM_PATTERN_OVERLAY))
+			window.setWindowBottomPatternImage(UIBitmapManager.getUIElement(UIBitmapType.Alert, UIBitmapManager.ALERT_BOTTOM_PATTERN_OVERLAY));
 
 		// Background
 		if (null != UIBitmapManager.getUIElement(UIBitmapType.Alert, UIBitmapManager.ALERT_BACKGROUND))
@@ -1541,26 +1589,26 @@ class Alert
 		{
 			button.defaultColor = UIStyleManager.hasStyle(UIStyleManager.ALERT_NEUTRAL_BUTTON_NORMAL_COLOR) ? UIStyleManager.getStyle(UIStyleManager.ALERT_NEUTRAL_BUTTON_NORMAL_COLOR) : _neutralButtonNormalColor;
 			button.overColor = UIStyleManager.hasStyle(UIStyleManager.ALERT_NEUTRAL_BUTTON_OVER_COLOR) ? UIStyleManager.getStyle(UIStyleManager.ALERT_NEUTRAL_BUTTON_OVER_COLOR) : _neutralButtonOverColor;
-			button.defaultColor = UIStyleManager.hasStyle(UIStyleManager.ALERT_NEUTRAL_BUTTON_DOWN_COLOR) ? UIStyleManager.getStyle(UIStyleManager.ALERT_NEUTRAL_BUTTON_DOWN_COLOR) : _neutralButtonDownColor;
+			button.downColor = UIStyleManager.hasStyle(UIStyleManager.ALERT_NEUTRAL_BUTTON_DOWN_COLOR) ? UIStyleManager.getStyle(UIStyleManager.ALERT_NEUTRAL_BUTTON_DOWN_COLOR) : _neutralButtonDownColor;
 
-			if (UIBitmapManager.hasUIElement(UIBitmapType.Alert, UIBitmapManager.ALERT_NEUTRAL_BUTTON_DOWN))
-				button.setDefaultStateImage(UIBitmapManager.getUIElement(UIBitmapType.Alert, UIBitmapManager.ALERT_NEUTRAL_BUTTON_DOWN));
+			if (UIBitmapManager.hasUIElement(UIBitmapType.Alert, UIBitmapManager.ALERT_NEUTRAL_BUTTON_NORMAL))
+				button.setDefaultStateImage(UIBitmapManager.getUIElement(UIBitmapType.Alert, UIBitmapManager.ALERT_NEUTRAL_BUTTON_NORMAL));
 
-			if (UIBitmapManager.hasUIElement(UIBitmapType.Alert, UIBitmapManager.ALERT_NEGATIVE_BUTTON_OVER))
+			if (UIBitmapManager.hasUIElement(UIBitmapType.Alert, UIBitmapManager.ALERT_NEUTRAL_BUTTON_OVER))
 				button.setOverStateImage(UIBitmapManager.getUIElement(UIBitmapType.Alert, UIBitmapManager.ALERT_NEUTRAL_BUTTON_OVER));
 
-			if (UIBitmapManager.hasUIElement(UIBitmapType.Alert, UIBitmapManager.ALERT_NEGATIVE_BUTTON_DOWN))
+			if (UIBitmapManager.hasUIElement(UIBitmapType.Alert, UIBitmapManager.ALERT_NEUTRAL_BUTTON_DOWN))
 				button.setDownStateImage(UIBitmapManager.getUIElement(UIBitmapType.Alert, UIBitmapManager.ALERT_NEUTRAL_BUTTON_DOWN));
 
 			// All images for neutral button that are bitmaps
 			if (_neutralButtonNormalBitmap != null)
-				button.setDefaultStateImage(_negativeButtonNormalBitmap);
+				button.setDefaultStateImage(_neutralButtonNormalBitmap);
 
 			if (_neutralButtonOverBitmap != null)
-				button.setOverStateImage(_negativeButtonOverBitmap);
+				button.setOverStateImage(_neutralButtonOverBitmap);
 
 			if (_neutralButtonDownBitmap != null)
-				button.setDownStateImage(_negativeButtonDownBitmap);
+				button.setDownStateImage(_neutralButtonDownBitmap);
 		}
 	}
 

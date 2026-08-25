@@ -91,6 +91,7 @@ class ListBox extends ScrollPane implements IListBox implements IBaseUI
 	private var _scrollPane : ScrollPane;
 	private var _embedFonts : Bool = true;
 	private var _font : Font = null;
+	private var _fontName : String = "";
 	private var _selectText : String = "";
 	private var _selectIndex : Int = -1;
 	private var _textColor : Int = 0x000000;
@@ -253,8 +254,20 @@ class ListBox extends ScrollPane implements IListBox implements IBaseUI
 		if (UIStyleManager.hasStyle(UIStyleManager.LIST_TEXT_EMBED))
 			_font = UIStyleManager.getStyle(UIStyleManager.LIST_TEXT_EMBED);
 
-		// if (UIStyleManager.hasStyle(UIStyleManager.LIST_BORDER))
-		// 	_border = UIStyleManager.getStyle(UIStyleManager.LIST_BORDER);
+		if (UIStyleManager.hasStyle(UIStyleManager.LIST_TEXT_FONT))
+			_fontName = UIStyleManager.getStyle(UIStyleManager.LIST_TEXT_FONT);
+
+		if (UIStyleManager.hasStyle(UIStyleManager.LIST_BORDER))
+			showOutline = UIStyleManager.getStyle(UIStyleManager.LIST_BORDER);
+
+		if (UIStyleManager.hasStyle(UIStyleManager.LIST_BORDER_COLOR))
+			outline.lineColor = UIStyleManager.getStyle(UIStyleManager.LIST_BORDER_COLOR);
+
+		if (UIStyleManager.hasStyle(UIStyleManager.LIST_BORDER_ALPHA))
+			outline.lineAlpha = UIStyleManager.getStyle(UIStyleManager.LIST_BORDER_ALPHA);
+
+		if (UIStyleManager.hasStyle(UIStyleManager.LIST_BORDER_THICKNESS))
+			outline.lineThinkness = UIStyleManager.getStyle(UIStyleManager.LIST_BORDER_THICKNESS);
 		
 	}
 
@@ -526,6 +539,9 @@ class ListBox extends ScrollPane implements IListBox implements IBaseUI
 		
 		// Create data object for common use values for when label is created
 		var labelData:Dynamic = {"textColor":_textColor, "background":false, "align":_align, "width": _width - 2};
+
+		if (_fontName != "")
+			Reflect.setField(labelData, "font", _fontName);
 		
 		
 		for (i in 0 ... _list.length)

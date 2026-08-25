@@ -11,6 +11,7 @@ import openfl.display.BitmapData;
 import openfl.display.DisplayObject;
 import openfl.events.Event;
 import openfl.events.MouseEvent;
+import openfl.text.Font;
 
 /**
  * Menu for holding content that is displayed based on click on title area
@@ -71,6 +72,8 @@ class Accordion extends BaseContainer implements IAccordion implements IBaseCont
 
 	private var _buttonTextColor:Int = 0xFFFFFF;
 	private var _buttonTextSelectedColor:Int = 0xFFFFFF;
+	private var _buttonTextFont:String = "";
+	private var _buttonTextEmbed:Font = null;
 
 	private var _buttonDefaultImage:BitmapData;
 	private var _buttonOverImage:BitmapData;
@@ -177,6 +180,12 @@ class Accordion extends BaseContainer implements IAccordion implements IBaseCont
 
 		if (UIStyleManager.hasStyle(UIStyleManager.ACCORDION_BUTTON_SELECTED_TEXT_COLOR))
 			_buttonTextSelectedColor = UIStyleManager.getStyle(UIStyleManager.ACCORDION_BUTTON_SELECTED_TEXT_COLOR);
+
+		if (UIStyleManager.hasStyle(UIStyleManager.ACCORDION_TEXT_FONT))
+			_buttonTextFont = UIStyleManager.getStyle(UIStyleManager.ACCORDION_TEXT_FONT);
+
+		if (UIStyleManager.hasStyle(UIStyleManager.ACCORDION_TEXT_EMBED))
+			_buttonTextEmbed = UIStyleManager.getStyle(UIStyleManager.ACCORDION_TEXT_EMBED);
 
 		if (UIStyleManager.hasStyle(UIStyleManager.ACCORDION_BACKGROUND_COLOR))
 			_backgroundColor = UIStyleManager.getStyle(UIStyleManager.ACCORDION_BACKGROUND_COLOR);
@@ -345,6 +354,12 @@ class Accordion extends BaseContainer implements IAccordion implements IBaseCont
 			"text": title,
 			"mode": "toggle"
 		});
+
+		if (_buttonTextFont != "")
+			button.label.font = _buttonTextFont;
+
+		if (_buttonTextEmbed != null)
+			button.label.setEmbedFont(_buttonTextEmbed);
 
 		button.addEventListener(MouseEvent.CLICK, onButtonClick, false, 0, true);
 

@@ -67,12 +67,6 @@ class MenuItem extends Button implements IMenuItem implements IToggleButton impl
     public var textDisableColor(get, set) : Int;
 	
     /**
-	 * Show or hide border around button
-	 */
-	
-    public var border(get, set) : Bool;
-	
-    /**
 	 * Show or hide the Sub menu icon
 	 */
     	

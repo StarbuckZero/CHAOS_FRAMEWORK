@@ -304,8 +304,8 @@ class TextInput extends Label implements ITextInput implements ILabel implements
 		if (UIStyleManager.hasStyle(UIStyleManager.INPUT_BACKGROUND_OVER_COLOR))
 			_backgroundOverColor = UIStyleManager.getStyle(UIStyleManager.INPUT_BACKGROUND_OVER_COLOR);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.INPUT_BACKGROUND_OVER_COLOR))
-			_backgroundSelectedColor = UIStyleManager.getStyle(UIStyleManager.INPUT_BACKGROUND_OVER_COLOR);
+		if (UIStyleManager.hasStyle(UIStyleManager.INPUT_BACKGROUND_SELECTED_COLOR))
+			_backgroundSelectedColor = UIStyleManager.getStyle(UIStyleManager.INPUT_BACKGROUND_SELECTED_COLOR);
 
 		if (UIStyleManager.hasStyle(UIStyleManager.INPUT_BACKGROUND_DISABLE_COLOR))
 			_backgroundDisableColor = UIStyleManager.getStyle(UIStyleManager.INPUT_BACKGROUND_DISABLE_COLOR);
@@ -314,13 +314,22 @@ class TextInput extends Label implements ITextInput implements ILabel implements
 			textFormat.indent = UIStyleManager.getStyle(UIStyleManager.LABEL_INDENT);
 
 		if (UIStyleManager.hasStyle(UIStyleManager.INPUT_TEXT_FONT))
-			textFormat.font = UIStyleManager.INPUT_TEXT_FONT;
+			textFormat.font = UIStyleManager.getStyle(UIStyleManager.INPUT_TEXT_FONT);
 
 		if (UIStyleManager.hasStyle(UIStyleManager.INPUT_TEXT_EMBED))
 			setEmbedFont(UIStyleManager.getStyle(UIStyleManager.INPUT_TEXT_EMBED));
 
 		if (UIStyleManager.hasStyle(UIStyleManager.INPUT_BORDER))
 			_border = UIStyleManager.getStyle(UIStyleManager.INPUT_BORDER);
+
+		if (UIStyleManager.hasStyle(UIStyleManager.INPUT_BORDER_COLOR))
+			borderColor = UIStyleManager.getStyle(UIStyleManager.INPUT_BORDER_COLOR);
+
+		if (UIStyleManager.hasStyle(UIStyleManager.INPUT_BORDER_ALPHA))
+			borderAlpha = UIStyleManager.getStyle(UIStyleManager.INPUT_BORDER_ALPHA);
+
+		if (UIStyleManager.hasStyle(UIStyleManager.INPUT_BORDER_THICKNESS))
+			borderThinkness = UIStyleManager.getStyle(UIStyleManager.INPUT_BORDER_THICKNESS);
 
 		if (UIStyleManager.hasStyle(UIStyleManager.INPUT_BACKGROUND))
 			_background = UIStyleManager.getStyle(UIStyleManager.INPUT_BACKGROUND);

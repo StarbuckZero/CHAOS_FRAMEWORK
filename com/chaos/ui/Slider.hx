@@ -284,7 +284,7 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 		if (UIStyleManager.hasStyle(UIStyleManager.SLIDER_OFFSET))
 			SLIDER_OFFSET = UIStyleManager.getStyle(UIStyleManager.SLIDER_OFFSET); 
 		
-		if (UIStyleManager.hasStyle(UIStyleManager.SLIDER_OFFSET))
+		if (UIStyleManager.hasStyle(UIStyleManager.SLIDER_USE_CUSTOM_RENDER))
 			_useCustomRender = UIStyleManager.getStyle(UIStyleManager.SLIDER_USE_CUSTOM_RENDER);
 
 		if (UIStyleManager.hasStyle(UIStyleManager.SLIDER_ROTATE_IMAGE))

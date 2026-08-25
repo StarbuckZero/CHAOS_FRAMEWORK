@@ -112,7 +112,7 @@ class BaseIcon extends BaseUI implements IBasicIcon implements IBaseUI
         if(UIStyleManager.hasStyle(UIStyleManager.ICON_BORDER_COLOR))
             _borderColor = UIStyleManager.getStyle(UIStyleManager.ICON_BORDER_COLOR);
 
-        if(UIStyleManager.hasStyle(UIStyleManager.ICON_BORDER_COLOR))
+        if(UIStyleManager.hasStyle(UIStyleManager.ICON_BORDER))
             _border = UIStyleManager.getStyle(UIStyleManager.ICON_BORDER);
     }
 	

@@ -280,6 +280,9 @@ class Bubble extends Overlay implements IBubble implements IOverlay implements I
         
         if (UIStyleManager.hasStyle(UIStyleManager.BUBBLE_BORDER))
             _border = UIStyleManager.getStyle(UIStyleManager.BUBBLE_BORDER);
+
+        if (UIStyleManager.hasStyle(UIStyleManager.BUBBLE_BORDER_THICKNESS))
+            _thinkness = UIStyleManager.getStyle(UIStyleManager.BUBBLE_BORDER_THICKNESS);
     }
     
     private function initBitmap() : Void

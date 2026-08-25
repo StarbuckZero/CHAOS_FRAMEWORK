@@ -616,6 +616,7 @@ enum UIBitmapType {
 	ScrollPane;
 	Slider;
 	TabPane;
+	ToolTip;
 	TextInput;
 	Window;
 	ItemPane;

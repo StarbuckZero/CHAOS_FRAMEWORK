@@ -264,6 +264,7 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 	private var _windowMinHeight : Int = WINDOW_MIN_HEIGHT;
 	
 	private var _windowTitleColor : Int = 0xFFFFFF;
+	private var _windowBottomColor : Int = -1;
 	private var _windowColor : Int = 0xFFFFFF;
 	
 	
@@ -590,7 +591,52 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 			setWindowBottomMiddleImage(UIBitmapManager.getUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_BOTTOM_MIDDLE));
 		
 		if (UIBitmapManager.hasUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_BOTTOM_RIGHT))       
-			setWindowBottomRightImage(UIBitmapManager.getUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_BOTTOM_RIGHT));		
+			setWindowBottomRightImage(UIBitmapManager.getUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_BOTTOM_RIGHT));
+
+		if (UIBitmapManager.hasUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_TOP_PATTERN_OVERLAY))
+			setWindowTopPatternImage(UIBitmapManager.getUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_TOP_PATTERN_OVERLAY));
+
+		if (UIBitmapManager.hasUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_MIDDLE_PATTERN_OVERLAY))
+			setWindowMiddlePatternImage(UIBitmapManager.getUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_MIDDLE_PATTERN_OVERLAY));
+
+		if (UIBitmapManager.hasUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_BOTTOM_PATTERN_OVERLAY))
+			setWindowBottomPatternImage(UIBitmapManager.getUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_BOTTOM_PATTERN_OVERLAY));
+
+		if (UIBitmapManager.hasUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_CLOSE_BUTTON_NORMAL))
+			_closeButton.setDefaultStateImage(UIBitmapManager.getUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_CLOSE_BUTTON_NORMAL));
+		if (UIBitmapManager.hasUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_CLOSE_BUTTON_OVER))
+			_closeButton.setOverStateImage(UIBitmapManager.getUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_CLOSE_BUTTON_OVER));
+		if (UIBitmapManager.hasUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_CLOSE_BUTTON_DOWN))
+			_closeButton.setDownStateImage(UIBitmapManager.getUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_CLOSE_BUTTON_DOWN));
+		if (UIBitmapManager.hasUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_CLOSE_BUTTON_DISABLE))
+			_closeButton.setDisableStateImage(UIBitmapManager.getUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_CLOSE_BUTTON_DISABLE));
+
+		if (UIBitmapManager.hasUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_MIN_BUTTON_NORMAL))
+			_minButton.setDefaultStateImage(UIBitmapManager.getUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_MIN_BUTTON_NORMAL));
+		if (UIBitmapManager.hasUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_MIN_BUTTON_OVER))
+			_minButton.setOverStateImage(UIBitmapManager.getUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_MIN_BUTTON_OVER));
+		if (UIBitmapManager.hasUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_MIN_BUTTON_DOWN))
+			_minButton.setDownStateImage(UIBitmapManager.getUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_MIN_BUTTON_DOWN));
+		if (UIBitmapManager.hasUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_MIN_BUTTON_DISABLE))
+			_minButton.setDisableStateImage(UIBitmapManager.getUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_MIN_BUTTON_DISABLE));
+
+		if (UIBitmapManager.hasUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_MAX_BUTTON_NORMAL))
+			_maxButton.setDefaultStateImage(UIBitmapManager.getUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_MAX_BUTTON_NORMAL));
+		if (UIBitmapManager.hasUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_MAX_BUTTON_OVER))
+			_maxButton.setOverStateImage(UIBitmapManager.getUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_MAX_BUTTON_OVER));
+		if (UIBitmapManager.hasUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_MAX_BUTTON_DOWN))
+			_maxButton.setDownStateImage(UIBitmapManager.getUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_MAX_BUTTON_DOWN));
+		if (UIBitmapManager.hasUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_MAX_BUTTON_DISABLE))
+			_maxButton.setDisableStateImage(UIBitmapManager.getUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_MAX_BUTTON_DISABLE));
+
+		_windowTopLeftUnFocusImage = UIBitmapManager.getUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_UNFOCUS_TOP_LEFT);
+		_windowTopMiddleUnFocusImage = UIBitmapManager.getUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_UNFOCUS_TOP_MIDDLE);
+		_windowTopRightUnFocusImage = UIBitmapManager.getUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_UNFOCUS_TOP_RIGHT);
+		_windowMiddleLeftUnFocusImage = UIBitmapManager.getUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_UNFOCUS_MIDDLE_LEFT);
+		_windowMiddleRightUnFocusImage = UIBitmapManager.getUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_UNFOCUS_MIDDLE_RIGHT);
+		_windowBottomLeftUnFocusImage = UIBitmapManager.getUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_UNFOCUS_BOTTOM_LEFT);
+		_windowBottomMiddleUnFocusImage = UIBitmapManager.getUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_UNFOCUS_BOTTOM_MIDDLE);
+		_windowBottomRightUnFocusImage = UIBitmapManager.getUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_UNFOCUS_BOTTOM_RIGHT);
     }
 	
 	private function initStyle() : Void 
@@ -645,8 +691,10 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_TITLE_TEXT_SIZE))
 			Reflect.setField(_labelData, "size", UIStyleManager.getStyle(UIStyleManager.WINDOW_TITLE_TEXT_SIZE));
 		
-		//if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_TITLE_TEXT_EMBED))
-		//_windowTitle.setEmbedFont(UIStyleManager.WINDOW_TITLE_TEXT_EMBED);
+		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_TITLE_TEXT_EMBED))
+			_windowTitle.setEmbedFont(UIStyleManager.getStyle(UIStyleManager.WINDOW_TITLE_TEXT_EMBED));
+
+
 		
 		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_TITLE_TEXT_COLOR))
 			Reflect.setField(_labelData, "textColor", UIStyleManager.getStyle(UIStyleManager.WINDOW_TITLE_TEXT_COLOR));
@@ -1098,9 +1146,9 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 		drawSquareIn(_windowTopRight, _windowTitleColor, _windowTopRightSize, (_windowTopRightImage != null) );
 		drawSquareIn(_windowMiddleLeft, _windowColor, _windowMiddleSize, (_windowMiddleLeftImage != null) );
 		drawSquareIn(_windowMiddleRight, _windowColor, _windowMiddleSize, (_windowMiddleRightImage != null) );
-		drawSquareIn(_windowBottomLeft, _windowColor, _windowBottomLeftSize, (_windowBottomLeftImage != null) );
-		drawSquareIn(_windowBottomMiddle, _windowColor, _windowBottomMiddleSize, (_windowBottomMiddleImage != null) );
-		drawSquareIn(_windowBottomRight, _windowColor, _windowBottomRightSize, (_windowBottomRightImage != null) );
+		drawSquareIn(_windowBottomLeft, _windowBottomColor >= 0 ? _windowBottomColor : _windowColor, _windowBottomLeftSize, (_windowBottomLeftImage != null) );
+		drawSquareIn(_windowBottomMiddle, _windowBottomColor >= 0 ? _windowBottomColor : _windowColor, _windowBottomMiddleSize, (_windowBottomMiddleImage != null) );
+		drawSquareIn(_windowBottomRight, _windowBottomColor >= 0 ? _windowBottomColor : _windowColor, _windowBottomRightSize, (_windowBottomRightImage != null) );
 		
 		// Line up square 
 		setWindowSize(Std.int(_width), Std.int(_height), _windowMinWidth, _windowMinHeight);
@@ -1147,6 +1195,31 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 	 *
 	 */  
 	
+	public function setWindowBottomColor(value:Int):Void {
+		_windowBottomColor = value;
+	}
+
+	public function setWindowTopPatternImage(value:BitmapData):Void {
+		if (_imageTopPattern != null && _imageTopPattern.parent != null)
+			_imageTopPattern.parent.removeChild(_imageTopPattern);
+		_imageTopPattern = value == null ? null : new Bitmap(value);
+		if (_imageTopPattern != null) { addChildAt(_imageTopPattern, getChildIndex(_windowTitle)); }
+	}
+
+	public function setWindowMiddlePatternImage(value:BitmapData):Void {
+		if (_imageMiddlePattern != null && _imageMiddlePattern.parent != null)
+			_imageMiddlePattern.parent.removeChild(_imageMiddlePattern);
+		_imageMiddlePattern = value == null ? null : new Bitmap(value);
+		if (_imageMiddlePattern != null) { addChildAt(_imageMiddlePattern, getChildIndex(_windowTitle)); }
+	}
+
+	public function setWindowBottomPatternImage(value:BitmapData):Void {
+		if (_imageBottomPattern != null && _imageBottomPattern.parent != null)
+			_imageBottomPattern.parent.removeChild(_imageBottomPattern);
+		_imageBottomPattern = value == null ? null : new Bitmap(value);
+		if (_imageBottomPattern != null) { addChildAt(_imageBottomPattern, getChildIndex(_windowTitle)); }
+	}
+
 	public function setWindowTopLeftImage(value : BitmapData) : Void 
 	{
 		_windowTopLeftImage = value;
@@ -1373,6 +1446,27 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 		_windowMiddleRightTexture.y = _windowMiddleRight.y = _windowTopRight.y + _windowTopRight.height;
 		_windowMiddleRight.height = _windowBottomRight.y - _windowTopRight.height;
 		
+		if (_imageTopPattern != null) {
+			_imageTopPattern.x = 0;
+			_imageTopPattern.y = 0;
+			_imageTopPattern.width = inWidth;
+			_imageTopPattern.height = _windowTopMiddle.height;
+		}
+
+		if (_imageMiddlePattern != null) {
+			_imageMiddlePattern.x = 0;
+			_imageMiddlePattern.y = _windowTopMiddle.height;
+			_imageMiddlePattern.width = inWidth;
+			_imageMiddlePattern.height = Math.max(0, _windowBottomMiddle.y - _windowTopMiddle.height);
+		}
+
+		if (_imageBottomPattern != null) {
+			_imageBottomPattern.x = 0;
+			_imageBottomPattern.y = _windowBottomMiddle.y;
+			_imageBottomPattern.width = inWidth;
+			_imageBottomPattern.height = _windowBottomMiddle.height;
+		}
+
 		// Set Icon location  
 		if (_iconLocation.toLowerCase() == "right") 
 		{

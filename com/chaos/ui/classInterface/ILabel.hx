@@ -36,6 +36,11 @@ interface ILabel extends IBaseUI
 
 	var backgroundColor(get, set) : Int;
 
+	var border(get, set) : Bool;
+	var borderColor(get, set) : Int;
+	var borderAlpha(get, set) : Float;
+	var borderThinkness(get, set) : Float;
+
 	/**
 	* Set the alignment of the label text
 	*/

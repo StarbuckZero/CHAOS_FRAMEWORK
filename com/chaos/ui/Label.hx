@@ -57,10 +57,11 @@ class Label extends BaseUI implements ILabel implements IBaseUI {
 	 */
 	public var backgroundColor(get, set):Int;
 
-	/**
-	 * Border thickness
-	 */
-	// public var borderThinkness(get, set):Float;
+	/** Border visibility and appearance. */
+	public var border(get, set):Bool;
+	public var borderColor(get, set):Int;
+	public var borderAlpha(get, set):Float;
+	public var borderThinkness(get, set):Float;
 
 	/**
 	 * Specifies whether the label has a background fill. If true, the label has a background fill. If false, the label has no background fill.

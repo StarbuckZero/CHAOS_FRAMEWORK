@@ -212,18 +212,19 @@ class TabPane extends BaseUI implements ITabPane implements IBaseUI
 		
 		// Border
 		if (UIStyleManager.hasStyle(UIStyleManager.TABPANE_BACKGROUND))
-			Reflect.setField(_scrollPaneData, "backgroundColor", UIStyleManager.getStyle(UIStyleManager.TABPANE_BACKGROUND));
+			_scrollPane.backgroundColor = UIStyleManager.getStyle(UIStyleManager.TABPANE_BACKGROUND);
 
-		Reflect.setField(_scrollPaneData, "border", UIStyleManager.getStyle(UIStyleManager.TABPANE_BORDER));
+		if (UIStyleManager.hasStyle(UIStyleManager.TABPANE_BORDER))
+			_scrollPane.showOutline = UIStyleManager.getStyle(UIStyleManager.TABPANE_BORDER);
 
 		if (UIStyleManager.hasStyle(UIStyleManager.TABPANE_BORDER_COLOR))
-			Reflect.setField(_scrollPaneData, "borderColor", UIStyleManager.getStyle(UIStyleManager.TABPANE_BORDER_COLOR));
+			_scrollPane.outline.lineColor = UIStyleManager.getStyle(UIStyleManager.TABPANE_BORDER_COLOR);
 
 		if (UIStyleManager.hasStyle(UIStyleManager.TABPANE_BORDER_ALPHA))
-			Reflect.setField(_scrollPaneData, "borderAlpha", UIStyleManager.getStyle(UIStyleManager.TABPANE_BORDER_ALPHA));
+			_scrollPane.outline.lineAlpha = UIStyleManager.getStyle(UIStyleManager.TABPANE_BORDER_ALPHA);
 			
 		if (UIStyleManager.hasStyle(UIStyleManager.TABPANE_BORDER_THICKNESS))
-			Reflect.setField(_scrollPaneData, "borderTHICKNESS", UIStyleManager.getStyle(UIStyleManager.TABPANE_BORDER_THICKNESS));
+			_scrollPane.outline.lineThinkness = UIStyleManager.getStyle(UIStyleManager.TABPANE_BORDER_THICKNESS);
 
 		// Buttons
 		if (UIStyleManager.hasStyle(UIStyleManager.TABPANE_BUTTON_NORMAL_COLOR))
@@ -677,6 +678,9 @@ class TabPane extends BaseUI implements ITabPane implements IBaseUI
 			button.downColor = _tabButtonSelectedColor;
 			button.disableColor = _tabButtonDisableColor;
 
+			if (UIStyleManager.hasStyle(UIStyleManager.TABPANE_BUTTON_TINT_ALPHA))
+				button.tintAlpha = UIStyleManager.getStyle(UIStyleManager.TABPANE_BUTTON_TINT_ALPHA);
+
 			if (null != _tabButtonDefaultImage)
 				button.setDefaultStateImage(_tabButtonDefaultImage);
 
@@ -746,6 +750,9 @@ class TabPane extends BaseUI implements ITabPane implements IBaseUI
 			button.enabled = false;
 			button.textColor = _tabButtonSelectedColor;
 			button.disableColor = _tabButtonDisableColor;
+
+			if (UIStyleManager.hasStyle(UIStyleManager.TABPANE_BUTTON_TINT_ALPHA))
+				button.tintAlpha = UIStyleManager.getStyle(UIStyleManager.TABPANE_BUTTON_TINT_ALPHA);
 
 			// Disable old one
 			oldButton.enabled = true;

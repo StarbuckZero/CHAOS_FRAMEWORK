@@ -294,7 +294,10 @@ class ProgressBar extends BaseUI implements IProgressBar implements IBaseUI
 			_textLoadedColor = UIStyleManager.getStyle(UIStyleManager.PROGRESSBAR_TEXT_LOADED_COLOR);
 
 		if (UIStyleManager.hasStyle(UIStyleManager.PROGRESSBAR_BORDER))
-			_borderThickness = UIStyleManager.getStyle(UIStyleManager.PROGRESSBAR_BORDER);
+			_border = UIStyleManager.getStyle(UIStyleManager.PROGRESSBAR_BORDER);
+
+		if (UIStyleManager.hasStyle(UIStyleManager.PROGRESSBAR_BORDER_THICKNESS))
+			_borderThickness = UIStyleManager.getStyle(UIStyleManager.PROGRESSBAR_BORDER_THICKNESS);
 
 		if (UIStyleManager.hasStyle(UIStyleManager.PROGRESSBAR_BORDER_COLOR))
 			_outlineColor = UIStyleManager.getStyle(UIStyleManager.PROGRESSBAR_BORDER_COLOR);
@@ -317,8 +320,8 @@ class ProgressBar extends BaseUI implements IProgressBar implements IBaseUI
 
 		if (UIStyleManager.hasStyle(UIStyleManager.PROGRESSBAR_TEXT_FONT))
 		{
-			Reflect.setField(_labelData, "font", UIStyleManager.PROGRESSBAR_TEXT_FONT);
-			Reflect.setField(_loadedLabelData, "font", UIStyleManager.PROGRESSBAR_TEXT_FONT);
+			Reflect.setField(_labelData, "font", UIStyleManager.getStyle(UIStyleManager.PROGRESSBAR_TEXT_FONT));
+			Reflect.setField(_loadedLabelData, "font", UIStyleManager.getStyle(UIStyleManager.PROGRESSBAR_TEXT_FONT));
 		}
 
 		if (UIStyleManager.hasStyle(UIStyleManager.PROGRESSBAR_TEXT_ALIGN))
@@ -330,8 +333,6 @@ class ProgressBar extends BaseUI implements IProgressBar implements IBaseUI
 		if (UIStyleManager.hasStyle(UIStyleManager.PROGRESSBAR_USE_CUSTOM_RENDER))
 			_useCustomRender = UIStyleManager.getStyle(UIStyleManager.PROGRESSBAR_USE_CUSTOM_RENDER);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.PROGRESSBAR_BORDER))
-			_border = UIStyleManager.getStyle(UIStyleManager.PROGRESSBAR_BORDER);
 
 		if (UIStyleManager.hasStyle(UIStyleManager.PROGRESSBAR_TEXT_EMBED))
 		{

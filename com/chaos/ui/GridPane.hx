@@ -310,17 +310,17 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
         if (UIStyleManager.hasStyle(UIStyleManager.GRIDPANE_TILE_IMAGE))
             _tileImage = UIStyleManager.getStyle(UIStyleManager.GRIDPANE_TILE_IMAGE);
         
-        // if (UIStyleManager.hasStyle(UIStyleManager.GRID_BORDER_COLOR)) 
-        //     _borderColor = UIStyleManager.getStyle(UIStyleManager.GRID_BORDER_COLOR);
+        if (UIStyleManager.hasStyle(UIStyleManager.GRID_BORDER_COLOR))
+            outline.lineColor = UIStyleManager.getStyle(UIStyleManager.GRID_BORDER_COLOR);
         
-        // if (UIStyleManager.hasStyle( UIStyleManager.GRID_BORDER_ALPHA))
-        //     _borderAlpha = UIStyleManager.getStyle(UIStyleManager.GRID_BORDER_ALPHA);
+        if (UIStyleManager.hasStyle(UIStyleManager.GRID_BORDER_ALPHA))
+            outline.lineAlpha = UIStyleManager.getStyle(UIStyleManager.GRID_BORDER_ALPHA);
         
-        // if (UIStyleManager.hasStyle(UIStyleManager.GRID_BORDER_THICKNESS))
-        //     _borderThinkness = UIStyleManager.getStyle(UIStyleManager.GRID_BORDER_THICKNESS);
+        if (UIStyleManager.hasStyle(UIStyleManager.GRID_BORDER_THICKNESS))
+            outline.lineThinkness = UIStyleManager.getStyle(UIStyleManager.GRID_BORDER_THICKNESS);
         
-        // if (UIStyleManager.hasStyle(UIStyleManager.GRID_BORDER))
-        //     _border = UIStyleManager.getStyle(UIStyleManager.GRID_BORDER);
+        if (UIStyleManager.hasStyle(UIStyleManager.GRID_BORDER))
+            showOutline = UIStyleManager.getStyle(UIStyleManager.GRID_BORDER);
 
         if (UIStyleManager.hasStyle(UIStyleManager.GRID_WIDTH))
             _width = UIStyleManager.getStyle(UIStyleManager.GRID_WIDTH);
@@ -352,8 +352,11 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
         if (UIStyleManager.hasStyle(UIStyleManager.GRID_CELL_BORDER_COLOR))
             _cellBorderColor = UIStyleManager.getStyle(UIStyleManager.GRID_CELL_BORDER_COLOR);
         
-        if (UIStyleManager.hasStyle(UIStyleManager.GRID_BORDER_THICKNESS))
-            _cellBorderThickness = UIStyleManager.getStyle(UIStyleManager.GRID_BORDER_THICKNESS);
+        if (UIStyleManager.hasStyle(UIStyleManager.GRID_CELL_BORDER))
+            _cellBorder = UIStyleManager.getStyle(UIStyleManager.GRID_CELL_BORDER);
+        
+        if (UIStyleManager.hasStyle(UIStyleManager.GRID_CELL_BORDER_THICKNESS))
+            _cellBorderThickness = UIStyleManager.getStyle(UIStyleManager.GRID_CELL_BORDER_THICKNESS);
         
         if (UIStyleManager.hasStyle(UIStyleManager.GRID_CELL_BACKGROUND))
             _cellBackground = UIStyleManager.getStyle(UIStyleManager.GRID_CELL_BACKGROUND);

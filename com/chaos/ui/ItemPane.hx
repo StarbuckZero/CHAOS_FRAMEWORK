@@ -103,6 +103,12 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
     private var _itemOverState : BitmapData;
     private var _itemSelectedState : BitmapData;
     private var _itemDisableState : BitmapData;
+    private var _itemNotLoadedState : BitmapData;
+
+    private var _itemBorder : Bool = false;
+    private var _itemBorderColor : Int = 0x000000;
+    private var _itemBorderAlpha : Float = 1;
+    private var _itemBorderThickness : Float = 1;
     
     private var _itemWidth : Int = 40;
     private var _itemHeight : Int = 40;
@@ -283,6 +289,9 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
         
         if (UIBitmapManager.hasUIElement(UIBitmapType.ItemPane, UIBitmapManager.ITEMPANE_ITEM_DISABLE)) 
             setDisableItem(UIBitmapManager.getUIElement(UIBitmapType.ItemPane, UIBitmapManager.ITEMPANE_ITEM_DISABLE));
+
+        if (UIBitmapManager.hasUIElement(UIBitmapType.ItemPane, UIBitmapManager.ITEMPANE_NOT_LOADED))
+            _itemNotLoadedState = UIBitmapManager.getUIElement(UIBitmapType.ItemPane, UIBitmapManager.ITEMPANE_NOT_LOADED);
     }
     
     override private function initStyle() : Void
@@ -302,24 +311,29 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
         if (UIStyleManager.hasStyle(UIStyleManager.ITEMPANE_HEIGHT))
             _height = UIStyleManager.getStyle(UIStyleManager.ITEMPANE_HEIGHT);        
 			
-        // if (UIStyleManager.hasStyle(UIStyleManager.ITEMPANE_BORDER_COLOR))
-        //     _borderColor = UIStyleManager.getStyle(UIStyleManager.ITEMPANE_BORDER_COLOR);
+        if (UIStyleManager.hasStyle(UIStyleManager.ITEMPANE_BORDER))
+            showOutline = UIStyleManager.getStyle(UIStyleManager.ITEMPANE_BORDER);
+
+        if (UIStyleManager.hasStyle(UIStyleManager.ITEMPANE_BORDER_COLOR))
+            outline.lineColor = UIStyleManager.getStyle(UIStyleManager.ITEMPANE_BORDER_COLOR);
         
-        // if (UIStyleManager.hasStyle(UIStyleManager.ITEMPANE_BORDER_ALPHA))
-        //     _borderAlpha = UIStyleManager.getStyle(UIStyleManager.ITEMPANE_BORDER_ALPHA);
+        if (UIStyleManager.hasStyle(UIStyleManager.ITEMPANE_BORDER_ALPHA))
+            outline.lineAlpha = UIStyleManager.getStyle(UIStyleManager.ITEMPANE_BORDER_ALPHA);
+
+        if (UIStyleManager.hasStyle(UIStyleManager.ITEMPANE_BORDER_THICKNESS))
+            outline.lineThinkness = UIStyleManager.getStyle(UIStyleManager.ITEMPANE_BORDER_THICKNESS);
         
-        // // Items Pane
-        // if (UIStyleManager.hasStyle(UIStyleManager.ITEMPANE_ITEM_BORDER))
-        //     _border = UIStyleManager.getStyle(UIStyleManager.ITEMPANE_ITEM_BORDER);
+        if (UIStyleManager.hasStyle(UIStyleManager.ITEMPANE_ITEM_BORDER))
+            _itemBorder = UIStyleManager.getStyle(UIStyleManager.ITEMPANE_ITEM_BORDER);
         
-        // if (UIStyleManager.hasStyle(UIStyleManager.ITEMPANE_ITEM_BORDER_COLOR))
-        //     _borderColor = UIStyleManager.getStyle(UIStyleManager.ITEMPANE_ITEM_BORDER_COLOR);
+        if (UIStyleManager.hasStyle(UIStyleManager.ITEMPANE_ITEM_BORDER_COLOR))
+            _itemBorderColor = UIStyleManager.getStyle(UIStyleManager.ITEMPANE_ITEM_BORDER_COLOR);
         
-        // if (UIStyleManager.hasStyle(UIStyleManager.ITEMPANE_ITEM_BORDER_ALPHA))
-        //     _borderAlpha = UIStyleManager.getStyle(UIStyleManager.ITEMPANE_ITEM_BORDER_ALPHA);
+        if (UIStyleManager.hasStyle(UIStyleManager.ITEMPANE_ITEM_BORDER_ALPHA))
+            _itemBorderAlpha = UIStyleManager.getStyle(UIStyleManager.ITEMPANE_ITEM_BORDER_ALPHA);
         
-        // if (UIStyleManager.hasStyle(UIStyleManager.ITEMPANE_ITEM_BORDER_THINKNESS))
-        //     _borderThinkness = UIStyleManager.getStyle(UIStyleManager.ITEMPANE_ITEM_BORDER_THINKNESS);  
+        if (UIStyleManager.hasStyle(UIStyleManager.ITEMPANE_ITEM_BORDER_THICKNESS))
+            _itemBorderThickness = UIStyleManager.getStyle(UIStyleManager.ITEMPANE_ITEM_BORDER_THICKNESS);  
         
         
         // Item Colors
@@ -366,7 +380,7 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
             _itemLocX = UIStyleManager.getStyle(UIStyleManager.ITEMPANE_ITEM_LOC_X);
 
         if (UIStyleManager.hasStyle(UIStyleManager.ITEMPANE_ITEM_LOC_Y))
-            _itemLocX = UIStyleManager.getStyle(UIStyleManager.ITEMPANE_ITEM_LOC_Y);        
+            _itemLocY = UIStyleManager.getStyle(UIStyleManager.ITEMPANE_ITEM_LOC_Y);        
     }
 
     override function destroy() {
@@ -731,6 +745,13 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
 			
 				
             itemButton.showLabel = _showLabel;
+            itemButton.border = _itemBorder;
+            itemButton.borderAlpha = _itemBorderAlpha;
+            itemButton.borderThinkness = _itemBorderThickness;
+            itemButton.normalBorderColor = _itemBorderColor;
+            itemButton.overBorderColor = _itemBorderColor;
+            itemButton.downBorderColor = _itemBorderColor;
+            itemButton.disableBorderColor = _itemBorderColor;
             
             if (null != _embed) 
 				itemButton.label.setEmbedFont(_embed);
@@ -783,8 +804,10 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
            
 
             // Add in the item if it's there
-            if (null != itemData.item) 
+            if (null != itemData.item)
                 itemButton.setItem(itemData.item);
+            else if (null != _itemNotLoadedState)
+                itemButton.setItem(_itemNotLoadedState);
             
             // Shift items to where they need to be on the screen
             itemButton.x = (i - _lastRowNum) * itemButton.width;

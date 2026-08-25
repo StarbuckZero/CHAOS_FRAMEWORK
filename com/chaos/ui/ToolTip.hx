@@ -112,14 +112,48 @@ class ToolTip
         _timer.addEventListener(TimerEvent.TIMER, onShowBubble);
         
         initSkin();
+        applyStyle();
         
         _init = true;
     }
     
+    private static function applyStyle() : Void
+    {
+        if (UIStyleManager.hasStyle(UIStyleManager.TOOLTIP_LABEL_TEXT_COLOR))
+            _label.textColor = UIStyleManager.getStyle(UIStyleManager.TOOLTIP_LABEL_TEXT_COLOR);
+
+        if (UIStyleManager.hasStyle(UIStyleManager.TOOLTIP_LABEL_TEXT_SIZE))
+            _label.size = UIStyleManager.getStyle(UIStyleManager.TOOLTIP_LABEL_TEXT_SIZE);
+
+        if (UIStyleManager.hasStyle(UIStyleManager.TOOLTIP_LABEL_TEXT_FONT))
+            _label.font = UIStyleManager.getStyle(UIStyleManager.TOOLTIP_LABEL_TEXT_FONT);
+
+        if (UIStyleManager.hasStyle(UIStyleManager.TOOLTIP_LABEL_TEXT_EMBED))
+            _label.setEmbedFont(UIStyleManager.getStyle(UIStyleManager.TOOLTIP_LABEL_TEXT_EMBED));
+
+        if (UIStyleManager.hasStyle(UIStyleManager.TOOLTIP_BACKGROUND_NORMAL_COLOR))
+            _bubble.backgroundColor = UIStyleManager.getStyle(UIStyleManager.TOOLTIP_BACKGROUND_NORMAL_COLOR);
+
+        if (UIStyleManager.hasStyle(UIStyleManager.TOOLTIP_BACKGROUND_ALPHA))
+            _bubble.backgroundAlpha = UIStyleManager.getStyle(UIStyleManager.TOOLTIP_BACKGROUND_ALPHA);
+
+        if (UIStyleManager.hasStyle(UIStyleManager.TOOLTIP_BORDER))
+            _bubble.border = UIStyleManager.getStyle(UIStyleManager.TOOLTIP_BORDER);
+
+        if (UIStyleManager.hasStyle(UIStyleManager.TOOLTIP_BORDER_COLOR))
+            _bubble.borderColor = UIStyleManager.getStyle(UIStyleManager.TOOLTIP_BORDER_COLOR);
+
+        if (UIStyleManager.hasStyle(UIStyleManager.TOOLTIP_BORDER_ALPHA))
+            _bubble.borderAlpha = UIStyleManager.getStyle(UIStyleManager.TOOLTIP_BORDER_ALPHA);
+
+        if (UIStyleManager.hasStyle(UIStyleManager.TOOLTIP_BORDER_THICKNESS))
+            _bubble.borderThinkness = UIStyleManager.getStyle(UIStyleManager.TOOLTIP_BORDER_THICKNESS);
+    }
+
     private static function initSkin() : Void
     {
-        if (null != UIBitmapManager.getUIElement(UIBitmapType.Bubble, UIBitmapManager.TOOLTIP_BACKGROUND)) 
-            _bubble.setBackgroundImage(UIBitmapManager.getUIElement(UIBitmapType.Bubble, UIBitmapManager.TOOLTIP_BACKGROUND));
+        if (null != UIBitmapManager.getUIElement(UIBitmapType.ToolTip, UIBitmapManager.TOOLTIP_BACKGROUND)) 
+            _bubble.setBackgroundImage(UIBitmapManager.getUIElement(UIBitmapType.ToolTip, UIBitmapManager.TOOLTIP_BACKGROUND));
         
         var topLeftImage : BitmapData = null;
         var topMiddleImage : BitmapData = null;
@@ -133,35 +167,35 @@ class ToolTip
         var bottomRightImage : BitmapData = null;
         
         // Top
-        if (null != UIBitmapManager.getUIElement(UIBitmapType.Bubble, UIBitmapManager.TOOLTIP_OVERLAY_TOP_LEFT)) 
-            topLeftImage = UIBitmapManager.getUIElement(UIBitmapType.Bubble, UIBitmapManager.TOOLTIP_OVERLAY_TOP_LEFT);
+        if (null != UIBitmapManager.getUIElement(UIBitmapType.ToolTip, UIBitmapManager.TOOLTIP_OVERLAY_TOP_LEFT)) 
+            topLeftImage = UIBitmapManager.getUIElement(UIBitmapType.ToolTip, UIBitmapManager.TOOLTIP_OVERLAY_TOP_LEFT);
         
-        if (null != UIBitmapManager.getUIElement(UIBitmapType.Bubble, UIBitmapManager.TOOLTIP_OVERLAY_TOP_MIDDLE)) 
-            topMiddleImage = UIBitmapManager.getUIElement(UIBitmapType.Bubble, UIBitmapManager.TOOLTIP_OVERLAY_TOP_MIDDLE);
+        if (null != UIBitmapManager.getUIElement(UIBitmapType.ToolTip, UIBitmapManager.TOOLTIP_OVERLAY_TOP_MIDDLE)) 
+            topMiddleImage = UIBitmapManager.getUIElement(UIBitmapType.ToolTip, UIBitmapManager.TOOLTIP_OVERLAY_TOP_MIDDLE);
         
-        if (null != UIBitmapManager.getUIElement(UIBitmapType.Bubble, UIBitmapManager.TOOLTIP_OVERLAY_TOP_RIGHT)) 
-            topRightImage = UIBitmapManager.getUIElement(UIBitmapType.Bubble, UIBitmapManager.TOOLTIP_OVERLAY_TOP_RIGHT);
+        if (null != UIBitmapManager.getUIElement(UIBitmapType.ToolTip, UIBitmapManager.TOOLTIP_OVERLAY_TOP_RIGHT)) 
+            topRightImage = UIBitmapManager.getUIElement(UIBitmapType.ToolTip, UIBitmapManager.TOOLTIP_OVERLAY_TOP_RIGHT);
         
         _bubble.setTopImage(topLeftImage, topMiddleImage, topRightImage);
         
         // Middle
-        if (null != UIBitmapManager.getUIElement(UIBitmapType.Bubble, UIBitmapManager.TOOLTIP_OVERLAY_MIDDLE_LEFT)) 
-            middleLeftImage = UIBitmapManager.getUIElement(UIBitmapType.Bubble, UIBitmapManager.TOOLTIP_OVERLAY_MIDDLE_LEFT);
+        if (null != UIBitmapManager.getUIElement(UIBitmapType.ToolTip, UIBitmapManager.TOOLTIP_OVERLAY_MIDDLE_LEFT)) 
+            middleLeftImage = UIBitmapManager.getUIElement(UIBitmapType.ToolTip, UIBitmapManager.TOOLTIP_OVERLAY_MIDDLE_LEFT);
         
-        if (null != UIBitmapManager.getUIElement(UIBitmapType.Bubble, UIBitmapManager.TOOLTIP_OVERLAY_MIDDLE_RIGHT)) 
-            middleRightImage = UIBitmapManager.getUIElement(UIBitmapType.Bubble, UIBitmapManager.TOOLTIP_OVERLAY_MIDDLE_RIGHT);
+        if (null != UIBitmapManager.getUIElement(UIBitmapType.ToolTip, UIBitmapManager.TOOLTIP_OVERLAY_MIDDLE_RIGHT)) 
+            middleRightImage = UIBitmapManager.getUIElement(UIBitmapType.ToolTip, UIBitmapManager.TOOLTIP_OVERLAY_MIDDLE_RIGHT);
         
         _bubble.setMiddleCenterImage(middleLeftImage, middleRightImage);
         
         // Bottom
-        if (null != UIBitmapManager.getUIElement(UIBitmapType.Bubble, UIBitmapManager.TOOLTIP_OVERLAY_BOTTOM_LEFT)) 
-            bottomLeftImage = UIBitmapManager.getUIElement(UIBitmapType.Bubble, UIBitmapManager.TOOLTIP_OVERLAY_BOTTOM_LEFT);
+        if (null != UIBitmapManager.getUIElement(UIBitmapType.ToolTip, UIBitmapManager.TOOLTIP_OVERLAY_BOTTOM_LEFT)) 
+            bottomLeftImage = UIBitmapManager.getUIElement(UIBitmapType.ToolTip, UIBitmapManager.TOOLTIP_OVERLAY_BOTTOM_LEFT);
         
-        if (null != UIBitmapManager.getUIElement(UIBitmapType.Bubble, UIBitmapManager.TOOLTIP_OVERLAY_BOTTOM_MIDDLE)) 
-            bottomMiddleImage = UIBitmapManager.getUIElement(UIBitmapType.Bubble, UIBitmapManager.TOOLTIP_OVERLAY_BOTTOM_MIDDLE);
+        if (null != UIBitmapManager.getUIElement(UIBitmapType.ToolTip, UIBitmapManager.TOOLTIP_OVERLAY_BOTTOM_MIDDLE)) 
+            bottomMiddleImage = UIBitmapManager.getUIElement(UIBitmapType.ToolTip, UIBitmapManager.TOOLTIP_OVERLAY_BOTTOM_MIDDLE);
         
-        if (null != UIBitmapManager.getUIElement(UIBitmapType.Bubble, UIBitmapManager.TOOLTIP_OVERLAY_BOTTOM_RIGHT)) 
-            bottomRightImage = UIBitmapManager.getUIElement(UIBitmapType.Bubble, UIBitmapManager.TOOLTIP_OVERLAY_BOTTOM_RIGHT);
+        if (null != UIBitmapManager.getUIElement(UIBitmapType.ToolTip, UIBitmapManager.TOOLTIP_OVERLAY_BOTTOM_RIGHT)) 
+            bottomRightImage = UIBitmapManager.getUIElement(UIBitmapType.ToolTip, UIBitmapManager.TOOLTIP_OVERLAY_BOTTOM_RIGHT);
         
         _bubble.setBottomImage(bottomLeftImage, bottomMiddleImage, bottomRightImage);
     }
@@ -286,22 +320,16 @@ class ToolTip
             initialize();
         
 
-        if (UIStyleManager.hasStyle(UIStyleManager.TOOLTIP_LABEL_TEXT_COLOR) && -1 == textColor) 
-            textColor = UIStyleManager.getStyle(UIStyleManager.TOOLTIP_LABEL_TEXT_COLOR);
-        else
-            textColor = DEFAULT_TEXT_COLOR;
+        if (-1 == textColor)
+            textColor = UIStyleManager.hasStyle(UIStyleManager.TOOLTIP_LABEL_TEXT_COLOR) ? UIStyleManager.getStyle(UIStyleManager.TOOLTIP_LABEL_TEXT_COLOR) : DEFAULT_TEXT_COLOR;
 
-        if(UIStyleManager.hasStyle(UIStyleManager.TOOLTIP_BACKGROUND_NORMAL_COLOR) && -1 == backgroundColor)
-            backgroundColor = UIStyleManager.getStyle(UIStyleManager.TOOLTIP_BACKGROUND_NORMAL_COLOR);
-        else 
-            backgroundColor = DEFAULT_BG_COLOR;
+        if (-1 == backgroundColor)
+            backgroundColor = UIStyleManager.hasStyle(UIStyleManager.TOOLTIP_BACKGROUND_NORMAL_COLOR) ? UIStyleManager.getStyle(UIStyleManager.TOOLTIP_BACKGROUND_NORMAL_COLOR) : DEFAULT_BG_COLOR;
 
-        if(UIStyleManager.hasStyle(UIStyleManager.TOOLTIP_BORDER_COLOR) && -1 == borderColor)
-            borderColor = UIStyleManager.getStyle(UIStyleManager.TOOLTIP_BORDER_COLOR);
-        else
-            borderColor = DEFAULT_BORDER_COLOR;
+        if (-1 == borderColor)
+            borderColor = UIStyleManager.hasStyle(UIStyleManager.TOOLTIP_BORDER_COLOR) ? UIStyleManager.getStyle(UIStyleManager.TOOLTIP_BORDER_COLOR) : DEFAULT_BORDER_COLOR;
         
-        if(UIStyleManager.hasStyle(UIStyleManager.TOOLTIP_BORDER_COLOR))
+        if(UIStyleManager.hasStyle(UIStyleManager.TOOLTIP_BORDER))
             border = UIStyleManager.getStyle(UIStyleManager.TOOLTIP_BORDER);
 
         _list.addItem(new ToolTipData(displayObj, text, tipWidth, tipHeight, textColor, backgroundColor, border, borderColor));

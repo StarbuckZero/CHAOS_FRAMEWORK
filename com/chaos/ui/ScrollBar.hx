@@ -425,6 +425,9 @@ class ScrollBar extends BaseUI implements IScrollBar implements IBaseUI
 		// Set Track color 
 		if (UIStyleManager.hasStyle(UIStyleManager.SCROLLBAR_TRACK_COLOR))
 			Reflect.setField(_sliderData, "trackColor", UIStyleManager.getStyle(UIStyleManager.SCROLLBAR_TRACK_COLOR));
+
+		if (UIStyleManager.hasStyle(UIStyleManager.SCROLLBAR_TRACK_SIZE))
+			Reflect.setField(_sliderData, "trackSize", UIStyleManager.getStyle(UIStyleManager.SCROLLBAR_TRACK_SIZE));
 		
 		// Set Slider color  
 		if (UIStyleManager.hasStyle(UIStyleManager.SCROLLBAR_SLIDER_NORMAL_COLOR))
@@ -443,7 +446,7 @@ class ScrollBar extends BaseUI implements IScrollBar implements IBaseUI
 			Reflect.setField(_sliderData, "sliderSize", UIStyleManager.getStyle(UIStyleManager.SCROLLBAR_SLIDER_SIZE));
 		
 		// Active resize for slider
-		if (UIStyleManager.hasStyle(UIStyleManager.SCROLLBAR_SLIDER_SIZE))
+		if (UIStyleManager.hasStyle(UIStyleManager.SCROLLBAR_SLIDER_ACTIVE_RESIZE))
 			_sliderResize = UIStyleManager.getStyle(UIStyleManager.SCROLLBAR_SLIDER_ACTIVE_RESIZE);
 
 		if (UIStyleManager.hasStyle(UIStyleManager.SCROLLBAR_BUTTON_USE_CUSTOM_RENDER))
@@ -460,7 +463,7 @@ class ScrollBar extends BaseUI implements IScrollBar implements IBaseUI
 		}
 		
 		if (UIStyleManager.hasStyle(UIStyleManager.SCROLLBAR_SLIDER_OFFSET))
-			Reflect.setField(_sliderData, "sliderOffSet", UIStyleManager.getStyle(UIStyleManager.SCROLLBAR_SLIDER_SIZE));
+			Reflect.setField(_sliderData, "sliderOffSet", UIStyleManager.getStyle(UIStyleManager.SCROLLBAR_SLIDER_OFFSET));
 		
 		if (UIStyleManager.hasStyle(UIStyleManager.SCROLLBAR_ROTATE_IMAGE))
 			Reflect.setField(_sliderData, "rotateImage", UIStyleManager.getStyle(UIStyleManager.SCROLLBAR_ROTATE_IMAGE));

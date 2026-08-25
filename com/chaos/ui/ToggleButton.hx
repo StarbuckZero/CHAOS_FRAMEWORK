@@ -40,6 +40,9 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI {
 	 */
 	public var disableBorderColor(get, set):Int;
 
+	/** Show or hide the button border. */
+	public var border(get, set):Bool;
+
 	/**
 	 * Set the border menu button alpha
 	 */
@@ -84,6 +87,9 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI {
 	 * The alpha of the button roll over and down state. Use this if you only set the default bitmap image, this will tint the button.
 	 */
 	public var bitmapAlpha(get, set):Float;
+
+	/** Tint alpha used for state overlays. */
+	public var tintAlpha(get, set):Float;
 
 	/**
 	 * Title the image that is being used
@@ -560,6 +566,15 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI {
 	 */
 	private function get_bitmapAlpha():Float {
 		return _bgAlpha;
+	}
+
+	private function set_tintAlpha(value:Float):Float {
+		_tintAlpha = value;
+		return value;
+	}
+
+	private function get_tintAlpha():Float {
+		return _tintAlpha;
 	}
 
 	private function set_tileImage(value:Bool):Bool {

@@ -129,19 +129,19 @@ class ProgressSlider extends ProgressBar implements IProgressSlider implements I
 		if (UIBitmapManager.hasUIElement(UIBitmapType.ProgressSlider, UIBitmapManager.PROGRESS_SLIDER_BUTTON_NORMAL))
 			_sliderButtonDefaultImage = UIBitmapManager.getUIElement(UIBitmapType.ProgressSlider, UIBitmapManager.PROGRESS_SLIDER_BUTTON_NORMAL).clone();
 
-		if (UIBitmapManager.hasUIElement(UIBitmapType.Slider, UIBitmapManager.PROGRESS_SLIDER_BUTTON_OVER))
+		if (UIBitmapManager.hasUIElement(UIBitmapType.ProgressSlider, UIBitmapManager.PROGRESS_SLIDER_BUTTON_OVER))
 			_sliderButtonOverImage = UIBitmapManager.getUIElement(UIBitmapType.ProgressSlider, UIBitmapManager.PROGRESS_SLIDER_BUTTON_OVER).clone();
 
-		if (UIBitmapManager.hasUIElement(UIBitmapType.Slider, UIBitmapManager.PROGRESS_SLIDER_BUTTON_DOWN))
+		if (UIBitmapManager.hasUIElement(UIBitmapType.ProgressSlider, UIBitmapManager.PROGRESS_SLIDER_BUTTON_DOWN))
 			_sliderButtonDownImage = UIBitmapManager.getUIElement(UIBitmapType.ProgressSlider, UIBitmapManager.PROGRESS_SLIDER_BUTTON_DOWN).clone();
 
-		if (UIBitmapManager.hasUIElement(UIBitmapType.Slider, UIBitmapManager.PROGRESS_SLIDER_BUTTON_DISABLE))
+		if (UIBitmapManager.hasUIElement(UIBitmapType.ProgressSlider, UIBitmapManager.PROGRESS_SLIDER_BUTTON_DISABLE))
 			_sliderButtonDisableImage = UIBitmapManager.getUIElement(UIBitmapType.ProgressSlider, UIBitmapManager.PROGRESS_SLIDER_BUTTON_DISABLE).clone();
 
-		if (UIBitmapManager.hasUIElement(UIBitmapType.ProgressBar, UIBitmapManager.PROGRESS_SLIDER_BACKGROUND))
+		if (UIBitmapManager.hasUIElement(UIBitmapType.ProgressSlider, UIBitmapManager.PROGRESS_SLIDER_BACKGROUND))
 			setBackgroundImage(UIBitmapManager.getUIElement(UIBitmapType.ProgressSlider, UIBitmapManager.PROGRESS_SLIDER_BACKGROUND));
 
-		if (UIBitmapManager.hasUIElement(UIBitmapType.ProgressBar, UIBitmapManager.PROGRESS_SLIDER_LOADED_BACKGROUND))
+		if (UIBitmapManager.hasUIElement(UIBitmapType.ProgressSlider, UIBitmapManager.PROGRESS_SLIDER_LOADED_BACKGROUND))
 			setLoadBarImage(UIBitmapManager.getUIElement(UIBitmapType.ProgressSlider, UIBitmapManager.PROGRESS_SLIDER_LOADED_BACKGROUND));
 
 		if (null != _slider) {
@@ -215,11 +215,11 @@ class ProgressSlider extends ProgressBar implements IProgressSlider implements I
 		if (UIStyleManager.hasStyle(UIStyleManager.PROGRESS_SLIDER_TEXT_COLOR))
 			_textColor = UIStyleManager.getStyle(UIStyleManager.PROGRESS_SLIDER_TEXT_COLOR);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.PROGRESS_SLIDER_COLOR_LOADED))
-			_textLoadedColor = UIStyleManager.getStyle(UIStyleManager.PROGRESS_SLIDER_COLOR_LOADED);
+		if (UIStyleManager.hasStyle(UIStyleManager.PROGRESS_SLIDER_TEXT_LOADED_COLOR))
+			_textLoadedColor = UIStyleManager.getStyle(UIStyleManager.PROGRESS_SLIDER_TEXT_LOADED_COLOR);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.PROGRESS_SLIDER_BORDER_THINKNESS))
-			_thinkness = UIStyleManager.getStyle(UIStyleManager.PROGRESS_SLIDER_BORDER_THINKNESS);
+		if (UIStyleManager.hasStyle(UIStyleManager.PROGRESS_SLIDER_BORDER_THICKNESS))
+			_thinkness = UIStyleManager.getStyle(UIStyleManager.PROGRESS_SLIDER_BORDER_THICKNESS);
 
 		if (UIStyleManager.hasStyle(UIStyleManager.PROGRESS_SLIDER_BORDER_COLOR))
 			_outlineColor = UIStyleManager.getStyle(UIStyleManager.PROGRESS_SLIDER_BORDER_COLOR);
@@ -240,11 +240,10 @@ class ProgressSlider extends ProgressBar implements IProgressSlider implements I
 		if (UIStyleManager.hasStyle(UIStyleManager.PROGRESS_SLIDER_TEXT_ALIGN))
 			Reflect.setField(_labelData, "align", UIStyleManager.getStyle(UIStyleManager.PROGRESS_SLIDER_TEXT_ALIGN));
 
-		// if (null != UIStyleManager.PROGRESS_SLIDER_TEXT_EMBED)
-		// {
-		//    label.setEmbedFont(UIStyleManager.PROGRESS_SLIDER_TEXT_EMBED);
-		//    loadedLabel.setEmbedFont(UIStyleManager.PROGRESS_SLIDER_TEXT_EMBED);
-		// }
+		if (UIStyleManager.hasStyle(UIStyleManager.PROGRESS_SLIDER_TEXT_EMBED)) {
+			_label.setEmbedFont(UIStyleManager.getStyle(UIStyleManager.PROGRESS_SLIDER_TEXT_EMBED));
+			_loadedLabel.setEmbedFont(UIStyleManager.getStyle(UIStyleManager.PROGRESS_SLIDER_TEXT_EMBED));
+		}
 	}
 
 	override private function onStageAdd(event:Event):Void {
