@@ -471,6 +471,7 @@ class UIStyleManager
     
     public static var SLIDER_TRACK_COLOR : String = "SLIDER_TRACK_COLOR";
     public static var SLIDER_TRACK_SIZE : String = "SLIDER_TRACK_SIZE";
+    public static var SLIDER_SIZE_TO_TRACK : String = "SLIDER_SIZE_TO_TRACK";
     
     public static var SLIDER_ROTATE_IMAGE : String = "SLIDER_ROTATE_IMAGE";
 

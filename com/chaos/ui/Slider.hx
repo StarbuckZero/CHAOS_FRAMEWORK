@@ -147,6 +147,7 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 
 	private var _trackerImage : BitmapData;
 	private var _rotateImage : Bool = false;
+	private var _sizeToTrack : Bool = false;
 
 	
 
@@ -277,6 +278,9 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 		
 		if (UIStyleManager.hasStyle(UIStyleManager.SLIDER_TRACK_SIZE))  
 			_width = _height = UIStyleManager.getStyle(UIStyleManager.SLIDER_TRACK_SIZE);
+
+		if (UIStyleManager.hasStyle(UIStyleManager.SLIDER_SIZE_TO_TRACK))
+			_sizeToTrack = UIStyleManager.getStyle(UIStyleManager.SLIDER_SIZE_TO_TRACK);
 		
 		if (UIStyleManager.hasStyle(UIStyleManager.SLIDER_TRACK_COLOR))    
 			_trackColor = UIStyleManager.getStyle(UIStyleManager.SLIDER_TRACK_COLOR);
@@ -395,12 +399,12 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 		if (ScrollBarDirection.VERTICAL == _mode) 
 		{
 			_marker.y = _track.y + percentage * (_track.height - _marker.height);
-			_marker.x = _track.x + _sliderOffSet;
+			_marker.x = _sizeToTrack ? _track.x : _track.x + _sliderOffSet;
         }
         else 
 		{
 			_marker.x = _track.x + percentage * (_track.width - _marker.width);
-			_marker.y = _track.y + _sliderOffSet;
+			_marker.y = _sizeToTrack ? _track.y : _track.y + _sliderOffSet;
         }
 		
 		dispatchEvent(new SliderEvent(SliderEvent.CHANGE, percentage));
@@ -737,9 +741,9 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 		_dragging = true;
 		
 		if (ScrollBarDirection.VERTICAL == _mode)
-			_marker.startDrag(false, new Rectangle(_sliderOffSet, _track.y, 0, (_height - sliderHeightNum)))
+			_marker.startDrag(false, new Rectangle(_sizeToTrack ? _track.x : _sliderOffSet, _track.y, 0, (_height - sliderHeightNum)))
         else
-			_marker.startDrag(false, new Rectangle(_track.x, _sliderOffSet, (_width - sliderWidthNum), 0));
+			_marker.startDrag(false, new Rectangle(_track.x, _sizeToTrack ? _track.y : _sliderOffSet, (_width - sliderWidthNum), 0));
 		
 		
 		if (_eventMode == TIMER_MODE)
@@ -794,6 +798,23 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 	override public function draw() : Void
 	{
 		super.draw();
+
+		if (_sizeToTrack)
+		{
+			if (ScrollBarDirection.VERTICAL == _mode)
+			{
+				_marker.width = _width;
+			}
+			else
+			{
+				_marker.height = _height;
+			}
+		}
+		else
+		{
+			_marker.width = sliderWidthNum;
+			_marker.height = sliderHeightNum;
+		}
 		
 		if(_useCustomRender && UIBitmapManager.hasCustomRenderTexture(UIBitmapType.Slider) && _width > 0 && _height > 0)  {
 
