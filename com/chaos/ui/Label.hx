@@ -713,6 +713,7 @@ class Label extends BaseUI implements ILabel implements IBaseUI {
 		{
 			_outline.width = _width;
 			_outline.height = _height;
+			_outline.lineThinkness = _thickness;
 			_outline.lineColor = _outlineColor;
 			_outline.lineAlpha = _outlineAlpha;
 			_outline.draw();

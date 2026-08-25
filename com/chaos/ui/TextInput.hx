@@ -210,7 +210,13 @@ class TextInput extends Label implements ITextInput implements ILabel implements
 		addChild(backgroundOver);
 		addChild(backgroundSelected);
 		addChild(backgroundDisable);
-		addChild(textField);		
+		addChild(textField);
+
+		// Keep the border visible above the background and text field without
+		// preventing the text field from receiving mouse input.
+		_outline.mouseEnabled = false;
+		_outline.mouseChildren = false;
+		addChild(_outline);
 		
 		
 	}
