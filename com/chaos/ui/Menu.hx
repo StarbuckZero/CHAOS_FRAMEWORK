@@ -513,7 +513,7 @@ class Menu extends BaseContainer implements IMenu implements IBaseContainer impl
 	
 	override public function initialize():Void 
 	{
-		buttonArea = new FitContainer({"width":_width, "height":_height,"direction":_direction});
+		buttonArea = new FitContainer({"width":_width, "height":_height, "direction":_direction, "background":false});
 		 
 		super.initialize();
 		
@@ -563,6 +563,9 @@ class Menu extends BaseContainer implements IMenu implements IBaseContainer impl
             _height = UIStyleManager.getStyle(UIStyleManager.MENU_HEIGHT);        
         
         // Background
+        if (UIStyleManager.hasStyle(UIStyleManager.MENU_BACKGROUND))
+            _background = UIStyleManager.getStyle(UIStyleManager.MENU_BACKGROUND);
+
         if (UIStyleManager.hasStyle(UIStyleManager.MENU_BACKGROUND_COLOR)) 
             _backgroundColor = UIStyleManager.getStyle(UIStyleManager.MENU_BACKGROUND_COLOR);
         
@@ -638,16 +641,16 @@ class Menu extends BaseContainer implements IMenu implements IBaseContainer impl
         
          // Button Border
         if (UIStyleManager.hasStyle(UIStyleManager.MENU_SUB_BUTTON_BORDER_NORMAL_COLOR)) 
-            _normalLineColor = UIStyleManager.getStyle(UIStyleManager.MENU_SUB_BUTTON_BORDER_NORMAL_COLOR);
+            _subNormalLineColor = UIStyleManager.getStyle(UIStyleManager.MENU_SUB_BUTTON_BORDER_NORMAL_COLOR);
         
         if (UIStyleManager.hasStyle(UIStyleManager.MENU_SUB_BUTTON_BORDER_OVER_COLOR)) 
-            _overLineColor = UIStyleManager.getStyle(UIStyleManager.MENU_SUB_BUTTON_BORDER_OVER_COLOR);
+            _subOverLineColor = UIStyleManager.getStyle(UIStyleManager.MENU_SUB_BUTTON_BORDER_OVER_COLOR);
         
         if (UIStyleManager.hasStyle(UIStyleManager.MENU_SUB_BUTTON_BORDER_DOWN_COLOR)) 
-            _downLineColor = UIStyleManager.getStyle(UIStyleManager.MENU_SUB_BUTTON_BORDER_DOWN_COLOR);
+            _subDownLineColor = UIStyleManager.getStyle(UIStyleManager.MENU_SUB_BUTTON_BORDER_DOWN_COLOR);
         
         if (UIStyleManager.hasStyle(UIStyleManager.MENU_SUB_BUTTON_BORDER_DISABLE_COLOR)) 
-            _disableLineColor = UIStyleManager.getStyle(UIStyleManager.MENU_SUB_BUTTON_BORDER_DISABLE_COLOR);
+            _subDisableLineColor = UIStyleManager.getStyle(UIStyleManager.MENU_SUB_BUTTON_BORDER_DISABLE_COLOR);
         
         if (UIStyleManager.hasStyle(UIStyleManager.MENU_SUB_BUTTON_BORDER_ALPHA))
             _subButtonLineAlpha = UIStyleManager.getStyle(UIStyleManager.MENU_SUB_BUTTON_BORDER_ALPHA);
@@ -1520,7 +1523,7 @@ class Menu extends BaseContainer implements IMenu implements IBaseContainer impl
     {
         super.draw();
         buttonArea.width = _width;
-        buttonArea.height = _width;
+        buttonArea.height = _height;
 		
         updateButtons(_list);
     }
@@ -1584,10 +1587,10 @@ class Menu extends BaseContainer implements IMenu implements IBaseContainer impl
 				menu.label.size = UIStyleManager.getStyle(UIStyleManager.MENU_LABEL_TEXT_SIZE);
 			
 			if (UIStyleManager.hasStyle(UIStyleManager.MENU_LABEL_TEXT_BOLD))
-				menu.label.textFormat.bold = UIStyleManager.getStyle(UIStyleManager.MENU_LABEL_TEXT_BOLD);
+				menu.label.bold = UIStyleManager.getStyle(UIStyleManager.MENU_LABEL_TEXT_BOLD);
 			
 			if (UIStyleManager.hasStyle(UIStyleManager.MENU_LABEL_TEXT_ITALIC))
-				menu.label.textFormat.italic = UIStyleManager.getStyle(UIStyleManager.MENU_LABEL_TEXT_ITALIC);
+				menu.label.italic = UIStyleManager.getStyle(UIStyleManager.MENU_LABEL_TEXT_ITALIC);
 			
 			dataObj.menuItem = menu;
 			
@@ -1645,10 +1648,10 @@ class Menu extends BaseContainer implements IMenu implements IBaseContainer impl
                     menu.label.size = UIStyleManager.getStyle(UIStyleManager.MENU_SUB_LABEL_TEXT_SIZE);
                 
                 if (UIStyleManager.hasStyle(UIStyleManager.MENU_SUB_LABEL_TEXT_BOLD))
-                    menu.label.textFormat.bold = UIStyleManager.getStyle(UIStyleManager.MENU_SUB_LABEL_TEXT_BOLD);
+                    menu.label.bold = UIStyleManager.getStyle(UIStyleManager.MENU_SUB_LABEL_TEXT_BOLD);
                 
                 if (UIStyleManager.hasStyle(UIStyleManager.MENU_SUB_LABEL_TEXT_ITALIC))
-                    menu.label.textFormat.italic = UIStyleManager.getStyle(UIStyleManager.MENU_SUB_LABEL_TEXT_ITALIC);
+                    menu.label.italic = UIStyleManager.getStyle(UIStyleManager.MENU_SUB_LABEL_TEXT_ITALIC);
                 
                 if (buttonArea.direction == HORIZONTAL) 
                 {

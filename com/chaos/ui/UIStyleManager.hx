@@ -677,6 +677,7 @@ class UIStyleManager
     /** The default Menu height */
     public static var MENU_HEIGHT : String = "MENU_HEIGHT";
 
+    public static var MENU_BACKGROUND : String = "MENU_BACKGROUND";
     public static var MENU_BACKGROUND_COLOR : String = "MENU_BACKGROUND_COLOR";
     public static var MENU_BACKGROUND_ALPHA : String = "MENU_BACKGROUND_ALPHA";
     public static var MENU_TILE_IMAGE : String = "MENU_TILE_IMAGE";
@@ -699,10 +700,10 @@ class UIStyleManager
     public static var MENU_BUTTON_BORDER : String = "MENU_BUTTON_BORDER";
     public static var MENU_BUTTON_BORDER_THICKNESS : String = "MENU_BUTTON_BORDER_THICKNESS";
     
-    public static var MENU_BUTTON_BORDER_NORMAL_COLOR : String = "MENU_BORDER_BUTTON_NORMAL_COLOR";
-    public static var MENU_BUTTON_BORDER_OVER_COLOR : String = "MENU_BORDER_BUTTON_OVER_COLOR";
-    public static var MENU_BUTTON_BORDER_DOWN_COLOR : String = "MENU_BORDER_BUTTON_DOWN_COLOR";
-    public static var MENU_BUTTON_BORDER_DISABLE_COLOR : String = "MENU_BORDER_BUTTON_DISABLE_COLOR";
+    public static var MENU_BUTTON_BORDER_NORMAL_COLOR : String = "MENU_BUTTON_BORDER_NORMAL_COLOR";
+    public static var MENU_BUTTON_BORDER_OVER_COLOR : String = "MENU_BUTTON_BORDER_OVER_COLOR";
+    public static var MENU_BUTTON_BORDER_DOWN_COLOR : String = "MENU_BUTTON_BORDER_DOWN_COLOR";
+    public static var MENU_BUTTON_BORDER_DISABLE_COLOR : String = "MENU_BUTTON_BORDER_DISABLE_COLOR";
     
     public static var MENU_SUB_BUTTON_BORDER_ALPHA : String = "MENU_SUB_BUTTON_BORDER_ALPHA";
     public static var MENU_SUB_BUTTON_BORDER : String = "MENU_SUB_BUTTON_BORDER";
