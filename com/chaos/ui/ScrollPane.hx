@@ -420,7 +420,7 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 	override public function draw():Void {
 
 		if(_useCustomRender && UIBitmapManager.hasCustomRenderTexture(UIBitmapType.ScrollPane) && _width > 0 && _height > 0)  {
-			setBackgroundImage(UIBitmapManager.runCustomRender(UIBitmapType.ScrollPane,{"width":_width,"height":_height}));
+			setBackgroundImage(getCustomRenderTexture("scrollPane.background", UIBitmapType.ScrollPane,{"width":_width,"height":_height}, _imageBackground));
 		}		
 
 		// Draw background image

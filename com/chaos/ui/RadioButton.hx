@@ -250,73 +250,46 @@ class RadioButton extends SelectToggleBase implements IRadioButton implements IB
 	override public function draw():Void {
 		
 		if (_useCustomRender &&UIBitmapManager.hasCustomRenderTexture(UIBitmapType.RadioButton) &&_buttonSize > 0) {
-			var defaultImage = UIBitmapManager.runCustomRender(
+			_defaultStateImage = getCustomRenderTexture("radio.default",
 				UIBitmapType.RadioButton,
 				{
 					width: _buttonSize,
 					height: _buttonSize,
 					state: "default"
-				}
+				}, _defaultStateImage
 			);
 
-			var overImage = UIBitmapManager.runCustomRender(
+			_overStateImage = getCustomRenderTexture("radio.over",
 				UIBitmapType.RadioButton,
 				{
 					width: _buttonSize,
 					height: _buttonSize,
 					state: "over"
-				}
+				}, _overStateImage
 			);
 
-			var downImage = UIBitmapManager.runCustomRender(
+			_downStateImage = getCustomRenderTexture("radio.down",
 				UIBitmapType.RadioButton,
 				{
 					width: _buttonSize,
 					height: _buttonSize,
 					state: "down"
-				}
+				}, _downStateImage
 			);
 
-			var disableImage = UIBitmapManager.runCustomRender(
+			_disableStateImage = getCustomRenderTexture("radio.disable",
 				UIBitmapType.RadioButton,
 				{
 					width: _buttonSize,
 					height: _buttonSize,
 					state: "disable"
-				}
+				}, _disableStateImage
 			);
 
-			var selectedDefaultImage = UIBitmapManager.runCustomRender(UIBitmapType.RadioButton, {width: _buttonSize, height: _buttonSize, state: "selected_default"});
-			var selectedOverImage = UIBitmapManager.runCustomRender(UIBitmapType.RadioButton, {width: _buttonSize, height: _buttonSize, state: "selected_over"});
-			var selectedDownImage = UIBitmapManager.runCustomRender(UIBitmapType.RadioButton, {width: _buttonSize, height: _buttonSize, state: "selected_down"});
-			var selectedDisableImage = UIBitmapManager.runCustomRender(UIBitmapType.RadioButton, {width: _buttonSize, height: _buttonSize, state: "selected_disable"});
-
-			if (defaultImage != null) {
-				_defaultStateImage = defaultImage;
-			}
-
-			if (overImage != null) {
-				_overStateImage = overImage;
-			}
-
-			if (downImage != null)
-				_downStateImage = downImage;
-
-			if (selectedDefaultImage != null)
-				_selectedDefaultStateImage = selectedDefaultImage;
-
-			if (selectedOverImage != null)
-				_selectedOverStateImage = selectedOverImage;
-
-			if (selectedDownImage != null)
-				_selectedDownStateImage = selectedDownImage;
-
-			if (selectedDisableImage != null)
-				_selectedDisableStateImage = selectedDisableImage;
-
-			if (disableImage != null) {
-				_disableStateImage = disableImage;
-			}
+			_selectedDefaultStateImage = getCustomRenderTexture("radio.selectedDefault", UIBitmapType.RadioButton,{width:_buttonSize,height:_buttonSize,state:"selected_default"}, _selectedDefaultStateImage);
+			_selectedOverStateImage = getCustomRenderTexture("radio.selectedOver", UIBitmapType.RadioButton,{width:_buttonSize,height:_buttonSize,state:"selected_over"}, _selectedOverStateImage);
+			_selectedDownStateImage = getCustomRenderTexture("radio.selectedDown", UIBitmapType.RadioButton,{width:_buttonSize,height:_buttonSize,state:"selected_down"}, _selectedDownStateImage);
+			_selectedDisableStateImage = getCustomRenderTexture("radio.selectedDisable", UIBitmapType.RadioButton,{width:_buttonSize,height:_buttonSize,state:"selected_disable"}, _selectedDisableStateImage);
 		}
 
 		super.draw();

@@ -818,13 +818,13 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 		
 		if(_useCustomRender && UIBitmapManager.hasCustomRenderTexture(UIBitmapType.Slider) && _width > 0 && _height > 0)  {
 
-			_trackerImage = UIBitmapManager.runCustomRender(UIBitmapType.Slider,{"width":_width,"height":_height,"direction":_mode,"state":"default"});
+			_trackerImage = getCustomRenderTexture("slider.track", UIBitmapType.Slider,{"width":_width,"height":_height,"direction":_mode,"state":"default"}, _trackerImage);
 
 			_marker.useCustomRender = false;
-			_marker.setDefaultStateImage(UIBitmapManager.runCustomRender(UIBitmapType.Slider,{"width":_marker.width,"height":_marker.height,"direction":_mode,"state":"default"}));
-			_marker.setOverStateImage(UIBitmapManager.runCustomRender(UIBitmapType.Slider,{"width":_marker.width,"height":_marker.height,"direction":_mode,"state":"over"}));
-			_marker.setDownStateImage(UIBitmapManager.runCustomRender(UIBitmapType.Slider,{"width":_marker.width,"height":_marker.height,"direction":_mode,"state":"down"}));
-			_marker.setDisableStateImage(UIBitmapManager.runCustomRender(UIBitmapType.Slider,{"width":_marker.width,"height":_marker.height,"direction":_mode,"state":"disable"}));
+			_marker.setDefaultStateImage(getCustomRenderTexture("slider.marker.default", UIBitmapType.Slider,{"width":_marker.width,"height":_marker.height,"direction":_mode,"state":"default"}, _marker.normalState.image));
+			_marker.setOverStateImage(getCustomRenderTexture("slider.marker.over", UIBitmapType.Slider,{"width":_marker.width,"height":_marker.height,"direction":_mode,"state":"over"}, _marker.overState.image));
+			_marker.setDownStateImage(getCustomRenderTexture("slider.marker.down", UIBitmapType.Slider,{"width":_marker.width,"height":_marker.height,"direction":_mode,"state":"down"}, _marker.downState.image));
+			_marker.setDisableStateImage(getCustomRenderTexture("slider.marker.disable", UIBitmapType.Slider,{"width":_marker.width,"height":_marker.height,"direction":_mode,"state":"disable"}, _marker.disableState.image));
 
 		}
 

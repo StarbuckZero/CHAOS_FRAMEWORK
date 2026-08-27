@@ -67,6 +67,20 @@ import com.chaos.ui.Border;
      private var _baseAlpha:Float = 1;
      private var _image:BitmapData = null;
      private var _tileImage:Bool = false;
+     private var _hasDrawState:Bool = false;
+     private var _lastDrawWidth:Float;
+     private var _lastDrawHeight:Float;
+     private var _lastDrawImage:BitmapData;
+     private var _lastDrawBaseColor:Int;
+     private var _lastDrawBaseAlpha:Float;
+     private var _lastDrawTintAlpha:Float;
+     private var _lastDrawTileImage:Bool;
+     private var _lastDrawSmoothImage:Bool;
+     private var _lastDrawBorder:Bool;
+     private var _lastDrawLineColor:Int;
+     private var _lastDrawLineThickness:Float;
+     private var _lastDrawLineAlpha:Float;
+     private var _lastDrawRoundEdge:Int;
      
  
      /**
@@ -133,6 +147,21 @@ import com.chaos.ui.Border;
 
 
      override function draw() {
+		if (_hasDrawState
+			&& _lastDrawWidth == _width
+			&& _lastDrawHeight == _height
+			&& _lastDrawImage == _image
+			&& _lastDrawBaseColor == _baseColor
+			&& _lastDrawBaseAlpha == _baseAlpha
+			&& _lastDrawTintAlpha == _tintAlpha
+			&& _lastDrawTileImage == _tileImage
+			&& _lastDrawSmoothImage == _smoothImage
+			&& _lastDrawBorder == _border
+			&& _lastDrawLineColor == _lineColor
+			&& _lastDrawLineThickness == _lineThinkness
+			&& _lastDrawLineAlpha == _lineAlpha
+			&& _lastDrawRoundEdge == _roundEdge)
+			return;
 
         if(_border)  
             super.draw();
@@ -172,6 +201,21 @@ import com.chaos.ui.Border;
             shapeBase.graphics.drawRoundRect(0, 0, _width, _height, _roundEdge);
             shapeBase.graphics.endFill();
         }
+
+		_hasDrawState = true;
+		_lastDrawWidth = _width;
+		_lastDrawHeight = _height;
+		_lastDrawImage = _image;
+		_lastDrawBaseColor = _baseColor;
+		_lastDrawBaseAlpha = _baseAlpha;
+		_lastDrawTintAlpha = _tintAlpha;
+		_lastDrawTileImage = _tileImage;
+		_lastDrawSmoothImage = _smoothImage;
+		_lastDrawBorder = _border;
+		_lastDrawLineColor = _lineColor;
+		_lastDrawLineThickness = _lineThinkness;
+		_lastDrawLineAlpha = _lineAlpha;
+		_lastDrawRoundEdge = _roundEdge;
      }
 
      private function set_tileImage(value:Bool):Bool {

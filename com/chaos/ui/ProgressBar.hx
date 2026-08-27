@@ -738,8 +738,8 @@ class ProgressBar extends BaseUI implements IProgressBar implements IBaseUI
 
 		 if(_useCustomRender && UIBitmapManager.hasCustomRenderTexture(UIBitmapType.ProgressBar) && _width > 0 && _height > 0)
 		 {
-			_backgroundImage = UIBitmapManager.runCustomRender(UIBitmapType.ProgressBar,{"width":_width,"height":_height,"state":"default"});
-			_loadedBarImage = UIBitmapManager.runCustomRender(UIBitmapType.ProgressBar,{"width":_width,"height":_height,"state":"loaded"});
+			_backgroundImage = getCustomRenderTexture("progress.background", UIBitmapType.ProgressBar,{"width":_width,"height":_height,"state":"default"}, _backgroundImage);
+			_loadedBarImage = getCustomRenderTexture("progress.loaded", UIBitmapType.ProgressBar,{"width":_width,"height":_height,"state":"loaded"}, _loadedBarImage);
 		}
 
 		// Get ready to draw background and border

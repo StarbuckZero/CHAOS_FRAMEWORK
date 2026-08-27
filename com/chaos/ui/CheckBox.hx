@@ -184,15 +184,15 @@ class CheckBox extends SelectToggleBase implements ICheckBox implements IBaseUI
 
         if(_useCustomRender && UIBitmapManager.hasCustomRenderTexture(UIBitmapType.CheckBox) && _width > 0 && _height > 0) {
 
-            _defaultStateImage = UIBitmapManager.runCustomRender(UIBitmapType.CheckBox,{"width":_buttonSize,"height":_buttonSize,"state":"default","style":_style});
-            _overStateImage = UIBitmapManager.runCustomRender(UIBitmapType.CheckBox,{"width":_buttonSize,"height":_buttonSize,"state":"over","style":_style});
-            _downStateImage = UIBitmapManager.runCustomRender(UIBitmapType.CheckBox, {"width":_buttonSize, "height":_buttonSize, "state":"down", "style":_style});
-			_disableStateImage = UIBitmapManager.runCustomRender(UIBitmapType.CheckBox,{"width":_buttonSize,"height":_buttonSize,"state":"disable","style":_style});
+			_defaultStateImage = getCustomRenderTexture("checkbox.default", UIBitmapType.CheckBox,{"width":_buttonSize,"height":_buttonSize,"state":"default","style":_style}, _defaultStateImage);
+			_overStateImage = getCustomRenderTexture("checkbox.over", UIBitmapType.CheckBox,{"width":_buttonSize,"height":_buttonSize,"state":"over","style":_style}, _overStateImage);
+			_downStateImage = getCustomRenderTexture("checkbox.down", UIBitmapType.CheckBox,{"width":_buttonSize,"height":_buttonSize,"state":"down","style":_style}, _downStateImage);
+			_disableStateImage = getCustomRenderTexture("checkbox.disable", UIBitmapType.CheckBox,{"width":_buttonSize,"height":_buttonSize,"state":"disable","style":_style}, _disableStateImage);
 			
-			_selectedDefaultStateImage = UIBitmapManager.runCustomRender(UIBitmapType.CheckBox, {"width":_buttonSize, "height":_buttonSize, "state":"selected_default", "style":_style});
-			_selectedOverStateImage = UIBitmapManager.runCustomRender(UIBitmapType.CheckBox, {"width":_buttonSize, "height":_buttonSize, "state":"selected_over", "style":_style});
-			_selectedDownStateImage = UIBitmapManager.runCustomRender(UIBitmapType.CheckBox, {"width":_buttonSize, "height":_buttonSize, "state":"selected_down", "style":_style});
-			_selectedDisableStateImage = UIBitmapManager.runCustomRender(UIBitmapType.CheckBox, {"width":_buttonSize, "height":_buttonSize, "state":"selected_disable", "style":_style});
+			_selectedDefaultStateImage = getCustomRenderTexture("checkbox.selectedDefault", UIBitmapType.CheckBox,{"width":_buttonSize,"height":_buttonSize,"state":"selected_default","style":_style}, _selectedDefaultStateImage);
+			_selectedOverStateImage = getCustomRenderTexture("checkbox.selectedOver", UIBitmapType.CheckBox,{"width":_buttonSize,"height":_buttonSize,"state":"selected_over","style":_style}, _selectedOverStateImage);
+			_selectedDownStateImage = getCustomRenderTexture("checkbox.selectedDown", UIBitmapType.CheckBox,{"width":_buttonSize,"height":_buttonSize,"state":"selected_down","style":_style}, _selectedDownStateImage);
+			_selectedDisableStateImage = getCustomRenderTexture("checkbox.selectedDisable", UIBitmapType.CheckBox,{"width":_buttonSize,"height":_buttonSize,"state":"selected_disable","style":_style}, _selectedDisableStateImage);
 			
 		}
 

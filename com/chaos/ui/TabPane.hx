@@ -666,10 +666,10 @@ class TabPane extends BaseUI implements ITabPane implements IBaseUI
 
 				button.useCustomRender = false;
 				
-				_tabButtonDefaultImage = UIBitmapManager.runCustomRender(UIBitmapType.TabPane,{"width":button.width,"height":button.height,"state":"default"});
-				_tabButtonOverImage = UIBitmapManager.runCustomRender(UIBitmapType.TabPane,{"width":button.width,"height":button.height,"state":"over"});
-				_tabButtonDownImage = UIBitmapManager.runCustomRender(UIBitmapType.TabPane,{"width":button.width,"height":button.height,"state":"down"});
-				_tabButtonDisableImage = UIBitmapManager.runCustomRender(UIBitmapType.TabPane,{"width":button.width,"height":button.height,"state":"disable"});				
+				_tabButtonDefaultImage = getCustomRenderTexture("tab.default", UIBitmapType.TabPane,{"width":button.width,"height":button.height,"state":"default"}, _tabButtonDefaultImage);
+				_tabButtonOverImage = getCustomRenderTexture("tab.over", UIBitmapType.TabPane,{"width":button.width,"height":button.height,"state":"over"}, _tabButtonOverImage);
+				_tabButtonDownImage = getCustomRenderTexture("tab.down", UIBitmapType.TabPane,{"width":button.width,"height":button.height,"state":"down"}, _tabButtonDownImage);
+				_tabButtonDisableImage = getCustomRenderTexture("tab.disable", UIBitmapType.TabPane,{"width":button.width,"height":button.height,"state":"disable"}, _tabButtonDisableImage);
 			}  
 
 			button.textColor = _tabButtonTextColor;

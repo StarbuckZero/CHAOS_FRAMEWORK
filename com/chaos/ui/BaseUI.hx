@@ -2,6 +2,7 @@ package com.chaos.ui;
 
 import motion.actuators.GenericActuator;
 import com.chaos.ui.classInterface.IBaseUI;
+import com.chaos.ui.UIBitmapManager.UIBitmapType;
 
 
 import openfl.display.DisplayObject;
@@ -64,6 +65,7 @@ class BaseUI extends Sprite implements IBaseUI
 	private var _useCustomRender:Bool = false;
 
 	private var _defaultTweenDuration : Float = 1;
+	private var _renderState:Dynamic = {};
     
 	/**
 	 * UI Component 
@@ -138,7 +140,7 @@ class BaseUI extends Sprite implements IBaseUI
 	
     public function reskin() : Void
     {
-        // Style and set all bitmap data objects here
+		invalidateRenderState();
     }
 	
     /**
@@ -248,7 +250,43 @@ class BaseUI extends Sprite implements IBaseUI
 	public function destroy():Void
 	{
 		Actuate.stop(this);
+		invalidateRenderState();
 	}	
+
+	/** Clears one cached render signature or all component render signatures. */
+	private function invalidateRenderState(slot:String = null):Void
+	{
+		if (_renderState == null)
+			_renderState = {};
+
+		if (slot == null)
+		{
+			for (field in Reflect.fields(_renderState))
+				Reflect.deleteField(_renderState, field);
+		}
+		else
+			Reflect.deleteField(_renderState, slot);
+	}
+
+	/** Returns the existing custom texture until its type, parameters, or theme revision changes. */
+	private function getCustomRenderTexture(slot:String, UIElement:UIBitmapType, data:Dynamic, current:Dynamic):Dynamic
+	{
+		if (_renderState == null)
+			_renderState = {};
+
+		var signature:String = UIBitmapManager.getCustomRenderCacheKey(UIElement, data);
+
+		if (current != null && Reflect.field(_renderState, slot) == signature)
+			return current;
+
+		var rendered:Dynamic = UIBitmapManager.runCustomRender(UIElement, data);
+
+		if (rendered == null)
+			return current;
+
+		Reflect.setField(_renderState, slot, signature);
+		return rendered;
+	}
     
     /**
 	 * @inheritDoc
@@ -351,6 +389,9 @@ class BaseUI extends Sprite implements IBaseUI
 	
 	private function set_useCustomRender(value:Bool):Bool 
 	{
+		if (_useCustomRender != value)
+			invalidateRenderState();
+
 		_useCustomRender = value;
 
 		return _useCustomRender;

@@ -3,6 +3,7 @@ package com.chaos.ui;
 import openfl.display.BitmapData;
 import openfl.errors.Error;
 import openfl.display.DisplayObject;
+import haxe.ds.StringMap;
 import com.chaos.ui.classInterface.IBaseUI;
 import com.chaos.data.DataProvider;
 import com.chaos.utils.Debug;
@@ -14,6 +15,7 @@ import com.chaos.utils.Debug;
  */
 
 class UIBitmapManager {
+	private static inline var CUSTOM_RENDER_CACHE_LIMIT:Int = 256;
 	public static inline var BASE_CONTAINER_BACKGROUND:String = "base_container_background";
 	public static inline var ALIGNMENT_BASE_CONTAINER_BACKGROUND:String = "alignment_base_container_background";
 	public static inline var BREADCRUMB_BACKGROUND:String = "breadcrumb_background";
@@ -270,16 +272,13 @@ class UIBitmapManager {
 	private static var skinTheme:Dynamic;
 	private static var watchList:Dynamic;
 	private static var customRender:Dynamic;
+	private static var customRenderCache:StringMap<BitmapData>;
+	private static var customRenderCacheOrder:Array<String>;
+	private static var customRenderRevision:Int = 0;
 
 	public function new() {}
 
 	private static function initializeManager() : Void {
-
-		skinTheme = {};
-         
-        // Setting up to store bitmaps for all components
-		for( compType in Type.allEnums(UIBitmapType))
-			Reflect.setField(skinTheme, compType.getName(), {});
 
         skinTheme = {};
          
@@ -295,12 +294,18 @@ class UIBitmapManager {
 
 		// Custom bitmap calls
 		customRender = {};
+		customRenderCache = new StringMap<BitmapData>();
+		customRenderCacheOrder = [];
 		
 		// Flag as inited
 		initialized = true;
 	}
 
 	public static function clear() : Void {
+		if (!initialized)
+			initializeManager();
+
+		invalidateCustomRenderCache();
 
 		for( compType in Type.allEnums(UIBitmapType))
 			Reflect.deleteField(skinTheme, compType.getName());
@@ -419,6 +424,7 @@ class UIBitmapManager {
 		}
 
 		Reflect.setField(uiTheme, style, bitmap);
+		invalidateCustomRenderCache();
 
 		// Update UI Elements based on type
 		if (updateElement) {
@@ -510,6 +516,7 @@ class UIBitmapManager {
 		}
 
 		Reflect.deleteField(uiTheme, type);
+		invalidateCustomRenderCache();
 	}
 
 	/**
@@ -552,6 +559,7 @@ class UIBitmapManager {
 		if (!initialized)
 			initializeManager();
 
+		invalidateCustomRenderCache(UIElement);
 		Reflect.setField(customRender, UIElement.getName(), cr);
 	}
 
@@ -565,7 +573,50 @@ class UIBitmapManager {
 		if (!initialized)
 			initializeManager();
 
+		invalidateCustomRenderCache(UIType);
 		Reflect.deleteField(customRender, UIType.getName());
+	}
+
+	/** Clears cached custom-render output, optionally for one UI type. */
+	public static function invalidateCustomRenderCache(UIType:UIBitmapType = null):Void {
+		if (!initialized)
+			initializeManager();
+
+		var typePrefix:String = UIType == null ? null : UIType.getName() + "|";
+		var keysToRemove:Array<String> = [];
+
+		for (key in customRenderCache.keys()) {
+			if (typePrefix == null || StringTools.startsWith(key, typePrefix))
+				keysToRemove.push(key);
+		}
+
+		for (key in keysToRemove) {
+			var bitmap:BitmapData = customRenderCache.get(key);
+
+			if (bitmap != null)
+				bitmap.dispose();
+
+			customRenderCache.remove(key);
+			customRenderCacheOrder.remove(key);
+		}
+
+		customRenderRevision++;
+	}
+
+	/** Stable cache key shared by the manager and component dirty-state checks. */
+	public static function getCustomRenderCacheKey(UIElement:UIBitmapType, data:Dynamic):String {
+		if (!initialized)
+			initializeManager();
+
+		var fields:Array<String> = data == null ? [] : Reflect.fields(data);
+		fields.sort(Reflect.compare);
+
+		var values:Array<String> = [];
+
+		for (field in fields)
+			values.push(field + "=" + Std.string(Reflect.field(data, field)));
+
+		return UIElement.getName() + "|" + customRenderRevision + "|" + values.join("|");
 	}
 
 	/**
@@ -581,8 +632,40 @@ class UIBitmapManager {
 		if (!initialized)
 			initializeManager();
 
+		var cacheKey:String = getCustomRenderCacheKey(UIElement, data);
+		var cachedBitmap:BitmapData = customRenderCache.get(cacheKey);
+
+		if (cachedBitmap != null)
+		{
+			customRenderCacheOrder.remove(cacheKey);
+			customRenderCacheOrder.push(cacheKey);
+			return cachedBitmap.clone();
+		}
+
 		var cr:Dynamic->BitmapData = Reflect.field(customRender,UIElement.getName());
-		return cr(data);
+
+		if (cr == null)
+			return null;
+
+		var renderedBitmap:BitmapData = cr(data);
+
+		if (renderedBitmap == null)
+			return null;
+
+		customRenderCache.set(cacheKey, renderedBitmap);
+		customRenderCacheOrder.push(cacheKey);
+
+		while (customRenderCacheOrder.length > CUSTOM_RENDER_CACHE_LIMIT) {
+			var oldestKey:String = customRenderCacheOrder.shift();
+			var oldestBitmap:BitmapData = customRenderCache.get(oldestKey);
+
+			if (oldestBitmap != null)
+				oldestBitmap.dispose();
+
+			customRenderCache.remove(oldestKey);
+		}
+
+		return renderedBitmap.clone();
 	}
 }
 

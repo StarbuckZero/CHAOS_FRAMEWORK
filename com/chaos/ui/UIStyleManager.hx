@@ -749,7 +749,10 @@ class UIStyleManager
 
     public static function setStyle(styleName : String, value:Dynamic) : Void 
     {
-		Reflect.setField(styleList,styleName,value);
+		if (!Reflect.hasField(styleList, styleName) || Reflect.field(styleList, styleName) != value) {
+			Reflect.setField(styleList,styleName,value);
+			UIBitmapManager.invalidateCustomRenderCache();
+		}
 	}
 
     public static function hasStyle(styleName : String) : Bool {
@@ -765,13 +768,20 @@ class UIStyleManager
             return;
         }
 
-        Reflect.deleteField(styleList, styleName);
+        if (Reflect.hasField(styleList, styleName)) {
+			Reflect.deleteField(styleList, styleName);
+			UIBitmapManager.invalidateCustomRenderCache();
+		}
     }
 
     public static function clear() : Void {
+		var hadStyles:Bool = Reflect.fields(styleList).length > 0;
 
         for (index in Reflect.fields(styleList)) 
             Reflect.deleteField(styleList,index);
+
+		if (hadStyles)
+			UIBitmapManager.invalidateCustomRenderCache();
     }
 
 

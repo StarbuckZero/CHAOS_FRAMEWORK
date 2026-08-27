@@ -816,14 +816,6 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
     
     override public function draw() : Void
     {
-        // Check to see if Custom Texture will need to be used first
-        if(_useCustomRender && UIBitmapManager.hasCustomRenderTexture(UIBitmapType.Button) && _width > 0 && _height > 0) {
-            _defaultStateImage = UIBitmapManager.runCustomRender(UIBitmapType.Button,{"width":_width,"height":_height,"state":"default"});
-            _overStateImage = UIBitmapManager.runCustomRender(UIBitmapType.Button,{"width":_width,"height":_height,"state":"over"});
-            _downStateImage = UIBitmapManager.runCustomRender(UIBitmapType.Button,{"width":_width,"height":_height,"state":"down"});
-            _disableStateImage = UIBitmapManager.runCustomRender(UIBitmapType.Button,{"width":_width,"height":_height,"state":"disable"});
-        }
-
         super.draw();
         
         // Hide or Display items
@@ -932,6 +924,10 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
         }
         
     }
+
+	override private function getCustomRenderType():UIBitmapType {
+		return UIBitmapType.Button;
+	}
 	
 	private function mouseUpEvent(event:MouseEvent):Void 
 	{

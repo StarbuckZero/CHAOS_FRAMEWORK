@@ -721,11 +721,13 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI {
 	override public function draw():Void {
 
 		// Check to see if Custom Texture will need to be used first
-        if(_useCustomRender && UIBitmapManager.hasCustomRenderTexture(UIBitmapType.ToggleButton) && _width > 0 && _height > 0) {
-            _defaultStateImage = UIBitmapManager.runCustomRender(UIBitmapType.ToggleButton,{"width":_width,"height":_height,"state":"default"});
-            _overStateImage = UIBitmapManager.runCustomRender(UIBitmapType.ToggleButton,{"width":_width,"height":_height,"state":"over"});
-            _downStateImage = UIBitmapManager.runCustomRender(UIBitmapType.ToggleButton,{"width":_width,"height":_height,"state":"down"});
-            _disableStateImage = UIBitmapManager.runCustomRender(UIBitmapType.ToggleButton,{"width":_width,"height":_height,"state":"disable"});
+		var customRenderType:UIBitmapType = getCustomRenderType();
+
+		if(_useCustomRender && UIBitmapManager.hasCustomRenderTexture(customRenderType) && _width > 0 && _height > 0) {
+			_defaultStateImage = getCustomRenderTexture("state.default", customRenderType,{"width":_width,"height":_height,"state":"default"}, _defaultStateImage);
+			_overStateImage = getCustomRenderTexture("state.over", customRenderType,{"width":_width,"height":_height,"state":"over"}, _overStateImage);
+			_downStateImage = getCustomRenderTexture("state.down", customRenderType,{"width":_width,"height":_height,"state":"down"}, _downStateImage);
+			_disableStateImage = getCustomRenderTexture("state.disable", customRenderType,{"width":_width,"height":_height,"state":"disable"}, _disableStateImage);
 		}   
 
 		// Figure to use bitmap or normal mode
@@ -769,6 +771,10 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI {
 			else
 				disableState.alpha = 1;
 		}
+	}
+
+	private function getCustomRenderType():UIBitmapType {
+		return UIBitmapType.ToggleButton;
 	}
 
 	/**

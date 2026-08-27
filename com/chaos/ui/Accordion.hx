@@ -482,12 +482,12 @@ class Accordion extends BaseContainer implements IAccordion implements IBaseCont
 
 		if(UIStyleManager.hasStyle(UIStyleManager.ACCORDION_USE_CUSTOM_RENDER) && UIStyleManager.getStyle(UIStyleManager.ACCORDION_USE_CUSTOM_RENDER) && UIBitmapManager.hasCustomRenderTexture(UIBitmapType.Accordion) && _width > 0 && _height > 0)
 		{
-			_buttonDefaultImage = UIBitmapManager.runCustomRender(UIBitmapType.Accordion,{"width":_width,"height":_buttonSize,"state":"default"});
-			_buttonOverImage = UIBitmapManager.runCustomRender(UIBitmapType.Accordion,{"width":_width,"height":_buttonSize,"state":"over"});
-			_buttonDownImage = UIBitmapManager.runCustomRender(UIBitmapType.Accordion,{"width":_width,"height":_buttonSize,"state":"down"});
-			_buttonDisableImage = UIBitmapManager.runCustomRender(UIBitmapType.Accordion,{"width":_width,"height":_buttonSize,"state":"disable"});
-			
-			_imageBackground = UIBitmapManager.runCustomRender(UIBitmapType.Accordion,{"width":_width,"height":_height,"state":"background"});
+			_buttonDefaultImage = getCustomRenderTexture("accordion.default", UIBitmapType.Accordion,{"width":_width,"height":_buttonSize,"state":"default"}, _buttonDefaultImage);
+			_buttonOverImage = getCustomRenderTexture("accordion.over", UIBitmapType.Accordion,{"width":_width,"height":_buttonSize,"state":"over"}, _buttonOverImage);
+			_buttonDownImage = getCustomRenderTexture("accordion.down", UIBitmapType.Accordion,{"width":_width,"height":_buttonSize,"state":"down"}, _buttonDownImage);
+			_buttonDisableImage = getCustomRenderTexture("accordion.disable", UIBitmapType.Accordion,{"width":_width,"height":_buttonSize,"state":"disable"}, _buttonDisableImage);
+
+			_imageBackground = getCustomRenderTexture("accordion.background", UIBitmapType.Accordion,{"width":_width,"height":_height,"state":"background"}, _imageBackground);
 		}	
 			
 		super.draw();
