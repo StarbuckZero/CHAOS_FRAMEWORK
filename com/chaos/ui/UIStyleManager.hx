@@ -486,6 +486,7 @@ class UIStyleManager
     public static var SCROLLPANE_HEIGHT : String = "SCROLLPANE_HEIGHT";
 
     public static var SCROLLPANE_BACKGROUND : String = "SCROLLPANE_BACKGROUND";
+    public static var SCROLLPANE_BACKGROUND_COLOR : String = "SCROLLPANE_BACKGROUND_COLOR";
     public static var SCROLLPANE_TILE_IMAGE : String = "SCROLLPANE_TILE_IMAGE";
     
     public static var SCROLLPANE_BORDER_ALPHA : String = "SCROLLPANE_BORDER_ALPHA";
@@ -630,6 +631,9 @@ class UIStyleManager
 
     /** The default Window height */
     public static var WINDOW_HEIGHT : String = "WINDOW_HEIGHT";
+
+    public static var WINDOW_BUTTON_WIDTH : String = "WINDOW_BUTTON_WIDTH";
+    public static var WINDOW_BUTTON_HEIGHT : String = "WINDOW_BUTTON_HEIGHT";
 
     public static var WINDOW_TITLE_TEXT_EMBED : String = "WINDOW_TITLE_TEXT_EMBED";
     public static var WINDOW_TITLE_TEXT_FONT : String = "WINDOW_TITLE_TEXT_FONT";

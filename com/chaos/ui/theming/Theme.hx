@@ -230,7 +230,7 @@ class Theme {
         UIStyleManager.setStyle(UIStyleManager.SCROLLBAR_SLIDER_DOWN_COLOR , _shadowColor);
 
         // SCORLLPANE
-        UIStyleManager.setStyle(UIStyleManager.SCROLLPANE_BACKGROUND , _background);
+        UIStyleManager.setStyle(UIStyleManager.SCROLLPANE_BACKGROUND_COLOR , _background);
         
         // SLIDER
         UIStyleManager.setStyle(UIStyleManager.SLIDER_NORMAL_COLOR , _primaryColor);

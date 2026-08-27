@@ -262,6 +262,8 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 	
 	private var _windowMinWidth : Int = WINDOW_MIN_WIDTH;
 	private var _windowMinHeight : Int = WINDOW_MIN_HEIGHT;
+	private var _windowButtonWidth : Float = WINDOW_BUTTON_SIZE;
+	private var _windowButtonHeight : Float = WINDOW_BUTTON_SIZE;
 	
 	private var _windowTitleColor : Int = 0xFFFFFF;
 	private var _windowBottomColor : Int = -1;
@@ -278,6 +280,7 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 	private var _windowBottomLeftSize : Int = WINDOW_BOTTOM_LEFT_SIZE; 
 	
 	private var _labelData:Dynamic = null;
+	private var _windowTitleEmbed:Dynamic = null;
 	private var _scrollPanelData:Dynamic = null;
 	
 	private var _closeButtonData:Dynamic = null;
@@ -500,7 +503,12 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 		_windowTopMiddle.addEventListener(MouseEvent.MOUSE_UP, dontDragMe);
 		
 		addEventListener(Event.ADDED_TO_STAGE, windowStageInit);
-		
+
+		// BaseUI calls reskin before Window children exist, so apply bitmap skins now.
+		initSkin();
+
+		if (_windowTitleEmbed != null)
+			_windowTitle.setEmbedFont(_windowTitleEmbed);
 	}
 	
 	override public function destroy():Void 
@@ -562,6 +570,9 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 
 	private function initSkin() : Void 
 	{  
+		if (_scrollPane == null || _windowTitle == null || _closeButton == null || _minButton == null || _maxButton == null)
+			return;
+
 		// Background  
 		if (UIBitmapManager.hasUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_BACKGROUND))   
 			_scrollPane.setBackgroundImage(UIBitmapManager.getUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_BACKGROUND));
@@ -658,23 +669,34 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 		if (_maxButtonData == null)
 			_maxButtonData = {"name":WindowEvent.WINDOW_MAX_BTN, "showLabel":false, "defaultColor":DEFAULT_MAX_BTN_COLOR};
 
+		var scrollPaneBorderData:Dynamic = Reflect.hasField(_scrollPanelData, "Border")
+			? Reflect.field(_scrollPanelData, "Border")
+			: {};
+		Reflect.setField(_scrollPanelData, "Border", scrollPaneBorderData);
+
 		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_WIDTH))
 			_width = UIStyleManager.getStyle(UIStyleManager.WINDOW_WIDTH);
 
 		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_HEIGHT))
 			_height = UIStyleManager.getStyle(UIStyleManager.WINDOW_HEIGHT);
+
+		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_BUTTON_WIDTH))
+			_windowButtonWidth = UIStyleManager.getStyle(UIStyleManager.WINDOW_BUTTON_WIDTH);
+
+		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_BUTTON_HEIGHT))
+			_windowButtonHeight = UIStyleManager.getStyle(UIStyleManager.WINDOW_BUTTON_HEIGHT);
 			
 		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_BACKGROUND_COLOR))
 			Reflect.setField(_scrollPanelData, "backgroundColor", UIStyleManager.getStyle(UIStyleManager.WINDOW_BACKGROUND_COLOR));
 		
 		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_BORDER_ALPHA))
-			Reflect.setField(_scrollPanelData, "borderAlpha", UIStyleManager.getStyle(UIStyleManager.WINDOW_BORDER_ALPHA));
+			Reflect.setField(scrollPaneBorderData, "lineAlpha", UIStyleManager.getStyle(UIStyleManager.WINDOW_BORDER_ALPHA));
 		
 		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_BORDER_COLOR))
-			Reflect.setField(_scrollPanelData, "borderColor", UIStyleManager.getStyle(UIStyleManager.WINDOW_BORDER_COLOR));
+			Reflect.setField(scrollPaneBorderData, "lineColor", UIStyleManager.getStyle(UIStyleManager.WINDOW_BORDER_COLOR));
 		
 		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_BORDER))
-			Reflect.setField(_scrollPanelData, "border", UIStyleManager.getStyle(UIStyleManager.WINDOW_BORDER));
+			Reflect.setField(_scrollPanelData, "showOutline", UIStyleManager.getStyle(UIStyleManager.WINDOW_BORDER));
 		
 		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_ICON_LOCATION))
 			_iconLocation = UIStyleManager.getStyle(UIStyleManager.WINDOW_ICON_LOCATION);
@@ -692,7 +714,12 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 			Reflect.setField(_labelData, "size", UIStyleManager.getStyle(UIStyleManager.WINDOW_TITLE_TEXT_SIZE));
 		
 		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_TITLE_TEXT_EMBED))
-			_windowTitle.setEmbedFont(UIStyleManager.getStyle(UIStyleManager.WINDOW_TITLE_TEXT_EMBED));
+		{
+			_windowTitleEmbed = UIStyleManager.getStyle(UIStyleManager.WINDOW_TITLE_TEXT_EMBED);
+
+			if (_windowTitle != null)
+				_windowTitle.setEmbedFont(_windowTitleEmbed);
+		}
 
 
 		
@@ -747,6 +774,24 @@ class Window extends BaseUI implements IWindow implements IBaseUI
         
 		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_CLOSE_DISABLE_COLOR))
 			Reflect.setField(_closeButtonData, "disableColor", UIStyleManager.getStyle(UIStyleManager.WINDOW_CLOSE_DISABLE_COLOR));
+
+		if (_scrollPane != null)
+		{
+			if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_BACKGROUND_COLOR))
+				_scrollPane.backgroundColor = UIStyleManager.getStyle(UIStyleManager.WINDOW_BACKGROUND_COLOR);
+
+			if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_BORDER))
+				_scrollPane.showOutline = UIStyleManager.getStyle(UIStyleManager.WINDOW_BORDER);
+
+			if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_BORDER_ALPHA))
+				_scrollPane.outline.lineAlpha = UIStyleManager.getStyle(UIStyleManager.WINDOW_BORDER_ALPHA);
+
+			if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_BORDER_COLOR))
+				_scrollPane.outline.lineColor = UIStyleManager.getStyle(UIStyleManager.WINDOW_BORDER_COLOR);
+		}
+
+		if (_windowTitle != null)
+			_windowTitle.setComponentData(_labelData);
 
 		// Set min button data
 		if(_minButton != null)
@@ -1340,12 +1385,12 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 		_windowMinHeight = minHeight;
 		
 		// Resize Button  
-		_closeButton.width = WINDOW_BUTTON_SIZE;
-		_closeButton.height = WINDOW_BUTTON_SIZE;
-		_minButton.width = WINDOW_BUTTON_SIZE;
-		_minButton.height = WINDOW_BUTTON_SIZE;
-		_maxButton.width = WINDOW_BUTTON_SIZE;
-		_maxButton.height = WINDOW_BUTTON_SIZE;
+		_closeButton.width = _windowButtonWidth;
+		_closeButton.height = _windowButtonHeight;
+		_minButton.width = _windowButtonWidth;
+		_minButton.height = _windowButtonHeight;
+		_maxButton.width = _windowButtonWidth;
+		_maxButton.height = _windowButtonHeight;
 		
 		_closeButton.draw();
 		_minButton.draw();
@@ -1487,10 +1532,10 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 			
 			_minButton.x = 0;
 			_maxButton.x = 0;
-			_maxButton.x = _closeButton.x - WINDOW_BUTTON_SIZE - WINDOW_BUTTON_OFFSET;
-			_minButton.x = _maxButton.x - WINDOW_BUTTON_SIZE - WINDOW_BUTTON_OFFSET;
-			_maxButton.x = ((_maxButton.visible)) ? (buttonCount - 2) * (WINDOW_BUTTON_SIZE + WINDOW_BUTTON_OFFSET) : 0;
-			_minButton.x = ((_minButton.visible)) ? (buttonCount - 1) * (WINDOW_BUTTON_SIZE + WINDOW_BUTTON_OFFSET) : 0;
+			_maxButton.x = _closeButton.x - _windowButtonWidth - WINDOW_BUTTON_OFFSET;
+			_minButton.x = _maxButton.x - _windowButtonWidth - WINDOW_BUTTON_OFFSET;
+			_maxButton.x = ((_maxButton.visible)) ? (buttonCount - 2) * (_windowButtonWidth + WINDOW_BUTTON_OFFSET) : 0;
+			_minButton.x = ((_minButton.visible)) ? (buttonCount - 1) * (_windowButtonWidth + WINDOW_BUTTON_OFFSET) : 0;
         }
         else 
 		{
@@ -1501,8 +1546,8 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 			_minButton.x = 0;
 			_maxButton.x = 0;
 			
-			_minButton.x = ((_minButton.visible)) ? (buttonCount - 2) * (WINDOW_BUTTON_SIZE + WINDOW_BUTTON_OFFSET) : 0;
-			_maxButton.x = ((_maxButton.visible)) ? (buttonCount - 1) * (WINDOW_BUTTON_SIZE + WINDOW_BUTTON_OFFSET) : 0;
+			_minButton.x = ((_minButton.visible)) ? (buttonCount - 2) * (_windowButtonWidth + WINDOW_BUTTON_OFFSET) : 0;
+			_maxButton.x = ((_maxButton.visible)) ? (buttonCount - 1) * (_windowButtonWidth + WINDOW_BUTTON_OFFSET) : 0;
         } 
 		
 		// Adjust the Title area based on  

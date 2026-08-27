@@ -285,10 +285,10 @@ class BaseUI extends Sprite implements IBaseUI
 
     override private function set_height(value : Float) : Float
     {
+		_height = value;
+
 		if (_drawOnResize)
-		draw();
-		
-        _height = value;
+			draw();
         
 		
         return value;
