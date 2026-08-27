@@ -247,7 +247,7 @@ class BaseUI extends Sprite implements IBaseUI
 	
 	public function destroy():Void
 	{
-		// Remove events and clear graphics here
+		Actuate.stop(this);
 	}	
     
     /**

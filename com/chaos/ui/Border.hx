@@ -46,7 +46,7 @@ import com.chaos.ui.BaseUI;
     private var _lineColor:Int = 0x000000;
     private var _lineThinkness:Float = 1;
     private var _lineAlpha:Float = 1;
-    private var _borderShape:Shape = new Shape();
+    private var _borderShape:Shape;
 
     private var _ellipseWidth : Float = 0;
     private var _ellipseHeight : Float = 0;
@@ -58,20 +58,7 @@ import com.chaos.ui.BaseUI;
 	
     public function new( data:Dynamic = null )
     {
-        super();
-        
-        // Make sure all style and bitmap skinning is set first
-        reskin();
-        
-        // If object passed in then start setting defaults
-        if (null != data)
-            setComponentData(data);
-        
-        // Init component parts
-        initialize();
-        
-        // Draw and texture object
-        draw();
+        super(data);
     }
 
     override function setComponentData(data:Dynamic) {
@@ -96,19 +83,31 @@ import com.chaos.ui.BaseUI;
     override function destroy() {
         super.destroy();
 
-        _borderShape.graphics.clear();
-        removeChild(_borderShape);
+        if (_borderShape != null) {
+            _borderShape.graphics.clear();
+
+            if (_borderShape.parent == this)
+                removeChild(_borderShape);
+
+            _borderShape = null;
+        }
     }
 
     override function initialize() {
         super.initialize();
 
-        _borderShape = new Shape();
-        addChild(_borderShape);
+        if (_borderShape == null)
+            _borderShape = new Shape();
+
+        if (_borderShape.parent != this)
+            addChild(_borderShape);
     }
 
     override function draw() {
         super.draw();
+
+        if (_borderShape == null)
+            return;
 
         _borderShape.graphics.clear();
 

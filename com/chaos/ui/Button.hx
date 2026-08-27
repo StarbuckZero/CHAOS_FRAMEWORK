@@ -251,6 +251,10 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
 	
 	override public function destroy():Void 
 	{
+		removeEventListener(Event.ADDED_TO_STAGE, onStageAdd);
+		removeEventListener(Event.REMOVED_FROM_STAGE, onStageRemove);
+		removeEventListener(MouseEvent.MOUSE_UP, mouseUpEvent);
+
 		super.destroy();
 		
 		

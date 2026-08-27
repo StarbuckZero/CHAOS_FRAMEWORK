@@ -110,7 +110,8 @@ import com.chaos.ui.Border;
      override function initialize() {
 
       // Add base in first so border can be drawn above it
-      addChild(shapeBase);
+      if (shapeBase.parent != this)
+        addChild(shapeBase);
 
       super.initialize();
 
@@ -120,8 +121,14 @@ import com.chaos.ui.Border;
      override function destroy() {
           super.destroy();
 
-          shapeBase.graphics.clear();
-          removeChild(shapeBase);
+          if (shapeBase != null) {
+               shapeBase.graphics.clear();
+
+               if (shapeBase.parent == this)
+                    removeChild(shapeBase);
+
+               shapeBase = null;
+          }
      }
 
 

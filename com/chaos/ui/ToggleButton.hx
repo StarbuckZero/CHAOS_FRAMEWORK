@@ -219,17 +219,29 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI {
 	override public function initialize():Void {
 		super.initialize();
 
-		
-		normalState = new ButtonBase();
-		overState = new ButtonBase();
-		downState = new ButtonBase();
-		disableState = new ButtonBase();
+		if (normalState == null)
+			normalState = new ButtonBase();
 
-		
-		addChild(downState);
-		addChild(normalState);
-		addChild(overState);
-		addChild(disableState);
+		if (overState == null)
+			overState = new ButtonBase();
+
+		if (downState == null)
+			downState = new ButtonBase();
+
+		if (disableState == null)
+			disableState = new ButtonBase();
+
+		if (downState.parent != this)
+			addChild(downState);
+
+		if (normalState.parent != this)
+			addChild(normalState);
+
+		if (overState.parent != this)
+			addChild(overState);
+
+		if (disableState.parent != this)
+			addChild(disableState);
 	}
 
 	/**
@@ -242,31 +254,28 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI {
 		removeEventListener(MouseEvent.MOUSE_OVER, mouseOverEvent);
 		removeEventListener(MouseEvent.MOUSE_OUT, mouseOutEvent);
 		removeEventListener(MouseEvent.MOUSE_DOWN, mouseDownEvent);
+		removeEventListener(Event.ADDED_TO_STAGE, onStageAdd);
+		removeEventListener(Event.REMOVED_FROM_STAGE, onStageRemove);
 
-		normalState.graphics.clear();
-		overState.graphics.clear();
-		downState.graphics.clear();
-		disableState.graphics.clear();
+		destroyButtonState(normalState);
+		destroyButtonState(overState);
+		destroyButtonState(downState);
+		destroyButtonState(disableState);
 
-		removeChild(normalState);
-		removeChild(overState);
-		removeChild(downState);
-		removeChild(disableState);
-
-		if (_defaultStateImage != null)
-			_defaultStateImage.dispose();
-
-		if (_defaultStateImage != null)
-			_defaultStateImage.dispose();
-
-		if (_downStateImage != null)
-			_downStateImage.dispose();
-
-		if (_disableStateImage != null)
-			_disableStateImage.dispose();
-
+		// State images can be shared by UIBitmapManager or supplied by callers.
+		// Release references here; the owner is responsible for BitmapData disposal.
 		_disableStateImage = _downStateImage = _overStateImage = _defaultStateImage = null;
 		disableState = downState = overState = normalState = null;
+	}
+
+	private function destroyButtonState(state:ButtonBase):Void {
+		if (state == null)
+			return;
+
+		state.destroy();
+
+		if (state.parent == this)
+			removeChild(state);
 	}
 
 	override function reskin() {
