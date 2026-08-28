@@ -33,6 +33,19 @@ import openfl.utils.Object;
 
 class Window extends BaseUI implements IWindow implements IBaseUI
 {
+	/** Whether this window is currently focused. */
+	public var focus(get, set) : Bool;
+
+	public var windowFocusColor(get, set) : Int;
+	public var windowUnFocusColor(get, set) : Int;
+	public var windowTitleFocusColor(get, set) : Int;
+	public var windowTitleUnFocusColor(get, set) : Int;
+	public var closeButtonFocusColor(get, set) : Int;
+	public var closeButtonUnFocusColor(get, set) : Int;
+	public var minButtonFocusColor(get, set) : Int;
+	public var minButtonUnFocusColor(get, set) : Int;
+	public var maxButtonFocusColor(get, set) : Int;
+	public var maxButtonUnFocusColor(get, set) : Int;
 	
 	/**
 	 * The scroll pane being used
@@ -268,6 +281,18 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 	private var _windowTitleColor : Int = 0xFFFFFF;
 	private var _windowBottomColor : Int = -1;
 	private var _windowColor : Int = 0xFFFFFF;
+
+	private var _focus : Bool = true;
+	private var _windowFocusColor : Int = 0xFFFFFF;
+	private var _windowUnFocusColor : Int = 0xCCCCCC;
+	private var _windowTitleFocusColor : Int = 0xFFFFFF;
+	private var _windowTitleUnFocusColor : Int = 0x333333;
+	private var _closeButtonFocusColor : Int = DEFAULT_CLOSE_BTN_COLOR;
+	private var _closeButtonUnFocusColor : Int = 0x999999;
+	private var _minButtonFocusColor : Int = DEFAULT_MIN_BTN_COLOR;
+	private var _minButtonUnFocusColor : Int = 0x999999;
+	private var _maxButtonFocusColor : Int = DEFAULT_MAX_BTN_COLOR;
+	private var _maxButtonUnFocusColor : Int = 0x999999;
 	
 	
 	// Default size for window
@@ -302,13 +327,46 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 	override public function setComponentData(data:Dynamic):Void 
 	{
 		super.setComponentData(data);
+
+		if (Reflect.hasField(data, "focus"))
+			_focus = Reflect.field(data, "focus");
+
+		if (Reflect.hasField(data, "windowFocusColor"))
+			_windowFocusColor = Reflect.field(data, "windowFocusColor");
+
+		if (Reflect.hasField(data, "windowUnFocusColor"))
+			_windowUnFocusColor = Reflect.field(data, "windowUnFocusColor");
+
+		if (Reflect.hasField(data, "windowTitleFocusColor"))
+			_windowTitleFocusColor = Reflect.field(data, "windowTitleFocusColor");
+
+		if (Reflect.hasField(data, "windowTitleUnFocusColor"))
+			_windowTitleUnFocusColor = Reflect.field(data, "windowTitleUnFocusColor");
+
+		if (Reflect.hasField(data, "closeButtonFocusColor"))
+			_closeButtonFocusColor = Reflect.field(data, "closeButtonFocusColor");
+
+		if (Reflect.hasField(data, "closeButtonUnFocusColor"))
+			_closeButtonUnFocusColor = Reflect.field(data, "closeButtonUnFocusColor");
+
+		if (Reflect.hasField(data, "minButtonFocusColor"))
+			_minButtonFocusColor = Reflect.field(data, "minButtonFocusColor");
+
+		if (Reflect.hasField(data, "minButtonUnFocusColor"))
+			_minButtonUnFocusColor = Reflect.field(data, "minButtonUnFocusColor");
+
+		if (Reflect.hasField(data, "maxButtonFocusColor"))
+			_maxButtonFocusColor = Reflect.field(data, "maxButtonFocusColor");
+
+		if (Reflect.hasField(data, "maxButtonUnFocusColor"))
+			_maxButtonUnFocusColor = Reflect.field(data, "maxButtonUnFocusColor");
 		
 		// Window Color
 		if (Reflect.hasField(data, "windowColor"))
-			_windowColor = Reflect.field(data, "windowColor");
+			_windowFocusColor = Reflect.field(data, "windowColor");
 			
 		if (Reflect.hasField(data, "windowTitleColor"))
-			_windowTitleColor = Reflect.field(data, "windowTitleColor");
+			_windowTitleFocusColor = Reflect.field(data, "windowTitleColor");
 			
 		// Location of buttons and label	
 		if (Reflect.hasField(data, "labelLocation"))
@@ -366,13 +424,27 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 			
 			
 		if (Reflect.hasField(data, "CloseButton"))
+		{
 			_closeButtonData = Reflect.field(data, "CloseButton");
+			if (Reflect.hasField(_closeButtonData, "defaultColor"))
+				_closeButtonFocusColor = Reflect.field(_closeButtonData, "defaultColor");
+		}
 			
 		if (Reflect.hasField(data, "MinButton"))
+		{
 			_minButtonData = Reflect.field(data, "MinButton");
+			if (Reflect.hasField(_minButtonData, "defaultColor"))
+				_minButtonFocusColor = Reflect.field(_minButtonData, "defaultColor");
+		}
 			
 		if (Reflect.hasField(data, "MaxButton"))
+		{
 			_maxButtonData = Reflect.field(data, "MaxButton");
+			if (Reflect.hasField(_maxButtonData, "defaultColor"))
+				_maxButtonFocusColor = Reflect.field(_maxButtonData, "defaultColor");
+		}
+
+		applyFocusState();
 			
 	}
 	
@@ -509,6 +581,8 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 
 		if (_windowTitleEmbed != null)
 			_windowTitle.setEmbedFont(_windowTitleEmbed);
+
+		applyFocusState();
 	}
 	
 	override public function destroy():Void 
@@ -727,15 +801,26 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 			Reflect.setField(_labelData, "textColor", UIStyleManager.getStyle(UIStyleManager.WINDOW_TITLE_TEXT_COLOR));
 		
 		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_TITLE_AREA_COLOR))
-			_windowTitleColor = UIStyleManager.getStyle(UIStyleManager.WINDOW_TITLE_AREA_COLOR);
+			_windowTitleFocusColor = UIStyleManager.getStyle(UIStyleManager.WINDOW_TITLE_AREA_COLOR);
 		
 		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_FOCUS_COLOR))  
-			_windowColor = UIStyleManager.getStyle(UIStyleManager.WINDOW_FOCUS_COLOR);
+			_windowFocusColor = UIStyleManager.getStyle(UIStyleManager.WINDOW_FOCUS_COLOR);
+
+		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_TITLE_AREA_UNFOCUS_COLOR))
+			_windowTitleUnFocusColor = UIStyleManager.getStyle(UIStyleManager.WINDOW_TITLE_AREA_UNFOCUS_COLOR);
+
+		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_UNFOCUS_COLOR))
+			_windowUnFocusColor = UIStyleManager.getStyle(UIStyleManager.WINDOW_UNFOCUS_COLOR);
 		
 		
 		// Min Button
 		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_MIN_NORMAL_COLOR))
-			Reflect.setField(_minButtonData, "defaultColor", UIStyleManager.getStyle(UIStyleManager.WINDOW_MIN_NORMAL_COLOR));
+			_minButtonFocusColor = UIStyleManager.getStyle(UIStyleManager.WINDOW_MIN_NORMAL_COLOR);
+
+		Reflect.setField(_minButtonData, "defaultColor", _minButtonFocusColor);
+
+		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_MIN_UNFOCUS_COLOR))
+			_minButtonUnFocusColor = UIStyleManager.getStyle(UIStyleManager.WINDOW_MIN_UNFOCUS_COLOR);
 	
 		
 		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_MIN_OVER_COLOR))
@@ -750,7 +835,12 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 		
 		// Max Button  
 		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_MAX_NORMAL_COLOR))
-			Reflect.setField(_maxButtonData, "defaultColor", UIStyleManager.getStyle(UIStyleManager.WINDOW_MAX_NORMAL_COLOR));
+			_maxButtonFocusColor = UIStyleManager.getStyle(UIStyleManager.WINDOW_MAX_NORMAL_COLOR);
+
+		Reflect.setField(_maxButtonData, "defaultColor", _maxButtonFocusColor);
+
+		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_MAX_UNFOCUS_COLOR))
+			_maxButtonUnFocusColor = UIStyleManager.getStyle(UIStyleManager.WINDOW_MAX_UNFOCUS_COLOR);
 		
 		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_MAX_OVER_COLOR))
 			Reflect.setField(_maxButtonData, "overColor", UIStyleManager.getStyle(UIStyleManager.WINDOW_MAX_OVER_COLOR));
@@ -764,7 +854,12 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 		
 		// Close Button  
 		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_CLOSE_NORMAL_COLOR))
-			Reflect.setField(_closeButtonData, "defaultColor", UIStyleManager.getStyle(UIStyleManager.WINDOW_CLOSE_NORMAL_COLOR));
+			_closeButtonFocusColor = UIStyleManager.getStyle(UIStyleManager.WINDOW_CLOSE_NORMAL_COLOR);
+
+		Reflect.setField(_closeButtonData, "defaultColor", _closeButtonFocusColor);
+
+		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_CLOSE_UNFOCUS_COLOR))
+			_closeButtonUnFocusColor = UIStyleManager.getStyle(UIStyleManager.WINDOW_CLOSE_UNFOCUS_COLOR);
 		
 		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_CLOSE_OVER_COLOR))
 			Reflect.setField(_closeButtonData, "overColor", UIStyleManager.getStyle(UIStyleManager.WINDOW_CLOSE_OVER_COLOR));
@@ -804,9 +899,133 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 		// Set close button data
 		if(_closeButton != null)
 			_closeButton.setComponentData(_closeButtonData);
+
+		applyFocusState();
     }
 	
 	/* Properties */  
+
+	private function applyFocusState():Void
+	{
+		_windowTitleColor = _focus ? _windowTitleFocusColor : _windowTitleUnFocusColor;
+		_windowColor = _focus ? _windowFocusColor : _windowUnFocusColor;
+
+		if (_closeButton == null || _minButton == null || _maxButton == null)
+			return;
+
+		_closeButton.defaultColor = _focus ? _closeButtonFocusColor : _closeButtonUnFocusColor;
+		_minButton.defaultColor = _focus ? _minButtonFocusColor : _minButtonUnFocusColor;
+		_maxButton.defaultColor = _focus ? _maxButtonFocusColor : _maxButtonUnFocusColor;
+
+		_closeButton.draw();
+		_minButton.draw();
+		_maxButton.draw();
+
+		if (_scrollPane != null && _windowTitle != null)
+			draw();
+	}
+
+	private function set_focus(value:Bool):Bool
+	{
+		_focus = value;
+		applyFocusState();
+		return value;
+	}
+
+	private function get_focus():Bool
+	{
+		return _focus;
+	}
+
+	private function set_windowFocusColor(value:Int):Int
+	{
+		_windowFocusColor = value;
+		applyFocusState();
+		return value;
+	}
+
+	private function get_windowFocusColor():Int { return _windowFocusColor; }
+
+	private function set_windowUnFocusColor(value:Int):Int
+	{
+		_windowUnFocusColor = value;
+		applyFocusState();
+		return value;
+	}
+
+	private function get_windowUnFocusColor():Int { return _windowUnFocusColor; }
+
+	private function set_windowTitleFocusColor(value:Int):Int
+	{
+		_windowTitleFocusColor = value;
+		applyFocusState();
+		return value;
+	}
+
+	private function get_windowTitleFocusColor():Int { return _windowTitleFocusColor; }
+
+	private function set_windowTitleUnFocusColor(value:Int):Int
+	{
+		_windowTitleUnFocusColor = value;
+		applyFocusState();
+		return value;
+	}
+
+	private function get_windowTitleUnFocusColor():Int { return _windowTitleUnFocusColor; }
+
+	private function set_closeButtonFocusColor(value:Int):Int
+	{
+		_closeButtonFocusColor = value;
+		applyFocusState();
+		return value;
+	}
+
+	private function get_closeButtonFocusColor():Int { return _closeButtonFocusColor; }
+
+	private function set_closeButtonUnFocusColor(value:Int):Int
+	{
+		_closeButtonUnFocusColor = value;
+		applyFocusState();
+		return value;
+	}
+
+	private function get_closeButtonUnFocusColor():Int { return _closeButtonUnFocusColor; }
+
+	private function set_minButtonFocusColor(value:Int):Int
+	{
+		_minButtonFocusColor = value;
+		applyFocusState();
+		return value;
+	}
+
+	private function get_minButtonFocusColor():Int { return _minButtonFocusColor; }
+
+	private function set_minButtonUnFocusColor(value:Int):Int
+	{
+		_minButtonUnFocusColor = value;
+		applyFocusState();
+		return value;
+	}
+
+	private function get_minButtonUnFocusColor():Int { return _minButtonUnFocusColor; }
+
+	private function set_maxButtonFocusColor(value:Int):Int
+	{
+		_maxButtonFocusColor = value;
+		applyFocusState();
+		return value;
+	}
+
+	private function get_maxButtonFocusColor():Int { return _maxButtonFocusColor; }
+
+	private function set_maxButtonUnFocusColor(value:Int):Int
+	{
+		_maxButtonUnFocusColor = value;
+		applyFocusState();
+		return value;
+	}
+
+	private function get_maxButtonUnFocusColor():Int { return _maxButtonUnFocusColor; }
 	
 	/**
 	 * The scroll pane being used

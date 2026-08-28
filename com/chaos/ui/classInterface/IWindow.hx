@@ -10,6 +10,18 @@ import openfl.utils.Object;
 
 interface IWindow extends IBaseUI
 {
+	/** Whether this window is currently focused. */
+	var focus(get, set):Bool;
+	var windowFocusColor(get, set):Int;
+	var windowUnFocusColor(get, set):Int;
+	var windowTitleFocusColor(get, set):Int;
+	var windowTitleUnFocusColor(get, set):Int;
+	var closeButtonFocusColor(get, set):Int;
+	var closeButtonUnFocusColor(get, set):Int;
+	var minButtonFocusColor(get, set):Int;
+	var minButtonUnFocusColor(get, set):Int;
+	var maxButtonFocusColor(get, set):Int;
+	var maxButtonUnFocusColor(get, set):Int;
 	
 	/**
 	 * The scroll pane being used

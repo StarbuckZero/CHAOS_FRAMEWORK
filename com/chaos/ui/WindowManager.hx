@@ -20,37 +20,9 @@ import com.chaos.utils.Debug;
 
 class WindowManager extends Sprite
 {
-        
-	public var closeButtonUnFocusColor(get, set) : Int;
-	public var minButtonUnFocusColor(get, set) : Int;
-	public var maxButtonUnFocusColor(get, set) : Int;
-	
-	private var _closeUnFocusColor : Int = 0x999999;
-	private var _maxUnFocusColor : Int = 0x999999;
-	private var _minUnFocusColor : Int = 0x999999;
-	
-	private var _windowUnFocusColor : Int = 0xCCCCCC;
-	private var _windowTitleUnFocusColor : Int = 0x333333;
-
     public function new()
     {
         super();
-		
-		// Set defaults for unfocused window states.
-		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_TITLE_AREA_UNFOCUS_COLOR))
-			_windowTitleUnFocusColor = UIStyleManager.getStyle(UIStyleManager.WINDOW_TITLE_AREA_UNFOCUS_COLOR);
-		
-		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_UNFOCUS_COLOR))
-			_windowUnFocusColor = UIStyleManager.getStyle(UIStyleManager.WINDOW_UNFOCUS_COLOR);
-		
-		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_CLOSE_UNFOCUS_COLOR))
-			_closeUnFocusColor = UIStyleManager.getStyle(UIStyleManager.WINDOW_CLOSE_UNFOCUS_COLOR);
-	
-		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_MAX_UNFOCUS_COLOR))
-			_maxUnFocusColor = UIStyleManager.getStyle(UIStyleManager.WINDOW_MAX_UNFOCUS_COLOR);
-		
-		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_MIN_UNFOCUS_COLOR))
-			_minUnFocusColor = UIStyleManager.getStyle(UIStyleManager.WINDOW_MIN_UNFOCUS_COLOR);
     }
     
 	public function addWindow( window:Window ):Window
@@ -59,6 +31,7 @@ class WindowManager extends Sprite
             window.addEventListener(MouseEvent.MOUSE_DOWN, moveForward, false, 0, true);
         
 		addChild(window);
+		setFocusedWindow(window);
 
         return window;
 		
@@ -69,151 +42,32 @@ class WindowManager extends Sprite
         window.removeEventListener(MouseEvent.MOUSE_DOWN, moveForward);
         
 		removeChild(window);
+		window.focus = true;
+
+		if (numChildren > 0)
+		{
+			var topWindow = Std.downcast(getChildAt(numChildren - 1), Window);
+			if (topWindow != null)
+				setFocusedWindow(topWindow);
+		}
 
         return window;
 	}
-	
-	/**
-	 * Set the minimize button unfocus state color.
-	 */
-	private function set_minButtonUnFocusColor(value : Int) : Int
+
+	private function setFocusedWindow(window:Window):Void
 	{
-		_minUnFocusColor = value;
-        return value;
-    }
-	
-	/**
-	 * Return the button unfocus color
-	 */
-	
-	private function get_minButtonUnFocusColor() : Int 
-	{
-		return _minUnFocusColor;
-    } 	
-	
-	/**
-	 * Set the maximize button unfocus state color.
-	 */
-	
-	private function set_maxButtonUnFocusColor(value : Int) : Int 
-	{
-		_maxUnFocusColor = value;
-        return value;
-    }
-	
-	/**
-	 * Return the button unfocus color
-	 */
-	private function get_maxButtonUnFocusColor() : Int
-	{
-		return _maxUnFocusColor;
-    }	
-	
-	/**
-	 * Set the close button unfocus state color.
-	 */ 
-	
-	private function set_closeButtonUnFocusColor(value : Int) : Int
-	{
-		_closeUnFocusColor = value;
-        return value;
-    }
-	
-	/**
-	 * Return the button unfocus color
-	 */
-	private function get_closeButtonUnFocusColor() : Int 
-	{
-		return _closeUnFocusColor;
-    } 	
-	
-	/**
-	 * Set the color of the window which is
-	 */  
-	
-	private function set_windowFocusColor(value : Int) : Int 
-	{
-		// _windowFocusColor = value;
-		
-        return value;
-    }
-	
-	/**
-	 * Return the color of the window
-	 */
-	
-	private function get_windowFocusColor() : Int
-	{
-		// return _windowFocusColor;
-		return 0;
-    }	
-	
-	/**
-	 * Set the color of the window title area once the user select
-	 */
-	private function set_windowTitleFocusColor(value : Int) : Int 
-	{
-		// _windowTitleFocusColor = value;
-		
-        return value;
+		for (i in 0...numChildren)
+		{
+			var childWindow = Std.downcast(getChildAt(i), Window);
+			if (childWindow != null)
+				childWindow.focus = childWindow == window;
+		}
 	}
-	
-	/**
-	 * Return the color of the window
-	 */  
-	
-	private function get_windowTitleFocusColor() : Int
-	{
-		// return _windowTitleFocusColor;
-		return 0;
-    }	
-	
-	
-	/**
-	 * Set the color of the window once it is unfocused which is everywhere but the title area
-	 */
-	
-	private function set_windowUnFocusColor(value : Int) : Int
-	{
-		_windowUnFocusColor = value;
-		
-        return value;
-    }
-	
-	/**
-	 * Return the color of the window for it's unfocus state
-	 */ 
-	
-	private function get_windowUnFocusColor() : Int 
-	{
-		return _windowUnFocusColor;
-    }	
-	
-	/**
-	 * Set the color of the window title area once it is unfocused
-	 */  
-	
-	private function set_windowTitleUnFocusColor(value : Int) : Int
-	{
-		_windowTitleUnFocusColor = value;
-		
-        return value;
-    } 
-	
-	/**
-	 * Return the color of the window title area for it's unfocus state
-	 */
-	
-	private function get_windowTitleUnFocusColor() : Int 
-	{
-		return _windowTitleUnFocusColor;
-    }	
 	
   
     private function moveForward(event : MouseEvent) : Void
     {
-        
-        pushToFront((try cast(event.currentTarget, DisplayObject) catch (e:Dynamic) null));
+		pushToFront((try cast(event.currentTarget, DisplayObject) catch (e:Dynamic) null));
     }
     
     public function pushToFront(displayObj : DisplayObject) : Void
@@ -222,6 +76,10 @@ class WindowManager extends Sprite
         try
         {
             super.setChildIndex(displayObj, this.numChildren - 1);
+
+			var window = Std.downcast(displayObj, Window);
+			if (window != null)
+				setFocusedWindow(window);
         }
         catch (error : Error)
         {

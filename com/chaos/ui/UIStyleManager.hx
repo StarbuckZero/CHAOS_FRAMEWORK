@@ -640,7 +640,7 @@ class UIStyleManager
     public static var WINDOW_TITLE_TEXT_COLOR : String = "WINDOW_TITLE_TEXT_COLOR";
     public static var WINDOW_TITLE_TEXT_SIZE : String = "WINDOW_TITLE_TEXT_SIZE";
     
-    public static var WINDOW_TITLE_AREA_COLOR : String = "";
+    public static var WINDOW_TITLE_AREA_COLOR : String = "WINDOW_TITLE_AREA_COLOR";
     public static var WINDOW_TITLE_AREA_UNFOCUS_COLOR : String = "WINDOW_TITLE_AREA_UNFOCUS_COLOR";
     
     public static var WINDOW_FOCUS_COLOR : String = "WINDOW_FOCUS_COLOR";
