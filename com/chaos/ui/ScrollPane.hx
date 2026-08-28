@@ -65,6 +65,7 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 	private var _scrollContentV:ScrollContentBase;
 	private var _scrollRectH:Rectangle;
 	private var _scrollRectV:Rectangle;
+	private var _cornerBounds:Rectangle = new Rectangle();
 	private var _scrollMask:Shape;
 	private var _scrollBarH:IScrollBar;
 	private var _scrollBarV:IScrollBar;
@@ -151,6 +152,7 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 		_scrollBarV.slider.direction = ScrollBarDirection.VERTICAL;
 		_scrollBarH.visible = false;
 		_scrollBarV.visible = false;
+		shapeBlock.visible = false;
 
 		addChild(_contentSizeBox);
 
@@ -392,10 +394,12 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 			_scrollContentV.unload();
 		}
 
+		updateCornerBounds();
+
 		// Set things based on scroll mode
 		if (_scrollContentType == RECT_MODE) {
-			_scrollRectH = new Rectangle(_offsetX, _offsetY, _width,_height - shapeBlock.height);
-			_scrollRectV = new Rectangle(_offsetX, _offsetY, _width,_height - shapeBlock.height);
+			_scrollRectH = new Rectangle(_offsetX, _offsetY, _width,_height - _cornerBounds.height);
+			_scrollRectV = new Rectangle(_offsetX, _offsetY, _width,_height - _cornerBounds.height);
 
 			_scrollContentH = new ScrollRectContent(_content, _scrollBarH, _scrollRectH);
 			_scrollContentV = new ScrollRectContent(_content, _scrollBarV, _scrollRectV);
@@ -429,11 +433,13 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 		if (null == _outline || null == shapeBlock)
 			return;
 
+		updateCornerBounds();
 		shapeBlock.graphics.clear();
 
 		shapeBlock.graphics.beginFill(_backgroundColor);
-		shapeBlock.graphics.drawRect(0, 0, _scrollBarH.buttonWidth, _scrollBarH.buttonHeight);
+		shapeBlock.graphics.drawRect(0, 0, _cornerBounds.width, _cornerBounds.height);
 		shapeBlock.graphics.endFill();
+		updateCornerBlock();
 
 		_mask.graphics.clear();
 		this.mask = _content.mask = null;
@@ -451,7 +457,7 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 		} else if (_scrollContentType == MASK_MODE) {
 
 			_scrollMask.graphics.beginFill(0, 1);
-			_scrollMask.graphics.drawRect(_offsetX, _offsetY, (_scrollBarH.visible) ? _width - shapeBlock.width : _width, (_scrollBarV.visible) ? _height : _height - _scrollBarV.buttonHeight);
+			_scrollMask.graphics.drawRect(_offsetX, _offsetY, (_scrollBarH.visible) ? _width - _cornerBounds.width : _width, (_scrollBarV.visible) ? _height : _height - _scrollBarV.buttonHeight);
 			_scrollMask.graphics.endFill();
 		}
 
@@ -487,10 +493,15 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 	}
 
 	private function updatePolicy(value:ScrollPolicy = ScrollPolicy.AUTO):Void {
-		
+		updateCornerBounds();
+
 		// If nothing was setup then leave
-		if (_content.numChildren == 0)
+		if (_content.numChildren == 0) {
+			_scrollBarH.visible = false;
+			_scrollBarV.visible = false;
+			updateCornerBlock();
 			return;
+		}
 
 		// Figure out what to do with the
 		if (value == ScrollPolicy.AUTO) {
@@ -502,8 +513,8 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 			shapeBlock.visible = true;
 
 			// Set the size of the scrollbars
-			_scrollBarH.width = (_width - shapeBlock.width) - _contentOffsetX;
-			_scrollBarV.height = (_height - shapeBlock.height) - _contentOffsetY;
+			_scrollBarH.width = (_width - _cornerBounds.width) - _contentOffsetX;
+			_scrollBarV.height = (_height - _cornerBounds.height) - _contentOffsetY;
 
 			_scrollBarV.draw();
 			_scrollBarH.draw();
@@ -527,8 +538,8 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 			// If you can see the shape block then move the block into the right place
 			if (shapeBlock.visible) 
 			{
-				shapeBlock.x = (_width - shapeBlock.width) + _contentOffsetX;
-				shapeBlock.y = (_height - shapeBlock.height) + _contentOffsetY;
+				shapeBlock.x = _cornerBounds.x;
+				shapeBlock.y = _cornerBounds.y;
 			}
 			
 			else { // Else figure out how to adjust the scroll bars
@@ -548,8 +559,8 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 			}
 		} else if (value == ScrollPolicy.ON) {
 
-			_scrollBarH.width = (_width - shapeBlock.width) - _contentOffsetX;
-			_scrollBarV.height = (_height - shapeBlock.height) - _contentOffsetY;
+			_scrollBarH.width = (_width - _cornerBounds.width) - _contentOffsetX;
+			_scrollBarV.height = (_height - _cornerBounds.height) - _contentOffsetY;
 
 			_scrollBarV.draw();
 			_scrollBarH.draw();
@@ -607,5 +618,32 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 
 			shapeBlock.visible = false;
 		}
+
+		updateCornerBlock();
+	}
+
+	private function updateCornerBounds():Void {
+		if (_scrollBarH == null || _scrollBarV == null)
+			return;
+
+		_cornerBounds.width = Math.max(0, _scrollBarV.buttonWidth);
+		_cornerBounds.height = Math.max(0, _scrollBarH.buttonHeight);
+		_cornerBounds.x = (_width - _cornerBounds.width) + _contentOffsetX;
+		_cornerBounds.y = (_height - _cornerBounds.height) + _contentOffsetY;
+	}
+
+	private function updateCornerBlock():Void {
+		if (shapeBlock == null || _scrollBarH == null || _scrollBarV == null)
+			return;
+
+		var bothScrollBarsVisible:Bool = _scrollBarH.visible && _scrollBarV.visible;
+		shapeBlock.visible = _background && bothScrollBarsVisible;
+
+		if (bothScrollBarsVisible) {
+			shapeBlock.x = _cornerBounds.x;
+			shapeBlock.y = _cornerBounds.y;
+		}
+		else
+			shapeBlock.x = shapeBlock.y = 0;
 	}
 }
