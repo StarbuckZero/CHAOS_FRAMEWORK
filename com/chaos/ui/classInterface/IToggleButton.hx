@@ -76,6 +76,9 @@ interface IToggleButton extends IBaseUI
 	  * Title the image that is being used
 	  */
 	 var tileImage(get, set) : Bool;
+
+	/** Rotate state bitmap fills clockwise by 90 degrees. */
+	 var rotateImage(get, set) : Bool;
 	 
     /**
 	 * Set if you want the button to be selected or not

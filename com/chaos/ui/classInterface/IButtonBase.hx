@@ -39,6 +39,9 @@ import openfl.display.BitmapData;
 	 */
     var tileImage(get, set):Bool;  
 
+    /** Rotate the bitmap fill clockwise by 90 degrees. */
+    var rotateImage(get, set):Bool;
+
 	/**
 	 * Border for button
      */
@@ -52,4 +55,3 @@ import openfl.display.BitmapData;
      var roundEdge(get, set):Int;
      
  }
-   

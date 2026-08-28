@@ -3,6 +3,7 @@ package com.chaos.utils;
 
 import openfl.display.DisplayObjectContainer;
 import openfl.display.DisplayObject;
+import openfl.display.BitmapData;
 import openfl.display.MovieClip;
 import openfl.display.Sprite;
 import openfl.geom.Point;
@@ -249,6 +250,52 @@ class Utils
         rotationMatrix.translate( -object.width / 2, -object.height / 2);
         
         return rotationMatrix;
+    }
+
+    /**
+     * Creates the transform used by bitmap fills that can be stretched or
+     * tiled, with an optional clockwise 90-degree orientation change.
+     */
+    public static function bitmapFillMatrix(
+        bitmapData:BitmapData,
+        targetWidth:Float,
+        targetHeight:Float,
+        rotate90:Bool = false,
+        tileImage:Bool = false
+    ):Matrix
+    {
+        if (bitmapData == null || bitmapData.width <= 0 || bitmapData.height <= 0)
+            return null;
+
+        if (rotate90)
+        {
+            if (tileImage)
+                return new Matrix(0, 1, -1, 0, bitmapData.height, 0);
+
+            if (targetWidth <= 0 || targetHeight <= 0)
+                return null;
+
+            return new Matrix(
+                0,
+                targetHeight / bitmapData.width,
+                -targetWidth / bitmapData.height,
+                0,
+                targetWidth,
+                0
+            );
+        }
+
+        if (!tileImage && targetWidth > 0 && targetHeight > 0)
+        {
+            var scaleMatrix:Matrix = new Matrix();
+            scaleMatrix.scale(
+                targetWidth / bitmapData.width,
+                targetHeight / bitmapData.height
+            );
+            return scaleMatrix;
+        }
+
+        return null;
     }
     
     /**

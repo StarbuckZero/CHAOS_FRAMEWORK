@@ -8,6 +8,7 @@ import com.chaos.ui.classInterface.IButtonBase;
 import com.chaos.ui.classInterface.IBorder;
 import com.chaos.ui.BaseUI;
 import com.chaos.ui.Border;
+import com.chaos.utils.Utils;
 
 /**
  * Shape for base buttons
@@ -46,6 +47,9 @@ import com.chaos.ui.Border;
      
      public var tileImage(get, set):Bool;
 
+    /** Rotate the bitmap fill clockwise by 90 degrees. */
+     public var rotateImage(get, set):Bool;
+
     /**
     * Border for button
     */
@@ -67,6 +71,7 @@ import com.chaos.ui.Border;
      private var _baseAlpha:Float = 1;
      private var _image:BitmapData = null;
      private var _tileImage:Bool = false;
+     private var _rotateImage:Bool = false;
      private var _hasDrawState:Bool = false;
      private var _lastDrawWidth:Float;
      private var _lastDrawHeight:Float;
@@ -75,6 +80,7 @@ import com.chaos.ui.Border;
      private var _lastDrawBaseAlpha:Float;
      private var _lastDrawTintAlpha:Float;
      private var _lastDrawTileImage:Bool;
+     private var _lastDrawRotateImage:Bool;
      private var _lastDrawSmoothImage:Bool;
      private var _lastDrawBorder:Bool;
      private var _lastDrawLineColor:Int;
@@ -113,6 +119,9 @@ import com.chaos.ui.Border;
 
           if (Reflect.hasField(data, "tileImage"))
             _tileImage = Reflect.field(data, "tileImage");
+
+          if (Reflect.hasField(data, "rotateImage"))
+            _rotateImage = Reflect.field(data, "rotateImage");
 
           if (Reflect.hasField(data, "border"))
             _border = Reflect.field(data, "border");
@@ -155,6 +164,7 @@ import com.chaos.ui.Border;
 			&& _lastDrawBaseAlpha == _baseAlpha
 			&& _lastDrawTintAlpha == _tintAlpha
 			&& _lastDrawTileImage == _tileImage
+			&& _lastDrawRotateImage == _rotateImage
 			&& _lastDrawSmoothImage == _smoothImage
 			&& _lastDrawBorder == _border
 			&& _lastDrawLineColor == _lineColor
@@ -172,15 +182,13 @@ import com.chaos.ui.Border;
 
         if (null != _image)
         {
-            var bitmapMatrix:Matrix = null;
-
-            // Tiled images repeat at their native size. Non-tiled images stretch
-            // to fill the current component bounds and therefore follow resizes.
-            if (!_tileImage && _image.width > 0 && _image.height > 0 && _width > 0 && _height > 0)
-            {
-                bitmapMatrix = new Matrix();
-                bitmapMatrix.scale(_width / _image.width, _height / _image.height);
-            }
+            var bitmapMatrix:Matrix = Utils.bitmapFillMatrix(
+                _image,
+                _width,
+                _height,
+                _rotateImage,
+                _tileImage
+            );
 
             shapeBase.graphics.beginBitmapFill(_image, bitmapMatrix, _tileImage, _smoothImage);
             shapeBase.graphics.drawRoundRect(0, 0, _width, _height, _roundEdge);
@@ -210,6 +218,7 @@ import com.chaos.ui.Border;
 		_lastDrawBaseAlpha = _baseAlpha;
 		_lastDrawTintAlpha = _tintAlpha;
 		_lastDrawTileImage = _tileImage;
+		_lastDrawRotateImage = _rotateImage;
 		_lastDrawSmoothImage = _smoothImage;
 		_lastDrawBorder = _border;
 		_lastDrawLineColor = _lineColor;
@@ -227,6 +236,15 @@ import com.chaos.ui.Border;
 	private function get_tileImage():Bool {
 		return _tileImage;
     }   
+
+    private function set_rotateImage(value:Bool):Bool {
+		_rotateImage = value;
+		return value;
+	}
+
+	private function get_rotateImage():Bool {
+		return _rotateImage;
+    }
 
 
     private function set_image(value:BitmapData):BitmapData {

@@ -5,7 +5,6 @@ import com.chaos.ui.classInterface.IButton;
 import com.chaos.ui.classInterface.ISlider;
 import com.chaos.utils.ThreadManager;
 import com.chaos.utils.Utils;
-import openfl.display.Bitmap;
 import openfl.display.BitmapData;
 import openfl.display.Shape;
 import openfl.events.MouseEvent;
@@ -44,6 +43,9 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 	 */ 	
 	
 	public var rotateImage(get, set) : Bool;
+
+    /** Repeat bitmap fills at their native size instead of stretching them. */
+	public var tileImage(get, set) : Bool;
 	
 	/**
 	 * Hides or show the track for the slider bar
@@ -146,7 +148,8 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 	private var _sliderOffSet : Float = 0;
 
 	private var _trackerImage : BitmapData;
-	private var _rotateImage : Bool = false;
+	private var _rotateImage : Bool = true;
+	private var _tileImage : Bool = false;
 	private var _sizeToTrack : Bool = false;
 
 	
@@ -188,6 +191,12 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 		
 		if (Reflect.hasField(data, "showTrack")) 
 			_track.visible = Reflect.field(data, "showTrack");
+
+		if (Reflect.hasField(data, "rotateImage"))
+			_rotateImage = Reflect.field(data, "rotateImage");
+
+		if (Reflect.hasField(data, "tileImage"))
+			_tileImage = Reflect.field(data, "tileImage");
 		
 		super.setComponentData(data);
 	}
@@ -293,6 +302,9 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 
 		if (UIStyleManager.hasStyle(UIStyleManager.SLIDER_ROTATE_IMAGE))
 			_rotateImage = UIStyleManager.getStyle(UIStyleManager.SLIDER_ROTATE_IMAGE);
+
+		if (UIStyleManager.hasStyle(UIStyleManager.SLIDER_TILE_IMAGE))
+			_tileImage = UIStyleManager.getStyle(UIStyleManager.SLIDER_TILE_IMAGE);
 		
     } 
 	
@@ -387,7 +399,18 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 	private function get_rotateImage() : Bool
 	{
 		return _rotateImage;
-    } 
+	}
+
+	private function set_tileImage(value : Bool) : Bool
+	{
+		_tileImage = value;
+		return value;
+	}
+
+	private function get_tileImage() : Bool
+	{
+		return _tileImage;
+	}
 	
 	/**
 	 * The percent is represented as a value between 0 and 1.
@@ -816,7 +839,13 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 			_marker.height = sliderHeightNum;
 		}
 		
-		if(_useCustomRender && UIBitmapManager.hasCustomRenderTexture(UIBitmapType.Slider) && _width > 0 && _height > 0)  {
+		var usingCustomRender:Bool =
+			_useCustomRender &&
+			UIBitmapManager.hasCustomRenderTexture(UIBitmapType.Slider) &&
+			_width > 0 &&
+			_height > 0;
+
+		if(usingCustomRender)  {
 
 			_trackerImage = getCustomRenderTexture("slider.track", UIBitmapType.Slider,{"width":_width,"height":_height,"direction":_mode,"state":"default"}, _trackerImage);
 
@@ -833,10 +862,22 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 		
 		if (_trackerImage != null && _showImage) 
 		{
-			if (ScrollBarDirection.VERTICAL == _mode) 
-				_track.graphics.beginBitmapFill(_trackerImage, null, true, _smoothImage);
-            else 
-				_track.graphics.beginBitmapFill(_trackerImage, ((_rotateImage)) ? Utils.matrixRotate(new Bitmap(_trackerImage), 90) : null, true, _smoothImage);
+			var rotateForOrientation:Bool =
+				ScrollBarDirection.VERTICAL == _mode &&
+				_rotateImage &&
+				!usingCustomRender;
+			_track.graphics.beginBitmapFill(
+				_trackerImage,
+				Utils.bitmapFillMatrix(
+					_trackerImage,
+					_width,
+					_height,
+					rotateForOrientation,
+					_tileImage
+				),
+				_tileImage,
+				_smoothImage
+			);
         }
         else 
 			_track.graphics.beginFill(_trackColor, 1);
@@ -849,6 +890,11 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 		_marker.overColor = _sliderOverColor;
 		_marker.downColor = _sliderDownColor;
 		_marker.disableColor = _sliderDisableColor;
+		_marker.tileImage = _tileImage;
+		_marker.rotateImage =
+			ScrollBarDirection.VERTICAL == _mode &&
+			_rotateImage &&
+			!usingCustomRender;
 		_marker.draw();
 		
 		// This updates the slider bar

@@ -434,6 +434,7 @@ class UIStyleManager
     public static var PROGRESS_SLIDER_OFFSET : String = "PROGRESS_SLIDER_OFFSET";
     
     public static var SCROLLBAR_ROTATE_IMAGE : String = "SCROLLBAR_ROTATE_IMAGE";
+    public static var SCROLLBAR_TILE_IMAGE : String = "SCROLLBAR_TILE_IMAGE";
     public static var SCROLLBAR_SLIDER_OFFSET : String = "SCROLLBAR_SLIDER_OFFSET";
     
     public static var SCROLLBAR_BUTTON_USE_CUSTOM_RENDER : String = "SCROLLBAR_BUTTON_USE_CUSTOM_RENDER";
@@ -474,6 +475,7 @@ class UIStyleManager
     public static var SLIDER_SIZE_TO_TRACK : String = "SLIDER_SIZE_TO_TRACK";
     
     public static var SLIDER_ROTATE_IMAGE : String = "SLIDER_ROTATE_IMAGE";
+    public static var SLIDER_TILE_IMAGE : String = "SLIDER_TILE_IMAGE";
 
     public static var SLIDER_USE_CUSTOM_RENDER : String = "SLIDER_USE_CUSTOM_RENDER";
     

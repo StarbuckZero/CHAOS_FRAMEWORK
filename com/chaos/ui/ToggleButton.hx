@@ -96,6 +96,9 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI {
 	 */
 	public var tileImage(get, set):Bool;
 
+	/** Rotate state bitmap fills clockwise by 90 degrees. */
+	public var rotateImage(get, set):Bool;
+
 	/**
 	 * Well do a cross fade effect on over and disable states
 	 */
@@ -130,6 +133,7 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI {
 
 	private var _selected:Bool = false;
 	private var _tileImage:Bool = false;
+	private var _rotateImage:Bool = false;
 
 	private var _border:Bool = false;
 	private var _normalBorderColor:Int = 0x000000;
@@ -210,6 +214,12 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI {
 
 		if (Reflect.hasField(data, "fadeToDownState"))
 			_fadeToDownState = Reflect.field(data, "fadeToDownState");		
+
+		if (Reflect.hasField(data, "tileImage"))
+			_tileImage = Reflect.field(data, "tileImage");
+
+		if (Reflect.hasField(data, "rotateImage"))
+			_rotateImage = Reflect.field(data, "rotateImage");
 		
 	}
 
@@ -596,6 +606,15 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI {
 		return _tileImage;
 	}
 
+	private function set_rotateImage(value:Bool):Bool {
+		_rotateImage = value;
+		return value;
+	}
+
+	private function get_rotateImage():Bool {
+		return _rotateImage;
+	}
+
 	/**
 	 * The fade up speed of over and disable state
 	 */
@@ -786,7 +805,8 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI {
 	public function drawButtonState(base:ButtonBase, color:Int = 0xFFFFFF, borderColor:Int = 0x000000, image:BitmapData = null):Void {
 
 		base.setComponentData({"border":_border,"lineThinkness":_borderThinkness,"lineAlpha":_borderAlpha, "lineColor":borderColor,
-		"baseAlpha":_bgAlpha,"tintAlpha":_tintAlpha,"tileImage":_tileImage,"image":image,"baseColor":color,"width":_width,"height":_height,"roundEdge":_roundEdge});
+		"baseAlpha":_bgAlpha,"tintAlpha":_tintAlpha,"tileImage":_tileImage,"rotateImage":_rotateImage,
+		"image":image,"baseColor":color,"width":_width,"height":_height,"roundEdge":_roundEdge});
 
 		base.draw();
 	}

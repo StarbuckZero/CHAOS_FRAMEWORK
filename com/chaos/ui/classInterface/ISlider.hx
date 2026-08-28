@@ -28,6 +28,9 @@ interface ISlider extends IBaseUI
 	 */ 
 	
 	var rotateImage(get, set) : Bool;     
+
+    /** Repeat bitmap fills at their native size instead of stretching them. */
+	var tileImage(get, set) : Bool;
 	/**
 	 * Hides or show the track for the slider bar
 	 */ 

@@ -122,6 +122,8 @@ class ScrollBar extends BaseUI implements IScrollBar implements IBaseUI
 	private var _sliderButtonDisableImage : BitmapData;
 
 	private var _offset : Int = 0;
+	private var _rotateImage : Bool = true;
+	private var _tileImage : Bool = false;
 	
 	/**
 	 * UI ScrollBar 
@@ -162,6 +164,12 @@ class ScrollBar extends BaseUI implements IScrollBar implements IBaseUI
 			
 		if (Reflect.hasField(data, "sliderSize"))
 			_sliderSize = Reflect.field(data, "sliderSize");
+
+		if (Reflect.hasField(data, "rotateImage"))
+			_rotateImage = Reflect.field(data, "rotateImage");
+
+		if (Reflect.hasField(data, "tileImage"))
+			_tileImage = Reflect.field(data, "tileImage");
 			
 			
 		// Replace if there once skin data has been set
@@ -170,6 +178,14 @@ class ScrollBar extends BaseUI implements IScrollBar implements IBaseUI
 			
 		if (Reflect.hasField(data, "Button"))
 			_buttonData = Reflect.field(data, "Button");
+
+		if (_sliderData == null)
+			_sliderData = {};
+
+		// ScrollBar-specific orientation styles must win over the nested
+		// Slider's global defaults.
+		Reflect.setField(_sliderData, "rotateImage", _rotateImage);
+		Reflect.setField(_sliderData, "tileImage", _tileImage);
 			
 	}
 	
@@ -466,7 +482,19 @@ class ScrollBar extends BaseUI implements IScrollBar implements IBaseUI
 			Reflect.setField(_sliderData, "sliderOffSet", UIStyleManager.getStyle(UIStyleManager.SCROLLBAR_SLIDER_OFFSET));
 		
 		if (UIStyleManager.hasStyle(UIStyleManager.SCROLLBAR_ROTATE_IMAGE))
-			Reflect.setField(_sliderData, "rotateImage", UIStyleManager.getStyle(UIStyleManager.SCROLLBAR_ROTATE_IMAGE));
+			_rotateImage = UIStyleManager.getStyle(UIStyleManager.SCROLLBAR_ROTATE_IMAGE);
+
+		if (UIStyleManager.hasStyle(UIStyleManager.SCROLLBAR_TILE_IMAGE))
+			_tileImage = UIStyleManager.getStyle(UIStyleManager.SCROLLBAR_TILE_IMAGE);
+
+		Reflect.setField(_sliderData, "rotateImage", _rotateImage);
+		Reflect.setField(_sliderData, "tileImage", _tileImage);
+
+		if (_slider != null)
+		{
+			_slider.rotateImage = _rotateImage;
+			_slider.tileImage = _tileImage;
+		}
     } 
 	
 	private function get_upButton():IButton
@@ -758,11 +786,22 @@ class ScrollBar extends BaseUI implements IScrollBar implements IBaseUI
 	
 	private function setupSliderVerticalMode() : Void
 	{  
+		var usingCustomRender:Bool =
+			_useCustomRender &&
+			UIBitmapManager.hasCustomRenderTexture(UIBitmapType.ScrollBar) &&
+			_width > 0 &&
+			_height > 0;
+
+		_upButton.tileImage = _downButton.tileImage = _tileImage;
+		_upButton.rotateImage = _downButton.rotateImage =
+			_rotateImage && !usingCustomRender;
+		_slider.rotateImage = _rotateImage && !usingCustomRender;
+
 		// Up Button & Down Button
 		_upButton.width = _downButton.width = _buttonWidth;
 		_upButton.height = _downButton.height = _buttonHeight;
 		
-		if(_useCustomRender && UIBitmapManager.hasCustomRenderTexture(UIBitmapType.ScrollBar) && _width > 0 && _height > 0)
+		if(usingCustomRender)
 		{
 			_upButton.useCustomRender = _downButton.useCustomRender = false;
 			applyCustomArrowButtonTextures("vertical");
@@ -800,7 +839,7 @@ class ScrollBar extends BaseUI implements IScrollBar implements IBaseUI
 		{
 			_slider.height = _height - (_buttonHeight * 2) + _offset;
 
-			if(UIStyleManager.hasStyle(UIStyleManager.SCROLLBAR_BUTTON_USE_CUSTOM_RENDER) && UIStyleManager.getStyle(UIStyleManager.SCROLLBAR_BUTTON_USE_CUSTOM_RENDER) && UIBitmapManager.hasCustomRenderTexture(UIBitmapType.ScrollBar) && _width > 0 && _height > 0) {
+			if(usingCustomRender) {
 
 				_slider.marker.useCustomRender = false;
 
@@ -816,7 +855,7 @@ class ScrollBar extends BaseUI implements IScrollBar implements IBaseUI
 		{
 			_slider.height = Std.int(_height) + _offset;
 
-			if(UIStyleManager.hasStyle(UIStyleManager.SCROLLBAR_BUTTON_USE_CUSTOM_RENDER) && UIStyleManager.getStyle(UIStyleManager.SCROLLBAR_BUTTON_USE_CUSTOM_RENDER) && _width > 0 && _height > 0) {
+			if(usingCustomRender) {
 
 				_slider.marker.useCustomRender = false;
 
@@ -835,6 +874,9 @@ class ScrollBar extends BaseUI implements IScrollBar implements IBaseUI
 	
 	private function setupSliderHorizontal() : Void
 	{  
+		_upButton.tileImage = _downButton.tileImage = _tileImage;
+		_upButton.rotateImage = _downButton.rotateImage = false;
+
 		// Resize buttons
 		_upButton.width = _downButton.width = _buttonWidth;
 		_upButton.height = _downButton.height = _buttonHeight;
