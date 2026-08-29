@@ -13,6 +13,9 @@ import openfl.text.Font;
 
 class UIStyleManager
 {
+	/** Default background color shared by BaseContainer and derived containers. */
+	public static var BASE_CONTAINER_BACKGROUND_COLOR : String = "BASE_CONTAINER_BACKGROUND_COLOR";
+
 	/** Repeat BaseContainer background images instead of stretching them. */
 	public static var BASE_CONTAINER_TILE_IMAGE : String = "BASE_CONTAINER_TILE_IMAGE";
 	

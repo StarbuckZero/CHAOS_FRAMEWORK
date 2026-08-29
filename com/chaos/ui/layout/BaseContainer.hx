@@ -112,6 +112,9 @@ class BaseContainer extends BaseUI implements IBaseContainer implements IBaseUI
 	{
 		super.reskin();
 
+		if (UIStyleManager.hasStyle(UIStyleManager.BASE_CONTAINER_BACKGROUND_COLOR))
+			_backgroundColor = UIStyleManager.getStyle(UIStyleManager.BASE_CONTAINER_BACKGROUND_COLOR);
+
 		if (UIStyleManager.hasStyle(UIStyleManager.BASE_CONTAINER_TILE_IMAGE))
 			_tileImage = UIStyleManager.getStyle(UIStyleManager.BASE_CONTAINER_TILE_IMAGE);
 
