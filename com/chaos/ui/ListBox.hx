@@ -129,6 +129,8 @@ class ListBox extends ScrollPane implements IListBox implements IBaseUI
 		
 		if (Reflect.hasField(data, "data"))
 		{
+			_list.removeAll();
+
 			var data:Array<Dynamic> = Reflect.field(data, "data");
 			
 			for (i in 0 ... data.length)

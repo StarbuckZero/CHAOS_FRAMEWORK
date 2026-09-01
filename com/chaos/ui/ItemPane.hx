@@ -161,6 +161,8 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
 		
 		if (Reflect.hasField(data, "data"))
 		{
+			_list.removeAll();
+
 			var data:Array<Dynamic> = Reflect.field(data, "data");
 			
 			for (i in 0 ... data.length)
@@ -845,7 +847,7 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
         // NOTE: Turn this into a class file later
         var i : Int = _itemHolder.numChildren - 1;
         
-        while (i > 0)
+        while (i >= 0)
         {
             
 			var itemButton : ItemPaneButton = cast(_itemHolder.getChildAt(i), ItemPaneButton);

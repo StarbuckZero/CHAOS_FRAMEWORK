@@ -159,11 +159,8 @@ class CheckBoxGroup extends HorizontalContainer implements ICheckBoxGroup implem
     
     override public function removeAll() : Void
     {
-        for (i in 0 ... _list.length)
-        {
-            var checkbox : ICheckBox = _list[i];
-            removeCheckBox(checkbox);
-        }
+        while (_list.length > 0)
+            removeCheckBox(_list[_list.length - 1]);
     }
     
     public function onChange(event : MouseEvent) : Void

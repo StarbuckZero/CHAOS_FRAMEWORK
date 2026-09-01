@@ -9,24 +9,20 @@ package com.chaos.media;
 
 
 import com.chaos.media.event.DisplayVideoEvent;
-import haxe.Constraints.Function;
-import openfl.Assets;
 import openfl.display.BitmapData;
-import openfl.display.DisplayObject;
 import openfl.display.Shape;
-import openfl.display.Sprite;
 import com.chaos.ui.BaseUI;
 import com.chaos.ui.classInterface.IBaseUI;
 import openfl.events.Event;
 import openfl.events.NetStatusEvent;
 import openfl.events.AsyncErrorEvent;
 import openfl.events.SecurityErrorEvent;
-import openfl.utils.ByteArray;
 import openfl.utils.Object;
 
 import com.chaos.utils.ThreadManager;
 
 import openfl.media.Video;
+import openfl.media.SoundTransform;
 
 import openfl.net.NetConnection;
 import openfl.net.NetStream;
@@ -40,6 +36,8 @@ class DisplayVideo extends BaseUI implements IBaseUI
     public var isPlaying(get, never) : Bool;
     public var connection(get, never) : NetConnection;
     public var netStream(get, never) : NetStream;
+	public var volume(get, set) : Float;
+	public var muted(get, set) : Bool;
 	public var backgroundColor(get, set) : Int;
 	public var backgroundAlpha(get, set) : Float;
 	
@@ -51,6 +49,8 @@ class DisplayVideo extends BaseUI implements IBaseUI
     
     private var _bufferAmount : Int = 30;
     private var _isPlaying : Bool = false;
+	private var _volume : Float = 100;
+	private var _muted : Bool = false;
     
     private var _videoLoaded : Int = 0;
     private var _video : Video  = new Video();
@@ -59,6 +59,10 @@ class DisplayVideo extends BaseUI implements IBaseUI
     private var _metaData : Dynamic = {};
     
     private var _callBack : Dynamic->Void = null;
+	private var _initialized : Bool = false;
+	private var _loadPending : Bool = false;
+	private var _bufferTimerActive : Bool = false;
+	private var _completeDispatched : Bool = false;
 	
     
     private var _autoStart : Bool = false;
@@ -67,10 +71,7 @@ class DisplayVideo extends BaseUI implements IBaseUI
 	private var _backgroundAlpha : Float = 1;
 	private var _backgroundImage : BitmapData;
 	
-	private var _timeOut:Int = 0;
-	private var _timeOutMax:Int = 10;
-    
-    private var protocolList : Array<Dynamic> = ["rtmp", "rtmpe", "rtmps", "rtmpt", "rtmpte"];
+    private var protocolList : Array<String> = ["rtmp", "rtmpe", "rtmps", "rtmpt", "rtmpte"];
     private var bufferReached : Bool = false;
     
     /**
@@ -88,6 +89,7 @@ class DisplayVideo extends BaseUI implements IBaseUI
         super(data);
 		
         addEventListener(Event.ADDED_TO_STAGE, onStageAdd, false, 0, true);
+        addEventListener(Event.REMOVED_FROM_STAGE, onStageRemove, false, 0, true);
     }
 	
 	
@@ -101,8 +103,19 @@ class DisplayVideo extends BaseUI implements IBaseUI
         _connection.addEventListener(NetStatusEvent.NET_STATUS, netStatusHandler);
         _connection.addEventListener(SecurityErrorEvent.SECURITY_ERROR, securityErrorHandler);
         
-        addChild(_background);
-        addChild(_video);
+        if (_background.parent != this)
+            addChild(_background);
+
+        if (_video.parent != this)
+            addChild(_video);
+
+		_initialized = true;
+
+		if (_loadPending && _videoURL != "")
+		{
+			_loadPending = false;
+			load(_videoURL, _autoStart, _callBack);
+		}
 		
 	}
 	
@@ -111,6 +124,9 @@ class DisplayVideo extends BaseUI implements IBaseUI
 	 */
 	override public function setComponentData(data:Dynamic):Void 
 	{
+		if (data == null)
+			return;
+
 		super.setComponentData(data);
 		
 		if (Reflect.hasField(data, "backgroundColor"))
@@ -126,14 +142,41 @@ class DisplayVideo extends BaseUI implements IBaseUI
 			_autoStart = Reflect.field(data, "autoStart");
 			
 		if (Reflect.hasField(data, "bufferAmount"))
-			_bufferAmount = Reflect.field(data, "bufferAmount");
+			bufferAmount = Std.int(Reflect.field(data, "bufferAmount"));
+
+		if (Reflect.hasField(data, "volume"))
+		{
+			var requestedVolume:Float = Std.parseFloat(Std.string(Reflect.field(data, "volume")));
+
+			if (!Math.isNaN(requestedVolume))
+				volume = requestedVolume;
+		}
+
+		if (Reflect.hasField(data, "muted"))
+			muted = Reflect.field(data, "muted") == true;
 		
 		if (Reflect.hasField(data, "url"))
-            _videoURL = Reflect.field(data, "url");
-        
+		{
+			var requestedURL:String = Std.string(Reflect.field(data, "url"));
+			var shouldReload:Bool = requestedURL != _videoURL || _stream == null;
 
-        if(_videoURL != "")
-           load(_videoURL, _autoStart); 
+			_videoURL = requestedURL;
+
+			if (_videoURL == "")
+			{
+				_loadPending = false;
+				disposeStream();
+				_isPlaying = false;
+			}
+			else if (!_initialized)
+			{
+				_loadPending = true;
+			}
+			else if (shouldReload)
+			{
+				load(_videoURL, _autoStart);
+			}
+		}
 		
 	}
 	
@@ -143,7 +186,23 @@ class DisplayVideo extends BaseUI implements IBaseUI
     {
         if (null == ThreadManager.stage) 
             ThreadManager.stage = stage;
+
+		if (_loadPending && _videoURL != "")
+		{
+			_loadPending = false;
+			load(_videoURL, _autoStart, _callBack);
+		}
+		else
+		{
+			startBufferTimer();
+		}
     }
+
+	private function onStageRemove(event : Event) : Void
+	{
+		_loadPending = _videoURL != "";
+		disposeStream();
+	}
     
 	
     /**
@@ -209,8 +268,8 @@ class DisplayVideo extends BaseUI implements IBaseUI
     
     private function set_bufferAmount(value : Int) : Int
     {
-        _bufferAmount = value;
-        return value;
+        _bufferAmount = value < 0 ? 0 : value > 100 ? 100 : value;
+        return _bufferAmount;
     }
     
     /**
@@ -269,6 +328,32 @@ class DisplayVideo extends BaseUI implements IBaseUI
     {
         return _stream;
     }
+
+	private function set_volume(value:Float):Float
+	{
+		if (!Math.isNaN(value))
+			_volume = Math.max(0, Math.min(100, value));
+
+		applySoundTransform();
+		return _volume;
+	}
+
+	private function get_volume():Float
+	{
+		return _volume;
+	}
+
+	private function set_muted(value:Bool):Bool
+	{
+		_muted = value;
+		applySoundTransform();
+		return _muted;
+	}
+
+	private function get_muted():Bool
+	{
+		return _muted;
+	}
 	
 	/**
 	 * Set background image to be used
@@ -288,34 +373,77 @@ class DisplayVideo extends BaseUI implements IBaseUI
     
     public function load(value : String, autoStart : Bool = false, callBack : Dynamic->Void = null) : Void
     {
-        _videoURL = value;
+		if (value == null || StringTools.trim(value) == "")
+		{
+			_videoURL = "";
+			_callBack = null;
+			_loadPending = false;
+			disposeStream();
+			_isPlaying = false;
+			return;
+		}
+
+        _videoURL = StringTools.trim(value);
         _autoStart = autoStart;
+		_callBack = callBack;
+
+		if (!_initialized)
+		{
+			_loadPending = true;
+			return;
+		}
+
+		disposeStream();
+		bufferReached = false;
+		_completeDispatched = false;
+		_videoLoaded = 0;
         
 		
 		var isMediaServer : Bool = false;
 		
 		// Check to see if string is pointing to media server
-		for (i in 0...protocolList.length)
+		var normalizedURL:String = _videoURL.toLowerCase();
+		for (protocol in protocolList)
 		{
-			if (Std.string(_videoURL).indexOf(protocolList[i]) != -1)
+			if (StringTools.startsWith(normalizedURL, protocol + "://"))
 				isMediaServer = true;
 		}
 		
-		_callBack = callBack;
-		
 		// Force video connect after setting url
-		_connection.connect(((isMediaServer)) ? _videoURL : null);
+		try
+		{
+			_connection.connect(isMediaServer ? _videoURL : null);
+		}
+		catch (error:Dynamic)
+		{
+			trace("Unable to connect video: " + error);
+			_isPlaying = false;
+		}
 		
     }
     
     /**
-	 * Stop and close connection of video stream
+	 * Stop playback and reset the video stream to the beginning
 	 */
     
     public function stop() : Void
     {
-        if (null != _stream) 
-            _stream.close();
+		_loadPending = false;
+
+		if (_stream != null)
+		{
+			try
+			{
+				_stream.pause();
+				_stream.seek(0);
+			}
+			catch (error:Dynamic)
+			{
+				trace("Unable to stop video: " + error);
+			}
+		}
+
+		_isPlaying = false;
     }
     
     /**
@@ -343,8 +471,8 @@ class DisplayVideo extends BaseUI implements IBaseUI
     
     private function netStatusHandler(event : NetStatusEvent) : Void
     {
-        
-		handleVideoStatus(Reflect.field(event.info, "code"));
+		if (event != null && event.info != null && Reflect.hasField(event.info, "code"))
+			handleVideoStatus(Std.string(Reflect.field(event.info, "code")));
     }
 	
 	private function handleVideoStatus( status:String ) : Void
@@ -372,6 +500,7 @@ class DisplayVideo extends BaseUI implements IBaseUI
             
             case "NetStream.Play.Stop":
                 _isPlaying = false;
+				dispatchComplete();
             
             case "NetStream.Pause.Notify":
                 _isPlaying = false;
@@ -383,14 +512,12 @@ class DisplayVideo extends BaseUI implements IBaseUI
     
     private function connectStream(event : NetStatusEvent = null) : Void
     {
-        
+		disposeStream();
+
         var customClient:Object = new Object();
 
-		#if html5
-		customClient.onPlayStatus = metaDataHandler;
-		#else
-		customClient.onMetaData = metaDataHandler;
-		#end
+		Reflect.setField(customClient, "onMetaData", metaDataHandler);
+		Reflect.setField(customClient, "onPlayStatus", onPlayStatus);
 		
         _stream = new NetStream(_connection);
         
@@ -400,6 +527,7 @@ class DisplayVideo extends BaseUI implements IBaseUI
         _stream.addEventListener(AsyncErrorEvent.ASYNC_ERROR, asyncErrorHandler);
         
         _video.attachNetStream(_stream);
+		applySoundTransform();
 		
         
         // Calback will be called once movie is playing else just do callback
@@ -417,10 +545,17 @@ class DisplayVideo extends BaseUI implements IBaseUI
             _callBack = null;
         }
         
-        ThreadManager.addEventTimer(videoBuffer);
+        startBufferTimer();
         
-        addChild(_video);
+		if (_video.parent != this)
+			addChild(_video);
     }
+
+	private function applySoundTransform():Void
+	{
+		if (_stream != null)
+			_stream.soundTransform = new SoundTransform((_muted ? 0 : _volume) / 100);
+	}
     
     private function metaDataHandler(infoObj : Dynamic) : Void
     {
@@ -432,8 +567,8 @@ class DisplayVideo extends BaseUI implements IBaseUI
 	
 	private function onPlayStatus(meta:Object) : Void
 	{
-		
-		handleVideoStatus(Reflect.field(meta, "code"));
+		if (meta != null && Reflect.hasField(meta, "code"))
+			handleVideoStatus(Std.string(Reflect.field(meta, "code")));
 	}
     
     private function securityErrorHandler(event : SecurityErrorEvent) : Void
@@ -452,24 +587,76 @@ class DisplayVideo extends BaseUI implements IBaseUI
         if (null == _stream) 
             return;
         
-        _videoLoaded = Std.int( (_stream.bytesLoaded / _stream.bytesTotal) * 100);
+		var bytesTotal:Float = _stream.bytesTotal;
+
+		if (bytesTotal <= 0)
+			return;
+
+		_videoLoaded = Std.int((_stream.bytesLoaded / bytesTotal) * 100);
+		_videoLoaded = _videoLoaded < 0 ? 0 : _videoLoaded > 100 ? 100 : _videoLoaded;
         
-        if (_videoLoaded > bufferAmount && !bufferReached) 
+        if (_videoLoaded >= bufferAmount && !bufferReached)
         {
             bufferReached = true;
             dispatchEvent(new DisplayVideoEvent(DisplayVideoEvent.VIDEO_BUFFER));
         }
         
-        if (_stream.bytesLoaded == _stream.bytesTotal && _stream.bytesTotal > 0 || _timeOut == _timeOutMax) 
+		if (_stream.bytesLoaded >= bytesTotal)
         {
-			ThreadManager.removeEventTimer(videoBuffer);
-			
-            dispatchEvent(new DisplayVideoEvent(DisplayVideoEvent.VIDEO_COMPLETE));
-			
-			_timeOut = 0;
+			stopBufferTimer();
+			dispatchComplete();
         }
-		else if(_stream.bytesLoaded == 0 && _stream.bytesTotal == 0 && _stream.bytesTotal == 0)
-			_timeOut++;
     }
+
+	private function startBufferTimer():Void
+	{
+		if (_bufferTimerActive || _stream == null || ThreadManager.stage == null)
+			return;
+
+		ThreadManager.addEventTimer(videoBuffer);
+		_bufferTimerActive = true;
+	}
+
+	private function stopBufferTimer():Void
+	{
+		if (!_bufferTimerActive)
+			return;
+
+		ThreadManager.removeEventTimer(videoBuffer);
+		_bufferTimerActive = false;
+	}
+
+	private function dispatchComplete():Void
+	{
+		if (_completeDispatched)
+			return;
+
+		_completeDispatched = true;
+		dispatchEvent(new DisplayVideoEvent(DisplayVideoEvent.VIDEO_COMPLETE));
+	}
+
+	private function disposeStream():Void
+	{
+		stopBufferTimer();
+
+		if (_stream == null)
+			return;
+
+		_stream.removeEventListener(NetStatusEvent.NET_STATUS, netStatusHandler);
+		_stream.removeEventListener(AsyncErrorEvent.ASYNC_ERROR, asyncErrorHandler);
+		_stream.close();
+		_video.attachNetStream(null);
+		_stream = null;
+	}
+
+	override public function destroy():Void
+	{
+		disposeStream();
+		_connection.removeEventListener(NetStatusEvent.NET_STATUS, netStatusHandler);
+		_connection.removeEventListener(SecurityErrorEvent.SECURITY_ERROR, securityErrorHandler);
+		removeEventListener(Event.ADDED_TO_STAGE, onStageAdd);
+		removeEventListener(Event.REMOVED_FROM_STAGE, onStageRemove);
+		super.destroy();
+	}
 }
 

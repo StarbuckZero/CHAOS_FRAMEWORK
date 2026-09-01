@@ -163,11 +163,8 @@ class RadioButtonGroup extends HorizontalContainer implements IRadioButtonGroup 
     
     override public function removeAll() : Void
     {
-        for (i in 0 ... _list.length)
-        {
-            var radio : IRadioButton = _list[i];
-            removeRadioButton(radio);
-        }
+        while (_list.length > 0)
+            removeRadioButton(_list[_list.length - 1]);
     }
     
     /**
