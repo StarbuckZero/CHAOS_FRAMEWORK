@@ -245,66 +245,66 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 	
 	private function initSkin() : Void
 	{
-		if (UIBitmapManager.hasUIElement(UIBitmapType.Slider, UIBitmapManager.SLIDER_BUTTON_NORMAL))    
-		setSliderImage(UIBitmapManager.getUIElement(UIBitmapType.Slider, UIBitmapManager.SLIDER_BUTTON_NORMAL));
+		if (hasResolvedBitmap(UIBitmapType.Slider, UIBitmapManager.SLIDER_BUTTON_NORMAL))
+		setSliderImage(getResolvedBitmap(UIBitmapType.Slider, UIBitmapManager.SLIDER_BUTTON_NORMAL));
 		
-		if (UIBitmapManager.hasUIElement(UIBitmapType.Slider, UIBitmapManager.SLIDER_BUTTON_OVER))     
-        setSliderOverImage(UIBitmapManager.getUIElement(UIBitmapType.Slider, UIBitmapManager.SLIDER_BUTTON_OVER));
+		if (hasResolvedBitmap(UIBitmapType.Slider, UIBitmapManager.SLIDER_BUTTON_OVER))
+        setSliderOverImage(getResolvedBitmap(UIBitmapType.Slider, UIBitmapManager.SLIDER_BUTTON_OVER));
 		
-		if (UIBitmapManager.hasUIElement(UIBitmapType.Slider, UIBitmapManager.SLIDER_BUTTON_DOWN))
-		setSliderDownImage(UIBitmapManager.getUIElement(UIBitmapType.Slider, UIBitmapManager.SLIDER_BUTTON_DOWN));
+		if (hasResolvedBitmap(UIBitmapType.Slider, UIBitmapManager.SLIDER_BUTTON_DOWN))
+		setSliderDownImage(getResolvedBitmap(UIBitmapType.Slider, UIBitmapManager.SLIDER_BUTTON_DOWN));
 		
-		if (UIBitmapManager.hasUIElement(UIBitmapType.Slider, UIBitmapManager.SLIDER_BUTTON_DISABLE))  
-		setSliderDisableImage(UIBitmapManager.getUIElement(UIBitmapType.Slider, UIBitmapManager.SLIDER_BUTTON_DISABLE));
+		if (hasResolvedBitmap(UIBitmapType.Slider, UIBitmapManager.SLIDER_BUTTON_DISABLE))
+		setSliderDisableImage(getResolvedBitmap(UIBitmapType.Slider, UIBitmapManager.SLIDER_BUTTON_DISABLE));
 		
-		if (UIBitmapManager.hasUIElement(UIBitmapType.Slider, UIBitmapManager.SLIDER_TRACK))     
-        setTrackImage(UIBitmapManager.getUIElement(UIBitmapType.Slider, UIBitmapManager.SLIDER_TRACK));
+		if (hasResolvedBitmap(UIBitmapType.Slider, UIBitmapManager.SLIDER_TRACK))
+        setTrackImage(getResolvedBitmap(UIBitmapType.Slider, UIBitmapManager.SLIDER_TRACK));
 		
     }
 	
 	private function initStyle() : Void 
 	{
-		if (UIStyleManager.hasStyle(UIStyleManager.SLIDER_WIDTH))
-			_width = UIStyleManager.getStyle(UIStyleManager.SLIDER_WIDTH);
+		if (hasResolvedStyle(UIStyleManager.SLIDER_WIDTH))
+			_width = getResolvedStyle(UIStyleManager.SLIDER_WIDTH);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.SLIDER_HEIGHT))
-			_height = UIStyleManager.getStyle(UIStyleManager.SLIDER_HEIGHT);
+		if (hasResolvedStyle(UIStyleManager.SLIDER_HEIGHT))
+			_height = getResolvedStyle(UIStyleManager.SLIDER_HEIGHT);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.SLIDER_NORMAL_COLOR))
-			_sliderNormalColor = UIStyleManager.getStyle(UIStyleManager.SLIDER_NORMAL_COLOR);
+		if (hasResolvedStyle(UIStyleManager.SLIDER_NORMAL_COLOR))
+			_sliderNormalColor = getResolvedStyle(UIStyleManager.SLIDER_NORMAL_COLOR);
 		
-		if (UIStyleManager.hasStyle(UIStyleManager.SLIDER_OVER_COLOR))
-			_sliderOverColor = UIStyleManager.getStyle(UIStyleManager.SLIDER_OVER_COLOR);
+		if (hasResolvedStyle(UIStyleManager.SLIDER_OVER_COLOR))
+			_sliderOverColor = getResolvedStyle(UIStyleManager.SLIDER_OVER_COLOR);
 		
-		if (UIStyleManager.hasStyle(UIStyleManager.SLIDER_DOWN_COLOR))
-			_sliderDownColor = UIStyleManager.getStyle(UIStyleManager.SLIDER_DOWN_COLOR);
+		if (hasResolvedStyle(UIStyleManager.SLIDER_DOWN_COLOR))
+			_sliderDownColor = getResolvedStyle(UIStyleManager.SLIDER_DOWN_COLOR);
 		
-		if (UIStyleManager.hasStyle(UIStyleManager.SLIDER_DISABLE_COLOR))
-			_sliderDisableColor = UIStyleManager.getStyle(UIStyleManager.SLIDER_DISABLE_COLOR);
+		if (hasResolvedStyle(UIStyleManager.SLIDER_DISABLE_COLOR))
+			_sliderDisableColor = getResolvedStyle(UIStyleManager.SLIDER_DISABLE_COLOR);
 		
-		if (UIStyleManager.hasStyle(UIStyleManager.SLIDER_SIZE))        
-			sliderWidthNum = sliderHeightNum = UIStyleManager.getStyle(UIStyleManager.SLIDER_SIZE);
+		if (hasResolvedStyle(UIStyleManager.SLIDER_SIZE))
+			sliderWidthNum = sliderHeightNum = getResolvedStyle(UIStyleManager.SLIDER_SIZE);
 		
-		if (UIStyleManager.hasStyle(UIStyleManager.SLIDER_TRACK_SIZE))  
-			_width = _height = UIStyleManager.getStyle(UIStyleManager.SLIDER_TRACK_SIZE);
+		if (hasResolvedStyle(UIStyleManager.SLIDER_TRACK_SIZE))
+			_width = _height = getResolvedStyle(UIStyleManager.SLIDER_TRACK_SIZE);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.SLIDER_SIZE_TO_TRACK))
-			_sizeToTrack = UIStyleManager.getStyle(UIStyleManager.SLIDER_SIZE_TO_TRACK);
+		if (hasResolvedStyle(UIStyleManager.SLIDER_SIZE_TO_TRACK))
+			_sizeToTrack = getResolvedStyle(UIStyleManager.SLIDER_SIZE_TO_TRACK);
 		
-		if (UIStyleManager.hasStyle(UIStyleManager.SLIDER_TRACK_COLOR))    
-			_trackColor = UIStyleManager.getStyle(UIStyleManager.SLIDER_TRACK_COLOR);
+		if (hasResolvedStyle(UIStyleManager.SLIDER_TRACK_COLOR))
+			_trackColor = getResolvedStyle(UIStyleManager.SLIDER_TRACK_COLOR);
 		
-		if (UIStyleManager.hasStyle(UIStyleManager.SLIDER_OFFSET))
-			SLIDER_OFFSET = UIStyleManager.getStyle(UIStyleManager.SLIDER_OFFSET); 
+		if (hasResolvedStyle(UIStyleManager.SLIDER_OFFSET))
+			SLIDER_OFFSET = getResolvedStyle(UIStyleManager.SLIDER_OFFSET);
 		
-		if (UIStyleManager.hasStyle(UIStyleManager.SLIDER_USE_CUSTOM_RENDER))
-			_useCustomRender = UIStyleManager.getStyle(UIStyleManager.SLIDER_USE_CUSTOM_RENDER);
+		if (hasResolvedStyle(UIStyleManager.SLIDER_USE_CUSTOM_RENDER))
+			_useCustomRender = getResolvedStyle(UIStyleManager.SLIDER_USE_CUSTOM_RENDER);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.SLIDER_ROTATE_IMAGE))
-			_rotateImage = UIStyleManager.getStyle(UIStyleManager.SLIDER_ROTATE_IMAGE);
+		if (hasResolvedStyle(UIStyleManager.SLIDER_ROTATE_IMAGE))
+			_rotateImage = getResolvedStyle(UIStyleManager.SLIDER_ROTATE_IMAGE);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.SLIDER_TILE_IMAGE))
-			_tileImage = UIStyleManager.getStyle(UIStyleManager.SLIDER_TILE_IMAGE);
+		if (hasResolvedStyle(UIStyleManager.SLIDER_TILE_IMAGE))
+			_tileImage = getResolvedStyle(UIStyleManager.SLIDER_TILE_IMAGE);
 		
     } 
 	

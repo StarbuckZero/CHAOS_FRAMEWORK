@@ -202,52 +202,52 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 	}
 
 	private function initUISkin():Void {
-		if (UIBitmapManager.hasUIElement(UIBitmapType.ScrollPane, UIBitmapManager.SCROLLPANE_BACKGROUND))
-			setBackgroundImage(UIBitmapManager.getUIElement(UIBitmapType.ScrollPane, UIBitmapManager.SCROLLPANE_BACKGROUND));
+		if (hasResolvedBitmap(UIBitmapType.ScrollPane, UIBitmapManager.SCROLLPANE_BACKGROUND))
+			setBackgroundImage(getResolvedBitmap(UIBitmapType.ScrollPane, UIBitmapManager.SCROLLPANE_BACKGROUND));
 	}
 
 	private function initStyle():Void {
-		if (UIStyleManager.hasStyle(UIStyleManager.SCROLLPANE_WIDTH))
-			_width = UIStyleManager.getStyle(UIStyleManager.SCROLLPANE_WIDTH);
+		if (hasResolvedStyle(UIStyleManager.SCROLLPANE_WIDTH))
+			_width = getResolvedStyle(UIStyleManager.SCROLLPANE_WIDTH);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.SCROLLPANE_HEIGHT))
-			_height = UIStyleManager.getStyle(UIStyleManager.SCROLLPANE_HEIGHT);
+		if (hasResolvedStyle(UIStyleManager.SCROLLPANE_HEIGHT))
+			_height = getResolvedStyle(UIStyleManager.SCROLLPANE_HEIGHT);
 		
-		if (UIStyleManager.hasStyle(UIStyleManager.SCROLLPANE_BACKGROUND))
-			_background = UIStyleManager.getStyle(UIStyleManager.SCROLLPANE_BACKGROUND);
+		if (hasResolvedStyle(UIStyleManager.SCROLLPANE_BACKGROUND))
+			_background = getResolvedStyle(UIStyleManager.SCROLLPANE_BACKGROUND);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.SCROLLPANE_BACKGROUND_COLOR))
-			_backgroundColor = UIStyleManager.getStyle(UIStyleManager.SCROLLPANE_BACKGROUND_COLOR);
+		if (hasResolvedStyle(UIStyleManager.SCROLLPANE_BACKGROUND_COLOR))
+			_backgroundColor = getResolvedStyle(UIStyleManager.SCROLLPANE_BACKGROUND_COLOR);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.SCROLLPANE_TILE_IMAGE))
-			_tileImage = UIStyleManager.getStyle(UIStyleManager.SCROLLPANE_TILE_IMAGE);
+		if (hasResolvedStyle(UIStyleManager.SCROLLPANE_TILE_IMAGE))
+			_tileImage = getResolvedStyle(UIStyleManager.SCROLLPANE_TILE_IMAGE);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.SCROLLPANE_CONTENT_OFFSET_X))
-			_offsetX = UIStyleManager.getStyle(UIStyleManager.SCROLLPANE_CONTENT_OFFSET_X);
+		if (hasResolvedStyle(UIStyleManager.SCROLLPANE_CONTENT_OFFSET_X))
+			_offsetX = getResolvedStyle(UIStyleManager.SCROLLPANE_CONTENT_OFFSET_X);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.SCROLLPANE_CONTENT_OFFSET_Y))
-			_offsetY = UIStyleManager.getStyle(UIStyleManager.SCROLLPANE_CONTENT_OFFSET_Y);
+		if (hasResolvedStyle(UIStyleManager.SCROLLPANE_CONTENT_OFFSET_Y))
+			_offsetY = getResolvedStyle(UIStyleManager.SCROLLPANE_CONTENT_OFFSET_Y);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.SCROLLPANE_CONTENT_WIDTH_OFFSET))
-			_contentOffsetX = UIStyleManager.getStyle(UIStyleManager.SCROLLPANE_CONTENT_WIDTH_OFFSET);
+		if (hasResolvedStyle(UIStyleManager.SCROLLPANE_CONTENT_WIDTH_OFFSET))
+			_contentOffsetX = getResolvedStyle(UIStyleManager.SCROLLPANE_CONTENT_WIDTH_OFFSET);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.SCROLLPANE_CONTENT_HEIGHT_OFFSET))
-			_contentOffsetY = UIStyleManager.getStyle(UIStyleManager.SCROLLPANE_CONTENT_HEIGHT_OFFSET);
+		if (hasResolvedStyle(UIStyleManager.SCROLLPANE_CONTENT_HEIGHT_OFFSET))
+			_contentOffsetY = getResolvedStyle(UIStyleManager.SCROLLPANE_CONTENT_HEIGHT_OFFSET);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.SCROLLPANE_BORDER))
-			_showOutline = UIStyleManager.getStyle(UIStyleManager.SCROLLPANE_BORDER);
+		if (hasResolvedStyle(UIStyleManager.SCROLLPANE_BORDER))
+			_showOutline = getResolvedStyle(UIStyleManager.SCROLLPANE_BORDER);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.SCROLLPANE_BORDER_COLOR))
-			_outline.lineColor = UIStyleManager.getStyle(UIStyleManager.SCROLLPANE_BORDER_COLOR);
+		if (hasResolvedStyle(UIStyleManager.SCROLLPANE_BORDER_COLOR))
+			_outline.lineColor = getResolvedStyle(UIStyleManager.SCROLLPANE_BORDER_COLOR);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.SCROLLPANE_BORDER_ALPHA))
-			_outline.lineAlpha = UIStyleManager.getStyle(UIStyleManager.SCROLLPANE_BORDER_ALPHA);
+		if (hasResolvedStyle(UIStyleManager.SCROLLPANE_BORDER_ALPHA))
+			_outline.lineAlpha = getResolvedStyle(UIStyleManager.SCROLLPANE_BORDER_ALPHA);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.SCROLLPANE_BORDER_THICKNESS))
-			_outline.lineThinkness = UIStyleManager.getStyle(UIStyleManager.SCROLLPANE_BORDER_THICKNESS);
+		if (hasResolvedStyle(UIStyleManager.SCROLLPANE_BORDER_THICKNESS))
+			_outline.lineThinkness = getResolvedStyle(UIStyleManager.SCROLLPANE_BORDER_THICKNESS);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.SCROLLPANE_USE_CUSTOM_RENDER))
-			_useCustomRender = UIStyleManager.getStyle(UIStyleManager.SCROLLPANE_USE_CUSTOM_RENDER);
+		if (hasResolvedStyle(UIStyleManager.SCROLLPANE_USE_CUSTOM_RENDER))
+			_useCustomRender = getResolvedStyle(UIStyleManager.SCROLLPANE_USE_CUSTOM_RENDER);
 
 	}
 

@@ -556,172 +556,172 @@ class Menu extends BaseContainer implements IMenu implements IBaseContainer impl
     
     private function initStyle() : Void
     {
-        if (UIStyleManager.hasStyle(UIStyleManager.MENU_WIDTH))
-            _width = UIStyleManager.getStyle(UIStyleManager.MENU_WIDTH);
+        if (hasResolvedStyle(UIStyleManager.MENU_WIDTH))
+            _width = getResolvedStyle(UIStyleManager.MENU_WIDTH);
 
-        if (UIStyleManager.hasStyle(UIStyleManager.MENU_HEIGHT))
-            _height = UIStyleManager.getStyle(UIStyleManager.MENU_HEIGHT);        
+        if (hasResolvedStyle(UIStyleManager.MENU_HEIGHT))
+            _height = getResolvedStyle(UIStyleManager.MENU_HEIGHT);
         
         // Background
-        if (UIStyleManager.hasStyle(UIStyleManager.MENU_BACKGROUND))
-            _background = UIStyleManager.getStyle(UIStyleManager.MENU_BACKGROUND);
+        if (hasResolvedStyle(UIStyleManager.MENU_BACKGROUND))
+            _background = getResolvedStyle(UIStyleManager.MENU_BACKGROUND);
 
-        if (UIStyleManager.hasStyle(UIStyleManager.MENU_BACKGROUND_COLOR)) 
-            _backgroundColor = UIStyleManager.getStyle(UIStyleManager.MENU_BACKGROUND_COLOR);
+        if (hasResolvedStyle(UIStyleManager.MENU_BACKGROUND_COLOR))
+            _backgroundColor = getResolvedStyle(UIStyleManager.MENU_BACKGROUND_COLOR);
         
-        if (UIStyleManager.hasStyle(UIStyleManager.MENU_BACKGROUND_ALPHA)) 
-            _backgroundAlpha = UIStyleManager.getStyle(UIStyleManager.MENU_BACKGROUND_ALPHA);
+        if (hasResolvedStyle(UIStyleManager.MENU_BACKGROUND_ALPHA))
+            _backgroundAlpha = getResolvedStyle(UIStyleManager.MENU_BACKGROUND_ALPHA);
 
-        if (UIStyleManager.hasStyle(UIStyleManager.MENU_TILE_IMAGE))
-            _tileImage = UIStyleManager.getStyle(UIStyleManager.MENU_TILE_IMAGE);
+        if (hasResolvedStyle(UIStyleManager.MENU_TILE_IMAGE))
+            _tileImage = getResolvedStyle(UIStyleManager.MENU_TILE_IMAGE);
         
         // Button Color 
-        if (UIStyleManager.hasStyle(UIStyleManager.MENU_BUTTON_NORMAL_COLOR)) 
-            _normalFillColor = UIStyleManager.getStyle(UIStyleManager.MENU_BUTTON_NORMAL_COLOR);
+        if (hasResolvedStyle(UIStyleManager.MENU_BUTTON_NORMAL_COLOR))
+            _normalFillColor = getResolvedStyle(UIStyleManager.MENU_BUTTON_NORMAL_COLOR);
         
-        if (UIStyleManager.hasStyle(UIStyleManager.MENU_BUTTON_OVER_COLOR)) 
-            _overFillColor = UIStyleManager.getStyle(UIStyleManager.MENU_BUTTON_OVER_COLOR);
+        if (hasResolvedStyle(UIStyleManager.MENU_BUTTON_OVER_COLOR))
+            _overFillColor = getResolvedStyle(UIStyleManager.MENU_BUTTON_OVER_COLOR);
         
-        if (UIStyleManager.hasStyle(UIStyleManager.MENU_BUTTON_DISABLE_COLOR)) 
-            _disableFillColor = UIStyleManager.getStyle(UIStyleManager.MENU_BUTTON_DISABLE_COLOR);
+        if (hasResolvedStyle(UIStyleManager.MENU_BUTTON_DISABLE_COLOR))
+            _disableFillColor = getResolvedStyle(UIStyleManager.MENU_BUTTON_DISABLE_COLOR);
         
-        if (UIStyleManager.hasStyle(UIStyleManager.MENU_BUTTON_DOWN_COLOR)) 
-            _downFillColor = UIStyleManager.getStyle(UIStyleManager.MENU_BUTTON_DOWN_COLOR);
+        if (hasResolvedStyle(UIStyleManager.MENU_BUTTON_DOWN_COLOR))
+            _downFillColor = getResolvedStyle(UIStyleManager.MENU_BUTTON_DOWN_COLOR);
         
         
           // Button Border
-        if (UIStyleManager.hasStyle(UIStyleManager.MENU_BUTTON_BORDER_NORMAL_COLOR)) 
-            _normalLineColor = UIStyleManager.getStyle(UIStyleManager.MENU_BUTTON_BORDER_NORMAL_COLOR);
+        if (hasResolvedStyle(UIStyleManager.MENU_BUTTON_BORDER_NORMAL_COLOR))
+            _normalLineColor = getResolvedStyle(UIStyleManager.MENU_BUTTON_BORDER_NORMAL_COLOR);
         
-        if (UIStyleManager.hasStyle(UIStyleManager.MENU_BUTTON_BORDER_OVER_COLOR)) 
-            _overLineColor = UIStyleManager.getStyle(UIStyleManager.MENU_BUTTON_BORDER_OVER_COLOR);
+        if (hasResolvedStyle(UIStyleManager.MENU_BUTTON_BORDER_OVER_COLOR))
+            _overLineColor = getResolvedStyle(UIStyleManager.MENU_BUTTON_BORDER_OVER_COLOR);
         
-        if (UIStyleManager.hasStyle(UIStyleManager.MENU_BUTTON_BORDER_DOWN_COLOR)) 
-            _downLineColor = UIStyleManager.getStyle(UIStyleManager.MENU_BUTTON_BORDER_DOWN_COLOR);
+        if (hasResolvedStyle(UIStyleManager.MENU_BUTTON_BORDER_DOWN_COLOR))
+            _downLineColor = getResolvedStyle(UIStyleManager.MENU_BUTTON_BORDER_DOWN_COLOR);
         
-        if (UIStyleManager.hasStyle(UIStyleManager.MENU_BUTTON_BORDER_DISABLE_COLOR)) 
-            _disableLineColor = UIStyleManager.getStyle(UIStyleManager.MENU_BUTTON_BORDER_DISABLE_COLOR);
+        if (hasResolvedStyle(UIStyleManager.MENU_BUTTON_BORDER_DISABLE_COLOR))
+            _disableLineColor = getResolvedStyle(UIStyleManager.MENU_BUTTON_BORDER_DISABLE_COLOR);
         
-        if (UIStyleManager.hasStyle(UIStyleManager.MENU_BUTTON_BORDER_ALPHA)) 
-            _buttonLineAlpha = UIStyleManager.getStyle(UIStyleManager.MENU_BUTTON_BORDER_ALPHA);
+        if (hasResolvedStyle(UIStyleManager.MENU_BUTTON_BORDER_ALPHA))
+            _buttonLineAlpha = getResolvedStyle(UIStyleManager.MENU_BUTTON_BORDER_ALPHA);
         
-        if (UIStyleManager.hasStyle(UIStyleManager.MENU_BUTTON_BORDER_THICKNESS)) 
-            _buttonBorderThickness = UIStyleManager.getStyle(UIStyleManager.MENU_BUTTON_BORDER_THICKNESS);
+        if (hasResolvedStyle(UIStyleManager.MENU_BUTTON_BORDER_THICKNESS))
+            _buttonBorderThickness = getResolvedStyle(UIStyleManager.MENU_BUTTON_BORDER_THICKNESS);
         
         
         
         // Button Text
-        if (UIStyleManager.hasStyle(UIStyleManager.MENU_LABEL_TEXT_NORMAL_COLOR)) 
-            _textColor = UIStyleManager.getStyle(UIStyleManager.MENU_LABEL_TEXT_NORMAL_COLOR);
+        if (hasResolvedStyle(UIStyleManager.MENU_LABEL_TEXT_NORMAL_COLOR))
+            _textColor = getResolvedStyle(UIStyleManager.MENU_LABEL_TEXT_NORMAL_COLOR);
         
-        if (UIStyleManager.hasStyle(UIStyleManager.MENU_LABEL_TEXT_OVER_COLOR)) 
-            _textOverColor = UIStyleManager.getStyle(UIStyleManager.MENU_LABEL_TEXT_OVER_COLOR);
+        if (hasResolvedStyle(UIStyleManager.MENU_LABEL_TEXT_OVER_COLOR))
+            _textOverColor = getResolvedStyle(UIStyleManager.MENU_LABEL_TEXT_OVER_COLOR);
         
-        if (UIStyleManager.hasStyle(UIStyleManager.MENU_LABEL_TEXT_DOWN_COLOR)) 
-            _textSelectedColor = UIStyleManager.getStyle(UIStyleManager.MENU_LABEL_TEXT_DOWN_COLOR);
+        if (hasResolvedStyle(UIStyleManager.MENU_LABEL_TEXT_DOWN_COLOR))
+            _textSelectedColor = getResolvedStyle(UIStyleManager.MENU_LABEL_TEXT_DOWN_COLOR);
         
-        if (UIStyleManager.hasStyle(UIStyleManager.MENU_LABEL_TEXT_DISABLE_COLOR)) 
-            _textDisableColor = UIStyleManager.getStyle(UIStyleManager.MENU_LABEL_TEXT_DISABLE_COLOR);
+        if (hasResolvedStyle(UIStyleManager.MENU_LABEL_TEXT_DISABLE_COLOR))
+            _textDisableColor = getResolvedStyle(UIStyleManager.MENU_LABEL_TEXT_DISABLE_COLOR);
         
         
         
           // Sub Menu
-        if (UIStyleManager.hasStyle(UIStyleManager.MENU_SUB_BUTTON_NORMAL_COLOR)) 
-            _subMenuDefaultColor = UIStyleManager.getStyle(UIStyleManager.MENU_SUB_BUTTON_NORMAL_COLOR);
+        if (hasResolvedStyle(UIStyleManager.MENU_SUB_BUTTON_NORMAL_COLOR))
+            _subMenuDefaultColor = getResolvedStyle(UIStyleManager.MENU_SUB_BUTTON_NORMAL_COLOR);
         
-        if (UIStyleManager.hasStyle(UIStyleManager.MENU_SUB_BUTTON_OVER_COLOR)) 
-            _subMenuOverColor = UIStyleManager.getStyle(UIStyleManager.MENU_SUB_BUTTON_OVER_COLOR);
+        if (hasResolvedStyle(UIStyleManager.MENU_SUB_BUTTON_OVER_COLOR))
+            _subMenuOverColor = getResolvedStyle(UIStyleManager.MENU_SUB_BUTTON_OVER_COLOR);
         
-        if (UIStyleManager.hasStyle(UIStyleManager.MENU_SUB_BUTTON_DISABLE_COLOR)) 
-            _subMenuDisableColor = UIStyleManager.getStyle(UIStyleManager.MENU_SUB_BUTTON_DISABLE_COLOR);
+        if (hasResolvedStyle(UIStyleManager.MENU_SUB_BUTTON_DISABLE_COLOR))
+            _subMenuDisableColor = getResolvedStyle(UIStyleManager.MENU_SUB_BUTTON_DISABLE_COLOR);
         
-        if (UIStyleManager.hasStyle(UIStyleManager.MENU_SUB_BUTTON_DOWN_COLOR)) 
-            _subMenuDownColor = UIStyleManager.getStyle(UIStyleManager.MENU_SUB_BUTTON_DOWN_COLOR);
+        if (hasResolvedStyle(UIStyleManager.MENU_SUB_BUTTON_DOWN_COLOR))
+            _subMenuDownColor = getResolvedStyle(UIStyleManager.MENU_SUB_BUTTON_DOWN_COLOR);
         
         
          // Button Border
-        if (UIStyleManager.hasStyle(UIStyleManager.MENU_SUB_BUTTON_BORDER_NORMAL_COLOR)) 
-            _subNormalLineColor = UIStyleManager.getStyle(UIStyleManager.MENU_SUB_BUTTON_BORDER_NORMAL_COLOR);
+        if (hasResolvedStyle(UIStyleManager.MENU_SUB_BUTTON_BORDER_NORMAL_COLOR))
+            _subNormalLineColor = getResolvedStyle(UIStyleManager.MENU_SUB_BUTTON_BORDER_NORMAL_COLOR);
         
-        if (UIStyleManager.hasStyle(UIStyleManager.MENU_SUB_BUTTON_BORDER_OVER_COLOR)) 
-            _subOverLineColor = UIStyleManager.getStyle(UIStyleManager.MENU_SUB_BUTTON_BORDER_OVER_COLOR);
+        if (hasResolvedStyle(UIStyleManager.MENU_SUB_BUTTON_BORDER_OVER_COLOR))
+            _subOverLineColor = getResolvedStyle(UIStyleManager.MENU_SUB_BUTTON_BORDER_OVER_COLOR);
         
-        if (UIStyleManager.hasStyle(UIStyleManager.MENU_SUB_BUTTON_BORDER_DOWN_COLOR)) 
-            _subDownLineColor = UIStyleManager.getStyle(UIStyleManager.MENU_SUB_BUTTON_BORDER_DOWN_COLOR);
+        if (hasResolvedStyle(UIStyleManager.MENU_SUB_BUTTON_BORDER_DOWN_COLOR))
+            _subDownLineColor = getResolvedStyle(UIStyleManager.MENU_SUB_BUTTON_BORDER_DOWN_COLOR);
         
-        if (UIStyleManager.hasStyle(UIStyleManager.MENU_SUB_BUTTON_BORDER_DISABLE_COLOR)) 
-            _subDisableLineColor = UIStyleManager.getStyle(UIStyleManager.MENU_SUB_BUTTON_BORDER_DISABLE_COLOR);
+        if (hasResolvedStyle(UIStyleManager.MENU_SUB_BUTTON_BORDER_DISABLE_COLOR))
+            _subDisableLineColor = getResolvedStyle(UIStyleManager.MENU_SUB_BUTTON_BORDER_DISABLE_COLOR);
         
-        if (UIStyleManager.hasStyle(UIStyleManager.MENU_SUB_BUTTON_BORDER_ALPHA))
-            _subButtonLineAlpha = UIStyleManager.getStyle(UIStyleManager.MENU_SUB_BUTTON_BORDER_ALPHA);
+        if (hasResolvedStyle(UIStyleManager.MENU_SUB_BUTTON_BORDER_ALPHA))
+            _subButtonLineAlpha = getResolvedStyle(UIStyleManager.MENU_SUB_BUTTON_BORDER_ALPHA);
         
-        if (UIStyleManager.hasStyle(UIStyleManager.MENU_SUB_BUTTON_BORDER_THICKNESS)) 
-            _subButtonBorderThickness = UIStyleManager.getStyle(UIStyleManager.MENU_SUB_BUTTON_BORDER_THICKNESS);
+        if (hasResolvedStyle(UIStyleManager.MENU_SUB_BUTTON_BORDER_THICKNESS))
+            _subButtonBorderThickness = getResolvedStyle(UIStyleManager.MENU_SUB_BUTTON_BORDER_THICKNESS);
         
         
         
         // Sub Menu Text
-        if (UIStyleManager.hasStyle(UIStyleManager.MENU_SUB_LABEL_TEXT_NORMAL_COLOR)) 
-            _subTextColor = UIStyleManager.getStyle(UIStyleManager.MENU_SUB_LABEL_TEXT_NORMAL_COLOR);
+        if (hasResolvedStyle(UIStyleManager.MENU_SUB_LABEL_TEXT_NORMAL_COLOR))
+            _subTextColor = getResolvedStyle(UIStyleManager.MENU_SUB_LABEL_TEXT_NORMAL_COLOR);
         
-        if (UIStyleManager.hasStyle(UIStyleManager.MENU_SUB_LABEL_TEXT_OVER_COLOR)) 
-            _subTextOverColor = UIStyleManager.getStyle(UIStyleManager.MENU_SUB_LABEL_TEXT_OVER_COLOR);
+        if (hasResolvedStyle(UIStyleManager.MENU_SUB_LABEL_TEXT_OVER_COLOR))
+            _subTextOverColor = getResolvedStyle(UIStyleManager.MENU_SUB_LABEL_TEXT_OVER_COLOR);
         
-        if (UIStyleManager.hasStyle(UIStyleManager.MENU_SUB_LABEL_TEXT_DOWN_COLOR)) 
-            _subTextSelectedColor = UIStyleManager.getStyle(UIStyleManager.MENU_SUB_LABEL_TEXT_DOWN_COLOR);
+        if (hasResolvedStyle(UIStyleManager.MENU_SUB_LABEL_TEXT_DOWN_COLOR))
+            _subTextSelectedColor = getResolvedStyle(UIStyleManager.MENU_SUB_LABEL_TEXT_DOWN_COLOR);
         
-        if (UIStyleManager.hasStyle(UIStyleManager.MENU_SUB_LABEL_TEXT_DISABLE_COLOR)) 
-            _subTextDisableColor = UIStyleManager.getStyle(UIStyleManager.MENU_SUB_LABEL_TEXT_DISABLE_COLOR);
+        if (hasResolvedStyle(UIStyleManager.MENU_SUB_LABEL_TEXT_DISABLE_COLOR))
+            _subTextDisableColor = getResolvedStyle(UIStyleManager.MENU_SUB_LABEL_TEXT_DISABLE_COLOR);
 
-        if (UIStyleManager.hasStyle(UIStyleManager.MENU_BUTTON_BORDER))
-            _buttonBorder =  UIStyleManager.getStyle(UIStyleManager.MENU_BUTTON_BORDER);
+        if (hasResolvedStyle(UIStyleManager.MENU_BUTTON_BORDER))
+            _buttonBorder =  getResolvedStyle(UIStyleManager.MENU_BUTTON_BORDER);
 
-        if (UIStyleManager.hasStyle(UIStyleManager.MENU_SUB_BUTTON_BORDER))
-            _subButtonBorder = UIStyleManager.getStyle(UIStyleManager.MENU_SUB_BUTTON_BORDER);
+        if (hasResolvedStyle(UIStyleManager.MENU_SUB_BUTTON_BORDER))
+            _subButtonBorder = getResolvedStyle(UIStyleManager.MENU_SUB_BUTTON_BORDER);
     }
     
     private function initBitmap() : Void
     {
         // Menu Background
-        if (UIBitmapManager.hasUIElement(UIBitmapType.Menu, UIBitmapManager.MENU_BACKGROUND)) 
-            setBackgroundImage(UIBitmapManager.getUIElement(UIBitmapType.Menu, UIBitmapManager.MENU_BACKGROUND));
+        if (hasResolvedBitmap(UIBitmapType.Menu, UIBitmapManager.MENU_BACKGROUND))
+            setBackgroundImage(getResolvedBitmap(UIBitmapType.Menu, UIBitmapManager.MENU_BACKGROUND));
         
         
           // UI Skinning
-        if (UIBitmapManager.hasUIElement(UIBitmapType.Menu, UIBitmapManager.MENU_BUTTON_NORMAL)) 
-            setDefaultStateImage(UIBitmapManager.getUIElement(UIBitmapType.Menu, UIBitmapManager.MENU_BUTTON_NORMAL));
+        if (hasResolvedBitmap(UIBitmapType.Menu, UIBitmapManager.MENU_BUTTON_NORMAL))
+            setDefaultStateImage(getResolvedBitmap(UIBitmapType.Menu, UIBitmapManager.MENU_BUTTON_NORMAL));
         
-        if (UIBitmapManager.hasUIElement(UIBitmapType.Menu, UIBitmapManager.MENU_BUTTON_OVER)) 
-            setOverStateImage(UIBitmapManager.getUIElement(UIBitmapType.Menu, UIBitmapManager.MENU_BUTTON_OVER));
+        if (hasResolvedBitmap(UIBitmapType.Menu, UIBitmapManager.MENU_BUTTON_OVER))
+            setOverStateImage(getResolvedBitmap(UIBitmapType.Menu, UIBitmapManager.MENU_BUTTON_OVER));
         
-        if (UIBitmapManager.hasUIElement(UIBitmapType.Menu, UIBitmapManager.MENU_BUTTON_DOWN)) 
-            setDownStateImage(UIBitmapManager.getUIElement(UIBitmapType.Menu, UIBitmapManager.MENU_BUTTON_DOWN));
+        if (hasResolvedBitmap(UIBitmapType.Menu, UIBitmapManager.MENU_BUTTON_DOWN))
+            setDownStateImage(getResolvedBitmap(UIBitmapType.Menu, UIBitmapManager.MENU_BUTTON_DOWN));
         
-        if (UIBitmapManager.hasUIElement(UIBitmapType.Menu, UIBitmapManager.MENU_BUTTON_DISABLE)) 
-            setDisableStateImage(UIBitmapManager.getUIElement(UIBitmapType.Menu, UIBitmapManager.MENU_BUTTON_DISABLE));
+        if (hasResolvedBitmap(UIBitmapType.Menu, UIBitmapManager.MENU_BUTTON_DISABLE))
+            setDisableStateImage(getResolvedBitmap(UIBitmapType.Menu, UIBitmapManager.MENU_BUTTON_DISABLE));
         
-        if (UIBitmapManager.hasUIElement(UIBitmapType.Menu, UIBitmapManager.MENU_BUTTON_ICON)) 
-            setIcon(UIBitmapManager.getUIElement(UIBitmapType.Menu, UIBitmapManager.MENU_BUTTON_ICON));
+        if (hasResolvedBitmap(UIBitmapType.Menu, UIBitmapManager.MENU_BUTTON_ICON))
+            setIcon(getResolvedBitmap(UIBitmapType.Menu, UIBitmapManager.MENU_BUTTON_ICON));
         
-        if (UIBitmapManager.hasUIElement(UIBitmapType.Menu, UIBitmapManager.MENU_BUTTON_SUB_MENU_DROPDOWN)) 
-            setSubMenuDropDownIconImage(UIBitmapManager.getUIElement(UIBitmapType.Menu, UIBitmapManager.MENU_BUTTON_SUB_MENU_DROPDOWN));
+        if (hasResolvedBitmap(UIBitmapType.Menu, UIBitmapManager.MENU_BUTTON_SUB_MENU_DROPDOWN))
+            setSubMenuDropDownIconImage(getResolvedBitmap(UIBitmapType.Menu, UIBitmapManager.MENU_BUTTON_SUB_MENU_DROPDOWN));
         
         
           // UI Sub Menu Skinning
-        if (UIBitmapManager.hasUIElement(UIBitmapType.Menu, UIBitmapManager.MENU_SUB_BUTTON_NORMAL)) 
-            setSubDefaultStateImage(UIBitmapManager.getUIElement(UIBitmapType.Menu, UIBitmapManager.MENU_SUB_BUTTON_NORMAL));
+        if (hasResolvedBitmap(UIBitmapType.Menu, UIBitmapManager.MENU_SUB_BUTTON_NORMAL))
+            setSubDefaultStateImage(getResolvedBitmap(UIBitmapType.Menu, UIBitmapManager.MENU_SUB_BUTTON_NORMAL));
         
-        if (UIBitmapManager.hasUIElement(UIBitmapType.Menu, UIBitmapManager.MENU_SUB_BUTTON_OVER)) 
-            setSubOverStateImage(UIBitmapManager.getUIElement(UIBitmapType.Menu, UIBitmapManager.MENU_SUB_BUTTON_OVER));
+        if (hasResolvedBitmap(UIBitmapType.Menu, UIBitmapManager.MENU_SUB_BUTTON_OVER))
+            setSubOverStateImage(getResolvedBitmap(UIBitmapType.Menu, UIBitmapManager.MENU_SUB_BUTTON_OVER));
         
-        if (UIBitmapManager.hasUIElement(UIBitmapType.Menu, UIBitmapManager.MENU_SUB_BUTTON_DOWN)) 
-            setSubDownStateImage(UIBitmapManager.getUIElement(UIBitmapType.Menu, UIBitmapManager.MENU_SUB_BUTTON_DOWN));
+        if (hasResolvedBitmap(UIBitmapType.Menu, UIBitmapManager.MENU_SUB_BUTTON_DOWN))
+            setSubDownStateImage(getResolvedBitmap(UIBitmapType.Menu, UIBitmapManager.MENU_SUB_BUTTON_DOWN));
         
-        if (UIBitmapManager.hasUIElement(UIBitmapType.Menu, UIBitmapManager.MENU_SUB_BUTTON_DISABLE)) 
-            setSubDisableStateImage(UIBitmapManager.getUIElement(UIBitmapType.Menu, UIBitmapManager.MENU_SUB_BUTTON_DISABLE));
+        if (hasResolvedBitmap(UIBitmapType.Menu, UIBitmapManager.MENU_SUB_BUTTON_DISABLE))
+            setSubDisableStateImage(getResolvedBitmap(UIBitmapType.Menu, UIBitmapManager.MENU_SUB_BUTTON_DISABLE));
         
-        if (UIBitmapManager.hasUIElement(UIBitmapType.Menu, UIBitmapManager.MENU_SUB_BUTTON_ICON)) 
-            setSubIcon(UIBitmapManager.getUIElement(UIBitmapType.Menu, UIBitmapManager.MENU_SUB_BUTTON_ICON));
+        if (hasResolvedBitmap(UIBitmapType.Menu, UIBitmapManager.MENU_SUB_BUTTON_ICON))
+            setSubIcon(getResolvedBitmap(UIBitmapType.Menu, UIBitmapManager.MENU_SUB_BUTTON_ICON));
     }
     
     
@@ -1577,20 +1577,20 @@ class Menu extends BaseContainer implements IMenu implements IBaseContainer impl
 			menu.hasChildren = dataObj.hasSubMenu;
 			
 			// Only if font is set in Style Manager
-			if (UIStyleManager.hasStyle(UIStyleManager.MENU_LABEL_TEXT_EMBED))
-				menu.label.setEmbedFont(UIStyleManager.getStyle(UIStyleManager.MENU_LABEL_TEXT_EMBED));
+			if (hasResolvedStyle(UIStyleManager.MENU_LABEL_TEXT_EMBED))
+				menu.label.setEmbedFont(getResolvedStyle(UIStyleManager.MENU_LABEL_TEXT_EMBED));
 			
-			if (UIStyleManager.hasStyle(UIStyleManager.MENU_LABEL_TEXT_FONT))
-				menu.label.font = UIStyleManager.getStyle(UIStyleManager.MENU_LABEL_TEXT_FONT);
+			if (hasResolvedStyle(UIStyleManager.MENU_LABEL_TEXT_FONT))
+				menu.label.font = getResolvedStyle(UIStyleManager.MENU_LABEL_TEXT_FONT);
 			
-			if (UIStyleManager.hasStyle(UIStyleManager.MENU_LABEL_TEXT_SIZE))
-				menu.label.size = UIStyleManager.getStyle(UIStyleManager.MENU_LABEL_TEXT_SIZE);
+			if (hasResolvedStyle(UIStyleManager.MENU_LABEL_TEXT_SIZE))
+				menu.label.size = getResolvedStyle(UIStyleManager.MENU_LABEL_TEXT_SIZE);
 			
-			if (UIStyleManager.hasStyle(UIStyleManager.MENU_LABEL_TEXT_BOLD))
-				menu.label.bold = UIStyleManager.getStyle(UIStyleManager.MENU_LABEL_TEXT_BOLD);
+			if (hasResolvedStyle(UIStyleManager.MENU_LABEL_TEXT_BOLD))
+				menu.label.bold = getResolvedStyle(UIStyleManager.MENU_LABEL_TEXT_BOLD);
 			
-			if (UIStyleManager.hasStyle(UIStyleManager.MENU_LABEL_TEXT_ITALIC))
-				menu.label.italic = UIStyleManager.getStyle(UIStyleManager.MENU_LABEL_TEXT_ITALIC);
+			if (hasResolvedStyle(UIStyleManager.MENU_LABEL_TEXT_ITALIC))
+				menu.label.italic = getResolvedStyle(UIStyleManager.MENU_LABEL_TEXT_ITALIC);
 			
 			dataObj.menuItem = menu;
 			
@@ -1638,20 +1638,20 @@ class Menu extends BaseContainer implements IMenu implements IBaseContainer impl
                 menu.hasChildren = dataObj.hasSubMenu;
                 menu.hasParent = true;
                 
-                if (UIStyleManager.hasStyle(UIStyleManager.MENU_SUB_LABEL_TEXT_EMBED)) 
-                    menu.label.setEmbedFont(UIStyleManager.getStyle(UIStyleManager.MENU_SUB_LABEL_TEXT_EMBED));
+                if (hasResolvedStyle(UIStyleManager.MENU_SUB_LABEL_TEXT_EMBED))
+                    menu.label.setEmbedFont(getResolvedStyle(UIStyleManager.MENU_SUB_LABEL_TEXT_EMBED));
                 
-                if (UIStyleManager.hasStyle(UIStyleManager.MENU_SUB_LABEL_TEXT_FONT)) 
-                    menu.label.font = UIStyleManager.getStyle(UIStyleManager.MENU_SUB_LABEL_TEXT_FONT);
+                if (hasResolvedStyle(UIStyleManager.MENU_SUB_LABEL_TEXT_FONT))
+                    menu.label.font = getResolvedStyle(UIStyleManager.MENU_SUB_LABEL_TEXT_FONT);
                 
-                if (UIStyleManager.hasStyle(UIStyleManager.MENU_SUB_LABEL_TEXT_SIZE))
-                    menu.label.size = UIStyleManager.getStyle(UIStyleManager.MENU_SUB_LABEL_TEXT_SIZE);
+                if (hasResolvedStyle(UIStyleManager.MENU_SUB_LABEL_TEXT_SIZE))
+                    menu.label.size = getResolvedStyle(UIStyleManager.MENU_SUB_LABEL_TEXT_SIZE);
                 
-                if (UIStyleManager.hasStyle(UIStyleManager.MENU_SUB_LABEL_TEXT_BOLD))
-                    menu.label.bold = UIStyleManager.getStyle(UIStyleManager.MENU_SUB_LABEL_TEXT_BOLD);
+                if (hasResolvedStyle(UIStyleManager.MENU_SUB_LABEL_TEXT_BOLD))
+                    menu.label.bold = getResolvedStyle(UIStyleManager.MENU_SUB_LABEL_TEXT_BOLD);
                 
-                if (UIStyleManager.hasStyle(UIStyleManager.MENU_SUB_LABEL_TEXT_ITALIC))
-                    menu.label.italic = UIStyleManager.getStyle(UIStyleManager.MENU_SUB_LABEL_TEXT_ITALIC);
+                if (hasResolvedStyle(UIStyleManager.MENU_SUB_LABEL_TEXT_ITALIC))
+                    menu.label.italic = getResolvedStyle(UIStyleManager.MENU_SUB_LABEL_TEXT_ITALIC);
                 
                 if (buttonArea.direction == HORIZONTAL) 
                 {

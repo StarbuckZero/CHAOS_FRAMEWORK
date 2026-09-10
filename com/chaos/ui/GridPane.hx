@@ -280,22 +280,22 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
     private function initSkin() : Void
     {
         // Background
-        if (UIBitmapManager.hasUIElement(UIBitmapType.GridPane, UIBitmapManager.GRIDPANE_BACKGROUND)) 
-            setBackgroundImage(UIBitmapManager.getUIElement(UIBitmapType.GridPane, UIBitmapManager.GRIDPANE_BACKGROUND));
+        if (hasResolvedBitmap(UIBitmapType.GridPane, UIBitmapManager.GRIDPANE_BACKGROUND))
+            setBackgroundImage(getResolvedBitmap(UIBitmapType.GridPane, UIBitmapManager.GRIDPANE_BACKGROUND));
         
           // Buttons
-        if (UIBitmapManager.hasUIElement(UIBitmapType.GridPane, UIBitmapManager.GRIDPANE_BUTTON_NORMAL)) 
-            setColumnButtonImage(UIBitmapManager.getUIElement(UIBitmapType.GridPane, UIBitmapManager.GRIDPANE_BUTTON_NORMAL));
+        if (hasResolvedBitmap(UIBitmapType.GridPane, UIBitmapManager.GRIDPANE_BUTTON_NORMAL))
+            setColumnButtonImage(getResolvedBitmap(UIBitmapType.GridPane, UIBitmapManager.GRIDPANE_BUTTON_NORMAL));
         
-        if (UIBitmapManager.hasUIElement(UIBitmapType.GridPane, UIBitmapManager.GRIDPANE_BUTTON_OVER)) 
-            setColumnButtonOverImage(UIBitmapManager.getUIElement(UIBitmapType.GridPane, UIBitmapManager.GRIDPANE_BUTTON_OVER));
+        if (hasResolvedBitmap(UIBitmapType.GridPane, UIBitmapManager.GRIDPANE_BUTTON_OVER))
+            setColumnButtonOverImage(getResolvedBitmap(UIBitmapType.GridPane, UIBitmapManager.GRIDPANE_BUTTON_OVER));
         
-        if (UIBitmapManager.hasUIElement(UIBitmapType.GridPane, UIBitmapManager.GRIDPANE_BUTTON_DOWN)) 
-            setColumnButtonDownImage(UIBitmapManager.getUIElement(UIBitmapType.GridPane, UIBitmapManager.GRIDPANE_BUTTON_DOWN));
+        if (hasResolvedBitmap(UIBitmapType.GridPane, UIBitmapManager.GRIDPANE_BUTTON_DOWN))
+            setColumnButtonDownImage(getResolvedBitmap(UIBitmapType.GridPane, UIBitmapManager.GRIDPANE_BUTTON_DOWN));
         
           // Cell
-        if (UIBitmapManager.hasUIElement(UIBitmapType.GridPane, UIBitmapManager.GRIDPANE_CELL_BACKGROUND)) 
-            setCellBackgroundImage(UIBitmapManager.getUIElement(UIBitmapType.GridPane, UIBitmapManager.GRIDPANE_CELL_BACKGROUND));
+        if (hasResolvedBitmap(UIBitmapType.GridPane, UIBitmapManager.GRIDPANE_CELL_BACKGROUND))
+            setCellBackgroundImage(getResolvedBitmap(UIBitmapType.GridPane, UIBitmapManager.GRIDPANE_CELL_BACKGROUND));
     }
     
 	 
@@ -304,62 +304,62 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
 		super.initStyle();
 		
         // Border
-        if (UIStyleManager.hasStyle(UIStyleManager.GRID_BACKGROUND_COLOR))
-            _backgroundColor = UIStyleManager.getStyle(UIStyleManager.GRID_BACKGROUND_COLOR);
+        if (hasResolvedStyle(UIStyleManager.GRID_BACKGROUND_COLOR))
+            _backgroundColor = getResolvedStyle(UIStyleManager.GRID_BACKGROUND_COLOR);
 
-        if (UIStyleManager.hasStyle(UIStyleManager.GRIDPANE_TILE_IMAGE))
-            _tileImage = UIStyleManager.getStyle(UIStyleManager.GRIDPANE_TILE_IMAGE);
+        if (hasResolvedStyle(UIStyleManager.GRIDPANE_TILE_IMAGE))
+            _tileImage = getResolvedStyle(UIStyleManager.GRIDPANE_TILE_IMAGE);
         
-        if (UIStyleManager.hasStyle(UIStyleManager.GRID_BORDER_COLOR))
-            outline.lineColor = UIStyleManager.getStyle(UIStyleManager.GRID_BORDER_COLOR);
+        if (hasResolvedStyle(UIStyleManager.GRID_BORDER_COLOR))
+            outline.lineColor = getResolvedStyle(UIStyleManager.GRID_BORDER_COLOR);
         
-        if (UIStyleManager.hasStyle(UIStyleManager.GRID_BORDER_ALPHA))
-            outline.lineAlpha = UIStyleManager.getStyle(UIStyleManager.GRID_BORDER_ALPHA);
+        if (hasResolvedStyle(UIStyleManager.GRID_BORDER_ALPHA))
+            outline.lineAlpha = getResolvedStyle(UIStyleManager.GRID_BORDER_ALPHA);
         
-        if (UIStyleManager.hasStyle(UIStyleManager.GRID_BORDER_THICKNESS))
-            outline.lineThinkness = UIStyleManager.getStyle(UIStyleManager.GRID_BORDER_THICKNESS);
+        if (hasResolvedStyle(UIStyleManager.GRID_BORDER_THICKNESS))
+            outline.lineThinkness = getResolvedStyle(UIStyleManager.GRID_BORDER_THICKNESS);
         
-        if (UIStyleManager.hasStyle(UIStyleManager.GRID_BORDER))
-            showOutline = UIStyleManager.getStyle(UIStyleManager.GRID_BORDER);
+        if (hasResolvedStyle(UIStyleManager.GRID_BORDER))
+            showOutline = getResolvedStyle(UIStyleManager.GRID_BORDER);
 
-        if (UIStyleManager.hasStyle(UIStyleManager.GRID_WIDTH))
-            _width = UIStyleManager.getStyle(UIStyleManager.GRID_WIDTH);
+        if (hasResolvedStyle(UIStyleManager.GRID_WIDTH))
+            _width = getResolvedStyle(UIStyleManager.GRID_WIDTH);
 
-        if (UIStyleManager.hasStyle(UIStyleManager.GRID_HEIGHT))
-            _height = UIStyleManager.getStyle(UIStyleManager.GRID_HEIGHT);
+        if (hasResolvedStyle(UIStyleManager.GRID_HEIGHT))
+            _height = getResolvedStyle(UIStyleManager.GRID_HEIGHT);
 
-        if (UIStyleManager.hasStyle(UIStyleManager.GRID_BACKGROUND))
-            _background = UIStyleManager.getStyle(UIStyleManager.GRID_BACKGROUND);
+        if (hasResolvedStyle(UIStyleManager.GRID_BACKGROUND))
+            _background = getResolvedStyle(UIStyleManager.GRID_BACKGROUND);
         
         // Column Buttons
-        if (UIStyleManager.hasStyle(UIStyleManager.GRID_COLUMN_BUTTON_NORMAL_COLOR)) 
-            _columnButtonColor = UIStyleManager.getStyle(UIStyleManager.GRID_COLUMN_BUTTON_NORMAL_COLOR);
+        if (hasResolvedStyle(UIStyleManager.GRID_COLUMN_BUTTON_NORMAL_COLOR))
+            _columnButtonColor = getResolvedStyle(UIStyleManager.GRID_COLUMN_BUTTON_NORMAL_COLOR);
         
-        if (UIStyleManager.hasStyle(UIStyleManager.GRID_COLUMN_BUTTON_OVER_COLOR))
-            _columnButtonOverColor = UIStyleManager.getStyle(UIStyleManager.GRID_COLUMN_BUTTON_OVER_COLOR);
+        if (hasResolvedStyle(UIStyleManager.GRID_COLUMN_BUTTON_OVER_COLOR))
+            _columnButtonOverColor = getResolvedStyle(UIStyleManager.GRID_COLUMN_BUTTON_OVER_COLOR);
         
-        if (UIStyleManager.hasStyle(UIStyleManager.GRID_COLUMN_BUTTON_DOWN_COLOR))
-            _columnButtonDownColor = UIStyleManager.getStyle(UIStyleManager.GRID_COLUMN_BUTTON_DOWN_COLOR);
+        if (hasResolvedStyle(UIStyleManager.GRID_COLUMN_BUTTON_DOWN_COLOR))
+            _columnButtonDownColor = getResolvedStyle(UIStyleManager.GRID_COLUMN_BUTTON_DOWN_COLOR);
         
         
         // Cell
-        if (UIStyleManager.hasStyle(UIStyleManager.GRID_CELL_BACKGROUND_COLOR))
-            _cellColor = UIStyleManager.getStyle(UIStyleManager.GRID_CELL_BACKGROUND_COLOR);
+        if (hasResolvedStyle(UIStyleManager.GRID_CELL_BACKGROUND_COLOR))
+            _cellColor = getResolvedStyle(UIStyleManager.GRID_CELL_BACKGROUND_COLOR);
         
-        if (UIStyleManager.hasStyle(UIStyleManager.GRID_CELL_BORDER_ALPHA))
-            _cellBorderAlpha = UIStyleManager.getStyle(UIStyleManager.GRID_CELL_BORDER_ALPHA);
+        if (hasResolvedStyle(UIStyleManager.GRID_CELL_BORDER_ALPHA))
+            _cellBorderAlpha = getResolvedStyle(UIStyleManager.GRID_CELL_BORDER_ALPHA);
         
-        if (UIStyleManager.hasStyle(UIStyleManager.GRID_CELL_BORDER_COLOR))
-            _cellBorderColor = UIStyleManager.getStyle(UIStyleManager.GRID_CELL_BORDER_COLOR);
+        if (hasResolvedStyle(UIStyleManager.GRID_CELL_BORDER_COLOR))
+            _cellBorderColor = getResolvedStyle(UIStyleManager.GRID_CELL_BORDER_COLOR);
         
-        if (UIStyleManager.hasStyle(UIStyleManager.GRID_CELL_BORDER))
-            _cellBorder = UIStyleManager.getStyle(UIStyleManager.GRID_CELL_BORDER);
+        if (hasResolvedStyle(UIStyleManager.GRID_CELL_BORDER))
+            _cellBorder = getResolvedStyle(UIStyleManager.GRID_CELL_BORDER);
         
-        if (UIStyleManager.hasStyle(UIStyleManager.GRID_CELL_BORDER_THICKNESS))
-            _cellBorderThickness = UIStyleManager.getStyle(UIStyleManager.GRID_CELL_BORDER_THICKNESS);
+        if (hasResolvedStyle(UIStyleManager.GRID_CELL_BORDER_THICKNESS))
+            _cellBorderThickness = getResolvedStyle(UIStyleManager.GRID_CELL_BORDER_THICKNESS);
         
-        if (UIStyleManager.hasStyle(UIStyleManager.GRID_CELL_BACKGROUND))
-            _cellBackground = UIStyleManager.getStyle(UIStyleManager.GRID_CELL_BACKGROUND);
+        if (hasResolvedStyle(UIStyleManager.GRID_CELL_BACKGROUND))
+            _cellBackground = getResolvedStyle(UIStyleManager.GRID_CELL_BACKGROUND);
     }
     
     /**

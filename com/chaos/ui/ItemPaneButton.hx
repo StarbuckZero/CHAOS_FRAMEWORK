@@ -55,17 +55,17 @@ class ItemPaneButton extends ToggleButton implements IToggleButton
 	override function reskin() {
 		super.reskin();
 
-		if(UIStyleManager.hasStyle(UIStyleManager.ITEMPANE_TEXT_COLOR))
-			_defaultTextColor = UIStyleManager.getStyle(UIStyleManager.ITEMPANE_TEXT_COLOR);
+		if(hasResolvedStyle(UIStyleManager.ITEMPANE_TEXT_COLOR))
+			_defaultTextColor = getResolvedStyle(UIStyleManager.ITEMPANE_TEXT_COLOR);
 		
-		if(UIStyleManager.hasStyle(UIStyleManager.ITEMPANE_TEXT_SELECTED_COLOR))
-			_selectedTextColor = UIStyleManager.getStyle(UIStyleManager.ITEMPANE_TEXT_SELECTED_COLOR);
+		if(hasResolvedStyle(UIStyleManager.ITEMPANE_TEXT_SELECTED_COLOR))
+			_selectedTextColor = getResolvedStyle(UIStyleManager.ITEMPANE_TEXT_SELECTED_COLOR);
 
-		if(UIStyleManager.hasStyle(UIStyleManager.ITEMPANE_LABEL_OFFSET_X))
-			_labelLocX = UIStyleManager.getStyle(UIStyleManager.ITEMPANE_LABEL_OFFSET_X);
+		if(hasResolvedStyle(UIStyleManager.ITEMPANE_LABEL_OFFSET_X))
+			_labelLocX = getResolvedStyle(UIStyleManager.ITEMPANE_LABEL_OFFSET_X);
 
-		if(UIStyleManager.hasStyle(UIStyleManager.ITEMPANE_LABEL_OFFSET_Y))
-			_labelLocY = UIStyleManager.getStyle(UIStyleManager.ITEMPANE_LABEL_OFFSET_Y);
+		if(hasResolvedStyle(UIStyleManager.ITEMPANE_LABEL_OFFSET_Y))
+			_labelLocY = getResolvedStyle(UIStyleManager.ITEMPANE_LABEL_OFFSET_Y);
 
 	}
 	

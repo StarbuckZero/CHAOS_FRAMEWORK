@@ -182,21 +182,21 @@ class TabPane extends BaseUI implements ITabPane implements IBaseUI
 	private function initSkin() : Void
 	{
 		// Background
-		if (UIBitmapManager.hasUIElement(UIBitmapType.TabPane, UIBitmapManager.TABPANE_BACKGROUND))
-			_scrollPane.setBackgroundImage(UIBitmapManager.getUIElement(UIBitmapType.TabPane, UIBitmapManager.TABPANE_BACKGROUND));
+		if (hasResolvedBitmap(UIBitmapType.TabPane, UIBitmapManager.TABPANE_BACKGROUND))
+			_scrollPane.setBackgroundImage(getResolvedBitmap(UIBitmapType.TabPane, UIBitmapManager.TABPANE_BACKGROUND));
 
 		// Buttons
-		if (UIBitmapManager.hasUIElement(UIBitmapType.TabPane, UIBitmapManager.TABPANE_BUTTON_NORMAL))
-			setTabButtonDefaultImage(UIBitmapManager.getUIElement(UIBitmapType.TabPane, UIBitmapManager.TABPANE_BUTTON_NORMAL));
+		if (hasResolvedBitmap(UIBitmapType.TabPane, UIBitmapManager.TABPANE_BUTTON_NORMAL))
+			setTabButtonDefaultImage(getResolvedBitmap(UIBitmapType.TabPane, UIBitmapManager.TABPANE_BUTTON_NORMAL));
 
-		if (UIBitmapManager.hasUIElement(UIBitmapType.TabPane, UIBitmapManager.TABPANE_BUTTON_OVER))
-			setTabButtonOverImage(UIBitmapManager.getUIElement(UIBitmapType.TabPane, UIBitmapManager.TABPANE_BUTTON_OVER));
+		if (hasResolvedBitmap(UIBitmapType.TabPane, UIBitmapManager.TABPANE_BUTTON_OVER))
+			setTabButtonOverImage(getResolvedBitmap(UIBitmapType.TabPane, UIBitmapManager.TABPANE_BUTTON_OVER));
 
-		if ( UIBitmapManager.hasUIElement(UIBitmapType.TabPane, UIBitmapManager.TABPANE_BUTTON_SELECTED))
-			setTabButtonDownImage(UIBitmapManager.getUIElement(UIBitmapType.TabPane, UIBitmapManager.TABPANE_BUTTON_SELECTED));
+		if ( hasResolvedBitmap(UIBitmapType.TabPane, UIBitmapManager.TABPANE_BUTTON_SELECTED))
+			setTabButtonDownImage(getResolvedBitmap(UIBitmapType.TabPane, UIBitmapManager.TABPANE_BUTTON_SELECTED));
 
-		if (UIBitmapManager.hasUIElement(UIBitmapType.TabPane, UIBitmapManager.TABPANE_BUTTON_DISABLE))
-			setTabButtonDisableImage(UIBitmapManager.getUIElement(UIBitmapType.TabPane, UIBitmapManager.TABPANE_BUTTON_DISABLE));
+		if (hasResolvedBitmap(UIBitmapType.TabPane, UIBitmapManager.TABPANE_BUTTON_DISABLE))
+			setTabButtonDisableImage(getResolvedBitmap(UIBitmapType.TabPane, UIBitmapManager.TABPANE_BUTTON_DISABLE));
 	}
 
 	private function initStyle() : Void
@@ -204,47 +204,47 @@ class TabPane extends BaseUI implements ITabPane implements IBaseUI
 		_scrollPaneData = {};
 
 		// Width and Height
-		if (UIStyleManager.hasStyle(UIStyleManager.TABPANE_WIDTH))
-			_width = UIStyleManager.getStyle(UIStyleManager.TABPANE_WIDTH);
+		if (hasResolvedStyle(UIStyleManager.TABPANE_WIDTH))
+			_width = getResolvedStyle(UIStyleManager.TABPANE_WIDTH);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.TABPANE_HEIGHT))
-			_height = UIStyleManager.getStyle(UIStyleManager.TABPANE_HEIGHT);
+		if (hasResolvedStyle(UIStyleManager.TABPANE_HEIGHT))
+			_height = getResolvedStyle(UIStyleManager.TABPANE_HEIGHT);
 		
 		// Border
-		if (UIStyleManager.hasStyle(UIStyleManager.TABPANE_BACKGROUND))
-			_scrollPane.backgroundColor = UIStyleManager.getStyle(UIStyleManager.TABPANE_BACKGROUND);
+		if (hasResolvedStyle(UIStyleManager.TABPANE_BACKGROUND))
+			_scrollPane.backgroundColor = getResolvedStyle(UIStyleManager.TABPANE_BACKGROUND);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.TABPANE_BORDER))
-			_scrollPane.showOutline = UIStyleManager.getStyle(UIStyleManager.TABPANE_BORDER);
+		if (hasResolvedStyle(UIStyleManager.TABPANE_BORDER))
+			_scrollPane.showOutline = getResolvedStyle(UIStyleManager.TABPANE_BORDER);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.TABPANE_BORDER_COLOR))
-			_scrollPane.outline.lineColor = UIStyleManager.getStyle(UIStyleManager.TABPANE_BORDER_COLOR);
+		if (hasResolvedStyle(UIStyleManager.TABPANE_BORDER_COLOR))
+			_scrollPane.outline.lineColor = getResolvedStyle(UIStyleManager.TABPANE_BORDER_COLOR);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.TABPANE_BORDER_ALPHA))
-			_scrollPane.outline.lineAlpha = UIStyleManager.getStyle(UIStyleManager.TABPANE_BORDER_ALPHA);
+		if (hasResolvedStyle(UIStyleManager.TABPANE_BORDER_ALPHA))
+			_scrollPane.outline.lineAlpha = getResolvedStyle(UIStyleManager.TABPANE_BORDER_ALPHA);
 			
-		if (UIStyleManager.hasStyle(UIStyleManager.TABPANE_BORDER_THICKNESS))
-			_scrollPane.outline.lineThinkness = UIStyleManager.getStyle(UIStyleManager.TABPANE_BORDER_THICKNESS);
+		if (hasResolvedStyle(UIStyleManager.TABPANE_BORDER_THICKNESS))
+			_scrollPane.outline.lineThinkness = getResolvedStyle(UIStyleManager.TABPANE_BORDER_THICKNESS);
 
 		// Buttons
-		if (UIStyleManager.hasStyle(UIStyleManager.TABPANE_BUTTON_NORMAL_COLOR))
-			_tabButtonNormalColor = UIStyleManager.getStyle(UIStyleManager.TABPANE_BUTTON_NORMAL_COLOR);
+		if (hasResolvedStyle(UIStyleManager.TABPANE_BUTTON_NORMAL_COLOR))
+			_tabButtonNormalColor = getResolvedStyle(UIStyleManager.TABPANE_BUTTON_NORMAL_COLOR);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.TABPANE_BUTTON_OVER_COLOR))
-			_tabButtonOverColor = UIStyleManager.getStyle(UIStyleManager.TABPANE_BUTTON_OVER_COLOR);
+		if (hasResolvedStyle(UIStyleManager.TABPANE_BUTTON_OVER_COLOR))
+			_tabButtonOverColor = getResolvedStyle(UIStyleManager.TABPANE_BUTTON_OVER_COLOR);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.TABPANE_BUTTON_SELECTED_COLOR))
-			_tabButtonSelectedColor = UIStyleManager.getStyle(UIStyleManager.TABPANE_BUTTON_SELECTED_COLOR);
+		if (hasResolvedStyle(UIStyleManager.TABPANE_BUTTON_SELECTED_COLOR))
+			_tabButtonSelectedColor = getResolvedStyle(UIStyleManager.TABPANE_BUTTON_SELECTED_COLOR);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.TABPANE_BUTTON_DISABLE_COLOR))
-			_tabButtonDisableColor = UIStyleManager.getStyle(UIStyleManager.TABPANE_BUTTON_DISABLE_COLOR);
+		if (hasResolvedStyle(UIStyleManager.TABPANE_BUTTON_DISABLE_COLOR))
+			_tabButtonDisableColor = getResolvedStyle(UIStyleManager.TABPANE_BUTTON_DISABLE_COLOR);
 
 		// Button Text Field
-		if (UIStyleManager.hasStyle(UIStyleManager.TABPANE_BUTTON_TEXT_COLOR))
-			_tabButtonTextColor = UIStyleManager.getStyle(UIStyleManager.TABPANE_BUTTON_TEXT_COLOR);
+		if (hasResolvedStyle(UIStyleManager.TABPANE_BUTTON_TEXT_COLOR))
+			_tabButtonTextColor = getResolvedStyle(UIStyleManager.TABPANE_BUTTON_TEXT_COLOR);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.TABPANE_BUTTON_TEXT_COLOR_SELECTED))
-			_tabButtonTextSelectedColor = UIStyleManager.getStyle(UIStyleManager.TABPANE_BUTTON_TEXT_COLOR_SELECTED);
+		if (hasResolvedStyle(UIStyleManager.TABPANE_BUTTON_TEXT_COLOR_SELECTED))
+			_tabButtonTextSelectedColor = getResolvedStyle(UIStyleManager.TABPANE_BUTTON_TEXT_COLOR_SELECTED);
 
 	}
 	
@@ -678,8 +678,8 @@ class TabPane extends BaseUI implements ITabPane implements IBaseUI
 			button.downColor = _tabButtonSelectedColor;
 			button.disableColor = _tabButtonDisableColor;
 
-			if (UIStyleManager.hasStyle(UIStyleManager.TABPANE_BUTTON_TINT_ALPHA))
-				button.tintAlpha = UIStyleManager.getStyle(UIStyleManager.TABPANE_BUTTON_TINT_ALPHA);
+			if (hasResolvedStyle(UIStyleManager.TABPANE_BUTTON_TINT_ALPHA))
+				button.tintAlpha = getResolvedStyle(UIStyleManager.TABPANE_BUTTON_TINT_ALPHA);
 
 			if (null != _tabButtonDefaultImage)
 				button.setDefaultStateImage(_tabButtonDefaultImage);
@@ -694,20 +694,20 @@ class TabPane extends BaseUI implements ITabPane implements IBaseUI
 				button.setDisableStateImage(_tabButtonDisableImage);
 
 			// Set TextFormat based on UIStyleManager
-			if(UIStyleManager.hasStyle(UIStyleManager.TABPANE_BUTTON_TEXT_BOLD))
-				button.textBold = UIStyleManager.getStyle(UIStyleManager.TABPANE_BUTTON_TEXT_BOLD);
+			if(hasResolvedStyle(UIStyleManager.TABPANE_BUTTON_TEXT_BOLD))
+				button.textBold = getResolvedStyle(UIStyleManager.TABPANE_BUTTON_TEXT_BOLD);
 
-			if(UIStyleManager.hasStyle(UIStyleManager.TABPANE_BUTTON_TEXT_ITALIC))
-				button.textItalic = UIStyleManager.getStyle(UIStyleManager.TABPANE_BUTTON_TEXT_ITALIC);
+			if(hasResolvedStyle(UIStyleManager.TABPANE_BUTTON_TEXT_ITALIC))
+				button.textItalic = getResolvedStyle(UIStyleManager.TABPANE_BUTTON_TEXT_ITALIC);
 
-			if (UIStyleManager.hasStyle(UIStyleManager.TABPANE_BUTTON_TEXT_SIZE))
-				button.textSize = UIStyleManager.getStyle(UIStyleManager.TABPANE_BUTTON_TEXT_SIZE);
+			if (hasResolvedStyle(UIStyleManager.TABPANE_BUTTON_TEXT_SIZE))
+				button.textSize = getResolvedStyle(UIStyleManager.TABPANE_BUTTON_TEXT_SIZE);
 
-			if (UIStyleManager.hasStyle(UIStyleManager.TABPANE_BUTTON_TEXT_FONT))
-				button.textFont = UIStyleManager.getStyle(UIStyleManager.TABPANE_BUTTON_TEXT_FONT);
+			if (hasResolvedStyle(UIStyleManager.TABPANE_BUTTON_TEXT_FONT))
+				button.textFont = getResolvedStyle(UIStyleManager.TABPANE_BUTTON_TEXT_FONT);
 
-			if (UIStyleManager.hasStyle(UIStyleManager.TABPANE_BUTTON_TEXT_EMBED))
-				button.label.setEmbedFont(UIStyleManager.getStyle(UIStyleManager.TABPANE_BUTTON_TEXT_EMBED));
+			if (hasResolvedStyle(UIStyleManager.TABPANE_BUTTON_TEXT_EMBED))
+				button.label.setEmbedFont(getResolvedStyle(UIStyleManager.TABPANE_BUTTON_TEXT_EMBED));
 				
 			button.draw();
 
@@ -751,8 +751,8 @@ class TabPane extends BaseUI implements ITabPane implements IBaseUI
 			button.textColor = _tabButtonSelectedColor;
 			button.disableColor = _tabButtonDisableColor;
 
-			if (UIStyleManager.hasStyle(UIStyleManager.TABPANE_BUTTON_TINT_ALPHA))
-				button.tintAlpha = UIStyleManager.getStyle(UIStyleManager.TABPANE_BUTTON_TINT_ALPHA);
+			if (hasResolvedStyle(UIStyleManager.TABPANE_BUTTON_TINT_ALPHA))
+				button.tintAlpha = getResolvedStyle(UIStyleManager.TABPANE_BUTTON_TINT_ALPHA);
 
 			// Disable old one
 			oldButton.enabled = true;

@@ -112,19 +112,19 @@ class BaseContainer extends BaseUI implements IBaseContainer implements IBaseUI
 	{
 		super.reskin();
 
-		if (UIStyleManager.hasStyle(UIStyleManager.BASE_CONTAINER_BACKGROUND_COLOR))
-			_backgroundColor = UIStyleManager.getStyle(UIStyleManager.BASE_CONTAINER_BACKGROUND_COLOR);
+		if (hasResolvedStyle(UIStyleManager.BASE_CONTAINER_BACKGROUND_COLOR))
+			_backgroundColor = getResolvedStyle(UIStyleManager.BASE_CONTAINER_BACKGROUND_COLOR);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.BASE_CONTAINER_TILE_IMAGE))
-			_tileImage = UIStyleManager.getStyle(UIStyleManager.BASE_CONTAINER_TILE_IMAGE);
+		if (hasResolvedStyle(UIStyleManager.BASE_CONTAINER_TILE_IMAGE))
+			_tileImage = getResolvedStyle(UIStyleManager.BASE_CONTAINER_TILE_IMAGE);
 
-		if (UIBitmapManager.hasUIElement(UIBitmapType.BaseContainer, UIBitmapManager.BASE_CONTAINER_BACKGROUND))
-			setBackgroundImage(UIBitmapManager.getUIElement(UIBitmapType.BaseContainer, UIBitmapManager.BASE_CONTAINER_BACKGROUND));
+		if (hasResolvedBitmap(UIBitmapType.BaseContainer, UIBitmapManager.BASE_CONTAINER_BACKGROUND))
+			setBackgroundImage(getResolvedBitmap(UIBitmapType.BaseContainer, UIBitmapManager.BASE_CONTAINER_BACKGROUND));
 
 		var componentSkin : Dynamic = getComponentBackgroundSkin();
 
-		if (componentSkin != null && UIBitmapManager.hasUIElement(componentSkin.type, componentSkin.style))
-			setBackgroundImage(UIBitmapManager.getUIElement(componentSkin.type, componentSkin.style));
+		if (componentSkin != null && hasResolvedBitmap(componentSkin.type, componentSkin.style))
+			setBackgroundImage(getResolvedBitmap(componentSkin.type, componentSkin.style));
 	}
 
 	private function getComponentBackgroundSkin() : Dynamic

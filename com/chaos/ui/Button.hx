@@ -294,17 +294,17 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
         super.initBitmap();
 
         // Set skining if in UIBitmapManager
-        if (UIBitmapManager.hasUIElement(UIBitmapType.Button, UIBitmapManager.BUTTON_NORMAL)) 
-            setDefaultStateImage(UIBitmapManager.getUIElement(UIBitmapType.Button, UIBitmapManager.BUTTON_NORMAL));
+        if (hasResolvedBitmap(UIBitmapType.Button, UIBitmapManager.BUTTON_NORMAL))
+            setDefaultStateImage(getResolvedBitmap(UIBitmapType.Button, UIBitmapManager.BUTTON_NORMAL));
         
-        if (UIBitmapManager.hasUIElement(UIBitmapType.Button, UIBitmapManager.BUTTON_OVER)) 
-            setOverStateImage(UIBitmapManager.getUIElement(UIBitmapType.Button, UIBitmapManager.BUTTON_OVER));
+        if (hasResolvedBitmap(UIBitmapType.Button, UIBitmapManager.BUTTON_OVER))
+            setOverStateImage(getResolvedBitmap(UIBitmapType.Button, UIBitmapManager.BUTTON_OVER));
         
-        if (UIBitmapManager.hasUIElement(UIBitmapType.Button, UIBitmapManager.BUTTON_DOWN)) 
-            setDownStateImage(UIBitmapManager.getUIElement(UIBitmapType.Button, UIBitmapManager.BUTTON_DOWN));
+        if (hasResolvedBitmap(UIBitmapType.Button, UIBitmapManager.BUTTON_DOWN))
+            setDownStateImage(getResolvedBitmap(UIBitmapType.Button, UIBitmapManager.BUTTON_DOWN));
         
-        if (UIBitmapManager.hasUIElement(UIBitmapType.Button, UIBitmapManager.BUTTON_DISABLE)) 
-            setDisableStateImage(UIBitmapManager.getUIElement(UIBitmapType.Button, UIBitmapManager.BUTTON_DISABLE));
+        if (hasResolvedBitmap(UIBitmapType.Button, UIBitmapManager.BUTTON_DISABLE))
+            setDisableStateImage(getResolvedBitmap(UIBitmapType.Button, UIBitmapManager.BUTTON_DISABLE));
     }
     
     override private function initStyle() : Void
@@ -316,42 +316,42 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
         }
 
         // First set style default
-        if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_WIDTH) && UIStyleManager.getStyle(UIStyleManager.BUTTON_WIDTH) != _width) {
-            _width = UIStyleManager.getStyle(UIStyleManager.BUTTON_WIDTH);
+        if (hasResolvedStyle(UIStyleManager.BUTTON_WIDTH) && getResolvedStyle(UIStyleManager.BUTTON_WIDTH) != _width) {
+            _width = getResolvedStyle(UIStyleManager.BUTTON_WIDTH);
         }
 
         // This was using BUTTON_WIDTH by mistake.
-        if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_HEIGHT) && UIStyleManager.getStyle(UIStyleManager.BUTTON_HEIGHT) != _height) {
-            _height = UIStyleManager.getStyle(UIStyleManager.BUTTON_HEIGHT);
+        if (hasResolvedStyle(UIStyleManager.BUTTON_HEIGHT) && getResolvedStyle(UIStyleManager.BUTTON_HEIGHT) != _height) {
+            _height = getResolvedStyle(UIStyleManager.BUTTON_HEIGHT);
         }
 
-        if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_ROUND_NUM)) {
-            _roundEdge = UIStyleManager.getStyle(UIStyleManager.BUTTON_ROUND_NUM);
+        if (hasResolvedStyle(UIStyleManager.BUTTON_ROUND_NUM)) {
+            _roundEdge = getResolvedStyle(UIStyleManager.BUTTON_ROUND_NUM);
         }
 
         // Label styles
 
-        if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_TINT_ALPHA)) {
-            _tintAlpha = UIStyleManager.getStyle(UIStyleManager.BUTTON_TINT_ALPHA);
+        if (hasResolvedStyle(UIStyleManager.BUTTON_TINT_ALPHA)) {
+            _tintAlpha = getResolvedStyle(UIStyleManager.BUTTON_TINT_ALPHA);
         }
 
-        if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_ICON_WIDTH)) {
-            _iconWidth = UIStyleManager.getStyle(UIStyleManager.BUTTON_ICON_WIDTH);
+        if (hasResolvedStyle(UIStyleManager.BUTTON_ICON_WIDTH)) {
+            _iconWidth = getResolvedStyle(UIStyleManager.BUTTON_ICON_WIDTH);
         }
 
-        if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_ICON_HEIGHT)) {
-            _iconHeight = UIStyleManager.getStyle(UIStyleManager.BUTTON_ICON_HEIGHT);
+        if (hasResolvedStyle(UIStyleManager.BUTTON_ICON_HEIGHT)) {
+            _iconHeight = getResolvedStyle(UIStyleManager.BUTTON_ICON_HEIGHT);
         }
 
-        if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_SHADOW_FILTER)) {
-            _shadowFilter = UIStyleManager.getStyle(UIStyleManager.BUTTON_SHADOW_FILTER);
+        if (hasResolvedStyle(UIStyleManager.BUTTON_SHADOW_FILTER)) {
+            _shadowFilter = getResolvedStyle(UIStyleManager.BUTTON_SHADOW_FILTER);
         }
 
-        if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_BEVEL_FILTER)) {
-            _bevelFilter = UIStyleManager.getStyle(UIStyleManager.BUTTON_BEVEL_FILTER);
+        if (hasResolvedStyle(UIStyleManager.BUTTON_BEVEL_FILTER)) {
+            _bevelFilter = getResolvedStyle(UIStyleManager.BUTTON_BEVEL_FILTER);
         }
-        if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_TEXT_COLOR)) {
-            _textColor = UIStyleManager.getStyle(UIStyleManager.BUTTON_TEXT_COLOR);
+        if (hasResolvedStyle(UIStyleManager.BUTTON_TEXT_COLOR)) {
+            _textColor = getResolvedStyle(UIStyleManager.BUTTON_TEXT_COLOR);
             Reflect.setField(_labelData, "textColor", _textColor);
 
             if (_label != null) {
@@ -359,12 +359,12 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
             }
         }
 
-        if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_TEXT_DISABLE_COLOR)) {
-            _buttonTextDisableColor = UIStyleManager.getStyle(UIStyleManager.BUTTON_TEXT_DISABLE_COLOR);
+        if (hasResolvedStyle(UIStyleManager.BUTTON_TEXT_DISABLE_COLOR)) {
+            _buttonTextDisableColor = getResolvedStyle(UIStyleManager.BUTTON_TEXT_DISABLE_COLOR);
         }
 
-        if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_TEXT_SIZE)) {
-            _labelSize = UIStyleManager.getStyle(UIStyleManager.BUTTON_TEXT_SIZE);
+        if (hasResolvedStyle(UIStyleManager.BUTTON_TEXT_SIZE)) {
+            _labelSize = getResolvedStyle(UIStyleManager.BUTTON_TEXT_SIZE);
             Reflect.setField(_labelData, "size", _labelSize);
 
             if (_label != null) {
@@ -372,8 +372,8 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
             }
         }
 
-        if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_TEXT_ITALIC)) {
-            _italic = UIStyleManager.getStyle(UIStyleManager.BUTTON_TEXT_ITALIC);
+        if (hasResolvedStyle(UIStyleManager.BUTTON_TEXT_ITALIC)) {
+            _italic = getResolvedStyle(UIStyleManager.BUTTON_TEXT_ITALIC);
             Reflect.setField(_labelData, "italic", _italic);
 
             if (_label != null) {
@@ -381,8 +381,8 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
             }
         }
 
-        if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_TEXT_BOLD)) {
-            _bold = UIStyleManager.getStyle(UIStyleManager.BUTTON_TEXT_BOLD);
+        if (hasResolvedStyle(UIStyleManager.BUTTON_TEXT_BOLD)) {
+            _bold = getResolvedStyle(UIStyleManager.BUTTON_TEXT_BOLD);
             Reflect.setField(_labelData, "bold", _bold);
 
             if (_label != null) {
@@ -390,8 +390,8 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
             }
         }
 
-        if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_TEXT_FONT)) {
-            var fontValue:String = UIStyleManager.getStyle(UIStyleManager.BUTTON_TEXT_FONT);
+        if (hasResolvedStyle(UIStyleManager.BUTTON_TEXT_FONT)) {
+            var fontValue:String = getResolvedStyle(UIStyleManager.BUTTON_TEXT_FONT);
             _textFormat.font = fontValue;
             Reflect.setField(_labelData, "font", fontValue);
 
@@ -400,8 +400,8 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
             }
         }
 
-        if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_TEXT_ALIGN)) {
-            var alignValue:String = UIStyleManager.getStyle(UIStyleManager.BUTTON_TEXT_ALIGN);
+        if (hasResolvedStyle(UIStyleManager.BUTTON_TEXT_ALIGN)) {
+            var alignValue:String = getResolvedStyle(UIStyleManager.BUTTON_TEXT_ALIGN);
             Reflect.setField(_labelData, "align", alignValue);
 
             if (_label != null) {
@@ -409,8 +409,8 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
             }
         }
 
-        if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_TEXT_EMBED)) {
-            var embedValue:Bool = UIStyleManager.getStyle(UIStyleManager.BUTTON_TEXT_EMBED);
+        if (hasResolvedStyle(UIStyleManager.BUTTON_TEXT_EMBED)) {
+            var embedValue:Bool = getResolvedStyle(UIStyleManager.BUTTON_TEXT_EMBED);
 
             Reflect.setField(_labelData, "embedFont", embedValue);
 
@@ -430,36 +430,36 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
 
         _labelData = null;
 
-        if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_NORMAL_COLOR)) {
-            _defaultColor = UIStyleManager.getStyle(UIStyleManager.BUTTON_NORMAL_COLOR);
+        if (hasResolvedStyle(UIStyleManager.BUTTON_NORMAL_COLOR)) {
+            _defaultColor = getResolvedStyle(UIStyleManager.BUTTON_NORMAL_COLOR);
         }
 
-        if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_OVER_COLOR)) {
-            _overColor = UIStyleManager.getStyle(UIStyleManager.BUTTON_OVER_COLOR);
+        if (hasResolvedStyle(UIStyleManager.BUTTON_OVER_COLOR)) {
+            _overColor = getResolvedStyle(UIStyleManager.BUTTON_OVER_COLOR);
         }
 
-        if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_DOWN_COLOR)) {
-            _downColor = UIStyleManager.getStyle(UIStyleManager.BUTTON_DOWN_COLOR);
+        if (hasResolvedStyle(UIStyleManager.BUTTON_DOWN_COLOR)) {
+            _downColor = getResolvedStyle(UIStyleManager.BUTTON_DOWN_COLOR);
         }
 
-        if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_DISABLE_COLOR)) {
-            _disableColor = UIStyleManager.getStyle(UIStyleManager.BUTTON_DISABLE_COLOR);
+        if (hasResolvedStyle(UIStyleManager.BUTTON_DISABLE_COLOR)) {
+            _disableColor = getResolvedStyle(UIStyleManager.BUTTON_DISABLE_COLOR);
         }
 
-        if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_USE_CUSTOM_RENDER)) {
-            _useCustomRender = UIStyleManager.getStyle(UIStyleManager.BUTTON_USE_CUSTOM_RENDER);
+        if (hasResolvedStyle(UIStyleManager.BUTTON_USE_CUSTOM_RENDER)) {
+            _useCustomRender = getResolvedStyle(UIStyleManager.BUTTON_USE_CUSTOM_RENDER);
         }
 
-        if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_TILE_IMAGE)) {
-            _tileImage = UIStyleManager.getStyle(UIStyleManager.BUTTON_TILE_IMAGE);
+        if (hasResolvedStyle(UIStyleManager.BUTTON_TILE_IMAGE)) {
+            _tileImage = getResolvedStyle(UIStyleManager.BUTTON_TILE_IMAGE);
         }
 
-        if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_IMAGE_OFFSET_X)) {
-            _imageOffSetX = UIStyleManager.getStyle(UIStyleManager.BUTTON_IMAGE_OFFSET_X);
+        if (hasResolvedStyle(UIStyleManager.BUTTON_IMAGE_OFFSET_X)) {
+            _imageOffSetX = getResolvedStyle(UIStyleManager.BUTTON_IMAGE_OFFSET_X);
         }
 
-        if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_IMAGE_OFFSET_Y)) {
-            _imageOffSetY = UIStyleManager.getStyle(UIStyleManager.BUTTON_IMAGE_OFFSET_Y);
+        if (hasResolvedStyle(UIStyleManager.BUTTON_IMAGE_OFFSET_Y)) {
+            _imageOffSetY = getResolvedStyle(UIStyleManager.BUTTON_IMAGE_OFFSET_Y);
         }
     }
     
@@ -857,8 +857,8 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
         _icon.y = _imageOffSetY;
 
         // Button Offset
-        var buttonOffSetX : Int = UIStyleManager.hasStyle(UIStyleManager.BUTTON_TEXT_OFFSET_X) ? UIStyleManager.getStyle(UIStyleManager.BUTTON_TEXT_OFFSET_X) : 0;
-        var buttonOffSetY : Int = UIStyleManager.hasStyle(UIStyleManager.BUTTON_TEXT_OFFSET_Y) ? UIStyleManager.getStyle(UIStyleManager.BUTTON_TEXT_OFFSET_Y) : 0;
+        var buttonOffSetX : Int = hasResolvedStyle(UIStyleManager.BUTTON_TEXT_OFFSET_X) ? getResolvedStyle(UIStyleManager.BUTTON_TEXT_OFFSET_X) : 0;
+        var buttonOffSetY : Int = hasResolvedStyle(UIStyleManager.BUTTON_TEXT_OFFSET_Y) ? getResolvedStyle(UIStyleManager.BUTTON_TEXT_OFFSET_Y) : 0;
     
         // Setting loc of items
         if (_showIcon && _showLabel) 

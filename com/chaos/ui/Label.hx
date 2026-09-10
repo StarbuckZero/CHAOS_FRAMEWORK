@@ -285,53 +285,53 @@ class Label extends BaseUI implements ILabel implements IBaseUI {
 
 	private function initStyle():Void {
 
-		if (UIStyleManager.hasStyle(UIStyleManager.LABEL_WIDTH))
-			_width = UIStyleManager.getStyle(UIStyleManager.LABEL_WIDTH);
+		if (hasResolvedStyle(UIStyleManager.LABEL_WIDTH))
+			_width = getResolvedStyle(UIStyleManager.LABEL_WIDTH);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.LABEL_HEIGHT))
-			_height = UIStyleManager.getStyle(UIStyleManager.LABEL_HEIGHT);
+		if (hasResolvedStyle(UIStyleManager.LABEL_HEIGHT))
+			_height = getResolvedStyle(UIStyleManager.LABEL_HEIGHT);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.LABEL_BORDER_THICKNESS))
-			_thickness = UIStyleManager.getStyle(UIStyleManager.LABEL_BORDER_THICKNESS);
+		if (hasResolvedStyle(UIStyleManager.LABEL_BORDER_THICKNESS))
+			_thickness = getResolvedStyle(UIStyleManager.LABEL_BORDER_THICKNESS);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.LABEL_BORDER_COLOR))
-			_outlineColor = UIStyleManager.getStyle(UIStyleManager.LABEL_BORDER_COLOR);
+		if (hasResolvedStyle(UIStyleManager.LABEL_BORDER_COLOR))
+			_outlineColor = getResolvedStyle(UIStyleManager.LABEL_BORDER_COLOR);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.LABEL_BORDER_ALPHA))
-			_outlineAlpha = UIStyleManager.getStyle(UIStyleManager.LABEL_BORDER_ALPHA);
+		if (hasResolvedStyle(UIStyleManager.LABEL_BORDER_ALPHA))
+			_outlineAlpha = getResolvedStyle(UIStyleManager.LABEL_BORDER_ALPHA);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.LABEL_BACKGROUND_COLOR))
-			_backgroundColor = UIStyleManager.getStyle(UIStyleManager.LABEL_BACKGROUND_COLOR);
+		if (hasResolvedStyle(UIStyleManager.LABEL_BACKGROUND_COLOR))
+			_backgroundColor = getResolvedStyle(UIStyleManager.LABEL_BACKGROUND_COLOR);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.LABEL_TEXT_COLOR))
-			_textColor = UIStyleManager.getStyle(UIStyleManager.LABEL_TEXT_COLOR);
+		if (hasResolvedStyle(UIStyleManager.LABEL_TEXT_COLOR))
+			_textColor = getResolvedStyle(UIStyleManager.LABEL_TEXT_COLOR);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.LABEL_TEXT_ALIGN))
-			_align = UIStyleManager.getStyle(UIStyleManager.LABEL_TEXT_ALIGN);
+		if (hasResolvedStyle(UIStyleManager.LABEL_TEXT_ALIGN))
+			_align = getResolvedStyle(UIStyleManager.LABEL_TEXT_ALIGN);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.LABEL_TEXT_SIZE))
-			_size = UIStyleManager.getStyle(UIStyleManager.LABEL_TEXT_SIZE);
+		if (hasResolvedStyle(UIStyleManager.LABEL_TEXT_SIZE))
+			_size = getResolvedStyle(UIStyleManager.LABEL_TEXT_SIZE);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.LABEL_TEXT_EMBED))
-			setEmbedFont(UIStyleManager.getStyle(UIStyleManager.LABEL_TEXT_EMBED));
+		if (hasResolvedStyle(UIStyleManager.LABEL_TEXT_EMBED))
+			setEmbedFont(getResolvedStyle(UIStyleManager.LABEL_TEXT_EMBED));
 
-		if (UIStyleManager.hasStyle(UIStyleManager.LABEL_BACKGROUND))
-		 	_background = UIStyleManager.getStyle(UIStyleManager.LABEL_BACKGROUND);
+		if (hasResolvedStyle(UIStyleManager.LABEL_BACKGROUND))
+			_background = getResolvedStyle(UIStyleManager.LABEL_BACKGROUND);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.LABEL_TEXT_FONT))
-			_fontName = UIStyleManager.getStyle(UIStyleManager.LABEL_TEXT_FONT);
+		if (hasResolvedStyle(UIStyleManager.LABEL_TEXT_FONT))
+			_fontName = getResolvedStyle(UIStyleManager.LABEL_TEXT_FONT);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.LABEL_BORDER))
-			_border = UIStyleManager.getStyle(UIStyleManager.LABEL_BORDER);
+		if (hasResolvedStyle(UIStyleManager.LABEL_BORDER))
+			_border = getResolvedStyle(UIStyleManager.LABEL_BORDER);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.LABEL_TEXT_BOLD))
-			_bold = UIStyleManager.getStyle(UIStyleManager.LABEL_TEXT_BOLD);
+		if (hasResolvedStyle(UIStyleManager.LABEL_TEXT_BOLD))
+			_bold = getResolvedStyle(UIStyleManager.LABEL_TEXT_BOLD);
 		
-		if (UIStyleManager.hasStyle(UIStyleManager.LABEL_TEXT_ITALIC))
-			_italic = UIStyleManager.getStyle(UIStyleManager.LABEL_TEXT_ITALIC);
+		if (hasResolvedStyle(UIStyleManager.LABEL_TEXT_ITALIC))
+			_italic = getResolvedStyle(UIStyleManager.LABEL_TEXT_ITALIC);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.LABEL_INDENT))
-			_textFormat.indent = UIStyleManager.getStyle(UIStyleManager.LABEL_INDENT);
+		if (hasResolvedStyle(UIStyleManager.LABEL_INDENT))
+			_textFormat.indent = getResolvedStyle(UIStyleManager.LABEL_INDENT);
 
 	}
 

@@ -648,80 +648,80 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 			return;
 
 		// Background  
-		if (UIBitmapManager.hasUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_BACKGROUND))   
-			_scrollPane.setBackgroundImage(UIBitmapManager.getUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_BACKGROUND));
+		if (hasResolvedBitmap(UIBitmapType.Window, UIBitmapManager.WINDOW_BACKGROUND))
+			_scrollPane.setBackgroundImage(getResolvedBitmap(UIBitmapType.Window, UIBitmapManager.WINDOW_BACKGROUND));
 		
 		// Top  
-		if (UIBitmapManager.hasUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_TOP_LEFT)) 
-			setWindowTopLeftImage(UIBitmapManager.getUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_TOP_LEFT));
+		if (hasResolvedBitmap(UIBitmapType.Window, UIBitmapManager.WINDOW_TOP_LEFT))
+			setWindowTopLeftImage(getResolvedBitmap(UIBitmapType.Window, UIBitmapManager.WINDOW_TOP_LEFT));
 		
-		if (UIBitmapManager.hasUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_TOP_MIDDLE)) 
-			setWindowTopMiddleImage(UIBitmapManager.getUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_TOP_MIDDLE));
+		if (hasResolvedBitmap(UIBitmapType.Window, UIBitmapManager.WINDOW_TOP_MIDDLE))
+			setWindowTopMiddleImage(getResolvedBitmap(UIBitmapType.Window, UIBitmapManager.WINDOW_TOP_MIDDLE));
 		
-		if (UIBitmapManager.hasUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_TOP_RIGHT))
-			setWindowTopRightImage(UIBitmapManager.getUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_TOP_RIGHT));
+		if (hasResolvedBitmap(UIBitmapType.Window, UIBitmapManager.WINDOW_TOP_RIGHT))
+			setWindowTopRightImage(getResolvedBitmap(UIBitmapType.Window, UIBitmapManager.WINDOW_TOP_RIGHT));
 			
 		// Middle  
-		if (UIBitmapManager.hasUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_MIDDLE_LEFT))  
-			setWindowMiddleLeftImage(UIBitmapManager.getUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_MIDDLE_LEFT));
+		if (hasResolvedBitmap(UIBitmapType.Window, UIBitmapManager.WINDOW_MIDDLE_LEFT))
+			setWindowMiddleLeftImage(getResolvedBitmap(UIBitmapType.Window, UIBitmapManager.WINDOW_MIDDLE_LEFT));
 		
-		if (UIBitmapManager.hasUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_MIDDLE_RIGHT)) 
-			setWindowMiddleRightImage(UIBitmapManager.getUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_MIDDLE_RIGHT));
+		if (hasResolvedBitmap(UIBitmapType.Window, UIBitmapManager.WINDOW_MIDDLE_RIGHT))
+			setWindowMiddleRightImage(getResolvedBitmap(UIBitmapType.Window, UIBitmapManager.WINDOW_MIDDLE_RIGHT));
 		
 		// Bottom  
-		if (UIBitmapManager.hasUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_BOTTOM_LEFT)) 
-			setWindowBottomLeftImage(UIBitmapManager.getUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_BOTTOM_LEFT));
-		
-		if (UIBitmapManager.hasUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_BOTTOM_MIDDLE))    
-			setWindowBottomMiddleImage(UIBitmapManager.getUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_BOTTOM_MIDDLE));
-		
-		if (UIBitmapManager.hasUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_BOTTOM_RIGHT))       
-			setWindowBottomRightImage(UIBitmapManager.getUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_BOTTOM_RIGHT));
+		if (hasResolvedBitmap(UIBitmapType.Window, UIBitmapManager.WINDOW_BOTTOM_LEFT))
+			setWindowBottomLeftImage(getResolvedBitmap(UIBitmapType.Window, UIBitmapManager.WINDOW_BOTTOM_LEFT));
 
-		if (UIBitmapManager.hasUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_TOP_PATTERN_OVERLAY))
-			setWindowTopPatternImage(UIBitmapManager.getUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_TOP_PATTERN_OVERLAY));
+		if (hasResolvedBitmap(UIBitmapType.Window, UIBitmapManager.WINDOW_BOTTOM_MIDDLE))
+			setWindowBottomMiddleImage(getResolvedBitmap(UIBitmapType.Window, UIBitmapManager.WINDOW_BOTTOM_MIDDLE));
 
-		if (UIBitmapManager.hasUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_MIDDLE_PATTERN_OVERLAY))
-			setWindowMiddlePatternImage(UIBitmapManager.getUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_MIDDLE_PATTERN_OVERLAY));
+		if (hasResolvedBitmap(UIBitmapType.Window, UIBitmapManager.WINDOW_BOTTOM_RIGHT))
+			setWindowBottomRightImage(getResolvedBitmap(UIBitmapType.Window, UIBitmapManager.WINDOW_BOTTOM_RIGHT));
 
-		if (UIBitmapManager.hasUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_BOTTOM_PATTERN_OVERLAY))
-			setWindowBottomPatternImage(UIBitmapManager.getUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_BOTTOM_PATTERN_OVERLAY));
+		if (hasResolvedBitmap(UIBitmapType.Window, UIBitmapManager.WINDOW_TOP_PATTERN_OVERLAY))
+			setWindowTopPatternImage(getResolvedBitmap(UIBitmapType.Window, UIBitmapManager.WINDOW_TOP_PATTERN_OVERLAY));
 
-		if (UIBitmapManager.hasUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_CLOSE_BUTTON_NORMAL))
-			_closeButton.setDefaultStateImage(UIBitmapManager.getUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_CLOSE_BUTTON_NORMAL));
-		if (UIBitmapManager.hasUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_CLOSE_BUTTON_OVER))
-			_closeButton.setOverStateImage(UIBitmapManager.getUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_CLOSE_BUTTON_OVER));
-		if (UIBitmapManager.hasUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_CLOSE_BUTTON_DOWN))
-			_closeButton.setDownStateImage(UIBitmapManager.getUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_CLOSE_BUTTON_DOWN));
-		if (UIBitmapManager.hasUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_CLOSE_BUTTON_DISABLE))
-			_closeButton.setDisableStateImage(UIBitmapManager.getUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_CLOSE_BUTTON_DISABLE));
+		if (hasResolvedBitmap(UIBitmapType.Window, UIBitmapManager.WINDOW_MIDDLE_PATTERN_OVERLAY))
+			setWindowMiddlePatternImage(getResolvedBitmap(UIBitmapType.Window, UIBitmapManager.WINDOW_MIDDLE_PATTERN_OVERLAY));
 
-		if (UIBitmapManager.hasUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_MIN_BUTTON_NORMAL))
-			_minButton.setDefaultStateImage(UIBitmapManager.getUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_MIN_BUTTON_NORMAL));
-		if (UIBitmapManager.hasUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_MIN_BUTTON_OVER))
-			_minButton.setOverStateImage(UIBitmapManager.getUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_MIN_BUTTON_OVER));
-		if (UIBitmapManager.hasUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_MIN_BUTTON_DOWN))
-			_minButton.setDownStateImage(UIBitmapManager.getUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_MIN_BUTTON_DOWN));
-		if (UIBitmapManager.hasUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_MIN_BUTTON_DISABLE))
-			_minButton.setDisableStateImage(UIBitmapManager.getUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_MIN_BUTTON_DISABLE));
+		if (hasResolvedBitmap(UIBitmapType.Window, UIBitmapManager.WINDOW_BOTTOM_PATTERN_OVERLAY))
+			setWindowBottomPatternImage(getResolvedBitmap(UIBitmapType.Window, UIBitmapManager.WINDOW_BOTTOM_PATTERN_OVERLAY));
 
-		if (UIBitmapManager.hasUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_MAX_BUTTON_NORMAL))
-			_maxButton.setDefaultStateImage(UIBitmapManager.getUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_MAX_BUTTON_NORMAL));
-		if (UIBitmapManager.hasUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_MAX_BUTTON_OVER))
-			_maxButton.setOverStateImage(UIBitmapManager.getUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_MAX_BUTTON_OVER));
-		if (UIBitmapManager.hasUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_MAX_BUTTON_DOWN))
-			_maxButton.setDownStateImage(UIBitmapManager.getUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_MAX_BUTTON_DOWN));
-		if (UIBitmapManager.hasUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_MAX_BUTTON_DISABLE))
-			_maxButton.setDisableStateImage(UIBitmapManager.getUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_MAX_BUTTON_DISABLE));
+		if (hasResolvedBitmap(UIBitmapType.Window, UIBitmapManager.WINDOW_CLOSE_BUTTON_NORMAL))
+			_closeButton.setDefaultStateImage(getResolvedBitmap(UIBitmapType.Window, UIBitmapManager.WINDOW_CLOSE_BUTTON_NORMAL));
+		if (hasResolvedBitmap(UIBitmapType.Window, UIBitmapManager.WINDOW_CLOSE_BUTTON_OVER))
+			_closeButton.setOverStateImage(getResolvedBitmap(UIBitmapType.Window, UIBitmapManager.WINDOW_CLOSE_BUTTON_OVER));
+		if (hasResolvedBitmap(UIBitmapType.Window, UIBitmapManager.WINDOW_CLOSE_BUTTON_DOWN))
+			_closeButton.setDownStateImage(getResolvedBitmap(UIBitmapType.Window, UIBitmapManager.WINDOW_CLOSE_BUTTON_DOWN));
+		if (hasResolvedBitmap(UIBitmapType.Window, UIBitmapManager.WINDOW_CLOSE_BUTTON_DISABLE))
+			_closeButton.setDisableStateImage(getResolvedBitmap(UIBitmapType.Window, UIBitmapManager.WINDOW_CLOSE_BUTTON_DISABLE));
 
-		_windowTopLeftUnFocusImage = UIBitmapManager.getUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_UNFOCUS_TOP_LEFT);
-		_windowTopMiddleUnFocusImage = UIBitmapManager.getUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_UNFOCUS_TOP_MIDDLE);
-		_windowTopRightUnFocusImage = UIBitmapManager.getUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_UNFOCUS_TOP_RIGHT);
-		_windowMiddleLeftUnFocusImage = UIBitmapManager.getUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_UNFOCUS_MIDDLE_LEFT);
-		_windowMiddleRightUnFocusImage = UIBitmapManager.getUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_UNFOCUS_MIDDLE_RIGHT);
-		_windowBottomLeftUnFocusImage = UIBitmapManager.getUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_UNFOCUS_BOTTOM_LEFT);
-		_windowBottomMiddleUnFocusImage = UIBitmapManager.getUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_UNFOCUS_BOTTOM_MIDDLE);
-		_windowBottomRightUnFocusImage = UIBitmapManager.getUIElement(UIBitmapType.Window, UIBitmapManager.WINDOW_UNFOCUS_BOTTOM_RIGHT);
+		if (hasResolvedBitmap(UIBitmapType.Window, UIBitmapManager.WINDOW_MIN_BUTTON_NORMAL))
+			_minButton.setDefaultStateImage(getResolvedBitmap(UIBitmapType.Window, UIBitmapManager.WINDOW_MIN_BUTTON_NORMAL));
+		if (hasResolvedBitmap(UIBitmapType.Window, UIBitmapManager.WINDOW_MIN_BUTTON_OVER))
+			_minButton.setOverStateImage(getResolvedBitmap(UIBitmapType.Window, UIBitmapManager.WINDOW_MIN_BUTTON_OVER));
+		if (hasResolvedBitmap(UIBitmapType.Window, UIBitmapManager.WINDOW_MIN_BUTTON_DOWN))
+			_minButton.setDownStateImage(getResolvedBitmap(UIBitmapType.Window, UIBitmapManager.WINDOW_MIN_BUTTON_DOWN));
+		if (hasResolvedBitmap(UIBitmapType.Window, UIBitmapManager.WINDOW_MIN_BUTTON_DISABLE))
+			_minButton.setDisableStateImage(getResolvedBitmap(UIBitmapType.Window, UIBitmapManager.WINDOW_MIN_BUTTON_DISABLE));
+
+		if (hasResolvedBitmap(UIBitmapType.Window, UIBitmapManager.WINDOW_MAX_BUTTON_NORMAL))
+			_maxButton.setDefaultStateImage(getResolvedBitmap(UIBitmapType.Window, UIBitmapManager.WINDOW_MAX_BUTTON_NORMAL));
+		if (hasResolvedBitmap(UIBitmapType.Window, UIBitmapManager.WINDOW_MAX_BUTTON_OVER))
+			_maxButton.setOverStateImage(getResolvedBitmap(UIBitmapType.Window, UIBitmapManager.WINDOW_MAX_BUTTON_OVER));
+		if (hasResolvedBitmap(UIBitmapType.Window, UIBitmapManager.WINDOW_MAX_BUTTON_DOWN))
+			_maxButton.setDownStateImage(getResolvedBitmap(UIBitmapType.Window, UIBitmapManager.WINDOW_MAX_BUTTON_DOWN));
+		if (hasResolvedBitmap(UIBitmapType.Window, UIBitmapManager.WINDOW_MAX_BUTTON_DISABLE))
+			_maxButton.setDisableStateImage(getResolvedBitmap(UIBitmapType.Window, UIBitmapManager.WINDOW_MAX_BUTTON_DISABLE));
+
+		_windowTopLeftUnFocusImage = getResolvedBitmap(UIBitmapType.Window, UIBitmapManager.WINDOW_UNFOCUS_TOP_LEFT);
+		_windowTopMiddleUnFocusImage = getResolvedBitmap(UIBitmapType.Window, UIBitmapManager.WINDOW_UNFOCUS_TOP_MIDDLE);
+		_windowTopRightUnFocusImage = getResolvedBitmap(UIBitmapType.Window, UIBitmapManager.WINDOW_UNFOCUS_TOP_RIGHT);
+		_windowMiddleLeftUnFocusImage = getResolvedBitmap(UIBitmapType.Window, UIBitmapManager.WINDOW_UNFOCUS_MIDDLE_LEFT);
+		_windowMiddleRightUnFocusImage = getResolvedBitmap(UIBitmapType.Window, UIBitmapManager.WINDOW_UNFOCUS_MIDDLE_RIGHT);
+		_windowBottomLeftUnFocusImage = getResolvedBitmap(UIBitmapType.Window, UIBitmapManager.WINDOW_UNFOCUS_BOTTOM_LEFT);
+		_windowBottomMiddleUnFocusImage = getResolvedBitmap(UIBitmapType.Window, UIBitmapManager.WINDOW_UNFOCUS_BOTTOM_MIDDLE);
+		_windowBottomRightUnFocusImage = getResolvedBitmap(UIBitmapType.Window, UIBitmapManager.WINDOW_UNFOCUS_BOTTOM_RIGHT);
     }
 	
 	private function initStyle() : Void 
@@ -748,48 +748,48 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 			: {};
 		Reflect.setField(_scrollPanelData, "Border", scrollPaneBorderData);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_WIDTH))
-			_width = UIStyleManager.getStyle(UIStyleManager.WINDOW_WIDTH);
+		if (hasResolvedStyle(UIStyleManager.WINDOW_WIDTH))
+			_width = getResolvedStyle(UIStyleManager.WINDOW_WIDTH);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_HEIGHT))
-			_height = UIStyleManager.getStyle(UIStyleManager.WINDOW_HEIGHT);
+		if (hasResolvedStyle(UIStyleManager.WINDOW_HEIGHT))
+			_height = getResolvedStyle(UIStyleManager.WINDOW_HEIGHT);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_BUTTON_WIDTH))
-			_windowButtonWidth = UIStyleManager.getStyle(UIStyleManager.WINDOW_BUTTON_WIDTH);
+		if (hasResolvedStyle(UIStyleManager.WINDOW_BUTTON_WIDTH))
+			_windowButtonWidth = getResolvedStyle(UIStyleManager.WINDOW_BUTTON_WIDTH);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_BUTTON_HEIGHT))
-			_windowButtonHeight = UIStyleManager.getStyle(UIStyleManager.WINDOW_BUTTON_HEIGHT);
+		if (hasResolvedStyle(UIStyleManager.WINDOW_BUTTON_HEIGHT))
+			_windowButtonHeight = getResolvedStyle(UIStyleManager.WINDOW_BUTTON_HEIGHT);
 			
-		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_BACKGROUND_COLOR))
-			Reflect.setField(_scrollPanelData, "backgroundColor", UIStyleManager.getStyle(UIStyleManager.WINDOW_BACKGROUND_COLOR));
+		if (hasResolvedStyle(UIStyleManager.WINDOW_BACKGROUND_COLOR))
+			Reflect.setField(_scrollPanelData, "backgroundColor", getResolvedStyle(UIStyleManager.WINDOW_BACKGROUND_COLOR));
 		
-		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_BORDER_ALPHA))
-			Reflect.setField(scrollPaneBorderData, "lineAlpha", UIStyleManager.getStyle(UIStyleManager.WINDOW_BORDER_ALPHA));
+		if (hasResolvedStyle(UIStyleManager.WINDOW_BORDER_ALPHA))
+			Reflect.setField(scrollPaneBorderData, "lineAlpha", getResolvedStyle(UIStyleManager.WINDOW_BORDER_ALPHA));
 		
-		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_BORDER_COLOR))
-			Reflect.setField(scrollPaneBorderData, "lineColor", UIStyleManager.getStyle(UIStyleManager.WINDOW_BORDER_COLOR));
+		if (hasResolvedStyle(UIStyleManager.WINDOW_BORDER_COLOR))
+			Reflect.setField(scrollPaneBorderData, "lineColor", getResolvedStyle(UIStyleManager.WINDOW_BORDER_COLOR));
 		
-		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_BORDER))
-			Reflect.setField(_scrollPanelData, "showOutline", UIStyleManager.getStyle(UIStyleManager.WINDOW_BORDER));
+		if (hasResolvedStyle(UIStyleManager.WINDOW_BORDER))
+			Reflect.setField(_scrollPanelData, "showOutline", getResolvedStyle(UIStyleManager.WINDOW_BORDER));
 		
-		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_ICON_LOCATION))
-			_iconLocation = UIStyleManager.getStyle(UIStyleManager.WINDOW_ICON_LOCATION);
+		if (hasResolvedStyle(UIStyleManager.WINDOW_ICON_LOCATION))
+			_iconLocation = getResolvedStyle(UIStyleManager.WINDOW_ICON_LOCATION);
 		
-		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_BUTTON_LOCATION))
-			_buttonLocation = UIStyleManager.getStyle(UIStyleManager.WINDOW_BUTTON_LOCATION);
+		if (hasResolvedStyle(UIStyleManager.WINDOW_BUTTON_LOCATION))
+			_buttonLocation = getResolvedStyle(UIStyleManager.WINDOW_BUTTON_LOCATION);
 		
-		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_LABEL_LOCATION)) 
-			_labelLocation = UIStyleManager.getStyle(UIStyleManager.WINDOW_LABEL_LOCATION);
+		if (hasResolvedStyle(UIStyleManager.WINDOW_LABEL_LOCATION))
+			_labelLocation = getResolvedStyle(UIStyleManager.WINDOW_LABEL_LOCATION);
 		
-		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_TITLE_TEXT_FONT)) 
-			Reflect.setField(_labelData, "font", UIStyleManager.getStyle(UIStyleManager.WINDOW_TITLE_TEXT_FONT));
+		if (hasResolvedStyle(UIStyleManager.WINDOW_TITLE_TEXT_FONT))
+			Reflect.setField(_labelData, "font", getResolvedStyle(UIStyleManager.WINDOW_TITLE_TEXT_FONT));
 		
-		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_TITLE_TEXT_SIZE))
-			Reflect.setField(_labelData, "size", UIStyleManager.getStyle(UIStyleManager.WINDOW_TITLE_TEXT_SIZE));
+		if (hasResolvedStyle(UIStyleManager.WINDOW_TITLE_TEXT_SIZE))
+			Reflect.setField(_labelData, "size", getResolvedStyle(UIStyleManager.WINDOW_TITLE_TEXT_SIZE));
 		
-		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_TITLE_TEXT_EMBED))
+		if (hasResolvedStyle(UIStyleManager.WINDOW_TITLE_TEXT_EMBED))
 		{
-			_windowTitleEmbed = UIStyleManager.getStyle(UIStyleManager.WINDOW_TITLE_TEXT_EMBED);
+			_windowTitleEmbed = getResolvedStyle(UIStyleManager.WINDOW_TITLE_TEXT_EMBED);
 
 			if (_windowTitle != null)
 				_windowTitle.setEmbedFont(_windowTitleEmbed);
@@ -797,92 +797,92 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 
 
 		
-		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_TITLE_TEXT_COLOR))
-			Reflect.setField(_labelData, "textColor", UIStyleManager.getStyle(UIStyleManager.WINDOW_TITLE_TEXT_COLOR));
+		if (hasResolvedStyle(UIStyleManager.WINDOW_TITLE_TEXT_COLOR))
+			Reflect.setField(_labelData, "textColor", getResolvedStyle(UIStyleManager.WINDOW_TITLE_TEXT_COLOR));
 		
-		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_TITLE_AREA_COLOR))
-			_windowTitleFocusColor = UIStyleManager.getStyle(UIStyleManager.WINDOW_TITLE_AREA_COLOR);
+		if (hasResolvedStyle(UIStyleManager.WINDOW_TITLE_AREA_COLOR))
+			_windowTitleFocusColor = getResolvedStyle(UIStyleManager.WINDOW_TITLE_AREA_COLOR);
 		
-		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_FOCUS_COLOR))  
-			_windowFocusColor = UIStyleManager.getStyle(UIStyleManager.WINDOW_FOCUS_COLOR);
+		if (hasResolvedStyle(UIStyleManager.WINDOW_FOCUS_COLOR))
+			_windowFocusColor = getResolvedStyle(UIStyleManager.WINDOW_FOCUS_COLOR);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_TITLE_AREA_UNFOCUS_COLOR))
-			_windowTitleUnFocusColor = UIStyleManager.getStyle(UIStyleManager.WINDOW_TITLE_AREA_UNFOCUS_COLOR);
+		if (hasResolvedStyle(UIStyleManager.WINDOW_TITLE_AREA_UNFOCUS_COLOR))
+			_windowTitleUnFocusColor = getResolvedStyle(UIStyleManager.WINDOW_TITLE_AREA_UNFOCUS_COLOR);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_UNFOCUS_COLOR))
-			_windowUnFocusColor = UIStyleManager.getStyle(UIStyleManager.WINDOW_UNFOCUS_COLOR);
+		if (hasResolvedStyle(UIStyleManager.WINDOW_UNFOCUS_COLOR))
+			_windowUnFocusColor = getResolvedStyle(UIStyleManager.WINDOW_UNFOCUS_COLOR);
 		
 		
 		// Min Button
-		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_MIN_NORMAL_COLOR))
-			_minButtonFocusColor = UIStyleManager.getStyle(UIStyleManager.WINDOW_MIN_NORMAL_COLOR);
+		if (hasResolvedStyle(UIStyleManager.WINDOW_MIN_NORMAL_COLOR))
+			_minButtonFocusColor = getResolvedStyle(UIStyleManager.WINDOW_MIN_NORMAL_COLOR);
 
 		Reflect.setField(_minButtonData, "defaultColor", _minButtonFocusColor);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_MIN_UNFOCUS_COLOR))
-			_minButtonUnFocusColor = UIStyleManager.getStyle(UIStyleManager.WINDOW_MIN_UNFOCUS_COLOR);
+		if (hasResolvedStyle(UIStyleManager.WINDOW_MIN_UNFOCUS_COLOR))
+			_minButtonUnFocusColor = getResolvedStyle(UIStyleManager.WINDOW_MIN_UNFOCUS_COLOR);
 	
 		
-		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_MIN_OVER_COLOR))
-			Reflect.setField(_minButtonData, "overColor", UIStyleManager.getStyle(UIStyleManager.WINDOW_MIN_OVER_COLOR));
+		if (hasResolvedStyle(UIStyleManager.WINDOW_MIN_OVER_COLOR))
+			Reflect.setField(_minButtonData, "overColor", getResolvedStyle(UIStyleManager.WINDOW_MIN_OVER_COLOR));
 		
 		
-		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_MIN_DOWN_COLOR))   
-			Reflect.setField(_minButtonData, "downColor", UIStyleManager.getStyle(UIStyleManager.WINDOW_MIN_DOWN_COLOR));
+		if (hasResolvedStyle(UIStyleManager.WINDOW_MIN_DOWN_COLOR))
+			Reflect.setField(_minButtonData, "downColor", getResolvedStyle(UIStyleManager.WINDOW_MIN_DOWN_COLOR));
 		
-		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_MIN_DISABLE_COLOR))  
-			Reflect.setField(_minButtonData, "disableColor", UIStyleManager.getStyle(UIStyleManager.WINDOW_MIN_DISABLE_COLOR));
+		if (hasResolvedStyle(UIStyleManager.WINDOW_MIN_DISABLE_COLOR))
+			Reflect.setField(_minButtonData, "disableColor", getResolvedStyle(UIStyleManager.WINDOW_MIN_DISABLE_COLOR));
 		
 		// Max Button  
-		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_MAX_NORMAL_COLOR))
-			_maxButtonFocusColor = UIStyleManager.getStyle(UIStyleManager.WINDOW_MAX_NORMAL_COLOR);
+		if (hasResolvedStyle(UIStyleManager.WINDOW_MAX_NORMAL_COLOR))
+			_maxButtonFocusColor = getResolvedStyle(UIStyleManager.WINDOW_MAX_NORMAL_COLOR);
 
 		Reflect.setField(_maxButtonData, "defaultColor", _maxButtonFocusColor);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_MAX_UNFOCUS_COLOR))
-			_maxButtonUnFocusColor = UIStyleManager.getStyle(UIStyleManager.WINDOW_MAX_UNFOCUS_COLOR);
+		if (hasResolvedStyle(UIStyleManager.WINDOW_MAX_UNFOCUS_COLOR))
+			_maxButtonUnFocusColor = getResolvedStyle(UIStyleManager.WINDOW_MAX_UNFOCUS_COLOR);
 		
-		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_MAX_OVER_COLOR))
-			Reflect.setField(_maxButtonData, "overColor", UIStyleManager.getStyle(UIStyleManager.WINDOW_MAX_OVER_COLOR));
+		if (hasResolvedStyle(UIStyleManager.WINDOW_MAX_OVER_COLOR))
+			Reflect.setField(_maxButtonData, "overColor", getResolvedStyle(UIStyleManager.WINDOW_MAX_OVER_COLOR));
 		
 
-		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_MAX_DOWN_COLOR))
-			Reflect.setField(_maxButtonData, "downColor", UIStyleManager.getStyle(UIStyleManager.WINDOW_MAX_DOWN_COLOR));
+		if (hasResolvedStyle(UIStyleManager.WINDOW_MAX_DOWN_COLOR))
+			Reflect.setField(_maxButtonData, "downColor", getResolvedStyle(UIStyleManager.WINDOW_MAX_DOWN_COLOR));
 		
-		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_MAX_DISABLE_COLOR))
-			Reflect.setField(_maxButtonData, "disableColor", UIStyleManager.getStyle(UIStyleManager.WINDOW_MAX_DISABLE_COLOR));
+		if (hasResolvedStyle(UIStyleManager.WINDOW_MAX_DISABLE_COLOR))
+			Reflect.setField(_maxButtonData, "disableColor", getResolvedStyle(UIStyleManager.WINDOW_MAX_DISABLE_COLOR));
 		
 		// Close Button  
-		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_CLOSE_NORMAL_COLOR))
-			_closeButtonFocusColor = UIStyleManager.getStyle(UIStyleManager.WINDOW_CLOSE_NORMAL_COLOR);
+		if (hasResolvedStyle(UIStyleManager.WINDOW_CLOSE_NORMAL_COLOR))
+			_closeButtonFocusColor = getResolvedStyle(UIStyleManager.WINDOW_CLOSE_NORMAL_COLOR);
 
 		Reflect.setField(_closeButtonData, "defaultColor", _closeButtonFocusColor);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_CLOSE_UNFOCUS_COLOR))
-			_closeButtonUnFocusColor = UIStyleManager.getStyle(UIStyleManager.WINDOW_CLOSE_UNFOCUS_COLOR);
+		if (hasResolvedStyle(UIStyleManager.WINDOW_CLOSE_UNFOCUS_COLOR))
+			_closeButtonUnFocusColor = getResolvedStyle(UIStyleManager.WINDOW_CLOSE_UNFOCUS_COLOR);
 		
-		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_CLOSE_OVER_COLOR))
-			Reflect.setField(_closeButtonData, "overColor", UIStyleManager.getStyle(UIStyleManager.WINDOW_CLOSE_OVER_COLOR));
+		if (hasResolvedStyle(UIStyleManager.WINDOW_CLOSE_OVER_COLOR))
+			Reflect.setField(_closeButtonData, "overColor", getResolvedStyle(UIStyleManager.WINDOW_CLOSE_OVER_COLOR));
 		
-		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_CLOSE_DOWN_COLOR))
-			Reflect.setField(_closeButtonData, "downColor", UIStyleManager.getStyle(UIStyleManager.WINDOW_CLOSE_DOWN_COLOR));
+		if (hasResolvedStyle(UIStyleManager.WINDOW_CLOSE_DOWN_COLOR))
+			Reflect.setField(_closeButtonData, "downColor", getResolvedStyle(UIStyleManager.WINDOW_CLOSE_DOWN_COLOR));
         
-		if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_CLOSE_DISABLE_COLOR))
-			Reflect.setField(_closeButtonData, "disableColor", UIStyleManager.getStyle(UIStyleManager.WINDOW_CLOSE_DISABLE_COLOR));
+		if (hasResolvedStyle(UIStyleManager.WINDOW_CLOSE_DISABLE_COLOR))
+			Reflect.setField(_closeButtonData, "disableColor", getResolvedStyle(UIStyleManager.WINDOW_CLOSE_DISABLE_COLOR));
 
 		if (_scrollPane != null)
 		{
-			if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_BACKGROUND_COLOR))
-				_scrollPane.backgroundColor = UIStyleManager.getStyle(UIStyleManager.WINDOW_BACKGROUND_COLOR);
+			if (hasResolvedStyle(UIStyleManager.WINDOW_BACKGROUND_COLOR))
+				_scrollPane.backgroundColor = getResolvedStyle(UIStyleManager.WINDOW_BACKGROUND_COLOR);
 
-			if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_BORDER))
-				_scrollPane.showOutline = UIStyleManager.getStyle(UIStyleManager.WINDOW_BORDER);
+			if (hasResolvedStyle(UIStyleManager.WINDOW_BORDER))
+				_scrollPane.showOutline = getResolvedStyle(UIStyleManager.WINDOW_BORDER);
 
-			if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_BORDER_ALPHA))
-				_scrollPane.outline.lineAlpha = UIStyleManager.getStyle(UIStyleManager.WINDOW_BORDER_ALPHA);
+			if (hasResolvedStyle(UIStyleManager.WINDOW_BORDER_ALPHA))
+				_scrollPane.outline.lineAlpha = getResolvedStyle(UIStyleManager.WINDOW_BORDER_ALPHA);
 
-			if (UIStyleManager.hasStyle(UIStyleManager.WINDOW_BORDER_COLOR))
-				_scrollPane.outline.lineColor = UIStyleManager.getStyle(UIStyleManager.WINDOW_BORDER_COLOR);
+			if (hasResolvedStyle(UIStyleManager.WINDOW_BORDER_COLOR))
+				_scrollPane.outline.lineColor = getResolvedStyle(UIStyleManager.WINDOW_BORDER_COLOR);
 		}
 
 		if (_windowTitle != null)

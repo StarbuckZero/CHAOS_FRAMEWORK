@@ -268,17 +268,17 @@ class TextInput extends Label implements ITextInput implements ILabel implements
 	private function initBitmap() : Void
 	{
 
-		if (UIBitmapManager.hasUIElement(UIBitmapType.TextInput, UIBitmapManager.TEXTINPUT_NORMAL))
-			setBackgroundImage(UIBitmapManager.getUIElement(UIBitmapType.TextInput, UIBitmapManager.TEXTINPUT_NORMAL));
+		if (hasResolvedBitmap(UIBitmapType.TextInput, UIBitmapManager.TEXTINPUT_NORMAL))
+			setBackgroundImage(getResolvedBitmap(UIBitmapType.TextInput, UIBitmapManager.TEXTINPUT_NORMAL));
 
-		if (UIBitmapManager.hasUIElement(UIBitmapType.TextInput, UIBitmapManager.TEXTINPUT_OVER))
-			setOverBackgroundImage(UIBitmapManager.getUIElement(UIBitmapType.TextInput, UIBitmapManager.TEXTINPUT_OVER));
+		if (hasResolvedBitmap(UIBitmapType.TextInput, UIBitmapManager.TEXTINPUT_OVER))
+			setOverBackgroundImage(getResolvedBitmap(UIBitmapType.TextInput, UIBitmapManager.TEXTINPUT_OVER));
 
-		if (UIBitmapManager.hasUIElement(UIBitmapType.TextInput, UIBitmapManager.TEXTINPUT_SELECTED))
-			setSelectedBackgroundImage(UIBitmapManager.getUIElement(UIBitmapType.TextInput, UIBitmapManager.TEXTINPUT_SELECTED));
+		if (hasResolvedBitmap(UIBitmapType.TextInput, UIBitmapManager.TEXTINPUT_SELECTED))
+			setSelectedBackgroundImage(getResolvedBitmap(UIBitmapType.TextInput, UIBitmapManager.TEXTINPUT_SELECTED));
 
-		if (UIBitmapManager.hasUIElement(UIBitmapType.TextInput, UIBitmapManager.TEXTINPUT_DISABLE))
-			setDisableBackgroundImage(UIBitmapManager.getUIElement(UIBitmapType.TextInput, UIBitmapManager.TEXTINPUT_DISABLE));
+		if (hasResolvedBitmap(UIBitmapType.TextInput, UIBitmapManager.TEXTINPUT_DISABLE))
+			setDisableBackgroundImage(getResolvedBitmap(UIBitmapType.TextInput, UIBitmapManager.TEXTINPUT_DISABLE));
 		
 	}
 
@@ -286,65 +286,65 @@ class TextInput extends Label implements ITextInput implements ILabel implements
 	{
 		super.initStyle();
 
-		if (UIStyleManager.hasStyle(UIStyleManager.INPUT_WIDTH))
-			_width = UIStyleManager.getStyle(UIStyleManager.INPUT_WIDTH);
+		if (hasResolvedStyle(UIStyleManager.INPUT_WIDTH))
+			_width = getResolvedStyle(UIStyleManager.INPUT_WIDTH);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.INPUT_HEIGHT))
-			_height = UIStyleManager.getStyle(UIStyleManager.INPUT_HEIGHT);
+		if (hasResolvedStyle(UIStyleManager.INPUT_HEIGHT))
+			_height = getResolvedStyle(UIStyleManager.INPUT_HEIGHT);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.INPUT_TEXT_COLOR))
-			_textColor = UIStyleManager.getStyle(UIStyleManager.INPUT_TEXT_COLOR);
+		if (hasResolvedStyle(UIStyleManager.INPUT_TEXT_COLOR))
+			_textColor = getResolvedStyle(UIStyleManager.INPUT_TEXT_COLOR);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.INPUT_TEXT_OVER_COLOR))
-			_textOverColor = UIStyleManager.getStyle(UIStyleManager.INPUT_TEXT_OVER_COLOR);
+		if (hasResolvedStyle(UIStyleManager.INPUT_TEXT_OVER_COLOR))
+			_textOverColor = getResolvedStyle(UIStyleManager.INPUT_TEXT_OVER_COLOR);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.INPUT_TEXT_SELECTED_COLOR))
-			_textSelectedColor = UIStyleManager.getStyle(UIStyleManager.INPUT_TEXT_SELECTED_COLOR);
+		if (hasResolvedStyle(UIStyleManager.INPUT_TEXT_SELECTED_COLOR))
+			_textSelectedColor = getResolvedStyle(UIStyleManager.INPUT_TEXT_SELECTED_COLOR);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.INPUT_TEXT_DISABLE_COLOR))
-			_textDisableColor = UIStyleManager.getStyle(UIStyleManager.INPUT_TEXT_DISABLE_COLOR);
+		if (hasResolvedStyle(UIStyleManager.INPUT_TEXT_DISABLE_COLOR))
+			_textDisableColor = getResolvedStyle(UIStyleManager.INPUT_TEXT_DISABLE_COLOR);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.INPUT_BACKGROUND_NORMAL_COLOR))
-			_backgroundNormalColor = UIStyleManager.getStyle(UIStyleManager.INPUT_BACKGROUND_NORMAL_COLOR);
+		if (hasResolvedStyle(UIStyleManager.INPUT_BACKGROUND_NORMAL_COLOR))
+			_backgroundNormalColor = getResolvedStyle(UIStyleManager.INPUT_BACKGROUND_NORMAL_COLOR);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.INPUT_BACKGROUND_OVER_COLOR))
-			_backgroundOverColor = UIStyleManager.getStyle(UIStyleManager.INPUT_BACKGROUND_OVER_COLOR);
+		if (hasResolvedStyle(UIStyleManager.INPUT_BACKGROUND_OVER_COLOR))
+			_backgroundOverColor = getResolvedStyle(UIStyleManager.INPUT_BACKGROUND_OVER_COLOR);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.INPUT_BACKGROUND_SELECTED_COLOR))
-			_backgroundSelectedColor = UIStyleManager.getStyle(UIStyleManager.INPUT_BACKGROUND_SELECTED_COLOR);
+		if (hasResolvedStyle(UIStyleManager.INPUT_BACKGROUND_SELECTED_COLOR))
+			_backgroundSelectedColor = getResolvedStyle(UIStyleManager.INPUT_BACKGROUND_SELECTED_COLOR);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.INPUT_BACKGROUND_DISABLE_COLOR))
-			_backgroundDisableColor = UIStyleManager.getStyle(UIStyleManager.INPUT_BACKGROUND_DISABLE_COLOR);
+		if (hasResolvedStyle(UIStyleManager.INPUT_BACKGROUND_DISABLE_COLOR))
+			_backgroundDisableColor = getResolvedStyle(UIStyleManager.INPUT_BACKGROUND_DISABLE_COLOR);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.LABEL_INDENT))
-			textFormat.indent = UIStyleManager.getStyle(UIStyleManager.LABEL_INDENT);
+		if (hasResolvedStyle(UIStyleManager.LABEL_INDENT))
+			textFormat.indent = getResolvedStyle(UIStyleManager.LABEL_INDENT);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.INPUT_TEXT_FONT))
-			textFormat.font = UIStyleManager.getStyle(UIStyleManager.INPUT_TEXT_FONT);
+		if (hasResolvedStyle(UIStyleManager.INPUT_TEXT_FONT))
+			textFormat.font = getResolvedStyle(UIStyleManager.INPUT_TEXT_FONT);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.INPUT_TEXT_EMBED))
-			setEmbedFont(UIStyleManager.getStyle(UIStyleManager.INPUT_TEXT_EMBED));
+		if (hasResolvedStyle(UIStyleManager.INPUT_TEXT_EMBED))
+			setEmbedFont(getResolvedStyle(UIStyleManager.INPUT_TEXT_EMBED));
 
-		if (UIStyleManager.hasStyle(UIStyleManager.INPUT_BORDER))
-			_border = UIStyleManager.getStyle(UIStyleManager.INPUT_BORDER);
+		if (hasResolvedStyle(UIStyleManager.INPUT_BORDER))
+			_border = getResolvedStyle(UIStyleManager.INPUT_BORDER);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.INPUT_BORDER_COLOR))
-			borderColor = UIStyleManager.getStyle(UIStyleManager.INPUT_BORDER_COLOR);
+		if (hasResolvedStyle(UIStyleManager.INPUT_BORDER_COLOR))
+			borderColor = getResolvedStyle(UIStyleManager.INPUT_BORDER_COLOR);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.INPUT_BORDER_ALPHA))
-			borderAlpha = UIStyleManager.getStyle(UIStyleManager.INPUT_BORDER_ALPHA);
+		if (hasResolvedStyle(UIStyleManager.INPUT_BORDER_ALPHA))
+			borderAlpha = getResolvedStyle(UIStyleManager.INPUT_BORDER_ALPHA);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.INPUT_BORDER_THICKNESS))
-			borderThinkness = UIStyleManager.getStyle(UIStyleManager.INPUT_BORDER_THICKNESS);
+		if (hasResolvedStyle(UIStyleManager.INPUT_BORDER_THICKNESS))
+			borderThinkness = getResolvedStyle(UIStyleManager.INPUT_BORDER_THICKNESS);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.INPUT_BACKGROUND))
-			_background = UIStyleManager.getStyle(UIStyleManager.INPUT_BACKGROUND);
+		if (hasResolvedStyle(UIStyleManager.INPUT_BACKGROUND))
+			_background = getResolvedStyle(UIStyleManager.INPUT_BACKGROUND);
 		
-		if (UIStyleManager.hasStyle(UIStyleManager.INPUT_TEXT_BOLD))
-			_bold = UIStyleManager.getStyle(UIStyleManager.INPUT_TEXT_BOLD);
+		if (hasResolvedStyle(UIStyleManager.INPUT_TEXT_BOLD))
+			_bold = getResolvedStyle(UIStyleManager.INPUT_TEXT_BOLD);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.INPUT_TEXT_ITALIC))
-			_italic = UIStyleManager.getStyle(UIStyleManager.INPUT_TEXT_ITALIC);
+		if (hasResolvedStyle(UIStyleManager.INPUT_TEXT_ITALIC))
+			_italic = getResolvedStyle(UIStyleManager.INPUT_TEXT_ITALIC);
 		
 	}
 

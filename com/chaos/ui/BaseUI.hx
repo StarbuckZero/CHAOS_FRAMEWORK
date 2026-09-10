@@ -6,6 +6,7 @@ import com.chaos.ui.UIBitmapManager.UIBitmapType;
 
 
 import openfl.display.DisplayObject;
+import openfl.display.BitmapData;
 import openfl.display.Sprite;
 import motion.Actuate;
 import motion.easing.*;
@@ -66,6 +67,8 @@ class BaseUI extends Sprite implements IBaseUI
 
 	private var _defaultTweenDuration : Float = 1;
 	private var _renderState:Dynamic = {};
+	private var _styleOverrides:Dynamic = {};
+	private var _bitmapOverrides:Dynamic = {};
     
 	/**
 	 * UI Component 
@@ -97,6 +100,16 @@ class BaseUI extends Sprite implements IBaseUI
 	
 	public function setComponentData(data:Dynamic):Void
 	{
+		if (data == null)
+			return;
+
+		var skinChanged:Bool = false;
+
+		if (Reflect.hasField(data, "Style"))
+			skinChanged = syncStyleOverrides(Reflect.field(data, "Style")) || skinChanged;
+
+		if (Reflect.hasField(data, "Bitmap"))
+			skinChanged = syncBitmapOverrides(Reflect.field(data, "Bitmap")) || skinChanged;
 		
 		if (Reflect.hasField(data, "width"))
 			_width = Reflect.field(data, "width");
@@ -122,8 +135,155 @@ class BaseUI extends Sprite implements IBaseUI
 		if (Reflect.hasField(data, "name"))
 			name = Reflect.field(data, "name");
 
+		if (skinChanged)
+			reskin();
+
 	}
 	
+	/** Returns true when an instance style override or the active UIStyleManager defines the key. */
+	public function hasResolvedStyle(styleName:String):Bool
+	{
+		return Reflect.hasField(_styleOverrides, styleName) || UIStyleManager.hasStyle(styleName);
+	}
+
+	/** Resolves instance style overrides before shared UIStyleManager defaults. */
+	public function getResolvedStyle(styleName:String):Dynamic
+	{
+		return Reflect.hasField(_styleOverrides, styleName)
+			? Reflect.field(_styleOverrides, styleName)
+			: UIStyleManager.getStyle(styleName);
+	}
+
+	/** Returns true when an instance bitmap override or UIBitmapManager defines the state. */
+	public function hasResolvedBitmap(UIType:UIBitmapType, bitmapName:String):Bool
+	{
+		return Reflect.hasField(_bitmapOverrides, bitmapName)
+			|| UIBitmapManager.hasUIElement(UIType, bitmapName);
+	}
+
+	/** Resolves instance bitmap overrides before shared UIBitmapManager defaults. */
+	public function getResolvedBitmap(UIType:UIBitmapType, bitmapName:String):BitmapData
+	{
+		if (Reflect.hasField(_bitmapOverrides, bitmapName))
+		{
+			var bitmap:BitmapData = Reflect.field(_bitmapOverrides, bitmapName);
+
+			if (bitmap != null)
+				return bitmap.clone();
+
+			var managerBitmap:BitmapData = UIBitmapManager.getUIElement(UIType, bitmapName);
+			return managerBitmap != null
+				? managerBitmap
+				: new BitmapData(1, 1, true, 0x00000000);
+		}
+
+		return UIBitmapManager.getUIElement(UIType, bitmapName);
+	}
+
+	/** Applies an already-loaded bitmap to one component instance. */
+	public function setBitmapOverride(bitmapName:String, bitmap:BitmapData):Void
+	{
+		if (bitmapName == null || bitmapName == "" || bitmap == null)
+			return;
+
+		disposeBitmapOverride(bitmapName);
+		Reflect.setField(_bitmapOverrides, bitmapName, bitmap.clone());
+		reskin();
+		draw();
+	}
+
+	/** Clears an instance bitmap so rendering falls back to UIBitmapManager. */
+	public function removeBitmapOverride(bitmapName:String):Void
+	{
+		if (bitmapName == null || bitmapName == "")
+			return;
+
+		if (Reflect.hasField(_bitmapOverrides, bitmapName))
+		{
+			disposeBitmapOverride(bitmapName);
+
+			// Keep a one-pass clear marker so reskin replaces any cached instance
+			// bitmap with the manager fallback (or a transparent bitmap).
+			Reflect.setField(_bitmapOverrides, bitmapName, null);
+			reskin();
+			draw();
+			Reflect.deleteField(_bitmapOverrides, bitmapName);
+		}
+	}
+
+	private function syncStyleOverrides(value:Dynamic):Bool
+	{
+		var source:Dynamic = value == null ? {} : value;
+		var changed:Bool = false;
+
+		for (field in Reflect.fields(_styleOverrides))
+		{
+			if (!Reflect.hasField(source, field))
+			{
+				Reflect.deleteField(_styleOverrides, field);
+				changed = true;
+			}
+		}
+
+		for (field in Reflect.fields(source))
+		{
+			var nextValue:Dynamic = Reflect.field(source, field);
+
+			if (!Reflect.hasField(_styleOverrides, field)
+				|| Reflect.field(_styleOverrides, field) != nextValue)
+			{
+				Reflect.setField(_styleOverrides, field, nextValue);
+				changed = true;
+			}
+		}
+
+		return changed;
+	}
+
+	private function syncBitmapOverrides(value:Dynamic):Bool
+	{
+		var source:Dynamic = value == null ? {} : value;
+		var changed:Bool = false;
+
+		for (field in Reflect.fields(_bitmapOverrides))
+		{
+			if (!Reflect.hasField(source, field))
+			{
+				disposeBitmapOverride(field);
+				changed = true;
+			}
+		}
+
+		// Serialized IDE data stores imported-image keys here. Actual BitmapData
+		// values are installed asynchronously by the AuthoringLayer callback.
+		for (field in Reflect.fields(source))
+		{
+			var nextValue:Dynamic = Reflect.field(source, field);
+
+			if (Std.isOfType(nextValue, BitmapData))
+			{
+				disposeBitmapOverride(field);
+				var bitmap:BitmapData = cast nextValue;
+				Reflect.setField(_bitmapOverrides, field, bitmap.clone());
+				changed = true;
+			}
+		}
+
+		return changed;
+	}
+
+	private function disposeBitmapOverride(bitmapName:String):Void
+	{
+		if (!Reflect.hasField(_bitmapOverrides, bitmapName))
+			return;
+
+		var bitmap:BitmapData = Reflect.field(_bitmapOverrides, bitmapName);
+
+		if (bitmap != null)
+			bitmap.dispose();
+
+		Reflect.deleteField(_bitmapOverrides, bitmapName);
+	}
 	/**
 	 * initialize all importain objects
 	 */
@@ -250,6 +410,10 @@ class BaseUI extends Sprite implements IBaseUI
 	public function destroy():Void
 	{
 		Actuate.stop(this);
+
+		for (bitmapName in Reflect.fields(_bitmapOverrides))
+			disposeBitmapOverride(bitmapName);
+
 		invalidateRenderState();
 	}	
 

@@ -266,29 +266,29 @@ class Bubble extends Overlay implements IBubble implements IOverlay implements I
     
     private function initStyle() : Void
     {
-        if (UIStyleManager.hasStyle(UIStyleManager.BUBBLE_BACKGROUND_NORMAL_COLOR))
-            backgroundColor = UIStyleManager.getStyle(UIStyleManager.BUBBLE_BACKGROUND_NORMAL_COLOR);
+        if (hasResolvedStyle(UIStyleManager.BUBBLE_BACKGROUND_NORMAL_COLOR))
+            backgroundColor = getResolvedStyle(UIStyleManager.BUBBLE_BACKGROUND_NORMAL_COLOR);
         
-        if (UIStyleManager.hasStyle(UIStyleManager.BUBBLE_BACKGROUND_ALPHA)) 
-            backgroundAlpha = UIStyleManager.getStyle(UIStyleManager.BUBBLE_BACKGROUND_ALPHA);
+        if (hasResolvedStyle(UIStyleManager.BUBBLE_BACKGROUND_ALPHA))
+            backgroundAlpha = getResolvedStyle(UIStyleManager.BUBBLE_BACKGROUND_ALPHA);
         
-        if (UIStyleManager.hasStyle(UIStyleManager.BUBBLE_BORDER_ALPHA)) 
-            borderAlpha = UIStyleManager.getStyle(UIStyleManager.BUBBLE_BORDER_ALPHA);
+        if (hasResolvedStyle(UIStyleManager.BUBBLE_BORDER_ALPHA))
+            borderAlpha = getResolvedStyle(UIStyleManager.BUBBLE_BORDER_ALPHA);
         
-        if (UIStyleManager.hasStyle(UIStyleManager.BUBBLE_BORDER_COLOR))
-            borderColor = UIStyleManager.getStyle(UIStyleManager.BUBBLE_BORDER_COLOR);
+        if (hasResolvedStyle(UIStyleManager.BUBBLE_BORDER_COLOR))
+            borderColor = getResolvedStyle(UIStyleManager.BUBBLE_BORDER_COLOR);
         
-        if (UIStyleManager.hasStyle(UIStyleManager.BUBBLE_BORDER))
-            _border = UIStyleManager.getStyle(UIStyleManager.BUBBLE_BORDER);
+        if (hasResolvedStyle(UIStyleManager.BUBBLE_BORDER))
+            _border = getResolvedStyle(UIStyleManager.BUBBLE_BORDER);
 
-        if (UIStyleManager.hasStyle(UIStyleManager.BUBBLE_BORDER_THICKNESS))
-            _thinkness = UIStyleManager.getStyle(UIStyleManager.BUBBLE_BORDER_THICKNESS);
+        if (hasResolvedStyle(UIStyleManager.BUBBLE_BORDER_THICKNESS))
+            _thinkness = getResolvedStyle(UIStyleManager.BUBBLE_BORDER_THICKNESS);
     }
     
     private function initBitmap() : Void
     {
-        if (UIBitmapManager.hasUIElement(UIBitmapType.Bubble, UIBitmapManager.BUBBLE_BACKGROUND)) 
-            setBackgroundImage(UIBitmapManager.getUIElement(UIBitmapType.Bubble, UIBitmapManager.BUBBLE_BACKGROUND));
+        if (hasResolvedBitmap(UIBitmapType.Bubble, UIBitmapManager.BUBBLE_BACKGROUND))
+            setBackgroundImage(getResolvedBitmap(UIBitmapType.Bubble, UIBitmapManager.BUBBLE_BACKGROUND));
         
         var topLeftImage : BitmapData = null;
         var topMiddleImage : BitmapData = null;
@@ -302,35 +302,35 @@ class Bubble extends Overlay implements IBubble implements IOverlay implements I
         var bottomRightImage : BitmapData = null;
         
         // Top
-        if (UIBitmapManager.hasUIElement(UIBitmapType.Bubble, UIBitmapManager.BUBBLE_OVERLAY_TOP_LEFT)) 
-            topLeftImage = UIBitmapManager.getUIElement(UIBitmapType.Bubble, UIBitmapManager.BUBBLE_OVERLAY_TOP_LEFT);
+        if (hasResolvedBitmap(UIBitmapType.Bubble, UIBitmapManager.BUBBLE_OVERLAY_TOP_LEFT))
+            topLeftImage = getResolvedBitmap(UIBitmapType.Bubble, UIBitmapManager.BUBBLE_OVERLAY_TOP_LEFT);
         
-        if (UIBitmapManager.hasUIElement(UIBitmapType.Bubble, UIBitmapManager.BUBBLE_OVERLAY_TOP_MIDDLE)) 
-            topMiddleImage = UIBitmapManager.getUIElement(UIBitmapType.Bubble, UIBitmapManager.BUBBLE_OVERLAY_TOP_MIDDLE);
+        if (hasResolvedBitmap(UIBitmapType.Bubble, UIBitmapManager.BUBBLE_OVERLAY_TOP_MIDDLE))
+            topMiddleImage = getResolvedBitmap(UIBitmapType.Bubble, UIBitmapManager.BUBBLE_OVERLAY_TOP_MIDDLE);
         
-        if (UIBitmapManager.hasUIElement(UIBitmapType.Bubble, UIBitmapManager.BUBBLE_OVERLAY_TOP_RIGHT)) 
-            topRightImage = UIBitmapManager.getUIElement(UIBitmapType.Bubble, UIBitmapManager.BUBBLE_OVERLAY_TOP_RIGHT);
+        if (hasResolvedBitmap(UIBitmapType.Bubble, UIBitmapManager.BUBBLE_OVERLAY_TOP_RIGHT))
+            topRightImage = getResolvedBitmap(UIBitmapType.Bubble, UIBitmapManager.BUBBLE_OVERLAY_TOP_RIGHT);
         
         setTopImage(topLeftImage, topMiddleImage, topRightImage);
         
         // Middle
-        if (UIBitmapManager.hasUIElement(UIBitmapType.Bubble, UIBitmapManager.BUBBLE_OVERLAY_MIDDLE_LEFT)) 
-            middleLeftImage = UIBitmapManager.getUIElement(UIBitmapType.Bubble, UIBitmapManager.BUBBLE_OVERLAY_MIDDLE_LEFT);
+        if (hasResolvedBitmap(UIBitmapType.Bubble, UIBitmapManager.BUBBLE_OVERLAY_MIDDLE_LEFT))
+            middleLeftImage = getResolvedBitmap(UIBitmapType.Bubble, UIBitmapManager.BUBBLE_OVERLAY_MIDDLE_LEFT);
         
-        if (UIBitmapManager.hasUIElement(UIBitmapType.Bubble, UIBitmapManager.BUBBLE_OVERLAY_MIDDLE_RIGHT)) 
-            middleRightImage = UIBitmapManager.getUIElement(UIBitmapType.Bubble, UIBitmapManager.BUBBLE_OVERLAY_MIDDLE_RIGHT);
+        if (hasResolvedBitmap(UIBitmapType.Bubble, UIBitmapManager.BUBBLE_OVERLAY_MIDDLE_RIGHT))
+            middleRightImage = getResolvedBitmap(UIBitmapType.Bubble, UIBitmapManager.BUBBLE_OVERLAY_MIDDLE_RIGHT);
         
         setMiddleCenterImage(middleLeftImage, middleRightImage);
         
         // Bottom
-        if (UIBitmapManager.hasUIElement(UIBitmapType.Bubble, UIBitmapManager.BUBBLE_OVERLAY_BOTTOM_LEFT)) 
-            bottomLeftImage = UIBitmapManager.getUIElement(UIBitmapType.Bubble, UIBitmapManager.BUBBLE_OVERLAY_BOTTOM_LEFT);
+        if (hasResolvedBitmap(UIBitmapType.Bubble, UIBitmapManager.BUBBLE_OVERLAY_BOTTOM_LEFT))
+            bottomLeftImage = getResolvedBitmap(UIBitmapType.Bubble, UIBitmapManager.BUBBLE_OVERLAY_BOTTOM_LEFT);
         
-        if (UIBitmapManager.hasUIElement(UIBitmapType.Bubble, UIBitmapManager.BUBBLE_OVERLAY_BOTTOM_MIDDLE)) 
-            bottomMiddleImage = UIBitmapManager.getUIElement(UIBitmapType.Bubble, UIBitmapManager.BUBBLE_OVERLAY_BOTTOM_MIDDLE);
+        if (hasResolvedBitmap(UIBitmapType.Bubble, UIBitmapManager.BUBBLE_OVERLAY_BOTTOM_MIDDLE))
+            bottomMiddleImage = getResolvedBitmap(UIBitmapType.Bubble, UIBitmapManager.BUBBLE_OVERLAY_BOTTOM_MIDDLE);
         
-        if (UIBitmapManager.hasUIElement(UIBitmapType.Bubble, UIBitmapManager.BUBBLE_OVERLAY_BOTTOM_RIGHT)) 
-            bottomRightImage = UIBitmapManager.getUIElement(UIBitmapType.Bubble, UIBitmapManager.BUBBLE_OVERLAY_BOTTOM_RIGHT);
+        if (hasResolvedBitmap(UIBitmapType.Bubble, UIBitmapManager.BUBBLE_OVERLAY_BOTTOM_RIGHT))
+            bottomRightImage = getResolvedBitmap(UIBitmapType.Bubble, UIBitmapManager.BUBBLE_OVERLAY_BOTTOM_RIGHT);
         
         setBottomImage(bottomLeftImage, bottomMiddleImage, bottomRightImage);
     }

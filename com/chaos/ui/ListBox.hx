@@ -218,58 +218,58 @@ class ListBox extends ScrollPane implements IListBox implements IBaseUI
 	private function initBitmap() : Void 
 	{
 		// UISkin and Style for ScrollPane
-		if (UIBitmapManager.hasUIElement(UIBitmapType.ListBox, UIBitmapManager.LIST_BACKGROUND))
-			setBackgroundImage(UIBitmapManager.getUIElement(UIBitmapType.ListBox, UIBitmapManager.LIST_BACKGROUND));
+		if (hasResolvedBitmap(UIBitmapType.ListBox, UIBitmapManager.LIST_BACKGROUND))
+			setBackgroundImage(getResolvedBitmap(UIBitmapType.ListBox, UIBitmapManager.LIST_BACKGROUND));
 		
 	}
 
 	private function initListStyle() : Void
 	{
 
-		if (UIStyleManager.hasStyle(UIStyleManager.LIST_WIDTH))
-			_width = UIStyleManager.getStyle(UIStyleManager.LIST_WIDTH);
+		if (hasResolvedStyle(UIStyleManager.LIST_WIDTH))
+			_width = getResolvedStyle(UIStyleManager.LIST_WIDTH);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.LIST_HEIGHT))
-			_height = UIStyleManager.getStyle(UIStyleManager.LIST_HEIGHT);
+		if (hasResolvedStyle(UIStyleManager.LIST_HEIGHT))
+			_height = getResolvedStyle(UIStyleManager.LIST_HEIGHT);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.LIST_BACKGROUND_COLOR))
-			_backgroundColor = UIStyleManager.getStyle(UIStyleManager.LIST_BACKGROUND_COLOR);
+		if (hasResolvedStyle(UIStyleManager.LIST_BACKGROUND_COLOR))
+			_backgroundColor = getResolvedStyle(UIStyleManager.LIST_BACKGROUND_COLOR);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.LIST_TILE_IMAGE))
-			_tileImage = UIStyleManager.getStyle(UIStyleManager.LIST_TILE_IMAGE);
+		if (hasResolvedStyle(UIStyleManager.LIST_TILE_IMAGE))
+			_tileImage = getResolvedStyle(UIStyleManager.LIST_TILE_IMAGE);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.LIST_TEXT_NORMAL_COLOR))
-			_textColor = UIStyleManager.getStyle(UIStyleManager.LIST_TEXT_NORMAL_COLOR);
+		if (hasResolvedStyle(UIStyleManager.LIST_TEXT_NORMAL_COLOR))
+			_textColor = getResolvedStyle(UIStyleManager.LIST_TEXT_NORMAL_COLOR);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.LIST_TEXT_OVER_COLOR))
-			_textOverColor = UIStyleManager.getStyle(UIStyleManager.LIST_TEXT_OVER_COLOR);
+		if (hasResolvedStyle(UIStyleManager.LIST_TEXT_OVER_COLOR))
+			_textOverColor = getResolvedStyle(UIStyleManager.LIST_TEXT_OVER_COLOR);
 
-		if(UIStyleManager.hasStyle(UIStyleManager.LIST_TEXT_OVER_BACKGROUND_COLOR))
-			_textOverBackground = UIStyleManager.getStyle(UIStyleManager.LIST_TEXT_OVER_BACKGROUND_COLOR);
+		if(hasResolvedStyle(UIStyleManager.LIST_TEXT_OVER_BACKGROUND_COLOR))
+			_textOverBackground = getResolvedStyle(UIStyleManager.LIST_TEXT_OVER_BACKGROUND_COLOR);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.LIST_TEXT_SELECTED_COLOR))
-			_textSelectedColor = UIStyleManager.getStyle(UIStyleManager.LIST_TEXT_SELECTED_COLOR);
+		if (hasResolvedStyle(UIStyleManager.LIST_TEXT_SELECTED_COLOR))
+			_textSelectedColor = getResolvedStyle(UIStyleManager.LIST_TEXT_SELECTED_COLOR);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.LIST_TEXT_SELECTED_BACKGROUND_COLOR))
-			_textSelectedBackground = UIStyleManager.getStyle(UIStyleManager.LIST_TEXT_SELECTED_BACKGROUND_COLOR);
+		if (hasResolvedStyle(UIStyleManager.LIST_TEXT_SELECTED_BACKGROUND_COLOR))
+			_textSelectedBackground = getResolvedStyle(UIStyleManager.LIST_TEXT_SELECTED_BACKGROUND_COLOR);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.LIST_TEXT_EMBED))
-			_font = UIStyleManager.getStyle(UIStyleManager.LIST_TEXT_EMBED);
+		if (hasResolvedStyle(UIStyleManager.LIST_TEXT_EMBED))
+			_font = getResolvedStyle(UIStyleManager.LIST_TEXT_EMBED);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.LIST_TEXT_FONT))
-			_fontName = UIStyleManager.getStyle(UIStyleManager.LIST_TEXT_FONT);
+		if (hasResolvedStyle(UIStyleManager.LIST_TEXT_FONT))
+			_fontName = getResolvedStyle(UIStyleManager.LIST_TEXT_FONT);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.LIST_BORDER))
-			showOutline = UIStyleManager.getStyle(UIStyleManager.LIST_BORDER);
+		if (hasResolvedStyle(UIStyleManager.LIST_BORDER))
+			showOutline = getResolvedStyle(UIStyleManager.LIST_BORDER);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.LIST_BORDER_COLOR))
-			outline.lineColor = UIStyleManager.getStyle(UIStyleManager.LIST_BORDER_COLOR);
+		if (hasResolvedStyle(UIStyleManager.LIST_BORDER_COLOR))
+			outline.lineColor = getResolvedStyle(UIStyleManager.LIST_BORDER_COLOR);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.LIST_BORDER_ALPHA))
-			outline.lineAlpha = UIStyleManager.getStyle(UIStyleManager.LIST_BORDER_ALPHA);
+		if (hasResolvedStyle(UIStyleManager.LIST_BORDER_ALPHA))
+			outline.lineAlpha = getResolvedStyle(UIStyleManager.LIST_BORDER_ALPHA);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.LIST_BORDER_THICKNESS))
-			outline.lineThinkness = UIStyleManager.getStyle(UIStyleManager.LIST_BORDER_THICKNESS);
+		if (hasResolvedStyle(UIStyleManager.LIST_BORDER_THICKNESS))
+			outline.lineThinkness = getResolvedStyle(UIStyleManager.LIST_BORDER_THICKNESS);
 		
 	}
 
@@ -553,11 +553,11 @@ class ListBox extends ScrollPane implements IListBox implements IBaseUI
 			
 			Reflect.setField(labelData, "name", Std.string(i));
 			Reflect.setField(labelData, "text", listData.text);
-			Reflect.setField(labelData, "bold", UIStyleManager.hasStyle(UIStyleManager.LIST_TEXT_BOLD) ? UIStyleManager.getStyle(UIStyleManager.LIST_TEXT_BOLD) : false);
-			Reflect.setField(labelData, "italic", UIStyleManager.hasStyle(UIStyleManager.LIST_TEXT_ITALIC) ? UIStyleManager.getStyle(UIStyleManager.LIST_TEXT_ITALIC) : false);
+			Reflect.setField(labelData, "bold", hasResolvedStyle(UIStyleManager.LIST_TEXT_BOLD) ? getResolvedStyle(UIStyleManager.LIST_TEXT_BOLD) : false);
+			Reflect.setField(labelData, "italic", hasResolvedStyle(UIStyleManager.LIST_TEXT_ITALIC) ? getResolvedStyle(UIStyleManager.LIST_TEXT_ITALIC) : false);
 
-			if (UIStyleManager.hasStyle(UIStyleManager.LIST_TEXT_SIZE))
-				Reflect.setField(labelData,"size", UIStyleManager.getStyle(UIStyleManager.LIST_TEXT_SIZE));
+			if (hasResolvedStyle(UIStyleManager.LIST_TEXT_SIZE))
+				Reflect.setField(labelData,"size", getResolvedStyle(UIStyleManager.LIST_TEXT_SIZE));
 							
 			var listBoxLabel : Label = new Label(labelData);
 			listBoxLabel.textField.autoSize = "left";

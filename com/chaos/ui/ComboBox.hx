@@ -548,29 +548,29 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 	private function initBorder() : Void
 	{
 		// Setting the border outline
-		if(UIStyleManager.hasStyle(UIStyleManager.COMBO_BORDER))
-			_showOutline = UIStyleManager.getStyle(UIStyleManager.COMBO_BORDER);
+		if(hasResolvedStyle(UIStyleManager.COMBO_BORDER))
+			_showOutline = getResolvedStyle(UIStyleManager.COMBO_BORDER);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.COMBO_BORDER_COLOR))
-			_outlineColor = UIStyleManager.getStyle(UIStyleManager.COMBO_BORDER_COLOR);
+		if (hasResolvedStyle(UIStyleManager.COMBO_BORDER_COLOR))
+			_outlineColor = getResolvedStyle(UIStyleManager.COMBO_BORDER_COLOR);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.COMBO_BACKGROUND_COLOR))
-			_backgroundColor = UIStyleManager.getStyle(UIStyleManager.COMBO_BACKGROUND_COLOR);
+		if (hasResolvedStyle(UIStyleManager.COMBO_BACKGROUND_COLOR))
+			_backgroundColor = getResolvedStyle(UIStyleManager.COMBO_BACKGROUND_COLOR);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.COMBO_BORDER_ALPHA))
-			_outlineAlpha = UIStyleManager.getStyle(UIStyleManager.COMBO_BORDER_ALPHA);
+		if (hasResolvedStyle(UIStyleManager.COMBO_BORDER_ALPHA))
+			_outlineAlpha = getResolvedStyle(UIStyleManager.COMBO_BORDER_ALPHA);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.COMBO_BORDER_THICKNESS))
-			_thinkness = UIStyleManager.getStyle(UIStyleManager.COMBO_BORDER_THICKNESS);
+		if (hasResolvedStyle(UIStyleManager.COMBO_BORDER_THICKNESS))
+			_thinkness = getResolvedStyle(UIStyleManager.COMBO_BORDER_THICKNESS);
 	}
 
 	private function initLabel() : Void
 	{
-		if (UIStyleManager.hasStyle(UIStyleManager.COMBO_TEXT_COLOR))
-			_textColor = UIStyleManager.getStyle(UIStyleManager.COMBO_TEXT_COLOR);
+		if (hasResolvedStyle(UIStyleManager.COMBO_TEXT_COLOR))
+			_textColor = getResolvedStyle(UIStyleManager.COMBO_TEXT_COLOR);
 
-		_textNormalBackground = UIStyleManager.hasStyle(UIStyleManager.COMBO_TEXT_NORMAL_BACKGROUND_COLOR)
-			? UIStyleManager.getStyle(UIStyleManager.COMBO_TEXT_NORMAL_BACKGROUND_COLOR)
+		_textNormalBackground = hasResolvedStyle(UIStyleManager.COMBO_TEXT_NORMAL_BACKGROUND_COLOR)
+			? getResolvedStyle(UIStyleManager.COMBO_TEXT_NORMAL_BACKGROUND_COLOR)
 			: _backgroundColor;
 
 	}
@@ -578,26 +578,26 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 	private function initBitmpDropDownButton() : Void
 	{
 
-		if (UIBitmapManager.hasUIElement(UIBitmapType.ComboBox, UIBitmapManager.COMBO_BACKGROUND))
-			setBackgroundImage(UIBitmapManager.getUIElement(UIBitmapType.ComboBox, UIBitmapManager.COMBO_BACKGROUND).clone());
+		if (hasResolvedBitmap(UIBitmapType.ComboBox, UIBitmapManager.COMBO_BACKGROUND))
+			setBackgroundImage(getResolvedBitmap(UIBitmapType.ComboBox, UIBitmapManager.COMBO_BACKGROUND));
 
-		if (UIBitmapManager.hasUIElement(UIBitmapType.ComboBox, UIBitmapManager.COMBO_DROPDOWN_BACKGROUND))
-			setDropDownBackgroundImage(UIBitmapManager.getUIElement(UIBitmapType.ComboBox, UIBitmapManager.COMBO_DROPDOWN_BACKGROUND).clone());
+		if (hasResolvedBitmap(UIBitmapType.ComboBox, UIBitmapManager.COMBO_DROPDOWN_BACKGROUND))
+			setDropDownBackgroundImage(getResolvedBitmap(UIBitmapType.ComboBox, UIBitmapManager.COMBO_DROPDOWN_BACKGROUND));
 
-		if (UIBitmapManager.hasUIElement(UIBitmapType.ComboBox, UIBitmapManager.COMBO_BUTTON_NORMAL))
-			_dropDownButtonDefaultImage = UIBitmapManager.getUIElement(UIBitmapType.ComboBox, UIBitmapManager.COMBO_BUTTON_NORMAL).clone();
+		if (hasResolvedBitmap(UIBitmapType.ComboBox, UIBitmapManager.COMBO_BUTTON_NORMAL))
+			_dropDownButtonDefaultImage = getResolvedBitmap(UIBitmapType.ComboBox, UIBitmapManager.COMBO_BUTTON_NORMAL);
 
-		if (UIBitmapManager.hasUIElement(UIBitmapType.ComboBox, UIBitmapManager.COMBO_BUTTON_OVER))
-			_dropDownButtonOverImage = UIBitmapManager.getUIElement(UIBitmapType.ComboBox, UIBitmapManager.COMBO_BUTTON_OVER).clone();
+		if (hasResolvedBitmap(UIBitmapType.ComboBox, UIBitmapManager.COMBO_BUTTON_OVER))
+			_dropDownButtonOverImage = getResolvedBitmap(UIBitmapType.ComboBox, UIBitmapManager.COMBO_BUTTON_OVER);
 
-		if (UIBitmapManager.hasUIElement(UIBitmapType.ComboBox, UIBitmapManager.COMBO_BUTTON_DOWN))
-			_dropDownButtonDown = UIBitmapManager.getUIElement(UIBitmapType.ComboBox, UIBitmapManager.COMBO_BUTTON_DOWN).clone();
+		if (hasResolvedBitmap(UIBitmapType.ComboBox, UIBitmapManager.COMBO_BUTTON_DOWN))
+			_dropDownButtonDown = getResolvedBitmap(UIBitmapType.ComboBox, UIBitmapManager.COMBO_BUTTON_DOWN);
 
-		if (UIBitmapManager.hasUIElement(UIBitmapType.ComboBox, UIBitmapManager.COMBO_BUTTON_DISABLE))
-			_dropDownButtonDisable = UIBitmapManager.getUIElement(UIBitmapType.ComboBox, UIBitmapManager.COMBO_BUTTON_DISABLE).clone();
+		if (hasResolvedBitmap(UIBitmapType.ComboBox, UIBitmapManager.COMBO_BUTTON_DISABLE))
+			_dropDownButtonDisable = getResolvedBitmap(UIBitmapType.ComboBox, UIBitmapManager.COMBO_BUTTON_DISABLE);
 
-		if (UIBitmapManager.hasUIElement(UIBitmapType.ComboBox, UIBitmapManager.COMBO_BUTTON_ICON))
-			_dropDownIconImage = UIBitmapManager.getUIElement(UIBitmapType.ComboBox, UIBitmapManager.COMBO_BUTTON_ICON).clone();
+		if (hasResolvedBitmap(UIBitmapType.ComboBox, UIBitmapManager.COMBO_BUTTON_ICON))
+			_dropDownIconImage = getResolvedBitmap(UIBitmapType.ComboBox, UIBitmapManager.COMBO_BUTTON_ICON);
 		
 			
 
@@ -653,41 +653,41 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 		
 		
 		// UI Skin/Theme for ScrollBar
-		if (UIBitmapManager.hasUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_BUTTON_NORMAL))
-			_scrollButtonDefaultImage = UIBitmapManager.getUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_BUTTON_NORMAL).clone();
+		if (hasResolvedBitmap(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_BUTTON_NORMAL))
+			_scrollButtonDefaultImage = getResolvedBitmap(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_BUTTON_NORMAL);
 
-		if (UIBitmapManager.hasUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_BUTTON_OVER))
-			_scrollButtonOverImage = UIBitmapManager.getUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_BUTTON_OVER).clone();
+		if (hasResolvedBitmap(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_BUTTON_OVER))
+			_scrollButtonOverImage = getResolvedBitmap(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_BUTTON_OVER);
 
-		if (UIBitmapManager.hasUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_BUTTON_DOWN))
-			_scrollButtonDownImage = UIBitmapManager.getUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_BUTTON_DOWN).clone();
+		if (hasResolvedBitmap(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_BUTTON_DOWN))
+			_scrollButtonDownImage = getResolvedBitmap(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_BUTTON_DOWN);
 
-		if (UIBitmapManager.hasUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_BUTTON_DISABLE))
-			_scrollButtonDisableImage = UIBitmapManager.getUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_BUTTON_DISABLE).clone();
+		if (hasResolvedBitmap(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_BUTTON_DISABLE))
+			_scrollButtonDisableImage = getResolvedBitmap(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_BUTTON_DISABLE);
 
 		// Icons
-		if (UIBitmapManager.hasUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_UP_ICON))
-			_upIconButtonImage = UIBitmapManager.getUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_UP_ICON).clone();
+		if (hasResolvedBitmap(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_UP_ICON))
+			_upIconButtonImage = getResolvedBitmap(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_UP_ICON);
 
-		if (UIBitmapManager.hasUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_DOWN_ICON))
-			_scrollDownIconImage = UIBitmapManager.getUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_DOWN_ICON).clone();
+		if (hasResolvedBitmap(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_DOWN_ICON))
+			_scrollDownIconImage = getResolvedBitmap(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_DOWN_ICON);
 
 		// Track
-		if (UIBitmapManager.hasUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_TRACK))
-			_trackImage = UIBitmapManager.getUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_TRACK).clone();
+		if (hasResolvedBitmap(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_TRACK))
+			_trackImage = getResolvedBitmap(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_TRACK);
 
 		// Slider
-		if (UIBitmapManager.hasUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_NORMAL))
-			_sliderButtonDefaultImage = UIBitmapManager.getUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_NORMAL).clone();
+		if (hasResolvedBitmap(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_NORMAL))
+			_sliderButtonDefaultImage = getResolvedBitmap(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_NORMAL);
 
-		if (UIBitmapManager.hasUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_OVER))
-			_sliderButtonOverImage = UIBitmapManager.getUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_OVER).clone();
+		if (hasResolvedBitmap(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_OVER))
+			_sliderButtonOverImage = getResolvedBitmap(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_OVER);
 
-		if (UIBitmapManager.hasUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_DOWN))
-			_sliderButtonDownImage = UIBitmapManager.getUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_DOWN).clone();
+		if (hasResolvedBitmap(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_DOWN))
+			_sliderButtonDownImage = getResolvedBitmap(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_DOWN);
 
-		if (UIBitmapManager.hasUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_DISABLE))
-			_sliderButtonDisableImage = UIBitmapManager.getUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_DISABLE).clone();
+		if (hasResolvedBitmap(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_DISABLE))
+			_sliderButtonDisableImage = getResolvedBitmap(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_DISABLE);
 		
 		
 		// Only if reskin was called and scrll bar is on screen
@@ -787,89 +787,89 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 	{
 						
 		// Set Label Style
-		if (UIStyleManager.hasStyle(UIStyleManager.COMBO_TEXT_SIZE))
-			_textFormat.size = UIStyleManager.getStyle(UIStyleManager.COMBO_TEXT_SIZE);
+		if (hasResolvedStyle(UIStyleManager.COMBO_TEXT_SIZE))
+			_textFormat.size = getResolvedStyle(UIStyleManager.COMBO_TEXT_SIZE);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.COMBO_TEXT_ITALIC))
-			_textFormat.italic = UIStyleManager.getStyle(UIStyleManager.COMBO_TEXT_ITALIC);
+		if (hasResolvedStyle(UIStyleManager.COMBO_TEXT_ITALIC))
+			_textFormat.italic = getResolvedStyle(UIStyleManager.COMBO_TEXT_ITALIC);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.COMBO_TEXT_BOLD))
-			_textFormat.bold = UIStyleManager.getStyle(UIStyleManager.COMBO_TEXT_BOLD);
+		if (hasResolvedStyle(UIStyleManager.COMBO_TEXT_BOLD))
+			_textFormat.bold = getResolvedStyle(UIStyleManager.COMBO_TEXT_BOLD);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.COMBO_TEXT_FONT))
-			_textFormat.font = UIStyleManager.getStyle(UIStyleManager.COMBO_TEXT_FONT);
+		if (hasResolvedStyle(UIStyleManager.COMBO_TEXT_FONT))
+			_textFormat.font = getResolvedStyle(UIStyleManager.COMBO_TEXT_FONT);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.COMBO_TEXT_ALIGN))
-			_textFormat.align = UIStyleManager.getStyle(UIStyleManager.COMBO_TEXT_ALIGN);
+		if (hasResolvedStyle(UIStyleManager.COMBO_TEXT_ALIGN))
+			_textFormat.align = getResolvedStyle(UIStyleManager.COMBO_TEXT_ALIGN);
 
 
-		if (UIStyleManager.hasStyle(UIStyleManager.COMBO_TEXT_EMBED))
+		if (hasResolvedStyle(UIStyleManager.COMBO_TEXT_EMBED))
 		{
-			_embedFont = UIStyleManager.getStyle(UIStyleManager.COMBO_TEXT_EMBED);
+			_embedFont = getResolvedStyle(UIStyleManager.COMBO_TEXT_EMBED);
 			_useEmbedFonts = _embedFont != null;
 
 			if (_selectLabel != null && _useEmbedFonts)
 				_selectLabel.setEmbedFont(_embedFont);
 		}
 
-		if (UIStyleManager.hasStyle(UIStyleManager.COMBO_DEFAULT_TEXT))
+		if (hasResolvedStyle(UIStyleManager.COMBO_DEFAULT_TEXT))
 		{
-			_defaultText = UIStyleManager.getStyle(UIStyleManager.COMBO_DEFAULT_TEXT);
+			_defaultText = getResolvedStyle(UIStyleManager.COMBO_DEFAULT_TEXT);
 
 			if (_selectLabel != null)
 				_selectLabel.text = _defaultText;
 		}
 
 		// Set the Style for Over and Down states
-		if (UIStyleManager.hasStyle(UIStyleManager.COMBO_TEXT_OVER_COLOR))
-			_textOverColor = UIStyleManager.getStyle(UIStyleManager.COMBO_TEXT_OVER_COLOR);
+		if (hasResolvedStyle(UIStyleManager.COMBO_TEXT_OVER_COLOR))
+			_textOverColor = getResolvedStyle(UIStyleManager.COMBO_TEXT_OVER_COLOR);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.COMBO_TEXT_OVER_BACKGROUND_COLOR))
-			_textOverBackground = UIStyleManager.getStyle(UIStyleManager.COMBO_TEXT_OVER_BACKGROUND_COLOR);
+		if (hasResolvedStyle(UIStyleManager.COMBO_TEXT_OVER_BACKGROUND_COLOR))
+			_textOverBackground = getResolvedStyle(UIStyleManager.COMBO_TEXT_OVER_BACKGROUND_COLOR);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.COMBO_TEXT_DOWN_COLOR))
-			_textDownColor = UIStyleManager.getStyle(UIStyleManager.COMBO_TEXT_DOWN_COLOR);
+		if (hasResolvedStyle(UIStyleManager.COMBO_TEXT_DOWN_COLOR))
+			_textDownColor = getResolvedStyle(UIStyleManager.COMBO_TEXT_DOWN_COLOR);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.COMBO_TEXT_DOWN_BACKGROUND_COLOR))
-			_textDownBackground = UIStyleManager.getStyle(UIStyleManager.COMBO_TEXT_DOWN_BACKGROUND_COLOR);
+		if (hasResolvedStyle(UIStyleManager.COMBO_TEXT_DOWN_BACKGROUND_COLOR))
+			_textDownBackground = getResolvedStyle(UIStyleManager.COMBO_TEXT_DOWN_BACKGROUND_COLOR);
 
 			
 		// Drop Down Button
 		_buttonData = {};
 		
-		if (UIStyleManager.hasStyle(UIStyleManager.COMBO_WIDTH))
-			_width = UIStyleManager.getStyle(UIStyleManager.COMBO_WIDTH);
+		if (hasResolvedStyle(UIStyleManager.COMBO_WIDTH))
+			_width = getResolvedStyle(UIStyleManager.COMBO_WIDTH);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.COMBO_HEIGHT))
-			_height = UIStyleManager.getStyle(UIStyleManager.COMBO_HEIGHT);
+		if (hasResolvedStyle(UIStyleManager.COMBO_HEIGHT))
+			_height = getResolvedStyle(UIStyleManager.COMBO_HEIGHT);
 				
-		if (UIStyleManager.hasStyle(UIStyleManager.COMBO_BUTTON_NORMAL_COLOR))
-			Reflect.setField(_buttonData, "defaultColor", UIStyleManager.getStyle(UIStyleManager.COMBO_BUTTON_NORMAL_COLOR));
+		if (hasResolvedStyle(UIStyleManager.COMBO_BUTTON_NORMAL_COLOR))
+			Reflect.setField(_buttonData, "defaultColor", getResolvedStyle(UIStyleManager.COMBO_BUTTON_NORMAL_COLOR));
 
-		if (UIStyleManager.hasStyle(UIStyleManager.COMBO_BUTTON_OVER_COLOR))
-			Reflect.setField(_buttonData, "overColor", UIStyleManager.getStyle(UIStyleManager.COMBO_BUTTON_OVER_COLOR));
+		if (hasResolvedStyle(UIStyleManager.COMBO_BUTTON_OVER_COLOR))
+			Reflect.setField(_buttonData, "overColor", getResolvedStyle(UIStyleManager.COMBO_BUTTON_OVER_COLOR));
 
-		if (UIStyleManager.hasStyle(UIStyleManager.COMBO_BUTTON_DOWN_COLOR))
-			Reflect.setField(_buttonData, "downColor", UIStyleManager.getStyle(UIStyleManager.COMBO_BUTTON_DOWN_COLOR));
+		if (hasResolvedStyle(UIStyleManager.COMBO_BUTTON_DOWN_COLOR))
+			Reflect.setField(_buttonData, "downColor", getResolvedStyle(UIStyleManager.COMBO_BUTTON_DOWN_COLOR));
 
-		if (UIStyleManager.hasStyle(UIStyleManager.COMBO_BUTTON_DISABLE_COLOR))
-			Reflect.setField(_buttonData, "disableColor", UIStyleManager.getStyle(UIStyleManager.COMBO_BUTTON_DISABLE_COLOR));
+		if (hasResolvedStyle(UIStyleManager.COMBO_BUTTON_DISABLE_COLOR))
+			Reflect.setField(_buttonData, "disableColor", getResolvedStyle(UIStyleManager.COMBO_BUTTON_DISABLE_COLOR));
 
-		if (UIStyleManager.hasStyle(UIStyleManager.COMBO_BUTTON_ICON_COLOR))
-			_iconColor = UIStyleManager.getStyle(UIStyleManager.COMBO_BUTTON_ICON_COLOR);
+		if (hasResolvedStyle(UIStyleManager.COMBO_BUTTON_ICON_COLOR))
+			_iconColor = getResolvedStyle(UIStyleManager.COMBO_BUTTON_ICON_COLOR);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.COMBO_BUTTON_ICON_BORDER_COLOR))
-			_iconBorderColor = UIStyleManager.getStyle(UIStyleManager.COMBO_BUTTON_ICON_BORDER_COLOR);
+		if (hasResolvedStyle(UIStyleManager.COMBO_BUTTON_ICON_BORDER_COLOR))
+			_iconBorderColor = getResolvedStyle(UIStyleManager.COMBO_BUTTON_ICON_BORDER_COLOR);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.COMBO_DROPDOWN_PADDING))
-			_dropDownPadding = UIStyleManager.getStyle(UIStyleManager.COMBO_DROPDOWN_PADDING);
+		if (hasResolvedStyle(UIStyleManager.COMBO_DROPDOWN_PADDING))
+			_dropDownPadding = getResolvedStyle(UIStyleManager.COMBO_DROPDOWN_PADDING);
 
-		_dropDownLabelBackground = UIStyleManager.hasStyle(UIStyleManager.COMBO_DROPDOWN_LABEL_BACKGROUND)
-			? UIStyleManager.getStyle(UIStyleManager.COMBO_DROPDOWN_LABEL_BACKGROUND)
+		_dropDownLabelBackground = hasResolvedStyle(UIStyleManager.COMBO_DROPDOWN_LABEL_BACKGROUND)
+			? getResolvedStyle(UIStyleManager.COMBO_DROPDOWN_LABEL_BACKGROUND)
 			: null;
 
-		_dropDownTileImage = UIStyleManager.hasStyle(UIStyleManager.COMBO_DROPDOWN_TILE_IMAGE)
-			? UIStyleManager.getStyle(UIStyleManager.COMBO_DROPDOWN_TILE_IMAGE)
+		_dropDownTileImage = hasResolvedStyle(UIStyleManager.COMBO_DROPDOWN_TILE_IMAGE)
+			? getResolvedStyle(UIStyleManager.COMBO_DROPDOWN_TILE_IMAGE)
 			: false;
 
 		if (_dropButton != null)

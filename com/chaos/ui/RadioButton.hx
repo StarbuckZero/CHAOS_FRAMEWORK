@@ -65,14 +65,14 @@ class RadioButton extends SelectToggleBase implements IRadioButton implements IB
 		if (Reflect.hasField(data, "textColor"))
 			Reflect.setField(_labelData, "textColor", Reflect.field(data, "textColor") );
 
-		else if (UIStyleManager.hasStyle(UIStyleManager.RADIOBUTTON_TEXT_COLOR))
-			Reflect.setField(_labelData, "textColor", UIStyleManager.getStyle(UIStyleManager.RADIOBUTTON_TEXT_COLOR));
+		else if (hasResolvedStyle(UIStyleManager.RADIOBUTTON_TEXT_COLOR))
+			Reflect.setField(_labelData, "textColor", getResolvedStyle(UIStyleManager.RADIOBUTTON_TEXT_COLOR));
 		
 		// Go with what's in data object first then see if set in UI style
 		if (Reflect.hasField(data, "size"))
 			Reflect.setField(_labelData, "size", Reflect.field(data, "size"));
-		else if (UIStyleManager.hasStyle(UIStyleManager.RADIOBUTTON_TEXT_SIZE))
-			Reflect.setField(_labelData, "size", UIStyleManager.getStyle(UIStyleManager.RADIOBUTTON_TEXT_SIZE));
+		else if (hasResolvedStyle(UIStyleManager.RADIOBUTTON_TEXT_SIZE))
+			Reflect.setField(_labelData, "size", getResolvedStyle(UIStyleManager.RADIOBUTTON_TEXT_SIZE));
 		
 		if (Reflect.hasField(data, "dotSize"))
 			_dotSize = Reflect.field(data, "dotSize");
@@ -91,15 +91,15 @@ class RadioButton extends SelectToggleBase implements IRadioButton implements IB
 		
 		if (Reflect.hasField(data, "align"))
 			Reflect.setField(_labelData, "align", Reflect.field(data, "align"));
-		else if (UIStyleManager.hasStyle(UIStyleManager.RADIOBUTTON_TEXT_ALIGN))
-			Reflect.setField(_labelData, "align", UIStyleManager.getStyle(UIStyleManager.RADIOBUTTON_TEXT_ALIGN));
+		else if (hasResolvedStyle(UIStyleManager.RADIOBUTTON_TEXT_ALIGN))
+			Reflect.setField(_labelData, "align", getResolvedStyle(UIStyleManager.RADIOBUTTON_TEXT_ALIGN));
 
 		if (Reflect.hasField(data, "bold"))
 			Reflect.setField(_labelData, "bold", Reflect.field(data, "bold"));
 		else if (!Reflect.hasField(_labelData, "bold"))
 		{
-			var bold = UIStyleManager.hasStyle(UIStyleManager.RADIOBUTTON_TEXT_BOLD)
-				? UIStyleManager.getStyle(UIStyleManager.RADIOBUTTON_TEXT_BOLD) : false;
+			var bold = hasResolvedStyle(UIStyleManager.RADIOBUTTON_TEXT_BOLD)
+				? getResolvedStyle(UIStyleManager.RADIOBUTTON_TEXT_BOLD) : false;
 			Reflect.setField(_labelData, "bold", bold);
 		}
 
@@ -107,8 +107,8 @@ class RadioButton extends SelectToggleBase implements IRadioButton implements IB
 			Reflect.setField(_labelData, "italic", Reflect.field(data, "italic"));
 		else if (!Reflect.hasField(_labelData, "italic"))
 		{
-			var italic = UIStyleManager.hasStyle(UIStyleManager.RADIOBUTTON_TEXT_ITALIC)
-				? UIStyleManager.getStyle(UIStyleManager.RADIOBUTTON_TEXT_ITALIC) : false;
+			var italic = hasResolvedStyle(UIStyleManager.RADIOBUTTON_TEXT_ITALIC)
+				? getResolvedStyle(UIStyleManager.RADIOBUTTON_TEXT_ITALIC) : false;
 			Reflect.setField(_labelData, "italic", italic);
 		}
 
@@ -123,30 +123,30 @@ class RadioButton extends SelectToggleBase implements IRadioButton implements IB
 	override function initBitmap():Void
 	{
 		// Unselected states
-		if (UIBitmapManager.hasUIElement(UIBitmapType.RadioButton, UIBitmapManager.RADIOBUTTON_NORMAL))
-			setDefaultStateImage(UIBitmapManager.getUIElement(UIBitmapType.RadioButton, UIBitmapManager.RADIOBUTTON_NORMAL));
+		if (hasResolvedBitmap(UIBitmapType.RadioButton, UIBitmapManager.RADIOBUTTON_NORMAL))
+			setDefaultStateImage(getResolvedBitmap(UIBitmapType.RadioButton, UIBitmapManager.RADIOBUTTON_NORMAL));
 
-		if (UIBitmapManager.hasUIElement(UIBitmapType.RadioButton, UIBitmapManager.RADIOBUTTON_OVER))
-			setOverStateImage(UIBitmapManager.getUIElement(UIBitmapType.RadioButton, UIBitmapManager.RADIOBUTTON_OVER));
+		if (hasResolvedBitmap(UIBitmapType.RadioButton, UIBitmapManager.RADIOBUTTON_OVER))
+			setOverStateImage(getResolvedBitmap(UIBitmapType.RadioButton, UIBitmapManager.RADIOBUTTON_OVER));
 
-		if (UIBitmapManager.hasUIElement(UIBitmapType.RadioButton, UIBitmapManager.RADIOBUTTON_DOWN))
-			setDownStateImage(UIBitmapManager.getUIElement(UIBitmapType.RadioButton, UIBitmapManager.RADIOBUTTON_DOWN));
+		if (hasResolvedBitmap(UIBitmapType.RadioButton, UIBitmapManager.RADIOBUTTON_DOWN))
+			setDownStateImage(getResolvedBitmap(UIBitmapType.RadioButton, UIBitmapManager.RADIOBUTTON_DOWN));
 
-		if (UIBitmapManager.hasUIElement(UIBitmapType.RadioButton, UIBitmapManager.RADIOBUTTON_DISABLE))
-			setDisableStateImage(UIBitmapManager.getUIElement(UIBitmapType.RadioButton, UIBitmapManager.RADIOBUTTON_DISABLE));
+		if (hasResolvedBitmap(UIBitmapType.RadioButton, UIBitmapManager.RADIOBUTTON_DISABLE))
+			setDisableStateImage(getResolvedBitmap(UIBitmapType.RadioButton, UIBitmapManager.RADIOBUTTON_DISABLE));
 
 		// Selected states
-		if (UIBitmapManager.hasUIElement(UIBitmapType.RadioButton, UIBitmapManager.RADIOBUTTON_SELECTED_NORMAL))
-			setSelectedDefaultStateImage(UIBitmapManager.getUIElement(UIBitmapType.RadioButton, UIBitmapManager.RADIOBUTTON_SELECTED_NORMAL));
+		if (hasResolvedBitmap(UIBitmapType.RadioButton, UIBitmapManager.RADIOBUTTON_SELECTED_NORMAL))
+			setSelectedDefaultStateImage(getResolvedBitmap(UIBitmapType.RadioButton, UIBitmapManager.RADIOBUTTON_SELECTED_NORMAL));
 
-		if (UIBitmapManager.hasUIElement(UIBitmapType.RadioButton, UIBitmapManager.RADIOBUTTON_SELECTED_OVER))
-			setSelectedOverStateImage(UIBitmapManager.getUIElement(UIBitmapType.RadioButton, UIBitmapManager.RADIOBUTTON_SELECTED_OVER));
+		if (hasResolvedBitmap(UIBitmapType.RadioButton, UIBitmapManager.RADIOBUTTON_SELECTED_OVER))
+			setSelectedOverStateImage(getResolvedBitmap(UIBitmapType.RadioButton, UIBitmapManager.RADIOBUTTON_SELECTED_OVER));
 
-		if (UIBitmapManager.hasUIElement(UIBitmapType.RadioButton, UIBitmapManager.RADIOBUTTON_SELECTED_DOWN))
-			setSelectedDownStateImage(UIBitmapManager.getUIElement(UIBitmapType.RadioButton, UIBitmapManager.RADIOBUTTON_SELECTED_DOWN));
+		if (hasResolvedBitmap(UIBitmapType.RadioButton, UIBitmapManager.RADIOBUTTON_SELECTED_DOWN))
+			setSelectedDownStateImage(getResolvedBitmap(UIBitmapType.RadioButton, UIBitmapManager.RADIOBUTTON_SELECTED_DOWN));
 
-		if (UIBitmapManager.hasUIElement(UIBitmapType.RadioButton, UIBitmapManager.RADIOBUTTON_SELECTED_DISABLE))
-			setSelectedDisableStateImage(UIBitmapManager.getUIElement(UIBitmapType.RadioButton, UIBitmapManager.RADIOBUTTON_SELECTED_DISABLE));
+		if (hasResolvedBitmap(UIBitmapType.RadioButton, UIBitmapManager.RADIOBUTTON_SELECTED_DISABLE))
+			setSelectedDisableStateImage(getResolvedBitmap(UIBitmapType.RadioButton, UIBitmapManager.RADIOBUTTON_SELECTED_DISABLE));
 	}
 
 	override private function initStyle() : Void
@@ -154,54 +154,54 @@ class RadioButton extends SelectToggleBase implements IRadioButton implements IB
 		super.initStyle();
 
 		// Color
-		if (UIStyleManager.hasStyle(UIStyleManager.RADIOBUTTON_NORMAL_COLOR))
-			_defaultColor = UIStyleManager.getStyle(UIStyleManager.RADIOBUTTON_NORMAL_COLOR);
+		if (hasResolvedStyle(UIStyleManager.RADIOBUTTON_NORMAL_COLOR))
+			_defaultColor = getResolvedStyle(UIStyleManager.RADIOBUTTON_NORMAL_COLOR);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.RADIOBUTTON_OVER_COLOR))
-			_overColor = UIStyleManager.getStyle(UIStyleManager.RADIOBUTTON_OVER_COLOR);
+		if (hasResolvedStyle(UIStyleManager.RADIOBUTTON_OVER_COLOR))
+			_overColor = getResolvedStyle(UIStyleManager.RADIOBUTTON_OVER_COLOR);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.RADIOBUTTON_DOWN_COLOR))
-			_downColor = UIStyleManager.getStyle(UIStyleManager.RADIOBUTTON_DOWN_COLOR);
+		if (hasResolvedStyle(UIStyleManager.RADIOBUTTON_DOWN_COLOR))
+			_downColor = getResolvedStyle(UIStyleManager.RADIOBUTTON_DOWN_COLOR);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.RADIOBUTTON_DISABLE_COLOR))
-			_disableColor = UIStyleManager.getStyle(UIStyleManager.RADIOBUTTON_DISABLE_COLOR);
+		if (hasResolvedStyle(UIStyleManager.RADIOBUTTON_DISABLE_COLOR))
+			_disableColor = getResolvedStyle(UIStyleManager.RADIOBUTTON_DISABLE_COLOR);
 
 		// Selected colors
-		if (UIStyleManager.hasStyle(UIStyleManager.RADIOBUTTON_SELECTED_NORMAL_COLOR))
-			_selectedDefaultColor = UIStyleManager.getStyle(UIStyleManager.RADIOBUTTON_SELECTED_NORMAL_COLOR);
+		if (hasResolvedStyle(UIStyleManager.RADIOBUTTON_SELECTED_NORMAL_COLOR))
+			_selectedDefaultColor = getResolvedStyle(UIStyleManager.RADIOBUTTON_SELECTED_NORMAL_COLOR);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.RADIOBUTTON_SELECTED_OVER_COLOR))
-			_selectedOverColor = UIStyleManager.getStyle(UIStyleManager.RADIOBUTTON_SELECTED_OVER_COLOR);
+		if (hasResolvedStyle(UIStyleManager.RADIOBUTTON_SELECTED_OVER_COLOR))
+			_selectedOverColor = getResolvedStyle(UIStyleManager.RADIOBUTTON_SELECTED_OVER_COLOR);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.RADIOBUTTON_SELECTED_DOWN_COLOR))
-			_selectedDownColor = UIStyleManager.getStyle(UIStyleManager.RADIOBUTTON_SELECTED_DOWN_COLOR);
+		if (hasResolvedStyle(UIStyleManager.RADIOBUTTON_SELECTED_DOWN_COLOR))
+			_selectedDownColor = getResolvedStyle(UIStyleManager.RADIOBUTTON_SELECTED_DOWN_COLOR);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.RADIOBUTTON_SELECTED_DISABLE_COLOR))
-			_selectedDisableColor = UIStyleManager.getStyle(UIStyleManager.RADIOBUTTON_SELECTED_DISABLE_COLOR);
+		if (hasResolvedStyle(UIStyleManager.RADIOBUTTON_SELECTED_DISABLE_COLOR))
+			_selectedDisableColor = getResolvedStyle(UIStyleManager.RADIOBUTTON_SELECTED_DISABLE_COLOR);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.RADIOBUTTON_SIZE))
-			_buttonSize = UIStyleManager.getStyle(UIStyleManager.RADIOBUTTON_SIZE);
+		if (hasResolvedStyle(UIStyleManager.RADIOBUTTON_SIZE))
+			_buttonSize = getResolvedStyle(UIStyleManager.RADIOBUTTON_SIZE);
 			
-		if (UIStyleManager.hasStyle(UIStyleManager.RADIOBUTTON_DOT))
-			_dotSize = UIStyleManager.getStyle(UIStyleManager.RADIOBUTTON_DOT);
+		if (hasResolvedStyle(UIStyleManager.RADIOBUTTON_DOT))
+			_dotSize = getResolvedStyle(UIStyleManager.RADIOBUTTON_DOT);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.RADIOBUTTON_OFFSET_X))
-			_buttonOffX = UIStyleManager.getStyle(UIStyleManager.RADIOBUTTON_OFFSET_X);
+		if (hasResolvedStyle(UIStyleManager.RADIOBUTTON_OFFSET_X))
+			_buttonOffX = getResolvedStyle(UIStyleManager.RADIOBUTTON_OFFSET_X);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.RADIOBUTTON_OFFSET_Y))
-			_buttonOffY = UIStyleManager.getStyle(UIStyleManager.RADIOBUTTON_OFFSET_Y);
+		if (hasResolvedStyle(UIStyleManager.RADIOBUTTON_OFFSET_Y))
+			_buttonOffY = getResolvedStyle(UIStyleManager.RADIOBUTTON_OFFSET_Y);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.RADIOBUTTON_LABEL_OFFSET_X))
-			_labelOffX = UIStyleManager.getStyle(UIStyleManager.RADIOBUTTON_LABEL_OFFSET_X);
+		if (hasResolvedStyle(UIStyleManager.RADIOBUTTON_LABEL_OFFSET_X))
+			_labelOffX = getResolvedStyle(UIStyleManager.RADIOBUTTON_LABEL_OFFSET_X);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.RADIOBUTTON_LABEL_OFFSET_Y))
-			_labelOffY = UIStyleManager.getStyle(UIStyleManager.RADIOBUTTON_LABEL_OFFSET_Y);
+		if (hasResolvedStyle(UIStyleManager.RADIOBUTTON_LABEL_OFFSET_Y))
+			_labelOffY = getResolvedStyle(UIStyleManager.RADIOBUTTON_LABEL_OFFSET_Y);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.RADIOBUTTON_USE_CUSTOM_RENDER))
-			_useCustomRender = UIStyleManager.getStyle(UIStyleManager.RADIOBUTTON_USE_CUSTOM_RENDER);
+		if (hasResolvedStyle(UIStyleManager.RADIOBUTTON_USE_CUSTOM_RENDER))
+			_useCustomRender = getResolvedStyle(UIStyleManager.RADIOBUTTON_USE_CUSTOM_RENDER);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.RADIOBUTTON_TILE_IMAGE))
-			_tileImage = UIStyleManager.getStyle(UIStyleManager.RADIOBUTTON_TILE_IMAGE);
+		if (hasResolvedStyle(UIStyleManager.RADIOBUTTON_TILE_IMAGE))
+			_tileImage = getResolvedStyle(UIStyleManager.RADIOBUTTON_TILE_IMAGE);
 	}
 	
 	private function set_dotSize( value:Int ) : Int

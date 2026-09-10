@@ -53,29 +53,29 @@ class CheckBox extends SelectToggleBase implements ICheckBox implements IBaseUI
 		// Go with what's in data object first, UI style second
 		if (Reflect.hasField(data, "textColor"))
 			Reflect.setField(_labelData, "textColor", Reflect.field(data, "textColor") );
-		else if (UIStyleManager.hasStyle(UIStyleManager.CHECKBOX_TEXT_COLOR))
-			Reflect.setField(_labelData, "textColor", UIStyleManager.getStyle(UIStyleManager.CHECKBOX_TEXT_COLOR));
+		else if (hasResolvedStyle(UIStyleManager.CHECKBOX_TEXT_COLOR))
+			Reflect.setField(_labelData, "textColor", getResolvedStyle(UIStyleManager.CHECKBOX_TEXT_COLOR));
 		
 		// Go with what's in data object first, UI style second
 		if (Reflect.hasField(data, "size"))
 			Reflect.setField(_labelData, "size", Reflect.field(data, "size"));
-		else if (UIStyleManager.hasStyle(UIStyleManager.CHECKBOX_TEXT_SIZE))
-			Reflect.setField(_labelData, "size", UIStyleManager.getStyle(UIStyleManager.CHECKBOX_TEXT_SIZE));
+		else if (hasResolvedStyle(UIStyleManager.CHECKBOX_TEXT_SIZE))
+			Reflect.setField(_labelData, "size", getResolvedStyle(UIStyleManager.CHECKBOX_TEXT_SIZE));
 		
 		if (Reflect.hasField(data, "style"))
 			_style = Reflect.field(data, "style");
 		
 		if (Reflect.hasField(data, "align"))
 			Reflect.setField(_labelData, "align", Reflect.field(data, "align"));
-		else if (UIStyleManager.hasStyle(UIStyleManager.CHECKBOX_TEXT_ALIGN))
-			Reflect.setField(_labelData, "align", UIStyleManager.getStyle(UIStyleManager.CHECKBOX_TEXT_ALIGN));
+		else if (hasResolvedStyle(UIStyleManager.CHECKBOX_TEXT_ALIGN))
+			Reflect.setField(_labelData, "align", getResolvedStyle(UIStyleManager.CHECKBOX_TEXT_ALIGN));
 
 		if (Reflect.hasField(data, "bold"))
 			Reflect.setField(_labelData, "bold", Reflect.field(data, "bold"));
 		else if (!Reflect.hasField(_labelData, "bold"))
 		{
-			var bold = UIStyleManager.hasStyle(UIStyleManager.CHECKBOX_TEXT_BOLD)
-				? UIStyleManager.getStyle(UIStyleManager.CHECKBOX_TEXT_BOLD) : false;
+			var bold = hasResolvedStyle(UIStyleManager.CHECKBOX_TEXT_BOLD)
+				? getResolvedStyle(UIStyleManager.CHECKBOX_TEXT_BOLD) : false;
 			Reflect.setField(_labelData, "bold", bold);
 		}
 
@@ -83,8 +83,8 @@ class CheckBox extends SelectToggleBase implements ICheckBox implements IBaseUI
 			Reflect.setField(_labelData, "italic", Reflect.field(data, "italic"));
 		else if (!Reflect.hasField(_labelData, "italic"))
 		{
-			var italic = UIStyleManager.hasStyle(UIStyleManager.CHECKBOX_TEXT_ITALIC)
-				? UIStyleManager.getStyle(UIStyleManager.CHECKBOX_TEXT_ITALIC) : false;
+			var italic = hasResolvedStyle(UIStyleManager.CHECKBOX_TEXT_ITALIC)
+				? getResolvedStyle(UIStyleManager.CHECKBOX_TEXT_ITALIC) : false;
 			Reflect.setField(_labelData, "italic", italic);
 		}
 	}
@@ -95,30 +95,30 @@ class CheckBox extends SelectToggleBase implements ICheckBox implements IBaseUI
 	override function initBitmap() : Void
 	{
 		// Unselected states
-		if (UIBitmapManager.hasUIElement(UIBitmapType.CheckBox, UIBitmapManager.CHECKBOX_NORMAL))
-			setDefaultStateImage(UIBitmapManager.getUIElement(UIBitmapType.CheckBox, UIBitmapManager.CHECKBOX_NORMAL));
+		if (hasResolvedBitmap(UIBitmapType.CheckBox, UIBitmapManager.CHECKBOX_NORMAL))
+			setDefaultStateImage(getResolvedBitmap(UIBitmapType.CheckBox, UIBitmapManager.CHECKBOX_NORMAL));
 
-		if (UIBitmapManager.hasUIElement(UIBitmapType.CheckBox, UIBitmapManager.CHECKBOX_OVER))
-			setOverStateImage(UIBitmapManager.getUIElement(UIBitmapType.CheckBox, UIBitmapManager.CHECKBOX_OVER));
+		if (hasResolvedBitmap(UIBitmapType.CheckBox, UIBitmapManager.CHECKBOX_OVER))
+			setOverStateImage(getResolvedBitmap(UIBitmapType.CheckBox, UIBitmapManager.CHECKBOX_OVER));
 
-		if (UIBitmapManager.hasUIElement(UIBitmapType.CheckBox, UIBitmapManager.CHECKBOX_DOWN))
-			setDownStateImage(UIBitmapManager.getUIElement(UIBitmapType.CheckBox, UIBitmapManager.CHECKBOX_DOWN));
+		if (hasResolvedBitmap(UIBitmapType.CheckBox, UIBitmapManager.CHECKBOX_DOWN))
+			setDownStateImage(getResolvedBitmap(UIBitmapType.CheckBox, UIBitmapManager.CHECKBOX_DOWN));
 
-		if (UIBitmapManager.hasUIElement(UIBitmapType.CheckBox, UIBitmapManager.CHECKBOX_DISABLE))
-			setDisableStateImage(UIBitmapManager.getUIElement(UIBitmapType.CheckBox, UIBitmapManager.CHECKBOX_DISABLE));
+		if (hasResolvedBitmap(UIBitmapType.CheckBox, UIBitmapManager.CHECKBOX_DISABLE))
+			setDisableStateImage(getResolvedBitmap(UIBitmapType.CheckBox, UIBitmapManager.CHECKBOX_DISABLE));
 
 		// Selected states
-		if (UIBitmapManager.hasUIElement(UIBitmapType.CheckBox, UIBitmapManager.CHECKBOX_SELECTED_NORMAL))
-			setSelectedDefaultStateImage(UIBitmapManager.getUIElement(UIBitmapType.CheckBox, UIBitmapManager.CHECKBOX_SELECTED_NORMAL));
+		if (hasResolvedBitmap(UIBitmapType.CheckBox, UIBitmapManager.CHECKBOX_SELECTED_NORMAL))
+			setSelectedDefaultStateImage(getResolvedBitmap(UIBitmapType.CheckBox, UIBitmapManager.CHECKBOX_SELECTED_NORMAL));
 
-		if (UIBitmapManager.hasUIElement(UIBitmapType.CheckBox, UIBitmapManager.CHECKBOX_SELECTED_OVER))
-			setSelectedOverStateImage(UIBitmapManager.getUIElement(UIBitmapType.CheckBox, UIBitmapManager.CHECKBOX_SELECTED_OVER));
+		if (hasResolvedBitmap(UIBitmapType.CheckBox, UIBitmapManager.CHECKBOX_SELECTED_OVER))
+			setSelectedOverStateImage(getResolvedBitmap(UIBitmapType.CheckBox, UIBitmapManager.CHECKBOX_SELECTED_OVER));
 
-		if (UIBitmapManager.hasUIElement(UIBitmapType.CheckBox, UIBitmapManager.CHECKBOX_SELECTED_DOWN))
-			setSelectedDownStateImage(UIBitmapManager.getUIElement(UIBitmapType.CheckBox, UIBitmapManager.CHECKBOX_SELECTED_DOWN));
+		if (hasResolvedBitmap(UIBitmapType.CheckBox, UIBitmapManager.CHECKBOX_SELECTED_DOWN))
+			setSelectedDownStateImage(getResolvedBitmap(UIBitmapType.CheckBox, UIBitmapManager.CHECKBOX_SELECTED_DOWN));
 
-		if (UIBitmapManager.hasUIElement(UIBitmapType.CheckBox, UIBitmapManager.CHECKBOX_SELECTED_DISABLE))
-			setSelectedDisableStateImage(UIBitmapManager.getUIElement(UIBitmapType.CheckBox, UIBitmapManager.CHECKBOX_SELECTED_DISABLE));
+		if (hasResolvedBitmap(UIBitmapType.CheckBox, UIBitmapManager.CHECKBOX_SELECTED_DISABLE))
+			setSelectedDisableStateImage(getResolvedBitmap(UIBitmapType.CheckBox, UIBitmapManager.CHECKBOX_SELECTED_DISABLE));
 	}
 
 	override function initStyle() : Void
@@ -126,39 +126,39 @@ class CheckBox extends SelectToggleBase implements ICheckBox implements IBaseUI
 		// Unselected colors
 		super.initStyle();
 
-		if (UIStyleManager.hasStyle(UIStyleManager.CHECKBOX_NORMAL_COLOR))
-			_defaultColor = UIStyleManager.getStyle(UIStyleManager.CHECKBOX_NORMAL_COLOR);
+		if (hasResolvedStyle(UIStyleManager.CHECKBOX_NORMAL_COLOR))
+			_defaultColor = getResolvedStyle(UIStyleManager.CHECKBOX_NORMAL_COLOR);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.CHECKBOX_OVER_COLOR))
-			_overColor = UIStyleManager.getStyle(UIStyleManager.CHECKBOX_OVER_COLOR);
+		if (hasResolvedStyle(UIStyleManager.CHECKBOX_OVER_COLOR))
+			_overColor = getResolvedStyle(UIStyleManager.CHECKBOX_OVER_COLOR);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.CHECKBOX_DOWN_COLOR))
-			_downColor = UIStyleManager.getStyle(UIStyleManager.CHECKBOX_DOWN_COLOR);
+		if (hasResolvedStyle(UIStyleManager.CHECKBOX_DOWN_COLOR))
+			_downColor = getResolvedStyle(UIStyleManager.CHECKBOX_DOWN_COLOR);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.CHECKBOX_DISABLE_COLOR))
-			_disableColor = UIStyleManager.getStyle(UIStyleManager.CHECKBOX_DISABLE_COLOR);
+		if (hasResolvedStyle(UIStyleManager.CHECKBOX_DISABLE_COLOR))
+			_disableColor = getResolvedStyle(UIStyleManager.CHECKBOX_DISABLE_COLOR);
 
 		// Selected colors
-		if (UIStyleManager.hasStyle(UIStyleManager.CHECKBOX_SELECTED_NORMAL_COLOR))
-			_selectedDefaultColor = UIStyleManager.getStyle(UIStyleManager.CHECKBOX_SELECTED_NORMAL_COLOR);
+		if (hasResolvedStyle(UIStyleManager.CHECKBOX_SELECTED_NORMAL_COLOR))
+			_selectedDefaultColor = getResolvedStyle(UIStyleManager.CHECKBOX_SELECTED_NORMAL_COLOR);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.CHECKBOX_SELECTED_OVER_COLOR))
-			_selectedOverColor = UIStyleManager.getStyle(UIStyleManager.CHECKBOX_SELECTED_OVER_COLOR);
+		if (hasResolvedStyle(UIStyleManager.CHECKBOX_SELECTED_OVER_COLOR))
+			_selectedOverColor = getResolvedStyle(UIStyleManager.CHECKBOX_SELECTED_OVER_COLOR);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.CHECKBOX_SELECTED_DOWN_COLOR))
-			_selectedDownColor = UIStyleManager.getStyle(UIStyleManager.CHECKBOX_SELECTED_DOWN_COLOR);
+		if (hasResolvedStyle(UIStyleManager.CHECKBOX_SELECTED_DOWN_COLOR))
+			_selectedDownColor = getResolvedStyle(UIStyleManager.CHECKBOX_SELECTED_DOWN_COLOR);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.CHECKBOX_SELECTED_DISABLE_COLOR))
-			_selectedDisableColor = UIStyleManager.getStyle(UIStyleManager.CHECKBOX_SELECTED_DISABLE_COLOR);
+		if (hasResolvedStyle(UIStyleManager.CHECKBOX_SELECTED_DISABLE_COLOR))
+			_selectedDisableColor = getResolvedStyle(UIStyleManager.CHECKBOX_SELECTED_DISABLE_COLOR);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.CHECKBOX_SIZE))
-			_buttonSize = UIStyleManager.getStyle(UIStyleManager.CHECKBOX_SIZE);
+		if (hasResolvedStyle(UIStyleManager.CHECKBOX_SIZE))
+			_buttonSize = getResolvedStyle(UIStyleManager.CHECKBOX_SIZE);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.CHECKBOX_USE_CUSTOM_RENDER))
-			_useCustomRender = UIStyleManager.getStyle(UIStyleManager.CHECKBOX_USE_CUSTOM_RENDER);
+		if (hasResolvedStyle(UIStyleManager.CHECKBOX_USE_CUSTOM_RENDER))
+			_useCustomRender = getResolvedStyle(UIStyleManager.CHECKBOX_USE_CUSTOM_RENDER);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.CHECKBOX_TILE_IMAGE))
-			_tileImage = UIStyleManager.getStyle(UIStyleManager.CHECKBOX_TILE_IMAGE);
+		if (hasResolvedStyle(UIStyleManager.CHECKBOX_TILE_IMAGE))
+			_tileImage = getResolvedStyle(UIStyleManager.CHECKBOX_TILE_IMAGE);
 	}
 		
 	private function set_style(value:String) : String
@@ -179,8 +179,8 @@ class CheckBox extends SelectToggleBase implements ICheckBox implements IBaseUI
 	
 	override public function draw():Void 
 	{
-		var checkBoxOffSetX : Int = UIStyleManager.hasStyle(UIStyleManager.CHECKBOX_LABEL_OFFSET_X) ? UIStyleManager.getStyle(UIStyleManager.CHECKBOX_LABEL_OFFSET_X) : 0;
-		var checkBoxOffSetY : Int = UIStyleManager.hasStyle(UIStyleManager.CHECKBOX_LABEL_OFFSET_Y) ? UIStyleManager.getStyle(UIStyleManager.CHECKBOX_LABEL_OFFSET_Y) : 0;
+		var checkBoxOffSetX : Int = hasResolvedStyle(UIStyleManager.CHECKBOX_LABEL_OFFSET_X) ? getResolvedStyle(UIStyleManager.CHECKBOX_LABEL_OFFSET_X) : 0;
+		var checkBoxOffSetY : Int = hasResolvedStyle(UIStyleManager.CHECKBOX_LABEL_OFFSET_Y) ? getResolvedStyle(UIStyleManager.CHECKBOX_LABEL_OFFSET_Y) : 0;
 
         if(_useCustomRender && UIBitmapManager.hasCustomRenderTexture(UIBitmapType.CheckBox) && _width > 0 && _height > 0) {
 

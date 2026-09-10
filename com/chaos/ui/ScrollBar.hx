@@ -290,52 +290,52 @@ class ScrollBar extends BaseUI implements IScrollBar implements IBaseUI
 	private function initBitmap() : Void
 	{
 		// Set scrollbar button  
-		if (UIBitmapManager.hasUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_BUTTON_NORMAL)) 
-			_buttonDefaultImage = UIBitmapManager.getUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_BUTTON_NORMAL).clone();
+		if (hasResolvedBitmap(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_BUTTON_NORMAL))
+			_buttonDefaultImage = getResolvedBitmap(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_BUTTON_NORMAL);
 		
-		if (UIBitmapManager.hasUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_BUTTON_OVER)) 
-			_buttonOverImage = UIBitmapManager.getUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_BUTTON_OVER).clone();
+		if (hasResolvedBitmap(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_BUTTON_OVER))
+			_buttonOverImage = getResolvedBitmap(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_BUTTON_OVER);
 		
-		if (UIBitmapManager.hasUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_BUTTON_DOWN))
-			_buttonDownImage = UIBitmapManager.getUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_BUTTON_DOWN).clone();
+		if (hasResolvedBitmap(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_BUTTON_DOWN))
+			_buttonDownImage = getResolvedBitmap(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_BUTTON_DOWN);
         
-		if (UIBitmapManager.hasUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_BUTTON_DISABLE))
-			_buttonDisableImage = UIBitmapManager.getUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_BUTTON_DISABLE).clone();
+		if (hasResolvedBitmap(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_BUTTON_DISABLE))
+			_buttonDisableImage = getResolvedBitmap(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_BUTTON_DISABLE);
 		
 		
 		// Set Arrow Icons  
-		if (UIBitmapManager.hasUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_UP_ICON))
-			_upIconButtonImage = UIBitmapManager.getUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_UP_ICON).clone();
+		if (hasResolvedBitmap(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_UP_ICON))
+			_upIconButtonImage = getResolvedBitmap(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_UP_ICON);
 		
-		if (UIBitmapManager.hasUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_DOWN_ICON)) 
-			_downIconButtonImage = UIBitmapManager.getUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_DOWN_ICON).clone();
+		if (hasResolvedBitmap(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_DOWN_ICON))
+			_downIconButtonImage = getResolvedBitmap(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_DOWN_ICON);
 
-		if (UIBitmapManager.hasUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_RIGHT_ICON)) 
-			_rightIconButtonImage = UIBitmapManager.getUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_RIGHT_ICON).clone();
+		if (hasResolvedBitmap(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_RIGHT_ICON))
+			_rightIconButtonImage = getResolvedBitmap(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_RIGHT_ICON);
 
-		if (UIBitmapManager.hasUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_LEFT_ICON))
-			_leftIconButtonImage = UIBitmapManager.getUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_LEFT_ICON).clone();
+		if (hasResolvedBitmap(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_LEFT_ICON))
+			_leftIconButtonImage = getResolvedBitmap(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_LEFT_ICON);
 		
 		
 		// Set tracker  
-		if (UIBitmapManager.hasUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_TRACK)) 
-			_trackImage = UIBitmapManager.getUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_TRACK).clone();
+		if (hasResolvedBitmap(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_TRACK))
+			_trackImage = getResolvedBitmap(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_TRACK);
 		
 		
 		// Set Slider  
-		if (UIBitmapManager.hasUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_NORMAL))   
-			_sliderButtonDefaultImage = UIBitmapManager.getUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_NORMAL).clone();
+		if (hasResolvedBitmap(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_NORMAL))
+			_sliderButtonDefaultImage = getResolvedBitmap(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_NORMAL);
 		
 		
-		if (UIBitmapManager.hasUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_OVER)) 
-			_sliderButtonOverImage = UIBitmapManager.getUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_OVER).clone();
+		if (hasResolvedBitmap(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_OVER))
+			_sliderButtonOverImage = getResolvedBitmap(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_OVER);
 		
 		
-		if (UIBitmapManager.hasUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_DOWN))
-			_sliderButtonDownImage = UIBitmapManager.getUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_DOWN).clone();
+		if (hasResolvedBitmap(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_DOWN))
+			_sliderButtonDownImage = getResolvedBitmap(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_DOWN);
 		
-		if (UIBitmapManager.hasUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_DISABLE))
-			_sliderButtonDisableImage = UIBitmapManager.getUIElement(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_DISABLE).clone();
+		if (hasResolvedBitmap(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_DISABLE))
+			_sliderButtonDisableImage = getResolvedBitmap(UIBitmapType.ScrollBar, UIBitmapManager.SCROLLBAR_SLIDER_BUTTON_DISABLE);
 		
 		
 		// If already there then set and remove BitmapData
@@ -425,67 +425,67 @@ class ScrollBar extends BaseUI implements IScrollBar implements IBaseUI
 		_sliderData = {};
 		
 		// Set button colors
-		if (UIStyleManager.hasStyle(UIStyleManager.SCROLLBAR_BUTTON_NORMAL_COLOR)) 
-			Reflect.setField(_buttonData, "defaultColor", UIStyleManager.getStyle(UIStyleManager.SCROLLBAR_BUTTON_NORMAL_COLOR));
+		if (hasResolvedStyle(UIStyleManager.SCROLLBAR_BUTTON_NORMAL_COLOR))
+			Reflect.setField(_buttonData, "defaultColor", getResolvedStyle(UIStyleManager.SCROLLBAR_BUTTON_NORMAL_COLOR));
 		
-		if (UIStyleManager.hasStyle(UIStyleManager.SCROLLBAR_BUTTON_OVER_COLOR))
-			Reflect.setField(_buttonData, "overColor", UIStyleManager.getStyle(UIStyleManager.SCROLLBAR_BUTTON_OVER_COLOR));
+		if (hasResolvedStyle(UIStyleManager.SCROLLBAR_BUTTON_OVER_COLOR))
+			Reflect.setField(_buttonData, "overColor", getResolvedStyle(UIStyleManager.SCROLLBAR_BUTTON_OVER_COLOR));
 		
-		if (UIStyleManager.hasStyle( UIStyleManager.SCROLLBAR_BUTTON_DOWN_COLOR))
-			Reflect.setField(_buttonData, "downColor", UIStyleManager.getStyle(UIStyleManager.SCROLLBAR_BUTTON_DOWN_COLOR));
+		if (hasResolvedStyle( UIStyleManager.SCROLLBAR_BUTTON_DOWN_COLOR))
+			Reflect.setField(_buttonData, "downColor", getResolvedStyle(UIStyleManager.SCROLLBAR_BUTTON_DOWN_COLOR));
 		
 			
-		if (UIStyleManager.hasStyle(UIStyleManager.SCROLLBAR_BUTTON_DISABLE_COLOR))
-			Reflect.setField(_buttonData, "disableColor", UIStyleManager.getStyle(UIStyleManager.SCROLLBAR_BUTTON_DISABLE_COLOR));
+		if (hasResolvedStyle(UIStyleManager.SCROLLBAR_BUTTON_DISABLE_COLOR))
+			Reflect.setField(_buttonData, "disableColor", getResolvedStyle(UIStyleManager.SCROLLBAR_BUTTON_DISABLE_COLOR));
 			
 		// Set Track color 
-		if (UIStyleManager.hasStyle(UIStyleManager.SCROLLBAR_TRACK_COLOR))
-			Reflect.setField(_sliderData, "trackColor", UIStyleManager.getStyle(UIStyleManager.SCROLLBAR_TRACK_COLOR));
+		if (hasResolvedStyle(UIStyleManager.SCROLLBAR_TRACK_COLOR))
+			Reflect.setField(_sliderData, "trackColor", getResolvedStyle(UIStyleManager.SCROLLBAR_TRACK_COLOR));
 
-		if (UIStyleManager.hasStyle(UIStyleManager.SCROLLBAR_TRACK_SIZE))
-			Reflect.setField(_sliderData, "trackSize", UIStyleManager.getStyle(UIStyleManager.SCROLLBAR_TRACK_SIZE));
+		if (hasResolvedStyle(UIStyleManager.SCROLLBAR_TRACK_SIZE))
+			Reflect.setField(_sliderData, "trackSize", getResolvedStyle(UIStyleManager.SCROLLBAR_TRACK_SIZE));
 		
 		// Set Slider color  
-		if (UIStyleManager.hasStyle(UIStyleManager.SCROLLBAR_SLIDER_NORMAL_COLOR))
-			Reflect.setField(_sliderData, "sliderColor", UIStyleManager.getStyle(UIStyleManager.SCROLLBAR_SLIDER_NORMAL_COLOR));
+		if (hasResolvedStyle(UIStyleManager.SCROLLBAR_SLIDER_NORMAL_COLOR))
+			Reflect.setField(_sliderData, "sliderColor", getResolvedStyle(UIStyleManager.SCROLLBAR_SLIDER_NORMAL_COLOR));
 		
-		if (UIStyleManager.hasStyle(UIStyleManager.SCROLLBAR_SLIDER_OVER_COLOR))
-			Reflect.setField(_sliderData, "sliderOverColor", UIStyleManager.getStyle(UIStyleManager.SCROLLBAR_SLIDER_OVER_COLOR));
+		if (hasResolvedStyle(UIStyleManager.SCROLLBAR_SLIDER_OVER_COLOR))
+			Reflect.setField(_sliderData, "sliderOverColor", getResolvedStyle(UIStyleManager.SCROLLBAR_SLIDER_OVER_COLOR));
 		
-		if (UIStyleManager.hasStyle(UIStyleManager.SCROLLBAR_SLIDER_DOWN_COLOR))
-			Reflect.setField(_sliderData, "sliderDownColor", UIStyleManager.getStyle(UIStyleManager.SCROLLBAR_SLIDER_DOWN_COLOR));
+		if (hasResolvedStyle(UIStyleManager.SCROLLBAR_SLIDER_DOWN_COLOR))
+			Reflect.setField(_sliderData, "sliderDownColor", getResolvedStyle(UIStyleManager.SCROLLBAR_SLIDER_DOWN_COLOR));
 		
-		if (UIStyleManager.hasStyle(UIStyleManager.SLIDER_DISABLE_COLOR))
-			Reflect.setField(_sliderData, "sliderDisableColor", UIStyleManager.getStyle(UIStyleManager.SLIDER_DISABLE_COLOR));
+		if (hasResolvedStyle(UIStyleManager.SLIDER_DISABLE_COLOR))
+			Reflect.setField(_sliderData, "sliderDisableColor", getResolvedStyle(UIStyleManager.SLIDER_DISABLE_COLOR));
 		
-		if (UIStyleManager.hasStyle(UIStyleManager.SCROLLBAR_SLIDER_SIZE))
-			Reflect.setField(_sliderData, "sliderSize", UIStyleManager.getStyle(UIStyleManager.SCROLLBAR_SLIDER_SIZE));
+		if (hasResolvedStyle(UIStyleManager.SCROLLBAR_SLIDER_SIZE))
+			Reflect.setField(_sliderData, "sliderSize", getResolvedStyle(UIStyleManager.SCROLLBAR_SLIDER_SIZE));
 		
 		// Active resize for slider
-		if (UIStyleManager.hasStyle(UIStyleManager.SCROLLBAR_SLIDER_ACTIVE_RESIZE))
-			_sliderResize = UIStyleManager.getStyle(UIStyleManager.SCROLLBAR_SLIDER_ACTIVE_RESIZE);
+		if (hasResolvedStyle(UIStyleManager.SCROLLBAR_SLIDER_ACTIVE_RESIZE))
+			_sliderResize = getResolvedStyle(UIStyleManager.SCROLLBAR_SLIDER_ACTIVE_RESIZE);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.SCROLLBAR_BUTTON_USE_CUSTOM_RENDER))
-			_useCustomRender = UIStyleManager.getStyle(UIStyleManager.SCROLLBAR_BUTTON_USE_CUSTOM_RENDER);
+		if (hasResolvedStyle(UIStyleManager.SCROLLBAR_BUTTON_USE_CUSTOM_RENDER))
+			_useCustomRender = getResolvedStyle(UIStyleManager.SCROLLBAR_BUTTON_USE_CUSTOM_RENDER);
 
 
-		if (UIStyleManager.hasStyle(UIStyleManager.SCROLLBAR_OFFSET))
-			_offset = UIStyleManager.getStyle(UIStyleManager.SCROLLBAR_OFFSET);
+		if (hasResolvedStyle(UIStyleManager.SCROLLBAR_OFFSET))
+			_offset = getResolvedStyle(UIStyleManager.SCROLLBAR_OFFSET);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.SCROLLBAR_BUTTON_SIZE))
+		if (hasResolvedStyle(UIStyleManager.SCROLLBAR_BUTTON_SIZE))
 		{
-			Reflect.setField(_buttonData, "buttonWidth", UIStyleManager.getStyle(UIStyleManager.SCROLLBAR_BUTTON_SIZE));
-			Reflect.setField(_buttonData, "buttonHeight", UIStyleManager.getStyle(UIStyleManager.SCROLLBAR_BUTTON_SIZE));
+			Reflect.setField(_buttonData, "buttonWidth", getResolvedStyle(UIStyleManager.SCROLLBAR_BUTTON_SIZE));
+			Reflect.setField(_buttonData, "buttonHeight", getResolvedStyle(UIStyleManager.SCROLLBAR_BUTTON_SIZE));
 		}
 		
-		if (UIStyleManager.hasStyle(UIStyleManager.SCROLLBAR_SLIDER_OFFSET))
-			Reflect.setField(_sliderData, "sliderOffSet", UIStyleManager.getStyle(UIStyleManager.SCROLLBAR_SLIDER_OFFSET));
+		if (hasResolvedStyle(UIStyleManager.SCROLLBAR_SLIDER_OFFSET))
+			Reflect.setField(_sliderData, "sliderOffSet", getResolvedStyle(UIStyleManager.SCROLLBAR_SLIDER_OFFSET));
 		
-		if (UIStyleManager.hasStyle(UIStyleManager.SCROLLBAR_ROTATE_IMAGE))
-			_rotateImage = UIStyleManager.getStyle(UIStyleManager.SCROLLBAR_ROTATE_IMAGE);
+		if (hasResolvedStyle(UIStyleManager.SCROLLBAR_ROTATE_IMAGE))
+			_rotateImage = getResolvedStyle(UIStyleManager.SCROLLBAR_ROTATE_IMAGE);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.SCROLLBAR_TILE_IMAGE))
-			_tileImage = UIStyleManager.getStyle(UIStyleManager.SCROLLBAR_TILE_IMAGE);
+		if (hasResolvedStyle(UIStyleManager.SCROLLBAR_TILE_IMAGE))
+			_tileImage = getResolvedStyle(UIStyleManager.SCROLLBAR_TILE_IMAGE);
 
 		Reflect.setField(_sliderData, "rotateImage", _rotateImage);
 		Reflect.setField(_sliderData, "tileImage", _tileImage);

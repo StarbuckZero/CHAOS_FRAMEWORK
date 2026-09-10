@@ -297,70 +297,70 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI {
 
 	private function initStyle() {
 
-		if (UIStyleManager.hasStyle(UIStyleManager.TOGGLE_BUTTON_WIDTH))
-			_width = UIStyleManager.getStyle(UIStyleManager.TOGGLE_BUTTON_WIDTH);
+		if (hasResolvedStyle(UIStyleManager.TOGGLE_BUTTON_WIDTH))
+			_width = getResolvedStyle(UIStyleManager.TOGGLE_BUTTON_WIDTH);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.TOGGLE_BUTTON_HEIGHT))
-			_height = UIStyleManager.getStyle(UIStyleManager.TOGGLE_BUTTON_HEIGHT);
+		if (hasResolvedStyle(UIStyleManager.TOGGLE_BUTTON_HEIGHT))
+			_height = getResolvedStyle(UIStyleManager.TOGGLE_BUTTON_HEIGHT);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.TOGGLE_BUTTON_BORDER_ALPHA))
-			_borderAlpha = UIStyleManager.getStyle(UIStyleManager.TOGGLE_BUTTON_BORDER_ALPHA);
+		if (hasResolvedStyle(UIStyleManager.TOGGLE_BUTTON_BORDER_ALPHA))
+			_borderAlpha = getResolvedStyle(UIStyleManager.TOGGLE_BUTTON_BORDER_ALPHA);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.TOGGLE_BUTTON_BORDER_NORMAL_COLOR))
-			_normalBorderColor = UIStyleManager.getStyle(UIStyleManager.TOGGLE_BUTTON_BORDER_NORMAL_COLOR);
+		if (hasResolvedStyle(UIStyleManager.TOGGLE_BUTTON_BORDER_NORMAL_COLOR))
+			_normalBorderColor = getResolvedStyle(UIStyleManager.TOGGLE_BUTTON_BORDER_NORMAL_COLOR);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.TOGGLE_BUTTON_BORDER_OVER_COLOR))
-			_overBorderColor = UIStyleManager.getStyle(UIStyleManager.TOGGLE_BUTTON_BORDER_OVER_COLOR);
+		if (hasResolvedStyle(UIStyleManager.TOGGLE_BUTTON_BORDER_OVER_COLOR))
+			_overBorderColor = getResolvedStyle(UIStyleManager.TOGGLE_BUTTON_BORDER_OVER_COLOR);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.TOGGLE_BUTTON_BORDER_SELECTED_COLOR))
-			_downBorderColor = UIStyleManager.getStyle(UIStyleManager.TOGGLE_BUTTON_BORDER_SELECTED_COLOR);
+		if (hasResolvedStyle(UIStyleManager.TOGGLE_BUTTON_BORDER_SELECTED_COLOR))
+			_downBorderColor = getResolvedStyle(UIStyleManager.TOGGLE_BUTTON_BORDER_SELECTED_COLOR);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.TOGGLE_BUTTON_BORDER_DISABLE_COLOR))
-			_disableBorderColor = UIStyleManager.getStyle(UIStyleManager.TOGGLE_BUTTON_BORDER_DISABLE_COLOR);
+		if (hasResolvedStyle(UIStyleManager.TOGGLE_BUTTON_BORDER_DISABLE_COLOR))
+			_disableBorderColor = getResolvedStyle(UIStyleManager.TOGGLE_BUTTON_BORDER_DISABLE_COLOR);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.TOGGLE_BUTTON_BORDER_THICKNESS))
-			_borderThinkness = UIStyleManager.getStyle(UIStyleManager.TOGGLE_BUTTON_BORDER_THICKNESS);
+		if (hasResolvedStyle(UIStyleManager.TOGGLE_BUTTON_BORDER_THICKNESS))
+			_borderThinkness = getResolvedStyle(UIStyleManager.TOGGLE_BUTTON_BORDER_THICKNESS);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.TOGGLE_BUTTON_NORMAL_COLOR))
-			_defaultColor = UIStyleManager.getStyle(UIStyleManager.TOGGLE_BUTTON_NORMAL_COLOR);
+		if (hasResolvedStyle(UIStyleManager.TOGGLE_BUTTON_NORMAL_COLOR))
+			_defaultColor = getResolvedStyle(UIStyleManager.TOGGLE_BUTTON_NORMAL_COLOR);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.TOGGLE_BUTTON_OVER_COLOR))
-			_overColor = UIStyleManager.getStyle(UIStyleManager.TOGGLE_BUTTON_OVER_COLOR);
+		if (hasResolvedStyle(UIStyleManager.TOGGLE_BUTTON_OVER_COLOR))
+			_overColor = getResolvedStyle(UIStyleManager.TOGGLE_BUTTON_OVER_COLOR);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.TOGGLE_BUTTON_SELECTED_COLOR))
-			_downColor = UIStyleManager.getStyle(UIStyleManager.TOGGLE_BUTTON_SELECTED_COLOR);
+		if (hasResolvedStyle(UIStyleManager.TOGGLE_BUTTON_SELECTED_COLOR))
+			_downColor = getResolvedStyle(UIStyleManager.TOGGLE_BUTTON_SELECTED_COLOR);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.TOGGLE_BUTTON_DISABLE_COLOR))
-			_disableColor = UIStyleManager.getStyle(UIStyleManager.TOGGLE_BUTTON_DISABLE_COLOR);
+		if (hasResolvedStyle(UIStyleManager.TOGGLE_BUTTON_DISABLE_COLOR))
+			_disableColor = getResolvedStyle(UIStyleManager.TOGGLE_BUTTON_DISABLE_COLOR);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.BUTTON_ALPHA))
-			_bgAlpha = UIStyleManager.getStyle(UIStyleManager.BUTTON_ALPHA);
+		if (hasResolvedStyle(UIStyleManager.BUTTON_ALPHA))
+			_bgAlpha = getResolvedStyle(UIStyleManager.BUTTON_ALPHA);
 
 
-		if (UIStyleManager.hasStyle(UIStyleManager.TOGGLE_BUTTON_USE_CUSTOM_RENDER))
-			_useCustomRender = UIStyleManager.getStyle(UIStyleManager.TOGGLE_BUTTON_USE_CUSTOM_RENDER);
+		if (hasResolvedStyle(UIStyleManager.TOGGLE_BUTTON_USE_CUSTOM_RENDER))
+			_useCustomRender = getResolvedStyle(UIStyleManager.TOGGLE_BUTTON_USE_CUSTOM_RENDER);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.TOGGLE_TILE_IMAGE))
-			_tileImage = UIStyleManager.getStyle(UIStyleManager.TOGGLE_TILE_IMAGE);
+		if (hasResolvedStyle(UIStyleManager.TOGGLE_TILE_IMAGE))
+			_tileImage = getResolvedStyle(UIStyleManager.TOGGLE_TILE_IMAGE);
 
-		if (UIStyleManager.hasStyle(UIStyleManager.TOGGLE_BUTTON_BORDER))
-			_border = UIStyleManager.getStyle(UIStyleManager.TOGGLE_BUTTON_BORDER);
+		if (hasResolvedStyle(UIStyleManager.TOGGLE_BUTTON_BORDER))
+			_border = getResolvedStyle(UIStyleManager.TOGGLE_BUTTON_BORDER);
 	}
 
 	 function initBitmap() {
 
 		// Set skining if in UIBitmapManager
-		if (UIBitmapManager.hasUIElement(UIBitmapType.ToggleButton, UIBitmapManager.TOGGLE_BUTTON_NORMAL))
-			setDefaultStateImage(UIBitmapManager.getUIElement(UIBitmapType.ToggleButton, UIBitmapManager.TOGGLE_BUTTON_NORMAL));
+		if (hasResolvedBitmap(UIBitmapType.ToggleButton, UIBitmapManager.TOGGLE_BUTTON_NORMAL))
+			setDefaultStateImage(getResolvedBitmap(UIBitmapType.ToggleButton, UIBitmapManager.TOGGLE_BUTTON_NORMAL));
 
-		if (UIBitmapManager.hasUIElement(UIBitmapType.ToggleButton, UIBitmapManager.TOGGLE_BUTTON_OVER))
-			setOverStateImage(UIBitmapManager.getUIElement(UIBitmapType.ToggleButton, UIBitmapManager.TOGGLE_BUTTON_OVER));
+		if (hasResolvedBitmap(UIBitmapType.ToggleButton, UIBitmapManager.TOGGLE_BUTTON_OVER))
+			setOverStateImage(getResolvedBitmap(UIBitmapType.ToggleButton, UIBitmapManager.TOGGLE_BUTTON_OVER));
 
-		if (UIBitmapManager.hasUIElement(UIBitmapType.ToggleButton, UIBitmapManager.TOGGLE_BUTTON_DOWN))
-			setDownStateImage(UIBitmapManager.getUIElement(UIBitmapType.ToggleButton, UIBitmapManager.TOGGLE_BUTTON_DOWN));
+		if (hasResolvedBitmap(UIBitmapType.ToggleButton, UIBitmapManager.TOGGLE_BUTTON_DOWN))
+			setDownStateImage(getResolvedBitmap(UIBitmapType.ToggleButton, UIBitmapManager.TOGGLE_BUTTON_DOWN));
 
-		if (UIBitmapManager.hasUIElement(UIBitmapType.ToggleButton, UIBitmapManager.TOGGLE_BUTTON_DISABLE))
-			setDisableStateImage(UIBitmapManager.getUIElement(UIBitmapType.ToggleButton, UIBitmapManager.TOGGLE_BUTTON_DISABLE));
+		if (hasResolvedBitmap(UIBitmapType.ToggleButton, UIBitmapManager.TOGGLE_BUTTON_DISABLE))
+			setDisableStateImage(getResolvedBitmap(UIBitmapType.ToggleButton, UIBitmapManager.TOGGLE_BUTTON_DISABLE));
 	}
 
 	private function onStageAdd(event:Event):Void {
