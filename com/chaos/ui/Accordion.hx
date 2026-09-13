@@ -109,31 +109,53 @@ class Accordion extends BaseContainer implements IAccordion implements IBaseCont
 	override public function setComponentData(data:Dynamic):Void {
 		super.setComponentData(data);
 
-		if (Reflect.hasField(data, "data")) {
-			var data:Array<Dynamic> = Reflect.field(data, "data");
+		if (data == null)
+			return;
 
-			// Add section
-			for (i in 0...data.length) {
-				var dataObj:Dynamic = data[i];
-				addSection(Reflect.field(dataObj, "name"), Reflect.field(dataObj, "text"), Reflect.field(dataObj, "content"));
+		if (Reflect.hasField(data, "buttonNormalColor"))
+			buttonNormalColor = Reflect.field(data, "buttonNormalColor");
+
+		if (Reflect.hasField(data, "buttonOverColor"))
+			buttonOverColor = Reflect.field(data, "buttonOverColor");
+
+		if (Reflect.hasField(data, "buttonSelectedColor"))
+			buttonSelectedColor = Reflect.field(data, "buttonSelectedColor");
+
+		if (Reflect.hasField(data, "buttonDisableColor"))
+			buttonDisableColor = Reflect.field(data, "buttonDisableColor");
+
+		if (Reflect.hasField(data, "buttonTextColor"))
+			buttonTextColor = Reflect.field(data, "buttonTextColor");
+
+		if (Reflect.hasField(data, "buttonTextSelectedColor"))
+			buttonTextSelectedColor = Reflect.field(data, "buttonTextSelectedColor");
+
+		if (Reflect.hasField(data, "buttonSize"))
+			buttonSize = Reflect.field(data, "buttonSize");
+
+		if (Reflect.hasField(data, "animationSpeed"))
+			animationSpeed = Reflect.field(data, "animationSpeed");
+
+		if (Reflect.hasField(data, "data")) {
+			var sectionData:Array<Dynamic> = Reflect.field(data, "data");
+
+			// Runtime/IDE screen references are resolved by CoreUIFrameworkPlugin.
+			// Preserve support for callers that pass real DisplayObject content.
+			for (i in 0...sectionData.length) {
+				var dataObj:Dynamic = sectionData[i];
+				var content:Dynamic = Reflect.hasField(dataObj, "content")
+					? Reflect.field(dataObj, "content")
+					: null;
+
+				if (content != null && Std.isOfType(content, DisplayObject))
+					addSection(Reflect.field(dataObj, "name"), Reflect.field(dataObj, "text"), cast content);
 			}
 		}
 	}
 
 	override public function destroy():Void {
+		removeAllSections();
 		super.destroy();
-
-
-		// Remove all
-		for (i in 0..._section.length) {
-			_section[i].button.removeEventListener(MouseEvent.CLICK, onButtonClick);
-
-			removeChild(_section[i].button.displayObject);
-			removeChild(_section[i].container.displayObject);
-
-			_section[i].container.destroy();
-			_section[i].button.destroy();
-		}
 
 		if (_buttonDefaultImage != null)
 			_buttonDefaultImage.dispose();
@@ -343,7 +365,11 @@ class Accordion extends BaseContainer implements IAccordion implements IBaseCont
 	 * @param	icon The icon that will be displayed on the button
 	 */
 	public function addSection(sectionName:String, title:String, content:DisplayObject, icon:BitmapData = null):Void {
-		var container:BaseContainer = new BaseContainer({"name": sectionName + "_container", "content": content});
+		var container:BaseContainer = new BaseContainer({"name": sectionName + "_container"});
+
+		if (content != null)
+			cast(container.content, openfl.display.DisplayObjectContainer).addChild(content);
+
 		var button:Button = new Button({
 			"name": sectionName + "_button",
 			"textColor": _buttonTextColor,
@@ -388,6 +414,34 @@ class Accordion extends BaseContainer implements IAccordion implements IBaseCont
 	}
 
 	/**
+	 * Remove all sections without destroying their externally-owned content.
+	 * DisplayEngine screens are cached and may be reused elsewhere.
+	 */
+	public function removeAllSections():Void {
+		for (section in _section) {
+			section.button.removeEventListener(MouseEvent.CLICK, onButtonClick);
+
+			if (section.content != null && section.content.parent != null)
+				section.content.parent.removeChild(section.content);
+
+			if (section.button.displayObject.parent != null)
+				section.button.displayObject.parent.removeChild(section.button.displayObject);
+
+			if (section.container.displayObject.parent != null)
+				section.container.displayObject.parent.removeChild(section.container.displayObject);
+
+			// The detached controls are no longer referenced and can be collected.
+			// Avoid destroying the section container because its content may be
+			// a cached DisplayEngine screen owned by CoreFrameworkPlugin.
+		}
+
+		_section = [];
+		_selectedSection = "";
+		_currentSelected = null;
+		_lastSelected = null;
+	}
+
+	/**
 	 * Close all menus
 	 */
 	public function closeAll():Void {
@@ -427,6 +481,11 @@ class Accordion extends BaseContainer implements IAccordion implements IBaseCont
 
 				// Take the current
 				index = i;
+				_selectedSection = sectionName;
+				_lastSelected = _currentSelected;
+				_currentSelected = section;
+				section.button.selected = true;
+				section.button.textColor = _buttonTextSelectedColor;
 
 				// Resize container based on how many sections below
 				section.container.height = _height - (_buttonSize * _section.length);
@@ -447,6 +506,7 @@ class Accordion extends BaseContainer implements IAccordion implements IBaseCont
 				section.container.height = 0;
 				
 				section.button.selected = section.container.visible = false;
+				section.button.textColor = _buttonTextColor;
 				section.button.draw();
 
 				// If already see if items need to be shifted up or down
@@ -534,6 +594,7 @@ class Accordion extends BaseContainer implements IAccordion implements IBaseCont
 		button.selected = true;
 		button.textColor = _buttonTextSelectedColor;
 		button.draw();
+		dispatchEvent(new Event(Event.CHANGE));
 	}
 
 	private function onSectionComplete(section:Dynamic):Void {

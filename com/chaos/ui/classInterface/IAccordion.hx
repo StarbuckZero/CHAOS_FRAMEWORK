@@ -112,6 +112,11 @@ interface IAccordion extends IBaseContainer
 	 */
 	
 	function getSection( sectionName:String ) : AccordionObjectData;
+
+	/**
+	 * Remove all sections while leaving externally-owned content available.
+	 */
+	function removeAllSections():Void;
 	
 	/**
 	 * Close all menus
