@@ -416,8 +416,11 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 		
 		
 		// Other Comonents 
-		if (Reflect.hasField(data, "Label"))
-			_labelData = Reflect.field(data, "Label");
+		if (Reflect.hasField(data, "Label")) {
+            _labelData = Reflect.field(data, "Label");
+            if (_windowTitle != null && _labelData != null)
+                _windowTitle.setComponentData(_labelData);
+        }
 		
 		if (Reflect.hasField(data, "ScrollPanel"))
 			_scrollPanelData = Reflect.field(data, "ScrollPanel");
@@ -1806,6 +1809,7 @@ class Window extends BaseUI implements IWindow implements IBaseUI
         }
         else 
 		{
+			_windowTitle.align = "center";
 			_windowTitle.width = _windowTopMiddle.width;
 			_windowTitle.x = _windowTopLeft.x + _windowTopLeft.width;
         }

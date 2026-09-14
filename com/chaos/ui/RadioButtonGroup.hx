@@ -42,36 +42,30 @@ class RadioButtonGroup extends HorizontalContainer implements IRadioButtonGroup 
 	 * @param	data object with supported types
 	 */
 	
-	override public function setComponentData(data:Dynamic):Void 
+	private var _selectionData:SelectionGroupData;
+
+	override public function setComponentData(data:Dynamic):Void
 	{
-		super.setComponentData(data);
+        if (data == null) return;
+        super.setComponentData(data);
+        if (_list == null) _list = [];
+        if (_selectionData == null) _selectionData = new SelectionGroupData();
+        if (Reflect.hasField(data, "group")) setGroupName(Reflect.field(data, "group"));
+        else if (Reflect.hasField(data, "groupName")) setGroupName(Reflect.field(data, "groupName"));
+        _list = _selectionData.update(data, _list, function(row:Dynamic) {
+            return createRadioButton(Reflect.field(row, "name"), Reflect.hasField(row, "text") ? Reflect.field(row, "text") : "", false);
+        }, removeRadioButton);
+        if (Reflect.hasField(data, "data") || Reflect.hasField(data, "items")) {
+            var selected:IRadioButton = null;
+            for (item in _list) if (item.selected) {
+                if (selected != null) { selected.selected = false; selected.draw(); }
+                selected = item;
+            }
+        }
+    }
 
-		if(Reflect.hasField(data,"group"))
-			_group = Reflect.field(data,"group");
-		
-		if (Reflect.hasField(data, "data"))
-		{
-			var data:Array<Dynamic> = Reflect.field(data, "data");
-			
-			for (i in 0 ... data.length)
-			{
-				var dataObj:Dynamic = data[i];
-				
-				if (Reflect.hasField(dataObj,"name") && Reflect.hasField(dataObj,"text"))
-					createRadioButton(Reflect.field(dataObj, "name"), Reflect.field(dataObj, "text"), Reflect.hasField(dataObj, "selected") ? Reflect.field(dataObj, "selected") : false);
-			}
-			
-		}
-		else
-		{
-			if (null == _list)
-				_list = new Array<IRadioButton>();
-		}
-		
-	}	
 
-    
-    /**
+/**
 	 * Creates a radio button and adds it to the container
 	 * @param 	radioName The name of the radio button
 	 * @param	labelText The radio button name
@@ -115,8 +109,8 @@ class RadioButtonGroup extends HorizontalContainer implements IRadioButtonGroup 
     {
 		
 		// Remove out of display if there
-		if (_content != null && _content.parent != null)
-			_content.removeChild(radio.displayObject);
+		if (radio.displayObject.parent != null)
+            radio.displayObject.parent.removeChild(radio.displayObject);
 			
 			
 		radio.removeEventListener(MouseEvent.CLICK, onChange);
@@ -163,7 +157,7 @@ class RadioButtonGroup extends HorizontalContainer implements IRadioButtonGroup 
     
     override public function removeAll() : Void
     {
-        while (_list.length > 0)
+        while (_list != null && _list.length > 0)
             removeRadioButton(_list[_list.length - 1]);
     }
     

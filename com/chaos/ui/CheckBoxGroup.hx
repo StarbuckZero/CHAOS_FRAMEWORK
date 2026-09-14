@@ -41,32 +41,22 @@ class CheckBoxGroup extends HorizontalContainer implements ICheckBoxGroup implem
 	 * @param	data object with supported types
 	 */
 	
-	override public function setComponentData(data:Dynamic):Void 
+	private var _selectionData:SelectionGroupData;
+
+	override public function setComponentData(data:Dynamic):Void
 	{
-		super.setComponentData(data);
-		
-		if (Reflect.hasField(data, "data"))
-		{
-			var data:Array<Dynamic> = Reflect.field(data, "data");
-			
-			for (i in 0 ... data.length)
-			{
-				var dataObj:Dynamic = data[i];
-				
-				if (Reflect.hasField(dataObj,"name") && Reflect.hasField(dataObj,"text"))
-					createCheckBox(Reflect.field(dataObj, "name"), Reflect.field(dataObj, "text"), Reflect.hasField(dataObj, "selected") ? Reflect.field(dataObj, "selected") : false);
-			}
-			
-		}
-		else
-		{
-			if (null == _list)
-				_list = new Array<ICheckBox>();			
-		}
-		
-	}
-	
-	/**
+        if (data == null) return;
+        super.setComponentData(data);
+        if (_list == null) _list = [];
+        if (_selectionData == null) _selectionData = new SelectionGroupData();
+
+        _list = _selectionData.update(data, _list, function(row:Dynamic) {
+            return createCheckBox(Reflect.field(row, "name"), Reflect.hasField(row, "text") ? Reflect.field(row, "text") : "", false);
+        }, removeCheckBox);
+
+    }
+
+/**
 	 * Unload Component
 	 */
 	
@@ -108,8 +98,8 @@ class CheckBoxGroup extends HorizontalContainer implements ICheckBoxGroup implem
     public function removeCheckBox(checkbox : ICheckBox) : Void
     {
 		// Remove out of display if there
-		if (_content != null && _content.parent != null)
-			_content.removeChild(checkbox.displayObject);
+		if (checkbox.displayObject.parent != null)
+            checkbox.displayObject.parent.removeChild(checkbox.displayObject);
 			
 			
 		checkbox.removeEventListener(MouseEvent.CLICK, onChange);
@@ -159,7 +149,7 @@ class CheckBoxGroup extends HorizontalContainer implements ICheckBoxGroup implem
     
     override public function removeAll() : Void
     {
-        while (_list.length > 0)
+        while (_list != null && _list.length > 0)
             removeCheckBox(_list[_list.length - 1]);
     }
     
