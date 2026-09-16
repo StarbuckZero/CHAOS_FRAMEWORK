@@ -34,7 +34,6 @@ class SoundManager implements ISoundManager
 	private static inline var TASKNAME : String = "chaos_soundmanager";
 	
 	private var _soundObjectHolder : Dynamic;
-	private var _loaderHolder : Dynamic;
 	
 	
 	// Show trace in output window 
@@ -70,7 +69,6 @@ class SoundManager implements ISoundManager
     {
 		// Initialize class
 		_soundObjectHolder = {};
-		_loaderHolder = {};
 		
 		ThreadManager.createTaskManager(TASKNAME);
 		_eventDispatcher = new EventDispatcher();
@@ -119,7 +117,7 @@ class SoundManager implements ISoundManager
 		soundData.name = strName;
 		soundData.autoStart = autoStart;
 		soundData.soundObj = tempSound;
-		soundData.soundObj.load(new URLRequest(url));
+
 		soundData.volume = 100;
 		
 		if (muteSound) 
@@ -128,10 +126,10 @@ class SoundManager implements ISoundManager
 		soundData.repeat = repeatSound; 
 		
 		// This is for when the sound is loading and it deleted from list once it's done
-		Reflect.setField(_loaderHolder, urlNameClean(url), soundData); 
 		
 		// This is the main list and holder for all sound data objects 
 		Reflect.setField(_soundObjectHolder, strName, soundData);
+        soundData.soundObj.load(new URLRequest(url));
     }
 	
 	/**
@@ -472,7 +470,11 @@ class SoundManager implements ISoundManager
 		
 		var soundData : SoundData = Reflect.field(_soundObjectHolder, strName);
 		
-		// Check to see if this object has been paused  
+		if (soundData.soundChannel != null) {
+            soundData.soundChannel.removeEventListener(Event.SOUND_COMPLETE, onSoundRepeat);
+            soundData.soundChannel.stop();
+        }
+        // Check to see if this object has been paused  
 		if (soundData.position != -1) 
 		{
 			soundData.soundChannel = soundData.soundObj.play(soundData.position * 1000);
@@ -484,7 +486,8 @@ class SoundManager implements ISoundManager
 			soundData.soundChannel = soundData.soundObj.play(0);
         }
 		
-		// Set volume to what the default is  
+		if (soundData.soundChannel == null) { soundData.playing = false; return; }
+        // Set volume to what the default is  
 		setVolume(soundData.name, soundData.volume);  
 		
 		// Since new sound channel update mute if need be  
@@ -513,6 +516,7 @@ class SoundManager implements ISoundManager
 			return;
 		
 		var soundData : SoundData = Reflect.field(_soundObjectHolder, strName);
+        if (soundData.soundChannel == null) return;
 		
 		// Check to see if this object has been paused already
 		if (soundData.position == -1) 
@@ -628,8 +632,12 @@ class SoundManager implements ISoundManager
 		
 		var soundData : SoundData = try cast(Reflect.field(_soundObjectHolder, strName), SoundData) catch (e:Dynamic) null;
 		
-		soundData.soundChannel.stop();
-		soundData.soundChannel = soundData.soundObj.play(Math.round(Std.int(posNum) * 1000));
+		if (soundData.soundChannel != null) soundData.soundChannel.stop();
+        soundData.soundChannel = soundData.soundObj.play(Math.max(0,posNum) * 1000);
+        soundData.position = -1;
+        soundData.playing = soundData.soundChannel != null;
+        setVolume(strName, soundData.volume);
+        if (soundData.repeat && soundData.soundChannel != null) soundData.soundChannel.addEventListener(Event.SOUND_COMPLETE,onSoundRepeat);
 		
 		return true;
     }
@@ -1049,10 +1057,19 @@ class SoundManager implements ISoundManager
     }
 	
 	
-	private function onSoundOpen (event : Event)  : Void
+	private function loadingSound(sound:Sound):SoundData {
+        for (name in Reflect.fields(_soundObjectHolder)) {
+            var data:SoundData = Reflect.field(_soundObjectHolder,name);
+            if (data.soundObj == sound) return data;
+        }
+        return null;
+    }
+
+    private function onSoundOpen (event : Event)  : Void
 	{
 		
-		var soundData : SoundData = Reflect.field(_loaderHolder, urlNameClean(cast(event.target, Sound).url)); 
+		var soundData:SoundData = loadingSound(cast event.target);
+        if (soundData == null) return; 
 		
 		// Check for ID3 tags
 		soundData.soundObj.addEventListener(Event.ID3, id3Handler); 
@@ -1066,7 +1083,8 @@ class SoundManager implements ISoundManager
 		
 		
 		// Strip down URL to get name of item 
-		var soundData : SoundData = Reflect.field(_loaderHolder, urlNameClean(cast(event.target, Sound).url)); 
+		var soundData:SoundData = loadingSound(cast event.target);
+        if (soundData == null) return; 
 		
 		// Started loading sound 
 		dispatchEvent(new SoundStatusEvent(soundData, SoundStatusEvent.SOUND_LOADED));
@@ -1084,14 +1102,14 @@ class SoundManager implements ISoundManager
 		soundData.soundObj.removeEventListener(ProgressEvent.PROGRESS, progressHandler);
 		
 		// As the MP3 loads  This is an intentional compilation error. See the README for handling the delete keyword
-        Reflect.deleteField(_loaderHolder, urlNameClean(soundData.soundObj.url));
     }
 	
 	private function id3Handler(event : Event) : Void	
 	{
 		
 		// Get Sound Object out of array
-		var soundData : SoundData = Reflect.field(_loaderHolder, urlNameClean( cast(event.target, Sound).url ));
+		var soundData:SoundData = loadingSound(cast event.target);
+        if (soundData == null) return;
 		
 		// For MP3 id3 infomation being passed 
 		dispatchEvent(new SoundStatusEvent(soundData, SoundStatusEvent.SOUND_ID3));
@@ -1103,7 +1121,8 @@ class SoundManager implements ISoundManager
 		var soundStr : String = cast(event.target, Sound).url;
 		
 		// Get Sound Object out of array
-		var soundData : SoundData = cast(Reflect.field(_loaderHolder, urlNameClean(soundStr)), SoundData);
+		var soundData:SoundData = loadingSound(cast event.target);
+        if (soundData == null) return;
 		
 		// For load error message  
 		dispatchEvent(new SoundStatusEvent(soundData, SoundStatusEvent.SOUND_ERROR));
@@ -1112,7 +1131,8 @@ class SoundManager implements ISoundManager
 	private function progressHandler(event : ProgressEvent) : Void
 	{
 		var soundStr : String = cast(event.target, Sound).url;
-		var tempSoundObj : SoundData = Reflect.field(_loaderHolder, urlNameClean(soundStr));
+		var tempSoundObj:SoundData = loadingSound(cast event.target);
+        if (tempSoundObj == null) return;
 		
 		var percentNum : Int = Math.round(event.bytesLoaded / event.bytesTotal * 100);
 		
