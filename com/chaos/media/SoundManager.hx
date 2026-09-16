@@ -124,9 +124,7 @@ class SoundManager implements ISoundManager
 		soundData.muteVolume = 100;
 		
 		soundData.repeat = repeatSound; 
-		
-		// This is for when the sound is loading and it deleted from list once it's done
-		
+				
 		// This is the main list and holder for all sound data objects 
 		Reflect.setField(_soundObjectHolder, strName, soundData);
         soundData.soundObj.load(new URLRequest(url));
