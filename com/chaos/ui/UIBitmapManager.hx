@@ -15,6 +15,7 @@ import com.chaos.utils.Debug;
  */
 
 class UIBitmapManager {
+    public static inline var CHART_BACKGROUND_IMAGE:String = "chart_background_image";
 	private static inline var CUSTOM_RENDER_CACHE_LIMIT:Int = 256;
 	public static inline var BASE_CONTAINER_BACKGROUND:String = "base_container_background";
 	public static inline var ALIGNMENT_BASE_CONTAINER_BACKGROUND:String = "alignment_base_container_background";
@@ -705,4 +706,5 @@ enum UIBitmapType {
 	ItemPane;
 	GridPane;
 	Menu;
+    Chart;
 }

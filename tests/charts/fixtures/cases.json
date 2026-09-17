@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "cases": [
+    {"id":"partial-update","phase":1,"input":{"title":"Keep","series":[{"id":"s","points":[]}]},"patch":{"width":640},"expected":{"title":"Keep","width":640,"series":[{"id":"s","points":[]}]}},
+    {"id":"clear-array","phase":1,"input":{"data":[1,2]},"patch":{"data":[]},"expected":{"data":[]}},
+    {"id":"null-array-rejected","phase":1,"input":{"data":[1,2]},"patch":{"data":null},"expected":{"data":[1,2],"diagnostic":true}},
+    {"id":"constant-axis","phase":2,"input":{"values":[5,5]},"expected":{"minimum":4,"maximum":6}},
+    {"id":"duplicate-labels","phase":3,"input":{"categories":[{"id":"a","label":"Same"},{"id":"b","label":"Same"}]},"expected":{"categoryCount":2}},
+    {"id":"mixed-percent-stack","phase":5,"input":{"values":[6,4,-2,-3,0]},"expected":{"normalized":[0.6,0.4,-0.4,-0.6,0],"positiveTotal":10,"negativeTotal":-5,"signedTotal":5}},
+    {"id":"zero-percent-stack","phase":5,"input":{"values":[0,0]},"expected":{"normalized":[0,0],"segments":0}},
+    {"id":"line-gap","phase":6,"input":{"values":[2,null,-1]},"expected":{"connectedAcrossGap":false}},
+    {"id":"area-offscreen-zero","phase":7,"input":{"values":[4,6],"minimum":2,"maximum":8},"expected":{"baseline":0,"clip":true}},
+    {"id":"scatter-overlap","phase":8,"input":{"points":[{"id":"a","x":1,"y":2},{"id":"b","x":1,"y":2}]},"expected":{"hitId":"b"}},
+    {"id":"radial-invalid","phase":9,"input":{"values":[-1,0,3,1]},"expected":{"total":4,"fractions":[0.75,0.25],"skippedNegative":1}},
+    {"id":"radial-empty","phase":9,"input":{"values":[0,0]},"expected":{"empty":true}},
+    {"id":"histogram-boundaries","phase":10,"input":{"data":[0,1,2,3,4],"binCount":2},"expected":{"edges":[0,2,4],"counts":[2,3]}},
+    {"id":"histogram-constant","phase":10,"input":{"data":[5,5]},"expected":{"edges":[4.5,5.5],"counts":[2]}},
+    {"id":"histogram-conflict","phase":10,"input":{"data":[1,2],"binCount":2,"binWidth":1},"expected":{"rejectBatch":true}},
+    {"id":"heatmap-constant","phase":11,"input":{"values":[5,5]},"expected":{"color":"midColor"}},
+    {"id":"heatmap-duplicate","phase":11,"input":{"cells":[{"rowId":"r","columnId":"c","value":2},{"rowId":"r","columnId":"c","value":9}]},"expected":{"value":2,"diagnostic":true}},
+    {"id":"invalid-number","phase":1,"input":{"values":["42",null,3]},"expected":{"validValues":[3],"coerceStrings":false}},
+    {"id":"empty-series","phase":1,"input":{"series":[]},"expected":{"empty":true}}
+  ]
+}

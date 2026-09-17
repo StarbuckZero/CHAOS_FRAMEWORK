@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "components": [
+    {"ColumnChart":{"name":"columns","schemaVersion":1,"categories":[{"id":"a","label":"Same"},{"id":"b","label":"Same"}],"series":[{"id":"s1","name":"Sales","points":[{"id":"p1","categoryId":"a","value":12},{"id":"p2","categoryId":"b","value":-4}]}]}},
+    {"BarChart":{"name":"bars","schemaVersion":1,"categories":[{"id":"a","label":"A"}],"series":[{"id":"s1","name":"Sales","points":[{"id":"p1","categoryId":"a","value":10}]}]}},
+    {"GroupedBarChart":{"name":"groups","schemaVersion":1,"categories":[{"id":"a","label":"A"}],"series":[{"id":"s1","name":"First","points":[{"id":"p1","categoryId":"a","value":8}]},{"id":"s2","name":"Second","points":[{"id":"p2","categoryId":"a","value":-2}]}]}},
+    {"StackedBarChart":{"name":"stacks","schemaVersion":1,"stackMode":"percent","categories":[{"id":"a","label":"A"}],"series":[{"id":"s1","name":"First","points":[{"id":"p1","categoryId":"a","value":6}]},{"id":"s2","name":"Second","points":[{"id":"p2","categoryId":"a","value":-2}]}]}},
+    {"LineChart":{"name":"lines","schemaVersion":1,"xAxis":{"scale":"linear"},"series":[{"id":"s1","name":"Trend","points":[{"id":"p1","x":0,"y":2},{"id":"p2","x":1,"y":null},{"id":"p3","x":2,"y":-1}]}]}},
+    {"AreaChart":{"name":"areas","schemaVersion":1,"categories":[{"id":"a","label":"A"},{"id":"b","label":"B"}],"series":[{"id":"s1","name":"Area","points":[{"id":"p1","categoryId":"a","value":4},{"id":"p2","categoryId":"b","value":-3}]}]}},
+    {"ScatterPlot":{"name":"scatter","schemaVersion":1,"series":[{"id":"s1","name":"Samples","points":[{"id":"p1","x":-1.5,"y":2,"metadata":{"recordId":"r1"}},{"id":"p2","x":-1.5,"y":2}]}]}},
+    {"PieChart":{"name":"pie","schemaVersion":1,"data":[{"id":"a","label":"A","value":3},{"id":"b","label":"B","value":1}]}},
+    {"DonutChart":{"name":"donut","schemaVersion":1,"innerRadius":0.5,"centerText":"Total","data":[{"id":"a","label":"A","value":3},{"id":"b","label":"B","value":1}]}},
+    {"Histogram":{"name":"histogram","schemaVersion":1,"binCount":2,"data":[0,1,2,3,4]}},
+    {"Heatmap":{"name":"heatmap","schemaVersion":1,"rows":[{"id":"r1","label":"Row"}],"columns":[{"id":"c1","label":"First"},{"id":"c2","label":"Missing"}],"data":[{"id":"a","rowId":"r1","columnId":"c1","value":5}]}}
+  ]
+}

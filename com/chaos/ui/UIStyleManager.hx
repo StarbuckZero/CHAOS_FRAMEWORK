@@ -13,6 +13,24 @@ import openfl.text.Font;
 
 class UIStyleManager
 {
+    public static inline var CHART_BACKGROUND_COLOR:String = "CHART_BACKGROUND_COLOR";
+    public static inline var CHART_BACKGROUND_ALPHA:String = "CHART_BACKGROUND_ALPHA";
+    public static inline var CHART_BORDER_COLOR:String = "CHART_BORDER_COLOR";
+    public static inline var CHART_BORDER_THICKNESS:String = "CHART_BORDER_THICKNESS";
+    public static inline var CHART_BORDER_ALPHA:String = "CHART_BORDER_ALPHA";
+    public static inline var CHART_TITLE_COLOR:String = "CHART_TITLE_COLOR";
+    public static inline var CHART_LABEL_COLOR:String = "CHART_LABEL_COLOR";
+    public static inline var CHART_AXIS_COLOR:String = "CHART_AXIS_COLOR";
+    public static inline var CHART_GRID_COLOR:String = "CHART_GRID_COLOR";
+    public static inline var CHART_GRID_ALPHA:String = "CHART_GRID_ALPHA";
+    public static inline var CHART_DEFAULT_WIDTH:String = "CHART_DEFAULT_WIDTH";
+    public static inline var CHART_DEFAULT_HEIGHT:String = "CHART_DEFAULT_HEIGHT";
+    public static inline var CHART_SERIES_COLORS:String = "CHART_SERIES_COLORS";
+    public static inline var CHART_SELECTION_COLOR:String = "CHART_SELECTION_COLOR";
+    public static inline var CHART_ROLLOVER_COLOR:String = "CHART_ROLLOVER_COLOR";
+    public static inline var CHART_EMPTY_TEXT_COLOR:String = "CHART_EMPTY_TEXT_COLOR";
+    public static inline var CHART_FONT:String = "CHART_FONT";
+    public static inline var CHART_FONT_SIZE:String = "CHART_FONT_SIZE";
 	/** Default background color shared by BaseContainer and derived containers. */
 	public static var BASE_CONTAINER_BACKGROUND_COLOR : String = "BASE_CONTAINER_BACKGROUND_COLOR";
 
