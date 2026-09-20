@@ -279,38 +279,9 @@ class BaseContainer extends BaseUI implements IBaseContainer implements IBaseUI
     
     public function removeElement(object : IBaseUI) : Void
     {
-        var temp : Array<Dynamic> = new Array<Dynamic>();
-        
-        // Remove all old items and add them back again
-        for (i in 0..._content.numChildren)
-		{
-             if(Std.isOfType(_content.getChildAt(i), IBaseUI) ) {
-
-                var currentObject : IBaseUI = null;
-                
-                try
-                {
-                    currentObject = cast(_content.getChildAt(i), IBaseUI);
-                    _content.removeChild(currentObject.displayObject);
-                }            
-                catch (error : Error)
-                {
-                    trace("[BaseContainer] Couldn't remove item");
-                }  
-
-                // Only grab the items that are needed  
-                if (object != currentObject) 
-                    temp.push(currentObject);
-
-             }
-        }  
-        
-        
-        // Add it back  
-        for (a in 0...temp.length)
-            _content.addChild(temp[a]);
-    }	
-
+        if (object != null && object.displayObject.parent == _content)
+            _content.removeChild(object.displayObject);
+    }
     /**
 	 * Remove all elements that are stored
 	 */
@@ -319,7 +290,8 @@ class BaseContainer extends BaseUI implements IBaseContainer implements IBaseUI
     {
         var currentObject : IBaseUI;
         
-        for (i in 0 ... _content.numChildren)
+        var i = _content.numChildren;
+        while (i-- > 0)
 		{
             try
             {
@@ -494,4 +466,3 @@ class BaseContainer extends BaseUI implements IBaseContainer implements IBaseUI
     }
 
 }
-

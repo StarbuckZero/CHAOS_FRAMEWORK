@@ -36,6 +36,7 @@ class ChartBase extends BaseUI {
     var points:Array<ChartPoint>;
     var issues:Array<ChartDiagnostic>;
     var bounds:Rectangle;
+    var chromeBounds:Rectangle;
     var ready:Bool = false;
     var destroyed:Bool = false;
     var drawing:Bool = false;
@@ -111,8 +112,8 @@ class ChartBase extends BaseUI {
             switch field {
                 case "width", "height", "padding", "borderThickness", "fontSize": valid = ChartData.finite(v) && v >= 0;
                 case "x", "y": valid = ChartData.finite(v);
-                case "backgroundColor", "borderColor", "titleColor", "labelColor", "emptyTextColor": valid = color(v);
-                case "backgroundAlpha", "borderAlpha": valid = ChartData.finite(v) && v >= 0 && v <= 1;
+                case "backgroundColor", "borderColor", "titleColor", "labelColor", "emptyTextColor", "axisColor", "gridColor": valid = color(v);
+                case "backgroundAlpha", "borderAlpha", "gridAlpha": valid = ChartData.finite(v) && v >= 0 && v <= 1;
                 case "visible", "enabled", "showLegend", "showLabels", "drawOnResize", "imageSmoothing": valid = Std.isOfType(v, Bool);
                 case "animationEnabled": valid = v == false;
                 case "title", "summary", "emptyText", "font": valid = Std.isOfType(v, String);
@@ -133,14 +134,16 @@ class ChartBase extends BaseUI {
                 ChartData.diagnostic(validation,"setting",field,"Invalid/unsupported setting; previous value retained");
             }
         }
+        validateChartPatch(patch,validation);
         var inputChanged = Lambda.exists(Reflect.fields(patch), field -> ["series","data","categories","rows","columns","xAxis","yAxis"].indexOf(field) >= 0);
         var next = ChartData.normalize(config, patch, inputChanged ? null : points);
+        if (next.accepted && !validateNormalizedData(next)) next.accepted = false;
         issues = validation.concat(next.diagnostics);
         if (!next.accepted) return;
         config = next.config; points = next.points; if (inputChanged) normalizationCount++;
         var needsLayout = false;
         for (field in Reflect.fields(patch)) {
-            if (["backgroundColor","backgroundAlpha","borderColor","borderAlpha","borderThickness","titleColor","labelColor","emptyTextColor","backgroundTexture","Bitmap","x","y","visible","enabled","imageSmoothing"].indexOf(field) < 0) needsLayout = true;
+            if (["backgroundColor","backgroundAlpha","borderColor","borderAlpha","borderThickness","titleColor","labelColor","emptyTextColor","axisColor","gridColor","gridAlpha","backgroundTexture","Bitmap","x","y","visible","enabled","imageSmoothing"].indexOf(field) < 0) needsLayout = true;
         }
         if (Reflect.hasField(patch,"backgroundTexture") || Reflect.hasField(patch,"Bitmap")) textureDirty = true;
         batching = true;
@@ -153,6 +156,8 @@ class ChartBase extends BaseUI {
         batching = false;
         invalidateChart(needsLayout); draw();
     }
+    function validateChartPatch(patch:Dynamic,validation:Array<ChartDiagnostic>):Void {}
+    function validateNormalizedData(result:ChartNormalization):Bool { return true; }
     static function color(v:Dynamic):Bool { return ChartData.finite(v) && v >= 0 && v <= 0xFFFFFF && Math.floor(v) == v; }
     static function validTexture(v:Dynamic):Bool {
         if (v == null) return true;
@@ -228,12 +233,15 @@ class ChartBase extends BaseUI {
         texture.draw(backgroundImage.graphics,new Rectangle(0,0,_width,_height),textureMode,imageSmoothing);
         drawLabels();
         regions = []; dataLayer.graphics.clear(); dataTextureLayer.graphics.clear(); gridLayer.graphics.clear();
-        if (bounds.width > 0 && bounds.height > 0) drawPlot();
+        clearPlot();
+        if (bounds.width > 0 && bounds.height > 0) { drawGrid(); drawPlot(); }
         drawInteraction();
         layoutDirty = false; visualDirty = false; drawing = false; renderCount++;
     }
     /** Plot and mark geometry is intentionally absent in the shared shell. */
     function drawPlot():Void {}
+    function drawGrid():Void {}
+    function clearPlot():Void {}
     function legendItems():Array<Dynamic> {
         var series:Array<Dynamic> = Reflect.hasField(config,"series") ? config.series : [];
         return series;
@@ -250,6 +258,10 @@ class ChartBase extends BaseUI {
             else { h -= used; if (config.legend.position == "top") y += used; }
         }
         bounds.setTo(x,y,w,h);
+        chromeBounds = bounds.clone();
+        updatePlotLayers();
+    }
+    function updatePlotLayers():Void {
         for (layer in [gridLayer,dataLayer,dataTextureLayer,overlayLayer]) {
             layer.x = bounds.x; layer.y = bounds.y;
             layer.scrollRect = new Rectangle(0,0,bounds.width,bounds.height);
@@ -271,7 +283,7 @@ class ChartBase extends BaseUI {
         emptyField.width = bounds.width; emptyField.height = Math.min(24,bounds.height); emptyField.visible = !hasData;
         var items = legendItems();
         var side = config.legend.position == "left" || config.legend.position == "right";
-        var available = side ? bounds.height : bounds.width;
+        var available = side ? chromeBounds.height : chromeBounds.width;
         var step:Float = side ? 22+config.legend.spacing : 100+config.legend.spacing;
         var count = config.showLegend ? Std.int(Math.min(items.length, Math.floor(available/step))) : 0;
         // A bounded pool prevents unbounded text display objects for large series lists.
@@ -281,8 +293,8 @@ class ChartBase extends BaseUI {
         legendSwatches.graphics.clear();
         for (i in 0...count) {
             var field = legendFields[i]; var item = items[i];
-            var x:Float = side ? (config.legend.position == "left" ? pad : bounds.right+8) : bounds.x+i*step;
-            var y:Float = side ? bounds.y+i*step : (config.legend.position == "top" ? bounds.y-28 : bounds.bottom+4);
+            var x:Float = side ? (config.legend.position == "left" ? pad : chromeBounds.right+8) : chromeBounds.x+i*step;
+            var y:Float = side ? chromeBounds.y+i*step : (config.legend.position == "top" ? chromeBounds.y-28 : chromeBounds.bottom+4);
             setText(field,Reflect.hasField(item,"name") ? Std.string(item.name) : item.id,style("labelColor",UIStyleManager.CHART_LABEL_COLOR,0x333333),fontSize);
             field.x = x+15; field.y = y; field.width = Math.max(0,Math.min(85,_width-field.x)); field.height = 22;
             legendSwatches.graphics.beginFill(seriesColor(i,item)); legendSwatches.graphics.drawRect(x,y+5,10,10); legendSwatches.graphics.endFill();
@@ -399,7 +411,9 @@ class ChartBase extends BaseUI {
     override public function removeBitmapOverride(key:String):Void { if (!destroyed) super.removeBitmapOverride(key); }
     override public function destroy():Void {
         if (destroyed) return;
-        destroyed = true; onRemoved(null);
+        destroyed = true;
+        dispatchEvent(new ChartEvent(ChartEvent.DISPOSE, null));
+        onRemoved(null);
         removeEventListener(Event.ADDED_TO_STAGE,onAdded); removeEventListener(Event.REMOVED_FROM_STAGE,onRemoved);
         for (type in [MouseEvent.MOUSE_MOVE,MouseEvent.ROLL_OUT,MouseEvent.MOUSE_DOWN,MouseEvent.MOUSE_UP,MouseEvent.CLICK]) removeEventListener(type,onPointer);
         texture.destroy(); resolver = null; selection = null; hover = null; regions = []; points = []; issues = [];
@@ -412,6 +426,3 @@ class ChartBase extends BaseUI {
         super.destroy(); ready = false;
     }
 }
-
-
-

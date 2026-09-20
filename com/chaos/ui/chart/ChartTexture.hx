@@ -36,8 +36,8 @@ class ChartTexture {
         } catch (error:Dynamic) { failure(Std.string(error)); }
     }
     public function destroy():Void { destroyed = true; clear(); }
-    public function draw(graphics:Graphics, bounds:Rectangle, mode:String, smooth:Bool):Void {
-        graphics.clear();
+    public function draw(graphics:Graphics, bounds:Rectangle, mode:String, smooth:Bool, clear:Bool = true, shape:String = "square"):Void {
+        if (clear) graphics.clear();
         if (bitmap == null || bounds.width <= 0 || bounds.height <= 0) return;
         var sx = bounds.width / bitmap.width; var sy = bounds.height / bitmap.height;
         var area = bounds.clone(); var matrix = new Matrix();
@@ -53,6 +53,6 @@ class ChartTexture {
             if (mode == "fit") area = new Rectangle(x, y, bitmap.width * sx, bitmap.height * sy);
         }
         graphics.beginBitmapFill(bitmap, matrix, mode == "tile", smooth);
-        graphics.drawRect(area.x, area.y, area.width, area.height); graphics.endFill();
+        MarkerGeometry.draw(graphics,area,shape); graphics.endFill();
     }
 }

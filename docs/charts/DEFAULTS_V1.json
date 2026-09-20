@@ -1,0 +1,596 @@
+[
+  {
+    "type": "ColumnChart",
+    "defaults": {
+      "schemaVersion": 1,
+      "title": "",
+      "summary": "",
+      "padding": 16,
+      "showLegend": true,
+      "showLabels": true,
+      "emptyText": "No data",
+      "animationEnabled": false,
+      "legend": {
+        "position": "bottom",
+        "spacing": 8
+      },
+      "groupGap": 0.2,
+      "series": [],
+      "categories": [],
+      "stackMode": "raw",
+      "barGap": 0.1,
+      "layout": "single",
+      "orientation": "vertical",
+      "xAxis": {
+        "scale": "categorical",
+        "title": "",
+        "minimum": null,
+        "maximum": null,
+        "interval": null,
+        "showGrid": true,
+        "showTicks": true,
+        "showLabels": true,
+        "showZeroLine": true,
+        "format": {
+          "kind": "number",
+          "decimals": 2
+        }
+      },
+      "yAxis": {
+        "scale": "linear",
+        "title": "",
+        "minimum": null,
+        "maximum": null,
+        "interval": null,
+        "showGrid": true,
+        "showTicks": true,
+        "showLabels": true,
+        "showZeroLine": true,
+        "format": {
+          "kind": "number",
+          "decimals": 2
+        }
+      },
+      "x": 0,
+      "y": 0,
+      "width": 500,
+      "height": 300,
+      "visible": true,
+      "enabled": true
+    }
+  },
+  {
+    "type": "BarChart",
+    "defaults": {
+      "schemaVersion": 1,
+      "title": "",
+      "summary": "",
+      "padding": 16,
+      "showLegend": true,
+      "showLabels": true,
+      "emptyText": "No data",
+      "animationEnabled": false,
+      "legend": {
+        "position": "bottom",
+        "spacing": 8
+      },
+      "groupGap": 0.2,
+      "series": [],
+      "categories": [],
+      "stackMode": "raw",
+      "barGap": 0.1,
+      "layout": "single",
+      "orientation": "horizontal",
+      "xAxis": {
+        "scale": "linear",
+        "title": "",
+        "minimum": null,
+        "maximum": null,
+        "interval": null,
+        "showGrid": true,
+        "showTicks": true,
+        "showLabels": true,
+        "showZeroLine": true,
+        "format": {
+          "kind": "number",
+          "decimals": 2
+        }
+      },
+      "yAxis": {
+        "scale": "categorical",
+        "title": "",
+        "minimum": null,
+        "maximum": null,
+        "interval": null,
+        "showGrid": true,
+        "showTicks": true,
+        "showLabels": true,
+        "showZeroLine": true,
+        "format": {
+          "kind": "number",
+          "decimals": 2
+        }
+      },
+      "x": 0,
+      "y": 0,
+      "width": 500,
+      "height": 300,
+      "visible": true,
+      "enabled": true
+    }
+  },
+  {
+    "type": "GroupedBarChart",
+    "defaults": {
+      "schemaVersion": 1,
+      "title": "",
+      "summary": "",
+      "padding": 16,
+      "showLegend": true,
+      "showLabels": true,
+      "emptyText": "No data",
+      "animationEnabled": false,
+      "legend": {
+        "position": "bottom",
+        "spacing": 8
+      },
+      "groupGap": 0.2,
+      "series": [],
+      "categories": [],
+      "stackMode": "raw",
+      "barGap": 0.1,
+      "layout": "grouped",
+      "orientation": "horizontal",
+      "xAxis": {
+        "scale": "linear",
+        "title": "",
+        "minimum": null,
+        "maximum": null,
+        "interval": null,
+        "showGrid": true,
+        "showTicks": true,
+        "showLabels": true,
+        "showZeroLine": true,
+        "format": {
+          "kind": "number",
+          "decimals": 2
+        }
+      },
+      "yAxis": {
+        "scale": "categorical",
+        "title": "",
+        "minimum": null,
+        "maximum": null,
+        "interval": null,
+        "showGrid": true,
+        "showTicks": true,
+        "showLabels": true,
+        "showZeroLine": true,
+        "format": {
+          "kind": "number",
+          "decimals": 2
+        }
+      },
+      "x": 0,
+      "y": 0,
+      "width": 500,
+      "height": 300,
+      "visible": true,
+      "enabled": true
+    }
+  },
+  {
+    "type": "StackedBarChart",
+    "defaults": {
+      "schemaVersion": 1,
+      "title": "",
+      "summary": "",
+      "padding": 16,
+      "showLegend": true,
+      "showLabels": true,
+      "emptyText": "No data",
+      "animationEnabled": false,
+      "legend": {
+        "position": "bottom",
+        "spacing": 8
+      },
+      "groupGap": 0.2,
+      "series": [],
+      "categories": [],
+      "stackMode": "raw",
+      "barGap": 0.1,
+      "layout": "stacked",
+      "orientation": "horizontal",
+      "xAxis": {
+        "scale": "linear",
+        "title": "",
+        "minimum": null,
+        "maximum": null,
+        "interval": null,
+        "showGrid": true,
+        "showTicks": true,
+        "showLabels": true,
+        "showZeroLine": true,
+        "format": {
+          "kind": "number",
+          "decimals": 2
+        }
+      },
+      "yAxis": {
+        "scale": "categorical",
+        "title": "",
+        "minimum": null,
+        "maximum": null,
+        "interval": null,
+        "showGrid": true,
+        "showTicks": true,
+        "showLabels": true,
+        "showZeroLine": true,
+        "format": {
+          "kind": "number",
+          "decimals": 2
+        }
+      },
+      "x": 0,
+      "y": 0,
+      "width": 500,
+      "height": 300,
+      "visible": true,
+      "enabled": true
+    }
+  },
+  {
+    "type": "LineChart",
+    "defaults": {
+      "schemaVersion": 1,
+      "title": "",
+      "summary": "",
+      "padding": 16,
+      "showLegend": true,
+      "showLabels": true,
+      "emptyText": "No data",
+      "animationEnabled": false,
+      "legend": {
+        "position": "bottom",
+        "spacing": 8
+      },
+      "series": [],
+      "categories": [],
+      "lineWidth": 2,
+      "markerSize": 6,
+      "markerShape": "circle",
+      "missingBehavior": "gap",
+      "xAxis": {
+        "scale": "categorical",
+        "title": "",
+        "minimum": null,
+        "maximum": null,
+        "interval": null,
+        "showGrid": true,
+        "showTicks": true,
+        "showLabels": true,
+        "showZeroLine": true,
+        "format": {
+          "kind": "number",
+          "decimals": 2
+        }
+      },
+      "yAxis": {
+        "scale": "linear",
+        "title": "",
+        "minimum": null,
+        "maximum": null,
+        "interval": null,
+        "showGrid": true,
+        "showTicks": true,
+        "showLabels": true,
+        "showZeroLine": true,
+        "format": {
+          "kind": "number",
+          "decimals": 2
+        }
+      },
+      "x": 0,
+      "y": 0,
+      "width": 500,
+      "height": 300,
+      "visible": true,
+      "enabled": true
+    }
+  },
+  {
+    "type": "AreaChart",
+    "defaults": {
+      "schemaVersion": 1,
+      "title": "",
+      "summary": "",
+      "padding": 16,
+      "showLegend": true,
+      "showLabels": true,
+      "emptyText": "No data",
+      "animationEnabled": false,
+      "legend": {
+        "position": "bottom",
+        "spacing": 8
+      },
+      "series": [],
+      "categories": [],
+      "lineWidth": 2,
+      "markerSize": 6,
+      "markerShape": "circle",
+      "missingBehavior": "gap",
+      "fillAlpha": 0.3,
+      "baseline": 0,
+      "xAxis": {
+        "scale": "categorical",
+        "title": "",
+        "minimum": null,
+        "maximum": null,
+        "interval": null,
+        "showGrid": true,
+        "showTicks": true,
+        "showLabels": true,
+        "showZeroLine": true,
+        "format": {
+          "kind": "number",
+          "decimals": 2
+        }
+      },
+      "yAxis": {
+        "scale": "linear",
+        "title": "",
+        "minimum": null,
+        "maximum": null,
+        "interval": null,
+        "showGrid": true,
+        "showTicks": true,
+        "showLabels": true,
+        "showZeroLine": true,
+        "format": {
+          "kind": "number",
+          "decimals": 2
+        }
+      },
+      "x": 0,
+      "y": 0,
+      "width": 500,
+      "height": 300,
+      "visible": true,
+      "enabled": true
+    }
+  },
+  {
+    "type": "ScatterPlot",
+    "defaults": {
+      "schemaVersion": 1,
+      "title": "",
+      "summary": "",
+      "padding": 16,
+      "showLegend": true,
+      "showLabels": true,
+      "emptyText": "No data",
+      "animationEnabled": false,
+      "legend": {
+        "position": "bottom",
+        "spacing": 8
+      },
+      "series": [],
+      "categories": [],
+      "lineWidth": 0,
+      "markerSize": 6,
+      "markerShape": "circle",
+      "missingBehavior": "gap",
+      "xAxis": {
+        "scale": "linear",
+        "title": "",
+        "minimum": null,
+        "maximum": null,
+        "interval": null,
+        "showGrid": true,
+        "showTicks": true,
+        "showLabels": true,
+        "showZeroLine": true,
+        "format": {
+          "kind": "number",
+          "decimals": 2
+        }
+      },
+      "yAxis": {
+        "scale": "linear",
+        "title": "",
+        "minimum": null,
+        "maximum": null,
+        "interval": null,
+        "showGrid": true,
+        "showTicks": true,
+        "showLabels": true,
+        "showZeroLine": true,
+        "format": {
+          "kind": "number",
+          "decimals": 2
+        }
+      },
+      "x": 0,
+      "y": 0,
+      "width": 500,
+      "height": 300,
+      "visible": true,
+      "enabled": true
+    }
+  },
+  {
+    "type": "PieChart",
+    "defaults": {
+      "schemaVersion": 1,
+      "title": "",
+      "summary": "",
+      "padding": 16,
+      "showLegend": true,
+      "showLabels": true,
+      "emptyText": "No data",
+      "animationEnabled": false,
+      "legend": {
+        "position": "bottom",
+        "spacing": 8
+      },
+      "data": [],
+      "startAngle": -90,
+      "clockwise": true,
+      "x": 0,
+      "y": 0,
+      "width": 500,
+      "height": 300,
+      "visible": true,
+      "enabled": true
+    }
+  },
+  {
+    "type": "DonutChart",
+    "defaults": {
+      "schemaVersion": 1,
+      "title": "",
+      "summary": "",
+      "padding": 16,
+      "showLegend": true,
+      "showLabels": true,
+      "emptyText": "No data",
+      "animationEnabled": false,
+      "legend": {
+        "position": "bottom",
+        "spacing": 8
+      },
+      "data": [],
+      "startAngle": -90,
+      "clockwise": true,
+      "innerRadius": 0.5,
+      "centerText": "",
+      "x": 0,
+      "y": 0,
+      "width": 500,
+      "height": 300,
+      "visible": true,
+      "enabled": true
+    }
+  },
+  {
+    "type": "Histogram",
+    "defaults": {
+      "schemaVersion": 1,
+      "title": "",
+      "summary": "",
+      "padding": 16,
+      "showLegend": true,
+      "showLabels": true,
+      "emptyText": "No data",
+      "animationEnabled": false,
+      "legend": {
+        "position": "bottom",
+        "spacing": 8
+      },
+      "groupGap": 0,
+      "data": [],
+      "stackMode": "raw",
+      "barGap": 0.1,
+      "layout": "single",
+      "orientation": "vertical",
+      "xAxis": {
+        "scale": "linear",
+        "title": "",
+        "minimum": null,
+        "maximum": null,
+        "interval": null,
+        "showGrid": true,
+        "showTicks": true,
+        "showLabels": true,
+        "showZeroLine": true,
+        "format": {
+          "kind": "number",
+          "decimals": 2
+        }
+      },
+      "yAxis": {
+        "scale": "linear",
+        "title": "",
+        "minimum": null,
+        "maximum": null,
+        "interval": null,
+        "showGrid": true,
+        "showTicks": true,
+        "showLabels": true,
+        "showZeroLine": true,
+        "format": {
+          "kind": "number",
+          "decimals": 2
+        }
+      },
+      "x": 0,
+      "y": 0,
+      "width": 500,
+      "height": 300,
+      "visible": true,
+      "enabled": true
+    }
+  },
+  {
+    "type": "Heatmap",
+    "defaults": {
+      "schemaVersion": 1,
+      "title": "",
+      "summary": "",
+      "padding": 16,
+      "showLegend": true,
+      "showLabels": true,
+      "emptyText": "No data",
+      "animationEnabled": false,
+      "legend": {
+        "position": "bottom",
+        "spacing": 8
+      },
+      "rows": [],
+      "columns": [],
+      "data": [],
+      "minColor": 16250871,
+      "midColor": 7040715,
+      "maxColor": 545908,
+      "missingColor": 15132390,
+      "cellGap": 1,
+      "textureAlpha": 0.2,
+      "xAxis": {
+        "scale": "categorical",
+        "title": "",
+        "minimum": null,
+        "maximum": null,
+        "interval": null,
+        "showGrid": true,
+        "showTicks": true,
+        "showLabels": true,
+        "showZeroLine": true,
+        "format": {
+          "kind": "number",
+          "decimals": 2
+        }
+      },
+      "yAxis": {
+        "scale": "categorical",
+        "title": "",
+        "minimum": null,
+        "maximum": null,
+        "interval": null,
+        "showGrid": true,
+        "showTicks": true,
+        "showLabels": true,
+        "showZeroLine": true,
+        "format": {
+          "kind": "number",
+          "decimals": 2
+        }
+      },
+      "x": 0,
+      "y": 0,
+      "width": 500,
+      "height": 300,
+      "visible": true,
+      "enabled": true
+    }
+  }
+]

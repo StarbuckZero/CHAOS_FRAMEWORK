@@ -132,7 +132,7 @@ class ChartData {
                     diagnostic(diagnostics,"value","points["+i+"]","Expected finite numeric value"); continue;
                 }
                 if (key != null && seen.exists(key)) { diagnostic(diagnostics,"duplicate","points["+i+"]","Duplicate category/cell"); continue; }
-                if (key != null) seen.set(key, true);
+                if (key != null && !gap) seen.set(key, true);
                 output.push({id:source.id, dataIndex:i, seriesId:seriesId, seriesIndex:seriesIndex, label:label,
                     value:gap ? null : raw, x:Reflect.hasField(source,"x") ? source.x : source.categoryId,
                     y:gap ? null : raw, gap:gap, source:source});
@@ -143,4 +143,3 @@ class ChartData {
         return output;
     }
 }
-

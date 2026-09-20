@@ -1,7 +1,7 @@
 <project>
   <meta title="CHAOS Chart Harness" package="com.chaos.tests.charts" version="0.0.1" company="CHAOS" />
   <app main="Main" path="Export" file="ChartHarness" />
-  <window width="960" height="640" background="#F4F6F8" fps="60" />
+  <window width="960" height="900" background="#F4F6F8" fps="60" />
   <source path="Source" />
   <source path="../.." />
   <haxelib name="openfl" />

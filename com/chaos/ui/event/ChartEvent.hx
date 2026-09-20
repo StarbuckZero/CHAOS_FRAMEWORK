@@ -11,6 +11,8 @@ class ChartEvent extends Event {
     public static inline var MOUSE_UP = "chartMouseUp";
     public static inline var CLICK = "chartClick";
     public static inline var CHANGE = "change";
+    /** Lifecycle notification for runtime adapters; not an authorable data event. */
+    public static inline var DISPOSE = "chartDispose";
     public var payload(get, never):Dynamic;
     var snapshot:Dynamic;
     public function new(type:String, payload:Dynamic) {

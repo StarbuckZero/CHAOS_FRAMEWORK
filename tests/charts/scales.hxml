@@ -1,0 +1,4 @@
+-cp Source
+-cp ../..
+-main ScaleTests
+--interp
