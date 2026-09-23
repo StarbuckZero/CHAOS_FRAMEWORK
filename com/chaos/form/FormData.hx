@@ -14,9 +14,9 @@ class FormData implements IFormUI
     
     private var _id : Int = 0;
     private var _name : String = "";
-    private var _value : String = "";
+    private var _value : Dynamic = "";
     
-    public function new(formName : String, dataString : String = "")
+    public function new(formName : String, dataString : Dynamic = "")
     {
         _name = formName;
         _value = dataString;
@@ -74,7 +74,7 @@ class FormData implements IFormUI
 	 *
 	 * @return A string value from object
 	 */
-    public function getValue() : String
+    public function getValue() : Dynamic
     {
         return _value;
     }
@@ -84,7 +84,7 @@ class FormData implements IFormUI
 	 *
 	 * @param	value What you want to see the value to
 	 */
-    public function setValue(value : String) : Void
+    public function setValue(value : Dynamic) : Void
     {
         _value = value;
     }

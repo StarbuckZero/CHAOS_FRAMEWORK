@@ -56,7 +56,7 @@ class ValidateField extends InputField implements IFormUI implements ITextInput 
 		
         removeEventListener(Event.ADDED_TO_STAGE, onStageAdd);
         removeEventListener(Event.REMOVED_FROM_STAGE, onStageRemove);
-		stage.removeEventListener(MouseEvent.MOUSE_DOWN, onValidateCheck);
+		if (stage != null) stage.removeEventListener(MouseEvent.MOUSE_DOWN, onValidateCheck);
 
 		backgroundValidate.graphics.clear();
 		
@@ -86,7 +86,7 @@ class ValidateField extends InputField implements IFormUI implements ITextInput 
     {
         
         // Remove event once gone
-        stage.removeEventListener(MouseEvent.MOUSE_DOWN, onValidateCheck);
+        if (stage != null) stage.removeEventListener(MouseEvent.MOUSE_DOWN, onValidateCheck);
     }
     
 

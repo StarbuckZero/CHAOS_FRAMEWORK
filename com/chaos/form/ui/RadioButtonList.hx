@@ -38,8 +38,7 @@ class RadioButtonList extends RadioButtonGroup implements IFormUI implements IRa
     public function clear() : Void
     {
 		
-        for (i in 0 ... _list.length)
-            _list[i].selected = false;
+        setValue(null);
     }
     
     /**
@@ -77,7 +76,7 @@ class RadioButtonList extends RadioButtonGroup implements IFormUI implements IRa
 	 *
 	 * @return The name of the radio button that was selected
 	 */
-    public function getValue() : String
+    public function getValue() : Dynamic
     {
         return (getSelected() != null) ? getSelected().name : "";
     }
@@ -88,22 +87,14 @@ class RadioButtonList extends RadioButtonGroup implements IFormUI implements IRa
 	 * @param	value which radio button that will be selected based on name
 	 */
     
-    public function setValue(value : String) : Void
+    public function setValue(value : Dynamic) : Void
     {
 		
-        for (i in 0 ... _list.length)
-		{
-			// Search for radio button by name
-			if (_list[i].name == value) 
-			{
-				// Clear and set the new values
-				clear();
-				
-				// Set the item that should be true
-				_list[i].selected = true;
-			}
-            
-		}
+        for (item in _list) {
+            item.selected = item.name == value;
+            item.draw();
+        }
+        draw();
     }
     
     /**

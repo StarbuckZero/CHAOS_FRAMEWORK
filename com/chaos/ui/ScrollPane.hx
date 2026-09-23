@@ -181,9 +181,6 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 		removeChild(_scrollBarH.displayObject);
 		removeChild(_scrollBarV.displayObject);
 
-		// See if some content is already loaded
-		if (_content.numChildren > 0)
-			_content.removeChildAt(0);
 
 		_scrollBarH.destroy();
 		_scrollBarV.destroy();

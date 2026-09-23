@@ -119,9 +119,8 @@ class AlignmentBaseContainer extends BaseContainer implements IBaseUI implements
 	
 	override public function destroy():Void 
 	{
-		super.destroy();
-		
 		contentHolder.scrollRect = null;
+        super.destroy();
 	}
 	
     

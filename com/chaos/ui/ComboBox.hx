@@ -462,7 +462,7 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 		
 		// Destory the label
 		_selectLabel.destroy();
-		_scrollbar.destroy();
+		if (_scrollbar != null) _scrollbar.destroy();
 		
 		// Combo Background
 		if (null != _backgroundImage)

@@ -246,7 +246,7 @@ class GridContainer extends BaseContainer implements IGridContainer implements I
 		// Create the columns for the row
 		for (col in 0...columnCount) {
 
-			var cell:IGridCell = new GridCell({"width":Std.int(width / rowCount),"height": Std.int(height / columnCount)});
+			var cell:IGridCell = new GridCell({"width":Std.int(width / columnCount),"height": Std.int(height / columnCount)});
 
 			_content.addChild(cell.displayObject);
 

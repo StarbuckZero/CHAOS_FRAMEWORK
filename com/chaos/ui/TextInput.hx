@@ -371,7 +371,7 @@ class TextInput extends Label implements ITextInput implements ILabel implements
 		_defaultString = value;
 
 		// Set default string to be empty
-		if (_defaultString.length > 0 && _textField.text.length == 0)
+		if (_defaultString.length > 0 && _text.length == 0 && _textField.text.length == 0)
 			_textField.text = _text = _defaultString;
 	}
 

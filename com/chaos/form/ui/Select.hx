@@ -31,7 +31,7 @@ class Select extends ListBox implements IListBox implements IBaseUI implements I
 	
 	public function data():Dynamic
 	{
-		return return {"name":name, "id":id, "value":getValue(), "type":"label"};
+		return {"name":name, "id":id, "value":getValue(), "type":"label"};
 	
 	}
     
@@ -74,9 +74,11 @@ class Select extends ListBox implements IListBox implements IBaseUI implements I
 	 * @return A string value from object
 	 */
     
-    public function getValue() : String
+    public function getValue() : Dynamic
     {
-        return ((dataProvider.length > 0)) ? getSelected().text : "";
+        var selected = getSelectedList();
+        return allowMultipleSelection ? [for (item in selected) item.value]
+            : selected.length == 0 ? null : selected[0].value;
     }
     
     /**
@@ -85,10 +87,16 @@ class Select extends ListBox implements IListBox implements IBaseUI implements I
 	 * @param	value What you want to see the value to
 	 */
 	
-    public function setValue(value : String) : Void
+    public function setValue(value : Dynamic) : Void
     {
-        if (dataProvider.length > 0) 
-            getSelected().text = value;
+        var values:Array<Dynamic> = Std.isOfType(value, Array) ? cast value : [value];
+        _selectIndex = -1;
+        for (i in 0...dataProvider.length) {
+            var item = dataProvider.getItemAt(i);
+            item.selected = values.indexOf(item.value) >= 0 && (allowMultipleSelection || _selectIndex == -1);
+            if (item.selected) _selectIndex = i;
+        }
+        draw();
     }
     
     /**

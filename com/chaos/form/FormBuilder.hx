@@ -1,294 +1,160 @@
 package com.chaos.form;
 
-import com.chaos.form.FormData;
-
-
-
-import com.chaos.ui.BaseUI;
-import com.chaos.ui.layout.GridContainer;
-import com.chaos.ui.layout.AlignmentBaseContainer;
-import com.chaos.ui.classInterface.IBaseUI;
-import com.chaos.ui.layout.classInterface.IAlignmentContainer;
-import com.chaos.ui.layout.classInterface.IGridCell;
-import com.chaos.ui.layout.classInterface.IGridContainer;
-import com.chaos.form.ui.TextLabel;
 import com.chaos.form.classInterface.IFormBuilder;
+import com.chaos.form.ui.TextLabel;
 import com.chaos.form.ui.classInterface.IFormUI;
-import com.chaos.ui.classInterface.ILabel;
-import com.chaos.utils.Debug;
+import com.chaos.ui.Label;
+import com.chaos.ui.RadioButton;
+import com.chaos.ui.Slider;
+import com.chaos.ui.ToggleButton;
+import com.chaos.ui.classInterface.IBaseUI;
 import com.chaos.ui.layout.GridCellLayout;
-import openfl.events.Event;
+import com.chaos.ui.layout.GridContainer;
 
+/** A labelled grid of existing CHAOS controls. Field names are the data keys. */
+class FormBuilder extends GridContainer implements IFormBuilder {
+    public static inline var TYPE:String = "FormBuilder";
+    public var vSpacing(get, set):Int;
+    public var hSpacing(get, set):Int;
+    private var _vSpacing:Int = 4;
+    private var _hSpacing:Int = 0;
+    private function get_vSpacing():Int return _vSpacing;
+    private function set_vSpacing(value:Int):Int return _vSpacing = value;
+    private function get_hSpacing():Int return _hSpacing;
+    private function set_hSpacing(value:Int):Int return _hSpacing = value;
+    private var _defaultCellHeight:Int = 30;
 
-/**
- * This creates a form 
- * @author Erick Feiling
- */
+    public function new(data:Dynamic = null) { super(data == null ? {} : data); }
 
-class FormBuilder extends GridContainer implements IFormBuilder implements IBaseUI
-{
-    public static inline var TYPE : String = "FormBuilder";
-	
-    public var vSpacing(get, set) : Int;
-    public var hSpacing(get, set) : Int;
-    
-    private var _vSpacing : Int = 4;
-    private var _hSpacing : Int = 0;
-        
-    private var _defaultCellHeight : Int = 30;
-    
-    /**
-	 * Creates a two colume form that return values in object
-	 *
-	 */
-	
-    public function new(data:Dynamic = null )
-    {
-        super(data);   
-    }
-
-    override function setComponentData(data:Dynamic) {
-
-        // If going to update columns then have to be more than 2 else force it to be 2
-		if (!Reflect.hasField(data, "column") || Reflect.hasField(data, "column") && Reflect.field(data, "column") < 2)
-            Reflect.setField(data, "column", 2);
-                
+    override public function setComponentData(data:Dynamic):Void {
+        if (data == null) data = {};
+        if (!Reflect.hasField(data, "column") || data.column < 2) data.column = 2;
         super.setComponentData(data);
-
-        if(Reflect.hasField(data, "vSpacing"))
-            _vSpacing = Reflect.field(data,"vSpacing");
-
-        if(Reflect.hasField(data, "hSpacing"))
-            _hSpacing = Reflect.field(data,"hSpacing");
-
-        if(Reflect.hasField(data, "defaultCellHeight"))
-            _defaultCellHeight = Reflect.field(data,"defaultCellHeight");
+        if (Reflect.hasField(data, "vSpacing")) vSpacing = data.vSpacing;
+        if (Reflect.hasField(data, "hSpacing")) hSpacing = data.hSpacing;
+        if (Reflect.hasField(data, "defaultCellHeight")) _defaultCellHeight = data.defaultCellHeight;
     }
 
-    override function initialize() {
-
-        super.initialize();
-
-    }
-
-    override function destroy() {
-
-        // Remove all cells first
-        for (row in 0 ... getRowCount())
-		{
-            for( col in 0 ... getColumnCount())  {
-
-                if (getCell(row, col).container.length > 0 && null != getCell(row, col).container.getElementAtIndex(0) && Std.isOfType(getCell(row, col).container.getElementAtIndex(0), IBaseUI)) 
-                    cast(getCell(row, col).container.getElementAtIndex(0), IBaseUI).destroy();
-            }
-
-        }        
-
-        super.destroy();
-
-    }
-    
-    
-    /**
-	 * The default spacing used for added form elements
-	 */
-    
-    private function set_vSpacing(value : Int) : Int
-    {
-        _vSpacing = value;
-        return value;
-    }
-    
-    /**
-	 * Return value
-	 */
-	
-    private function get_vSpacing() : Int
-    {
-        return _vSpacing;
-    }
-    
-    /**
-	 * The default spacing used for added form elements
-	 */
-    
-    private function set_hSpacing(value : Int) : Int
-    {
-        _hSpacing = value;
-        return value;
-    }
-    
-    /**
-	 * Return value
-	 */
-    
-    private function get_hSpacing() : Int
-    {
-        return _hSpacing;
-    }
-    
-    /**
-	 * Adds a new form element to the form
-	 *
-	 * @param	labelName The label of the form
-	 * @param	elementName The name that will stored in an object
-	 * @param	elementClass The ui class that will be used
-     * @param	elementParams The ui class that will be used
-	 * @param	layoutClass What layout that will be used
-	 * @param	params Any extra values that will be passed for the layout
-	 */
-    
-    public function addFormElement(labelName : String, elementName : String, elementClass : Class<Dynamic>, elementParams: Dynamic = null, layoutClass : Class<Dynamic> = null, layoutParams : Dynamic = null) : Void
-    {
+    public function addFormElement(labelName:String, elementName:String, elementClass:Class<Dynamic>,
+        elementParams:Dynamic = null, layoutClass:Class<Dynamic> = null, layoutParams:Dynamic = null):Void {
+        var params:Dynamic = elementParams == null ? {} : Reflect.copy(elementParams);
+        if (!Reflect.hasField(params, "width")) params.width = Std.int(width / getColumnCount());
+        if (!Reflect.hasField(params, "height")) params.height = _defaultCellHeight;
+        var element:IBaseUI = Type.createInstance(elementClass, [params]);
+        element.displayObject.name = elementName;
+        if (Std.isOfType(element, IFormUI)) cast(element, IFormUI).setName(elementName);
         addRow(getRowCount());
-
-        var labelRow:IGridCell = getCell(getRowCount() - 1, 0);
-        var inputRow:IGridCell = getCell(getRowCount() - 1, 1);
-        
-        // Set borders and everything first
-        setColumnHeightAt(0, _defaultCellHeight);
-        setColumnHeightAt(1, _defaultCellHeight);
-        
-        labelRow.setLayout(GridCellLayout.HORIZONTAL, layoutParams);
-        inputRow.setLayout(((null != layoutClass && Std.isOfType(Type.createInstance(layoutClass, []), AlignmentBaseContainer))) ? Type.createInstance(layoutClass, []) : GridCellLayout.FIT, layoutParams);
-        
-        // Turn off clipping for combo boxes
-        labelRow.container.clipping = inputRow.container.clipping = false;
-        
-        var newLabel : ILabel = new TextLabel({"text":labelName,"width":labelRow.width,"height":labelRow.height});
-        labelRow.container.addElement(newLabel);
-        
-        // Check to see if item is a based UI
-        var element:IFormUI = Type.createInstance(elementClass,[elementParams]);
-        element.setName(elementName);
-                
-        if (Std.isOfType(element, IBaseUI)) 
-        {
-            var baseElement : IBaseUI = (try cast(element, IBaseUI) catch(e:Dynamic) null);
-            
-            inputRow.container.addElement(baseElement);            
-        }
-		
-		// Adjust elements location  
-        for (row in 0 ... getRowCount())
-		{
-            if (getCell(row, 0).container.length > 0) 
-            {
-                getCell(row, 0).container.getElementAtIndex(0).x = _vSpacing;
-                
-                // Only move if was adjusted
-                if (_hSpacing > 0) 
-                    getCell(row, 0).container.getElementAtIndex(0).y = _hSpacing;
-            }
-            
-            if (getCell(row, 1).container.length > 0) 
-            {
-                getCell(row, 1).container.getElementAtIndex(0).x = _vSpacing;
-                
-                // Only move if was adjusted
-                if (_hSpacing > 0) 
-                    getCell(row, 1).container.getElementAtIndex(0).y = _hSpacing;
-            }
-
-        }
-
-    }
-        
-    /**
-	 * Set the column width
-	 *
-	 * @param	index Which column
-	 * @param	colWidth The new width
-	 */
-    
-    public function setColumnWidthAt(index : Int, colWidth : Int) : Void
-    {
-        
-        for (row in 0 ... getRowCount())
-		{
-            if (validCell(row, index)) 
-                setCellWidth(row, index, colWidth);
-            else 
-                Debug.print("[FormBuilder::setColumnWidthAt] Fail to update " + row + "x" + index + " width in grid to " + colWidth + ".");
-        }
-    }
-    
-    /**
-	 * Set the column height
-	 *
-	 * @param	index Which column
-	 * @param	colWidth The new height
-	 */
-    
-    public function setColumnHeightAt(index : Int, colHeight : Int) : Void
-    {
-
-        for (row in 0 ... getRowCount())
-		{
-            
-            if (validCell(row, index)) 
-                setCellHeight(row, index, colHeight);
-            else 
-                Debug.print("[FormBuilder::setColumnHeight] Fail to update " + row + "x" + index + " height in grid to " + colHeight + ".");
-        }
-    }
-    
-    /**
-	 * Clear all form values
-	 */
-    
-    public function reset() : Void
-    {
-        // clear all input fields
-        for (row in 0 ... getRowCount())
-		{
-            if (getCell(row, 1).container.length > 0 && null != getCell(row, 1).container.getElementAtIndex(0) && Std.isOfType(getCell(row, 1).container.getElementAtIndex(0), IFormUI)) 
-                cast(getCell(row, 1).container.getElementAtIndex(0), IFormUI).clear();
-        }
-
+        var labelCell = getCell(getRowCount() - 1, 0);
+        var inputCell = getCell(getRowCount() - 1, 1);
+        labelCell.setLayout(GridCellLayout.HORIZONTAL, layoutParams);
+        inputCell.setLayout(layoutClass == null ? GridCellLayout.FIT : layoutClass, layoutParams);
+        labelCell.container.clipping = inputCell.container.clipping = false;
+        labelCell.container.addElement(new TextLabel({text:labelName, width:labelCell.width, height:labelCell.height}));
+        inputCell.container.addElement(element);
+        if (Std.isOfType(element, Slider) && elementParams != null && Reflect.hasField(elementParams, "percent"))
+            cast(element, Slider).percent = elementParams.percent;
+        draw();
     }
 
-    /**
-    * Set input fields in data being passed in
-	 * @param	formObj Object with values for the form elements 
-    **/
-
-    public function setFormData(formObj:Dynamic) : Void 
-    {
-        for (row in 0 ... getRowCount())
-            {
-                if (getCell(row, 1).container.length > 0 && null != getCell(row, 1).container.getElementAtIndex(0) && Std.isOfType(getCell(row, 1).container.getElementAtIndex(0), IFormUI)) 
-                {
-                    var itemFormUI : IFormUI = cast(getCell(row, 1).container.getElementAtIndex(0), IFormUI);
-
-                    // Check to see if name is in object and set it if so
-                    if(Reflect.hasField(formObj, itemFormUI.getName()))
-                        itemFormUI.setValue( Reflect.field(formObj,itemFormUI.getName()) );
+    override public function draw():Void {
+        super.draw();
+        if (_list == null) return;
+        for (row in 0...getRowCount()) {
+            for (col in 0...getColumnCount()) {
+                var cell = getCell(row, col);
+                cell.height = _defaultCellHeight;
+                cell.y = row * _defaultCellHeight;
+                cell.draw();
+                if (cell.container.length > 0) {
+                    var item = cell.container.getElementAtIndex(0);
+                    if (col == 0) {
+                        item.width = Math.max(0, cell.width - vSpacing);
+                        item.height = Math.max(0, cell.height - hSpacing);
+                        item.draw();
+                    }
+                    item.x = vSpacing;
+                    item.y = hSpacing;
                 }
             }
-    }
-    
-    /**
-	 * Take all input values and return them
-	 * @return The object with values
-	 */
-    
-    public function getFormData() : Dynamic
-    {
-
-        var formObj: Dynamic = {};
-
-        for (row in 0 ... getRowCount())
-        {
-            if (getCell(row, 1).container.length > 0 && null != getCell(row, 1).container.getElementAtIndex(0) && Std.isOfType(getCell(row, 1).container.getElementAtIndex(0), IFormUI)) 
-            {
-                var itemFormUI : IFormUI = cast(getCell(row, 1).container.getElementAtIndex(0), IFormUI);                    
-                Reflect.setField(formObj, itemFormUI.getName(), itemFormUI.getValue());
-            }
         }
-        
-        return formObj;
+    }
 
+    public function setColumnWidthAt(index:Int, value:Int):Void {
+        for (row in 0...getRowCount()) if (validCell(row, index)) setCellWidth(row, index, value);
+    }
+
+    public function setColumnHeightAt(index:Int, value:Int):Void {
+        for (row in 0...getRowCount()) if (validCell(row, index)) setCellHeight(row, index, value);
+    }
+
+    /** Remove the controls as well as their grid rows when replacing a form. */
+    public function clearFormElements():Void {
+        while (getRowCount() > 0) {
+            var row = getRowCount() - 1;
+            for (col in 0...getColumnCount()) {
+                var cell = getCell(row, col);
+                cell.container.destroy();
+                cell.destroy();
+            }
+            removeRow(row);
+        }
+    }
+
+    override public function destroy():Void {
+        clearFormElements();
+        super.destroy();
+    }
+
+    private function fields():Array<IBaseUI> {
+        var result:Array<IBaseUI> = [];
+        for (row in 0...getRowCount()) {
+            var container = getCell(row, 1).container;
+            if (container.length > 0) result.push(cast container.getElementAtIndex(0));
+        }
+        return result;
+    }
+
+    public function reset():Void {
+        for (item in fields()) {
+            if (Std.isOfType(item, IFormUI)) cast(item, IFormUI).clear();
+            else setFieldValue(item, null);
+        }
+    }
+
+    public function setFormData(formObj:Dynamic):Void {
+        if (formObj == null) return;
+        for (item in fields()) {
+            var name = Std.isOfType(item, IFormUI) ? cast(item, IFormUI).getName() : item.displayObject.name;
+            if (Reflect.hasField(formObj, name)) setFieldValue(item, Reflect.field(formObj, name));
+        }
+    }
+
+    private function setFieldValue(item:IBaseUI, value:Dynamic):Void {
+        if (Std.isOfType(item, IFormUI)) cast(item, IFormUI).setValue(value);
+        else if (Std.isOfType(item, ToggleButton)) {
+            cast(item, ToggleButton).selected = value == true || value == item.displayObject.name;
+            item.draw();
+        }
+        else if (Std.isOfType(item, Slider)) cast(item, Slider).percent = value == null ? 0 : value;
+        else if (Std.isOfType(item, Label)) {
+            cast(item, Label).text = value == null ? "" : Std.string(value);
+            item.draw();
+        }
+    }
+
+    /** Read the controls now; never cache their original/default values. */
+    public function getFormData():Dynamic {
+        var values:Dynamic = {};
+        for (item in fields()) {
+            var value:Dynamic = null;
+            if (Std.isOfType(item, IFormUI)) value = cast(item, IFormUI).getValue();
+            else if (Std.isOfType(item, RadioButton)) value = cast(item, RadioButton).selected ? item.displayObject.name : null;
+            else if (Std.isOfType(item, ToggleButton)) value = cast(item, ToggleButton).selected;
+            else if (Std.isOfType(item, Slider)) value = cast(item, Slider).percent;
+            else if (Std.isOfType(item, Label)) value = cast(item, Label).text;
+            var name = Std.isOfType(item, IFormUI) ? cast(item, IFormUI).getName() : item.displayObject.name;
+            Reflect.setField(values, name, value);
+        }
+        return values;
     }
 }
-

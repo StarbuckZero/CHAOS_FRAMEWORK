@@ -45,16 +45,16 @@ interface IFormUI
     /**
 	 * Return the value that has been stored
 	 *
-	 * @return A string value from object
+	 * @return The current value, preserving the control's value type
 	 */
-    function getValue() : String;
+    function getValue() : Dynamic;
     
     /**
 	 * Set the value being used
 	 *
 	 * @param	value What you want to set the value to
 	 */
-    function setValue(value : String) : Void;
+    function setValue(value : Dynamic) : Void;
     
     /**
 	 * Return the name

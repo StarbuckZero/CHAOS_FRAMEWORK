@@ -25,7 +25,7 @@ class DropDownMenu extends ComboBox implements IComboBox implements IBaseUI impl
 	 */
 	 
      public function data():Dynamic {
-        return {"id":getSelected().id,"name":name,"value":text};
+        return {"id":getId(),"name":name,"value":getValue()};
     }
 
     /**
@@ -34,7 +34,7 @@ class DropDownMenu extends ComboBox implements IComboBox implements IBaseUI impl
     
     public function clear() : Void
     {
-        text = "";
+        setValue(null);
     }
     
     /**
@@ -56,7 +56,7 @@ class DropDownMenu extends ComboBox implements IComboBox implements IBaseUI impl
     
     public function getId() : Int
     {
-        return ((dataProvider.length > 0)) ? getSelected().id : -1;
+        return getSelected() != null ? getSelected().id : -1;
     }
     
     /**
@@ -67,7 +67,7 @@ class DropDownMenu extends ComboBox implements IComboBox implements IBaseUI impl
     
     public function setId(value : Int) : Void
     {
-        if (dataProvider.length > 0) 
+        if (getSelected() != null)
             getSelected().id = value;
     }
     
@@ -77,12 +77,9 @@ class DropDownMenu extends ComboBox implements IComboBox implements IBaseUI impl
 	 * @return A string value if found or text in label
 	 */
     
-    public function getValue() : String
+    public function getValue() : Dynamic
     {
-        if(_selectIndex != -1)
-            return getSelected().value;
-        else 
-            return text;
+        return getSelected() != null ? getSelected().value : text;
     }
     
     /**
@@ -91,19 +88,16 @@ class DropDownMenu extends ComboBox implements IComboBox implements IBaseUI impl
 	 * @param	value What you want to see the value to
 	 */
 	
-    public function setValue(value : String) : Void
+    public function setValue(value : Dynamic) : Void
     {
-        // Set text if found in list
-        for( i in 0 ... _list.length) {
-
-            // Update index and set text
-            if(_list.getItemAt(i).value == value) {
-                _selectIndex = i;
-                text = getSelected().text;
-            }
-
+        _selectIndex = -1;
+        for (i in 0..._list.length) {
+            var item = _list.getItemAt(i);
+            item.selected = value != null && item.value == value;
+            if (item.selected) _selectIndex = i;
         }
-       
+        text = getSelected() == null ? "" : getSelected().text;
+        draw();
     }
     
     /**

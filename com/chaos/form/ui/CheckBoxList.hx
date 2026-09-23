@@ -30,7 +30,7 @@ class CheckBoxList extends CheckBoxGroup implements IFormUI implements IAlignmen
 	 */
 	 
     public function data():Dynamic {
-        return {"id":id,"name":name,"value":id};
+        return {"id":id,"name":name,"value":getValue()};
     }
     
     /**
@@ -38,10 +38,7 @@ class CheckBoxList extends CheckBoxGroup implements IFormUI implements IAlignmen
 	 */
     public function clear() : Void
     {
-        for (i in 0..._content.numChildren){
-            if (Std.is(_content.getChildAt(i), CheckBox)) 
-                (try cast(_content.getChildAt(i),ICheckBox) catch(e:Dynamic) null).selected = false;
-        }
+        setValue([]);
     }
     
     /**
@@ -80,9 +77,9 @@ class CheckBoxList extends CheckBoxGroup implements IFormUI implements IAlignmen
 	 *
 	 * @return The list of check boxes
 	 */
-    public function getValue() : String
+    public function getValue() : Dynamic
     {
-        return getSelected().join(",");
+        return [for (item in getSelected()) item.name];
     }
     
     /**
@@ -93,34 +90,15 @@ class CheckBoxList extends CheckBoxGroup implements IFormUI implements IAlignmen
 	 * @example checkBoxList("check1,check3");
 	 */
     
-    public function setValue(value : String) : Void
+    public function setValue(value : Dynamic) : Void
     {
-        var i : Int;
-        
-        if (value.indexOf(",") != -1) 
-        {
-            var checkBoxList : Array<Dynamic> = value.split(",");
-            
-            // Search based on broken down array list
-            for (i in 0 ... _content.numChildren)
-			{
-                for (j in 0 ... checkBoxList.length)
-				{
-                    // Search for radio button by name
-                    if (Std.is(_content.getChildAt(i), CheckBox) && cast(_content.getChildAt(i), ICheckBox).name == checkBoxList[j]) 
-                        cast(_content.getChildAt(i), com.chaos.ui.classInterface.ICheckBox).selected = true;
-                }
-            }
+        var values:Array<Dynamic> = Std.isOfType(value, Array) ? cast value
+            : value == null ? [] : cast Std.string(value).split(",");
+        for (item in _list) {
+            item.selected = values.indexOf(item.name) >= 0;
+            item.draw();
         }
-        else 
-        {
-            for (i in 0 ... _content.numChildren)
-			{
-                // Search for radio button by name
-                if (Std.is(_content.getChildAt(i), CheckBox) && cast(_content.getChildAt(i), ICheckBox).name == value) 
-                    cast(_content.getChildAt(i), ICheckBox).selected = true;
-            }
-        }
+        draw();
     }
     
     /**

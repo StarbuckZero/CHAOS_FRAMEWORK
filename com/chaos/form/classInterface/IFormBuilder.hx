@@ -77,5 +77,6 @@ interface IFormBuilder extends IBaseUI
 	 */
     
 	function getFormData() : Dynamic;
+    function setFormData(formObj:Dynamic) : Void;
 }
 

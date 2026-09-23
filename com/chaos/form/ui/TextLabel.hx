@@ -32,7 +32,7 @@ class TextLabel extends Label implements ILabel implements IBaseUI implements IF
     
     public function clear() : Void
     {
-        _text = "";
+        setValue("");
     }
     
     /**
@@ -74,7 +74,7 @@ class TextLabel extends Label implements ILabel implements IBaseUI implements IF
 	 * @return A string value from object
 	 */
     
-    public function getValue() : String
+    public function getValue() : Dynamic
     {
         return text;
     }
@@ -85,9 +85,10 @@ class TextLabel extends Label implements ILabel implements IBaseUI implements IF
 	 * @param	value What you want to see the value to
 	 */
 	
-    public function setValue(value : String) : Void
+    public function setValue(value : Dynamic) : Void
     {
-        text = value;
+        text = value == null ? "" : Std.string(value);
+        draw();
     }
     
     /**

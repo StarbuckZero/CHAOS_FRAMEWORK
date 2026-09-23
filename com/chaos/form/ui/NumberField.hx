@@ -33,6 +33,12 @@ class NumberField extends ValidateField implements IFormUI implements IValidateF
     }
 	
     
+    override public function getValue():Dynamic
+    {
+        var value = Std.parseFloat(super.getValue());
+        return Math.isNaN(value) ? null : value;
+    }
+
     override public function onValidateCheck(event : Event) : Void
     {
         super.onValidateCheck(event);

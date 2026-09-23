@@ -26,7 +26,7 @@ class InputField extends TextInput implements ITextInput implements IFormUI impl
 	
 	public function data():Dynamic
 	{
-		return {"name":name, "id":_id, "value":(_text != _defaultString) ? _text : "", "type":"label"};
+		return {"name":name, "id":_id, "value":getValue(), "type":"label"};
 	}
     
     /**
@@ -36,7 +36,7 @@ class InputField extends TextInput implements ITextInput implements IFormUI impl
     public function clear() : Void
     {
 		
-        _textField.text = "";
+        setValue("");
     }
     
     /**
@@ -78,9 +78,9 @@ class InputField extends TextInput implements ITextInput implements IFormUI impl
 	 * @return A string value from object
 	 */
     
-    public function getValue() : String
+    public function getValue() : Dynamic
     {
-        return _text;
+        return text == _defaultString ? "" : text;
     }
     
     /**
@@ -89,9 +89,10 @@ class InputField extends TextInput implements ITextInput implements IFormUI impl
 	 * @param	value What you want to see the value to
 	 */
 	
-    public function setValue(value : String) : Void
+    public function setValue(value : Dynamic) : Void
     {
-        _text = value;
+        text = value == null ? "" : Std.string(value);
+        draw();
     }
     
     /**
