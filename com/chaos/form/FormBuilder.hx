@@ -16,8 +16,8 @@ class FormBuilder extends GridContainer implements IFormBuilder {
     public static inline var TYPE:String = "FormBuilder";
     public var vSpacing(get, set):Int;
     public var hSpacing(get, set):Int;
-    private var _vSpacing:Int = 4;
-    private var _hSpacing:Int = 0;
+    private var _vSpacing:Int = 8;
+    private var _hSpacing:Int = 8;
     private function get_vSpacing():Int return _vSpacing;
     private function set_vSpacing(value:Int):Int return _vSpacing = value;
     private function get_hSpacing():Int return _hSpacing;
@@ -67,13 +67,11 @@ class FormBuilder extends GridContainer implements IFormBuilder {
                 cell.draw();
                 if (cell.container.length > 0) {
                     var item = cell.container.getElementAtIndex(0);
-                    if (col == 0) {
-                        item.width = Math.max(0, cell.width - vSpacing);
-                        item.height = Math.max(0, cell.height - hSpacing);
-                        item.draw();
-                    }
+                    item.width = Math.max(0, cell.width - (vSpacing * 2));
+                    item.height = Math.max(0, cell.height - (hSpacing * 2));
                     item.x = vSpacing;
                     item.y = hSpacing;
+                    item.draw();
                 }
             }
         }
