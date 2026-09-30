@@ -9,7 +9,9 @@ package com.chaos.data;
 
 class DataProvider<T>
 {
+    /** Number of items in this data provider. */
     public var length(get, never) : Int;
+    /** Array holding this provider’s data items. */
     public var dataArray(get, never) : Array<Dynamic>;
 	private var _dataArray : Array<T>; 
 	
@@ -156,7 +158,7 @@ class DataProvider<T>
     }
 	
 	/**
-	 * Return the array that is used inside the object
+	 * Returns the array stored by this object
 	 */
 	
 	private function get_dataArray() : Array<T>

@@ -13,6 +13,7 @@ import com.chaos.ui.classInterface.IBaseUI;
 
 class SoundIcon extends BaseIcon implements IBasicIcon implements IBaseUI
 {
+    /** Offset used to position the sound icon details. */
     public var offset : Int = 10;
     
     /**
@@ -24,6 +25,7 @@ class SoundIcon extends BaseIcon implements IBasicIcon implements IBaseUI
         super(data);
     }
 	
+	/** Applies sound icon offset and inherited icon settings. */
 	override public function setComponentData(data:Dynamic):Void 
 	{
 		super.setComponentData(data);

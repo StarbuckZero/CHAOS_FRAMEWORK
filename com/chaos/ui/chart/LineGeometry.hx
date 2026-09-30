@@ -2,6 +2,7 @@ package com.chaos.ui.chart;
 import com.chaos.ui.chart.ChartTypes.ChartPoint;
 /** Ordered series runs; null values and absent categories break paths unless connect is explicit. */
 class LineGeometry {
+    /** Groups ordered points into connected runs, handling missing values. */
     public static function runs(points:Array<ChartPoint>,categories:Array<Dynamic>,numeric:Bool,connect:Bool):Array<Array<ChartPoint>> {
         var ordered=points.copy();
         if(numeric) ordered.sort(function(a,b) { return a.x<b.x?-1:a.x>b.x?1:a.dataIndex-b.dataIndex; });

@@ -27,11 +27,17 @@ import openfl.events.Event;
 class BaseContainer extends BaseUI implements IBaseContainer implements IBaseUI
 {
 	
+    /** Display object containing this layout’s children. */
     public var content(get, never) : DisplayObject;
+    /** Whether a background image is displayed. */
     public var showImage(get, set) : Bool;
+    /** Whether the container background is drawn. */
     public var background(get, set) : Bool;
+    /** Fill color of the container background. */
     public var backgroundColor(get, set) : Int;
+    /** Opacity of the container background. */
     public var backgroundAlpha(get, set) : Float;
+    /** Whether the background image repeats. */
     public var tileImage(get, set) : Bool;
 
     
@@ -55,7 +61,7 @@ class BaseContainer extends BaseUI implements IBaseContainer implements IBaseUI
     
 	/**
 	 * UI Component 
-	 * @param	data The proprieties that you want to set on component.
+	 * @param	data Properties to apply to the component.
 	 */
     public function new(data:Dynamic = null)
     {
@@ -80,7 +86,7 @@ class BaseContainer extends BaseUI implements IBaseContainer implements IBaseUI
 	}
 	
 	/**
-	 * Set properties based on object
+	 * Applies properties from the supplied data object
 	 * @param	data object with supported types
 	 */
 	
@@ -108,6 +114,7 @@ class BaseContainer extends BaseUI implements IBaseContainer implements IBaseUI
 		
 	}
 
+	/** Reapplies style and bitmap settings to the container. */
 	override public function reskin() : Void
 	{
 		super.reskin();

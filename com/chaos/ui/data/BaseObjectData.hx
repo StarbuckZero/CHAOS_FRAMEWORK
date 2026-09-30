@@ -10,7 +10,9 @@ package com.chaos.ui.data;
 
 class BaseObjectData 
 {
+    /** Display label for this data item. */
     public var text(get, set) : String;
+    /** Stored value for this data item. */
     public var value(get, set) : String;
 
     private var _text : String = "";

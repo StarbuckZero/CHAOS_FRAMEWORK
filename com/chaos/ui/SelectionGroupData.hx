@@ -2,12 +2,14 @@ package com.chaos.ui;
 
 import com.chaos.ui.classInterface.IBaseUI;
 
-/** Reconciles selection-group rows without destroying controls on property updates. */
+/** Reuses selection controls while applying shared defaults and row-specific updates. */
 class SelectionGroupData {
     private var defaults:Dynamic = {};
     private var rows:Array<Dynamic> = [];
+    /** Creates an empty selection group data reconciler. */
     public function new() {}
 
+    /** Updates or creates controls for current rows and removes controls no longer present. */
     public function update<T:IBaseUI>(data:Dynamic, list:Array<T>, create:Dynamic->T, remove:T->Void):Array<T> {
         for (key in ["Style", "Bitmap", "enabled", "useCustomRender", "align", "bold", "italic", "size", "textColor",
             "buttonSize", "dotSize", "style", "lineAlpha", "lineSize", "border", "defaultColor", "overColor",

@@ -16,20 +16,33 @@ import openfl.geom.Rectangle;
 import openfl.text.TextField;
 import openfl.text.TextFormat;
 
-/** Shared chart shell. Subclasses implement drawPlot and geometry-aware hit testing. */
+/** Provides shared chart rendering, configuration, and interaction behavior. */
 class ChartBase extends BaseUI {
+    /** Default chart type identifier. */
     public static inline var TYPE = "ChartBase";
+    /** Chart type identifier reported by this base class. */
     public var chartType(get, never):String;
+    /** Title displayed above the plot. */
     public var title(get, set):String;
+    /** Text summary included in chart configuration. */
     public var summary(get, set):String;
+    /** Copies of validation issues from the latest update. */
     public var diagnostics(get, never):Array<ChartDiagnostic>;
+    /** Copies of the normalized data points. */
     public var normalizedPoints(get, never):Array<ChartPoint>;
+    /** Copy of the calculated plot rectangle. */
     public var plotBounds(get, never):Rectangle;
+    /** Copy of the currently selected chart item. */
     public var selectedItem(get, never):Dynamic;
+    /** Copy of the item currently under the pointer. */
     public var hoveredItem(get, never):Dynamic;
+    /** Callback used to resolve bitmap textures for chart elements. */
     public var textureResolver(get, set):ChartTextureResolver;
+    /** Number of completed render passes. */
     public var renderCount(default, null):Int = 0;
+    /** Number of plot layout calculations. */
     public var layoutCount(default, null):Int = 0;
+    /** Number of data normalization passes. */
     public var normalizationCount(default, null):Int = 0;
 
     var config:Dynamic;
@@ -64,6 +77,7 @@ class ChartBase extends BaseUI {
     var legendSwatches:Shape;
     var overlay:Shape;
 
+    /** Creates a chart with optional component configuration. */
     public function new(data:Dynamic = null) { super(data); }
     function ensure():Void {
         if (config != null) return;
@@ -88,6 +102,7 @@ class ChartBase extends BaseUI {
         resolver = value == null ? resolveTexture : value;
         textureDirty = true; invalidateChart(false); draw(); return resolver;
     }
+    /** Returns a copy of chart configuration with the current display properties. */
     public function toChartData():Dynamic {
         ensure();
         var result = ChartData.copy(config);
@@ -165,6 +180,7 @@ class ChartBase extends BaseUI {
         if (!Reflect.hasField(v,"mode")) v.mode = "stretch";
         return ["stretch","tile","fit","fill"].indexOf(v.mode) >= 0;
     }
+    /** Creates chart layers and registers stage and pointer listeners once. */
     override public function initialize():Void {
         ensure(); if (ready || destroyed) return;
         background = new Shape(); background.name = "chartBackground"; addChild(background);
@@ -188,10 +204,12 @@ class ChartBase extends BaseUI {
     function textField():TextField {
         var t = new TextField(); t.selectable = false; t.mouseEnabled = false; labelLayer.addChild(t); return t;
     }
+    /** Refreshes inherited styling and schedules a texture and layout update. */
     override public function reskin():Void {
         super.reskin(); ensure(); if (destroyed) return;
         textureDirty = true; invalidateChart(true);
     }
+    /** Marks rendering dirty and optionally requests a new layout. */
     public function invalidateChart(layout:Bool = true):Void { if (destroyed) return; visualDirty = true; if (layout) layoutDirty = true; }
     /** Resolve an explicit property, then instance/shared style, then the built-in default. */
     function style(property:String, key:String, fallback:Dynamic):Dynamic {
@@ -202,6 +220,7 @@ class ChartBase extends BaseUI {
         if (property.indexOf("Color") >= 0) return color(v) ? v : fallback;
         return ChartData.finite(v) && v >= 0 && (property.indexOf("Alpha") < 0 || v <= 1) ? v : fallback;
     }
+    /** Chooses a point, series, configured palette, or default palette color. */
     public function seriesColor(index:Int, series:Dynamic = null, point:Dynamic = null):Int {
         if (point != null && color(point.color)) return point.color;
         if (series != null && color(series.color)) return series.color;
@@ -212,6 +231,7 @@ class ChartBase extends BaseUI {
         }
         return palette[(index < 0 ? 0 : index) % palette.length];
     }
+    /** Renders dirty chart layers after updating layout and textures as needed. */
     override public function draw():Void {
         if (!ready || destroyed || drawing || batching || (!visualDirty && !layoutDirty && !textureDirty)) return;
         drawing = true;
@@ -407,8 +427,11 @@ class ChartBase extends BaseUI {
         if (!value) hover = null;
         var result = super.set_enabled(value); invalidateChart(false); draw(); return result;
     }
+    /** Sets an instance bitmap override while the chart is active. */
     override public function setBitmapOverride(key:String, bitmap:BitmapData):Void { if (!destroyed) super.setBitmapOverride(key,bitmap); }
+    /** Removes an instance bitmap override while the chart is active. */
     override public function removeBitmapOverride(key:String):Void { if (!destroyed) super.removeBitmapOverride(key); }
+    /** Dispatches disposal, removes listeners, and releases chart layers and textures. */
     override public function destroy():Void {
         if (destroyed) return;
         destroyed = true;

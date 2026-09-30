@@ -12,10 +12,15 @@ import openfl.display.BitmapData;
 
 class MenuItemObjectData extends SelectObjectData
 {
+    /** Bitmap icon displayed for this menu item. */
     public var icon(get, set) : BitmapData;
+    /** UI menu item represented by this data record. */
     public var menuItem(get, set) : IMenuItem;
+    /** Child items displayed in the submenu. */
     public var subMenuList(get, set) : DataProvider<MenuItemObjectData>;
+    /** Bitmap indicating a submenu. */
     public var subMenuIcon(get, set) : BitmapData;
+    /** Whether this item contains a submenu. */
     public var hasSubMenu(get, never) : Bool;
 
     private var _menuItem : IMenuItem;

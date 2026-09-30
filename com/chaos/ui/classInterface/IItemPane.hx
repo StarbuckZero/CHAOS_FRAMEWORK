@@ -59,7 +59,7 @@ interface IItemPane extends IScrollPane
     var itemSelectedColor(get, set) : Int;    
     
     /**
-	 * The item disable state color
+	 * The item disabled state color
 	 */
 
     
@@ -119,7 +119,7 @@ interface IItemPane extends IScrollPane
     function setSelectedItem(value : BitmapData) : Void;
     
     /**
-	 * The disable state of an item block
+	 * The disabled state of an item block
 	 *
 	 * @param	value The display object that will be used for the item background
 	 */

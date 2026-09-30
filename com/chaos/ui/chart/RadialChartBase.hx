@@ -7,20 +7,28 @@ import openfl.text.TextFormat;
 import com.chaos.ui.UIStyleManager;
 typedef RadialSlice={var point:ChartPoint; var start:Float; var sweep:Float; var fraction:Float;}
 class RadialChartBase extends ChartBase {
+    /** Copies of the currently rendered radial slices. */
     public var slices(get,never):Array<RadialSlice>;
+    /** Radius of the rendered chart. */
     public var radius(default,null):Float=0;
+    /** Horizontal coordinate of the rendered chart center. */
     public var centerX(default,null):Float=0;
+    /** Vertical coordinate of the rendered chart center. */
     public var centerY(default,null):Float=0;
+    /** Sum of values represented by rendered slices. */
     public var total(default,null):Float=0;
+    /** Number of cached slice textures. */
     public var sliceTextureCount(get,never):Int;
     var segments:Array<RadialSlice>;
     var textures:Map<String,ChartTexture>;
     var labels:Array<TextField>;
+    /** Creates a radial chart with optional configuration. */
     public function new(data:Dynamic=null) { super(data); }
     function get_slices():Array<RadialSlice> { return cast ChartData.copy(segments); }
     function get_sliceTextureCount():Int { var n=0; for(_ in textures) n++; return n; }
     function hole():Float { return 0; }
     function ensureRadial():Void { if(segments==null) segments=[]; if(textures==null) textures=new Map(); if(labels==null) labels=[]; }
+    /** Initializes radial data, angles, and slice defaults. */
     override public function initialize():Void {
         ensureRadial(); super.initialize();
         if(!Reflect.hasField(config,"data")) config.data=[];
@@ -108,7 +116,9 @@ class RadialChartBase extends ChartBase {
         return textures.get(key);
     }
     function releaseTextures():Void { ensureRadial(); for(t in textures) t.destroy(); textures=new Map(); }
+    /** Releases cached slice textures before applying shared styles. */
     override public function reskin():Void { releaseTextures(); super.reskin(); }
     override function set_textureResolver(value:ChartTextureResolver):ChartTextureResolver { if(!destroyed) releaseTextures(); return super.set_textureResolver(value); }
+    /** Releases slice textures, geometry, and labels. */
     override public function destroy():Void { if(destroyed) return; releaseTextures(); segments=[]; labels=[]; super.destroy(); }
 }

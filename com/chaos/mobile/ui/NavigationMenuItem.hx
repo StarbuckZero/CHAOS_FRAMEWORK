@@ -16,14 +16,20 @@ import com.chaos.data.DataProvider;
 
 class NavigationMenuItem extends ToggleButton implements IBaseUI implements IToggleButton {
 
+    /** Drag container that holds this menu item. */
     public var dragContainer(get, never):IDragContainer;
+    /** Navigation menu that owns this item. */
     public var navigationMenu(get, never):INavigationMenu;
 
+    /** Display object used as the submenu arrow. */
     public var arrow(get, set):DisplayObject;
 
+    /** Whether the submenu arrow is shown. */
     public var showArrow(get, set):Bool;
+    /** Color of the submenu arrow. */
     public var arrowColor(get, set):Int;
 
+    /** Data source for child navigation items. */
     public var childObject(get, set):DataProvider<NavigationMenuObjectData>;
 
     private var _showArrow:Bool;
@@ -44,7 +50,7 @@ class NavigationMenuItem extends ToggleButton implements IBaseUI implements ITog
     
 	/**
 	 * UI Component
-	 * @param	data The proprieties that you want to set on component.
+	 * @param	data Properties to apply to the component.
 	 */
 
      public function new(data:Dynamic = null) {
@@ -103,6 +109,7 @@ class NavigationMenuItem extends ToggleButton implements IBaseUI implements ITog
         addChild(arrow);
     }    
 
+    /** Fills the menu icon with the supplied bitmap. */
     public function setIcon(icon:BitmapData):Void {
 
         _icon.graphics.beginBitmapFill(icon);

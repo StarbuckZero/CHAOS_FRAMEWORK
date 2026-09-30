@@ -4,7 +4,7 @@ import com.chaos.media.classInterface.ISoundStatus;
 
 
 /**
- * ...
+ * Stores playback and tracking flags for a sound.
  * @author Erick Feiling
  */
 
@@ -12,12 +12,19 @@ import com.chaos.media.classInterface.ISoundStatus;
 
 class SoundStatusObject implements ISoundStatus
 {
+    /** Whether playback is paused. */
     public var pause(get, set) : Bool;
+    /** Whether playback is active. */
     public var playing(get, set) : Bool;
+    /** Whether playback is stopped. */
     public var stop(get, set) : Bool;
+    /** Whether playback is muted. */
     public var mute(get, set) : Bool;
+    /** Whether playback repeats. */
     public var repeat(get, set) : Bool;
+    /** Whether position-based panning is active. */
     public var isPanning(get, set) : Bool;
+    /** Whether sound tracking is active. */
     public var isTracking(get, set) : Bool;
 
     private var _pause : Bool;
@@ -29,6 +36,7 @@ class SoundStatusObject implements ISoundStatus
     private var _isPanning : Bool;
     private var _isTracking : Bool;
     
+    /** Creates a snapshot of playback and tracking flags. */
     public function new(soundPause : Bool = false, soundPlaying : Bool = false, soundStop : Bool = false, soundRepeat : Bool = false, soundPanning : Bool = false, soundTracking : Bool = false)
     {
         _pause = soundPause;

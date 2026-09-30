@@ -14,13 +14,21 @@ import flash.system.System;
 
 class SystemProfiler extends Sprite
 {
+    /** Frame-rate threshold for high performance. */
     public var highLevelFPS(get, set) : Int;
+    /** Frame-rate threshold for medium performance. */
     public var midLevelFPS(get, set) : Int;
+    /** Frame-rate threshold for low performance. */
     public var lowLevelFPS(get, set) : Int;
+    /** Label displaying frame rate and memory use. */
     public var fpsAndMemLabel(get, never) : Label;
+    /** Average measured frame rate. */
     public var average(get, never) : Float;
+    /** Most recent measured frame rate. */
     public var fps(get, never) : Float;
+    /** Most recent measured memory use. */
     public var memory(get, never) : Float;
+    /** Current performance level. */
     public var level(get, never) : String;
 
     private var last : Int = Math.round(haxe.Timer.stamp() * 1000);
@@ -45,6 +53,7 @@ class SystemProfiler extends Sprite
     private var averageMax : Int = 60;
     private var averageCounter : Int = 0;
     
+    /** Starts frame-rate sampling and creates the profiler display label. */
     public function new()
     {
         super();

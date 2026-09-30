@@ -16,6 +16,7 @@ import openfl.display.DisplayObject;
 
 class ComboBoxObjectData extends SelectObjectData
 {
+    /** Bitmap icon displayed for this combo box item. */
     public var icon(get, set) : BitmapData;
 	
 	private var _icon:BitmapData;

@@ -6,7 +6,9 @@ typedef StackSegment = {
 }
 /** Independent positive/negative accumulation in stable series order. */
 class StackLayout {
+    /** Builds a stable key from a chart point’s series and point IDs. */
     public static function key(p:ChartPoint):String { return haxe.Json.stringify([p.seriesId,p.id]); }
+    /** Calculates positive and negative stack segments, optionally as percentages. */
     public static function calculate(points:Array<ChartPoint>,percent:Bool):Map<String,StackSegment> {
         var totals=new Map<String,{positive:Float,negative:Float}>();
         for(p in points) {

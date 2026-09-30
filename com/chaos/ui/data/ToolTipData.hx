@@ -3,7 +3,7 @@ package com.chaos.ui.data;
 
 
 /**
- * ...
+ * Stores tooltip text, appearance, and its target display object.
  * @author Erick Feiling
  */
 
@@ -11,13 +11,21 @@ import openfl.display.DisplayObject;
 
 class ToolTipData
 {
+    /** Requested tooltip width. */
     public var width(get, set) : Float;
+    /** Requested tooltip height. */
     public var height(get, set) : Float;
+    /** Text displayed in the tooltip. */
     public var text(get, set) : String;
+    /** Color of the tooltip text. */
     public var textColor(get, set) : Int;
+    /** Display object associated with this tooltip. */
     public var displayObject(get, set) : DisplayObject;
+    /** Whether the tooltip has a border. */
     public var border(get, set) : Bool;
+    /** Color of the tooltip background. */
     public var backgroundColor(get, set) : Int;
+    /** Color of the tooltip border. */
     public var borderColor(get, set) : Int;
 
     
@@ -30,6 +38,7 @@ class ToolTipData
     private var _width : Float;
     private var _height : Float;
     
+    /** Stores tooltip content, size, colors, and target display object. */
     public function new(displayObj : DisplayObject, text : String = "", width : Float = -1, height : Float = -1, textColor : Int = -1, backgroundColor : Int = -1, border : Bool = false, borderColor : Int = -1)
     {
         _displayObject = displayObj;

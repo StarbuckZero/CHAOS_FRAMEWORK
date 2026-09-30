@@ -16,7 +16,9 @@ import com.chaos.ui.layout.classInterface.IBaseContainer;
  */
 class DragContainer extends BaseContainer implements IDragContainer implements IBaseContainer implements IBaseUI {
 
+	/** Whether horizontal dragging is locked. */
 	public var lockX(get, set):Bool;
+	/** Whether vertical dragging is locked. */
 	public var lockY(get, set):Bool;
 
 	/**
@@ -50,7 +52,7 @@ class DragContainer extends BaseContainer implements IDragContainer implements I
 
 	/**
 	 * UI Component
-	 * @param	data The proprieties that you want to set on component.
+	 * @param	data Properties to apply to the component.
 	 */
 
 	public function new(data:Dynamic = null) {

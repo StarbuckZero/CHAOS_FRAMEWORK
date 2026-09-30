@@ -19,6 +19,7 @@ class ProgressSlider extends ProgressBar implements IProgressSlider implements I
 	 */
 	public var slider(get, never):ISlider;
 
+	/** Type identifier for progress sliders. */
 	public static inline var TYPE:String = "ProgressSlider";
 
 	private var _slider:Slider;
@@ -32,7 +33,7 @@ class ProgressSlider extends ProgressBar implements IProgressSlider implements I
 
 	/**
 	 * ProgressSlider
-	 * @param	data The proprieties that you want to set on component.
+	 * @param	data Properties to apply to the component.
 	 */
 	public function new(data:Dynamic = null) {
 		super(data);
@@ -44,7 +45,7 @@ class ProgressSlider extends ProgressBar implements IProgressSlider implements I
 	}
 
 	/**
-	 * Set properties based on object
+	 * Applies properties from the supplied data object
 	 * @param	data object with supported types
 	 */
 	override public function setComponentData(data:Dynamic):Void {
@@ -261,6 +262,7 @@ class ProgressSlider extends ProgressBar implements IProgressSlider implements I
 		return _slider;
 	}
 
+	/** Updates the slider display from its current progress and style. */
 	override public function draw():Void {
 		super.draw();
 

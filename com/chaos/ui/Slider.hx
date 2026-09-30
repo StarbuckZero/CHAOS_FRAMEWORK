@@ -24,6 +24,7 @@ import com.chaos.ui.UIBitmapManager;
 class Slider extends BaseUI implements ISlider implements IBaseUI
 {
 		
+	/** Event mode used when slider position changes. */
 	public static var sliderEventMode(get, set) : String;
 
     /**
@@ -118,6 +119,7 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 	
 	
 
+	/** Default offset between the slider and its track. */
 	public static var SLIDER_OFFSET : Float = 0; 
 
 	/** Does percent update check when slider is moved */  
@@ -142,7 +144,9 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 	private var _track : Shape = new Shape(); 
 	private var _marker : Button;
 	
+	/** Width of the draggable slider marker. */
 	public var sliderWidthNum : Float = 15;
+	/** Height of the draggable slider marker. */
 	public var sliderHeightNum : Float = 15;
 
 	private var _sliderOffSet : Float = 0;
@@ -159,7 +163,7 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
   
 	/**
 	 * UI Slider 
-	 * @param	data The proprieties that you want to set on component.
+	 * @param	data Properties to apply to the component.
 	 */
 	
 	public function new (data:Dynamic = null)
@@ -179,7 +183,7 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
     }
 	
 	/**
-	 * Set properties based on object
+	 * Applies properties from the supplied data object
 	 * @param	data object with supported types
 	 */
 	
@@ -470,7 +474,7 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
     } 
 	
 	/**
-	 * Remove all roll over and roll out effects while setting the slider to it's disable state
+	 * Remove all roll over and roll out effects while setting the slider to it's disabled state
 	 *
 	 * @param value Disable or Enable slider
 	 */
@@ -693,7 +697,7 @@ class Slider extends BaseUI implements ISlider implements IBaseUI
 
 	
 	/**
-	 * Set a image to the slider disable state
+	 * Set a image to the slider disabled state
 	 *
 	 * @param value Set the image based on a Bitmap being pass
 	 *

@@ -154,7 +154,7 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
 	private var _buttonGlowFilter2 : GlowFilter = new GlowFilter(0x000000, 1, 14, 14, 2, 1, false, true);
 	/**
 	 * UI Button 
-	 * @param	data The proprieties that you want to set on component.
+	 * @param	data Properties to apply to the component.
 	 */
     
     public function new(data:Dynamic = null)
@@ -169,7 +169,7 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
     }
 	
 	/**
-	 * Set properties based on object
+	 * Applies properties from the supplied data object
 	 * @param	data object with supported types
 	 */
 	
@@ -464,7 +464,7 @@ class Button extends ToggleButton implements IButton implements IToggleButton im
     }
     
     /**
-	 * Remove all roll over and roll out effects while setting button to it's disable state
+	 * Remove all roll over and roll out effects while setting button to it's disabled state
 	 */
     
 	

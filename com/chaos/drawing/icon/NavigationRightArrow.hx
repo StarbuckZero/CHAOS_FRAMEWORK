@@ -11,6 +11,7 @@ import com.chaos.ui.classInterface.IBaseUI;
 class NavigationRightArrow extends BaseIcon implements IBasicIcon implements IBaseUI
 {
     
+    /** Spacing between parts of the right-arrow icon. */
     public var space : Int = 4;
     
     /**
@@ -22,6 +23,7 @@ class NavigationRightArrow extends BaseIcon implements IBasicIcon implements IBa
         super(data);
     }
 	
+	/** Applies right-arrow spacing and inherited icon settings. */
 	override public function setComponentData(data:Dynamic):Void 
 	{
 		super.setComponentData(data);

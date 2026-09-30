@@ -57,8 +57,8 @@ interface ISelectToggle extends IToggleButton
 	function setSelectedDownStateImage( value:BitmapData ) : Void;
 	
 	/**
-	 * Set disable state
-	 * @param	value the bitmap data for disable state
+	 * Set disabled state
+	 * @param	value the bitmap data for disabled state
 	 */
 	
 	function setSelectedDisableStateImage( value:BitmapData) : Void;

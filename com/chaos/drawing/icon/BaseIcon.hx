@@ -23,12 +23,18 @@ import openfl.display.Shape;
 
 class BaseIcon extends BaseUI implements IBasicIcon implements IBaseUI
 {
+    /** Fill color of the icon shape. */
     public var baseColor(get, set) : Int;
+    /** Whether the icon border is drawn. */
     public var border(get, set) : Bool;
+    /** Color of the icon border. */
     public var borderColor(get, set) : Int;
+    /** Stroke width of the icon border. */
     public var borderThinkness(get, set) : Float;
+    /** Opacity of the icon border. */
     public var borderAlpha(get, set) : Float;
     
+    /** Whether an icon bitmap is shown. */
     public var showImage(get, set) : Bool;
 
     
@@ -58,6 +64,7 @@ class BaseIcon extends BaseUI implements IBasicIcon implements IBaseUI
 		super(data);
     }
 	
+	/** Applies icon color, border, and bitmap settings. */
 	override public function setComponentData(data:Dynamic):Void 
 	{
 		super.setComponentData(data);
@@ -80,6 +87,7 @@ class BaseIcon extends BaseUI implements IBasicIcon implements IBaseUI
 		
 	}
 	
+	/** Creates the icon display shapes. */
 	override public function initialize():Void 
 	{
 		_iconArea = new Shape();
@@ -89,6 +97,7 @@ class BaseIcon extends BaseUI implements IBasicIcon implements IBaseUI
 		addChild(_iconArea);
 	}
 	
+	/** Clears icon graphics and releases display resources. */
 	override public function destroy():Void 
 	{
 		super.destroy();

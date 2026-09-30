@@ -54,6 +54,7 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 	 */
 	public var mode(get, set):ScrollPolicy;
 
+	/** Shape used to draw the scroll pane background. */
 	public var shapeBlock:Shape;
 
 	private var _mode:ScrollPolicy = ScrollPolicy.AUTO;
@@ -88,7 +89,7 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 
 	/**
 	 * UI ScrollPane
-	 * @param	data The proprieties that you want to set on component.
+	 * @param	data Properties to apply to the component.
 	 */
 	public function new(data:Dynamic = null) {
 		super(data);
@@ -106,7 +107,7 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 	}
 
 	/**
-	 * Set properties based on object
+	 * Applies properties from the supplied data object
 	 * @param	data object with supported types
 	 */
 	override function setComponentData(data:Dynamic) {

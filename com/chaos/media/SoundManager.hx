@@ -29,6 +29,7 @@ import com.chaos.media.event.SoundStatusEvent;
 
 class SoundManager implements ISoundManager
 {
+	/** Type identifier for sound managers. */
 	public static inline var TYPE : String = "SoundManager";	
 	
 	private static inline var TASKNAME : String = "chaos_soundmanager";
@@ -701,6 +702,7 @@ class SoundManager implements ISoundManager
 		return formatTime(tempSoundChannel.position);
     }
 	
+	/** Returns the remaining sound duration formatted as minutes and seconds. */
 	public function getFormatTimeLeft(strName : String) : String 
 	{ 
 		if (null == Reflect.field(_soundObjectHolder, strName))  
@@ -1013,26 +1015,31 @@ class SoundManager implements ISoundManager
 		return (min + ":" + sec);
     }
 	
+	/** Adds a listener to the sound manager’s event dispatcher. */
 	public function addEventListener(type : String, listener : Dynamic->Void, useCapture : Bool = false, priority : Int = 0, useWeakReference : Bool = false) : Void 
 	{
 		_eventDispatcher.addEventListener(type, listener, useCapture, priority, useWeakReference);
     }
 	
+	/** Dispatches an event through the sound manager’s event dispatcher. */
 	public function dispatchEvent(event : Event) : Bool
 	{
 		return _eventDispatcher.dispatchEvent(event);
     }
 	
+	/** Checks whether the sound manager has a listener for an event type. */
 	public function hasEventListener(type : String) : Bool
 	{
 		return _eventDispatcher.hasEventListener(type);
     }
 	
+	/** Removes a listener from the sound manager’s event dispatcher. */
 	public function removeEventListener(type : String, listener : Dynamic->Void, useCapture : Bool = false) : Void
 	{
 		_eventDispatcher.removeEventListener(type, listener, useCapture);
     }
 	
+	/** Checks whether an event type can be dispatched. */
 	public function willTrigger(type : String) : Bool
 	{
 		return _eventDispatcher.willTrigger(type);
@@ -1266,6 +1273,7 @@ class SoundManager implements ISoundManager
 		return false;
     }
 	
+	/** Updates position-based panning and sound tracking for managed sounds. */
 	public function onTimerUpdate(event:TimerEvent):Void 
 	{
 		

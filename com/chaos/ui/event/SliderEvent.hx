@@ -4,6 +4,7 @@ import openfl.events.Event;
 
 class SliderEvent extends Event
 {
+    /** Slider position expressed as a percentage. */
     public var percent(get, never) : Float;
 	
 	// events 

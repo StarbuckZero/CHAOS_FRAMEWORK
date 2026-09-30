@@ -62,6 +62,7 @@ import com.chaos.utils.Utils;
     
      public var roundEdge(get, set):Int;
 
+     /** Shape used to draw the button background. */
      public var shapeBase:Shape = new Shape();
 
      private var _tintAlpha:Float = -1;
@@ -91,7 +92,7 @@ import com.chaos.utils.Utils;
  
      /**
       * UI Component 
-      * @param	data The proprieties that you want to set on component.
+      * @param	data Properties to apply to the component.
       */
      
      public function new( data:Dynamic = null )

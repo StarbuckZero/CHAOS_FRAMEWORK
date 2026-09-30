@@ -10,12 +10,17 @@ import openfl.text.TextField;
 import openfl.text.TextFormat;
 import openfl.text.TextFormatAlign;
 
-/** Shared Cartesian axes only. Concrete charts supply mark geometry and domain policies. */
+/** Calculates and renders Cartesian axes for charts with an x and y domain. */
 class CartesianChartBase extends ChartBase {
+    /** Current horizontal scale in plot-local coordinates. */
     public var xScale(get, never):ChartScale;
+    /** Current vertical scale in plot-local coordinates. */
     public var yScale(get, never):ChartScale;
+    /** Copy of the horizontal axis configuration. */
     public var xAxis(get, never):ChartAxisConfig;
+    /** Copy of the vertical axis configuration. */
     public var yAxis(get, never):ChartAxisConfig;
+    /** Number of times the data-domain scales were rebuilt. */
     public var scaleBuildCount(default, null):Int = 0;
     var horizontal:ChartScale;
     var vertical:ChartScale;
@@ -31,6 +36,7 @@ class CartesianChartBase extends ChartBase {
     var leftTitleWidth:Float;
     var bottomTitleHeight:Float;
 
+    /** Creates a Cartesian chart with optional component configuration. */
     public function new(data:Dynamic = null) { super(data); }
     override function get_chartType():String { return "CartesianChartBase"; }
     function get_xScale():ChartScale { return horizontal; }
@@ -77,6 +83,7 @@ class CartesianChartBase extends ChartBase {
             }
         }
     }
+    /** Creates the axis shape and reusable label measurement field. */
     override public function initialize():Void {
         super.initialize();
         axisShape = new Shape(); labelLayer.addChild(axisShape);
@@ -135,8 +142,11 @@ class CartesianChartBase extends ChartBase {
     }
     /** Plot-local coordinates. Unknown categories/nonfinite values return null. */
     public function valueToX(value:Dynamic):Null<Float> { return horizontal.map(value); }
+    /** Maps a y value or category ID to a plot-local coordinate. */
     public function valueToY(value:Dynamic):Null<Float> { return vertical.map(value); }
+    /** Maps a plot-local x coordinate back to a value or category ID. */
     public function xToValue(pixel:Float):Dynamic { return horizontal.invert(pixel); }
+    /** Maps a plot-local y coordinate back to a value or category ID. */
     public function yToValue(pixel:Float):Dynamic { return vertical.invert(pixel); }
     function tickLabel(tick:ChartTick,axis:ChartAxisConfig):String {
         return axis.scale == "categorical" ? tick.label : ChartFormat.format(tick.value,axis.format.kind,axis.format.decimals);
@@ -216,6 +226,7 @@ class CartesianChartBase extends ChartBase {
         }
         while (axisLabels.length > used) labelLayer.removeChild(axisLabels.pop());
     }
+    /** Releases axis graphics, labels, and cached scales. */
     override public function destroy():Void {
         if (destroyed) return;
         if (axisShape != null) axisShape.graphics.clear();

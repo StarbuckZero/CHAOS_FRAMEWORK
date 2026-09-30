@@ -2,22 +2,32 @@ package com.chaos.ui.chart;
 
 typedef ChartTick = { var value:Dynamic; var label:String; }
 
-/** Immutable domain/range calculation. No OpenFL dependency. */
+/** Maps numeric or categorical values between a data domain and a display range. */
 class ChartScale {
+    /** Largest finite value used when expanding an axis bound. */
     public static inline var MAX_VALUE:Float = 1.7976931348623157e308;
+    /** Scale type: `linear` or `categorical`. */
     public var kind(default, null):String;
+    /** Lower data-domain bound. */
     public var minimum(default, null):Float;
+    /** Upper data-domain bound. */
     public var maximum(default, null):Float;
+    /** Coordinate corresponding to the start of the range. */
     public var rangeStart(default, null):Float;
+    /** Coordinate corresponding to the end of the range. */
     public var rangeEnd(default, null):Float;
+    /** Explicit numeric tick interval, when supplied. */
     public var interval(default, null):Null<Float>;
+    /** Width of one category band in display coordinates; zero for linear scales. */
     public var bandWidth(get, never):Float;
     var entries:Array<{id:String,label:String}>;
     var indices:Map<String,Int>;
     function new() {}
+    /** Reports whether a value is a finite integer or floating-point number. */
     public static function finite(value:Dynamic):Bool {
         return (Std.isOfType(value,Int) || Std.isOfType(value,Float)) && Math.isFinite(value);
     }
+    /** Builds a numeric scale, expanding a degenerate domain and honoring explicit bounds. */
     public static function linear(values:Array<Float>, low:Null<Float> = null, high:Null<Float> = null,
         includeZero:Bool = false, interval:Null<Float> = null):ChartScale {
         if ((low != null && !finite(low)) || (high != null && !finite(high)) || (low != null && high != null && low >= high))
@@ -44,6 +54,7 @@ class ChartScale {
         scale.interval = interval; scale.rangeStart = 0; scale.rangeEnd = 1; scale.entries = []; scale.indices = new Map();
         return scale;
     }
+    /** Builds a category scale and rejects empty or duplicate category IDs. */
     public static function categorical(categories:Array<{id:String,label:String}>):ChartScale {
         var scale = new ChartScale(); scale.kind = "categorical"; scale.entries = []; scale.indices = new Map();
         for (c in categories) {
@@ -53,6 +64,7 @@ class ChartScale {
         scale.minimum = 0; scale.maximum = categories.length; scale.rangeStart = 0; scale.rangeEnd = 1;
         return scale;
     }
+    /** Returns a copy of this scale mapped to the given display coordinates. */
     public function withRange(start:Float,end:Float):ChartScale {
         if (!finite(start) || !finite(end)) throw "Invalid pixel range";
         var scale = new ChartScale(); scale.kind = kind; scale.minimum = minimum; scale.maximum = maximum;
@@ -60,6 +72,7 @@ class ChartScale {
         scale.rangeStart = start; scale.rangeEnd = end; return scale;
     }
     function get_bandWidth():Float { return kind == "categorical" && entries.length > 0 ? Math.abs(rangeEnd-rangeStart)/entries.length : 0; }
+    /** Maps a value or category ID to a coordinate, or returns null for invalid input. */
     public function map(value:Dynamic):Null<Float> {
         var ratio:Float;
         if (kind == "categorical") {
@@ -73,6 +86,7 @@ class ChartScale {
         var pixel = rangeStart*(1-ratio)+rangeEnd*ratio;
         return Math.isFinite(pixel) ? pixel : null;
     }
+    /** Maps a coordinate back to a value or category ID, or returns null if invalid. */
     public function invert(pixel:Float):Dynamic {
         if (!finite(pixel) || rangeStart == rangeEnd) return null;
         var span = rangeEnd-rangeStart;

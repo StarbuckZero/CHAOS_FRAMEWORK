@@ -28,11 +28,16 @@ import openfl.utils.ByteArray;
 
 class DisplayImage extends BaseUI implements IBaseUI
 {
+	/** Type identifier for image components. */
 	public static inline var TYPE : String = "DisplayImage";
 	
+    /** Bitmap displayed by this component. */
     public var image(get, never) : BitmapData;
+	/** Whether the image is tiled across its area. */
 	public var repeat(get, set) : Bool;
+    /** Whether the image draws while off the stage. */
     public var drawOffStage(get, set) : Bool;
+	/** Whether the image scales with the component. */
 	public var resizeImage(get, set) : Bool;
 	
 	private var _resizeImage : Bool = false;
@@ -307,6 +312,7 @@ class DisplayImage extends BaseUI implements IBaseUI
 		dispatchEvent(new DisplayImageEvent(DisplayImageEvent.IMAGE_LOADED));
 	}
 
+	/** Releases the loaded image and its display resources. */
 	public function unload():Void
 	{
 		graphics.clear();

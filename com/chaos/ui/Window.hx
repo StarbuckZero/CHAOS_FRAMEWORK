@@ -25,7 +25,7 @@ import com.chaos.ui.ScrollPolicy;
 import openfl.utils.Object;
 
 /**
- * Basic window that can display objects
+ * Window with a title bar, controls, scrollable content, and resizable frame.
  *
  * @author Erick Feiling
  * @date 5-24-19
@@ -36,162 +36,194 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 	/** Whether this window is currently focused. */
 	public var focus(get, set) : Bool;
 
+	/** Window background color while focused. */
 	public var windowFocusColor(get, set) : Int;
+	/** Window background color while unfocused. */
 	public var windowUnFocusColor(get, set) : Int;
+	/** Title area color while focused. */
 	public var windowTitleFocusColor(get, set) : Int;
+	/** Title area color while unfocused. */
 	public var windowTitleUnFocusColor(get, set) : Int;
+	/** Close button color while the window is focused. */
 	public var closeButtonFocusColor(get, set) : Int;
+	/** Close button color while the window is unfocused. */
 	public var closeButtonUnFocusColor(get, set) : Int;
+	/** Minimize button color while the window is focused. */
 	public var minButtonFocusColor(get, set) : Int;
+	/** Minimize button color while the window is unfocused. */
 	public var minButtonUnFocusColor(get, set) : Int;
+	/** Maximize button color while the window is focused. */
 	public var maxButtonFocusColor(get, set) : Int;
+	/** Maximize button color while the window is unfocused. */
 	public var maxButtonUnFocusColor(get, set) : Int;
 	
 	/**
-	 * The scroll pane being used
+	 * Scroll pane that holds window content.
 	 */
 	
     public var scrollPane(get, never) : IScrollPane;
     
 	/**
-	 * Close Button
+	 * Button that closes the window.
 	 */
 	
     public var closeButton(get, never) : IButton;
 	
 	/**
-	 * Min Button 
+	 * Button that minimizes the window.
 	 */
 	
     public var minButton(get, never) : IButton;
 	
 	/**
-	 * Max Button
+	 * Button that maximizes the window.
 	 */
 	
     public var maxButton(get, never) : IButton;
 	
 	/**
-	 * Text label being used
+	 * Label displayed in the title bar.
 	 */
 	
     public var textLabel(get, never) : ILabel;
 	
 	/**
-	 * Set the minimize width of the of the Window over all size
+	 * Minimum allowed window width.
 	 */
 	
     public var windowMinWidth(get, set) : Int;
 	
 	/**
-	 * Set the minimize height of the of the Window over all size
+	 * Minimum allowed window height.
 	 */
 	
     public var windowMinHeight(get, set) : Int;
 	
 	/**
-	 * Set if the window is resizable or not.
+	 * Whether the window can be resized.
 	 */
 	
     public var resize(get, set) : Bool;
 	
 	/**
-	 * Set the color of the window title area once the user select
+	 * Color of the window title area.
 	 */
 	
     public var windowTitleColor(get, set) : Int;
 	
 	/**
-	 * Set the color of the window
+	 * Color of the window background.
 	 */
 	
     public var windowColor(get, set) : Int;
 	
 	/**
-	 * Set the size of the top right area of the window
+	 * Size of the top-right frame segment.
 	 */
 	
     public var windowTopRightSize(get, set) : Int;
 	
 	/**
-	 * Set the top center block on the window.
+	 * Size of the top-center frame segment.
 	 */
 	
     public var windowTopMiddleSize(get, set) : Int;
 	
 	/**
-	 * Set the size of the top left area of the window
+	 * Size of the top-left frame segment.
 	 */
 	
     public var windowTopLeftSize(get, set) : Int;
 	
 	/**
-	 * Set the center block on the left and right side of the window
+	 * Size of both side frame segments.
 	 */
 	
     public var windowMiddleSize(get, set) : Int;
 	
 	/**
-	 * Set the size of the bottom right area of the window
+	 * Size of the bottom-right frame segment.
 	 */
 	
     public var windowBottomRightSize(get, set) : Int;
 	
 	/**
-	 * Set the size of the bottom middle area of the window
+	 * Size of the bottom-center frame segment.
 	 */
 	
     public var windowBottomMiddleSize(get, set) : Int;
 	
 	/**
-	 * Set the size of the bottom left area of the window
+	 * Size of the bottom-left frame segment.
 	 */
 	
     public var windowBottomLeftSize(get, set) : Int;
 	
 	/**
-	 * Set where the window icon will be placed. The icon can only be placed on the left or right side. If there are buttons on the side selected they'll be shift to the other side of the window.
-	 * For example if you set the window icon to the left side the buttons will be displayed on the right side.
+	 * Places the icon on the left or right of the title bar; buttons move to the opposite side.
 	 */
 	
     public var iconLocation(get, set) : String;
 	
 	/**
-	 * Set where to place the label on the window. The default is center but can be placed left or right as well.
+	 * Position of the title label: left, center, or right.
 	 */
 	
     public var labelLocation(get, set) : String;
 	
 	/**
-	 * Set where the buttons will be placed. The button(s) can only be placed on the left or right side. If there is a icon on the side selected it will be shift to the other side of the window.
-	 * For example if you set the window icon to the left side the buttons will be displayed on the right side. Can only passed "left" or "right" as a value.
+	 * Places the title-bar buttons on the left or right, opposite the icon when needed.
 	 */
 	
     public var buttonLocation(get, set) : String;
 	
+	/** Initial window width in pixels. */
 	public static var WINDOW_DEFAULT_WIDTH : Int = 320;
+	/** Initial window height in pixels. */
 	public static var WINDOW_DEFAULT_HEIGHT : Int = 320;
+	/** Default minimum window width in pixels. */
 	public static var WINDOW_MIN_WIDTH : Int = 100;
+	/** Default minimum window height in pixels. */
 	public static var WINDOW_MIN_HEIGHT : Int = 100;
+	/** Default size used for square window controls. */
 	public static var WINDOW_SQUARE_SIZE : Int = 100;
+	/** Default size of a title-bar button. */
 	public static var WINDOW_BUTTON_SIZE : Int = 15;
+	/** Horizontal offset of title-bar buttons. */
 	public static var WINDOW_BUTTON_OFFSET_X : Float = 2;
+	/** Vertical offset of title-bar buttons. */
 	public static var WINDOW_BUTTON_OFFSET_Y : Float = 2;
+	/** Default size of the top-right frame segment. */
 	public static var WINDOW_TOP_RIGHT_SIZE : Int = 20;
+	/** Default size of the top-center frame segment. */
 	public static var WINDOW_TOP_MIDDLE_SIZE : Int = 20;
+	/** Default size of the top-left frame segment. */
 	public static var WINDOW_TOP_LEFT_SIZE : Int = 20;
+	/** Horizontal offset of the window icon. */
 	public static var WINDOW_ICON_OFFSET_X : Float = 2;
+	/** Vertical offset of the window icon. */
 	public static var WINDOW_ICON_OFFSET_Y : Float = 2;
+	/** Default size of the side frame segments. */
 	public static var WINDOW_MIDDLE_SIZE : Int = 5;
+	/** Spacing around title-bar buttons. */
 	public static var WINDOW_BUTTON_OFFSET : Int = 2;
+	/** Default size of the bottom-right frame segment. */
 	public static var WINDOW_BOTTOM_RIGHT_SIZE : Int = 20;
+	/** Default size of the bottom-center frame segment. */
 	public static var WINDOW_BOTTOM_MIDDLE_SIZE : Int = 20;
+	/** Default size of the bottom-left frame segment. */
 	public static var WINDOW_BOTTOM_LEFT_SIZE : Int = 20;
+	/** Horizontal offset of the title text. */
 	public static var TEXT_OFFSET_X : Int = 0;
+	/** Vertical offset of the title text. */
 	public static var TEXT_OFFSET_Y : Int = 0;
+	/** Default close button color. */
 	public static var DEFAULT_CLOSE_BTN_COLOR : Int = 0xFF0000;
+	/** Default maximize button color. */
 	public static var DEFAULT_MAX_BTN_COLOR : Int = 0x00FF00;
+	/** Default minimize button color. */
 	public static var DEFAULT_MIN_BTN_COLOR : Int = 0x00000FF;
+	/** Drag hit-area offset at the bottom-right corner. */
 	public static var BOTTOM_RIGHT_DRAG_OFFSET : Int = 10;
 	
 	// Initializes the Sprite that will be used to contain the window pieces  
@@ -324,6 +356,7 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 		
     }
 	
+	/** Applies window focus, color, layout, sizing, and child component settings. */
 	override public function setComponentData(data:Dynamic):Void 
 	{
 		super.setComponentData(data);
@@ -461,6 +494,7 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 		UIBitmapManager.stopWatchElement(UIBitmapType.Window, this);
     }
 	
+	/** Builds the scroll pane, title, buttons, skin pieces, and interaction listeners. */
 	override public function initialize():Void 
 	{
 		// Send instance of self to the Event Dispatcher 
@@ -588,6 +622,7 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 		applyFocusState();
 	}
 	
+	/** Detaches listeners and removes window children and skin assets. */
 	override public function destroy():Void 
 	{
 		super.destroy();
@@ -1031,7 +1066,7 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 	private function get_maxButtonUnFocusColor():Int { return _maxButtonUnFocusColor; }
 	
 	/**
-	 * The scroll pane being used
+	 * Returns the scroll pane containing window content.
 	 */  
 	
 	private function get_scrollPane() : IScrollPane 
@@ -1040,7 +1075,7 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 	}
 	
 	/**
-	 * Return the text label being used
+	 * Returns the title-bar label.
 	 */
 	private function get_textLabel() : ILabel 
 	{
@@ -1048,7 +1083,7 @@ class Window extends BaseUI implements IWindow implements IBaseUI
     }
 	 
 	/**
-	 * Set the minimize width of the of the Window over all size
+	 * Sets the minimum allowed window width.
 	 */
 	
 	private function set_windowMinWidth(value : Int) : Int 
@@ -1059,7 +1094,7 @@ class Window extends BaseUI implements IWindow implements IBaseUI
     }
 	
 	/**
-	 * Returns the minimize width the window can be set to
+	 * Returns the minimum allowed window width.
 	 */
 	
 	private function get_windowMinWidth() : Int 
@@ -1068,7 +1103,7 @@ class Window extends BaseUI implements IWindow implements IBaseUI
     }
 	
 	/**
-	 * Set the minimize height of the of the Window over all size
+	 * Sets the minimum allowed window height.
 	 */
 	
 	private function set_windowMinHeight(value : Int) : Int 
@@ -1079,7 +1114,7 @@ class Window extends BaseUI implements IWindow implements IBaseUI
     }
 	
 	/**
-	 * Returns the minimize height the window can be set to
+	 * Returns the minimum allowed window height.
 	 */  
 	private function get_windowMinHeight() : Int 
 	{
@@ -1087,7 +1122,7 @@ class Window extends BaseUI implements IWindow implements IBaseUI
     } 
 	
 	/**
-	 * Set if the window is resizable or not.
+	 * Sets whether the window can be resized.
 	 */
 	private function set_resize(value : Bool) : Bool
 	{
@@ -1096,7 +1131,7 @@ class Window extends BaseUI implements IWindow implements IBaseUI
     }
 	
 	/**
-	 * Return if the window is resizable or not
+	 * Returns whether the window can be resized.
 	 */
 	private function get_resize() : Bool
 	{
@@ -1120,7 +1155,7 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 	
 	
 	/**
-	 * Set the color of the window title area once the user select
+	 * Sets the window title area color.
 	 */
 	private function set_windowTitleColor(value : Int) : Int 
 	{
@@ -1130,7 +1165,7 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 	}
 	
 	/**
-	 * Return the color of the window
+	 * Returns the window title area color.
 	 */  
 	
 	private function get_windowTitleColor() : Int
@@ -1141,7 +1176,7 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 
 	
 	/**
-	 * Set the color of the window which is
+	 * Sets the window background color.
 	 */  
 	
 	private function set_windowColor(value : Int) : Int 
@@ -1152,7 +1187,7 @@ class Window extends BaseUI implements IWindow implements IBaseUI
     }
 	
 	/**
-	 * Return the color of the window
+	 * Returns the window background color.
 	 */
 	
 	private function get_windowColor() : Int
@@ -1163,7 +1198,7 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 
 	
 	/**
-	 * Set the size of the top right area of the window.
+	 * Sets the size of the top-right frame segment.
 	 */
 	
 	private function set_windowTopRightSize(value : Int) : Int
@@ -1174,7 +1209,7 @@ class Window extends BaseUI implements IWindow implements IBaseUI
     }
 	
 	/**
-	 * Return the window top right size.
+	 * Returns the size of the top-right frame segment.
 	 */  
 	
 	private function get_windowTopRightSize() : Int 
@@ -1183,7 +1218,7 @@ class Window extends BaseUI implements IWindow implements IBaseUI
     }
 	
 	/**
-	 * Set the top center block on the window.
+	 * Sets the size of the top-center frame segment.
 	 */  
 	
 	private function set_windowTopMiddleSize(value : Int) : Int
@@ -1194,7 +1229,7 @@ class Window extends BaseUI implements IWindow implements IBaseUI
     }
 	
 	/**
-	 * Return the window top right size.
+	 * Returns the size of the top-center frame segment.
 	 */
 	
 	private function get_windowTopMiddleSize() : Int 
@@ -1203,7 +1238,7 @@ class Window extends BaseUI implements IWindow implements IBaseUI
     }
 	
 	/**
-	 * Set the size of the top left area of the window
+	 * Sets the size of the top-left frame segment.
 	 */ 
 	
 	private function set_windowTopLeftSize(value : Int) : Int 
@@ -1214,7 +1249,7 @@ class Window extends BaseUI implements IWindow implements IBaseUI
     }
 	
 	/**
-	 * Return the window top left size.
+	 * Returns the size of the top-left frame segment.
 	 */ 
 	
 	private function get_windowTopLeftSize() : Int 
@@ -1223,7 +1258,7 @@ class Window extends BaseUI implements IWindow implements IBaseUI
     }
 	
 	/**
-	 * Set the center block on the left and right side of the window
+	 * Sets the size of both side frame segments.
 	 */ 
 	private function set_windowMiddleSize(value : Int) : Int
 	{
@@ -1233,7 +1268,7 @@ class Window extends BaseUI implements IWindow implements IBaseUI
     } 
 	
 	/**
-	 * Return the window middle block size. This is the size for both the left and right side of the window.
+	 * Returns the size of both side frame segments.
 	 */ 
 	
 	private function get_windowMiddleSize() : Int
@@ -1242,7 +1277,7 @@ class Window extends BaseUI implements IWindow implements IBaseUI
     }
 	
 	/**
-	 * Set the size of the bottom right area of the window
+	 * Sets the size of the bottom-right frame segment.
 	 */
 	
 	private function set_windowBottomRightSize(value : Int) : Int 
@@ -1253,7 +1288,7 @@ class Window extends BaseUI implements IWindow implements IBaseUI
     }  
 	
 	/**
-	 * Return the window bottom right size.
+	 * Returns the size of the bottom-right frame segment.
 	 */
 	
 	private function get_windowBottomRightSize() : Int 
@@ -1262,7 +1297,7 @@ class Window extends BaseUI implements IWindow implements IBaseUI
     }  
 	
 	/**
-	 * Set the size of the bottom middle area of the window
+	 * Sets the size of the bottom-center frame segment.
 	 */ 
 	
 	private function set_windowBottomMiddleSize(value : Int) : Int 
@@ -1273,7 +1308,7 @@ class Window extends BaseUI implements IWindow implements IBaseUI
     }
 	
 	/**
-	 * Return the window bottom middle size
+	 * Returns the size of the bottom-center frame segment.
 	 */  
 	private function get_windowBottomMiddleSize() : Int
 	{
@@ -1281,7 +1316,7 @@ class Window extends BaseUI implements IWindow implements IBaseUI
     }  
 	
 	/**
-	 * Set the size of the bottom left area of the window
+	 * Sets the size of the bottom-left frame segment.
 	 */  
 	private function set_windowBottomLeftSize(value : Int) : Int 
 	{
@@ -1291,7 +1326,7 @@ class Window extends BaseUI implements IWindow implements IBaseUI
     } 
 	
 	/**
-	 * Return the window bottom middle size.
+	 * Returns the size of the bottom-left frame segment.
 	 */  
 	private function get_windowBottomLeftSize() : Int
 	{
@@ -1299,8 +1334,7 @@ class Window extends BaseUI implements IWindow implements IBaseUI
     }
 	
 	/**
-	 * Set where the window icon will be placed. The icon can only be placed on the left or right side. If there are buttons on the side selected they'll be shift to the other side of the window.
-	 * For example if you set the window icon to the left side the buttons will be displayed on the right side.
+	 * Places the icon on the left or right of the title bar; buttons move to the opposite side.
 	 */
 	
 	private function set_iconLocation(value : String) : String 
@@ -1321,7 +1355,7 @@ class Window extends BaseUI implements IWindow implements IBaseUI
     }
 	
 	/**
-	 * Return where the icon is or will be placed on the window
+	 * Returns the icon's position in the title bar.
 	 */
 	
 	private function get_iconLocation() : String 
@@ -1330,7 +1364,7 @@ class Window extends BaseUI implements IWindow implements IBaseUI
     }
 	
 	/**
-	 * Set where to place the label on the window. The default is center but can be placed left or right as well.
+	 * Sets the title label position to left, center, or right.
 	 */ 
 	private function set_labelLocation(value : String) : String 
 	{
@@ -1340,7 +1374,7 @@ class Window extends BaseUI implements IWindow implements IBaseUI
     }
 	
 	/**
-	 * Return where the label is being placed
+	 * Returns the title label position.
 	 */
 	private function get_labelLocation() : String 
 	{
@@ -1348,8 +1382,7 @@ class Window extends BaseUI implements IWindow implements IBaseUI
     } 
 	
 	/**
-	 * Set where the buttons will be placed. The button(s) can only be placed on the left or right side. If there is a icon on the side selected it will be shift to the other side of the window.
-	 * For example if you set the window icon to the left side the buttons will be displayed on the right side. Can only passed "left" or "right" as a value.
+	 * Places title-bar buttons on the left or right, opposite the icon when needed.
 	 */  
 	private function set_buttonLocation(value : String) : String
 	{  
@@ -1369,7 +1402,7 @@ class Window extends BaseUI implements IWindow implements IBaseUI
     }
 	
 	/**
-	 * Return where the button(s) are or will be placed on the window
+	 * Returns the title-bar button position.
 	 */
 	private function get_buttonLocation() : String
 	{
@@ -1378,11 +1411,12 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 	
 
 	/**
-	 * Set the window icon by using an image based on a URL
+	 * Sets the window icon from bitmap data.
 	 *
-	 * @param value The bitmap you want to use for the icon
+	 * @param image Bitmap to draw as the icon, or null to clear it.
+	 * @param location Side of the title bar: `left` or `right`.
 	 *
-	 * @example myWindow.setIconBitmap("myIcon", "left");
+	 * @example myWindow.setIcon(iconBitmap, "left");
 	 *
 	 */ 
 	
@@ -1402,7 +1436,7 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 		
     }
 	
-	/* Setup and draw window on stage */ 
+	/** Draws the frame pieces and updates the window layout. */
 	override public function draw() : Void 
 	{ 
 		super.draw();  
@@ -1431,9 +1465,9 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 	
 
 	/**
-	 * Set if the ScrollPane is enabled
+	 * Sets whether the window's scroll pane is enabled.
 	 *
-	 * @param value Set to true if you want the ScrollPane to be enabled and false if not
+	 * @param value Whether window controls and scrolling should be enabled.
 	 */
 	
 	override function set_enabled(value : Bool) : Bool
@@ -1456,9 +1490,9 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 
 	
 	/**
-	 * This set an image to the upper top left corner of the window based on a bitmap
+	 * Sets the fill color used by the bottom frame segments.
 	 *
-	 * @param value The bitmap image you want to use
+	 * @param value Bottom frame fill color.
 	 *
 	 */  
 	
@@ -1466,6 +1500,7 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 		_windowBottomColor = value;
 	}
 
+	/** Replaces the bitmap tiled across the window's top section. */
 	public function setWindowTopPatternImage(value:BitmapData):Void {
 		if (_imageTopPattern != null && _imageTopPattern.parent != null)
 			_imageTopPattern.parent.removeChild(_imageTopPattern);
@@ -1473,6 +1508,7 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 		if (_imageTopPattern != null) { addChildAt(_imageTopPattern, getChildIndex(_windowTitle)); }
 	}
 
+	/** Replaces the bitmap tiled across the window's middle section. */
 	public function setWindowMiddlePatternImage(value:BitmapData):Void {
 		if (_imageMiddlePattern != null && _imageMiddlePattern.parent != null)
 			_imageMiddlePattern.parent.removeChild(_imageMiddlePattern);
@@ -1480,6 +1516,7 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 		if (_imageMiddlePattern != null) { addChildAt(_imageMiddlePattern, getChildIndex(_windowTitle)); }
 	}
 
+	/** Replaces the bitmap tiled across the window's bottom section. */
 	public function setWindowBottomPatternImage(value:BitmapData):Void {
 		if (_imageBottomPattern != null && _imageBottomPattern.parent != null)
 			_imageBottomPattern.parent.removeChild(_imageBottomPattern);
@@ -1487,13 +1524,14 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 		if (_imageBottomPattern != null) { addChildAt(_imageBottomPattern, getChildIndex(_windowTitle)); }
 	}
 
+	/** Stores the bitmap used for the top-left window frame segment. */
 	public function setWindowTopLeftImage(value : BitmapData) : Void 
 	{
 		_windowTopLeftImage = value;
     }
 	
 	/**
-	 * This set an image to the middle of the window based on a bitmap
+	 * Sets the bitmap for the window's top-center frame segment.
 	 *
 	 * @param value The bitmap image you want to use
 	 *
@@ -1504,7 +1542,7 @@ class Window extends BaseUI implements IWindow implements IBaseUI
     }
 	
 	/**
-	 * This set an image to the upper top right corner of the window based on a bitmap
+	 * Sets the bitmap for the window's top-right frame segment.
 	 *
 	 * @param value The bitmap image you want to use
 	 *
@@ -1516,7 +1554,7 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 
 	
 	/**
-	 * This set an image to the right side of the window based on a bitmap
+	 * Sets the bitmap for the window's right frame segment.
 	 *
 	 * @param value The bitmap image you want to use
 	 *
@@ -1529,7 +1567,7 @@ class Window extends BaseUI implements IWindow implements IBaseUI
     }
 	
 	/**
-	 * This set an image to the left side of the window based on a bitmap
+	 * Sets the bitmap for the window's left frame segment.
 	 *
 	 * @param value The bitmap image you want to use
 	 */  
@@ -1540,7 +1578,7 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 	
 	
 	/**
-	 * This set an image to the bottom lower left corner of the window based on a bitmap
+	 * Sets the bitmap for the window's bottom-left frame segment.
 	 *
 	 * @param value The bitmap image you want to use
 	 *
@@ -1552,7 +1590,7 @@ class Window extends BaseUI implements IWindow implements IBaseUI
     }
 	
 	/**
-	 * This set an image to the bottom mid area of the window based on a bitmap
+	 * Sets the bitmap for the window's bottom-center frame segment.
 	 *
 	 * @param value The bitmap image you want to use
 	 *
@@ -1563,7 +1601,7 @@ class Window extends BaseUI implements IWindow implements IBaseUI
     }
 	
 	/**
-	 * This set an image to the bottom lower right corner of the window based on a bitmap
+	 * Sets the bitmap for the window's bottom-right frame segment.
 	 *
 	 * @param value The bitmap image you want to use
 	 *
@@ -1583,7 +1621,7 @@ class Window extends BaseUI implements IWindow implements IBaseUI
 		stopDrag();
     } 
 	
-	/* Scales and sizes the window
+	/** Sizes the window frame, title bar, controls, and content area.
 	 *
 	 * @param inWidth The width of the window
 	 * @param inHeight The height of the window

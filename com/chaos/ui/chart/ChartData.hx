@@ -2,14 +2,17 @@ package com.chaos.ui.chart;
 
 import com.chaos.ui.chart.ChartTypes;
 
-/** Shared input handling; axes and family-specific geometry live in later phases. */
+/** Validates, copies, and normalizes chart configuration and data points. */
 class ChartData {
+    /** Reports whether a value is a finite integer or floating-point number. */
     public static function finite(value:Dynamic):Bool {
         return (Std.isOfType(value, Int) || Std.isOfType(value, Float)) && Math.isFinite(value);
     }
+    /** Reports whether a value is a non-null anonymous object. */
     public static function object(value:Dynamic):Bool {
         return value != null && Type.typeof(value) == TObject;
     }
+    /** Appends a structured validation diagnostic to the supplied list. */
     public static function diagnostic(list:Array<ChartDiagnostic>, code:String, path:String, message:String):Void {
         list.push({code:code, path:path, message:message});
     }
@@ -60,6 +63,7 @@ class ChartData {
         if (!Std.isOfType(value, Array)) throw "Expected array at " + field;
         return cast value;
     }
+    /** Applies a chart patch, validates record IDs, and normalizes points when needed. */
     public static function normalize(previous:Dynamic, patch:Dynamic, cachedPoints:Array<ChartPoint> = null):ChartNormalization {
         var diagnostics:Array<ChartDiagnostic> = [];
         var result:ChartNormalization = {config:previous, points:[], diagnostics:diagnostics, accepted:false};
@@ -102,6 +106,7 @@ class ChartData {
         }
         return result;
     }
+    /** Converts configured observations and series into normalized chart points. */
     public static function points(config:Dynamic, diagnostics:Array<ChartDiagnostic>):Array<ChartPoint> {
         var output:Array<ChartPoint> = [];
         var categories = records(config, "categories");

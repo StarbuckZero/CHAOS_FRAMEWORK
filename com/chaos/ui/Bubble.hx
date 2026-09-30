@@ -111,6 +111,7 @@ class Bubble extends Overlay implements IBubble implements IOverlay implements I
     public var tailAutoCenter(get, set) : Bool;
 
     
+    /** Sprite that holds the bubble content. */
     public var contentHolder : Sprite = new Sprite();
     
     private var _backgroundColor : Int = 0xFFFFFF;
@@ -144,7 +145,7 @@ class Bubble extends Overlay implements IBubble implements IOverlay implements I
     
 	/**
 	 * UI Component 
-	 * @param	data The proprieties that you want to set on component.
+	 * @param	data Properties to apply to the component.
 	 */
 	
     public function new(data:Dynamic = null)

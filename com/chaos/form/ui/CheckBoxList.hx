@@ -20,6 +20,7 @@ class CheckBoxList extends CheckBoxGroup implements IFormUI implements IAlignmen
 {
     private var id : Int = 0;
     
+    /** Creates a checkbox list with optional component data. */
     public function new(data:Dynamic = null)
     {
         super(data);

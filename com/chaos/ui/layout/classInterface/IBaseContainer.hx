@@ -3,7 +3,7 @@ package com.chaos.ui.layout.classInterface;
 
 
 /**
- * ...
+ * Defines the content and layout behavior shared by UI containers.
  * @author Erick Feiling
  */
 

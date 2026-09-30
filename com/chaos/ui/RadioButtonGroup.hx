@@ -29,7 +29,7 @@ class RadioButtonGroup extends HorizontalContainer implements IRadioButtonGroup 
     
 	/**
 	 * RadioButtonGroup
-	 * @param	data The proprieties that you want to set on component.
+	 * @param	data Properties to apply to the component.
 	 */	
     
     public function new(data:Dynamic = null)
@@ -38,12 +38,13 @@ class RadioButtonGroup extends HorizontalContainer implements IRadioButtonGroup 
     }
 	
 	/**
-	 * Set properties based on object
+	 * Applies properties from the supplied data object
 	 * @param	data object with supported types
 	 */
 	
 	private var _selectionData:SelectionGroupData;
 
+	/** Updates radio button group settings and reconciles its child controls. */
 	override public function setComponentData(data:Dynamic):Void
 	{
         if (data == null) return;
@@ -143,6 +144,7 @@ class RadioButtonGroup extends HorizontalContainer implements IRadioButtonGroup 
 		
     }
 	
+	/** Redraws the radio button group and its selected state. */
 	override public function draw():Void 
 	{
 		super.draw();
@@ -180,6 +182,7 @@ class RadioButtonGroup extends HorizontalContainer implements IRadioButtonGroup 
         }
     }
     
+    /** Dispatches a change event when the radio selection changes. */
     public function onChange(event : MouseEvent) : Void
     {
         displayObject.dispatchEvent(new Event(Event.CHANGE));

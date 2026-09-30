@@ -11,8 +11,11 @@ import haxe.Constraints.Function;
 
 class AlertObjectData 
 {
+	/** Window displaying this alert. */
 	public var window(get, never) : IWindow;
+	/** Buttons attached to this alert. */
 	public var buttonList(get, never) : Array<IButton>;
+	/** Callback invoked for an alert action. */
 	public var callBack(get, never) : Dynamic;
 	
 	

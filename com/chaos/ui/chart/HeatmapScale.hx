@@ -1,5 +1,6 @@
 package com.chaos.ui.chart;
 class HeatmapScale {
+    /** Interpolates a color across the low, midpoint, and high values. */
     public static function color(value:Float,min:Float,mid:Float,max:Float,low:Int,center:Int,high:Int):Int {
         if(min==max) return center;
         if(value<=min) return low; if(value>=max) return high;

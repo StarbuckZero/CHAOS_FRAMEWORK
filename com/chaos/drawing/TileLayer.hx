@@ -28,11 +28,17 @@ import com.chaos.ui.classInterface.IBaseUI;
 
 class TileLayer extends BaseUI implements IBaseUI
 {
+    /** Prefix used to resolve tile image assets. */
     public var assetPrefix(get, set) : String;
+    /** Whether tile assets are loaded only when needed. */
     public var lazyLoading(get, never) : Bool;
+    /** Whether loaded tile bitmaps are cached. */
     public var enableCaching(get, set) : Bool;
+    /** Index of the first visible tile. */
     public var index(get, set) : Int;
+    /** Number of extra tiles kept around the visible area. */
     public var tileBufferAmount(get, set) : Int;
+    /** Whether the layer is clipped to a mask. */
     public var useMask(get, set) : Bool;
 
     private var _tileData:Dynamic;
@@ -85,9 +91,12 @@ class TileLayer extends BaseUI implements IBaseUI
 
     private var _tileLoadCount:Int = 0;
 
+    /** Callback invoked before the layer draws into its shape. */
     public var beforeDraw: Shape->Void;
+    /** Callback invoked after the layer draws into its shape. */
     public var afterDraw: Shape->Void;
 
+    /** Creates a tiled image layer with optional component data. */
     public function new(data:Dynamic = null)
     {
         super(data);
@@ -219,6 +228,7 @@ class TileLayer extends BaseUI implements IBaseUI
         _tileMapData = null;
     }
 
+    /** Moves the visible tile index left when possible and optionally redraws. */
     public function left( redraw:Bool = true ) {
 
         if(_index > (_mapHeight * _colIndex))
@@ -228,6 +238,7 @@ class TileLayer extends BaseUI implements IBaseUI
             draw();
     }
 
+    /** Moves the visible tile index right when possible and optionally redraws. */
     public function right( redraw:Bool = true ) {
 
         if(_index < (_mapWidth * (_colIndex + 1)) - _row)
@@ -237,6 +248,7 @@ class TileLayer extends BaseUI implements IBaseUI
             draw();
     }
 
+    /** Moves the visible tile index up one row when possible and optionally redraws. */
     public function up( redraw:Bool = true ) {
 
         if(_index >= _mapHeight) {
@@ -248,6 +260,7 @@ class TileLayer extends BaseUI implements IBaseUI
             draw();
     }
 
+    /** Moves the visible tile index down one row when possible and optionally redraws. */
     public function down( redraw:Bool = true ) { 
 
         if(_index < (_layerLength - _mapHeight)) {

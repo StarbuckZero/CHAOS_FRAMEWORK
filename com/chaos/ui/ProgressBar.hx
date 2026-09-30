@@ -26,6 +26,7 @@ import com.chaos.ui.UIBitmapManager;
 class ProgressBar extends BaseUI implements IProgressBar implements IBaseUI
 {
 
+	/** Type identifier for progress bars. */
 	public static inline var TYPE : String = "ProgressBar";
 
 	/**
@@ -148,7 +149,7 @@ class ProgressBar extends BaseUI implements IProgressBar implements IBaseUI
 
 	/**
 	 * UI Component 
-	 * @param	data The proprieties that you want to set on component.
+	 * @param	data Properties to apply to the component.
 	 */
 	
 	public function new(data:Dynamic = null)
@@ -161,7 +162,7 @@ class ProgressBar extends BaseUI implements IProgressBar implements IBaseUI
 	}
 
 	/**
-	 * Set properties based on object
+	 * Applies properties from the supplied data object
 	 * @param	data object with supported types
 	 */
 	
@@ -589,7 +590,7 @@ class ProgressBar extends BaseUI implements IProgressBar implements IBaseUI
 	private function get_textLoadColor() : Int { return _loadedLabel.textColor; }
 
 	/**
-	 * This is for setting an image to the ProgressBar. It is best to set an image that can be tile.
+	 * Sets an image for the ProgressBar. It is best to set an image that can be tiled.
 	 *
 	 * @param value Set the image based on a Bitmap being pass
 	 *
@@ -601,7 +602,7 @@ class ProgressBar extends BaseUI implements IProgressBar implements IBaseUI
 	}
 
 	/**
-	 * This is for setting an image to the ProgressBar loaded background. It is best to set an image that can be tile.
+	 * Sets an image for the ProgressBar loaded background. It is best to set an image that can be tiled.
 	 *
 	 * @param value Set the image based on a Bitmap being pass
 	 *

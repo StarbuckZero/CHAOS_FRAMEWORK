@@ -13,7 +13,9 @@ import openfl.display.BitmapData;
 
 class ItemPaneObjectData extends SelectObjectData
 {
+    /** Bitmap representing this pane item. */
     public var item(get, set) : BitmapData;
+    /** Bitmap icon displayed for this pane item. */
     public var icon(get, set) : BitmapData;
     
     private var _item : BitmapData = null;

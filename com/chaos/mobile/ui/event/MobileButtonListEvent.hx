@@ -4,7 +4,7 @@ import openfl.events.Event;
 import com.chaos.mobile.ui.MobileButton;
 
 /**
- * ...
+ * Reports an interaction with a mobile button.
  * @author Erick Feiling
  */
 
@@ -32,19 +32,23 @@ class MobileButtonListEvent extends Event
      
     public static inline var CHANGE : String = "change";
 
+    /** Mobile button associated with the event. */
     public var button : MobileButton;
     
+    /** Creates an event for a mobile button. */
     public function new(type : String, button : MobileButton, bubbles : Bool = false, cancelable : Bool = false)
     {
         super(type, bubbles, cancelable);
         this.button = button;
     }
     
+    /** Returns a copy with the same mobile button. */
     override public function clone() : MobileButtonListEvent
     {
         return new MobileButtonListEvent(type, button, bubbles, cancelable);
     }
     
+    /** Formats the inherited event fields. */
     override public function toString() : String
     {
         return formatToString("MobileButtonListEvent", "type", "bubbles", "cancelable", "eventPhase");

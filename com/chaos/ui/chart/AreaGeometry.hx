@@ -2,6 +2,7 @@ package com.chaos.ui.chart;
 import openfl.geom.Point;
 /** Clip closed fill polygons to a rectangle without moving their zero baseline. */
 class AreaGeometry {
+    /** Clips a polygon to the supplied rectangular bounds. */
     public static function clip(input:Array<Point>,left:Float,top:Float,right:Float,bottom:Float):Array<Point> {
         var output=input;
         for(edge in 0...4) {
@@ -22,6 +23,7 @@ class AreaGeometry {
         }
         return output;
     }
+    /** Draws a closed polygon when at least three vertices are present. */
     public static function draw(g:openfl.display.Graphics,polygon:Array<Point>):Void {
         if(polygon.length<3) return;
         g.moveTo(polygon[0].x,polygon[0].y); for(i in 1...polygon.length) g.lineTo(polygon[i].x,polygon[i].y); g.lineTo(polygon[0].x,polygon[0].y);

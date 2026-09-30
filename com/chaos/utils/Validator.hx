@@ -7,6 +7,7 @@ package com.chaos.utils;
 class Validator
 {
 
+	/** Creates a validator helper. */
 	public function new()
 	{
 

@@ -6,15 +6,20 @@ import openfl.text.TextFormat;
 import com.chaos.ui.UIStyleManager;
 typedef HeatCell={var rowId:String; var columnId:String; var value:Null<Float>; var color:Int; var bounds:Rectangle;}
 class Heatmap extends CartesianChartBase {
+    /** Type identifier for heatmaps. */
     public static inline var TYPE:String="Heatmap";
+    /** Copies of the currently rendered heatmap cells. */
     public var cells(get,never):Array<HeatCell>;
+    /** Current minimum, midpoint, and maximum values for color mapping. */
     public var colorDomain(get,never):Dynamic;
+    /** Number of cached cell textures. */
     public var cellTextureCount(get,never):Int;
     var rendered:Array<HeatCell>;
     var minimum:Float=0; var midpoint:Float=0.5; var maximum:Float=1;
     var textures:Map<String,ChartTexture>;
     var cellLabels:Array<TextField>;
     var scaleLabels:Array<TextField>;
+    /** Creates a heatmap with optional configuration. */
     public function new(data:Dynamic=null) { super(data); }
     override function get_chartType():String { return TYPE; }
     function get_cells():Array<HeatCell> { return [for(c in rendered) {rowId:c.rowId,columnId:c.columnId,value:c.value,color:c.color,bounds:c.bounds.clone()}]; }
@@ -22,6 +27,7 @@ class Heatmap extends CartesianChartBase {
     function get_cellTextureCount():Int { var n=0; for(_ in textures) n++; return n; }
     function ensureHeatmap():Void { if(rendered==null) rendered=[]; if(textures==null) textures=new Map(); if(cellLabels==null) cellLabels=[]; }
     override function defaultAxisScale(axis:String):String { return "categorical"; }
+    /** Initializes row, column, cell, and color defaults. */
     override public function initialize():Void {
         ensureHeatmap(); super.initialize();
         for(field in ["rows","columns","data"]) if(!Reflect.hasField(config,field)) Reflect.setField(config,field,[]);
@@ -56,6 +62,7 @@ class Heatmap extends CartesianChartBase {
         if(low>high || (low==high?mid!=low:mid<=low || mid>=high)) { ChartData.diagnostic(result.diagnostics,"structure","colorScale","Require min < mid < max, or a constant domain"); return false; }
         minimum=low; midpoint=mid; maximum=high; result.points=valid; return true;
     }
+    /** Maps a numeric value to the current heatmap color gradient. */
     public function valueColor(value:Float):Int { return HeatmapScale.color(value,minimum,midpoint,maximum,config.minColor,config.midColor,config.maxColor); }
     override function legendItems():Array<Dynamic> { return [{id:"min"},{id:"mid"},{id:"max"}]; }
     override function drawLabels():Void {
@@ -96,8 +103,10 @@ class Heatmap extends CartesianChartBase {
     }
     function useTexture(key:String):ChartTexture { if(!textures.exists(key)) { var t=new ChartTexture(); textures.set(key,t); t.load(key,textureResolver,function(){invalidateChart(false);draw();},function(message){issues=issues.filter(d->d.path!="cell.texture["+key+"]");ChartData.diagnostic(issues,"texture","cell.texture["+key+"]",message);invalidateChart(false);draw();}); } return textures.get(key); }
     function releaseTextures():Void { ensureHeatmap(); for(t in textures) t.destroy(); textures=new Map(); }
+    /** Releases cached cell textures before applying shared styles. */
     override public function reskin():Void { releaseTextures(); super.reskin(); }
     override function set_textureResolver(value:ChartTextureResolver):ChartTextureResolver { if(!destroyed) releaseTextures(); return super.set_textureResolver(value); }
+    /** Releases cell textures, labels, and rendered cell data. */
     override public function destroy():Void { if(destroyed) return; releaseTextures(); rendered=[]; cellLabels=[]; scaleLabels=[]; super.destroy(); }
 }
 

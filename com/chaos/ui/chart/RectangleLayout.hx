@@ -10,6 +10,7 @@ class RectangleLayout {
         var width=band*(1-gap); var slot=width/count;
         return {center:center-width/2+slot*(index+0.5),band:slot};
     }
+    /** Calculates a gapped horizontal or vertical bar rectangle. */
     public static function segment(center:Float,band:Float,start:Float,end:Float,gap:Float = 0.2,orientation:String = "vertical"):Null<RectangleMark> {
         for (value in [center,band,start,end,gap]) if (!Math.isFinite(value)) return null;
         if (band <= 0 || gap < 0 || gap >= 1 || (orientation != "vertical" && orientation != "horizontal")) return null;

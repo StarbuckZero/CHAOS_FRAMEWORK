@@ -12,11 +12,13 @@ import com.chaos.ui.classInterface.ITextInput;
 class PasswordField extends InputField implements IFormUI implements ITextInput implements IBaseUI
 {
     
+    /** Creates a password field with optional component data. */
     public function new(data:Dynamic = null)
     {
         super(data);
     }
 	
+	/** Initializes the field and enables password text masking. */
 	override public function initialize():Void 
 	{
 		super.initialize();

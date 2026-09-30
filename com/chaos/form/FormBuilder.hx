@@ -13,8 +13,11 @@ import com.chaos.ui.layout.GridContainer;
 
 /** A labelled grid of existing CHAOS controls. Field names are the data keys. */
 class FormBuilder extends GridContainer implements IFormBuilder {
+    /** Type identifier for form builders. */
     public static inline var TYPE:String = "FormBuilder";
+    /** Horizontal inset of controls within each form cell. */
     public var vSpacing(get, set):Int;
+    /** Vertical inset of controls within each form cell. */
     public var hSpacing(get, set):Int;
     private var _vSpacing:Int = 8;
     private var _hSpacing:Int = 8;
@@ -24,8 +27,10 @@ class FormBuilder extends GridContainer implements IFormBuilder {
     private function set_hSpacing(value:Int):Int return _hSpacing = value;
     private var _defaultCellHeight:Int = 30;
 
+    /** Creates a labeled form grid with optional component data. */
     public function new(data:Dynamic = null) { super(data == null ? {} : data); }
 
+    /** Applies grid sizing and form cell spacing defaults. */
     override public function setComponentData(data:Dynamic):Void {
         if (data == null) data = {};
         if (!Reflect.hasField(data, "column") || data.column < 2) data.column = 2;
@@ -35,6 +40,7 @@ class FormBuilder extends GridContainer implements IFormBuilder {
         if (Reflect.hasField(data, "defaultCellHeight")) _defaultCellHeight = data.defaultCellHeight;
     }
 
+    /** Adds a labeled row containing a newly created form control. */
     public function addFormElement(labelName:String, elementName:String, elementClass:Class<Dynamic>,
         elementParams:Dynamic = null, layoutClass:Class<Dynamic> = null, layoutParams:Dynamic = null):Void {
         var params:Dynamic = elementParams == null ? {} : Reflect.copy(elementParams);
@@ -56,6 +62,7 @@ class FormBuilder extends GridContainer implements IFormBuilder {
         draw();
     }
 
+    /** Sizes and positions each form cell and its control. */
     override public function draw():Void {
         super.draw();
         if (_list == null) return;
@@ -77,10 +84,12 @@ class FormBuilder extends GridContainer implements IFormBuilder {
         }
     }
 
+    /** Sets the width of a column across all rows. */
     public function setColumnWidthAt(index:Int, value:Int):Void {
         for (row in 0...getRowCount()) if (validCell(row, index)) setCellWidth(row, index, value);
     }
 
+    /** Sets the height of a column across all rows. */
     public function setColumnHeightAt(index:Int, value:Int):Void {
         for (row in 0...getRowCount()) if (validCell(row, index)) setCellHeight(row, index, value);
     }
@@ -98,6 +107,7 @@ class FormBuilder extends GridContainer implements IFormBuilder {
         }
     }
 
+    /** Destroys form controls and grid resources. */
     override public function destroy():Void {
         clearFormElements();
         super.destroy();
@@ -112,6 +122,7 @@ class FormBuilder extends GridContainer implements IFormBuilder {
         return result;
     }
 
+    /** Clears or resets every form control. */
     public function reset():Void {
         for (item in fields()) {
             if (Std.isOfType(item, IFormUI)) cast(item, IFormUI).clear();
@@ -119,6 +130,7 @@ class FormBuilder extends GridContainer implements IFormBuilder {
         }
     }
 
+    /** Sets matching form controls from fields in a data object. */
     public function setFormData(formObj:Dynamic):Void {
         if (formObj == null) return;
         for (item in fields()) {

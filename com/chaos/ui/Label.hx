@@ -20,7 +20,7 @@ import com.chaos.ui.BaseUI;
 
 /**
  *  Creates a Label for develop to place text on the stage or in another display object.
- *  This is a nice wrapper around Text Field which handles a lot of things.
+ * Wraps a text field with CHAOS UI styling and layout behavior.
 
  *  @author Erick Feiling
  *  @date 11-5-09
@@ -59,8 +59,11 @@ class Label extends BaseUI implements ILabel implements IBaseUI {
 
 	/** Border visibility and appearance. */
 	public var border(get, set):Bool;
+	/** Color used for the label border. */
 	public var borderColor(get, set):Int;
+	/** Opacity of the label border. */
 	public var borderAlpha(get, set):Float;
+	/** Stroke width of the label border. */
 	public var borderThinkness(get, set):Float;
 
 	/**
@@ -133,7 +136,7 @@ class Label extends BaseUI implements ILabel implements IBaseUI {
 
 	/**
 	 * UI Label
-	 * @param	data The proprieties that you want to set on component.
+	 * @param	data Properties to apply to the component.
 	 */
 	public function new(data:Dynamic = null) {
 		super(data);
@@ -143,7 +146,7 @@ class Label extends BaseUI implements ILabel implements IBaseUI {
 	}
 
 	/**
-	 * Set properties based on object
+	 * Applies properties from the supplied data object
 	 * @param	data object with supported types
 	 */
 	override public function setComponentData(data:Dynamic):Void {

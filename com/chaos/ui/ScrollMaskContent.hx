@@ -95,6 +95,7 @@ class ScrollMaskContent extends ScrollContentBase
 		_parentClip.mask = _mask;
 	}	
 	
+	/** Removes content listeners, mask graphics, and display children. */
 	override public function unload():Void 
 	{
 		super.unload();
@@ -122,6 +123,7 @@ class ScrollMaskContent extends ScrollContentBase
 	
 
 	
+	/** Sizes and positions the scroll bar and redraws masked content. */
 	override public function draw():Void 
 	{
 		

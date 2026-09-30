@@ -14,7 +14,9 @@ import openfl.events.EventDispatcher;
 class MobileButtonList extends DragContainer implements IBaseUI
 {
 
+    /** Index of the selected mobile button. */
     public var selectedIndex(get, never):Int;
+    /** Height assigned to each mobile button. */
     public var buttonHeight(get, set):Int;
 
 	/**
@@ -34,7 +36,7 @@ class MobileButtonList extends DragContainer implements IBaseUI
 
 	/**
 	 * UI Component 
-	 * @param	data The proprieties that you want to set on component.
+	 * @param	data Properties to apply to the component.
 	 */
     
     public function new(data : Dynamic = null)
@@ -76,6 +78,7 @@ class MobileButtonList extends DragContainer implements IBaseUI
         _list = null;
     }
 
+    /** Returns the selected button’s data, or null if none is selected. */
     public function getSelected() : BaseObjectData {
         
         if(_selectedIndex == -1)
@@ -84,6 +87,7 @@ class MobileButtonList extends DragContainer implements IBaseUI
         return _list.getItemAt(_selectedIndex);
     }
 
+    /** Returns the selected mobile button, or null if none is selected. */
     public function getSelectedButton() : MobileButton {
 
         if(_selectedIndex == -1)
@@ -92,6 +96,7 @@ class MobileButtonList extends DragContainer implements IBaseUI
         return cast(_content.getChildByName("button_" + _selectedIndex), MobileButton);
     }
 
+    /** Redraws button positions and selection styling. */
     override public function draw() {
         super.draw();
 

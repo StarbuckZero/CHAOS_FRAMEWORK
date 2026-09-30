@@ -24,7 +24,9 @@ import com.chaos.ui.BaseUI;
 class GridCell extends BaseUI implements IGridCell implements IBaseUI 
 {
 
+    /** Layout container held by this grid cell. */
     public var container(get, never) : IAlignmentContainer;
+    /** Border object drawn around this grid cell. */
     public var border(get, never) : IBorder;
 
     private var _border : IBorder;
@@ -38,7 +40,7 @@ class GridCell extends BaseUI implements IGridCell implements IBaseUI
     /**
 	 * Creates a cell block for a grid
 	 *
-	 * @param	data The proprieties that you want to set on component.
+	 * @param	data Properties to apply to the component.
 	 *
 	 * @see com.chaos.ui.layout.GridLayout
 	 *

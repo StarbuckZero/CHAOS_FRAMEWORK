@@ -49,7 +49,7 @@ class ListBox extends ScrollPane implements IListBox implements IBaseUI
 	public var textColor(get, set) : Int;
 	
 	/**
-	 * Set the roll over state
+	 * Set the hover state
 	 */
 	
 	public var textOverColor(get, set) : Int;
@@ -105,7 +105,7 @@ class ListBox extends ScrollPane implements IListBox implements IBaseUI
 
 	/**
 	 * UI LixBox 
-	 * @param	data The proprieties that you want to set on component.
+	 * @param	data Properties to apply to the component.
 	 */
 	
 	public function new(data:Dynamic = null)
@@ -119,7 +119,7 @@ class ListBox extends ScrollPane implements IListBox implements IBaseUI
 	}
 	
 	/**
-	 * Set properties based on object
+	 * Applies properties from the supplied data object
 	 * @param	data object with supported types
 	 */
 	
@@ -327,7 +327,7 @@ class ListBox extends ScrollPane implements IListBox implements IBaseUI
 	private function get_textColor() : Int { return _textColor; }
 
 	/**
-	 * Set the roll over state
+	 * Set the hover state
 	 */
 
 	private function set_textOverColor(value : Int) : Int

@@ -21,8 +21,11 @@ import com.chaos.utils.Debug;
  */
 class GridContainer extends BaseContainer implements IGridContainer implements IBaseContainer implements IBaseUI {
 
+	/** Whether the grid places its content layer above other children. */
 	public var alwaysOnTop(get, set):Bool;
+	/** Width assigned to each grid cell. */
 	public var cellWidth(get, set):Int;
+	/** Height assigned to each grid cell. */
 	public var cellHeight(get, set):Int;
 
 	private var _list:DataProvider<DataProvider<IGridCell>>;

@@ -15,13 +15,13 @@ interface IValidateField extends ITextInput
 
 	
     /**
-	 * This is for setting an image to the text input default state. It is best to set an image that can be tile.
+	 * Sets an image for the text input default state. It is best to set an image that can be tiled.
 	 */
     
     function setValidBackgroundImage(value : BitmapData) : Void;
     
     /**
-	 * This is for setting an image to the text input default state. It is best to set an image that can be tile.
+	 * Sets an image for the text input default state. It is best to set an image that can be tiled.
 	 */
     
     function setInvalidBackgroundImage(value : BitmapData) : Void;

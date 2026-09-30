@@ -9,7 +9,7 @@ import openfl.display.Shape;
 
 
 /**
- * This is a layer that goes applies an object
+ * Draws a framed overlay around content.
  *
  * @author Erick Feiling
  */
@@ -25,17 +25,26 @@ class Overlay extends BaseUI implements IOverlay
 	/** Tile the bottom image **/
     public var tileBottomCenterImage(get, set) : Bool;
 
+    /** Type identifier for overlay components. */
     public static inline var TYPE : String = "Overlay";
     
+    /** Shape used for the top-left border piece. */
     public var topLeftPattern : Shape = new Shape();
+    /** Shape used for the top-middle border piece. */
     public var topMiddlePattern : Shape = new Shape();
+    /** Shape used for the top-right border piece. */
     public var topRightPattern : Shape = new Shape();
     
+    /** Shape used for the bottom-left border piece. */
     public var bottomLeftPattern : Shape = new Shape();
+    /** Shape used for the bottom-middle border piece. */
     public var bottomMiddlePattern : Shape = new Shape();
+    /** Shape used for the bottom-right border piece. */
     public var bottomRightPattern : Shape = new Shape();
     
+    /** Shape used for the middle-left border piece. */
     public var middleLeftPattern : Shape = new Shape();
+    /** Shape used for the middle-right border piece. */
     public var middleRightPattern : Shape = new Shape();
     
     private var _topLeftImage : BitmapData;
@@ -58,7 +67,7 @@ class Overlay extends BaseUI implements IOverlay
     
 	/**
 	 * UI Overlay 
-	 * @param	data The proprieties that you want to set on component.
+	 * @param	data Properties to apply to the component.
 	 */
     
     public function new(data:Dynamic = null)
@@ -67,7 +76,7 @@ class Overlay extends BaseUI implements IOverlay
     }
 	
 	/**
-	 * Set properties based on object
+	 * Applies properties from the supplied data object
 	 * @param	data object with supported types
 	 */
 	
@@ -208,7 +217,7 @@ class Overlay extends BaseUI implements IOverlay
 	 *
 	 * @param	leftImage An image the left
 	 * @param	middleImage An middle image that will tile
-	 * @param	rightImage An right image that will be used
+	 * @param	rightImage A right image that will be used
 	 */
     
     public function setTopImage(leftImage : BitmapData = null, middleImage : BitmapData = null, rightImage : BitmapData = null) : Void

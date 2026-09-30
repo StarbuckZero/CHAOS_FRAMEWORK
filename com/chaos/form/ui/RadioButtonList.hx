@@ -21,11 +21,13 @@ class RadioButtonList extends RadioButtonGroup implements IFormUI implements IRa
     
     private var id : Int = 0;
     
+    /** Creates a radio button list with optional component data. */
     public function new(data:Dynamic = null)
     {
         super(data);
     }
 	
+	/** Returns the selected radio value and identifying fields. */
 	public function data():Dynamic
 	{
 		return {"id":id, "name":name, "value":getValue()};

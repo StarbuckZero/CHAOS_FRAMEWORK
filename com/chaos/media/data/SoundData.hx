@@ -3,7 +3,7 @@ package com.chaos.media.data;
 
 
 /**
- * ...
+ * Stores a sound asset, playback channel, and tracking settings.
  * @author Erick Feiling
  */
 
@@ -15,23 +15,38 @@ import com.chaos.utils.data.TaskDataObject;
 
 class SoundData
 {
+    /** Loaded sound asset. */
     public var soundObj(get, set) : Sound;
+    /** Channel currently playing the sound. */
     public var soundChannel(get, set) : SoundChannel;
+    /** Name identifying the sound. */
     public var name(get, set) : String;
+    /** Playback volume value. */
     public var volume(get, set) : Int;
+    /** Whether the sound starts after loading. */
     public var autoStart(get, set) : Bool;
+    /** Whether the sound repeats after completion. */
     public var repeat(get, set) : Bool;
+    /** Whether the sound is currently playing. */
     public var playing(get, set) : Bool;
+    /** Whether the sound is buffering. */
     public var buffer(get, set) : Bool;
+    /** Current playback position. */
     public var position(get, set) : Float;
+    /** Whether stereo pan follows a display object. */
     public var panTracking(get, set) : Bool;
+    /** Whether volume follows a display object. */
     public var soundTracking(get, set) : Bool;
 	
+    /** Display object used to calculate stereo pan. */
     public var panTrackingObj(get, set) : DisplayObject;
+    /** Display object used to calculate tracked volume. */
     public var soundTrackingObj(get, set) : DisplayObject;
 	
+    /** Volume saved before muting. */
     public var muteVolume(get, set) : Int;
 	
+    /** Task used to adjust sound volume. */
     public var volTask(get, set) : TaskDataObject;
 
     private var _soundObj : Sound = null;
@@ -57,6 +72,7 @@ class SoundData
 	private var _soundTrackingObj:DisplayObject;
 
     
+    /** Creates an empty sound playback record. */
     public function new()
     {
         

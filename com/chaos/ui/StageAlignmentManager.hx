@@ -248,6 +248,7 @@ class StageAlignmentManager
 
 
 
+	/** Creates a stage alignment manager. */
 	public function new()
 	{
 	}

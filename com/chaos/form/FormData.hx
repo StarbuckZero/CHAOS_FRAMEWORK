@@ -4,7 +4,7 @@ package com.chaos.form;
 import com.chaos.form.ui.classInterface.IFormUI;
 
 /**
- * Pretty much a hidden data field something the user can't type into
+ * Stores a form value that users cannot edit directly.
  *
  * @author Erick Feiling
  */
@@ -16,6 +16,7 @@ class FormData implements IFormUI
     private var _name : String = "";
     private var _value : Dynamic = "";
     
+    /** Creates a form data record from the supplied field values. */
     public function new(formName : String, dataString : Dynamic = "")
     {
         _name = formName;

@@ -1,6 +1,7 @@
 package com.chaos.ui.chart;
 import com.chaos.ui.chart.ChartTypes;
 class HistogramBins {
+    /** Groups finite observations into bins using a count or width. */
     public static function calculate(data:Array<Dynamic>,count:Null<Int>,width:Null<Float>):Array<ChartPoint> {
         var values:Array<{value:Float,index:Int}>=[];
         for(i in 0...data.length) if(ChartData.finite(data[i])) values.push({value:data[i],index:i});

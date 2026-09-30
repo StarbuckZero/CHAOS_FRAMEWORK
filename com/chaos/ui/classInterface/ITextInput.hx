@@ -48,7 +48,7 @@ interface ITextInput extends ILabel
 	var backgroundSelectedColor(get, set) : Int;     
 	
 	/**
-	 * The color of the text input background disable state
+	 * The color of the text input background disabled state
 	 */
 	
 	var backgroundDisableColor(get, set) : Int;
@@ -56,7 +56,7 @@ interface ITextInput extends ILabel
 
 	
 	/**
-	 * This is for setting an image to the text input default state. It is best to set an image that can be tiled.
+	 * Sets an image for the text input default state. It is best to set an image that can be tiled.
 	 */
 	
 	function setBackgroundImage(value : BitmapData) : Void;  
@@ -64,21 +64,21 @@ interface ITextInput extends ILabel
 
 	
 	/**
-	 * This is for setting an image to the text input roll over state. It is best to set an image that can be tiled.
+	 * Sets an image for the text input hover state. It is best to set an image that can be tiled.
 	 */
 	
 	function setOverBackgroundImage(value : BitmapData) : Void;  
 	
 	
 	/**
-	 * This is for setting an image to the text input selected state. It is best to set an image that can be tiled.
+	 * Sets an image for the text input selected state. It is best to set an image that can be tiled.
 	 */
 	
 	function setSelectedBackgroundImage(value : BitmapData) : Void;  
 	
 	
 	/**
-	 * This is for setting an image to the text input disable state. It is best to set an image that can be tiled.
+	 * Sets an image for the text input disabled state. It is best to set an image that can be tiled.
 	 */
 	
 	function setDisableBackgroundImage(value : BitmapData) : Void;  

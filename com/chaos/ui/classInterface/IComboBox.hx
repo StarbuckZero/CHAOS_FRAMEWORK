@@ -34,7 +34,7 @@ interface IComboBox extends IBaseUI
 	var trackSize(get, set) : Int;
 	
 	/**
-	 * Set the size of the button used on the combo box. The width is based on the height of the combox box.
+	 * Set the size of the button used on the combo box. The width is based on the height of the combo box.
 	 */
 
 	var buttonWidth(get, set) : Int;
@@ -70,7 +70,7 @@ interface IComboBox extends IBaseUI
 	var textColor(get, set) : Int;
 
 	/**
-	 * The color of the text in a label for it's roll over state
+	 * The color of the text in a label for it's hover state
 	 */
 
 	var textOverColor(get, set) : Int;
@@ -111,7 +111,7 @@ interface IComboBox extends IBaseUI
 	var borderAlpha(get, set) : Float;
 
 	/**
-	 * Returns the number of objects being used in combox box
+	 * Returns the number of objects being used in combo box
 	 */
 	var length(get, never) : Int;
 	/**
@@ -156,7 +156,7 @@ interface IComboBox extends IBaseUI
 	function setTextFormat(value : TextFormat) : Void;
 
 	/**
-	 * This is for setting an image to the combox box. It is best to set an image that can be tile.
+	 * Sets an image for the combo box. It is best to set an image that can be tiled.
 	 *
 	 * @param value Set the image based on a Bitmap being pass
 	 *
@@ -164,7 +164,7 @@ interface IComboBox extends IBaseUI
 	function setBackgroundImage(value : BitmapData) : Void;
 
 	/**
-	 * This is for setting an image to the combox box once using click the drop down button. It is best to set an image that can be tiled.
+	 * Sets an image for the combo box when the drop-down button is clicked. It is best to set an image that can be tiled.
 	 *
 	 * @param value Set the image based on a Bitmap being pass
 	 *

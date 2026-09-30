@@ -13,7 +13,9 @@ import openfl.events.Event;
 
 class SoundStatusEvent extends openfl.events.Event
 {
+    /** Sound record associated with the status event. */
     public var soundData(get, never) : SoundData;
+    /** Playback or loading status reported by the event. */
     public var status(get, never) : String;
 	
 	private var _soundData : SoundData;
@@ -25,7 +27,7 @@ class SoundStatusEvent extends openfl.events.Event
 	/** @eventType When id3 data has been loaded */
 	public static inline var SOUND_ID3 : String = "id3"; 
 	
-	/** @eventType Sound has been buffer in sound manager */ 
+	/** @eventType Sound has been buffered in the sound manager */
 	public static inline var SOUND_STATUS_BUFFER : String = "buffer";
 	
 	/** @eventType Once sound is loaded in sound manager */
@@ -37,6 +39,7 @@ class SoundStatusEvent extends openfl.events.Event
 	/** @eventType For when sound fade effect has finished in sound manager */
 	public static inline var SOUND_FADE_COMPLETE : String = "finish_fade";
 	
+	/** Creates a sound status event with its data and status. */
 	public function new(newSoundData : SoundData, soundStatus : String)
     {
 		super(soundStatus);

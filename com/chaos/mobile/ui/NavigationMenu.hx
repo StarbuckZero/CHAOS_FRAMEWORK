@@ -85,7 +85,7 @@ class NavigationMenu extends BaseContainer implements INavigationMenu implements
 	public var downColor(get, set):Int;
 
 	/**
-	 * The button disable state color
+	 * The button disabled state color
 	 */
 	public var disableColor(get, set):Int;	
 
@@ -109,7 +109,7 @@ class NavigationMenu extends BaseContainer implements INavigationMenu implements
 
 	/**
 	 * UI Component
-	 * @param	data The proprieties that you want to set on component.
+	 * @param	data Properties to apply to the component.
 	 */
 
 	public function new( data : Dynamic = null ) {
@@ -233,6 +233,7 @@ class NavigationMenu extends BaseContainer implements INavigationMenu implements
 
 	}
 
+	/** Navigates to the previous menu when no animation is playing. */
 	public function goToPrevious() : Void
 	{
 		if(!_animationPlaying)
@@ -298,7 +299,7 @@ class NavigationMenu extends BaseContainer implements INavigationMenu implements
 	}
 
 	/**
-	 * The button disable state color
+	 * The button disabled state color
 	 */
 	private function set_disableColor(value:Int):Int {
 		_disableColor = value;
@@ -307,7 +308,7 @@ class NavigationMenu extends BaseContainer implements INavigationMenu implements
 	}
 
 	/**
-	 * Return the button disable state color
+	 * Return the button disabled state color
 	 */
 	private function get_disableColor():Int {
 		return _disableColor;

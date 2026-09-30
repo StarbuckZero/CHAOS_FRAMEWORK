@@ -2,6 +2,7 @@ package com.chaos.ui.chart;
 
 /** Deterministic number/percent labels; no executable formatter in saved JSON. */
 class ChartFormat {
+    /** Formats a finite numeric value as a number or percentage. */
     public static function format(value:Float, kind:String = "number", decimals:Int = 2):String {
         if (!Math.isFinite(value)) return "";
         decimals = Std.int(Math.max(0,Math.min(10,decimals)));

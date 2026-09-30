@@ -10,12 +10,15 @@ import com.chaos.ui.data.BaseObjectData;
 class SelectObjectData extends BaseObjectData
 {
 	
+    /** Whether this choice is selected. */
     public var selected(get, set) : Bool;
+    /** Numeric identifier for this choice. */
     public var id(get, set) : Int;
 	
     private var _selected : Bool = false;
 	private var _id:Int = -1;
 
+	/** Creates a selectable item with an ID, label, value, and selection state. */
 	public function new(newId : Int = -1, newText:String = "", newVal:String = "", isSelected:Bool = false) 
 	{
 		super(newText, newVal);

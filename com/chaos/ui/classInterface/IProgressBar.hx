@@ -83,7 +83,7 @@ interface IProgressBar extends com.chaos.ui.classInterface.IBaseUI
 	function unloadEmbedFont() : Void; 
 	
 	/**
-	 * This is for setting an image to the ProgressBar. It is best to set an image that can be tiled.
+	 * Sets an image for the ProgressBar. It is best to set an image that can be tiled.
 	 *
 	 * @param value Set the image based on a Bitmap being pass
 	 *
@@ -93,7 +93,7 @@ interface IProgressBar extends com.chaos.ui.classInterface.IBaseUI
 	
 	
 	/**
-	 * This is for setting an image to the ProgressBar loaded background. It is best to set an image that can be tiled.
+	 * Sets an image for the ProgressBar loaded background. It is best to set an image that can be tiled.
 	 *
 	 * @param value Set the image based on a Bitmap being pass
 	 *

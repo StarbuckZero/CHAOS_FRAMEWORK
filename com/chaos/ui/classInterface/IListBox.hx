@@ -33,7 +33,7 @@ interface IListBox extends IScrollPane
 	var textColor(get, set) : Int;      
 	
 	/**
-	 * Set the roll over state
+	 * Set the hover state
 	 */
 	
 	var textOverColor(get, set) : Int;   

@@ -4,16 +4,21 @@ import openfl.geom.Rectangle;
 typedef LineMark={var point:ChartPoint; var x:Float; var y:Float; var radius:Float; var shape:String;}
 /** Shared straight-series renderer for line and future area charts. */
 class LineSeriesBase extends CartesianChartBase {
+    /** Number of line segments drawn in the last render. */
     public var lineSegmentCount(default,null):Int=0;
+    /** Copies of the rendered line marks. */
     public var renderedPoints(get,never):Array<LineMark>;
+    /** Number of cached marker textures. */
     public var markerTextureCount(get,never):Int;
     var lineMarks:Array<LineMark>;
     var markerTextures:Map<String,ChartTexture>;
     var usedTextures:Map<String,Bool>;
+    /** Creates a line-series chart with optional configuration. */
     public function new(data:Dynamic=null) { super(data); }
     function get_renderedPoints():Array<LineMark> { return cast ChartData.copy(lineMarks); }
     function get_markerTextureCount():Int { var n=0; for(_ in markerTextures) n++; return n; }
     function ensureLine():Void { if(lineMarks==null) lineMarks=[]; if(markerTextures==null) markerTextures=new Map(); }
+    /** Initializes series settings and marker layers. */
     override public function initialize():Void {
         ensureLine(); super.initialize();
         for(field in ["series","categories"]) if(!Reflect.hasField(config,field)) Reflect.setField(config,field,[]);
@@ -118,7 +123,9 @@ class LineSeriesBase extends CartesianChartBase {
         return markerTextures.get(key);
     }
     function releaseMarkerTextures():Void { ensureLine(); for(t in markerTextures) t.destroy(); markerTextures=new Map(); }
+    /** Releases cached marker textures before applying shared styles. */
     override public function reskin():Void { releaseMarkerTextures(); super.reskin(); }
     override function set_textureResolver(value:ChartTextureResolver):ChartTextureResolver { if(!destroyed) releaseMarkerTextures(); return super.set_textureResolver(value); }
+    /** Releases marker textures and rendered point data. */
     override public function destroy():Void { if(destroyed) return; releaseMarkerTextures(); lineMarks=[]; super.destroy(); }
 }

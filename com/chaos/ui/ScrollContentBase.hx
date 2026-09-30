@@ -11,10 +11,15 @@ import com.chaos.ui.event.SliderEvent;
 
 class ScrollContentBase
 {
+    /** Size of the scroll bar slider. */
     public var sliderSize(get, set) : Int;
+    /** Whether the slider is resized to match visible content. */
     public var sliderActiveResize(get, set) : Bool;
+    /** Whether scrolling is currently active. */
     public var active(get, never) : Bool;
+    /** Display object placed inside the scrolling area. */
     public var content(get, never) : DisplayObject;
+    /** Scroll bar controlling this content. */
     public var scrollbar(get, never) : IScrollBar;
 	
 	private var _sliderSize : Int = 10;

@@ -6,17 +6,21 @@ import openfl.display.Graphics;
 import openfl.geom.Matrix;
 import openfl.geom.Rectangle;
 
-/** Owns one cloned texture. Resolvers lend a bitmap; ownership never transfers. */
+/** Owns a cloned bitmap texture resolved for a chart. */
 class ChartTexture {
+    /** Current owned bitmap, or null when no texture is loaded. */
     public var bitmap(default, null):BitmapData;
     var generation:Int = 0;
     var destroyed:Bool = false;
+    /** Creates an empty texture holder. */
     public function new() {}
+    /** Disposes the current bitmap and invalidates pending loads. */
     public function clear():Void {
         generation++;
         if (bitmap != null) bitmap.dispose();
         bitmap = null;
     }
+    /** Resolves and clones a texture, notifying success or failure once. */
     public function load(key:String, resolver:ChartTextureResolver, changed:Void->Void, failed:String->Void):Void {
         clear();
         if (destroyed || key == null || key == "") return;
@@ -35,7 +39,9 @@ class ChartTexture {
             }, failure);
         } catch (error:Dynamic) { failure(Std.string(error)); }
     }
+    /** Prevents future loads and disposes the owned bitmap. */
     public function destroy():Void { destroyed = true; clear(); }
+    /** Draws the bitmap in stretch, tile, fit, or fill mode within a marker shape. */
     public function draw(graphics:Graphics, bounds:Rectangle, mode:String, smooth:Bool, clear:Bool = true, shape:String = "square"):Void {
         if (clear) graphics.clear();
         if (bitmap == null || bounds.width <= 0 || bounds.height <= 0) return;

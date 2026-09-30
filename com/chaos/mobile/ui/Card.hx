@@ -8,13 +8,14 @@ import openfl.display.Sprite;
 
 class Card extends ButtonBase implements IBaseUI {
 
+    /** Sprite displayed as the card content. */
     public var content(get, set):Sprite;
     
     private var _content:Sprite = new Sprite();
 
      /**
       * UI Component 
-      * @param	data The proprieties that you want to set on component.
+      * @param	data Properties to apply to the component.
       */
      
       public function new( data:Dynamic = null )

@@ -3,8 +3,10 @@ import com.chaos.ui.chart.ChartTypes;
 import openfl.text.TextField;
 import openfl.text.TextFormat;
 class DonutChart extends RadialChartBase {
+    /** Type identifier for donut charts. */
     public static inline var TYPE:String="DonutChart";
     var centerLabel:TextField;
+    /** Creates a donut chart with optional configuration. */
     public function new(data:Dynamic=null) { super(data); }
     override function get_chartType():String { return TYPE; }
     override function initialize():Void {

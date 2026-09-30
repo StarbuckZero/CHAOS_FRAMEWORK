@@ -11,6 +11,7 @@ import com.chaos.ui.classInterface.IBaseUI;
 class PauseIcon extends BaseIcon implements IBasicIcon implements IBaseUI
 {
     
+    /** Spacing between the pause icon bars. */
     public var space : Int = 4;
     
     /**
@@ -22,6 +23,7 @@ class PauseIcon extends BaseIcon implements IBasicIcon implements IBaseUI
         super(data);
     }
 	
+	/** Applies pause-bar spacing and inherited icon settings. */
 	override public function setComponentData(data:Dynamic):Void 
 	{
 		super.setComponentData(data);

@@ -17,11 +17,13 @@ import openfl.events.Event;
 class EmailField extends ValidateField implements IFormUI implements IValidateField implements com.chaos.ui.classInterface.ITextInput implements IValidUI implements com.chaos.ui.classInterface.IBaseUI
 {
     
+    /** Creates an email field with optional component data. */
     public function new(data:Dynamic = null)
     {
         super(data);
     }
 	
+	/** Applies email field settings and validation options. */
 	override public function setComponentData(data:Dynamic):Void 
 	{
 		super.setComponentData(data);
@@ -31,6 +33,7 @@ class EmailField extends ValidateField implements IFormUI implements IValidateFi
 			defaultString("E-mail Address");		
 	}
     
+    /** Runs base validation and updates the email field’s state. */
     override public function onValidateCheck(event : Event) : Void
     {
         super.onValidateCheck(event);
@@ -38,6 +41,7 @@ class EmailField extends ValidateField implements IFormUI implements IValidateFi
         isValid();
     }
     
+    /** Checks whether the current text is a valid email address. */
     override public function isValid() : Bool
     {
         

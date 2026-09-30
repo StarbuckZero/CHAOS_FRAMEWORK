@@ -9,7 +9,7 @@ import openfl.display.Shape;
 
 
 /**
- * Create a image with stripe pattern
+ * Draws a repeated stripe pattern into a bitmap.
  */
 
 class Stripes extends BaseUI
@@ -20,12 +20,14 @@ class Stripes extends BaseUI
     private var stripeBMD : BitmapData;
     private var stripeBM : Bitmap;
     
+    /** Creates a stripe-pattern display object. */
     public function new(data:Dynamic = null )
     {
         super(data);
 		
     }
 	
+	/** Creates the bitmap used to display the stripe pattern. */
 	override public function initialize():Void 
 	{
 		super.initialize();
@@ -37,6 +39,7 @@ class Stripes extends BaseUI
 		
 	}
 	
+	/** Clears graphics, disposes the bitmap, and removes it from display. */
 	override public function destroy():Void 
 	{
 		super.destroy();
@@ -46,6 +49,7 @@ class Stripes extends BaseUI
 		removeChild(stripeBM);
 	}
     
+    /** Draws repeated stripes in the requested direction, width, color, and spacing. */
     public function drawStripes(direction : String, separation : Int, lineWidth : Int = 1, color : Int = 0xffffff, alpha : Float = 1) : Void
     {
         stripeShape.graphics.clear();
@@ -98,6 +102,7 @@ class Stripes extends BaseUI
         stripeBMD.unlock();
     }
     
+    /** Replaces the current stripe bitmap with a blank one. */
     public function clear() : Void
     {
         stripeBMD.dispose();

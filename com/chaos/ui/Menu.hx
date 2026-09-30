@@ -320,7 +320,7 @@ class Menu extends BaseContainer implements IMenu implements IBaseContainer impl
     
 	/**
 	 * UI Menu 
-	 * @param	data The proprieties that you want to set on component.
+	 * @param	data Properties to apply to the component.
 	 */
     
     public function new(data:Dynamic = null)
@@ -332,7 +332,7 @@ class Menu extends BaseContainer implements IMenu implements IBaseContainer impl
     }
 	
 	/**
-	 * Set properties based on object
+	 * Applies properties from the supplied data object
 	 * @param	data object with supported types
 	 */
 	
@@ -1549,6 +1549,7 @@ class Menu extends BaseContainer implements IMenu implements IBaseContainer impl
         }
     }
     
+    /** Removes the currently attached submenu. */
     public function removeSubMenu() : Void
     {
 		

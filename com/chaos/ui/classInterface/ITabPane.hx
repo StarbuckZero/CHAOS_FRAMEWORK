@@ -140,7 +140,7 @@ interface ITabPane extends IBaseUI
 
 	
 	/**
-	 * Set a image to the tab up button disable state
+	 * Set a image to the tab up button disabled state
 	 *
 	 * @param value Set the image based on a Bitmap being pass
 	 *

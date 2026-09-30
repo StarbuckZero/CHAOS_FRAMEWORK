@@ -13,8 +13,11 @@ typedef RenderedRectangle = { var point:ChartPoint; var rectangle:RectangleMark;
 
 /** Shared single, grouped, and stacked rectangular-series renderer. */
 class BarColumnChartBase extends CartesianChartBase {
+    /** Whether bars extend vertically or horizontally. */
     public var orientation(get, never):String;
+    /** Copies of the rectangles rendered for chart marks. */
     public var rectangles(get, never):Array<RenderedRectangle>;
+    /** Number of cached mark textures. */
     public var markTextureCount(get, never):Int;
     var marks:Array<RenderedRectangle>;
     var stacks:Map<String,StackLayout.StackSegment>;
@@ -23,6 +26,7 @@ class BarColumnChartBase extends CartesianChartBase {
     var valueLabels:Array<TextField>;
     var valueLabelLayer:Sprite;
 
+    /** Creates a bar or column chart with optional configuration. */
     public function new(data:Dynamic = null) { super(data); }
     function get_orientation():String { return "vertical"; }
     function defaultLayout():String { return "single"; }
@@ -124,6 +128,7 @@ class BarColumnChartBase extends CartesianChartBase {
         result.points = accepted;
         return true;
     }
+    /** Initializes mark layers and bar layout defaults. */
     override public function initialize():Void {
         ensureRenderer(); super.initialize();
         if (!Reflect.hasField(config,"groupGap")) config.groupGap = defaultGroupGap();
@@ -268,10 +273,12 @@ class BarColumnChartBase extends CartesianChartBase {
     function releaseTextures():Void {
         ensureRenderer(); for (texture in markTextures) texture.destroy(); markTextures = new Map();
     }
+    /** Releases cached mark textures before applying shared styles. */
     override public function reskin():Void { releaseTextures(); super.reskin(); }
     override function set_textureResolver(value:ChartTextureResolver):ChartTextureResolver {
         if (!destroyed) releaseTextures(); return super.set_textureResolver(value);
     }
+    /** Releases mark textures, labels, and stacked layout data. */
     override public function destroy():Void {
         if (destroyed) return;
         releaseTextures(); marks = []; valueLabels = []; stacks = new Map();

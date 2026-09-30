@@ -50,7 +50,7 @@ import openfl.display.Shape;
 
 	/**
 	 * UI Component 
-	 * @param	data The proprieties that you want to set on component.
+	 * @param	data Properties to apply to the component.
      */
      
     public function new(data:Dynamic = null)

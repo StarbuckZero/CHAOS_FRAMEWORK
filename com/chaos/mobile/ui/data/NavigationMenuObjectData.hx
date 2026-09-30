@@ -12,6 +12,7 @@ import com.chaos.data.DataProvider;
 class NavigationMenuObjectData extends MobileMenuObjectData
 {
 
+    /** Data source for child navigation items. */
     public var childObject(get, set) : DataProvider<NavigationMenuObjectData>;
     
     private var _childObject : DataProvider<NavigationMenuObjectData>;

@@ -3,7 +3,7 @@ package com.chaos.utils;
 
 
 /**
- * This takes a threads and run them in a queue(remove from bottom) or stack(remove from top)
+ * Runs tasks in queue (first in, first out) or stack (last in, first out) order
  *
  * @author Erick Feiling
  */
@@ -25,9 +25,13 @@ import openfl.events.TimerEvent;
 
 class TaskManager
 {
+    /** Interval used for timer-based task processing. */
     public var timerRate(never, set) : Int;
+    /** Whether tasks run from timer or frame events. */
     public var threadType(get, set) : String;
+    /** Whether tasks are processed as a queue or stack. */
     public var processMode(get, set) : String;
+    /** Whether all subtasks run during a processing pass. */
     public var runAllSubThreads(never, set) : Bool;
 
     
@@ -49,6 +53,7 @@ class TaskManager
     private var _timer : Timer;
     private var _displayObject : DisplayObject;
     
+    /** Event dispatcher for task manager notifications. */
     public var dispatch : EventDispatcher;
     
     /**
@@ -272,16 +277,19 @@ class TaskManager
         }
     }
     
+    /** Checks whether a task manager event has listeners. */
     public function hasEventListener(type : String) : Bool
     {
         return dispatch.hasEventListener(type);
     }
     
+    /** Registers a task manager event listener. */
     public function addEventListener(type : String, listener : Dynamic->Void, useCapture : Bool = false, priority : Int = 0, useWeakReference : Bool = false) : Void
     {
         dispatch.addEventListener(type, listener, useCapture, priority, useWeakReference);
     }
     
+    /** Removes a task manager event listener. */
     public function removeEventListener(type : String, listener : Dynamic->Void, useCapture : Bool = false) : Void
     {
         dispatch.removeEventListener(type, listener, useCapture);

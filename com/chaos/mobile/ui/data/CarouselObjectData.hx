@@ -83,14 +83,17 @@ class CarouselObjectData extends SelectObjectData
 		return _selectedColor;
     }    
     
+    /** Returns the bitmap used for the default icon. */
     public function get_defaultIcon() : BitmapData {
         return _defaultIconImage;
     }
 
+    /** Returns the bitmap used for the selected icon. */
     public function get_selectedIcon() : BitmapData {
         return _selectedIconImage;
     }    
 
+    /** Returns the carousel item’s display content. */
     public function get_content() : DisplayObject {
         return _content;
     }

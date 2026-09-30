@@ -3,7 +3,7 @@ package com.chaos.media.classInterface;
 
 
 /**
- * ...
+ * Exposes playback and tracking flags for a sound.
  * @author Erick Feiling
  */
 interface ISoundStatus

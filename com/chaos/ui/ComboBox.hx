@@ -72,7 +72,7 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 	public var trackSize(get, set) : Int;
 	
 	/**
-	 * Set the size of the button used on the combo box. The width is based on the height of the combox box.
+	 * Set the size of the button used on the combo box. The width is based on the height of the combo box.
 	 */
 	
 	public var buttonWidth(get, set) : Int;
@@ -115,7 +115,7 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 	public var textColor(get, set) : Int;
 	
 	/**
-	 * The color of the text in a label for it's roll over state
+	 * The color of the text in a label for it's hover state
 	 */
 	
 	public var textOverColor(get, set) : Int;
@@ -159,7 +159,7 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 	
 	
 	/**
-	 * Returns the number of objects being used in combox box
+	 * Returns the number of objects being used in combo box
 	 */
 	
 	public var length(get, never) : Int;
@@ -171,6 +171,7 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 	public var rowCount(get, set) : Int;
 	
 	
+	/** Number of item labels kept in the drop-down buffer. */
 	public var itemBuffer(get, set) : Int;
 	
 	/**
@@ -182,6 +183,7 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 
 	/** The scrollbar offset */
 	public static var SCROLLBAR_OFFSET : Int = 2;
+	/** Additional height reserved for the drop-down area. */
 	public static var DROPAREA_HEIGHT_PADDING : Int = 0;
 
 	private var _selectLabel : Label;
@@ -278,7 +280,7 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 
 	/**
 	 * UI ComboBox 
-	 * @param	data The proprieties that you want to set on component.
+	 * @param	data Properties to apply to the component.
 	 */
 
 	public function new(data = null)
@@ -292,7 +294,7 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 	}
 	
 	/**
-	 * Set properties based on object
+	 * Applies properties from the supplied data object
 	 * @param	data object with supported types
 	 */
 	
@@ -959,7 +961,7 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 	private function get_trackSize() : Int { return _trackSize; }
 
 	/**
-	* Set the size of the button used on the combo box. The width is based on the height of the combox box.
+	* Set the size of the button used on the combo box. The width is based on the height of the combo box.
 	*/
 	private function set_buttonWidth(value : Int) : Int
 	{
@@ -1135,7 +1137,7 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 	}
 
 	/**
-	* The color of the text in a label for it's roll over state
+	* The color of the text in a label for it's hover state
 	*/
 
 	private function set_textOverColor(value : Int) : Int
@@ -1210,7 +1212,7 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 	}
 
 	/**
-	*  Return the color being used for the text label roll over state
+	*  Return the color being used for the text label hover state
 	*/
 
 	private function get_textOverBackground() : Int { return _textOverBackground; }
@@ -1251,7 +1253,7 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 	private function get_borderAlpha() : Float { return _outlineAlpha; }
 
 	/**
-	* Returns the number of objects being used in combox box
+	* Returns the number of objects being used in combo box
 	*/
 
 	private function get_length() : Int { return _list.length; }
@@ -1294,7 +1296,7 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 	}
 
 	/**
-	* This is for setting an image to the combox box. It is best to set an image that can be tile.
+	* Sets an image for the combo box. It is best to set an image that can be tiled.
 	*
 	* @param value Set the image based on a Bitmap being pass
 	*
@@ -1306,7 +1308,7 @@ class ComboBox extends BaseUI implements IComboBox implements IBaseUI
 	}
 
 	/**
-	* This is for setting an image to the combox box once using click the drop down button. It is best to set an image that can be tile.
+	* Sets an image for the combo box when the drop-down button is clicked. It is best to set an image that can be tiled.
 	*
 	* @param value Set the image based on a Bitmap being pass
 	*

@@ -12,7 +12,7 @@ import openfl.events.MouseEvent;
 import com.chaos.utils.Debug;
 
 /**
- * The Window Manager pulls any item that was clicked on to the front of the display.
+ * Manages window stacking and focus when windows are added or clicked.
  *
  * @author Erick Feiling
  *
@@ -20,11 +20,13 @@ import com.chaos.utils.Debug;
 
 class WindowManager extends Sprite
 {
+    /** Creates an empty window display container. */
     public function new()
     {
         super();
     }
     
+	/** Adds a window, listens for clicks, and gives it focus. */
 	public function addWindow( window:Window ):Window
 	{
         if (!window.hasEventListener(MouseEvent.MOUSE_DOWN)) 
@@ -37,6 +39,7 @@ class WindowManager extends Sprite
 		
 	}
 	
+	/** Removes a window and focuses the remaining topmost window. */
 	public function removeWindow( window:Window ):Window
 	{
         window.removeEventListener(MouseEvent.MOUSE_DOWN, moveForward);
@@ -70,6 +73,7 @@ class WindowManager extends Sprite
 		pushToFront((try cast(event.currentTarget, DisplayObject) catch (e:Dynamic) null));
     }
     
+    /** Moves a display object to the top and focuses it if it is a window. */
     public function pushToFront(displayObj : DisplayObject) : Void
     {
         

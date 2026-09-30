@@ -37,6 +37,7 @@ class AccordionObjectData
 	private var _content : DisplayObject;
 	private var _container : BaseContainer;
 
+	/** Stores an accordion section’s name, button, container, and optional content. */
 	public function new(sectionName:String, button:Button, container:BaseContainer, content:DisplayObject = null) 
 	{
 		_name = sectionName;

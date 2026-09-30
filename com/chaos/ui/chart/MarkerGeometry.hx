@@ -2,6 +2,7 @@ package com.chaos.ui.chart;
 import openfl.display.Graphics;
 import openfl.geom.Rectangle;
 class MarkerGeometry {
+    /** Draws a circle, diamond, or square marker within a rectangle. */
     public static function draw(g:Graphics,r:Rectangle,shape:String):Void {
         switch(shape) {
             case "circle": g.drawEllipse(r.x,r.y,r.width,r.height);
@@ -9,6 +10,7 @@ class MarkerGeometry {
             default: g.drawRect(r.x,r.y,r.width,r.height);
         }
     }
+    /** Checks whether a point falls inside a marker shape. */
     public static function contains(dx:Float,dy:Float,radius:Float,shape:String):Bool {
         return shape=="circle"?dx*dx+dy*dy<=radius*radius:shape=="diamond"?Math.abs(dx)+Math.abs(dy)<=radius:Math.abs(dx)<=radius && Math.abs(dy)<=radius;
     }

@@ -148,7 +148,7 @@ interface IBaseUI
 	 function reskin() : Void;
 
 	/**
-	 * Set properties based on object
+	 * Applies properties from the supplied data object
 	 * @param	data object with supported types
 	 */
 	 	 

@@ -91,6 +91,7 @@ class Accordion extends BaseContainer implements IAccordion implements IBaseCont
 
 	private var _section:Array<AccordionObjectData> = new Array<AccordionObjectData>();
 
+	/** Creates an accordion and registers stage lifecycle listeners. */
 	public function new(data:Dynamic = null) {
 		super(data);
 
@@ -106,6 +107,7 @@ class Accordion extends BaseContainer implements IAccordion implements IBaseCont
 		UIBitmapManager.stopWatchElement(UIBitmapType.Accordion, this);
 	}
 
+	/** Applies accordion colors, sizing, animation, and section data. */
 	override public function setComponentData(data:Dynamic):Void {
 		super.setComponentData(data);
 
@@ -153,6 +155,7 @@ class Accordion extends BaseContainer implements IAccordion implements IBaseCont
 		}
 	}
 
+	/** Removes sections, disposes button bitmaps, and stops skin updates. */
 	override public function destroy():Void {
 		removeAllSections();
 		super.destroy();
@@ -177,6 +180,7 @@ class Accordion extends BaseContainer implements IAccordion implements IBaseCont
 		UIBitmapManager.stopWatchElement(UIBitmapType.Accordion, this);
 	}
 
+	/** Reloads shared style and bitmap settings for this accordion. */
 	override public function reskin():Void {
 		super.reskin();
 
@@ -350,7 +354,7 @@ class Accordion extends BaseContainer implements IAccordion implements IBaseCont
 	}
 
 	/**
-	 * This set the image for the disable state
+	 * This set the image for the disabled state
 	 * @param	value The image you want to use
 	 */
 	public function setDisableStateImage(value:BitmapData):Void {

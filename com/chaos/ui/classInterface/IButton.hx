@@ -110,7 +110,7 @@ interface IButton extends IToggleButton
 	
 
 	/**
-	 * This is for setting an image to the button default state. It is best to set an image that can be tile.
+	 * Sets an image for the button default state. It is best to set an image that can be tiled.
 	 *
 	 * @param value Set the image based on a URL file path.
 	 *
@@ -120,7 +120,7 @@ interface IButton extends IToggleButton
 
 	
 	/**
-	 * This is for setting an image to the button roll over state. It is best to set an image that can be tiled.
+	 * Sets an image for the button hover state. It is best to set an image that can be tiled.
 	 *
 	 * @param value Set the image based on a Bitmap being pass
 	 *
@@ -130,7 +130,7 @@ interface IButton extends IToggleButton
  
 	
 	 /**
-	 * This is for setting an image to the button press down state. It is best to set an image that can be tiled.
+	 * Sets an image for the button press down state. It is best to set an image that can be tiled.
 	 *
 	 * @param value Set the image based on a Bitmap being pass
 	 *
@@ -139,7 +139,7 @@ interface IButton extends IToggleButton
 	function setDownStateImage(value : BitmapData) : Void;  
 	
 	 /**
-	 * This is for setting an image to the button disable state. It is best to set an image that can be tiled.
+	 * Sets an image for the button disabled state. It is best to set an image that can be tiled.
 	 *
 	 * @param value Set the image based on a Bitmap being pass
 	 *

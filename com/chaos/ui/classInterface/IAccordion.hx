@@ -89,7 +89,7 @@ interface IAccordion extends IBaseContainer
 	function setDownStateImage(value : BitmapData ) : Void;
 	
 	/**
-	 * This set the image for the disable state
+	 * This set the image for the disabled state
 	 * @param	value The image you want to use
 	 */
 	

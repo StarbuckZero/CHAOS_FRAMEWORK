@@ -5,7 +5,7 @@ import openfl.utils.Object;
 
 
 /**
- * ...
+ * Provides local debug output for framework components.
  * @author Erick Feiling
  */
 
@@ -16,8 +16,10 @@ import openfl.external.ExternalInterface;
 
 class Debug
 {
+    /** Connection name used for local debug output. */
     public static inline var LOCAL_CONNECTION : String = "chaos_local_connection";
     
+    /** Creates a debug helper. */
     public function new()
     {
         

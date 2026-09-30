@@ -3,7 +3,7 @@ package com.chaos.utils.data;
 
 
 /**
- * ...
+ * Holds a callback and iteration state for background task processing.
  * @author Erick Feiling
  */
 
@@ -13,12 +13,18 @@ import openfl.errors.Error;
 
 class TaskDataObject implements ITask
 {
+    /** Identifier for this task. */
     public var id(get, set) : String;
+    /** Starting work index for this task. */
     public var start(get, never) : Int;
+    /** Ending work index for this task. */
     public var end(get, never) : Int;
+    /** Current work index for this task. */
     public var index(get, set) : Int;
+    /** Additional arguments associated with this task. */
     public var data(get, set) : Array<Dynamic>;
 
+    /** Whether callback errors are caught and logged. */
     public static var SAFE_MODE : Bool = true;
     
     private var _id : String = "";
@@ -30,14 +36,14 @@ class TaskDataObject implements ITask
     
     /**
 	 *
-	 * This is a task that can be put inside a TaskMangaer or ThreadManager. This will run the function with all the values pass.
-	 * If a start and end value was set then this object will be passed as the first argument.
+	 * This is a task that can be put inside a TaskManager or ThreadManager. This will run the function with all supplied values.
+	 * If start and end values are set then this object will be passed as the first argument.
 	 *
 	 * @param	id The task id
 	 * @param	start Starting point for sub task
 	 * @param	end End point for sub task
 	 * @param	func The function to call when running a task. This will also pass back a TaskDataObject and not a event.
-	 * @param	data The paramers to pass with the function. If a start and end value was set then this task object will be passed first.
+	 * @param	data The parameters to pass with the function. If start and end values are set then this task object will be passed first.
 	 *
 	 */
     
@@ -97,6 +103,7 @@ class TaskDataObject implements ITask
 	}
 	
     
+    /** Resets task metadata and removes its callback. */
     public function clear() : Void
     {
         _id = "";
@@ -107,6 +114,7 @@ class TaskDataObject implements ITask
         _data = null;
     }
     
+    /** Invokes the task callback, catching errors when safe mode is enabled. */
     public function run() : Void
     {
         if (null != _func) 

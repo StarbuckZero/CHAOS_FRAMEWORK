@@ -74,6 +74,7 @@ class TabPane extends BaseUI implements ITabPane implements IBaseUI
 	**/
 	public var tabButtonHeight(get,set) : Int;
 	
+	/** Sprite containing tab selection buttons. */
 	public var buttonArea : Sprite = new Sprite();
 	
 	private var _contentList : DataProvider<TabPaneObjectData> = new DataProvider<TabPaneObjectData>();
@@ -105,7 +106,7 @@ class TabPane extends BaseUI implements ITabPane implements IBaseUI
 	
 	/**
 	 * UI TabPane 
-	 * @param	data The proprieties that you want to set on component.
+	 * @param	data Properties to apply to the component.
 	 */
 	
 	public function new(data:Dynamic = null)
@@ -117,7 +118,7 @@ class TabPane extends BaseUI implements ITabPane implements IBaseUI
 	}
 	
 	/**
-	 * Set properties based on object
+	 * Applies properties from the supplied data object
 	 * @param	data object with supported types
 	 */
 	
@@ -607,7 +608,7 @@ class TabPane extends BaseUI implements ITabPane implements IBaseUI
 	}
 
 	/**
-	 * Set a image to the tab up button disable state
+	 * Set a image to the tab up button disabled state
 	 *
 	 * @param value Set the image based on a Bitmap being pass
 	 *

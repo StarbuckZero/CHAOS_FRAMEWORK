@@ -15,11 +15,13 @@ import openfl.events.Event;
 class NumberField extends ValidateField implements IFormUI implements IValidateField implements ITextInput implements IValidUI implements IBaseUI
 {
     
+    /** Creates a numeric field with optional component data. */
     public function new(data:Dynamic = null)
     {
         super(data);
     }
 	
+	/** Applies numeric field settings and validation options. */
 	override public function setComponentData(data:Dynamic):Void 
 	{
 		super.setComponentData(data);	
@@ -33,12 +35,14 @@ class NumberField extends ValidateField implements IFormUI implements IValidateF
     }
 	
     
+    /** Parses the input value as a number. */
     override public function getValue():Dynamic
     {
         var value = Std.parseFloat(super.getValue());
         return Math.isNaN(value) ? null : value;
     }
 
+    /** Runs base validation and updates the numeric field’s state. */
     override public function onValidateCheck(event : Event) : Void
     {
         super.onValidateCheck(event);
@@ -46,6 +50,7 @@ class NumberField extends ValidateField implements IFormUI implements IValidateF
         isValid();
     }
     
+    /** Checks whether the current input is a valid number. */
     override public function isValid() : Bool
     {
         

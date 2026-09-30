@@ -27,6 +27,7 @@ class DateField extends ValidateField implements IFormUI implements IValidateFie
 		
     }
 	
+	/** Applies date field settings and validation options. */
 	override public function setComponentData(data:Dynamic):Void 
 	{
 		
@@ -39,6 +40,7 @@ class DateField extends ValidateField implements IFormUI implements IValidateFie
 	
 	
     
+    /** Runs base validation and updates the date field’s state. */
     override public function onValidateCheck(event : Event) : Void
     {
         super.onValidateCheck(event);
@@ -46,6 +48,7 @@ class DateField extends ValidateField implements IFormUI implements IValidateFie
         isValid();
     }
     
+    /** Checks whether the current text represents a valid date. */
     override public function isValid() : Bool
     {
         // Only do anything if it's the right size

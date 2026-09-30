@@ -21,8 +21,11 @@ import com.chaos.utils.Debug;
 class Carousel extends BaseContainer implements IBaseContainer implements IBaseUI
 {
 
+    /** Container holding carousel position indicators. */
     public var dotContainer(get, never) : VerticalContainer;
+    /** Speed of carousel transitions. */
     public var animationSpeed(get, set) : Float;
+    /** Index of the currently selected carousel item. */
     public var selectedIndex(get, never) : Int;
 
  	/**
@@ -55,7 +58,7 @@ class Carousel extends BaseContainer implements IBaseContainer implements IBaseU
     
 	/**
 	 * UI Component 
-	 * @param	data The proprieties that you want to set on component.
+	 * @param	data Properties to apply to the component.
 	 */
     
     public function new(data : Dynamic = null)
@@ -80,6 +83,7 @@ class Carousel extends BaseContainer implements IBaseContainer implements IBaseU
     }    
 
 
+    /** Adds a valid display item to the carousel. */
     public function addItem( item : CarouselObjectData ):Void
     {
         if (item == null || item.content == null || !Std.isOfType(item.content, DisplayObject))
@@ -194,7 +198,7 @@ class Carousel extends BaseContainer implements IBaseContainer implements IBaseU
     }       
 
 	/**
-	 * Set properties based on object
+	 * Applies properties from the supplied data object
 	 * @param	data object with supported types
 	 */
 	

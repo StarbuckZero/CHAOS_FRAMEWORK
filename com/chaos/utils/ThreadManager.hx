@@ -20,13 +20,18 @@ import com.chaos.utils.Debug;
 
 @:final class ThreadManager
 {
+    /** Stage used for shared task and frame processing. */
     public static var stage(get, set) : Stage;
 
     
+    /** Task processing mode for first-in, first-out order. */
     public static inline var PROCESS_QUEUE_MODE : String = "queue";
+    /** Task processing mode for last-in, first-out order. */
     public static inline var PROCESS_STACK_MODE : String = "stack";
     
+    /** Task execution driven by a timer. */
     public static inline var THREAD_TYPE_TIMER : String = "timer";
+    /** Task execution driven by frame events. */
     public static inline var THREAD_TYPE_EVENT : String = "event";
     
     private static var _stage : Stage = null;
@@ -236,6 +241,7 @@ import com.chaos.utils.Debug;
 		taskManager.remove(task);
     }
     
+    /** Returns the named task manager, if one has been created. */
     public static function getTaskManager(id : String) : TaskManager
     {
         var taskManager:TaskManager = Reflect.field(taskCollection, id);

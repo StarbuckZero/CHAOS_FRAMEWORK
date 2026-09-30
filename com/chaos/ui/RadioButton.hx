@@ -41,7 +41,7 @@ class RadioButton extends SelectToggleBase implements IRadioButton implements IB
 
 	/**
 	 * UI Radio Button 
-	 * @param	data The proprieties that you want to set on component.
+	 * @param	data Properties to apply to the component.
 	 */
 
 	public function new(data:Dynamic = null)
@@ -53,7 +53,7 @@ class RadioButton extends SelectToggleBase implements IRadioButton implements IB
 	}
 	
 	/**
-	 * Set properties based on object
+	 * Applies properties from the supplied data object
 	 * @param	data object with supported types
 	 */
 	

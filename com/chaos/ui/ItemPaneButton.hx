@@ -43,7 +43,7 @@ class ItemPaneButton extends ToggleButton implements IToggleButton
 	
 	/**
 	 * ItemPane Button 
-	 * @param	data The proprieties that you want to set on component.
+	 * @param	data Properties to apply to the component.
 	 */
 	
 	public function new(data:Dynamic=null) 
@@ -70,7 +70,7 @@ class ItemPaneButton extends ToggleButton implements IToggleButton
 	}
 	
 	/**
-	 * Set properties based on object
+	 * Applies properties from the supplied data object
 	 * @param	data object with supported types
 	 */
 	
@@ -91,7 +91,7 @@ class ItemPaneButton extends ToggleButton implements IToggleButton
 	
 	
 	/**
-	 * Set properties based on object
+	 * Applies properties from the supplied data object
 	 * @param	data object with supported types
 	 */
 	
@@ -158,6 +158,7 @@ class ItemPaneButton extends ToggleButton implements IToggleButton
 		return _label.visible;
 	}
     	
+	/** Fills the icon shape with the supplied bitmap. */
 	public function setIcon( value:BitmapData ):Void
 	{
 		_icon.graphics.beginBitmapFill(value, null, false, true);
@@ -165,6 +166,7 @@ class ItemPaneButton extends ToggleButton implements IToggleButton
 		_icon.graphics.endFill();
 	}
 	
+	/** Fills the item shape with the supplied bitmap. */
 	public function setItem( value:BitmapData ) : Void
 	{
 		_item.graphics.beginBitmapFill(value, null, false, true);

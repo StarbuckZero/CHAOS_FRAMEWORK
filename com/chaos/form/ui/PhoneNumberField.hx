@@ -17,12 +17,14 @@ import openfl.events.Event;
 class PhoneNumberField extends ValidateField implements IFormUI implements IValidateField implements ITextInput implements IValidUI implements IBaseUI
 {
     
+    /** Creates a phone number field with optional component data. */
     public function new(data:Dynamic = null)
     {
         super(data);
         
     }
 	
+	/** Applies phone number field settings and validation options. */
 	override public function setComponentData(data:Dynamic):Void 
 	{
 		super.setComponentData(data);
@@ -33,6 +35,7 @@ class PhoneNumberField extends ValidateField implements IFormUI implements IVali
 	}
 	
     
+    /** Runs base validation and updates the phone field’s state. */
     override public function onValidateCheck(event : Event) : Void
     {
         super.onValidateCheck(event);
@@ -40,6 +43,7 @@ class PhoneNumberField extends ValidateField implements IFormUI implements IVali
         isValid();
     }
     
+    /** Checks whether the current text is a valid phone number. */
     override public function isValid() : Bool
     {
         

@@ -60,7 +60,7 @@ class CarouselDot extends BaseUI implements IBaseUI
 
 	/**
 	 * UI Component 
-	 * @param	data The proprieties that you want to set on component.
+	 * @param	data Properties to apply to the component.
 	 */
     
     public function new( data : Dynamic = null)
@@ -70,7 +70,7 @@ class CarouselDot extends BaseUI implements IBaseUI
 
 
 	/**
-	 * Set properties based on object
+	 * Applies properties from the supplied data object
 	 * @param	data object with supported types
 	 */
 	
@@ -204,7 +204,7 @@ class CarouselDot extends BaseUI implements IBaseUI
     }    
     
 	/**
-	 * This is for setting an shape for the dot default state
+	 * Sets an image for the dot default state
 	 *
 	 * @param value Set the shape that you want to use
 	 *
@@ -215,7 +215,7 @@ class CarouselDot extends BaseUI implements IBaseUI
 	}    
     
 	/**
-	 * This is for setting an shape for the dot down state
+	 * Sets an image for the dot down state
 	 *
 	 * @param value Set the shape that you want to use
 	 *

@@ -15,12 +15,14 @@ class TextLabel extends Label implements ILabel implements IBaseUI implements IF
     
     private var id : Int = 0;
     
+    /** Creates a form text label with optional component data. */
     public function new(data:Dynamic = null)
     {
         super(data);
 		
     }
 	
+	/** Returns the label name, ID, value, and type. */
 	public function data():Dynamic
 	{
 		return {"name":name, "id":id, "value":getValue(), "type":"label"};

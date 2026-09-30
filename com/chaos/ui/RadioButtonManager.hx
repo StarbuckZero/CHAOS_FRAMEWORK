@@ -13,6 +13,7 @@ class RadioButtonManager
 	private static var _groupArray : Dictionary<String,DataProvider<IRadioButton>> = new Dictionary<String,DataProvider<IRadioButton>>(true);
 	
 	
+	/** Creates a radio button manager. */
 	public function new()
     {
 		

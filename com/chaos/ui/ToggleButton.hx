@@ -74,7 +74,7 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI {
 	public var downColor(get, set):Int;
 
 	/**
-	 * The button disable state color
+	 * The button disabled state color
 	 */
 	public var disableColor(get, set):Int;
 
@@ -111,9 +111,13 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI {
 	public var fadeToDownState(get, set):Bool;
 	
 
+	/** Button representing the normal toggle state. */
 	public var normalState:ButtonBase;
+	/** Button representing the hover toggle state. */
 	public var overState:ButtonBase;
+	/** Button representing the pressed toggle state. */
 	public var downState:ButtonBase;
+	/** Button representing the disabled toggle state. */
 	public var disableState:ButtonBase;
 
 	private var _defaultColor:Int = 0xCCCCCC;
@@ -147,7 +151,7 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI {
 
 	/**
 	 * UI Toggle Button
-	 * @param	data The proprieties that you want to set on component.
+	 * @param	data Properties to apply to the component.
 	 */
 	public function new(data:Dynamic = null) {
 		super(data);
@@ -165,7 +169,7 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI {
 	}
 
 	/**
-	 * Set properties based on object
+	 * Applies properties from the supplied data object
 	 * @param	data object with supported types
 	 */
 	override public function setComponentData(data:Dynamic):Void {
@@ -540,7 +544,7 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI {
 	}
 
 	/**
-	 * The button disable state color
+	 * The button disabled state color
 	 */
 	private function set_disableColor(value:Int):Int {
 		_disableColor = value;
@@ -549,7 +553,7 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI {
 	}
 
 	/**
-	 * Return the button disable state color
+	 * Return the button disabled state color
 	 */
 	private function get_disableColor():Int {
 		return _disableColor;
@@ -616,7 +620,7 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI {
 	}
 
 	/**
-	 * The fade up speed of over and disable state
+	 * The fade up speed of over and disabled state
 	 */
 	 private function set_stateFadeSpeed(value:Float):Float {
 		_stateFadeSpeed = value;
@@ -632,7 +636,7 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI {
 	}
 
 	/**
-	 * The fade up speed of over and disable state
+	 * The fade up speed of over and disabled state
 	 */
 	 private function set_fadeToDownState(value:Bool):Bool {
 		_fadeToDownState = value;
@@ -648,7 +652,7 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI {
 	}	
 
 	/**
-	 * This is for setting an shape for the button default state
+	 * Sets the bitmap for the normal button state.
 	 *
 	 * @param value Set the shape that you want to use
 	 *
@@ -658,7 +662,7 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI {
 	}
 
 	/**
-	 * This is for setting an shape for the button over state
+	 * Sets the bitmap for the hover button state.
 	 *
 	 * @param value Set the shape that you want to use
 	 *
@@ -668,7 +672,7 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI {
 	}
 
 	/**
-	 * This is for setting an shape for the button down state
+	 * Sets the bitmap for the pressed button state.
 	 *
 	 * @param value Set the shape that you want to use
 	 *
@@ -678,7 +682,7 @@ class ToggleButton extends BaseUI implements IToggleButton implements IBaseUI {
 	}
 
 	/**
-	 * This is for setting an shape for the button down state
+	 * Sets the bitmap for the disabled button state.
 	 *
 	 * @param value Set the shape that you want to use
 	 *

@@ -16,6 +16,7 @@ import openfl.display.Shape;
  */
 class ValidateField extends InputField implements IFormUI implements ITextInput implements IBaseUI
 {
+    /** Shape used to indicate the field’s validation state. */
     public var backgroundValidate : Shape = new Shape();
     
     private var _backgroundValidColor : Int = 0x00FF00;
@@ -50,6 +51,7 @@ class ValidateField extends InputField implements IFormUI implements ITextInput 
 		addChildAt(backgroundValidate, 3);        
 	}
 	
+	/** Removes validation listeners and inherited input resources. */
 	override public function destroy():Void 
 	{
 		super.destroy();
@@ -92,7 +94,7 @@ class ValidateField extends InputField implements IFormUI implements ITextInput 
 
     
     /**
-	 * This is for setting an image to the text input default state. It is best to set an image that can be tile.
+	 * Sets the bitmap displayed when the field is valid.
 	 */
     
     public function setValidBackgroundImage(value : BitmapData) : Void
@@ -102,7 +104,7 @@ class ValidateField extends InputField implements IFormUI implements ITextInput 
     
     
     /**
-	 * This is for setting an image to the text input default state. It is best to set an image that can be tile.
+	 * Stores the supplied bitmap in the valid background slot.
 	 */
     
     public function setInvalidBackgroundImage(value : BitmapData) : Void
@@ -111,8 +113,8 @@ class ValidateField extends InputField implements IFormUI implements ITextInput 
     }
     
     /**
-	 * An event that need to be maked for override. This is ran once
-	 * @param	event
+	 * Shows the validation background and redraws the field after a validation check.
+	 * @param event Event that triggered validation.
 	 */
     
     public function onValidateCheck(event : Event) : Void
@@ -125,8 +127,8 @@ class ValidateField extends InputField implements IFormUI implements ITextInput 
     }
     
     /**
-	 * Check to see if info stored is correct
-	 * @return True if it's correct and false if not
+	 * Checks whether the field contains a value.
+	 * @return True when the field is not empty.
 	 */
     
     public function isValid() : Bool
@@ -135,6 +137,7 @@ class ValidateField extends InputField implements IFormUI implements ITextInput 
     }
     
     
+    /** Draws the field and its validation background. */
     override public function draw() : Void
     {
         super.draw();

@@ -2,7 +2,9 @@ package com.chaos.ui.chart;
 import com.chaos.ui.chart.ChartTypes;
 /** Numeric points in input order, with shared marker rendering and no connecting strokes. */
 class ScatterPlot extends LineSeriesBase {
+    /** Type identifier for scatter plots. */
     public static inline var TYPE:String="ScatterPlot";
+    /** Creates a scatter plot with optional configuration. */
     public function new(data:Dynamic=null) { super(data); }
     override function get_chartType():String { return TYPE; }
     override function defaultAxisScale(axis:String):String { return "linear"; }

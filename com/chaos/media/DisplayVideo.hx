@@ -29,16 +29,27 @@ import openfl.net.NetStream;
 
 class DisplayVideo extends BaseUI implements IBaseUI
 {
+	/** Type identifier for video components. */
 	public static inline var TYPE : String = "DisplayVideo";
+    /** Current loaded state of the video. */
     public var videoLoaded(get, never) : Int;
+    /** Amount of video to buffer before playback. */
     public var bufferAmount(get, set) : Int;
+    /** Video display object. */
     public var video(get, never) : Video;
+    /** Whether video playback is active. */
     public var isPlaying(get, never) : Bool;
+    /** Network connection used for the stream. */
     public var connection(get, never) : NetConnection;
+    /** Network stream carrying the video. */
     public var netStream(get, never) : NetStream;
+	/** Current playback volume. */
 	public var volume(get, set) : Float;
+	/** Whether playback audio is muted. */
 	public var muted(get, set) : Bool;
+	/** Color drawn behind the video. */
 	public var backgroundColor(get, set) : Int;
+	/** Opacity of the video background. */
 	public var backgroundAlpha(get, set) : Float;
 	
     
@@ -649,6 +660,7 @@ class DisplayVideo extends BaseUI implements IBaseUI
 		_stream = null;
 	}
 
+	/** Stops playback and releases video listeners and stream resources. */
 	override public function destroy():Void
 	{
 		disposeStream();

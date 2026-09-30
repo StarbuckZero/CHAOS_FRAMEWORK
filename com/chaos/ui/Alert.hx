@@ -20,21 +20,33 @@ import openfl.events.MouseEvent;
 import openfl.text.TextFormatAlign;
 
 /**
- * AlertBox system that blocks whatever that is in the background
+ * Displays modal alerts over a background-blocking overlay.
  */
 class Alert
 {
+	/** Hover color for positive action buttons. */
 	public static var positiveButtonOverColor(get, set) : Int;
+	/** Pressed color for positive action buttons. */
 	public static var positiveButtonDownColor(get, set) : Int;
+	/** Normal color for negative action buttons. */
 	public static var negativeButtonNormalColor(get, set) : Int;
+	/** Hover color for negative action buttons. */
 	public static var negativeButtonOverColor(get, set) : Int;
+	/** Pressed color for negative action buttons. */
 	public static var negativeButtonDownColor(get, set) : Int;
+	/** Normal color for neutral action buttons. */
 	public static var neutralButtonNormalColor(get, set) : Int;
+	/** Hover color for neutral action buttons. */
 	public static var neutralButtonOverColor(get, set) : Int;
+	/** Pressed color for neutral action buttons. */
 	public static var neutralButtonDownColor(get, set) : Int;
+	/** Title color of the focused alert window. */
 	public static var windowTitleFocusColor(get, set) : Int;
+	/** Background color of the focused alert window. */
 	public static var windowFocusColor(get, set) : Int;
+	/** Background color of an unfocused alert window. */
 	public static var windowUnFocusColor(get, set) : Int;
+	/** Title color of an unfocused alert window. */
 	public static var windowTitleUnFocusColor(get, set) : Int;
 
 	/** Default background color */
@@ -63,9 +75,9 @@ class Alert
 	public static var BUTTON_OFFSET_Y : Int = 25;
 	/** The amount of buttons before switching to a smaller size */
 	public static var SMALL_BUTTON_COUNT : Int = 3;
-	/** The smaller size that the alert box switch too */
+	/** Button width used when the alert has many actions. */
 	public static var SMALL_BUTTON_WIDTH : Int = 60;
-	/** The smaller size that the alert box switch too */
+	/** Button height used when the alert has many actions. */
 	public static var SMALL_BUTTON_HEIGHT : Int = 20;
 	/** Set the size of the middle area */
 	public static var ALERT_TOP_SIZE : Int = 20;
@@ -73,7 +85,7 @@ class Alert
 	public static var ALERT_MIDDLE_SIZE : Int = 0;
 	/** Set the size of the bottom area */
 	public static var ALERT_BOTTOM_SIZE : Int = 0;
-	/** Set if you want to user to be able to grab the text*/
+	/** Whether users can select alert label text. */
 	public static var ALERT_LABEL_TEXT_SELECTABLE : Bool = false;
 
 	private static var _alertList : DataProvider<AlertObjectData> = new DataProvider<AlertObjectData>();
@@ -557,9 +569,9 @@ class Alert
 	}
 
 	/**
-	* Set the close button disable state color
+	* Set the close button disabled state color
 	*
-	* @param value Set the disable state color on the button
+	* @param value Set the disabled state color on the button
 	*
 	*/
 	public static function set_closeButtonDisableColor(value : Int) : Int
@@ -580,7 +592,7 @@ class Alert
 
 
 	/**
-	* This is for setting an image to the close button default state. It is best to set an image that can be tiled.
+	* Sets an image for the close button default state. It is best to set an image that can be tiled.
 	*
 	* @param value Set the image based on a Bitmap being pass
 	*
@@ -594,7 +606,7 @@ class Alert
 
 
 	/**
-	* This is for setting an image to the close button roll over state. It is best to set an image that can be tiled.
+	* Sets an image for the close button hover state. It is best to set an image that can be tiled.
 	*
 	* @param value Set the image based on a Bitmap being pass
 	*
@@ -608,7 +620,7 @@ class Alert
 
 
 	/**
-	* This is for setting an image to the close button roll press state. It is best to set an image that can be tiled.
+	* Sets an image for the close button pressed state. It is best to set an image that can be tiled.
 	*
 	* @param value Set the image based on a Bitmap being pass
 	*
@@ -621,7 +633,7 @@ class Alert
 
 
 	/**
-	* This is for setting an image to the button disable state. It is best to set an image that can be tiled.
+	* Sets an image for the button disabled state. It is best to set an image that can be tiled.
 	*
 	* @param value Set the image based on a Bitmap being pass
 	*
@@ -700,7 +712,7 @@ class Alert
 
 
 	/**
-	* This is for setting an image to the positive button default state. It is best to set an image that can be tiled.
+	* Sets an image for the positive button default state. It is best to set an image that can be tiled.
 	*
 	* @param value Set the image based on a Bitmap being pass
 	*
@@ -713,7 +725,7 @@ class Alert
 
 
 	/**
-	* This is for setting an image to the positive button roll over state. It is best to set an image that can be tiled.
+	* Sets an image for the positive button hover state. It is best to set an image that can be tiled.
 	*
 	* @param value Set the image based on a Bitmap being pass
 	*
@@ -723,7 +735,7 @@ class Alert
 
 
 	/**
-	* This is for setting an image to the positive button roll press state. It is best to set an image that can be tiled.
+	* Sets an image for the positive button pressed state. It is best to set an image that can be tiled.
 	*
 	* @param value Set the image based on a Bitmap being pass
 	*
@@ -780,7 +792,7 @@ class Alert
 
 
 	/**
-	* This is for setting an image to the negative button default state. It is best to set an image that can be tiled.
+	* Sets an image for the negative button default state. It is best to set an image that can be tiled.
 	*
 	* @param value Set the image based on a Bitmap being pass
 	*
@@ -790,7 +802,7 @@ class Alert
 
 
 	/**
-	* This is for setting an image to the negative button roll over state. It is best to set an image that can be tiled.
+	* Sets an image for the negative button hover state. It is best to set an image that can be tiled.
 	*
 	* @param value Set the image based on a Bitmap being pass
 	*
@@ -800,7 +812,7 @@ class Alert
 
 
 	/**
-	* This is for setting an image to the negative button roll press state. It is best to set an image that can be tiled.
+	* Sets an image for the negative button pressed state. It is best to set an image that can be tiled.
 	*
 	* @param value Set the image based on a Bitmap being pass
 	*
@@ -861,7 +873,7 @@ class Alert
 
 
 	/**
-	* This is for setting an image to the neutral button default state. It is best to set an image that can be tiled.
+	* Sets an image for the neutral button default state. It is best to set an image that can be tiled.
 	*
 	* @param value Set the image based on a Bitmap being pass
 	*
@@ -871,7 +883,7 @@ class Alert
 
 
 	/**
-	* This is for setting an image to the neutral button roll over state. It is best to set an image that can be tiled.
+	* Sets an image for the neutral button hover state. It is best to set an image that can be tiled.
 	*
 	* @param value Set the image based on a Bitmap being pass
 	*
@@ -880,7 +892,7 @@ class Alert
 
 
 	/**
-	* This is for setting an image to the neutral button roll press state. It is best to set an image that can be tiled.
+	* Sets an image for the neutral button pressed state. It is best to set an image that can be tiled.
 	*
 	* @param value Set the image based on a Bitmap being pass
 	*
@@ -1031,7 +1043,7 @@ class Alert
 
 
 	/**
-	* This is for setting an image to the Alert. It is best to set an image that can be tile.
+	* Sets an image for the Alert. It is best to set an image that can be tiled.
 	*
 	* @param value Set the image based on a Bitmap being pass
 	*
@@ -1039,7 +1051,7 @@ class Alert
 	public static function setBackgroundBitmap(value : BitmapData) : Void { _backgroundImage = value; }
 
 	/**
-	* This is for setting an image to the Alert. It is best to set an image that can be tile.
+	* Sets an image for the Alert. It is best to set an image that can be tiled.
 	*
 	* @param strMessage The message that will be display in the alert.
 	* @param strTitle The window title area text.

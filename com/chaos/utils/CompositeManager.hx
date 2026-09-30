@@ -18,6 +18,7 @@ import openfl.geom.Rectangle;
 class CompositeManager
 {
     
+    /** Creates a composite manager. */
     public function new()
     {
         

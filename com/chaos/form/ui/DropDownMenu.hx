@@ -15,6 +15,7 @@ import com.chaos.ui.classInterface.IComboBox;
 class DropDownMenu extends ComboBox implements IComboBox implements IBaseUI implements IFormUI
 {
     
+    /** Creates a drop-down form control with optional component data. */
     public function new(data:Dynamic = null)
     {
         super(data);

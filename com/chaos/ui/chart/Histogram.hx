@@ -1,8 +1,11 @@
 package com.chaos.ui.chart;
 import com.chaos.ui.chart.ChartTypes;
 class Histogram extends BarColumnChartBase {
+    /** Type identifier for histograms. */
     public static inline var TYPE:String="Histogram";
+    /** Copies of the computed histogram bins. */
     public var bins(get,never):Array<Dynamic>;
+    /** Creates a histogram with optional configuration. */
     public function new(data:Dynamic=null) { super(data); }
     override function get_chartType():String { return TYPE; }
     function get_bins():Array<Dynamic> { return [for(p in points) ChartData.copy(p.source)]; }
@@ -38,6 +41,7 @@ class Histogram extends BarColumnChartBase {
         if(lower>=upper) return null; var a=valueToX(lower); var b=valueToX(upper); if(a==null || b==null) return null;
         return {center:a/2+b/2,band:b-a};
     }
+    /** Uses the configured histogram color or the default series color. */
     override public function seriesColor(index:Int,series:Dynamic=null,point:Dynamic=null):Int { return config.color==null?super.seriesColor(0):config.color; }
     override function textureFor(series:Dynamic,point:Dynamic):Dynamic { return config.texture; }
     override function pointPayload(point:ChartPoint):Dynamic {

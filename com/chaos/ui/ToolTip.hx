@@ -91,6 +91,7 @@ class ToolTip
     private static inline var DEFAULT_BG_COLOR : Int = 0xFFFFFF;
 
     
+    /** Creates the shared tooltip controller. */
     public function new()
     {
         
@@ -471,6 +472,7 @@ class ToolTip
         displayObj.removeEventListener(MouseEvent.MOUSE_MOVE, onMouseLocUpdate);
     }
     
+    /** Returns the tooltip data registered for a display object, if any. */
     public static function getToolTipData(displayObj : DisplayObject) : ToolTipData
     {
         for (i in 0..._list.length)

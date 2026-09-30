@@ -27,7 +27,7 @@ class CheckBoxGroup extends HorizontalContainer implements ICheckBoxGroup implem
     
 	/**
 	 * UI Component 
-	 * @param	data The proprieties that you want to set on component.
+	 * @param	data Properties to apply to the component.
 	 */	
     
     public function new(data:Dynamic = null)
@@ -37,12 +37,13 @@ class CheckBoxGroup extends HorizontalContainer implements ICheckBoxGroup implem
     }
 	
 	/**
-	 * Set properties based on object
+	 * Applies properties from the supplied data object
 	 * @param	data object with supported types
 	 */
 	
 	private var _selectionData:SelectionGroupData;
 
+	/** Updates checkbox group settings and reconciles its child controls. */
 	override public function setComponentData(data:Dynamic):Void
 	{
         if (data == null) return;
@@ -153,6 +154,7 @@ class CheckBoxGroup extends HorizontalContainer implements ICheckBoxGroup implem
             removeCheckBox(_list[_list.length - 1]);
     }
     
+    /** Dispatches a change event when a checkbox selection changes. */
     public function onChange(event : MouseEvent) : Void
     {
         displayObject.dispatchEvent(new Event(Event.CHANGE));

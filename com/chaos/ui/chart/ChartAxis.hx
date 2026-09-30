@@ -14,6 +14,7 @@ typedef ChartAxisConfig = {
 }
 
 class ChartAxis {
+    /** Returns default axis settings for the requested scale type. */
     public static function defaults(scale:String):ChartAxisConfig {
         return {scale:scale,title:"",minimum:null,maximum:null,interval:null,showGrid:true,showTicks:true,
             showLabels:true,showZeroLine:true,format:{kind:"number",decimals:2}};

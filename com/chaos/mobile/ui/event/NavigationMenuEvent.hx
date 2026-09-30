@@ -4,7 +4,7 @@ import openfl.events.Event;
 import com.chaos.mobile.ui.NavigationMenuItem;
 
 /**
- * ...
+ * Reports an interaction with a navigation menu item.
  * @author Erick Feiling
  */
 
@@ -18,8 +18,10 @@ class NavigationMenuEvent extends Event
 	
     public static inline var SELECTED : String = "selected";
 
+    /** Navigation menu button associated with the event. */
     public var menuButton : NavigationMenuItem;
     
+    /** Creates an event for a navigation menu button. */
     public function new(type : String, button:NavigationMenuItem, bubbles : Bool = false, cancelable : Bool = false)
     {
         super(type, bubbles, cancelable);
@@ -27,11 +29,13 @@ class NavigationMenuEvent extends Event
         menuButton = button;
     }
     
+    /** Returns a copy with the same menu button. */
     override public function clone() : NavigationMenuEvent
     {
         return new NavigationMenuEvent(type, menuButton, bubbles, cancelable);
     }
     
+    /** Formats the inherited event fields. */
     override public function toString() : String
     {
         return formatToString("NavigationMenuEvent", "type", "bubbles", "cancelable", "eventPhase");

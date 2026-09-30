@@ -34,7 +34,7 @@ class FitContainer extends AlignmentBaseContainer implements IFitContainer imple
 	}
 
 	/**
-	 * Set properties based on object
+	 * Applies properties from the supplied data object
 	 * @param	data object with supported types
 	 */
 

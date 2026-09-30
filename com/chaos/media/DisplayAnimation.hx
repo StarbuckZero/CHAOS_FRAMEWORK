@@ -15,10 +15,15 @@ import openfl.utils.Timer;
 
 class DisplayAnimation extends BaseUI implements IBaseUI 
 {
+	/** Index of the currently displayed animation frame. */
 	public var index(get, never) : Int;
+	/** Delay between animation frames. */
 	public var rate(get, never) : Int;
+	/** Whether playback repeats after the final frame. */
 	public var loop(get, never) : Bool;
+	/** Mode used to advance animation frames. */
 	public var mode(get, set) : String;
+	/** Timer that advances animation frames. */
 	public var timer(get, never) : Timer;
 	
 	private var _index : Int = 0;

@@ -25,6 +25,7 @@ class ContainerAlignPolicy
     /** Start on the left hand side when it comes to the Vertical container */
     public static inline var LEFT : String = "left";
     
+    /** Creates a container alignment policy. */
     public function new()
     {
         

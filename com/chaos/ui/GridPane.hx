@@ -49,32 +49,48 @@ import openfl.events.FocusEvent;
 import openfl.display.Sprite;
 
 /**
- * Creates a grid that use Form UI Elements. The grid use basic Objects that is displayed
- * in the grid based on the value when the column is created.
+ * Displays form controls and other objects in a configurable grid of rows and columns.
  */
 
 class GridPane extends ScrollPane implements IGridPane implements IScrollPane implements IBaseContainer implements IBaseUI
 {
 	
+    /** Index of the selected row. */
     public var selectedRow(get, set) : Int;
+    /** Index of the selected column. */
     public var selectedCol(get, set) : Int;
+    /** Size of the column header buttons. */
     public var buttonSize(get, set) : Int;
+    /** Size of the sort indicator arrows. */
     public var arrowSize(get, set) : Int;
+    /** Color of the sort indicator arrows. */
     public var arrowColor(get, set) : Int;
+    /** Whether cell borders are drawn. */
     public var cellBorder(get, set) : Bool;
+    /** Color of cell borders. */
     public var cellBorderColor(get, set) : Int;
+    /** Default cell fill color. */
     public var cellColor(get, set) : Int;
+    /** Whether cell backgrounds are drawn. */
     public var cellBackground(get, set) : Bool;
+    /** Opacity of cell borders. */
     public var cellBorderAlpha(get, set) : Float;
+    /** Stroke width of cell borders. */
     public var cellBorderThickness(get, set) : Float;
+    /** Normal column header button color. */
     public var columnButtonColor(get, set) : Int;
+    /** Hover column header button color. */
     public var columnButtonOverColor(get, set) : Int;
+    /** Pressed column header button color. */
     public var columnButtonDownColor(get, set) : Int;
+    /** Data source used to populate grid rows. */
     public var dataProvider(get, set) : DataProvider<Object>;
 
     
+    /** Default offset of a sort arrow within its column header. */
     public static var ARROW_OFFSET : Int = 13;
     
+    /** Default height of a column header. */
     public var columnDefaultHeight : Int = 25;
     
     private var column : DataProvider<GridObjectData> = new DataProvider<GridObjectData>();
@@ -114,8 +130,8 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
     private var _columnButtonDownColor : Int = 0x333333;
     
 	/**
-	 * UI Grid 
-	 * @param	data The proprieties that you want to set on component.
+	 * Creates a grid with optional component properties.
+	 * @param data Properties to apply to the grid.
 	 */
 	
     public function new(data:Dynamic = null)
@@ -125,8 +141,8 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
     }
 	
 	/**
-	 * Set properties based on object
-	 * @param	data object with supported types
+	 * Applies grid configuration and row data from an object.
+	 * @param data Grid properties and optional row data.
 	 */
 	
 	override public function setComponentData(data:Dynamic):Void 
@@ -1461,16 +1477,27 @@ class GridPane extends ScrollPane implements IGridPane implements IScrollPane im
  class GridObjectData 
  {
 
+    /** Column UI object represented by this grid record. */
     public var col : IBaseUI;
+    /** Container for this column’s header button. */
     public var buttonHolder : IAlignmentContainer;
+    /** Class used to create the column cell element. */
     public var element : Class<Object>;
+    /** Header button for this column. */
     public var button : IButton;
+    /** Name identifying this column. */
     public var name : String;
+    /** Sort-direction icon for this column. */
     public var arrow : IBasicIcon;
+    /** Original transform of the sort arrow. */
     public var arrowDefault : Matrix;
+    /** Field name read from each data row. */
     public var dataRowName : String;
+    /** Configuration associated with this column. */
     public var data : Dynamic;
+    /** Whether this column supports sorting. */
     public var sort : Bool = false;
+    /** Layout class used for this column. */
     public var layout : Class<Object>;
 
 	/**

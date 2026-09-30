@@ -9,14 +9,21 @@ import openfl.display.DisplayObject;
 class StageAlignmentObjectData 
 {
 	
+	/** Alignment location assigned to the display object. */
 	public var location(get, never) : Int;
+	/** Whether alignment stays relative as the stage changes. */
 	public var stayRelative(get, never) :Bool;
+	/** Display object being aligned. */
 	public var displayObj(get, never) : DisplayObject;
 	
+	/** Original horizontal position. */
 	public var defaultX(get, never) : Float;
+	/** Original vertical position. */
 	public var defaultY(get, never) : Float;
 	
+	/** Requested width as a percentage of the stage. */
 	public var percentWidth(get, never) : Int;
+	/** Requested height as a percentage of the stage. */
 	public var percentHeight(get, never) : Int;
 	
 	
@@ -31,6 +38,7 @@ class StageAlignmentObjectData
 	private var _percentHeight : Int = -1;
 	
 	
+	/** Stores a display object and its alignment and sizing options. */
 	public function new( location:Int, stayRelative:Bool, displayObj:DisplayObject, defaultX:Float = 0, defaultY:Float = 0, percentWidth:Int = -1, percentHeight:Int = -1) 
 	{
 		_loc = location;

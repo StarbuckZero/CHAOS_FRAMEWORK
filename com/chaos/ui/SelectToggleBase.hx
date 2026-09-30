@@ -70,7 +70,7 @@ class SelectToggleBase extends ToggleButton implements IToggleButton implements 
 
 	/**
 	 * UI Select Toggle Button 
-	 * @param	data The proprieties that you want to set on component.
+	 * @param	data Properties to apply to the component.
 	 */
 	public function new(data:Dynamic=null) 
 	{
@@ -93,7 +93,7 @@ class SelectToggleBase extends ToggleButton implements IToggleButton implements 
 	}
 	
 	/**
-	 * Set properties based on object
+	 * Applies properties from the supplied data object
 	 * @param	data object with supported types
 	 */
 	
@@ -276,21 +276,25 @@ class SelectToggleBase extends ToggleButton implements IToggleButton implements 
 	
 	
 	
+	/** Sets the bitmap for the selected normal state. */
 	public function setSelectedDefaultStateImage( value:BitmapData ) : Void
 	{
 		_selectedDefaultStateImage = value;
 	}
 	
+	/** Sets the bitmap for the selected hover state. */
 	public function setSelectedOverStateImage( value:BitmapData ) : Void
 	{
 		_selectedOverStateImage = value;
 	}
 	
+	/** Sets the bitmap for the selected pressed state. */
 	public function setSelectedDownStateImage( value:BitmapData ) : Void
 	{
 		_selectedDownStateImage = value;
 	}
 	
+	/** Sets the bitmap for the selected disabled state. */
 	public function setSelectedDisableStateImage( value:BitmapData) : Void
 	{
 		_selectedDisableStateImage = value;

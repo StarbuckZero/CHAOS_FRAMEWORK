@@ -8,7 +8,7 @@ import com.chaos.ui.classInterface.IBaseUI;
 import com.chaos.ui.classInterface.ITextInput;
 
 /**
- * This is pretty much an TextInput but with form support
+ * Adds form data access to a text input.
  * @see
  * @author Erick Feiling
  */
@@ -19,11 +19,13 @@ class InputField extends TextInput implements ITextInput implements IFormUI impl
 	
 	private var _data : Dynamic;
     
+    /** Creates an input field with optional component data. */
     public function new(data:Dynamic = null)
     {
         super(data);
     }
 	
+	/** Returns the field name, ID, value, and type as a data object. */
 	public function data():Dynamic
 	{
 		return {"name":name, "id":_id, "value":getValue(), "type":"label"};

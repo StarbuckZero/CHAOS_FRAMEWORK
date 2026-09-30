@@ -66,7 +66,7 @@ class TextInput extends Label implements ITextInput implements ILabel implements
 	public var backgroundSelectedColor(get, set) : Int;
 	
 	/**
-	 * The color of the text input background disable state
+	 * The color of the text input background disabled state
 	 */
 	
 	public var backgroundDisableColor(get, set) : Int;
@@ -78,9 +78,13 @@ class TextInput extends Label implements ITextInput implements ILabel implements
 	private var _showImage : Bool = true;
 	private var _displayImage : Bool = false;
 
+	/** Background shape for the normal input state. */
 	public var backgroundNormal : Shape = new Shape();
+	/** Background shape for the hover input state. */
 	public var backgroundOver : Shape = new Shape();
+	/** Background shape for the selected input state. */
 	public var backgroundSelected : Shape = new Shape();
+	/** Background shape for the disabled input state. */
 	public var backgroundDisable : Shape = new Shape();
 
 	private var _backgroundImage : BitmapData;
@@ -100,7 +104,7 @@ class TextInput extends Label implements ITextInput implements ILabel implements
 
 	/**
 	 * UI TextInput 
-	 * @param	data The proprieties that you want to set on component.
+	 * @param	data Properties to apply to the component.
 	 */
 	public function new(data:Dynamic = null)
 	{
@@ -111,7 +115,7 @@ class TextInput extends Label implements ITextInput implements ILabel implements
 	}
 	
 	/**
-	 * Set properties based on object
+	 * Applies properties from the supplied data object
 	 * @param	data object with supported types
 	 */
 	
@@ -497,7 +501,7 @@ class TextInput extends Label implements ITextInput implements ILabel implements
 	}
 
 	/**
-	 * The color of the text input background disable state
+	 * The color of the text input background disabled state
 	 */
 	private function set_backgroundDisableColor(value : Int) : Int
 	{
@@ -516,7 +520,7 @@ class TextInput extends Label implements ITextInput implements ILabel implements
 	}
 
 	/**
-	 * This is for setting an image to the text input default state. It is best to set an image that can be tile.
+	 * Sets an image for the text input default state. It is best to set an image that can be tiled.
 	 */
 
 	public function setBackgroundImage(value : BitmapData) : Void
@@ -526,7 +530,7 @@ class TextInput extends Label implements ITextInput implements ILabel implements
 	}
 
 	/**
-	 * This is for setting an image to the text input roll over state. It is best to set an image that can be tile.
+	 * Sets an image for the text input hover state. It is best to set an image that can be tiled.
 	 */
 	public function setOverBackgroundImage(value : BitmapData) : Void
 	{
@@ -534,7 +538,7 @@ class TextInput extends Label implements ITextInput implements ILabel implements
 	}
 
 	/**
-	 * This is for setting an image to the text input selected state. It is best to set an image that can be tile.
+	 * Sets an image for the text input selected state. It is best to set an image that can be tiled.
 	 */
 
 	public function setSelectedBackgroundImage(value : BitmapData) : Void
@@ -543,7 +547,7 @@ class TextInput extends Label implements ITextInput implements ILabel implements
 	}
 
 	/**
-	 * This is for setting an image to the text input disable state. It is best to set an image that can be tile.
+	 * Sets an image for the text input disabled state. It is best to set an image that can be tiled.
 	 */
 	public function setDisableBackgroundImage(value : BitmapData) : Void
 	{
@@ -551,7 +555,7 @@ class TextInput extends Label implements ITextInput implements ILabel implements
 	}
 
 	/**
-	 * Remove all roll over and roll out effects while setting text input to it's disable state
+	 * Remove all roll over and roll out effects while setting text input to it's disabled state
 	 *
 	 * @param value Disable or Enable button
 	 */

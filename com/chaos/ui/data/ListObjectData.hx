@@ -14,6 +14,7 @@ import openfl.display.BitmapData;
 
 class ListObjectData extends SelectObjectData
 {
+	/** Bitmap icon displayed for this list item. */
 	public var icon(get, set) :BitmapData;
    
 	private var _icon:BitmapData;

@@ -44,7 +44,7 @@ interface IOverlay extends IBaseUI
 	 *
 	 * @param	leftImage An image the left
 	 * @param	middleImage An middle image that will tile
-	 * @param	rightImage An right image that will be used
+	 * @param	rightImage A right image that will be used
 	 */
     
     function setTopImage(leftImage : BitmapData = null, middleImage : BitmapData = null, rightImage : BitmapData = null) : Void;

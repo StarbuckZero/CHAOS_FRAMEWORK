@@ -5,12 +5,16 @@ import openfl.display.Shape;
 import openfl.geom.Point;
 import openfl.geom.Matrix;
 class AreaChart extends LineSeriesBase {
+    /** Type identifier for area charts. */
     public static inline var TYPE:String="AreaChart";
+    /** Number of fill polygons drawn in the last render. */
     public var fillPolygonCount(default,null):Int=0;
     var fills:Sprite;
+    /** Creates an area chart with optional configuration. */
     public function new(data:Dynamic=null) { super(data); }
     override function get_chartType():String { return TYPE; }
     override function includeZero(axis:String):Bool { return axis=="y"; }
+    /** Creates the area fill layer and applies area chart defaults. */
     override public function initialize():Void {
         super.initialize(); if(!Reflect.hasField(config,"fillAlpha")) config.fillAlpha=0.3; config.baseline=0;
         fills=new Sprite(); fills.mouseEnabled=false; fills.mouseChildren=false; gridLayer.addChild(fills);
@@ -69,5 +73,6 @@ class AreaChart extends LineSeriesBase {
         }
         super.drawPlot();
     }
+    /** Removes fill graphics and releases inherited chart resources. */
     override public function destroy():Void { if(destroyed) return; if(fills!=null) fills.removeChildren(); super.destroy(); }
 }

@@ -15,11 +15,13 @@ class Select extends ListBox implements IListBox implements IBaseUI implements I
     
     private var id : Int = 0;
     
+    /** Creates a select field with optional component data. */
     public function new(data:Dynamic = null)
     {
         super(data);
     }
 	
+	/** Applies select field settings and options. */
 	override public function setComponentData(data:Dynamic):Void 
 	{
 		super.setComponentData(data);
@@ -29,6 +31,7 @@ class Select extends ListBox implements IListBox implements IBaseUI implements I
 		
 	}
 	
+	/** Returns the select field name, ID, value, and type. */
 	public function data():Dynamic
 	{
 		return {"name":name, "id":id, "value":getValue(), "type":"label"};

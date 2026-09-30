@@ -24,34 +24,47 @@ import openfl.utils.ByteArray;
 
 
 /**
- * A 2D Panorama that used image
+ * Displays an image that can be panned and zoomed in two dimensions.
  *
  * @author Erick Feiling
  */
 
 class Panorama2D extends BaseUI implements IPanorama implements IBaseUI
 {
+    /** Size of the pointer hit area used while panning. */
     public var spacing(get, set) : Int;
+    /** Smoothing delay applied to panorama movement. */
     public var lag(get, set) : Int;
+    /** Whether mouse-driven zoom is enabled. */
     public var enableZoom(get, set) : Bool;
+    /** Whether panning follows a configured stage point. */
     public var forceMode(get, set) : Bool;
+    /** Whether panorama movement is locked. */
     public var lock(get, set) : Bool;
+    /** Horizontal movement lock used by the current implementation. */
     public var enableX(get, set) : Bool;
+    /** Vertical movement lock used by the current implementation. */
     public var enableY(get, set) : Bool;
+    /** Space reserved around pointer-trigger areas. */
     public var blockSpace(get, set) : Int;
+    /** Current panorama mode: `normal` or `360`. */
     public var mode(get, never) : String;
+    /** Display object used as the panorama image. */
     public var source(get, set) : DisplayObject;
 
+    /** Type identifier for two-dimensional panoramas. */
     public static inline var TYPE : String = "Panorama2D";
     
+    /** Constant for normal panorama mode. */
     public static inline var MODE_NOMRAL : String = "normal";
+    /** Constant for wrapping 360-degree panorama mode. */
     public static inline var MODE_360 : String = "360";
     
     private static inline var ZOOM_MAX : Int = 2;
     private static inline var ZOOM_MIN : Int = 1;
     
     
-    // For whem user mouse is over area
+    // Tracks whether the pointer is over the panorama area.
     private var active : Bool = false;
     
     private var _mode : String = "360";
@@ -105,11 +118,13 @@ class Panorama2D extends BaseUI implements IPanorama implements IBaseUI
     private var img2 : Sprite = new Sprite();
     private var img3 : Sprite = new Sprite();
     
+    /** Creates a panorama with optional component data. */
     public function new(data:Dynamic = null)
     {
         super(data);
     }
 	
+	/** Applies movement, zoom, mode, and image settings. */
 	override public function setComponentData(data:Dynamic):Void 
 	{
 		super.setComponentData(data);
@@ -160,6 +175,7 @@ class Panorama2D extends BaseUI implements IPanorama implements IBaseUI
 		
 	}
 	
+	/** Removes movement listeners and panorama display children. */
 	override public function destroy():Void 
 	{
 		super.destroy();
@@ -255,7 +271,7 @@ class Panorama2D extends BaseUI implements IPanorama implements IBaseUI
     }
     
     /**
-	 * Return true mode is enabled
+	 * Returns whether force-point panning is enabled.
 	 */
     
     private function get_forceMode() : Bool
@@ -274,7 +290,7 @@ class Panorama2D extends BaseUI implements IPanorama implements IBaseUI
     }
     
     /**
-	 * Returns true of false if panorama is locked or enabled
+	 * Returns whether panorama movement is locked.
 	 */
     
     private function get_lock() : Bool
@@ -283,7 +299,7 @@ class Panorama2D extends BaseUI implements IPanorama implements IBaseUI
     }
     
     /**
-	 * If false will only move on the x axis
+	 * Sets the horizontal movement lock; true prevents horizontal panning.
 	 */
     
     private function set_enableX(value : Bool) : Bool
@@ -293,7 +309,7 @@ class Panorama2D extends BaseUI implements IPanorama implements IBaseUI
     }
     
     /**
-	 * Return true if the x axis is enabled and false if not
+	 * Returns the horizontal movement lock.
 	 */
     
     private function get_enableX() : Bool
@@ -302,7 +318,7 @@ class Panorama2D extends BaseUI implements IPanorama implements IBaseUI
     }
     
     /**
-	 * If false will only move on the y axis
+	 * Sets the vertical movement lock; true prevents vertical panning.
 	 */
     
     private function set_enableY(value : Bool) : Bool
@@ -312,7 +328,7 @@ class Panorama2D extends BaseUI implements IPanorama implements IBaseUI
     }
     
     /**
-	 * Return true if the y axis is enabled and false if not
+	 * Returns the vertical movement lock.
 	 */
     
     private function get_enableY() : Bool
@@ -511,6 +527,7 @@ class Panorama2D extends BaseUI implements IPanorama implements IBaseUI
     }
 	
 	
+	/** Wraps bitmap data in a display object and installs it in the panorama. */
 	public function setImage( image:BitmapData ) : Void
 	{
 		var bitmap:Bitmap = new Bitmap(image);

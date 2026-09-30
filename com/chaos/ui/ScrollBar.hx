@@ -127,7 +127,7 @@ class ScrollBar extends BaseUI implements IScrollBar implements IBaseUI
 	
 	/**
 	 * UI ScrollBar 
-	 * @param	data The proprieties that you want to set on component.
+	 * @param	data Properties to apply to the component.
 	 */
 	
 	public function new(data:Dynamic = null)
@@ -139,7 +139,7 @@ class ScrollBar extends BaseUI implements IScrollBar implements IBaseUI
     }
 	
 	/**
-	 * Set properties based on object
+	 * Applies properties from the supplied data object
 	 * @param	data object with supported types
 	 */
 	
@@ -548,7 +548,7 @@ class ScrollBar extends BaseUI implements IScrollBar implements IBaseUI
 	
 	
 	/**
-	 * Remove all roll over and roll out effects while setting the scrollbar to it's disable state
+	 * Remove all roll over and roll out effects while setting the scrollbar to it's disabled state
 	 *
 	 * @param value Disable or Enable scrollbar
 	 */
@@ -696,6 +696,7 @@ class ScrollBar extends BaseUI implements IScrollBar implements IBaseUI
     }
 	
 	
+	/** Removes scroll bar listeners and display resources. */
 	override public function destroy():Void 
 	{
 		super.destroy();

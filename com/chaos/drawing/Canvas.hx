@@ -17,13 +17,14 @@ import openfl.display.BitmapData;
 class Canvas extends BaseContainer implements IBaseContainer implements IBaseUI 
 {
 
+	/** Creates a drawing canvas with optional component data. */
 	public function new(data:Dynamic=null) 
 	{
 		super(data);
 	}
 	
 	/**
-	 * Set properties based on object
+	 * Applies properties from the supplied data object
 	 * @param	data object with supported types
 	 */
 	

@@ -65,7 +65,7 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
     public var itemSelectedColor(get, set) : Int;
 	
     /**
-	 * The item disable state color
+	 * The item disabled state color
 	 */
 	
     public var itemDisableColor(get, set) : Int;
@@ -141,7 +141,7 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
     
 	/**
 	 * UI TabPane 
-	 * @param	data The proprieties that you want to set on component.
+	 * @param	data Properties to apply to the component.
 	 */
 	
     public function new(data:Dynamic = null)
@@ -151,7 +151,7 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
     }
 	
 	/**
-	 * Set properties based on object
+	 * Applies properties from the supplied data object
 	 * @param	data object with supported types
 	 */
 	
@@ -514,7 +514,7 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
     }
     
     /**
-	 * The item disable state color
+	 * The item disabled state color
 	 */
     
     private function set_itemDisableColor(value : Int) : Int
@@ -525,7 +525,7 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
     }
     
     /**
-	 * Return the item disable state color
+	 * Return the item disabled state color
 	 */
     
     private function get_itemDisableColor() : Int
@@ -701,7 +701,7 @@ class ItemPane extends ScrollPane implements IItemPane implements IScrollPane im
     }
     
     /**
-	 * The disable state of an item block
+	 * The disabled state of an item block
 	 *
 	 * @param	value The display object that will be used for the item background
 	 */
