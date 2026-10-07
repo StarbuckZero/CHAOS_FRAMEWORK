@@ -180,6 +180,13 @@ class UIStyleManager
     public static var BUBBLE_BORDER_COLOR : String = "BUBBLE_BORDER_COLOR";
     /** Style key for the bubble border thickness. */
     public static var BUBBLE_BORDER_THICKNESS : String = "BUBBLE_BORDER_THICKNESS";
+    public static inline var FRAME_BACKGROUND_COLOR:String = "FRAME_BACKGROUND_COLOR";
+    public static inline var FRAME_BACKGROUND_ALPHA:String = "FRAME_BACKGROUND_ALPHA";
+    public static inline var FRAME_BORDER:String = "FRAME_BORDER";
+    public static inline var FRAME_BORDER_COLOR:String = "FRAME_BORDER_COLOR";
+    public static inline var FRAME_BORDER_ALPHA:String = "FRAME_BORDER_ALPHA";
+    public static inline var FRAME_BORDER_THICKNESS:String = "FRAME_BORDER_THICKNESS";
+    public static inline var FRAME_ROUNDED:String = "FRAME_ROUNDED";
     
     /** Style key for the button tint alpha. */
     public static var BUTTON_TINT_ALPHA : String = "BUTTON_TINT_ALPHA";

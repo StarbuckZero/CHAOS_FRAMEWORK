@@ -136,6 +136,16 @@ class UIBitmapManager {
 
 	/** Bitmap key for the bubble background texture. */
 	public static inline var BUBBLE_BACKGROUND:String = "bubble_background";
+	/** Bitmap key for the frame background texture. */
+	public static inline var FRAME_BACKGROUND:String = "frame_background";
+	/** Bitmap key for the frame top-left corner texture. */
+	public static inline var FRAME_TOP_LEFT:String = "frame_top_left";
+	/** Bitmap key for the frame top-right corner texture. */
+	public static inline var FRAME_TOP_RIGHT:String = "frame_top_right";
+	/** Bitmap key for the frame bottom-left corner texture. */
+	public static inline var FRAME_BOTTOM_LEFT:String = "frame_bottom_left";
+	/** Bitmap key for the frame bottom-right corner texture. */
+	public static inline var FRAME_BOTTOM_RIGHT:String = "frame_bottom_right";
 
 	/** Bitmap key for the button normal texture. */
 	public static inline var BUTTON_NORMAL:String = "button_normal";
@@ -878,6 +888,7 @@ enum UIBitmapType {
 	Alert;
 	Accordion;
 	Bubble;
+	Frame;
 	Button;
 	ToggleButton;
 	CheckBox;

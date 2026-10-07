@@ -335,15 +335,18 @@ class ScrollPane extends BaseContainer implements IScrollPane implements IBaseCo
 			return null;
 
 		_contentSizeBox.graphics.clear();
-		_contentSizeBox.graphics.beginFill(_backgroundColor);
-		_contentSizeBox.graphics.drawRect(0, 0, value.width, value.height);
-		_contentSizeBox.graphics.endFill();
+		if (value != null) {
+			_contentSizeBox.graphics.beginFill(_backgroundColor);
+			_contentSizeBox.graphics.drawRect(0, 0, value.width, value.height);
+			_contentSizeBox.graphics.endFill();
+		}
 
 		// See if some content is already loaded
 		if (_content.numChildren > 0)
 			_content.removeChildAt(0);
 
-		_content.addChild(value);
+		if (value != null)
+			_content.addChild(value);
 
 		// Update scroll pane
 		update();
