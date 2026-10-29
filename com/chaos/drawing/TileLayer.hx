@@ -42,6 +42,17 @@ class TileLayer extends BaseUI implements IBaseUI
     public var useMask(get, set) : Bool;
 
     private var _tileData:Dynamic;
+    private var _spriteTiles:Array<BitmapData>;
+    private var _spriteIndices:Array<Int>;
+    private var _spriteColumns:Int = 1;
+
+    /** Installs generated sheet regions; indices are zero based, -1 is empty. */
+    public function setSpriteTiles(tiles:Array<BitmapData>, indices:Array<Int>, columns:Int):Void {
+        if (_spriteTiles != null) for (tile in _spriteTiles) tile.dispose();
+        _spriteTiles = tiles;
+        _spriteIndices = indices == null ? [] : indices;
+        _spriteColumns = columns > 0 ? columns : 1;
+    }
     private var _tileMapData:Dynamic;
 
     private var _mask:Shape;
@@ -211,6 +222,7 @@ class TileLayer extends BaseUI implements IBaseUI
         
     override function destroy() {
         super.destroy();
+        if (_spriteTiles != null) { for (tile in _spriteTiles) tile.dispose(); _spriteTiles = null; }
 
         // Clear out everything
         clearCache();
@@ -277,6 +289,7 @@ class TileLayer extends BaseUI implements IBaseUI
     **/    
 
     public function clearCache():Void {
+        if (_cache == null) return;
 
         for (key in _cache.keys()) {
 
@@ -373,6 +386,21 @@ class TileLayer extends BaseUI implements IBaseUI
     }
 
     override function draw() {
+
+        if (_spriteTiles != null && _content != null) {
+            _content.graphics.clear();
+            if (_spriteTiles.length == 0) return;
+            var w = _spriteTiles[0].width, h = _spriteTiles[0].height;
+            for (i in 0..._spriteIndices.length) {
+                var id = _spriteIndices[i];
+                if (id < 0 || id >= _spriteTiles.length) continue;
+                var x = (i % _spriteColumns) * w, y = Std.int(i / _spriteColumns) * h;
+                var matrix = new openfl.geom.Matrix(); matrix.translate(x, y);
+                _content.graphics.beginBitmapFill(_spriteTiles[id], matrix, false, false);
+                _content.graphics.drawRect(x, y, w, h); _content.graphics.endFill();
+            }
+            return;
+        }
 
         if(beforeDraw != null)
             this.beforeDraw(_content);

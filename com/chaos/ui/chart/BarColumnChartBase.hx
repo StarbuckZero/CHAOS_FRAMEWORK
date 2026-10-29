@@ -164,7 +164,7 @@ class BarColumnChartBase extends CartesianChartBase {
         for (p in points) {
             var placement=rectangleBand(p); if(placement==null) continue;
             var center = placement.center;
-            if (center == null || baseline == null || p.value == null) continue;
+            if (baseline == null) continue;
             // Clamp in data space first, avoiding huge off-screen coordinates for explicit ranges.
             var segment=config.layout=="stacked"?stacks.get(StackLayout.key(p)):null;
             var startValue=segment==null?0:segment.start;

@@ -58,6 +58,7 @@ class DisplayAnimation extends BaseUI implements IBaseUI
 		
 		if (Reflect.hasField(data, "rate"))
 			_rate = Reflect.field(data, "rate");
+		if (_timer != null) _timer.delay = _rate;
 			
 		if (Reflect.hasField(data, "mode"))
 			_mode = Reflect.field(data, "mode");
@@ -95,7 +96,7 @@ class DisplayAnimation extends BaseUI implements IBaseUI
 		removeEventListener(Event.ENTER_FRAME, updateFrame);		
 		
 		_timer.stop();
-		_timer.removeEventListener(TimerEvent.TIMER_COMPLETE, updateFrame);
+		_timer.removeEventListener(TimerEvent.TIMER, updateFrame);
 		
 		if (_shape != null)
 			_shape.graphics.clear();
@@ -184,7 +185,7 @@ class DisplayAnimation extends BaseUI implements IBaseUI
 	{
 		// Make sure it's in range
 		if (value >= 0 && value <= _animation.length -1)
-			_index = value;
+		{ _index = value; draw(); }
 	}
 	
 	/**
@@ -205,6 +206,9 @@ class DisplayAnimation extends BaseUI implements IBaseUI
 	
 	public function setAnimation( value:Array<BitmapData>, autoStart:Bool = false) : Void
 	{
+		stop();
+		for (frame in _animation) frame.dispose();
+		_index = 0;
 		_animation = value;
 		
 		if (autoStart)
@@ -243,18 +247,11 @@ class DisplayAnimation extends BaseUI implements IBaseUI
 	
 	private function updateFrame(event:Event):Void 
 	{
-		_index++;
-		
-		// Update index then go to draw
-		if (_index >= _animation.length - 1)
-		{
-			
+		if (_animation.length == 0) { stop(); return; }
+		if (_index + 1 >= _animation.length) {
+			if (!_loop) { stop(); return; }
 			_index = 0;
-			
-			if (!_loop)
-				stop();
-		}
-		
+		} else _index++;
 		draw();
 	}
 	

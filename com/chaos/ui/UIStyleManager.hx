@@ -13,6 +13,20 @@ import openfl.text.Font;
 
 class UIStyleManager
 {
+    public static inline var DATEPICKER_BACKGROUND_COLOR:String = "DATEPICKER_BACKGROUND_COLOR";
+    public static inline var DATEPICKER_NORMAL_COLOR:String = "DATEPICKER_NORMAL_COLOR";
+    public static inline var DATEPICKER_OVER_COLOR:String = "DATEPICKER_OVER_COLOR";
+    public static inline var DATEPICKER_DOWN_COLOR:String = "DATEPICKER_DOWN_COLOR";
+    public static inline var DATEPICKER_DISABLE_COLOR:String = "DATEPICKER_DISABLE_COLOR";
+    public static inline var DATEPICKER_SELECTED_COLOR:String = "DATEPICKER_SELECTED_COLOR";
+    public static inline var DATEPICKER_SELECTION_BORDER_COLOR:String = "DATEPICKER_SELECTION_BORDER_COLOR";
+    public static inline var DATEPICKER_TEXT_COLOR:String = "DATEPICKER_TEXT_COLOR";
+    public static inline var DATEPICKER_HEADER_COLOR:String = "DATEPICKER_HEADER_COLOR";
+    public static inline var DATEPICKER_FONT:String = "DATEPICKER_FONT";
+    public static inline var DATEPICKER_FONT_SIZE:String = "DATEPICKER_FONT_SIZE";
+    public static inline var DATEPICKER_PANEL_ROUNDED:String = "DATEPICKER_PANEL_ROUNDED";
+    public static inline var DATEPICKER_DAY_SHAPE:String = "DATEPICKER_DAY_SHAPE";
+
     /** Style key for the chart background color. */
     public static inline var CHART_BACKGROUND_COLOR:String = "CHART_BACKGROUND_COLOR";
     /** Style key for the chart background alpha. */

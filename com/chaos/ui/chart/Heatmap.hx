@@ -58,7 +58,8 @@ class Heatmap extends CartesianChartBase {
             for(field in ["minimum","midpoint","maximum"]) if(Reflect.hasField(c.colorScale,field) && Reflect.field(c.colorScale,field)!=null && !ChartData.finite(Reflect.field(c.colorScale,field))) { ChartData.diagnostic(result.diagnostics,"structure","colorScale","Domain bounds must be finite"); return false; }
             if(c.colorScale.minimum!=null) low=c.colorScale.minimum; if(c.colorScale.maximum!=null) high=c.colorScale.maximum;
         }
-        var mid=c.colorScale!=null && c.colorScale.midpoint!=null?c.colorScale.midpoint:low/2+high/2;
+        var configuredMid:Null<Float>=c.colorScale==null?null:c.colorScale.midpoint;
+        var mid:Float=configuredMid==null?low/2+high/2:configuredMid;
         if(low>high || (low==high?mid!=low:mid<=low || mid>=high)) { ChartData.diagnostic(result.diagnostics,"structure","colorScale","Require min < mid < max, or a constant domain"); return false; }
         minimum=low; midpoint=mid; maximum=high; result.points=valid; return true;
     }

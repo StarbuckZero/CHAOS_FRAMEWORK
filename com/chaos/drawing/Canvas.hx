@@ -34,7 +34,11 @@ class Canvas extends BaseContainer implements IBaseContainer implements IBaseUI
 		
 		if (Reflect.hasField(data, "data"))
 		{
+			removeAll();
 			var data:Array<Dynamic> = Reflect.field(data, "data");
+			for (entry in data) {
+				if (Reflect.hasField(entry, "Layer") && Reflect.hasField(entry.Layer, "name")) addLayer(entry.Layer.name);
+			}
 			
 			for (i in 0 ... data.length)
 			{
@@ -155,7 +159,7 @@ class Canvas extends BaseContainer implements IBaseContainer implements IBaseUI
 					if (Reflect.hasField(obj, "ratios"))
 						ratios = Reflect.field(obj, "ratios");
 						
-					addGradientSquare(objectName, layerName, locX, locY, shapeWidth, shapeHeight, colors, alphas, ratios);
+					addGradientSquare(objectName, layerName, locX, locY, shapeWidth, shapeHeight, "linear", colors, alphas, ratios);
 				}				
 				else if (Reflect.hasField(canvasData, "RoundSquare"))
 				{
@@ -319,10 +323,10 @@ class Canvas extends BaseContainer implements IBaseContainer implements IBaseUI
 					if (Reflect.hasField(obj, "radius"))
 						radius = Reflect.field(obj, "radius");
 						
-					if (Reflect.hasField(obj, "X"))
+					if (Reflect.hasField(obj, "x"))
 						locX = Reflect.field(obj, "x");
 					
-					if (Reflect.hasField(obj, "Y"))
+					if (Reflect.hasField(obj, "y"))
 						locY = Reflect.field(obj, "y");
 
 					if (Reflect.hasField(obj, "styleMarker"))

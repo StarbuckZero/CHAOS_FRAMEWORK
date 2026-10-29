@@ -15,6 +15,17 @@ import com.chaos.utils.Debug;
  */
 
 class UIBitmapManager {
+    public static inline var DATEPICKER_BACKGROUND:String = "datepicker_background";
+    public static inline var DATEPICKER_TRIGGER_NORMAL:String = "datepicker_trigger_normal";
+    public static inline var DATEPICKER_TRIGGER_OVER:String = "datepicker_trigger_over";
+    public static inline var DATEPICKER_TRIGGER_DOWN:String = "datepicker_trigger_down";
+    public static inline var DATEPICKER_TRIGGER_DISABLE:String = "datepicker_trigger_disable";
+    public static inline var DATEPICKER_DAY_NORMAL:String = "datepicker_day_normal";
+    public static inline var DATEPICKER_DAY_OVER:String = "datepicker_day_over";
+    public static inline var DATEPICKER_DAY_DOWN:String = "datepicker_day_down";
+    public static inline var DATEPICKER_DAY_DISABLE:String = "datepicker_day_disable";
+    public static inline var DATEPICKER_DAY_SELECTED:String = "datepicker_day_selected";
+
     /** Bitmap key for the chart background image texture. */
     public static inline var CHART_BACKGROUND_IMAGE:String = "chart_background_image";
 	private static inline var CUSTOM_RENDER_CACHE_LIMIT:Int = 256;
@@ -909,4 +920,5 @@ enum UIBitmapType {
 	GridPane;
 	Menu;
     Chart;
+    DatePicker;
 }

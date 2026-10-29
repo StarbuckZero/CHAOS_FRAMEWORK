@@ -37,7 +37,7 @@ class AreaChart extends LineSeriesBase {
     override function drawPlot():Void {
         var baseline=valueToY(0); var series:Array<Dynamic>=config.series;
         if(baseline!=null) for(i in 0...series.length) {
-            var s=series[i]; var alpha:Float=s.fillAlpha==null?config.fillAlpha:s.fillAlpha;
+            var s=series[i]; var fillAlpha:Null<Float>=s.fillAlpha; var alpha:Float=fillAlpha==null?config.fillAlpha:fillAlpha;
             if(alpha<=0) continue;
             var polygons:Array<Array<Point>>=[];
             var runs=LineGeometry.runs(points.filter(p->p.seriesIndex==i),config.categories,xAxis.scale=="linear",setting("missingBehavior",s)=="connect");
