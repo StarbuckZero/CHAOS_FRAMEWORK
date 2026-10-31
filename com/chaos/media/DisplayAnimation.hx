@@ -219,6 +219,13 @@ class DisplayAnimation extends BaseUI implements IBaseUI
 	 * Start animation
 	 */
 	
+	/** Resumes playback, restarting a completed non-looping animation. */
+	public function play():Void
+	{
+		if (!_loop && _animation.length > 0 && _index == _animation.length - 1) setIndex(0);
+		if (_animation.length > 0) start();
+	}
+
 	public function start() : Void
 	{
 		if(_mode.toLowerCase() == "timer")

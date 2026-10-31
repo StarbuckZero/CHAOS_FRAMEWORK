@@ -16,6 +16,8 @@ import openfl.display.BitmapData;
  */
 class Canvas extends BaseContainer implements IBaseContainer implements IBaseUI 
 {
+	/** Runtime copy of layer and item definitions. */
+	public var canvasData(default, null):Array<Dynamic> = [];
 
 	/** Creates a drawing canvas with optional component data. */
 	public function new(data:Dynamic=null) 
@@ -34,6 +36,7 @@ class Canvas extends BaseContainer implements IBaseContainer implements IBaseUI
 		
 		if (Reflect.hasField(data, "data"))
 		{
+			canvasData = haxe.Json.parse(haxe.Json.stringify(Reflect.field(data, "data")));
 			removeAll();
 			var data:Array<Dynamic> = Reflect.field(data, "data");
 			for (entry in data) {
