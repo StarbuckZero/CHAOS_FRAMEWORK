@@ -56,7 +56,7 @@ class TileLayer extends BaseUI implements IBaseUI
     private var _tileMapData:Dynamic;
 
     private var _mask:Shape;
-    private var _useMask:Bool = false;
+    private var _useMask:Bool = true;
 
     private var _tileWidth:Int = 0;
     private var _tileHeight:Int = 0;
@@ -386,6 +386,18 @@ class TileLayer extends BaseUI implements IBaseUI
     }
 
     override function draw() {
+        if (_mask != null) {
+            _mask.graphics.clear();
+            if (_useMask) {
+                _mask.graphics.beginFill(0);
+                _mask.graphics.drawRect(0, 0, _width, _height);
+                _mask.graphics.endFill();
+                _content.mask = _mask;
+            } else {
+                _content.mask = null;
+            }
+        }
+
 
         if (_spriteTiles != null && _content != null) {
             _content.graphics.clear();
@@ -409,22 +421,6 @@ class TileLayer extends BaseUI implements IBaseUI
 
         if(_mapWidth < 0 || _mapHeight < 0)
             return;
-
-        if(_useMask) {
-            
-            _mask.graphics.beginFill(0);
-            _mask.graphics.drawRect(0,0,_width,_height);
-            _mask.graphics.endFill();    
-
-            mask = _mask;
-            addChild(_mask);
-
-        } else {
-
-            _mask.graphics.clear();
-            mask = null;
-            removeChild(_mask);            
-        }
 
         _content.graphics.clear();
 
