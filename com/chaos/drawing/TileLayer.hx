@@ -44,13 +44,15 @@ class TileLayer extends BaseUI implements IBaseUI
     private var _tileData:Dynamic;
     private var _spriteTiles:Array<BitmapData>;
     private var _spriteIndices:Array<Int>;
+    private var _spriteTransforms:Array<Array<Int>>;
     private var _spriteColumns:Int = 1;
 
     /** Installs generated sheet regions; indices are zero based, -1 is empty. */
-    public function setSpriteTiles(tiles:Array<BitmapData>, indices:Array<Int>, columns:Int):Void {
+    public function setSpriteTiles(tiles:Array<BitmapData>, indices:Array<Int>, columns:Int, transforms:Array<Array<Int>> = null):Void {
         if (_spriteTiles != null) for (tile in _spriteTiles) tile.dispose();
         _spriteTiles = tiles;
         _spriteIndices = indices == null ? [] : indices;
+        _spriteTransforms = transforms;
         _spriteColumns = columns > 0 ? columns : 1;
     }
     private var _tileMapData:Dynamic;
@@ -407,7 +409,9 @@ class TileLayer extends BaseUI implements IBaseUI
                 var id = _spriteIndices[i];
                 if (id < 0 || id >= _spriteTiles.length) continue;
                 var x = (i % _spriteColumns) * w, y = Std.int(i / _spriteColumns) * h;
-                var matrix = new openfl.geom.Matrix(); matrix.translate(x, y);
+                var t = _spriteTransforms != null && i < _spriteTransforms.length ? _spriteTransforms[i] : null;
+                var a = t == null ? 1 : t[0], b = t == null ? 0 : t[1], c = t == null ? 0 : t[2], d = t == null ? 1 : t[3];
+                var matrix = new openfl.geom.Matrix(a, b * h / w, c * w / h, d, x + (w - a * w - c * w) / 2, y + (h - b * h - d * h) / 2);
                 _content.graphics.beginBitmapFill(_spriteTiles[id], matrix, false, false);
                 _content.graphics.drawRect(x, y, w, h); _content.graphics.endFill();
             }
