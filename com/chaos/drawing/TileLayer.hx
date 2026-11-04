@@ -46,6 +46,7 @@ class TileLayer extends BaseUI implements IBaseUI
     private var _spriteIndices:Array<Int>;
     private var _spriteTransforms:Array<Array<Int>>;
     private var _spriteColumns:Int = 1;
+    private var _tileScale:Float = 1;
 
     /** Installs generated sheet regions; indices are zero based, -1 is empty. */
     public function setSpriteTiles(tiles:Array<BitmapData>, indices:Array<Int>, columns:Int, transforms:Array<Array<Int>> = null):Void {
@@ -118,6 +119,9 @@ class TileLayer extends BaseUI implements IBaseUI
     override function setComponentData(data:Dynamic) {
 
         super.setComponentData(data);
+
+        var scale:Dynamic = Reflect.field(data, "tileScale");
+        _tileScale = Std.isOfType(scale, Float) && Math.isFinite(scale) && scale > 0 ? scale : 1;
 
         if(Reflect.hasField(data,"index"))
             _index = Reflect.field(data,"index");
@@ -404,14 +408,14 @@ class TileLayer extends BaseUI implements IBaseUI
         if (_spriteTiles != null && _content != null) {
             _content.graphics.clear();
             if (_spriteTiles.length == 0) return;
-            var w = _spriteTiles[0].width, h = _spriteTiles[0].height;
+            var w = _spriteTiles[0].width * _tileScale, h = _spriteTiles[0].height * _tileScale;
             for (i in 0..._spriteIndices.length) {
                 var id = _spriteIndices[i];
                 if (id < 0 || id >= _spriteTiles.length) continue;
                 var x = (i % _spriteColumns) * w, y = Std.int(i / _spriteColumns) * h;
                 var t = _spriteTransforms != null && i < _spriteTransforms.length ? _spriteTransforms[i] : null;
                 var a = t == null ? 1 : t[0], b = t == null ? 0 : t[1], c = t == null ? 0 : t[2], d = t == null ? 1 : t[3];
-                var matrix = new openfl.geom.Matrix(a, b * h / w, c * w / h, d, x + (w - a * w - c * w) / 2, y + (h - b * h - d * h) / 2);
+                var matrix = new openfl.geom.Matrix(a * _tileScale, b * h / w * _tileScale, c * w / h * _tileScale, d * _tileScale, x + (w - a * w - c * w) / 2, y + (h - b * h - d * h) / 2);
                 _content.graphics.beginBitmapFill(_spriteTiles[id], matrix, false, false);
                 _content.graphics.drawRect(x, y, w, h); _content.graphics.endFill();
             }
